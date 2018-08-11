@@ -1,0 +1,118 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+
+
+/*
+    Created on : 2016/07/18, 1:18:39
+    Update on : 2018/03/12, 1:30
+    Author     : T
+
+
+*/
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+
+.container {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+img {
+    /*
+    filter: alpha(opacity=50);
+    -moz-opacity:0.5;
+    opacity:0.5;
+    */
+}
+
+.debug,
+.debug>* {
+    color: #000000;
+    background-color: #E7E18F;
+    font-style: italic;
+    font-size: 80%;
+    word-wrap: break-all;
+}
+
+.warning {
+    color: #FF0000;
+}
+
+
+/* SMP用 */
+
+header {
+    position: fixed;
+    background-image: url("//bokkun.jp/public/client/image/gold03.jpg");
+    background-size: 10px 150%;
+    width: 100%;
+    font-size: 5vw;
+    margin-top: -20vh;
+}
+
+.top {
+    position: relative;
+    top: 1vh;
+}
+
+.date,
+.time {
+    color: red;
+    font-size: 1.5vh;
+}
+
+.top_hr {
+    margin-bottom: 0px;
+}
+
+.bread {
+    height: 10px;
+}
+
+.breadCrumbList {
+    font-size: 1vw;
+}
+
+.arrow {
+    font-size: 5px;
+}
+
+.contents {
+    height: 100%;
+    margin-top: 20vh;
+    font-size: 5vw;
+}
+
+footer {
+    position: fixed;
+    background-image: url("//bokkun.jp/public/client/image/metal01-768x576.jpg");
+    font-family: 'arial black';
+    background-size: 10px 150%;
+    font-size: 4vw;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer_char {
+    font-size: 50%;
+}
+
+.twitter {
+    font-size: 0.5vh;
+}
+
+.copy_right {
+    font-size: 2vw;
+}

@@ -1,0 +1,88 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+
+
+/* 
+    Created on : 2016/07/18, 1:18:39
+    Update on : 2018/06/24, 16:30
+    Author     : T
+
+    
+*/
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+
+.container {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+img {
+    /*
+    filter: alpha(opacity=50);
+    -moz-opacity:0.5;
+    opacity:0.5;
+    */
+}
+
+header {
+    position: relative;
+    background-image: url("//bokkun.jp/public/client/image/gold03.jpg");
+    width: 100%;
+    background-size: 10px 150%;
+}
+
+.top-image {
+    width: 40px;
+    height: 40px;
+}
+
+.date,
+.time {
+    color: #111111;
+    font-family: 'Mv Boli';
+}
+
+.contents {
+    padding-bottom: 100%;
+}
+
+.footer {
+    position: fixed;
+    color: #FFFF00;
+    font-family: 'arial black';
+    background-image: url("//bokkun.jp/public/client/image/metal01-768x576.jpg");
+    background-size: 10px 150%;
+    height: 7.5%;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer_char {
+    font-size: 50%;
+}
+
+.debug,
+.debug>* {
+    color: #000000;
+    background-color: #E7E18F;
+    font-style: italic;
+    font-size: 80%;
+    word-wrap: break-all;
+}
+
+.warning {
+    color: #FF0000;
+}

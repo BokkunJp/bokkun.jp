@@ -1,0 +1,54 @@
+body {
+    background-color: #FF7755;
+    color: #FFFFAA;
+}
+
+.infoInput {
+    display: inline-block;
+    min-width: 215px;
+    min-height: 40px;
+    max-width: 400px;
+    max-height: 40px;
+    width: 215px;
+    height: 40px;
+    
+}
+
+:placeholder-shown {
+    color: #AAAAAA;
+    font-style: italic;
+}
+
+.createResult {
+    display: none;
+}
+
+.scroll {
+    width: 200px;
+    height: 100px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.scroll {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.tagCreateButton {
+   
+    width: 80px;
+    height: 35px;
+    
+    border-style: none;
+    border-radius: 10px;
+    
+    background-clip: padding-box;
+    background-image: url('/public/client/image/tagCreate/gold_button.jpg');
+    background-repeat: no-repeat;
+}
+
+button:hover {
+    color: #AAAAAA;
+    background-color: #FFFFFF;
+}

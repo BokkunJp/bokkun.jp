@@ -1,0 +1,40 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+
+
+/* 
+    Created on : 2016/07/18, 1:18:39
+    Author     : T
+*/
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.header {
+    position: relative;
+    background-image: url("/cg/public/img/homepage/header.jpg");
+    width: 100%;
+    background-size: 10px 150%;
+}
+
+.time {
+    color: #111111;
+    font-family: 'Mv Boli';
+}
+
+.footer {
+    margin-top: 20%;
+    color: #FFFFFF;
+    color: #FFFF00;
+    font-family: 'arial black';
+    background-image: url("/cg/public/img/homepage/footer.jpg");
+    background-size: 10px 150%;
+    height: 7.5%;
+    width: 100%;
+    bottom: 0;
+}

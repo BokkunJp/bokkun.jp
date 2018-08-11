@@ -1,0 +1,4 @@
+# .htaccessでRewriteを有効化する
+RewriteEngine On
+RewriteBase /public/FILE/
+RewriteRule ^(.*)$ index.php

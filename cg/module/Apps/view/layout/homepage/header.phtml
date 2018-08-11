@@ -1,0 +1,62 @@
+<?php
+
+use Zend\Session\Container as Session;
+
+//$session = new Session('front');
+//if (is_null($session->count)) {
+//    $session->count = 1;
+//} else {
+//    $session->count++;
+//}
+?>
+
+<!--titleなど-->
+<?php
+var_dump(__DIR__);
+echo $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+        ->appendHttpEquiv('X-UA-Compatible', 'FireFox')
+?>
+
+<!--css-->
+<?php
+echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'img/icon', 'href' => $this->basePath(). 'cg/public/img/homepage/icon.png'))
+        ->prependStylesheet($this->basePath('css/homepage/common.css'))
+        ->prependStylesheet($this->basePath('css/homepage/root.css'))
+        ->prependStylesheet($this->basePath('css/homepage/backGround.css'))
+        ->prependStylesheet($this->basePath('css/homepage/scratch.css'))
+        ->prependStylesheet($this->basePath('css/homepage/webgl.css'))
+?>
+<base href="https://bokkun.xyz/" />     
+<header class='header'>
+    <div align="left">        
+        <div>
+            <a href="https://bokkun.xyz/"><img src="cg/public/img/homepage/page-icon.gif" width="40" height="40"></a>
+            <strong>
+                <em>Bokkun's homepage</em> <br/>
+                <div align="center"><h4>Zend Framework2による開発</h4></div>
+            </strong>
+        </div>
+    </div>
+    
+<!--
+    今回のZend2による開発では未使用。
+    メインの機能実装が終わり次第、余裕があれば再開。
+      <?php
+//    $ff = fopen("/img/icon.png", "r");
+//    var_dump($ff);
+//    $fp = fopen("/text/count.txt", "r+"); // ファイル開く
+//    $count = fgets($fp, 10); // 9桁分値読み取り
+//    $count++; // 値+1（カウントアップ）
+//    rewind($fp); // ファイルポインタを先頭に戻す
+//    fputs($fp, $count); // 値書き込み
+//    fclose($fp); // ファイル閉じる
+//
+//    /* メッセージ出力 */
+//    echo "<div align='right'><strong>" . $count . "人目の訪問者です！</strong></div>";
+//    echo "<div align='right'><strong>本日" . $session['front']['count'] . "度目の訪問、ありがとうございます！</strong></div>";
+
+//        $_SESSION = $session;
+?> -->
+    <div class='time' align="right"><?php echo date('20y-m-d'); ?></div>
+</header>

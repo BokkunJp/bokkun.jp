@@ -1,0 +1,2 @@
+#PHP7設定 (CakePHP3の件があるので個別で設定)
+AddHandler application/x-httpd-php71cgi .php

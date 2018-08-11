@@ -1,0 +1,10 @@
+#PHP7設定
+AddHandler application/x-httpd-php71cgi .php
+
+
+# .htaccessでRewriteを有効化する
+<IfModule mod_rewrite.c>
+#アクセス制限
+order deny,allow
+deny from all
+</IfModule>

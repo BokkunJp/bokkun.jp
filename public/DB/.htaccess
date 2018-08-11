@@ -1,0 +1,14 @@
+#PHP7設定
+AddHandler application/x-httpd-php71cgi .php
+
+
+# .htaccessでRewriteを有効化する
+RewriteEngine On
+RewriteBase /public/DB/
+RewriteRule ^(.*).php$ index.php
+
+#アクセス制限
+order deny,allow
+deny from all
+allow from 210.153.209.72
+allow from 106.180.0.151
