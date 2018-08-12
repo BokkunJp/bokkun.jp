@@ -1,8 +1,6 @@
 <?php
 require_once(__DIR__. "/common/Setting.php");
 require_once 'common.php';
-unset($session);
-$session = SessionRead();
 if (empty($session['admin'])) {
     $session['admin'] = array();
 }
@@ -15,8 +13,6 @@ if (empty($adminURL)) {
     unset($session['admin']['adminURL']);
 }
 SessionWrite($session);
-unset($session);
-$session = SessionRead();
 $page = MovePage();
 $referer = end($adminURL);
 ?>
@@ -55,12 +51,10 @@ $referer = end($adminURL);
             unset($session['admin']);
         }
         exit; 
-    } else if ($session['id'] === $session['old_id'] || !isset($session['old_id'])) {
+    } else {
+        $session['admin']['secure'] = true;
+        SessionWrite($session);
         echo "<p>認証に成功しました。以下のリンクから$page[message]へ移動できます。<br/>";
         echo "<a href='$url/private/$page[URL]'>$page[message]へ</a></p>";
-        $session['admin']['secure'] = true;
-        SessionAdd('old_id', $session['id']);
-        SessionAdd('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
-        SessionWrite($session);
-        unset($session);
     }
+ ?>

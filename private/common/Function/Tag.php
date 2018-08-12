@@ -1,8 +1,8 @@
 <?php
 // クラス化
-class Setting {
+class BaseTag {
     protected $authoritys;
-    
+
     function __construct($init=true) {
         $this->Initialize($init);
     }
@@ -11,13 +11,13 @@ class Setting {
         if ($init === true) {
             $initArray = ['div', 'span'];
         } else {
-            $initArray = [];            
+            $initArray = [];
         }
         unset($this->authoritys);
         $this->authoritys = array();
         $this->AllowAuthoritys($initArray);
     }
-    
+
     protected function AllowAuthoritys($authoritys) {
         if (!is_array($authoritys)) {
             trigger_error("引数が不正です。", E_USER_ERROR);
@@ -31,17 +31,17 @@ class Setting {
         $this->AllowAuthoritys([$authority]);
     }
 
-    
+
     protected function DenyAuthority($authority) {
         $key = array_keys($this->authoritys, $authority);
         $this->authoritys = array_splice($this->authoritys, $key, 1);
     }
-    
+
     public function SetDefault() {
         $this->Initialize();
     }
-    
-    
+
+
     public function ViewAuthority($authorityName=null) {
         if (!isset($authorityName)) {
             foreach ($this->authoritys as $value) {
@@ -51,7 +51,7 @@ class Setting {
             var_dump("$authorityName is true.");
         }
     }
-    
+
     // タグ名リスト生成
     public function authorityListCreate($notuseList) {
         $select = '<select>';
@@ -72,14 +72,14 @@ class Setting {
             $select .= "<option>$value</option>";
         }
         $select .= '</select>';
-        
+
         return $select;
     }
-    
-    
+
+
 }
 
-class HTMLClass extends Setting {
+class HTMLClass extends BaseTag {
     protected $tag, $tagName, $className, $contents;
 
     protected function HTMLSet($tagName, $contents, $className) {
@@ -100,7 +100,7 @@ class HTMLClass extends Setting {
         parent::HTMLSet($this->$tagName, $this->contens, $this->className);
         $this->contents = $contents;
     }
-    
+
     // タグ名などのメタデータに沿ってHTMLを生成する
     protected function TagCreate($setClass=false, $tagOption='') {
         // 開始タグと終了タグでタグ名が違うタグ(a hrefなど)のための特殊処理
@@ -121,7 +121,7 @@ class HTMLClass extends Setting {
         if (array_search($tagAuth, $this->authoritys) === false) {
            trigger_error("タグ名が不正です。", E_USER_ERROR);
         }
-        
+
         if ($setClass === true) {
             if (!isset($this->className)) {
                 $this->className = $this->tagName;
@@ -138,7 +138,7 @@ class HTMLClass extends Setting {
         }
         $this->tag .= "</$this->tagName>";
     }
-    
+
     // タグ名・内容・クラス名をセットする
     public function TagSet($tagName='div', $contents=null, $className=null, $setClass=false, $tagOption='') {
         $count = func_num_args();
@@ -151,20 +151,20 @@ class HTMLClass extends Setting {
             $setClass = $tagName;
             unset($tagName);
         }
-        
+
         $this->TagCreate($setClass, $tagOption);    // TagSetでセットした情報に沿ってHTMLを生成する
 
         unset($setClass);
     }
-    
+
     protected function TagGet() {
         if (!isset($this->tag)) {
             trigger_error("タグが存在しません。", E_USER_ERROR);
         }
-        
+
         return $this->tag;
     }
-    
+
     public function TagExec($output=false, $spaceFlg=false) {
         if ($output === true) {
             echo $this->TagGet();
@@ -176,8 +176,8 @@ class HTMLClass extends Setting {
     }
 }
 
-// 特殊タグ(開始タグと終了タグで内容が違うタグ)用の処理
-class CustomTagCreate extends ScriptClass {
+// 特殊タグ用の処理
+class CustomTagCreate extends HTMLClass {
     function __construct() {
         parent::__construct();
         $this->AllowAuthoritys(['a href']);
@@ -186,26 +186,23 @@ class CustomTagCreate extends ScriptClass {
         $this->TagSet("a href", $title, $class, true, $link);
         return $this->TagExec($viewLink);
     }
-}
 
-// 特殊タグ(開始タグのみ)用の処理
-class SpecialHTML extends HTMLClass {
     protected function ClosedTagCreate($tagName, $className, $setClass) {
         parent::TagSet($tagName, null, $className, $setClass);
         $this->tag = "<$this->tagName$className />";    // タグを上書き
     }
-    
+
     protected function TagGet() {
         return parent::TagGet();
     }
-    
+
     public function TagExec($view = false, $spaceFlg=false) {
         return parent::TagExec($view);
     }
 }
 
 // スクリプトタグの処理
-class ScriptClass extends SpecialHTML {
+class ScriptClass extends CustomTagCreate {
     protected $script;
 
     function __construct() {
@@ -217,7 +214,7 @@ class ScriptClass extends SpecialHTML {
     public function Script($str) {
         $this->TagSet('script', $str);
     }
-    
+
     // Alert関数
    public function Alert($str, $abort=false) {
        $this->Script("alert('$str');");
@@ -226,14 +223,14 @@ class ScriptClass extends SpecialHTML {
            exit;
        }
    }
-   
+
 }
 
 class UseClass extends ScriptClass {
 
    // 指定したURLへ遷移
    public function MovePage($url) {
-       $this->Script("location.href='$url';");    
+       $this->Script("location.href='$url';");
        $this->TagExec(true);
    }
 

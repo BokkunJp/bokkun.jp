@@ -1,11 +1,12 @@
 <?php
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
- require_once dirname(dirname(dirname(__DIR__))). '/common/Function/Tag.php';
- define("MAX_LENGTH", 32);
+ require_once dirname(dirname(__DIR__)). '/common/Setting.php';
+ require_once DOCUMENT_ROOT. '/common/Function/Tag.php';
+ define('MAX_LENGTH', 32);
 
 $adminError = new AdminError();
 $use = new UseClass();
@@ -50,9 +51,9 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
                         }
                     }
                 }
-                
+
             }
-            
+
         }
         $mode = 'edit';
     }
@@ -61,7 +62,7 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
     } else if (strlen($title) > MAX_LENGTH) {
         $adminError->UserError("タイトルの文字数は、". MAX_LENGTH. "文字以下にしてください。");
     }
-    
+
 } else if (empty($edit) && isset($delete) &&  $delete === 'delete') {
     // 削除モード
     $adminError->Confirm('削除してもよろしいですか？');
@@ -77,9 +78,12 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
     $adminError->UserError('不正な値が入力されました。');
 
 }
-$adminError->Maintenance();
 
+var_dump(getcwd());
 chdir($basePath);
+var_dump(getcwd());
+die;
+$adminError->Maintenance();
 // フォルダ・ファイル名の変更
 foreach ($pathList as $_pathList) {
     if ($_pathList === 'php') {
@@ -130,7 +134,7 @@ class AdminError {
     public function __construct() {
         $this->use = new UseClass();
     }
-    
+
     public function UserError($message) {
         $this->use->Alert($message);
         $this->use->BackAdmin('create');
@@ -147,7 +151,7 @@ class AdminError {
     public function Maintenance() {
         $this->UserError('メンテナンス中です。しばらくお待ちください。');
     }
-} 
+}
 ?>
 <head>
     <base href="../" />
@@ -159,11 +163,11 @@ onload = function () {
         title = location.protocol + '//' + location.host + '/public/' + title;
         open(title);
     }
-    
+
     location.href="./";
 }
 </script>
 
 <body>
-    <input type="hidden" name="title" value="<?php echo $title; ?>" />    
+    <input type="hidden" name="title" value="<?php echo $title; ?>" />
 </body>
