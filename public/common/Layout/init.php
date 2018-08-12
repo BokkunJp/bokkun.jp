@@ -11,6 +11,7 @@ if (isset($homepageTitle)) {
 } else {
     $title = htmlspecialchars(basename(__DIR__));
 }
+
 // ユーザーエージェントの設定
 $ua = new UA\UA();
 define('Phone', 2);
