@@ -26,7 +26,7 @@ $img = "crown-vector.jpg";
         <div class="container">
             <?php require_once('header.php'); ?>
         <div class='contents'>
-            <?php require_once('design.php'); ?>
+            <?php require_once(getcwd().'/design.php'); ?>
         </div>
             <?php require_once('footer.php'); ?>
         </div>

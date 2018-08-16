@@ -13,8 +13,8 @@ $adminError = new AdminError();
 $use = new UseClass();
 
 $adminPath = dirname(__DIR__);
+$samplePath = dirname($adminPath). DIRECTORY_SEPARATOR. 'Sample';
 $basePath = DOCUMENT_ROOT;
-
 session_start();
 $session = $_SESSION;
 $post = $_POST;
@@ -52,19 +52,19 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
 }
 if (preg_match('/^[a-zA-Z][a-zA-Z+-_]*/', $title) === 0) {
     $adminError->UserError('タイトルに無効な文字が入力されています。');
-} else if (strlen($title) > 32) {
+} else if (strlen($title) > MAX_LENGTH) {
         $adminError->UserError("タイトルの文字数は、". MAX_LENGTH. "文字以下にしてください。");
 }
 
 $baseFileName = null;
 if ($type === 'default') {
-    if ($use_template_engine === 'on') {
+    if ($use_template_engine === 'smarty') {
         $baseFileName = 'template';
     } else {
         $baseFileName = 'template_base';
     }
 } else if ($type === 'custom') {
-    if ($use_template_engine === 'on') {
+    if ($use_template_engine === 'smarty') {
         $baseFileName = 'custom';
     } else {
         $baseFileName = 'custom_base';
@@ -72,8 +72,7 @@ if ($type === 'default') {
 } else {
     $adminError->UserError('タイプに不正値が入力されました。');
 }
-
-chdir($basePath);
+var_dump(getcwd());
 // フォルダ・ファイルの作成
 foreach ($pathList as $_pathList) {
     if ($_pathList === 'php') {
@@ -81,7 +80,7 @@ foreach ($pathList as $_pathList) {
     } else {
         if ($_pathList === 'js') {
             $client = "client/";
-            $adminPath .= '/'. $client;
+            $samplePath .= '/'. $client;
         } else {
             $client = "../";
         }
@@ -109,15 +108,18 @@ foreach ($pathList as $_pathList) {
     copy("$baseFileName/$fileName.$_pathList", "$title/$fileName.$_pathList");            // フォルダ内のindex.php作成
     if ($_pathList === 'php') {
         copy("$baseFileName/design.php", "$title/design.php");          // フォルダ内のdesgin.php作成
-        if ($use_template_engine === 'on') {
+        if ($use_template_engine === 'smarty') {
             copy("$baseFileName/index.tpl", "$title/index.tpl");        // smarty設定時、index.tpl作成
+        } else if($use_template_engine === 'twig') {
+          copy("$baseFileName/index.twig", "$title/index.twig");        // twig設定時、index..twig作成
         } else {
             mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
         }
     }
 }
+die;
 $use->Alert('ページを作成しました。');
-session_destroy();
+// session_destroy();
 
 class AdminError {
     protected $use;
