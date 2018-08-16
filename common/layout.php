@@ -21,9 +21,9 @@ switch ($statusCode) {
 <link rel="stylesheet" type="text/css" href="<?php echo $url. '/public/'; ?>client/css/common/<?php echo $agentCode; ?>.css">
 <link rel="stylesheet" type="text/css" href="<?php echo $url. '/public/'; ?>client/css/design.css">
 <div class="container">
-    <?php require_once(__DIR__. '/header.php'); ?>
+    <?php require_once('header.php'); ?>
     <div class='contents'>
-        <?php require_once(getcwd(). '/design.php'); ?>
+        <?php require_once(getcwd().'/design.php'); ?>
     </div>
-    <?php require_once(__DIR__. 'footer.php'); ?>
+    <?php require_once('footer.php'); ?>
 </div>
