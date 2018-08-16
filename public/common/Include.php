@@ -29,7 +29,6 @@ IncludeFiles($pwd);
 function IncludeFiles($pwd, $extension='php', $ret=false) {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd)  || is_null($extension)) {
-      var_dump('nul');
         return null;
     }
 

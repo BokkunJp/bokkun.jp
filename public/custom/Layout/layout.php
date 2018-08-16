@@ -1,7 +1,7 @@
 <?php
 require_once dirname(dirname(__DIR__)). '/common/Layout/init.php';  // 共通処理用
 // require_once __DIR__. '/init.php'; // 個別処理用 (別途init.phpが必要)
-            
+
 $title = "カスタムテンプレート";
 $img = "crown-vector.jpg";
 ?>
@@ -22,7 +22,7 @@ $img = "crown-vector.jpg";
         <div class="container">
             <?php require_once('header.php'); ?>
         <div class='contents'>
-            <?php require_once('design.php'); ?>
+            <?php require_once(getcwd().'/design.php'); ?>
         </div>
             <?php require_once('footer.php'); ?>
         </div>
