@@ -221,8 +221,8 @@ class CustomTagCreate extends HTMLClass {
     }
 
     // img src
-    public function SetImage($link='', $setClass=true, $class='', $viewLink=false) {
-        return $this-> CreateClosedTag("img", " src='$link' width=400px height=400px", $class, $setClass, $viewLink);
+    public function SetImage($link='', $width=400, $height=400, $setClass=true, $class='', $viewLink=false) {
+        return $this-> CreateClosedTag("img", " src='$link' width=". $width. "px height=". $height. "px", $class, $setClass, $viewLink);
     }
 
     // a href
