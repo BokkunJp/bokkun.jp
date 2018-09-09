@@ -18,7 +18,7 @@ $href = $test->SetHref('aaa.js', 'test', 'class');
 // $create->SetHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
 $pwd = getcwd(). '/subdirectory/';
 IncludeFiles($pwd);
-
+IncludeDirctories(__DIR__. DIRECTORY_SEPARATOR. 'Function'. DIRECTORY_SEPARATOR);
 /*
  *      対象ディレクトリ内のディレクトリをファイルごと一括で読み込む
  *      引数：
@@ -31,31 +31,23 @@ function IncludeDirctories($pwd='', $extension='php', $ret=false) {
     if (empty($pwd)) {
       $pwd = getcwd();
     } else if ($pwd != getcwd()) {
-      echo 'directroy move <br/>';
       $localPath = getcwd();            // 現在のファイルパスを保管しておく
       chdir($pwd);                      // カレントディレクトリを指定のものに変更
     }
 
     $dirList = scandir($pwd);           // ファイルリスト取得
-
     foreach ($dirList as $_dirList) {
       if (is_dir($_dirList) && !is_numeric(strpos($_dirList, '.'))) {
-       IncludeFiles($pwd.DIRECTORY_SEPARATOR.$_dirList.DIRECTORY_SEPARATOR, $extension, $ret);
-      } else {
-        print_r($_dirList. " is not direcotry.<br/>");
+       IncludeFiles(AddPath($pwd, $_dirList), $extension, false);
       }
     }
-
     if (isset($localPath)) {
       chdir($localPath);                // カレントディレクトリを元のパスに戻す
     }
 
-    // 出力ありの場合は、ファイルリストを出力して終了
+    // 出力ありの場合は、ディレクトリリストを出力して終了
     if ($ret === true) {
-        if (empty($retList)) {
-            $retList = [];
-        }
-        return $retList;
+        return $dirList;
     }
 }
 

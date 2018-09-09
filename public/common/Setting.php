@@ -20,6 +20,8 @@ $image = $client. 'image';
 
 // 定数などの定義
 require_once AddPath(__DIR__, "Config.php", false);
+
+define('IMAGE_URL', $image);
 $Agent = GetSERVER('HTTP_USER_AGENT');
 $referer = GetSERVER('HTTP_REFERER');
 
@@ -125,6 +127,8 @@ function GetFiles() {
 function MakeUrl($query) {
     return $url. '/'. $query;
 }
+
+
 
 class Permmision {
     private $filePath;
