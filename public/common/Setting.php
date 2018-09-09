@@ -1,6 +1,7 @@
 <?php
 // サーバの設定
 namespace PublicSetting;
+require_once __DIR__. DIRECTORY_SEPARATOR. 'InitFunction.php';
 if (isset($_SERVER['HTTPS'])) {
     $http = '//';
 } else {
@@ -127,8 +128,6 @@ function GetFiles() {
 function MakeUrl($query) {
     return $url. '/'. $query;
 }
-
-
 
 class Permmision {
     private $filePath;
