@@ -73,6 +73,8 @@ if ($type === 'default') {
     $adminError->UserError('タイプに不正値が入力されました。');
 }
 var_dump(getcwd());
+chdir($basePath);
+var_dump(getcwd());die;
 // フォルダ・ファイルの作成
 foreach ($pathList as $_pathList) {
     if ($_pathList === 'php') {
