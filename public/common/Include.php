@@ -15,9 +15,8 @@ $href = $test->SetHref('aaa.js', 'test', 'class');
 // $js = $test->ReadJS('aaa.js', 'test', 'class');
 // echo $js;
 // $create->SetHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
-$pwd = getcwd(). '/subdirectory/';
-IncludeDirctories(__DIR__. DIRECTORY_SEPARATOR. 'Function'. DIRECTORY_SEPARATOR);
-IncludeFiles($pwd);
+IncludeFiles(AddPath(getcwd(), 'subdirectory'));
+IncludeDirctories(AddPath(__DIR__, 'Function'));
 /*
  *      対象ディレクトリ内のディレクトリをファイルごと一括で読み込む
  *      引数：
