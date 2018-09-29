@@ -56,33 +56,25 @@ if (preg_match('/^[a-zA-Z][a-zA-Z+-_]*/', $title) === 0) {
         $adminError->UserError("タイトルの文字数は、". MAX_LENGTH. "文字以下にしてください。");
 }
 
-$baseFileName = null;
-if ($type === 'default') {
-    if ($use_template_engine === 'smarty') {
-        $baseFileName = 'template';
-    } else {
-        $baseFileName = 'template_base';
-    }
-} else if ($type === 'custom') {
-    if ($use_template_engine === 'smarty') {
-        $baseFileName = 'custom';
-    } else {
-        $baseFileName = 'custom_base';
-    }
+$baseFileName = $samplePath;
+
+if ($use_template_engine === 'smarty') {
+  $templateExtenion = 'tpl';
+} else if ($use_template_engine === 'twig') {
+    $templateExtenion = 'twig';
 } else {
-    $adminError->UserError('タイプに不正値が入力されました。');
+  $templateExtenion = null;
 }
-var_dump(getcwd());
+
 chdir($basePath);
-var_dump(getcwd());die;
+
 // フォルダ・ファイルの作成
 foreach ($pathList as $_pathList) {
-    if ($_pathList === 'php') {
-        chdir("public/");
-    } else {
-        if ($_pathList === 'js') {
-            $client = "client/";
-            $samplePath .= '/'. $client;
+  if ($_pathList === 'php') {
+      chdir("public/");
+  } else {
+      if ($_pathList === 'js') {
+          $client = "client/";
         } else {
             $client = "../";
         }
@@ -93,33 +85,38 @@ foreach ($pathList as $_pathList) {
         $$adminError->UserError('ページの作成に失敗しました。');
     }
 
-    // カスタム版の場合、CommonのLayoutの中身をコピーし、public下に配置する
-    if ($type === 'custom') {         // ディレクトリ作成
-        $adminError->UserError('ページの作成に失敗しました。');
-    }
-
-    if ($_pathList === 'image') {
+      switch ($_pathList) {
+        case 'image':
         break;
-    }
-
-    if ($_pathList === 'css') {
+        case 'css':
         $fileName = 'design';
-    } else {
+        copy("$samplePath/client/$_pathList/$fileName.$_pathList", "$title/$fileName.$_pathList");            // それぞれのフォルダに必要なファイルの作成
+        break;
+        case 'js':
         $fileName = 'index';
-    }
-    copy("$baseFileName/$fileName.$_pathList", "$title/$fileName.$_pathList");            // フォルダ内のindex.php作成
-    if ($_pathList === 'php') {
+        copy("$samplePath/client/$_pathList/$fileName.$_pathList", "$title/$fileName.$_pathList");            // それぞれのフォルダに必要なファイルの作成
+        break;
+        case 'php':
         copy("$baseFileName/design.php", "$title/design.php");          // フォルダ内のdesgin.php作成
-        if ($use_template_engine === 'smarty') {
-            copy("$baseFileName/index.tpl", "$title/index.tpl");        // smarty設定時、index.tpl作成
-        } else if($use_template_engine === 'twig') {
-          copy("$baseFileName/index.twig", "$title/index.twig");        // twig設定時、index..twig作成
-        } else {
+        $fileName = 'index';
+        $srcfileName = $fileName. '_base';
+        copy("$baseFileName/$srcfileName.$_pathList", "$title/$fileName.$_pathList");            // それぞれのフォルダに必要なファイルの作成
+        if (!empty($templateExtenion))  {
+          copy("$baseFileName/$fileName.$templateExtenion", "$title/$fileName.$templateExtenion");  // テンプレートエンジン用のindexファイル作成
+          if($templateExtenion !== 'tpl') {
             mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
+          }
         }
-    }
+        break;
+        default:
+        break;
+      }
 }
-die;
+if (!empty($templateExtenion)) {
+  unlink("$basePath/public/$title/design.php");
+  copy("$baseFileName/design". "_$templateExtenion". ".php", "$basePath/public/$title/design.php");            // design.phpファイル上書き
+}
+
 $use->Alert('ページを作成しました。');
 // session_destroy();
 

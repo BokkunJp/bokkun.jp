@@ -1,9 +1,13 @@
 #PHP7設定 (CakePHP3の件があるので個別で設定)
 #AddHandler application/x-httpd-php71cgi .php
 
+#X-Frame-Options対策
+Header always append X-Frame-Options SAMEORIGIN
+
 # .htaccessでRewriteを有効化する
 RewriteEngine On
-#RewriteCond %{HTTPS} off
+RewriteBase /
+RewriteCond %{HTTPS} off
 #RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 ErrorDocument 400 /common/error/400/
 ErrorDocument 403 /common/error/403/
