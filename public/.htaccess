@@ -3,4 +3,8 @@
 
 # .htaccessでRewriteを有効化する
 RewriteEngine On
+RewriteBase /
 SetEnvIf Referer "^ https://%{HTTP_HOST}%{REQUEST_URI} " ok_url
+
+#名前の先頭に_があるディレクトリはアクセス不可(削除用)
+RewriteRule ^_.*$ - [NC,R=404,L]
