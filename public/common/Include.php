@@ -11,14 +11,12 @@ IncludeFiles($pwd);
 use CustomTagCreate as OriginTag;
 $test = new OriginTag();
 $href = $test->SetHref('aaa.js', 'test', 'class');
-
 // echo $href;
 // $js = $test->ReadJS('aaa.js', 'test', 'class');
 // echo $js;
 // $create->SetHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
-$pwd = getcwd(). '/subdirectory/';
-IncludeFiles($pwd);
-IncludeDirctories(__DIR__. DIRECTORY_SEPARATOR. 'Function'. DIRECTORY_SEPARATOR);
+IncludeFiles(AddPath(getcwd(), 'subdirectory'));
+IncludeDirctories(AddPath(__DIR__, 'Function'));
 /*
  *      対象ディレクトリ内のディレクトリをファイルごと一括で読み込む
  *      引数：

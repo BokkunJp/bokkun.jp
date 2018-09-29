@@ -1,22 +1,20 @@
 <?php
 // 既存のパスに新たな要素を追加する
-function AddPath($local, $addpath, $lastSeparator=true) {
-  if (!is_string($local)) {
-    $local = (string)$local;
-  }
-  if (!is_string($addpath)) {
-    $addpath = (string)$addpath;
-  }
-  if (mb_substr($local, -1) == DIRECTORY_SEPARATOR) {
+function AddPath($local, $addpath, $lastSeparator=true,  $separator=DIRECTORY_SEPARATOR) {
+  if (mb_substr($local, -1) == $separator) {
     $first = '';
   } else {
-    $first = DIRECTORY_SEPARATOR;
+    $first = $separator;
   }
   if ($lastSeparator == true) {
-    $last = DIRECTORY_SEPARATOR;
+    $last = $separator;
   } else {
     $last = '';
   }
 
-  return $local .= $first. $addpath. $last;
+  $local .= $first. $addpath. $last;    // パス追加 + パス結合
+
+  $local = htmlspecialchars($local);    // XSS対策
+
+  return $local;
 }

@@ -9,3 +9,4 @@ define('JS_DIR', CLIENT_DIR. '/js');
 define('IMAGE_DIR', CLIENT_DIR. '/image');
 define('FUNCTION_DIR', COMMON_DIR. '/Function');
 define('LAYOUT_DIR', COMMON_DIR. '/Layout');
+define('DEBUG_CODE', __FILE__. ':'. __LINE__);
