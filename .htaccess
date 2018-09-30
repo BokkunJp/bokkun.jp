@@ -9,13 +9,15 @@ Header always set X-Content-Type-Options "nosniff"
 #クリックジャッキング
 Header always append X-Frame-Options SAMEORIGIN
 
-
+#クッキー設定
+php_flag session.cookie_httponly on
+php_flag session.cookie_secure On
 
 # .htaccessでRewriteを有効化する
 RewriteEngine On
 RewriteBase /
-#強制HTTPS化
-RewriteCond %{HTTPS} off
+#HSTS
+RewriteCond %{HTTPS} !=on [NC]
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 #HSTSプリロード
 Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; preload"
