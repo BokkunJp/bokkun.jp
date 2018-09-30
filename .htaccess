@@ -1,6 +1,10 @@
 #PHP7設定 (CakePHP3の件があるので個別で設定)
 #AddHandler application/x-httpd-php71cgi .php
 
+# .htaccessでRewriteを有効化する
+RewriteEngine On
+RewriteBase /
+
 #セキュリティ対策
 #XSS
 Header always set X-XSS-Protection "1; mode=block"
@@ -13,14 +17,13 @@ Header always append X-Frame-Options SAMEORIGIN
 php_flag session.cookie_httponly on
 php_flag session.cookie_secure On
 
-# .htaccessでRewriteを有効化する
-RewriteEngine On
-RewriteBase /
 #HSTS
 RewriteCond %{HTTPS} !=on [NC]
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 #HSTSプリロード
 Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; preload"
+
+#エラー関連
 ErrorDocument 400 /common/error/400/
 ErrorDocument 403 /common/error/403/
 ErrorDocument 404 /common/error/404/
