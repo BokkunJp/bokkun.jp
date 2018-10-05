@@ -3,7 +3,7 @@
 
 #ベーシック認証
 AuthType Basic
-AuthName "Basic認証"
+AuthName "BasicAuth"
 AuthUserFile /virtual/bokkun/public_html/bokkun.jp/.htpasswd
 Require valid-user
 
