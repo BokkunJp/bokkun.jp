@@ -2,10 +2,10 @@
 #AddHandler application/x-httpd-php71cgi .php
 
 #ベーシック認証
-AuthType Basic
-AuthName "Please enter ID and password."
-AuthUserFile /virtual/bokkun/.htpasswd
-Require valid-user
+#AuthType Basic
+#AuthName "Please enter ID and password."
+#AuthUserFile /virtual/bokkun/.htpasswd
+#Require valid-user
 
 # .htaccessでRewriteを有効化する
 RewriteEngine On
