@@ -3,8 +3,8 @@
 
 #ベーシック認証
 AuthType Basic
-AuthName "BasicAuth"
-AuthUserFile /virtual/bokkun/public_html/bokkun.jp/.htpasswd
+AuthName "Please enter ID and password."
+AuthUserFile /virtual/bokkun/.htpasswd
 Require valid-user
 
 # .htaccessでRewriteを有効化する
