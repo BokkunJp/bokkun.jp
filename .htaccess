@@ -1,6 +1,12 @@
 #PHP7設定 (CakePHP3の件があるので個別で設定)
 #AddHandler application/x-httpd-php71cgi .php
 
+#ベーシック認証
+AuthType Basic
+AuthName "Basic認証"
+AuthUserFile /virtual/bokkun/public_html/bokkun.jp/.htpasswd
+Require valid-user
+
 # .htaccessでRewriteを有効化する
 RewriteEngine On
 RewriteBase /
