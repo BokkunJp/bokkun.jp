@@ -1,11 +1,15 @@
 <?php
 
 // PDOのサンプルコード
+/*
+   必要な引数：
+   dbuser, dbname, dbpass, host(任意、デフォルトはローカル), port(任意)
+*/
 
 class DB {
     protected $dsn;
     protected $user;
-    protected $password;
+    protected $hash;
 
     protected $dbName;
     protected $tableName;
@@ -20,21 +24,21 @@ class DB {
             $this->tableName = $tableName;
             $this->dbName = $dbName;
             $this->user = $dbName;
-            $this->password = $dbPass;
+            $this->hash = password_hash($dbPass, PASSWORD_DEFAULT);
             $this->dsn = "pgsql:dbname=$this->dbName host=$dbHost port=$dbPort";
-            $this->stmt = new PDO($this->dsn, $this->user, $this->password);
-            // print('データベースの接続に成功しました。<br/>');
+            $this->stmt = new PDO($this->dsn, $this->user, $dbPass);
+            // print_r('データベースの接続に成功しました。<br/>');
             $this->access = true;
         } catch (PDOException $e) {
-            print('ERROR!! '.$e->getMessage());
+            print_r('ERROR!! '.$e->getMessage());
             $this->access = false;
             die();
         }
 
 }
 
-    public function InitSequence($seq_id=1) {
-        $this->sql = "select setval ('test_id_seq', :seq_id, false);";
+    public function InitSequence($id_name='test_id_seq', $seq_id=1) {
+        $this->sql = "select setval ('$id_name', :seq_id, false);";
         $sth = $this->stmt->prepare($this->sql);
         $sth->execute(array(':seq_id' => $seq_id));
         $exec = $sth->fetchAll();
@@ -43,69 +47,99 @@ class DB {
 
     }
 
-    public function Insert($val) {
-
-        try {
-            $this->stmt->beginTransaction();                             // トランザクション開始
-
-            if (empty($val)) {
-                $this->stmt->rollback();
-                error_reporting(E_STRICT);
-            }
-            $this->sql = "Insert into {$this->tableName}(val) values(:value)";
-            $sth = $this->stmt->prepare($this->sql);
-            $sth->execute(array(':value' => $val));
-            $this->stmt->commit();                                      // コミット
-        } catch (Exception $e) {
-            print('ERROR!! '.$e->getMessage());
-            $this->stmt->rollback();
-            error_reporting(E_STRICT);
-         }
-    }
-
-    public function Update($id, $val) {
-
-        try {
-            $this->stmt->beginTransaction();                             // トランザクション開始
-
-            if (empty($id) || empty($val)) {
-                $this->stmt->rollback();
-                error_reporting(E_STRICT);
-            }
-
-            $this->sql = "update {$this->tableName} set val=:value, updatetime=NOW(), updateday=NOW() where id= :id";
-            $sth = $this->stmt->prepare($this->sql);
-            $sth->execute(array(':value'=>$val, ':id' => $id));
-
-            $this->stmt->commit();                                      // コミット
-
-        } catch (Exception $e) {
-            print('ERROR!! '.$e->getMessage());
-            $this->stmt->rollback();
-            error_reporting(E_STRICT);
-        }
-    }
-
-    public function Select($id) {
-
-        $this->sql = "select * from {$this->tableName} where id= :id";
-        $sth = $this->stmt->prepare($this->sql);
-        $sth->execute(array(':id' => $id));
-
-        $exec = $sth->fetchAll();
-
-        return $exec;
-    }
-
-    public function SelectAll() {
-
-        $this->sql = "select * from {$this->tableName} order by id";
-        $sth = $this->stmt->prepare($this->sql);
-        $sth->execute(array());
+    private function GetColumn() {
+      $this->sql = "select * from {$this->tableName} limit 1";
+      $sth = $this->stmt->prepare($this->sql);
+      try {
+        $sth->execute();
 
         $ary = $sth->fetchAll();
-        return $ary;
 
+        foreach ($ary[FIRST] as $_key => $_val) {
+          if (is_string($_key)) {
+            $column[] = $_key;
+          }
+        }
+      } catch (Exception $e) {
+        print_r("ERROR! ". $e->getMessage());
+        return false;
+      }
+      return $column;
+    }
+
+    /* Where句の条件をセットする。*/
+    private function WhereSet(Array $cond=[], $order='id', $limit=-1) {
+      var_Dump(count($cond));
+      if (!empty($cond)) {
+        $where = 'where ';
+        $and = " AND ";
+        foreach ($cond as $_key => $value) {
+          $where .= $_key. " = ". $value;
+          $where .= " AND ";
+        }
+        $where = substr_replace($where, '', strlen($where) - strlen($and), strlen($and));
+      } else {
+        $where = '';
+      }
+      return $where;
+    }
+
+    /* カラム名が一致するか検査する。*/
+    private function ColmnNameValid($column) {
+      $allColumns = $this->GetColumn();
+      $ret = false;
+      foreach ($allColumns as $_testCol) {
+        if ($_testCol === $column) {
+          $ret = true;
+        }
+      }
+
+      return $ret;
+    }
+
+    public function Select(Array $cond=[], $order='id', $limit=-1) {
+
+      $where = $this->WhereSet($cond, $order, $limit);    // where句の生成 (プレースホルダと合わせて生成)
+
+      // 生成したwhere句から、プレースホルダの分離
+
+      $this->sql = "select * from {$this->tableName}";
+
+      $condArray = [];
+      if (is_string($order)) {
+        $this->sql .= " order by :order";
+        $condArray[':order'] = $order;
+      }
+
+      if ($limit >= 0) {
+        $this->sql .= " limit :limit";
+        $condArray[':limit'] = $limit;
+      }
+
+      $sth = $this->stmt->prepare($this->sql);
+
+      $sth->execute($condArray);
+
+      $ary = $sth->fetchAll();
+      // データの成形 (配列形式)
+      foreach ($ary as $_key => $_val) {
+        $ary[$_key] = $this->MoldData($_val);
+      }
+      return $ary;
+    }
+
+    private function MoldData($data, $NGWord=null) {
+      $ret = array();
+      foreach ($data as $_key => $_val) {
+        if (is_string($_key) && $_key !== $NGWord) {
+          $ret[$_key] = $_val;
+        }
+      }
+      return $ret;
+    }
+
+    public function SelectAll($order='id', $limit=-1) {
+      return $this->Select();
     }
 
     public function SelectIDMin() {
@@ -130,6 +164,50 @@ class DB {
 
     }
 
+    public function Insert($val) {
+
+        try {
+            $this->stmt->beginTransaction();                             // トランザクション開始
+
+            if (empty($val)) {
+                $this->stmt->rollback();
+                error_reporting(E_STRICT);
+            }
+            $this->sql = "Insert into {$this->tableName}(val) values(:value)";
+            $sth = $this->stmt->prepare($this->sql);
+            $sth->execute(array(':value' => $val));
+            $this->stmt->commit();                                      // コミット
+        } catch (Exception $e) {
+            print_r_r('ERROR!! '.$e->getMessage());
+            $this->stmt->rollback();
+            error_reporting(E_STRICT);
+         }
+    }
+
+    public function Update($id, $val) {
+
+        try {
+            $this->stmt->beginTransaction();                             // トランザクション開始
+
+            if (empty($id) || empty($val)) {
+                $this->stmt->rollback();
+                error_reporting(E_STRICT);
+            }
+
+            $this->sql = "update {$this->tableName} set val=:value, updatetime=NOW(), updateday=NOW() where id= :id";
+            $sth = $this->stmt->prepare($this->sql);
+            $sth->execute(array(':value'=>$val, ':id' => $id));
+
+            $this->stmt->commit();                                      // コミット
+
+        } catch (Exception $e) {
+            print_r_r('ERROR!! '.$e->getMessage());
+            $this->stmt->rollback();
+            error_reporting(E_STRICT);
+        }
+    }
+
+
     public function Delete($id) {
         try{
             $this->stmt->beginTransaction();                             // トランザクション開始
@@ -144,7 +222,7 @@ class DB {
             $this->stmt->commit();                                      // コミット
 
         } catch (Exception $e) {
-            print('ERROR!! '.$e->getMessage());
+            print_r('ERROR!! '.$e->getMessage());
             $this->stmt->rollback();
             error_reporting(E_STRICT);
             throw $e;
@@ -159,7 +237,7 @@ class DB {
             $sth->execute();
             $this->stmt->commit();                                      // コミット
         } catch (Exception $e) {
-            print('ERROR!! '.$e->getMessage());
+            print_r('ERROR!! '.$e->getMessage());
             $this->stmt->rollback();
             error_reporting(E_STRICT);
             throw $e;
