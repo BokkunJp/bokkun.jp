@@ -56,7 +56,7 @@ class Setting {
 
   private function GetSERVER($elm) {
       if (isset($_SERVER[$elm])) {
-          return $_SERVER[$elm];
+          return Sanitize($_SERVER[$elm]);
       } else {
           return null;
       }

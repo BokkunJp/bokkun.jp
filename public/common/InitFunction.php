@@ -18,3 +18,11 @@ function AddPath($local, $addpath, $lastSeparator=true,  $separator=DIRECTORY_SE
 
   return $local;
 }
+
+// ヌルバイト対策 (POST, GET)
+function Sanitize($arr) {
+    if (is_array($arr) ){
+    return array_map('Sanitize', $arr);
+    }
+    return str_replace("\0", "", $arr);     //ヌルバイトの除去
+}
