@@ -31,6 +31,7 @@ body {
 }
 
 img {
+  width: 10%;
     /*
     filter: alpha(opacity=50);
     -moz-opacity:0.5;
@@ -100,6 +101,10 @@ header {
     padding-bottom: 3vh !important;
 }
 
+input {
+  font-size: 3vw;
+}
+
 footer {
     position: fixed;
     background-image: url("//bokkun.jp/public/client/image/metal01-768x576.jpg");
@@ -111,7 +116,7 @@ footer {
 }
 
 .footer_char {
-    font-size: 1vw;
+    font-size: 2vw;
 }
 
 .twitter {
