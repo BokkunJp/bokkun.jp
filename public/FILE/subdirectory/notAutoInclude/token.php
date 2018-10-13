@@ -16,11 +16,11 @@ function CheckToken($tokenName='token', $errMessage='不正な値が送信され
         echo $errMessage;
         echo $pageMessage;
         echo '        <div>';
-        require_once __DIR__. '/footer.php';
+        require_once __DIR__. '/Layout/footer.php';
         echo '</div>
         </body>
     </html>';
         die;
     }
-    
+
 }
