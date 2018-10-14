@@ -7,7 +7,7 @@ and open the template in the editor.
 
 /*
     Created on : 2016/07/18, 1:18:39
-    Update on : 2018/03/12, 1:30
+    Update on : 2018/10/14, 18:33
     Author     : T
 
 
@@ -15,6 +15,7 @@ and open the template in the editor.
 
 html {
     height: 100%;
+    font-family: 'Meiryo UI,ヒラギノ角ゴ';
 }
 
 body {
@@ -30,6 +31,7 @@ body {
 }
 
 img {
+  width: 10%;
     /*
     filter: alpha(opacity=50);
     -moz-opacity:0.5;
@@ -65,11 +67,11 @@ header {
 .top {
     position: relative;
     top: 1vh;
+    font-size: 7vw;
 }
 
 .date,
 .time {
-    color: red;
     font-size: 1.5vh;
 }
 
@@ -89,10 +91,18 @@ header {
     font-size: 5px;
 }
 
-.contents {
-    height: 100%;
+.container {
     margin-top: 20vh;
-    font-size: 5vw;
+}
+
+.contents,
+.contents>* {
+    font-size: 3vh;
+    padding-bottom: 3vh !important;
+}
+
+input {
+  font-size: 3vw;
 }
 
 footer {
@@ -106,7 +116,7 @@ footer {
 }
 
 .footer_char {
-    font-size: 50%;
+    font-size: 2vw;
 }
 
 .twitter {
