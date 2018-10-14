@@ -25,6 +25,7 @@ function CheckToken($tokenName='token', $errMessage='２度目以降のアクセ
     $post = PublicSetting\GetPost();
     $get = PublicSetting\GetQuery();
     $session = new PublicSetting\Session();
+    // $post['deb_flg'] = 1;
     if (isset($post['deb_flg'])) {
         echo 'デバッグ用<br/>';
         echo 'post: '. $post[$tokenName]. '<br/>';
