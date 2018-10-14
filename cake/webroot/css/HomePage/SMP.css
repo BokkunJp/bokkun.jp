@@ -30,52 +30,13 @@ body {
     height: 100%;
 }
 
-.contents {
-  margin-bottom: 0;
-}
-
 img {
+  width: 10%;
     /*
     filter: alpha(opacity=50);
     -moz-opacity:0.5;
     opacity:0.5;
     */
-}
-
-.top-image {
-  width: 40px;
-  height: 40px;
-}
-
-header {
-    position: relative;
-    background-image: url("//bokkun.jp/public/client/image/gold03.jpg");
-    width: 100%;
-    background-size: 10px 150%;
-}
-
-.contents {
-    padding-bottom: 9vh;
-}
-
-.date,
-.time {
-    color: #111111;
-    font-family: 'Mv Boli';
-}
-
-.footer {
-    position: fixed;
-    color: #FFFF00;
-    font-family: 'arial black';
-    background-image: url("//bokkun.jp/public/client/image/metal01-768x576.jpg");
-    background-size: 10px 150%;
-    width: 100%;
-    bottom: 0;
-}
-
-.footer_char {
-    font-size: 50%;
 }
 
 .debug,
@@ -84,12 +45,80 @@ header {
     background-color: #E7E18F;
     font-style: italic;
     font-size: 80%;
-    display: inline-block;
-    word-break : break-all;
-    word-wrap: break-word;
-    overflow-wrap : break-word;
+    word-wrap: break-all;
 }
 
 .warning {
     color: #FF0000;
+}
+
+
+/* SMP用 */
+
+header {
+    position: fixed;
+    background-image: url("//bokkun.jp/public/client/image/gold03.jpg");
+    background-size: 10px 150%;
+    width: 100%;
+    font-size: 5vw;
+    margin-top: -20vh;
+}
+
+.top {
+    position: relative;
+    top: 1vh;
+    font-size: 7vw;
+}
+
+.date,
+.time {
+    font-size: 1.5vh;
+}
+
+.top_hr {
+    margin-bottom: 0px;
+}
+
+.bread {
+    height: 10px;
+}
+
+.breadCrumbList {
+    font-size: 1vw;
+}
+
+.arrow {
+    font-size: 5px;
+}
+
+.container {
+    margin-top: 20vh;
+}
+
+.contents,
+.contents>* {
+    font-size: 3vh;
+    padding-top: 1vh !important;
+}
+
+footer {
+    position: fixed;
+    background-image: url("//bokkun.jp/public/client/image/metal01-768x576.jpg");
+    font-family: 'arial black';
+    background-size: 10px 150%;
+    font-size: 4vw;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer_char {
+    font-size: 2vw;
+}
+
+.twitter {
+    font-size: 0.5vh;
+}
+
+.copy_right {
+    font-size: 2vw;
 }
