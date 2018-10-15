@@ -7,7 +7,7 @@ and open the template in the editor.
 
 /*
     Created on : 2016/07/18, 1:18:39
-    Update on : 2017/07/09, 16:20
+    Update on : 2018/10/14, 18:33
     Author     : T
 
 
@@ -98,11 +98,7 @@ header {
 .contents,
 .contents>* {
     font-size: 3vh;
-    padding-bottom: 3vh !important;
-}
-
-input {
-  font-size: 3vw;
+    padding-top: 1vh !important;
 }
 
 footer {

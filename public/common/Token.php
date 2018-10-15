@@ -21,10 +21,11 @@ function SetToken($token=null) {
 }
 
 // トークンチェック
-function CheckToken($tokenName='token', $errMessage='２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage='<br /><a href=\'javascript:location.href = location;\'>ファイルページへ戻る</a>', $finishFlg=false) {
+function CheckToken($tokenName='token', $errMessage='２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage='<br /><a href=\'javascript:location.href = location;\'>前のページへ戻る</a>', $finishFlg=true) {
     $post = PublicSetting\GetPost();
     $get = PublicSetting\GetQuery();
     $session = new PublicSetting\Session();
+    // $post['deb_flg'] = 1;
     if (isset($post['deb_flg'])) {
         echo 'デバッグ用<br/>';
         echo 'post: '. $post[$tokenName]. '<br/>';

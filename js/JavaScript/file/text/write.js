@@ -12,7 +12,7 @@ function Text(filename) {
 }
 
 Text.prototype.Common = function() {
-	// テキストファイル指定(それ伊賀のファイルではエラー投下)
+	// テキストファイル指定(それ以外のファイルではエラー投下)
 	// ファイル読み込み処理
 	console.log(this.file);
 	this.Judge();

@@ -1,8 +1,0 @@
-#PHP7設定 (CakePHP3の件があるので個別で設定)
-#AddHandler application/x-httpd-php71cgi .php
-
-#X-Frame-Options設定 (個別設定)
-#Header always append X-Frame-Options ALLOW-FROM
-
-#クッキー設定 (個別設定)
-#php_flag session.cookie_httponly off

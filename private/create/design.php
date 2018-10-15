@@ -14,7 +14,6 @@ if (isset($session['addition'])) {
 }
 
 $dir = scandir('../../public/');
-
 $smarty->assign('base', basename(__DIR__). '/subdirectory');
 $smarty->assign('dir', $dir);
 $smarty->display('index.tpl');

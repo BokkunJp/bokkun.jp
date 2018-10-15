@@ -1,6 +1,3 @@
-#PHP7設定 (CakePHP3の件があるので個別で設定)
-#AddHandler application/x-httpd-php71cgi .php
-
 #ベーシック認証
 #AuthType Basic
 #AuthName "Please enter ID and password."
@@ -18,10 +15,6 @@ Header always set X-XSS-Protection "1; mode=block"
 Header always set X-Content-Type-Options "nosniff"
 #クリックジャッキング
 Header always append X-Frame-Options SAMEORIGIN
-
-#クッキー設定
-php_flag session.cookie_httponly on
-php_flag session.cookie_secure On
 
 #HSTS
 RewriteCond %{HTTPS} !=on [NC]

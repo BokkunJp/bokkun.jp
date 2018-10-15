@@ -5,16 +5,17 @@ and open the template in the editor.
 */
 
 
-/* 
+/*
     Created on : 2016/07/18, 1:18:39
-    Update on : 2018/06/24, 16:30
+    Update on : 2018/10/14, 18:33
     Author     : T
 
-    
+
 */
 
 html {
     height: 100%;
+    font-family: 'Meiryo UI,ヒラギノ角ゴ';
 }
 
 body {
@@ -29,12 +30,21 @@ body {
     height: 100%;
 }
 
+.contents {
+  margin-bottom: 0;
+}
+
 img {
     /*
     filter: alpha(opacity=50);
     -moz-opacity:0.5;
     opacity:0.5;
     */
+}
+
+.top-image {
+  width: 40px;
+  height: 40px;
 }
 
 header {
@@ -44,9 +54,8 @@ header {
     background-size: 10px 150%;
 }
 
-.top-image {
-    width: 40px;
-    height: 40px;
+.contents {
+    padding-bottom: 9vh;
 }
 
 .date,
@@ -55,17 +64,12 @@ header {
     font-family: 'Mv Boli';
 }
 
-.contents {
-    padding-bottom: 100%;
-}
-
 .footer {
     position: fixed;
     color: #FFFF00;
     font-family: 'arial black';
     background-image: url("//bokkun.jp/public/client/image/metal01-768x576.jpg");
     background-size: 10px 150%;
-    height: 7.5%;
     width: 100%;
     bottom: 0;
 }
@@ -80,7 +84,10 @@ header {
     background-color: #E7E18F;
     font-style: italic;
     font-size: 80%;
-    word-wrap: break-all;
+    display: inline-block;
+    word-break : break-all;
+    word-wrap: break-word;
+    overflow-wrap : break-word;
 }
 
 .warning {

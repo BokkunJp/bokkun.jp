@@ -44,3 +44,25 @@ class DebugClass extends HTMLClass {
     }
   }
 }
+
+// 文字列出力 (改行含む)
+function PrintOut($str, $type = 'print_r', $str_flg=0) {
+
+  switch ($type) {
+    case 'echo':
+    echo "$str";
+    break;
+    case 'print_r':
+    case 'var_dump':
+    case 'var_export':
+    if ($str_flg == 1) {
+      $type("$str");
+    } else {
+      $type($str);
+    }
+    break;
+    default:
+    break;
+  }
+  print_r(nl2br("\n"));
+}

@@ -6,12 +6,13 @@
   <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
 </form>
 
-
 <form action='./FILE/subdirectory/notAutoInclude/server.php?mode=del' method='POST'>
   <input type='hidden' name='token' value="<?=MakeToken()?>" />
-  <?php
+  
+ <?php
   ReadImage(1);
   ?>
+
   <p><button type='submit' name='delete'>チェックした画像を削除する</button></p>
 </form>
 

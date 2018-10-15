@@ -1,3 +1,5 @@
 #!/bin/sh
-#test
-php index.php
+#local
+#php index.php
+#server
+/usr/local/bin/php54cli index.php

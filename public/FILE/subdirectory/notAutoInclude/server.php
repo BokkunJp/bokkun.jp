@@ -4,12 +4,12 @@
 <?php
 $homepageTitle = htmlspecialchars(basename(__DIR__));
 require_once __DIR__. '/Layout/layout.php';
-require_once __DIR__. '/token.php';
+require_once COMMON_DIR. '/Token.php';
 require_once dirname(__DIR__). '/File.php';
 
 echo '<div class=\'contents\' />';
 
-CheckToken();
+CheckToken('token', '不正な値が送信されました。<br/>');
 
 $session = new PublicSetting\Session();
 if (isset($get['mode']) && @$get['mode'] === 'del') {
