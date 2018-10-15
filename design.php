@@ -70,9 +70,10 @@ function SetToken() {
                         ?>
               </ol>
               <ul>
-                <li>Zend Framework2</li>
+                <li>Zend Framework3</li>
               </ul>
               <ol>
+                      準備中……
                       <?php
                         $notList = ['.', '..', 'index'];
                         $dirList = scandir(__DIR__. '/cg/module/Application/view/application');
