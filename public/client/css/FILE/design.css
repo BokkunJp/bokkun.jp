@@ -2,3 +2,7 @@ body {
     background-color: #E6D6AE;
     color: #FFFFAA;
 }
+
+@media only screen and (max-width: 750px) {
+.fileButton { font-size: 2vh; }
+}

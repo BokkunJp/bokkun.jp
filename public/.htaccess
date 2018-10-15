@@ -1,10 +1,6 @@
-#PHP7設定 (CakePHP3の件があるので個別で設定)
-#AddHandler application/x-httpd-php71cgi .php
-
 # .htaccessでRewriteを有効化する
 RewriteEngine On
 RewriteBase /
-SetEnvIf Referer "^ https://%{HTTP_HOST}%{REQUEST_URI} " ok_url
 
 #名前の先頭に_があるディレクトリはアクセス不可(削除用)
 RewriteRule ^_.*$ - [NC,R=404,L]

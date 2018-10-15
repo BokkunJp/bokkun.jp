@@ -31,13 +31,17 @@ body {
 }
 
 img {
-  width: 10%;
     /*
     filter: alpha(opacity=50);
     -moz-opacity:0.5;
     opacity:0.5;
     */
 }
+
+.top-image {
+  width: 10%;
+}
+
 
 .debug,
 .debug>* {
@@ -98,7 +102,7 @@ header {
 .contents,
 .contents>* {
     font-size: 3vh;
-    padding-bottom: 3vh !important;
+    padding-bottom: 5vh !important;
 }
 
 input {

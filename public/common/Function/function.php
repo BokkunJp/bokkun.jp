@@ -17,3 +17,7 @@ function Convert($decData, $n) {
     }
     return $octData;
 }
+
+function Output($str) {
+     echo  strpos($str, '');
+}

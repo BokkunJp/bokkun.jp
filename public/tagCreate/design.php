@@ -26,5 +26,5 @@ $smarty->assign('inputSelect', $test->authorityListCreate(['script']));
 
 $smarty->display('index.tpl');
 
-$test->SetHref('http://bokkun.xyz', 'トップページへ');
+$test->SetHref('http://bokkun.jp', 'トップページへ');
 ?>

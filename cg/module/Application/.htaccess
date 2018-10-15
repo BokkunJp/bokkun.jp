@@ -1,6 +1,0 @@
-#publicページに飛べるようにする
-<IfModule mod_rewrite.c>
-RewriteBase /
-RewriteEngine on
-RewriteCond 
-</IfModule>

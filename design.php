@@ -43,7 +43,8 @@ function SetToken() {
                         $notList = ['.', '..', '.htaccess', 'index.php', 'client', 'common',
                         'template', 'template_base', 'custom', 'custom_base'];
                         $dirList = scandir(__DIR__. '/public');
-                        $viewDir = array();
+                        $notList = ListAdd($notList, $dirList, '_');
+
                         foreach ($dirList as $index => $_dir) {
                             if (!in_array($_dir, $notList)) {
                                 echo "<li><a href=\"./public/$_dir/\" target=\"_new\">$_dir</a></li>";
@@ -59,7 +60,8 @@ function SetToken() {
                         $notList = ['.', '..', 'Cell', 'Element', 'Email', 'Error', 'Layout',
                         'Pages'];
                         $dirList = scandir(__DIR__. '/cake/src/Template');
-                        $viewDir = array();
+                        $notList = ListAdd($notList, $dirList, '_');
+
                         foreach ($dirList as $index => $_dir) {
                             if (!in_array($_dir, $notList)) {
                                 echo "<li><a href=\"./cake/$_dir/\" target=\"_blank\">$_dir</a></li>";
@@ -74,7 +76,7 @@ function SetToken() {
                       <?php
                         $notList = ['.', '..', 'index'];
                         $dirList = scandir(__DIR__. '/cg/module/Application/view/application');
-                        $viewDir = array();
+                        $notList = ListAdd($notList, $dirList, '_');
                         foreach ($dirList as $index => $_dir) {
                             if (!in_array($_dir, $notList)) {
                                 echo "<li><a href=\"./cg/public/cgApps/$_dir/\" target=\"_blank\">$_dir</a></li>";
