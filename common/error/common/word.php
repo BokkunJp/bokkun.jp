@@ -23,6 +23,7 @@
             $ret['message'] = 'サーバ内部でエラーが発生しました。管理者までご連絡お願いします。';
             break;
         default:
+            $errCode = 'default';
             $ret['title'] = 'Other Error';
             $ret['message'] = 'エラーが発生しました。管理者までご連絡お願いします。';
             break;
