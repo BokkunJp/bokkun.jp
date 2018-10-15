@@ -39,6 +39,10 @@ img {
     */
 }
 
+.top-image {
+  width: 10%;
+}
+
 .debug,
 .debug>* {
     color: #000000;
