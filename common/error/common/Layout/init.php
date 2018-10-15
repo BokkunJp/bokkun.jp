@@ -2,7 +2,6 @@
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 require_once dirname(__DIR__). '/Setting.php';
 require_once COMMON_DIR. "/Include.php";
-
 // タイトルの初期設定
 $errCode = http_response_code();    // ステータスコードを出力
 $title = 'Page Error -';            // タイトル用に調整
