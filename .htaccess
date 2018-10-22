@@ -1,12 +1,19 @@
 #ベーシック認証
-#AuthType Basic
-#AuthName "Please enter ID and password."
-#AuthUserFile /virtual/bokkun/.htpasswd
-#Require valid-user
+AuthType Basic
+AuthName "Please enter ID and password."
+AuthUserFile /virtual/bokkun/.htpasswd
+Require valid-user
 
 # .htaccessでRewriteを有効化する
 RewriteEngine On
 RewriteBase /
+
+#エラー関連
+ErrorDocument 400 /common/error/400/
+ErrorDocument 401 /common/error/401/
+ErrorDocument 403 /common/error/403/
+ErrorDocument 404 /common/error/404/
+ErrorDocument 500 /common/error/500/
 
 #セキュリティ対策
 #XSS
@@ -21,47 +28,3 @@ RewriteCond %{HTTPS} !=on [NC]
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 #HSTSプリロード
 Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; preload"
-
-#エラー関連
-ErrorDocument 400 /common/error/400/
-ErrorDocument 403 /common/error/403/
-ErrorDocument 404 /common/error/404/
-#ErrorDocument 500 /common/error/500/
-ErrorDocument 500 "\
-<head>\
-  <title>Page Error-500-</title>\
-  <meta charset='EUC-JP'/>\
-  <meta name='robots' content='noindex,nofollow'>\
-  <script src='//bokkun.jp/API/jQuery/jquery-3.1.1.js'></script>\
-  <script src='//bokkun.jp/API/jQuery/jQuery-UI/jquery-ui.js'></script>\
-  <link type='text/css' rel='stylesheet' href='https://bokkun.jp/API/jQuery/jQuery-UI/jquery-ui.css'>\
-  <script src='/common/error/client/js/common/time/realtime.js'></script>\
-  <script src='/common/error/client/js/common/time/time.js'></script>\
-  <link rel='stylesheet' type='text/css' href='//bokkun.jp/common/error/client/css/common/PC.css'>\
-  <link rel='stylesheet' type='text/css' href='//bokkun.jp/common/error/client/css/common.css'>\
-  <link rel='stylesheet' type='text/css' href='//bokkun.jp/common/error/client/css/500/design.css'>\
-  <link rel='shortcut icon' href='//bokkun.jp/common/error/client/image/5959715.png'>\
-</head>\
-<body>\
-  <header class='header'>\
-    <div align='left'>\
-      <a href='//bokkun.jp'><img src='//bokkun.jp/common/error/client/image/0113.png' width='40' height='40'></a>\
-          <strong>\
-              <em>Bokkun's homepage</em> <br>\
-              <div class='top' align='center'>Internal Server Errror</div>\
-          </strong>\
-    </div>\
-    <div class='date' align='right'></div>\
-    <div class='time' align='right'></div>\
-  </header>\
-  <h1>Please call administrator.</h1>\
-  <p>There is an error on this page.</p>\
-  We will settle, so please contact the administrator as soon as possible.\
-  <footer class='footer'>\
-		<div align='center'>Bokkun's Page</div>\
-        <div class='footer_char' align='right'>This homepage is created using <a href='https://www.value-domain.com'> Value-dmain </a> rental server.</div>\
-        <div align='right'><iframe id='twitter-widget-0' scrolling='no' allowtransparency='true' class='twitter-mention-button twitter-mention-button-rendered twitter-tweet-button' style='position: static; visibility: visible; width: 171px; height: 20px;' title='Twitter Tweet Button' src='https://platform.twitter.com/widgets/tweet_button.ef2c8913b9245291df4f0101c0de2cf8.en.html#dnt=false&id=twitter-widget-0&lang=en&original_referer=https%3A%2F%2Fbokkun.jp%2Fcommon%2F&screen_name=bokkun_engineer&size=m&time=1527355952688&type=mention' data-screen-name='bokkun_engineer' frameborder='0'></iframe></div>\
-        <small align='left'>Copyright 2016-2018 Bokkun All rights reserved.</small>\
-    </footer>\
-</body>\
-"

@@ -1,5 +1,2 @@
 #X-Frame-Options対策
 #Header always append X-Frame-Options ALLOW-FROM
-
-#クッキー設定 (個別設定)
-php_flag session.cookie_httponly off
