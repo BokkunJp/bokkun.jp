@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__. '/common/Function/Function.php';
+require_once __DIR__. '/common/Component/Function.php';
 ?>
 <!DOCTYPE html>
     <head>

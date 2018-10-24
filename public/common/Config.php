@@ -7,6 +7,6 @@ define('CLIENT_DIR', PUBLIC_DIR. '/client');
 define('CSS_DIR', CLIENT_DIR. '/css');
 define('JS_DIR', CLIENT_DIR. '/js');
 define('IMAGE_DIR', CLIENT_DIR. '/image');
-define('FUNCTION_DIR', COMMON_DIR. '/Function');
+define('COMPONENT_DIR', COMMON_DIR. '/Component');
 define('LAYOUT_DIR', COMMON_DIR. '/Layout');
 define('DEBUG_CODE', __FILE__. ':'. __LINE__);
