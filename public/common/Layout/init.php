@@ -2,7 +2,7 @@
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 require_once dirname(__DIR__). '/Setting.php';
 require_once COMMON_DIR. "/Include.php";
-require_once FUNCTION_DIR. '/UA.php';
+require_once COMPONENT_DIR. '/UA.php';
 require_once COMMON_DIR. "/Token.php";
 
 // タイトルの初期設定
@@ -28,9 +28,6 @@ switch ($statusCode) {
         break;
 }
 
-// 文字列から特定の文字列を切り取る関数 (完成・検証後にSetting.phpに移動)
-function StrExtraction($str, $target, $state) {
-}
 // パンくずリストの生成 (完成・検証後にSetting.phpに移動)
 $dir = scandir(__DIR__);
 $currentDir = $base->GetURI();
@@ -54,13 +51,12 @@ while (1) {
 
 // HTML出力用に調整
 $create = new CustomTagCreate();
-$breadCrumbList_ = array();
+$breadCrumbList = array();
 foreach ($breadCrumbList as $bread) {
-    $breadCrumbList_[] = $create->SetHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
+    $breadCrumbList[] = $create->SetHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
 }
-$breadCrumbList_ = array_reverse($breadCrumbList_);
-$breadCrumbList = $breadCrumbList_;
-unset($breadCrumbList_);
+$breadCrumbList = array_reverse($breadCrumbList);
+$breadCrumbList = $breadCrumbList;
 
 $arrow = new HTMLClass(true);
 $arrow->TagSet('span', '->', 'arrow', true);

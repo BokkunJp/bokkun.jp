@@ -54,7 +54,7 @@ class Setting {
     }
   }
 
-  private function GetSERVER($elm) {
+  static private function GetSERVER($elm) {
       if (isset($_SERVER[$elm])) {
           return Sanitize($_SERVER[$elm]);
       } else {
@@ -63,34 +63,51 @@ class Setting {
   }
 
   public function GetPropaty($elm) {
-    if (property_exists('PublicSetting\Setting', $elm) === false) {
+    if (property_exists('PublicSetting\Setting', $elm) !== false) {
+      return $this->$elm;
+    } else {
       return null;
     }
-
-    return $this->$elm;
   }
 
-  public function GetURI() {
-      return $this->GetSERVER('REQUEST_URI');
+  static public function GetURI() {
+      return self::GetSERVER('REQUEST_URI');
   }
 
-  public function GetPost() {
-      return $_POST;
+  static public function GetPosts() {
+      return Sanitize($_POST);
   }
 
-  public function GetQuery() {
-      return $_GET;
+  // 指定した要素のPost値を取得
+  static public function GetPost($elm='') {
+    $_post = Sanitize($_POST);
+    if (key_exists($elm, $_post)) {
+      return $_post[$elm];
+    } else {
+      return null;
+    }
   }
 
-  public function GetRequest() {
-      return $_GET;
+  // すべてのGet値を取得
+  static public function GetRequest() {
+      return Sanitize($_GET);
   }
 
-  public function GetFiles() {
+  // 指定した要素のGet値を取得
+  static public function GetQuery($elm='') {
+    $_get = Sanitize($_GET);
+    if (key_exists($elm, $_get)) {
+      return $_get[$elm];
+    } else {
+      return null;
+    }
+  }
+
+  static public function GetFiles() {
       return $_FILES;
   }
 
-  public function MakeUrl($query) {
+  static public function MakeUrl($query) {
       return $url. '/'. $query;
   }
 

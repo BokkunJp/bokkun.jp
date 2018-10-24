@@ -3,6 +3,6 @@ body {
     color: #FFFFAA;
 }
 
-.hidden {
-    display: none;
+.contents {
+    padding-top: 30vh;
 }
