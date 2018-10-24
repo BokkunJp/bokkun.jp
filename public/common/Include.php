@@ -6,7 +6,7 @@
 // 必要なファイルの個別読み込み
 require_once("Word/Message.php");
 // 必要なファイルの一括読み込み
-$pwd = FUNCTION_DIR. '/';
+$pwd = COMPONENT_DIR. '/';
 IncludeFiles($pwd);
 use CustomTagCreate as OriginTag;
 $test = new OriginTag();
@@ -16,7 +16,7 @@ $href = $test->SetHref('aaa.js', 'test', 'class');
 // echo $js;
 // $create->SetHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
 IncludeFiles(AddPath(getcwd(), 'subdirectory'));
-IncludeDirctories(AddPath(__DIR__, 'Function'));
+IncludeDirctories(COMPONENT_DIR);
 /*
  *      対象ディレクトリ内のディレクトリをファイルごと一括で読み込む
  *      引数：
@@ -28,6 +28,7 @@ function IncludeDirctories($pwd='', $extension='php', $ret=false) {
     // パスの指定がない場合は、カレントディレクトリ一覧を取得
     if (empty($pwd)) {
       $pwd = getcwd();
+    // パスの指定がある場合は、カレントディレクトリを(現在のものを保存したうえで)書き換える
     } else if ($pwd != getcwd()) {
       $localPath = getcwd();            // 現在のファイルパスを保管しておく
       chdir($pwd);                      // カレントディレクトリを指定のものに変更

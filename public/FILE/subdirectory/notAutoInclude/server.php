@@ -12,9 +12,10 @@ echo '<div class=\'contents\' />';
 CheckToken('token', '不正な値が送信されました。<br/>');
 
 $session = new PublicSetting\Session();
-if (isset($get['mode']) && @$get['mode'] === 'del') {
+
+if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::GetQuery('mode') === 'del') {
     $count = 0;
-    foreach ($post as $post_key => $post_value) {
+    foreach (PublicSetting\Setting::getPosts() as $post_key => $post_value) {
         if (is_integer($post_key)) {
             $count++;
         }
