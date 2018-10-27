@@ -2,3 +2,4 @@
 RewriteEngine On
 RewriteBase /public/Class/
 RewriteRule ^(.*).php$ index.php
+#RewriteRule ^(.*) "https://bokkun.jp/" [R=503,NC,L]

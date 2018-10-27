@@ -1,8 +1,8 @@
 # .htaccessでRewriteを有効化する
 RewriteEngine On
 RewriteBase /
+#RewriteRule ^(.*) "https://bokkun.jp/" [R=503,NC,L]
+
 #アクセス制限
-order deny,allow
-deny from all
-allow from 210.136.248.8
-allow from 106.180.1.141
+Require all denied
+Require ip 111.89.19.212

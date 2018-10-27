@@ -22,7 +22,16 @@
             $ret['title'] = 'InternalServerError';
             $ret['message'] = 'サーバ内部でエラーが発生しました。管理者までご連絡お願いします。';
             break;
+        case '502':
+            $ret['title'] = 'Service Unavailable';
+            $ret['message'] = 'メンテナンス中です。しばらくお待ちください。';
+            break;
+        case '503':
+            $ret['title'] = 'Gateway Timeout';
+            $ret['message'] = '不正なゲートウェイです。管理者までご連絡お願いします。';
+            break;
         default:
+        var_dump($errCode);
             $errCode = 'default';
             $ret['title'] = 'Other Error';
             $ret['message'] = 'エラーが発生しました。管理者までご連絡お願いします。';

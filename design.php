@@ -1,5 +1,6 @@
 <?php
 $session = $_SESSION;
+phpinfo();
 if (!isset($session)) {
     session_start();
 }
