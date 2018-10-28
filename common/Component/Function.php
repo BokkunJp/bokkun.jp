@@ -1,9 +1,13 @@
 <?php
 function ListAdd($list1, $list2, $extension=null, $headFlg=-1) {
-  if (!is_array($list1) || !is_array($list2) || empty($extension)) {
+  if (!is_array($list2) || empty($extension)) {
     return false;
   }
 
+  if (!is_array($list1)) {
+    $list1 = array();
+  }
+  
   $pullList = array();
 
   // .の時は特別な判定
