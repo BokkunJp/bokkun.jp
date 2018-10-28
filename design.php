@@ -1,6 +1,5 @@
 <?php
 $session = $_SESSION;
-phpinfo();
 if (!isset($session)) {
     session_start();
 }
@@ -69,6 +68,21 @@ function SetToken() {
                                 echo "<li><a href=\"./cake/$_dir/\" target=\"_blank\">$_dir</a></li>";
                             }
                         }
+                        ?>
+              </ol>
+              <ul>
+                <li>ZendFramework3</li>
+              </ul>
+              <ol>
+                <?php
+                        $dirList = scandir(__DIR__. '/cg/module/Application/view/application/');
+
+                        foreach ($dirList as $index => $_dir) {
+                            // if (!in_array($_dir, $notList)) {
+                            //     echo "<li><a href=\"./cg/public/$_dir/\" target=\"_blank\">$_dir</a></li>";
+                            // }
+                        }
+                       echo "<li><a href=\"./cg/public/\" target=\"_blank\">index</a></li>";
                         ?>
               </ol>
 				<?php require_once "history.php" ?>
