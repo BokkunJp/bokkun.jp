@@ -1,6 +1,2 @@
 # .htaccessでRewriteを有効化する
-<IfModule mod_rewrite.c>
-#アクセス制限
-order deny,allow
-deny from all
-</IfModule>
+Require all denied

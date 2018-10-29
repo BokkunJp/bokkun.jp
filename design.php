@@ -43,7 +43,8 @@ function SetToken() {
                         $notList = ['.', '..', '.htaccess', 'index.php', 'client', 'common',
                         'template', 'template_base', 'custom', 'custom_base'];
                         $dirList = scandir(__DIR__. '/public');
-                        $notList = ListAdd($notList, $dirList, '_');
+                        $notList = ListAdd($notList, $dirList, '.', 1);
+                        $notList = ListAdd($notList, $dirList, '_', 1);
 
                         foreach ($dirList as $index => $_dir) {
                             if (!in_array($_dir, $notList)) {
@@ -60,7 +61,7 @@ function SetToken() {
                         $notList = ['.', '..', 'Cell', 'Element', 'Email', 'Error', 'Layout',
                         'Pages'];
                         $dirList = scandir(__DIR__. '/cake/src/Template');
-                        $notList = ListAdd($notList, $dirList, '_');
+                        $notList = ListAdd($notList, $dirList, '_', 1);
 
                         foreach ($dirList as $index => $_dir) {
                             if (!in_array($_dir, $notList)) {
@@ -70,20 +71,19 @@ function SetToken() {
                         ?>
               </ol>
               <ul>
-                <li>Zend Framework3</li>
+                <li>ZendFramework3</li>
               </ul>
               <ol>
-                      準備中……
-                      <?php
-                        $notList = ['.', '..', 'index'];
-                        $dirList = scandir(__DIR__. '/cg/module/Application/view/application');
-                        $notList = ListAdd($notList, $dirList, '_');
+                <?php
+                        $dirList = scandir(__DIR__. '/cg/module/Application/view/application/');
+
                         foreach ($dirList as $index => $_dir) {
-                            if (!in_array($_dir, $notList)) {
-                                echo "<li><a href=\"./cg/public/cgApps/$_dir/\" target=\"_blank\">$_dir</a></li>";
-                            }
+                            // if (!in_array($_dir, $notList)) {
+                            //     echo "<li><a href=\"./cg/public/$_dir/\" target=\"_blank\">$_dir</a></li>";
+                            // }
                         }
-                    ?>
-				</ol>
+                       echo "<li><a href=\"./cg/public/\" target=\"_blank\">index</a></li>";
+                        ?>
+              </ol>
 				<?php require_once "history.php" ?>
       </nav>
