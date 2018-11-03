@@ -227,7 +227,18 @@ class CustomTagCreate extends HTMLClass {
     }
 
     // a href
-    public function SetHref($link='', $title=null, $class='', $viewLink=false) {
+    public function SetHref($link='', $title=null, $class='test', $viewLink=false, $target='_new') {
+      switch ($target) {
+        case '_blank':
+        $target .= ' rel="noopener"';
+        break;
+        case '_new':
+        break;
+        default:
+        trigger_error('ターゲットの選択が不正です。', USER_ERROR);
+        break;
+      }
+      $class .= '\' target='. $target;
         return $this->CreateDiffTag("a href", $link, $title, $class, $viewLink);
     }
 
