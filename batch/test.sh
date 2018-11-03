@@ -2,4 +2,4 @@
 #local
 #php index.php
 #server
-/usr/local/bin/php54cli index.php
+/usr/local/bin/php71cli index.php

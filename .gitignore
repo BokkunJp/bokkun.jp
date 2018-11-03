@@ -1,2 +1,10 @@
-template_c/*
-dev/*
+.htaccess
+API/
+batch/*.sh
+private/create/subdirectory/templates_c/
+public/**/subdirectory/templates_c/
+public/vender/
+public/client/image/FILE/
+public/client/js/vender/
+public/client/css/vender/
+.gitignore
