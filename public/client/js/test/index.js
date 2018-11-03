@@ -8,12 +8,11 @@
   *  戻り値：
   */
  function Main() {
-     //  alert('jQuery動作確認');
-     // console.log(document.cookie);
+       alert('jQuery動作確認');
  }
 
  /*
-  * 参考：
+  * 参考： 
 
   // DOM読み込み
  // $(function() {
