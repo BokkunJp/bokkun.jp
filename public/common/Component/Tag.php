@@ -80,6 +80,24 @@ class BaseTag {
 class HTMLClass extends BaseTag {
     protected $tag, $tagName, $className, $contents;
 
+    // タグ名・内容・クラス名をセットする
+    public function TagSet($tagName='div', $contents='', $className='', $setClass=false, $tagOption='') {
+        $count = func_num_args();
+        if ($count > 1) {
+            $this->HTMLSet($tagName, $contents, $className);        // タグをHTML用のタグに置き換え
+            unset($tagName);
+            unset($contents);
+            unset($className);
+        } else {
+          $this->tagName = $tagName;
+          unset($tagName);
+        }
+
+        $this->TagCreate($setClass, $tagOption);    // TagSetでセットした情報に沿ってHTMLを生成する
+        unset($setClass);
+    }
+
+    // HTMLの各要素をセットする
     protected function HTMLSet($tagName, $contents, $className) {
         $this->tagName = $tagName;
 
@@ -131,23 +149,6 @@ class HTMLClass extends BaseTag {
             unset($tagEnd);
         }
         $this->tag .= "</$this->tagName>";
-    }
-
-    // タグ名・内容・クラス名をセットする
-    public function TagSet($tagName='div', $contents=null, $className=null, $setClass=false, $tagOption='') {
-        $count = func_num_args();
-        if ($count > 1) {
-            $this->HTMLSet($tagName, $contents, $className);        // タグをHTML用のタグに置き換え
-            unset($tagName);
-            unset($contents);
-            unset($className);
-        } else if ($count === 1) {
-            $setClass = $tagName;
-            unset($tagName);
-        }
-
-        $this->TagCreate($setClass, $tagOption);    // TagSetでセットした情報に沿ってHTMLを生成する
-        unset($setClass);
     }
 
     protected function TagGet() {
