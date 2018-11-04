@@ -61,7 +61,7 @@ img {
 
 header {
     position: fixed;
-    background-image: url("//bokkun.jp/public/client/image/gold03.jpg");
+    background-image: url("../../client/image/gold03.jpg");
     background-size: 10px 150%;
     width: 100%;
     font-size: 5vw;
@@ -111,7 +111,7 @@ input {
 
 footer {
     position: fixed;
-    background-image: url("//bokkun.jp/public/client/image/metal01-768x576.jpg");
+    background-image: url("../../client/image/metal01-768x576.jpg");
     font-family: 'arial black';
     background-size: 10px 150%;
     font-size: 4vw;
