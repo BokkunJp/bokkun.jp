@@ -6,7 +6,7 @@
  */
 
 require_once dirname(dirname(__DIR__)). '/common/Setting.php';
-require_once DOCUMENT_ROOT. '/common/Component/Tag.php';
+require_once PRIVATE_DIR. '/common/Component/Tag.php';
 define('MAX_LENGTH', 32);
 
 $adminError = new AdminError();

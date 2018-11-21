@@ -281,9 +281,9 @@ class UseClass extends ScriptClass {
        $this->TagExec(true);
    }
 
-   // メインページへ遷移
-   public function BackPage($query=null) {
-    $this->MovePage('/public/'. $query);
+   // 管理画面の任意ページへ遷移
+   public function BackAdmin($query=null) {
+    $this->MovePage('/private/'. $query);
    }
 }
 
