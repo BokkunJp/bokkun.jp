@@ -27,5 +27,6 @@ function ViewPager($file, $imageUrl) {
             $pageHtml->SetHref("./FILE/?page={$_vindex}", $_vindex, 'page', false, '_self');
         }
         $pageHtml->TagExec(true);
+        echo ' ';
     }
 }
