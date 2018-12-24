@@ -112,11 +112,12 @@ function ReadImage($read_flg = 0) {
 }
 
 function ShowImage($data, $imageUrl) {
-    if (GetPage() === false) {
+    $page = GetPage();
+    if ($page <= 0 || $page === false) {
         ErrorSet('ページの指定が不正です。');
         return false;
     } else {
-        $start = (GetPage() - 1) * PAGING + 1;
+        $start = ($page - 1) * PAGING + 1;
     }
     $end = $start + PAGING;
     if ($end > count($data)) {
