@@ -106,6 +106,8 @@ foreach ($pathList as $_pathList) {
           if($templateExtenion !== 'tpl') {
             mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
           }
+        } else {
+          mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
         }
         break;
         default:

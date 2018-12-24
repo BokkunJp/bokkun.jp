@@ -3,7 +3,7 @@
 require_once (DOCUMENT_ROOT. '/API/smarty/core.php');
 
 $token='';
-if (PublicSetting\GetQuery() != null) {
+if (PublicSetting\Setting::GetRequest() != null) {
   $checkToken = CheckToken('token', CSRFErrorMessage(), "<br /><a href='./'>トップへ戻る</a>");
   if ($checkToken === false) {
     return false;
