@@ -113,7 +113,8 @@ function ReadImage($read_flg = 0) {
 
 function ShowImage($data, $imageUrl) {
     if (GetPage() === false) {
-        $start = 1;
+        ErrorSet('ページの指定が不正です。');
+        return false;
     } else {
         $start = (GetPage() - 1) * PAGING + 1;
     }

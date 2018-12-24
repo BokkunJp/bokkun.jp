@@ -2,7 +2,9 @@
 // ページ番号を取得する
 function GetPage() {
     $page = PublicSetting\Setting::GetQuery('page');
-    if (is_null($page) || !is_numeric($page)) {
+    if (is_null($page)) {
+        $page = 1;
+    } else if (!is_numeric($page)) {
         return false;
     }
     return (int) $page;
