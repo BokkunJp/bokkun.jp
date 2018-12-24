@@ -252,7 +252,7 @@ class CustomTagCreate extends HTMLClass {
                 user_error('ターゲットの選択が不正です。');
                 break;
         }
-        $class .= '\' target=' . $target;
+        $class .= '\' target=\'' . $target;
         return $this->CreateDiffTag("a href", $link, $title, $class, $viewLink);
     }
 

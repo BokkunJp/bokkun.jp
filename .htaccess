@@ -1,8 +1,8 @@
 #ベーシック認証
-AuthType Basic
-AuthName "Please enter ID and password."
-AuthUserFile /virtual/bokkun/.htpasswd
-Require valid-user
+#AuthType Basic
+#AuthName "Please enter ID and password."
+#AuthUserFile /virtual/bokkun/.htpasswd
+#Require valid-user
 
 # .htaccessでRewriteを有効化する
 RewriteEngine On
@@ -24,7 +24,7 @@ Header always set X-Content-Type-Options "nosniff"
 Header always append X-Frame-Options SAMEORIGIN
 
 #HSTS
-RewriteCond %{HTTPS} !=on [NC]
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+#RewriteCond %{HTTPS} !=on [NC]
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 #HSTSプリロード
-Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; preload"
+#Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; preload"
