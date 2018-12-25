@@ -14,5 +14,6 @@ define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 
 // FILEページの文言
 define('PAGING', 10);
+define('COUNT_START', 2);
 define('PREVIOUS', 'ファイルページへ戻る');
 define('ERRMessage', 'エラーが発生しました。');

@@ -124,7 +124,7 @@ function ShowImage($data, $imageUrl) {
         $end = count($data);
     }
 
-    if ($start > $end) {
+    if ($start >= $end) {
         ErrorSet('画像がありません。');
 //        ViewPager($data, $imageUrl);
         return false;
@@ -146,7 +146,7 @@ function ErrorSet($errMsg = ERRMessage) {
 }
 
 function DeleteImage() {
-    $post = PublicSetting\GetPost();
+    $post = PublicSetting\Setting::getPosts();
     $fileList = LoadAllImageFile();
     $count = 0;
     foreach ($post as $post_key => $post_value) {
