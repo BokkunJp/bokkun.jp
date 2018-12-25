@@ -150,7 +150,7 @@ function DeleteImage() {
     $fileList = LoadAllImageFile();
     $count = 0;
     foreach ($post as $post_key => $post_value) {
-        if (intval($post_key)) {
+        if ($post_key !== 'token' && $post_key !== 'delete') {
             $count++;
             if (in_array($post_value, $fileList)) {
                 if (unlink(IMAGE_DIR . '/FILE/' . $post_value) === true) {
