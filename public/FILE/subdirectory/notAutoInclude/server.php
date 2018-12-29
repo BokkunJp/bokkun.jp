@@ -16,12 +16,11 @@ $session = new PublicSetting\Session();
 if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::GetQuery('mode') === 'del') {
     $count = 0;
     foreach (PublicSetting\Setting::getPosts() as $post_key => $post_value) {
-        if (is_integer($post_key)) {
+        if (count($post_key)) {
             $count++;
         }
     }
-
-    if ($count) {
+    if ($count > COUNT_START) {
         DeleteImage();
     } else {
         echo '削除対象が選択されていないか、画像がありません。<br/>';

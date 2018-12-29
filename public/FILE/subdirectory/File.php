@@ -1,6 +1,10 @@
 <?php
+
 // require_once dirname(dirname(__DIR__)). '/common/Layout/init.php';
-$file = PublicSetting\GetFiles();
+require_once ('Page.php');
+require_once ('View.php');
+$file = PublicSetting\Setting::GetFiles();
+
 function FileExif($img) {
     // echo exif_imagetype($img). '<br />';
     // switch (exif_imagetype($img)) {
@@ -22,7 +26,7 @@ function ImportImage($file) {
     $imageDir = IMAGE_DIR;
 
     if (is_numeric($imgType)) {
-        if (move_uploaded_file($file['file']['tmp_name'], $imageDir. '/FILE/'. $file['file']['name'])) {
+        if (move_uploaded_file($file['file']['tmp_name'], $imageDir . '/FILE/' . $file['file']['name'])) {
             echo 'ファイルをアップロードしました。<br/>';
         } else {
             echo 'ファイルのアップロードに失敗しました。<br/>';
@@ -30,14 +34,13 @@ function ImportImage($file) {
     } else {
         echo '画像ファイル以外はアップロードできません。<br/>';
     }
-
 }
 
 function LoadAllImageFile() {
-    $png = IncludeFiles(IMAGE_DIR. '/FILE/', 'png', true);
-    $jpg = IncludeFiles(IMAGE_DIR. '/FILE/', 'jpg', true);
-    $jpeg = IncludeFiles(IMAGE_DIR. '/FILE/', 'jpeg', true);
-    $gif = IncludeFiles(IMAGE_DIR. '/FILE/', 'gif', true);
+    $png = IncludeFiles(IMAGE_DIR . '/FILE/', 'png', true);
+    $jpg = IncludeFiles(IMAGE_DIR . '/FILE/', 'jpg', true);
+    $jpeg = IncludeFiles(IMAGE_DIR . '/FILE/', 'jpeg', true);
+    $gif = IncludeFiles(IMAGE_DIR . '/FILE/', 'gif', true);
 
     return array_merge($png, $jpg, $jpeg, $gif);
 }
@@ -50,41 +53,42 @@ function LoadAllImageFile() {
   ※配列にtimeの要素があることが前提
 
   戻り値：なし
-*/
-function TimeSort(&$data, $order='ASC') {
+ */
 
-  if (is_array($data) == false) {
-    echo 'データは配列でなければいけません。';
-    return -1;
-  }
+function TimeSort(&$data, $order = 'ASC') {
 
-  $time = [];
-  foreach ($data as $_data) {
-    // データ内に必要な要素があるかチェック
-    if (array_key_exists('time', $_data) == false) {
-      echo '必要な要素がありません。';
-      return -1;
+    if (is_array($data) == false) {
+        echo 'データは配列でなければいけません。';
+        return -1;
     }
-    $time[] = $_data['time'];  // 時刻データ配列を生成
-    // $time[] = strtotime($_data['time']);  // 時刻を調整
-  }
 
-  // 順番の指定
-  if ($order === 'ASC') {
-    $sort = SORT_ASC;
-  } else if ($order === 'DESC') {
-    $sort = SORT_DESC;
-  } else {
-    echo '順序指定が不正です。';
-    return -1;
-  }
+    $time = [];
+    foreach ($data as $_data) {
+        // データ内に必要な要素があるかチェック
+        if (array_key_exists('time', $_data) == false) {
+            echo '必要な要素がありません。';
+            return -1;
+        }
+        $time[] = $_data['time'];  // 時刻データ配列を生成
+        // $time[] = strtotime($_data['time']);  // 時刻を調整
+    }
 
-  array_multisort($time, $sort, $data);
+    // 順番の指定
+    if ($order === 'ASC') {
+        $sort = SORT_ASC;
+    } else if ($order === 'DESC') {
+        $sort = SORT_DESC;
+    } else {
+        echo '順序指定が不正です。';
+        return -1;
+    }
+
+    array_multisort($time, $sort, $data);
 }
 
-function ReadImage($read_flg=0) {
+function ReadImage($read_flg = 0) {
     if ($read_flg === 0) {
-         echo '現在、画像の公開を停止しています。';
+        echo '現在、画像の公開を停止しています。';
         return null;
     } else {
         // アップロードされている画像データを読み込む
@@ -93,8 +97,8 @@ function ReadImage($read_flg=0) {
         // ソート用にデータを調整
         $sortAray = array();
         foreach ($fileList as $index => $_file) {
-          $sortAray[$index]['data'] = $_file;
-          $sortAray[$index]['time'] = filemtime(IMAGE_DIR. '/FILE/'.$_file);
+            $sortAray[$index]['data'] = $_file;
+            $sortAray[$index]['time'] = filemtime(IMAGE_DIR . '/FILE/' . $_file);
         }
 
         // 画像投稿日時の昇順にソート
@@ -102,28 +106,55 @@ function ReadImage($read_flg=0) {
 
         // ソートした順に画像を表示
         $imageUrl = IMAGE_URL;
-        foreach ($sortAray as $index => $_data) {
-            $_file = $_data['data'];
-            $_time = $_data['time'];
-            $index += 1;
-            echo "<a href='$imageUrl/FILE/$_file' target='new'><img src='$imageUrl/FILE/$_file' title='$_file' width=400px height=400px /></a>";
-            echo "<label><input type='checkbox' name='$index' value='$_file' /><span>削除する</span></label> <br/>";
-            echo 'アップロード日時: '. date('Y/m/d H:i:s', $_time). '<br/><br/>';
-        }
+
+        ShowImage($sortAray, $imageUrl);
     }
 }
 
+function ShowImage($data, $imageUrl) {
+    $page = GetPage();
+    if ($page <= 0 || $page === false) {
+        ErrorSet('ページの指定が不正です。');
+        return false;
+    } else {
+        $start = ($page - 1) * PAGING + 1;
+    }
+    $end = $start + PAGING;
+    if ($end > count($data)) {
+        $end = count($data);
+    }
+
+    if ($start >= $end) {
+        ErrorSet('画像がありません。');
+//        ViewPager($data, $imageUrl);
+        return false;
+    }
+
+    for ($i = $start; $i < $end; $i++) {
+        $_file = $data[$i]['data'];
+        $_time = $data[$i]['time'];
+        ViewImage($_file, $imageUrl, $_time);
+    }
+    ViewPager($data, $imageUrl);
+}
+
+function ErrorSet($errMsg = ERRMessage) {
+    $prevLink = new CustomTagCreate();
+    $prevLink->TagSet('div', $errMsg, 'error', true);
+    $prevLink->TagExec(true);
+    $prevLink->SetHref("./FILE/", PREVIOUS, 'page', true, '_self');
+}
+
 function DeleteImage() {
-    $post = PublicSetting\GetPost();
+    $post = PublicSetting\Setting::getPosts();
     $fileList = LoadAllImageFile();
-    // die;
     $count = 0;
     foreach ($post as $post_key => $post_value) {
-        if (intval($post_key)) {
+        if ($post_key !== 'token' && $post_key !== 'delete') {
             $count++;
             if (in_array($post_value, $fileList)) {
-                if (unlink(IMAGE_DIR. '/FILE/'. $post_value) === true) {
-                    echo $count. '件目の画像を削除しました。<br/>';
+                if (unlink(IMAGE_DIR . '/FILE/' . $post_value) === true) {
+                    echo $count . '件目の画像を削除しました。<br/>';
                 } else {
                     echo '画像を削除できませんでした。';
                 }
@@ -131,6 +162,5 @@ function DeleteImage() {
         }
     }
     echo '<br/>';
-    echo '全'. $count. '件の画像を削除しました。<br/>';
-
+    echo '全' . $count . '件の画像を削除しました。<br/>';
 }

@@ -26,5 +26,6 @@
 		    <li>2018/05/25 いくつかのページにCSRF対策を実施しました。</li>
 				<li>2018/06/16 ドメインをxyzからjpに変更しました。</li>
 				<li>2018/10/15 レンタルサーバを乗せ換えました。PHP, Postgresともにバージョンアップしています。</li>
+				<li>2018/11/17 SSLをLet's EncryptからGlobalSignのAlphaSSLに変更しました。</li>
 		</ul>
 		</fieldset>

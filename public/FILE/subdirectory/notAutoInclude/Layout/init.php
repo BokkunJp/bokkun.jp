@@ -31,7 +31,7 @@ function StrExtraction($str, $target) {
 
 // パンくずリストの生成 (完成・検証後にSetting.phpに移動)
 $dir = scandir(__DIR__);
-$currentDir = PublicSetting\GetURI();
+$currentDir = PublicSetting\Setting::GetURI();
 $count = 0;
 while (1) {
     // タイトル：ディレクトリ名、パス：URL

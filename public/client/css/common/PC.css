@@ -49,7 +49,7 @@ img {
 
 header {
     position: relative;
-    background-image: url("//bokkun.jp/public/client/image/gold03.jpg");
+    background-image: url("../../image/gold03.jpg");
     width: 100%;
     background-size: 10px 150%;
 }
@@ -68,7 +68,7 @@ header {
     position: fixed;
     color: #FFFF00;
     font-family: 'arial black';
-    background-image: url("//bokkun.jp/public/client/image/metal01-768x576.jpg");
+    background-image: url("../../image/metal01-768x576.jpg");
     background-size: 10px 150%;
     width: 100%;
     bottom: 0;
