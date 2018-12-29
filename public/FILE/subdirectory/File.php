@@ -153,7 +153,7 @@ function DeleteImage() {
         if ($post_key !== 'token' && $post_key !== 'delete') {
             $count++;
             if (in_array($post_value, $fileList)) {
-                if (unlink(IMAGE_DIR . '/FILE/' . $post_value) === true) {
+                if (rename(IMAGE_DIR . '/FILE/' . $post_value, IMAGE_DIR . '/FILE/_old/' . $post_value) === true) {
                     echo $count . '件目の画像を削除しました。<br/>';
                 } else {
                     echo '画像を削除できませんでした。';
