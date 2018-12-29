@@ -1,0 +1,116 @@
+html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font-weight: normal;
+}
+
+b,
+strong {
+    font-weight: bold;
+}
+
+p,
+pre {
+    margin: 0 0 1em;
+}
+
+pre,
+code,
+kbd,
+samp {
+    font-family: monospace, serif;
+    font-size: 1em;
+}
+
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+    max-height: 500px;
+    margin: 0 auto;
+    padding: 0.8em;
+    font-size: 95%;
+}
+
+small {
+    font-size: 75%;
+}
+
+abbr[title],
+acronym[title] {
+    cursor: help;
+    border-bottom: 1px dotted;
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 0.5em;
+    list-style-type: none;
+}
+
+form,
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+img,
+a img {
+    border: 0;
+    vertical-align: middle;
+    -ms-interpolation-mode: bicubic;
+}
+
+table {
+    margin: 0 auto 2.5em;
+    font-size: 100%;
+    border-spacing: 0;
+}
+
+caption {
+    margin-bottom: 0.2em;
+}
+
+th,
+td {
+    border-collapse: collapse;
+}
