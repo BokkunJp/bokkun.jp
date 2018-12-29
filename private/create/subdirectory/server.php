@@ -6,7 +6,7 @@
  */
 
 require_once dirname(dirname(__DIR__)). '/common/Setting.php';
-require_once DOCUMENT_ROOT. '/common/Component/Tag.php';
+require_once PRIVATE_DIR. '/common/Component/Tag.php';
 define('MAX_LENGTH', 32);
 
 $adminError = new AdminError();
@@ -106,6 +106,8 @@ foreach ($pathList as $_pathList) {
           if($templateExtenion !== 'tpl') {
             mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
           }
+        } else {
+          mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
         }
         break;
         default:

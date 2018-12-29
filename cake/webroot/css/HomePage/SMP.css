@@ -122,3 +122,10 @@ footer {
 .copy_right {
     font-size: 2vw;
 }
+
+div.error-message {
+  display:table;
+  background-color: #FF0000;
+  color: #FFFFFF;
+  font-size: 50%;
+}

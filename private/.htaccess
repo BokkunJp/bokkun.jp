@@ -1,0 +1,5 @@
+# .htaccessでRewriteを有効化する
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^$ - [NC,R=404,L]
