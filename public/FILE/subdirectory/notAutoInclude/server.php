@@ -12,8 +12,15 @@ echo '<div class=\'contents\' />';
 CheckToken('token', '不正な値が送信されました。<br/>');
 
 $session = new PublicSetting\Session();
-
-if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::GetQuery('mode') === 'del') {
+$posts = PublicSetting\Setting::getPosts();
+$querys = PublicSetting\Setting::GetRequest();
+var_dump($posts['mode']);die;
+if (isset($posts['mode'])) {
+    $mode = $posts['mode'];
+} else {
+    $mode = '';
+}
+if ($mode === 'delete') {
     $count = 0;
     foreach (PublicSetting\Setting::getPosts() as $post_key => $post_value) {
         if (count($post_key)) {
@@ -25,7 +32,9 @@ if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::Ge
     } else {
         echo '削除対象が選択されていないか、画像がありません。<br/>';
     }
-
+} else if ($mode === 'restore') {
+    var_dump(PublicSetting\Setting::getPosts());
+//    RestoreImage($fileNmae);
 } else {
     if (isset($file['file']) && is_uploaded_file($file['file']['tmp_name'])) {
         ImportImage($file);
