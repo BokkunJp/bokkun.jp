@@ -23,4 +23,4 @@ wordPress/*
 XOOPSX/*
 
 .gitignore
-/.htaccess
+/public/client/image/FILE
