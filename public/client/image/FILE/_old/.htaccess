@@ -1,0 +1,6 @@
+# .htaccessでRewriteを有効化する
+RewriteEngine On
+RewriteBase /
+
+#アクセス不可(削除用)
+RewriteRule ^(.*)$ - [NC,R=404,L]
