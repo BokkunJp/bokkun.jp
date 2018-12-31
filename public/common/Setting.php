@@ -98,6 +98,10 @@ class Setting {
         }
     }
 
+    static public function GetRemoteADDR() {
+        return self::GetSERVER('REMOTE_ADDR');
+    }
+
     // すべてのGet値を取得
     static public function GetRequest() {
         return Sanitize($_GET);
