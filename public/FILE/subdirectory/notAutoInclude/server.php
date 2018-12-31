@@ -4,28 +4,37 @@
 <?php
 $homepageTitle = htmlspecialchars(basename(__DIR__));
 require_once __DIR__. '/Layout/layout.php';
-require_once __DIR__. '/token.php';
+require_once COMMON_DIR. '/Token.php';
 require_once dirname(__DIR__). '/File.php';
 
 echo '<div class=\'contents\' />';
 
-CheckToken();
+CheckToken('token', '不正な値が送信されました。<br/>');
 
 $session = new PublicSetting\Session();
-if (isset($get['mode']) && @$get['mode'] === 'del') {
+$posts = PublicSetting\Setting::getPosts();
+$querys = PublicSetting\Setting::GetRequest();
+var_dump($posts['mode']);die;
+if (isset($posts['mode'])) {
+    $mode = $posts['mode'];
+} else {
+    $mode = '';
+}
+if ($mode === 'delete') {
     $count = 0;
-    foreach ($post as $post_key => $post_value) {
-        if (is_integer($post_key)) {
+    foreach (PublicSetting\Setting::getPosts() as $post_key => $post_value) {
+        if (count($post_key)) {
             $count++;
         }
     }
-
-    if ($count) {
+    if ($count > COUNT_START) {
         DeleteImage();
     } else {
         echo '削除対象が選択されていないか、画像がありません。<br/>';
     }
-
+} else if ($mode === 'restore') {
+    var_dump(PublicSetting\Setting::getPosts());
+//    RestoreImage($fileNmae);
 } else {
     if (isset($file['file']) && is_uploaded_file($file['file']['tmp_name'])) {
         ImportImage($file);

@@ -1,0 +1,299 @@
+<mt:setvarblock name="page_title"><__trans phrase="Search &amp; Replace"></mt:setvarblock>
+<mt:setvarblock name="html_head" append="1">
+<script type="text/javascript">
+/* <![CDATA[ */
+function toggleVisibility(c, s) {
+    if (c.checked) jQuery('#'+s).show();
+    if (!c.checked) jQuery('#'+s).hide();
+}
+
+function toggleSearchAndReplace(selection) {
+    if (selection.value == 'search') {
+        jQuery('#search-bar-search-field').css('display', '');
+        jQuery('#search-bar-advanced-search').css('display', '');
+	jQuery('#search-bar-replace-fields').hide();
+        if (jQuery('#is_limited').is(':checked')) {
+            jQuery('#limited-fields').css('display', '');
+        } else {
+            jQuery('#limited-fields').hide();
+        }
+        if (jQuery('#is_dateranged').is(':checked')) {
+            jQuery('#date-range').css('display', '');
+        }
+    } else if (selection.value == 'replace') {
+        jQuery('#search-bar-search-field').hide();
+        jQuery('#search-bar-advanced-search').hide();
+	jQuery('#search-bar-replace-fields').css('display', '');
+        jQuery('#limited-fields').hide();
+        jQuery('#date-range').hide();
+    }
+}
+
+function reSearch(type) {
+    if (type && (jQuery('#search_form input[name=_type]').val() != type)) {
+        if (jQuery('#search_form input[name=orig_search]').val() != '') {
+            jQuery('#search_form input[name=do_search]').val(1);
+        }
+        jQuery('#search_form input[name=_type]').val(type);
+        jQuery('#search_form').submit();
+    }
+    return false;
+}
+
+function unLimit(newLimit) {
+    jQuery('#search_form input[name=limit]').val(newLimit);
+    jQuery('#search_form input[name=do_search]').val(1);
+    jQuery('#search_form').submit();
+    return false;
+}
+
+function doSearch() {
+    jQuery('#search_form input[name=limit]').val('');
+    jQuery('#search_form input[name=do_search]').val(1);
+    jQuery('#search_form').submit();
+}
+
+function doReplace() {
+    var ids = new Array();
+    var $checked = jQuery('#<$mt:var name="object_type"$>-listing tbody input:checked');
+    if ($checked.length) {
+        $checked.each(function() {
+            ids.push(jQuery(this).val());
+        });
+        jQuery('#search_form input[name=replace_ids]').val(ids.join(','));
+        jQuery('#search_form input[name=do_replace]').val(1);
+        jQuery('#search_form').submit();
+    } else {
+        alert("<__trans phrase="You must select one or more item to replace.">");
+    }
+    return false;
+}
+
+function focusDateFields(s) {
+    if (jQuery('#dates-disabled').val() == 1) {
+        jQuery('#datefrom_year, #datefrom_month, #datefrom_day, #dateto_year, #dateto_month, #dateto_day').val('').css('color', '#000');
+        jQuery('#dates-disabled').val(0)
+    }
+}
+
+function blurDateFields(s) {
+    var datefields = ['datefrom_year', 'datefrom_month', 'datefrom_day', 'dateto_year', 'dateto_month', 'dateto_day'];
+    var allEmpty = 1;
+    if (jQuery('#dates-disabled').val() == 0) {
+        jQuery.each(datefields, function() {
+            if (jQuery('#'+this).val() != '') {
+                allEmpty = 0;
+            }
+        });
+        if (allEmpty) {
+            jQuery('#datefrom_year, #dateto_year').val('YYYY').css('color', '#999');
+            jQuery('#datefrom_month, #dateto_month').val('MM').css('color', '#999');
+            jQuery('#datefrom_day, #dateto_day').val('DD').css('color', '#999');
+            jQuery('#dates-disabled').val(1);
+        }
+    }
+}
+/* ]]> */
+</script>
+</mt:setvarblock>
+
+<mt:include name="include/header.tmpl">
+
+<div id="search-form">
+  <form id="search_form" name="search_form" method="post" action="<mt:var name="script_url">">
+    <input type="hidden" name="__mode" value="search_replace" />
+    <input type="hidden" name="_type" value="<mt:var name="object_type">" />
+    <input type="hidden" name="limit" value="<mt:if name="limit_all">all<mt:else><mt:var name="limit" escape="html"></mt:if>" />
+  <mt:if name="blog_id">
+    <input type="hidden" name="blog_id" value="<mt:var name="blog_id">" />
+  </mt:if>
+  <mt:if name="entry_type">
+    <input type="hidden" name="entry_type" value="<mt:var name="entry_type" escape="html">" />
+  </mt:if>
+  <mt:if name="searched"><mt:if name="search">
+    <input type="hidden" name="orig_search" value="<mt:var name="search" escape="html">" /></mt:if>
+  </mt:if>
+    <input type="hidden" name="magic_token" value="<mt:var name="magic_token">" />
+    <input type="hidden" name="return_args" value="<mt:if name="search">search=<mt:var name="search" escape="html">&amp;</mt:if><mt:var name="return_args" escape="html">" />
+    <input type="hidden" name="replace_ids" value="" />
+    <input type="hidden" name="do_search" value="" />
+    <input type="hidden" name="do_replace" value="" />
+    <input type="hidden" name="filter" value="<mt:var name="filter" escape="html">" />
+    <input type="hidden" name="filter_val" value="<mt:var name="filter_val" escape="html">" />
+
+    <div id="search-tabs">
+      <ul id="search-tabs-list" class="search-tabs-list tabs">
+      <mt:loop name="search_tabs">
+        <li id="results-<mt:var name="key" escape="html">-tab" class="tab"><a href="#<mt:var name="key" escape="html">"><span><mt:var name="label" escape="html"></span></a></li>
+      </mt:loop>
+      </ul>
+    </div>
+
+    <div id="search-bar" class="line">
+    <mt:if name="have_results">
+      <mt:if name="can_replace">
+      <div id="search-bar-toggle" class="mod">
+      <ul class="multiple-selection">
+          <li><label for="search-replace-toggle-search"><input type="radio" id="search-replace-toggle-search" name="search-replace-toggle" value="search" checked="checked" class="rb" onclick="toggleSearchAndReplace(this)" /> <__trans phrase="Search Again"></label></li>
+          <li><label for="search-replace-toggle-replace"><input type="radio" id="search-replace-toggle-replace" name="search-replace-toggle" value="replace" class="rb" onclick="toggleSearchAndReplace(this)" /> <__trans phrase="Search &amp; Replace"></label></li>
+        </ul>
+      </div>
+      </mt:if>
+    </mt:if>
+
+      <div id="search-bar-search-field" class="mod">
+        <mtapp:setting
+           id="search"
+           label="<__trans phrase="Search">"
+           label_class="top-label"
+           help_section="search-alt">
+          <input type="text" name="search" id="search" class="text query" value="<mt:var name="search" escape="html">" />
+        </mtapp:setting>
+        <ul id="search-bar-advanced-search" class="multiple-selection">
+          <li><label for="case"><input type="checkbox" id="case" name="case" value="1"<mt:if name="case"> checked="checked"</mt:if> class="cb" /> <__trans phrase="Case Sensitive"></label></li>
+          <li><label for="is_regex"><input type="checkbox" id="is_regex" name="is_regex" value="1"<mt:if name="is_regex"> checked="checked"</mt:if> class="cb" /> <__trans phrase="Regex Match"></label></li>
+          <li><label for="is_limited"><input type="checkbox" id="is_limited" name="is_limited" value="1"<mt:if name="is_limited"> checked="checked"</mt:if> class="cb" onclick="toggleVisibility(this, 'limited-fields')" /> <__trans phrase="Limited Fields"></label></li>
+        <mt:if name="can_search_by_date">
+          <li><label for="is_dateranged"><input type="checkbox" id="is_dateranged" name="is_dateranged" value="1"<mt:if name="is_dateranged"> checked="checked"</mt:if> class="cb" onclick="toggleVisibility(this, 'date-range')" /> <__trans phrase="Date Range"></label></li>
+        </mt:if>
+        <mt:if name="can_search_junk">
+          <li><label for="is_junk"><input type="checkbox" id="is_junk" name="is_junk" value="1"<mt:if name="is_junk"> checked="checked"</mt:if> class="cb" /> <__trans phrase="Reported as Spam?"></label></li>
+        </mt:if>
+        </ul>
+        <div id="limited-fields" class="mod advanced-options"<mt:unless name="is_limited"> style="display: none;"</mt:unless>>
+        <mt:if name="search_cols">
+          <div id="<mt:var name="object_type">-fields">
+            <ul class="multiple-selection">
+            <mt:loop name="search_cols">
+              <li><label for="search_cols-<mt:var name="field" escape="html">"><input type="checkbox" id="search_cols-<mt:var name="field" escape="html">" name="search_cols" value="<mt:var name="field" escape="html">"<mt:if name="selected"> checked="checked"</mt:if> class="cb" /> <mt:var name="label" escape="html"></label></li>
+            </mt:loop>
+            </ul>
+          </div>
+        </mt:if>
+        </div>
+        <div id="date-range" class="mod advanced-options"<mt:unless name="is_dateranged"> style="display: none;"</mt:unless>>
+          <input type="hidden" name="dates-disabled" id="dates-disabled" value="<mt:if name="from">0<mt:else>1</mt:if>" />
+          <label for="datefrom"><__trans phrase="_DATE_FROM">:</label> <input type="text" name="from" id="from" class="text-date text date" value="<mt:if name="from"><mt:var name="from" escape="html"></mt:if>">
+          <label for="dateto"><__trans phrase="_DATE_TO">:</label> <input type="text" name="to" id="to" class="text-date text date" value="<mt:if name="to"><mt:var name="to" escape="html"></mt:if>">
+        </div>
+        <div class="actions-bar">
+          <button
+             onclick="doSearch()"
+             type="submit"
+             accesskey="s"
+             title="<__trans phrase="Submit search (s)">"
+             id="search-button"
+             class="search action primary button">
+            <__trans phrase="Search">
+          </button>
+        </div>
+      </div>
+
+    <mt:if name="have_results">
+      <div id="search-bar-replace-fields" class="mod" style="display: none;">
+        <!-- Search -->
+        <mtapp:setting
+           id="search-alt"
+           label="<__trans phrase="Search For">"
+           label_class="top-label"
+           help_section="search-alt">
+          <input type="text" name="search-alt" id="search-alt" class="text query disabled" disabled value="<mt:var name="search" escape="html">" readonly="readonly" />
+        </mtapp:setting>
+        <!-- Replace -->
+        <mtapp:setting
+           id="replace"
+           label="<__trans phrase="Replace With">"
+           label_class="top-label"
+           help_section="replace">
+          <textarea name="replace" id="replace" class="text low"><mt:var name="replace" escape="html"></textarea>
+        </mtapp:setting>
+        <div class="actions-bar">
+          <button
+             onclick="doReplace(); return false"
+             type="submit"
+             id="replace-button"
+             class="replace action primary button">
+            <__trans phrase="Replace Checked">
+          </button>
+        </div>
+      </div>
+    </mt:if>
+
+    </div>
+  </form>
+</div>
+
+<mt:if name="replace_count">
+    <mt:if name="object_type" like="website|blog">
+      <mt:setvar name="rebuild_type" value="$object_type">
+      <mt:setvar name="no_link" value="1">
+    <mt:else>
+      <mt:setvar name="rebuild_type" value="all">
+      <mt:setvar name="no_link" value="0">
+    </mt:if>
+  <mtapp:statusmsg
+     id="replace-count"
+     class="success"
+     rebuild="$rebuild_type"
+     no_link="$no_link"
+     can_close="0">
+    <__trans phrase="Successfully replaced [quant,_1,record,records]." params="<mt:var name="replace_count">">
+  </mtapp:statusmsg>
+</mt:if>
+
+<mt:if name="have_more">
+  <mtapp:statusmsg
+     id="have-more-count"
+     class="success">
+    <__trans phrase="Showing first [_1] results." params="<mt:var name="limit" escape="html">"> <a href="javascript:void(0)" onclick="return unLimit('all'); return false"><__trans phrase="Show all matches"></a>
+  </mtapp:statusmsg>
+<mt:else>
+  <mt:unless name="replace_count">
+    <mt:if name="have_results">
+  <mtapp:statusmsg
+     id="result-count"
+     class="success">
+    <__trans phrase="[quant,_1,result,results] found" params="<mt:var name="count_matches">">
+  </mtapp:statusmsg>
+    </mt:if>
+  </mt:unless>
+</mt:if>
+
+<mt:if name="searched" id="search_results">
+<mt:ignore>Search results will be placed here from app code.</mt:ignore>
+</mt:if>
+
+<mt:if name="error">
+  <mtapp:statusmsg
+     id="generic-error"
+     class="error"
+     can_close="0">
+    <mt:var name="error" escape="html">
+  </mtapp:statusmsg>
+</mt:if>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+jQuery(function() {
+    var index = jQuery('#search-tabs-list li').index(jQuery('#results-<mt:var name="object_type">-tab'));
+    if ( index < 0 ) {
+        index = 0;
+    }
+    jQuery('#search-tabs').tabs({
+        selected: index,
+        select: function(event, ui) {
+            var type = ui.tab.href.replace(/^.*#/, '');
+            reSearch(type);
+            return false;
+        }
+    });
+
+    jQuery.mtCheckbox();
+<mt:unless name="have_results">
+    jQuery('#search').focus();
+</mt:unless>
+});
+/* ]]> */
+</script>
+
+<mt:include name="include/footer.tmpl">

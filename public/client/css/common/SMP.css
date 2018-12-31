@@ -31,13 +31,17 @@ body {
 }
 
 img {
-  width: 10%;
     /*
     filter: alpha(opacity=50);
     -moz-opacity:0.5;
     opacity:0.5;
     */
 }
+
+.top-image {
+  width: 10%;
+}
+
 
 .debug,
 .debug>* {
@@ -57,7 +61,7 @@ img {
 
 header {
     position: fixed;
-    background-image: url("//bokkun.jp/public/client/image/gold03.jpg");
+    background-image: url("../../image/gold03.jpg");
     background-size: 10px 150%;
     width: 100%;
     font-size: 5vw;
@@ -98,7 +102,7 @@ header {
 .contents,
 .contents>* {
     font-size: 3vh;
-    padding-bottom: 3vh !important;
+    padding-bottom: 5vh !important;
 }
 
 input {
@@ -107,7 +111,7 @@ input {
 
 footer {
     position: fixed;
-    background-image: url("//bokkun.jp/public/client/image/metal01-768x576.jpg");
+    background-image: url("../../image/metal01-768x576.jpg");
     font-family: 'arial black';
     background-size: 10px 150%;
     font-size: 4vw;

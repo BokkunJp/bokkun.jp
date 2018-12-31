@@ -6,7 +6,11 @@
         <title><?=$this->fetch('title'); ?></title>
         <!-- <link rel="shortcut icon" href="client/image/5959715.png"> -->
         <?php
-        echo $this->Html->css('HomePage/PC');
+        if ($this->request->ismobile()) {
+          echo $this->Html->css('HomePage/SMP');
+        } else {
+          echo $this->Html->css('HomePage/PC');
+        }
         echo $this->Html->script('HomePage/API/jquery-3.1.1.min.js');
         echo $this->Html->script('HomePage/time');
         echo $this->Html->script('HomePage/realtime');
@@ -28,4 +32,3 @@
         </div>
     </body>
 </html>
-

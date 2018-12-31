@@ -1,0 +1,5 @@
+# .htaccessでRewriteを有効化する
+RewriteEngine On
+RewriteBase /public_html/bokkun.jp/common/error
+
+Satisfy any

@@ -7,7 +7,7 @@ and open the template in the editor.
 
 /*
     Created on : 2016/07/18, 1:18:39
-    Update on : 2018/03/12, 1:30
+    Update on : 2018/10/14, 18:33
     Author     : T
 
 
@@ -15,6 +15,7 @@ and open the template in the editor.
 
 html {
     height: 100%;
+    font-family: 'Meiryo UI,ヒラギノ角ゴ';
 }
 
 body {
@@ -29,6 +30,10 @@ body {
     height: 100%;
 }
 
+.contents {
+  margin-bottom: 0;
+}
+
 img {
     /*
     filter: alpha(opacity=50);
@@ -37,11 +42,20 @@ img {
     */
 }
 
+.top-image {
+  width: 40px;
+  height: 40px;
+}
+
 header {
     position: relative;
-    background-image: url("//bokkun.jp/public/client/image/gold03.jpg");
+    background-image: url("//bokkun.jp/common/error/client/image/gold03.jpg");
     width: 100%;
     background-size: 10px 150%;
+}
+
+.contents {
+    padding-bottom: 9vh;
 }
 
 .date,
@@ -54,7 +68,7 @@ header {
     position: fixed;
     color: #FFFF00;
     font-family: 'arial black';
-    background-image: url("//bokkun.jp/public/client/image/metal01-768x576.jpg");
+    background-image: url("//bokkun.jp/common/error/client/image/metal01-768x576.jpg");
     background-size: 10px 150%;
     width: 100%;
     bottom: 0;
@@ -70,7 +84,10 @@ header {
     background-color: #E7E18F;
     font-style: italic;
     font-size: 80%;
-    word-wrap: break-all;
+    display: inline-block;
+    word-break : break-all;
+    word-wrap: break-word;
+    overflow-wrap : break-word;
 }
 
 .warning {

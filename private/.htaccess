@@ -1,2 +1,5 @@
-#PHP7設定 (CakePHP3の件があるので個別で設定)
-AddHandler application/x-httpd-php71cgi .php
+# .htaccessでRewriteを有効化する
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^$ - [NC,R=404,L]
