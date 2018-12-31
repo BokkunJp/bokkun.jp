@@ -6,17 +6,17 @@ require_once ('View.php');
 $file = PublicSetting\Setting::GetFiles();
 
 function FileExif($img) {
-    // echo exif_imagetype($img). '<br />';
-    // switch (exif_imagetype($img)) {
-    //     case IMAGETYPE_JPEG:
-    //     break;
-    //     case IMAGETYPE_GIF:
-    //     break;
-    //     case IMAGETYPE_PNG:
-    //     break;
-    //     default:
-    //     break;
-    // }
+// echo exif_imagetype($img). '<br />';
+// switch (exif_imagetype($img)) {
+//     case IMAGETYPE_JPEG:
+//     break;
+//     case IMAGETYPE_GIF:
+//     break;
+//     case IMAGETYPE_PNG:
+//     break;
+//     default:
+//     break;
+// }
 
     return exif_imagetype($img);
 }
@@ -64,16 +64,16 @@ function TimeSort(&$data, $order = 'ASC') {
 
     $time = [];
     foreach ($data as $_data) {
-        // データ内に必要な要素があるかチェック
+// データ内に必要な要素があるかチェック
         if (array_key_exists('time', $_data) == false) {
             echo '必要な要素がありません。';
             return -1;
         }
         $time[] = $_data['time'];  // 時刻データ配列を生成
-        // $time[] = strtotime($_data['time']);  // 時刻を調整
+// $time[] = strtotime($_data['time']);  // 時刻を調整
     }
 
-    // 順番の指定
+// 順番の指定
     if ($order === 'ASC') {
         $sort = SORT_ASC;
     } else if ($order === 'DESC') {
@@ -91,20 +91,20 @@ function ReadImage($read_flg = 0) {
         echo '現在、画像の公開を停止しています。';
         return null;
     } else {
-        // アップロードされている画像データを読み込む
+// アップロードされている画像データを読み込む
         $fileList = LoadAllImageFile();
 
-        // ソート用にデータを調整
+// ソート用にデータを調整
         $sortAray = array();
         foreach ($fileList as $index => $_file) {
             $sortAray[$index]['data'] = $_file;
             $sortAray[$index]['time'] = filemtime(IMAGE_DIR . '/FILE/' . $_file);
         }
 
-        // 画像投稿日時の昇順にソート
+// 画像投稿日時の昇順にソート
         TimeSort($sortAray);
 
-        // ソートした順に画像を表示
+// ソートした順に画像を表示
         $imageUrl = IMAGE_URL;
 
         ShowImage($sortAray, $imageUrl);
@@ -163,4 +163,35 @@ function DeleteImage() {
     }
     echo '<br/>';
     echo '全' . $count . '件の画像を削除しました。<br/>';
+}
+
+function RestoreImage($fileName = '') {
+    $post = PublicSetting\Setting::getPosts();
+    $fileList = LoadAllImageFile();
+    $count = 0;
+
+    // ファイル名の指定がある場合は、指定されたファイルのみ復元
+    if (!empty($fileName)) {
+        if (rename(IMAGE_DIR . '/FILE/_old/' . $post_value, IMAGE_DIR . '/FILE/' . $post_value) === true) {
+            echo $fileName . 'の画像を復元しました。<br/>';
+        } else {
+            echo '画像を復元できませんでした。';
+        }
+    } else {
+        // ファイル名の指定されなかった場合は、すべてのファイルを復元
+        foreach ($post as $post_key => $post_value) {
+            if ($post_key !== 'token' && $post_key !== 'restore') {
+                $count++;
+                if (in_array($post_value, $fileList)) {
+                    if (rename(IMAGE_DIR . '/FILE/_old/' . $post_value, IMAGE_DIR . '/FILE/' . $post_value) === true) {
+                        echo $count . '件目の画像を復元しました。<br/>';
+                    } else {
+                        echo '画像を復元できませんでした。';
+                    }
+                }
+            }
+        }
+    }
+    echo '<br/>';
+    echo '全' . $count . '件の画像を復元しました。<br/>';
 }
