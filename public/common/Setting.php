@@ -45,6 +45,7 @@ class Setting {
         $this->css = $this->client . 'css';
         $this->js = $this->client . 'js';
         $this->image = $this->client . 'image';
+        $this->csv = $this->client . 'csv';
     }
 
     private function InitSSL(&$http) {
@@ -121,7 +122,25 @@ class Setting {
         return $_FILES;
     }
 
-    static public function MakeUrl($query) {
+    // 公開パスなどのURLを取得
+    public function GetUrl($query, $type='url') {
+        switch ($type) {
+            case 'client':
+                $url = $this->client;
+                break;
+            case 'css':
+                $url = $this->css;
+                break;
+            case 'js':
+                $url = $this->js;
+                break;
+            case 'csv':
+                $url = $this->csv;
+                break;
+            default:
+                $url = $this->url;
+                break;
+        }
         return $url . '/' . $query;
     }
 
