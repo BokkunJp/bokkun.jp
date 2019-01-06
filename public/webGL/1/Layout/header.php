@@ -2,7 +2,7 @@
     <div align="left">
         <?php $img = "0113.png"; ?>
         <div>
-            <a href="<?php echo $base->GetUrl(''); ?>"><img src="<?php echo $public; ?>client/image/<?php echo $img; ?>" width="40" height="40"></a>
+            <a href="<?php echo $base->GetURL(); ?>"><img src="<?php echo $public; ?>client/image/<?php echo $img; ?>" width="40" height="40"></a>
             <strong>
                 <em>Bokkun's homepage</em> <br/>
                 <div class="top" align="center"><?php echo $title; ?></div>

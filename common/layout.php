@@ -18,8 +18,8 @@ switch ($statusCode) {
         break;
 }
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo $url. '/public/'; ?>client/css/common/<?php echo $agentCode; ?>.css">
-<link rel="stylesheet" type="text/css" href="<?php echo $url. '/public/'; ?>client/css/design.css">
+<link rel="stylesheet" type="text/css" href="<?=$base->GetURL('common', 'css')?>/<?php echo $agentCode; ?>.css">
+<link rel="stylesheet" type="text/css" href="<?=$base->GetURL('', 'css')?>/design.css">
 <div class="container">
     <?php require_once('header.php'); ?>
     <div class='contents'>

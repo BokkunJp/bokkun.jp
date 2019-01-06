@@ -2,7 +2,7 @@
     <div align="left">
     <?php $img="0113.png"; ?>
         <div>
-        <a href="<?php $url ?>"><img class='top-image' src="<?php $url ?>public/client/image/<?php echo $img; ?>"></a>
+        <a href="<?=$base->GetURL('')?>"><img class='top-image' src="<?=$base->GetURL($img, 'image')?>"></a>
         <strong>
             <em>Bokkun's homepage</em> <br/>
             <div class="top" align="center"><?php if (isset($title)){ echo $title; }else{ echo 'ぼっくんのホームページ';} ?></div>

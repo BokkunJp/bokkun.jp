@@ -123,7 +123,7 @@ class Setting {
     }
 
     // 公開パスなどのURLを取得
-    public function GetUrl($query, $type='url') {
+    public function GetUrl($query='', $type='url') {
         switch ($type) {
             case 'client':
                 $url = $this->client;

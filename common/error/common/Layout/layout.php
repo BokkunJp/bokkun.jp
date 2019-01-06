@@ -12,12 +12,12 @@ $img = "crown-vector.jpg";
     <head>
         <title><?php echo $headerTitle; ?></title>
         <base href="../" />
-        <link rel="shortcut icon" href="<?php echo $url; ?>/client/image/5959715.png">
-        <link rel="stylesheet" type="text/css" href="<?php echo $url; ?>/common/error/client/css/common/<?php echo $agentCode; ?>.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo $url; ?>/common/error/client/css/common.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo $url; ?>/common/error/client/css/<?php echo $errCode; ?>/design.css">
-        <script src="<?php echo $url; ?>/common/error/client/js/common/time/realtime.js"></script>
-        <script src="<?php echo $url; ?>/common/error/client/js/common/time/time.js"></script>
+        <link rel="shortcut icon" href="<?=$base->GetURL('')?>/common/error/client/image/5959715.png">
+        <link rel="stylesheet" type="text/css" href="<?=$base->GetURL('')?>/common/error/client/css/common/<?php echo $agentCode; ?>.css">
+        <link rel="stylesheet" type="text/css" href="<?=$base->GetURL('')?>/common/error/client/css/common.css">
+        <link rel="stylesheet" type="text/css" href="<?=$base->GetURL('')?>/common/error/client/css/<?php echo $errCode; ?>/design.css">
+        <script src="<?=$base->GetURL('')?>/common/error/client/js/common/time/realtime.js"></script>
+        <script src="<?=$base->GetURL('')?>/common/error/client/js/common/time/time.js"></script>
      </head>
      <body>
         <div class="container">
