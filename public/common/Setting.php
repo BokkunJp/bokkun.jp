@@ -134,6 +134,9 @@ class Setting {
             case 'js':
                 $url = $this->js;
                 break;
+            case 'image':
+                $url = $this->image;
+                break;
             case 'csv':
                 $url = $this->csv;
                 break;

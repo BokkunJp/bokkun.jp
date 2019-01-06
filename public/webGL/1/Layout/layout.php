@@ -9,7 +9,7 @@ $img = "crown-vector.jpg";
     <head>
         <title><?php echo $title; ?></title>
         <base href="../" />
-        <link rel="shortcut icon" href="client/image/5959715.png">
+        <link rel="shortcut icon" href="<?= $base->GetUrl("5959715.png", 'image')?>">
         <?php require_once(COMMON_DIR. "/jQuery/include.php");?>
         <script src="/public/client/js/common/time/realtime.js"></script>
         <script src="/public/client/js/common/time/time.js"></script>

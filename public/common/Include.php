@@ -12,14 +12,18 @@ IncludeFiles($pwd);
 
 use CustomTagCreate as OriginTag;
 
-$test = new OriginTag();
-$href = $test->SetHref('aaa.js', 'test', 'class');
-// echo $href;
-// $js = $test->ReadJS('aaa.js', 'test', 'class');
-// echo $js;
-// $create->SetHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
+// subdirectory内のphpファイルの読み込み
 IncludeFiles(AddPath(getcwd(), 'subdirectory'));
 IncludeDirctories(COMPONENT_DIR);
+
+// 必要なjsファイルの読み込み
+$src = new OriginTag();
+$jsFiles = IncludeFiles(AddPath(JS_DIR, 'common'), 'js', true);
+foreach ($jsFiles as $_jsFile) {
+    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common'), $_jsFile, false), '', 'common');
+    $src->TagExec(true);
+}
+
 /*
  *      対象ディレクトリ内のディレクトリをファイルごと一括で読み込む
  *      引数：

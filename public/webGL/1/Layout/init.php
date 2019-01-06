@@ -2,6 +2,7 @@
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 require_once dirname(dirname(dirname(__DIR__))). '/common/Setting.php';
 require_once COMMON_DIR. "/Include.php";
+
 // タイトルの初期設定
 if (isset($homepageTitle)) {
     $title = htmlspecialchars($homepageTitle);
@@ -25,7 +26,7 @@ switch ($statusCode) {
 
 // パンくずリストの生成 (完成・検証後にSetting.phpに移動)
 $dir = scandir(__DIR__);
-$currentDir = PublicSetting\GetURI();
+$currentDir = PublicSetting\Setting::GetURI();
 $count = 0;
 while (1) {
     // タイトル：ディレクトリ名、パス：URL
