@@ -11,7 +11,7 @@ function AjaxMain(url, dir, file) {
         }
         url = location.href + dir;
     }
-    var ajx = Ajax('POST', url, 'test');
+    var ajx = Ajax('GET', url, 'test');
     ajx.always(function() {
             alert('Complate!!!');
         })
