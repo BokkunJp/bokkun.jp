@@ -1,37 +1,48 @@
-function AjaxMain(url, dir, file) {
+function AjaxMain(url, dir, file, type = 'POST', data, datatype="text") {
     if (!url) {
-        if (!dir) {
-            dir = '/subdirectory/';
-            if (!file) {
-                alert('File is undefined.');
-                eixt;
-            } else {
-                dir += file;
-            }
-        }
-        url = location.href + dir;
+        url = location.href;
     }
-    var ajx = Ajax('POST', url, 'test');
-    ajx.always(function() {
-            alert('Complate!!!');
-        })
-        .done(function(response) {
-            alert('Success!!!');
-            $('.result').html(response);
-            $('.createResult').show();
-        })
-        .fail(function() {
-            alert('Failure!!');
-        });
+    if (!dir) {
+        dir = '/subdirectory/';
+    }
+    if (!file) {
+        alert('File is undefined.');
+        eixt;
+    } else {
+        dir += file;
+    }
+    url += dir;
+    var ajx = Ajax(type, url, datatype, data);
+    ajx.always(function () {
+//        alert('Complate!!!');
+    })
+            .done(function (response) {
+//                alert('Success!!!');
+                console.log(JSON.parse(response));
+                var jsonData = JSON.parse(response);
+                for (var _key in jsonData) {
+                  $('.result-'+_key).html(jsonData[_key]);
+                  
+                }
+            })
+            .fail(function(xhr, textStatus, errorThrown) {
+                alert("NG:" + textStatus.status);
+            });
 
 }
 
-function Ajax(type, url, data) {
+function Ajax(type, url, datatype, data) {
+    console.log([type, url, datatype, data]);
     sendData = {
         type: type,
         url: url,
+        dataType: datatype,
         data: data,
     }
     return $.ajax(sendData);
+
+}
+
+Ajax.prototype.Get = function (url, data, callback) {
 
 }
