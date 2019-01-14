@@ -1,7 +1,15 @@
 /*
 	リアルタイムに動作させるための処理 v1.0
 */
-function realTime(op = 'time', method) {
+function realTime(op, method) {
+    if (typeof op === 'undefined') {
+        op = 'time';
+    }
+
+    if (typeof method === 'undefined') {
+        method = 'requestAnimationFrame';
+    }
+    
     this.setAnimation(method);
 }
 
@@ -12,7 +20,7 @@ function realTime(op = 'time', method) {
 		
 		method: アニメーションを行う対象のメソッドを決定する。
 */
-realTime.prototype.viewAnimation = function(method, cancel = null) {
+realTime.prototype.viewAnimation = function(method, cancel) {
     this.anime = this.startAnimation(method);
     if (cancel) {
         this.stopAnimation(this.anime);
@@ -21,8 +29,12 @@ realTime.prototype.viewAnimation = function(method, cancel = null) {
 
 
 // アニメーション選択
-realTime.prototype.setAnimation = function(op = 'requestAnimationFrame') {
-    this.name = op;
+realTime.prototype.setAnimation = function(method) {
+    if (typeof method === 'undefined') {
+        method = 'requestAnimationFrame';
+    }
+
+    this.name = method;
 
     switch (this.name) {
         case 'requestAnimationFrame':
