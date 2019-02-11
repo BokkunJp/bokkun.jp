@@ -2,8 +2,7 @@
 class Config {
     private $start;
     private $end;
-    private $tiwtter;
-    
+
     function __construct() {
         if (isset($base)) {
             $base = new PublicSetting\Setting();
