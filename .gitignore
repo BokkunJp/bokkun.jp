@@ -26,3 +26,5 @@ XOOPSX/*
 /public/client/image/FILE
 /cake/tmp
 /cake/logs
+/.vs
+/.vs
