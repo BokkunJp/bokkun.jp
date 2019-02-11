@@ -13,7 +13,7 @@ require_once '../common.php';
         <link rel="shortcut icon" href="./client/image/5959715.png">
         <title><?php echo $title; ?></title>
         <base href="../" />
-        <script src="client/js/common/jquery-3.1.1.js"></script>
+        <script src="client/js/common/jquery-3.3.1.js"></script>
         <script src="client/js/<?php echo basename(__DIR__); ?>/index.js"></script>
     </head>
     <body>

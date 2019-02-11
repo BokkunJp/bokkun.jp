@@ -24,3 +24,5 @@ XOOPSX/*
 
 .gitignore
 /public/client/image/FILE
+/cake/tmp
+/cake/logs

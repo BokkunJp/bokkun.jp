@@ -8,7 +8,7 @@ require_once __DIR__. '/common/Component/Function.php';
         <meta charset='utf-8' />
         <title>トップページ</title>
         <link rel="shortcut icon" href="public/client/image/5959715.png">
-        <script src="API/jQuery/jquery-3.1.1.min.js"></script>
+        <script src="API/jQuery/jquery-3.3.1.js"></script>
         <script src="public/client/js/common/time/realtime.js"></script>
         <script src="public/client/js/common/time/time.js"></script>
     </head>

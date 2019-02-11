@@ -23,7 +23,9 @@ $js = $client . 'js';
 $image = $client . 'image';
 
 // 定数などの定義
-require_once AddPath(__DIR__, "Config.php", false);
+require_once AddPath(AddPath(__DIR__, "Word", false), "Message.php", false);
+require_once AddPath(AddPath(DOCUMENT_ROOT, "common"), "Config.php", false);
+$siteConfig = ['header' =>new \Header(), 'footer' => new \Footer()];
 
 define('IMAGE_URL', $image);
 
