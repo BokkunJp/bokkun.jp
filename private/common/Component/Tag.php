@@ -116,7 +116,7 @@ class HTMLClass extends BaseTag {
     }
 
     protected function SpecailContentsSet($contents) {
-        parent::HTMLSet($this->$tagName, $this->contens, $this->className);
+        parent::HTMLSet($this->tagName, $this->contens, $this->className);
         $this->contents = $contents;
     }
 
