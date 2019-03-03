@@ -40,9 +40,9 @@ To install packages from sources instead of simple zip archives, you will need
 git, svn, fossil or hg depending on how the package is version-controlled.
 
 Composer is multi-platform and we strive to make it run equally well on Windows,
-Linux and OSX.
+Linux and macOS.
 
-## Installation - Linux / Unix / OSX
+## Installation - Linux / Unix / macOS
 
 ### Downloading the Composer Executable
 
@@ -57,16 +57,15 @@ project, or globally as a system wide executable.
 
 #### Locally
 
-Installing Composer locally is a matter of just running the installer in your
-project directory. See [the Download page](https://getcomposer.org/download/)
-for instructions.
+To install Composer locally, run the installer in your project directory. See 
+[the Download page](https://getcomposer.org/download/) for instructions.
 
-The installer will just check a few PHP settings and then download
-`composer.phar` to your working directory. This file is the Composer binary. It
-is a PHAR (PHP archive), which is an archive format for PHP which can be run on
+The installer will check a few PHP settings and then download `composer.phar`
+to your working directory. This file is the Composer binary. It is a PHAR
+(PHP archive), which is an archive format for PHP which can be run on
 the command line, amongst other things.
 
-Now just run `php composer.phar` in order to run Composer.
+Now run `php composer.phar` in order to run Composer.
 
 You can install Composer to a specific directory by using the `--install-dir`
 option and additionally (re)name it as well using the `--filename` option. When
@@ -78,7 +77,7 @@ following parameters:
 php composer-setup.php --install-dir=bin --filename=composer
 ```
 
-Now just run `php bin/composer` in order to run Composer.
+Now run `php bin/composer` in order to run Composer.
 
 #### Globally
 
@@ -101,7 +100,7 @@ Linux distributions.
 > **Note:** If the above fails due to permissions, you may need to run it again
 > with sudo.
 
-> **Note:** On some versions of OSX the `/usr` directory does not exist by
+> **Note:** On some versions of macOS the `/usr` directory does not exist by
 > default. If you receive the error "/usr/local/bin/composer: No such file or
 > directory" then you must create the directory manually before proceeding:
 > `mkdir -p /usr/local/bin`.
@@ -109,7 +108,7 @@ Linux distributions.
 > **Note:** For information on changing your PATH, please read the
 > [Wikipedia article](https://en.wikipedia.org/wiki/PATH_(variable)) and/or use Google.
 
-Now just run `composer` in order to run Composer instead of `php composer.phar`.
+Now run `composer` in order to run Composer instead of `php composer.phar`.
 
 ## Installation - Windows
 
@@ -119,7 +118,7 @@ This is the easiest way to get Composer set up on your machine.
 
 Download and run
 [Composer-Setup.exe](https://getcomposer.org/Composer-Setup.exe). It will
-install the latest Composer version and set up your PATH so that you can just
+install the latest Composer version and set up your PATH so that you can
 call `composer` from any directory in your command line.
 
 > **Note:** Close your current terminal. Test usage with a new terminal: This is

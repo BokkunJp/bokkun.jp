@@ -11,14 +11,15 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
+use Cake\Core\Plugin as CorePlugin;
+use Cake\Database\Query;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\EventManager;
 use Cake\Log\Log;
-use Cake\ORM\Query;
 use Cake\Routing\DispatcherFactory;
 use DebugKit\DebugSql;
 use DebugKit\Middleware\DebugKitMiddleware;
+use DebugKit\Panel\DeprecationsPanel;
 use DebugKit\Routing\Filter\DebugBarFilter;
 use DebugKit\ToolbarService;
 
@@ -28,11 +29,29 @@ if (!$service->isEnabled() || php_sapi_name() === 'cli' || php_sapi_name() === '
     return;
 }
 
+if (!empty($service->getConfig('panels')['DebugKit.Deprecations'])) {
+    $errorLevel = Configure::read('Error.errorLevel', E_ALL | E_STRICT);
+    $previousHandler = set_error_handler(
+        function ($code, $message, $file, $line, $context = null) use (&$previousHandler) {
+            if ($code == E_USER_DEPRECATED || $code == E_DEPRECATED) {
+                DeprecationsPanel::addDeprecatedError(compact('code', 'message', 'file', 'line', 'context'));
+
+                return;
+            }
+            if ($previousHandler) {
+                return $previousHandler($code, $message, $file, $line, $context);
+            }
+        },
+        $errorLevel | E_USER_DEPRECATED | E_DEPRECATED
+    );
+}
+
 $hasDebugKitConfig = ConnectionManager::getConfig('debug_kit');
 if (!$hasDebugKitConfig && !in_array('sqlite', PDO::getAvailableDrivers())) {
     $msg = 'DebugKit not enabled. You need to either install pdo_sqlite, ' .
         'or define the "debug_kit" connection name.';
     Log::warning($msg);
+
     return;
 }
 
@@ -47,8 +66,8 @@ if (!$hasDebugKitConfig) {
     ]);
 }
 
-if (Plugin::routes('DebugKit') === false) {
-    require __DIR__ . DS . 'routes.php';
+if (!CorePlugin::getCollection()->get('DebugKit')->isEnabled('routes')) {
+    include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'routes.php';
 }
 
 $appClass = Configure::read('App.namespace') . '\Application';

@@ -11,6 +11,7 @@
  */
 
 namespace Composer\DependencyResolver;
+
 use Composer\Package\CompletePackageInterface;
 
 /**
@@ -105,7 +106,7 @@ class Problem
 
                     $msg = "\n    - This package requires ".$job['packageName'].$this->constraintToText($job['constraint']).' but ';
 
-                    if (defined('HHVM_VERSION')) {
+                    if (defined('HHVM_VERSION') || count($available)) {
                         return $msg . 'your HHVM version does not satisfy that requirement.';
                     }
 
@@ -247,6 +248,6 @@ class Problem
      */
     protected function constraintToText($constraint)
     {
-        return ($constraint) ? ' '.$constraint->getPrettyString() : '';
+        return $constraint ? ' '.$constraint->getPrettyString() : '';
     }
 }

@@ -1,19 +1,14 @@
-#!/usr/bin/env php
-<?php
-/**
- * PHP_CodeSniffer detects violations of a defined coding standard.
- *
- * @author    Greg Sherwood <gsherwood@squiz.net>
- * @copyright 2006-2015 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
- */
+#!/usr/bin/env sh
 
-if (is_file(__DIR__.'/../autoload.php') === true) {
-    include_once __DIR__.'/../autoload.php';
-} else {
-    include_once 'PHP/CodeSniffer/autoload.php';
-}
+dir=$(cd "${0%[/\\]*}" > /dev/null; cd "../squizlabs/php_codesniffer/bin" && pwd)
 
-$runner   = new PHP_CodeSniffer\Runner();
-$exitCode = $runner->runPHPCS();
-exit($exitCode);
+if [ -d /proc/cygdrive ]; then
+    case $(which php) in
+        $(readlink -n /proc/cygdrive)/*)
+            # We are in Cygwin using Windows php, so the path must be translated
+            dir=$(cygpath -m "$dir");
+            ;;
+    esac
+fi
+
+"${dir}/phpcs" "$@"

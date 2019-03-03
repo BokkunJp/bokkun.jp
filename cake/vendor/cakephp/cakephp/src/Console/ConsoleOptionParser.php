@@ -805,8 +805,15 @@ class ConsoleOptionParser
         if (isset($this->_subcommands[$subcommand])) {
             $command = $this->_subcommands[$subcommand];
             $subparser = $command->parser();
+
+            // Generate a parser as the subcommand didn't define one.
             if (!($subparser instanceof self)) {
-                $subparser = clone $this;
+                // $subparser = clone $this;
+                $subparser = new self($subcommand);
+                $subparser
+                    ->setDescription($command->getRawHelp())
+                    ->addOptions($this->options())
+                    ->addArguments($this->arguments());
             }
             if (strlen($subparser->getDescription()) === 0) {
                 $subparser->setDescription($command->getRawHelp());
@@ -942,7 +949,7 @@ class ConsoleOptionParser
      * algorithm.
      *
      * @param string $needle Unknown item (either a subcommand name or an option for instance) trying to be used.
-     * @param array $haystack List of items available for the type $needle belongs to.
+     * @param string[] $haystack List of items available for the type $needle belongs to.
      * @return string|null The closest name to the item submitted by the user.
      */
     protected function findClosestItem($needle, $haystack)

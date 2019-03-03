@@ -21,7 +21,6 @@ use Cake\Console\CommandCollectionAwareInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Console\ConsoleOutput;
-use Cake\Utility\Inflector;
 use SimpleXMLElement;
 
 /**
@@ -45,7 +44,7 @@ class HelpCommand extends Command implements CommandCollectionAwareInterface
     }
 
     /**
-     * Main function Prints out the list of shells.
+     * Main function Prints out the list of commands.
      *
      * @param \Cake\Console\Arguments $args The command arguments.
      * @param \Cake\Console\ConsoleIo $io The console io
@@ -55,9 +54,9 @@ class HelpCommand extends Command implements CommandCollectionAwareInterface
     {
         if (!$args->getOption('xml')) {
             $io->out('<info>Current Paths:</info>', 2);
-            $io->out('* app:  ' . APP_DIR);
-            $io->out('* root: ' . rtrim(ROOT, DIRECTORY_SEPARATOR));
-            $io->out('* core: ' . rtrim(CORE_PATH, DIRECTORY_SEPARATOR));
+            $io->out('* app:  ' . APP_DIR . DIRECTORY_SEPARATOR);
+            $io->out('* root: ' . ROOT . DIRECTORY_SEPARATOR);
+            $io->out('* core: ' . CORE_PATH);
             $io->out('');
 
             $io->out('<info>Available Commands:</info>', 2);
@@ -87,6 +86,9 @@ class HelpCommand extends Command implements CommandCollectionAwareInterface
     {
         $invert = [];
         foreach ($commands as $name => $class) {
+            if (is_object($class)) {
+                $class = get_class($class);
+            }
             if (!isset($invert[$class])) {
                 $invert[$class] = [];
             }
@@ -94,6 +96,9 @@ class HelpCommand extends Command implements CommandCollectionAwareInterface
         }
 
         foreach ($commands as $name => $class) {
+            if (is_object($class)) {
+                $class = get_class($class);
+            }
             if (count($invert[$class]) == 1) {
                 $io->out('- ' . $name);
             }
@@ -111,8 +116,8 @@ class HelpCommand extends Command implements CommandCollectionAwareInterface
         }
         $io->out('');
 
-        $io->out('To run a command, type <info>`cake shell_name [args|options]`</info>');
-        $io->out('To get help on a specific command, type <info>`cake shell_name --help`</info>', 2);
+        $io->out('To run a command, type <info>`cake command_name [args|options]`</info>');
+        $io->out('To get help on a specific command, type <info>`cake command_name --help`</info>', 2);
     }
 
     /**
@@ -126,6 +131,9 @@ class HelpCommand extends Command implements CommandCollectionAwareInterface
     {
         $shells = new SimpleXMLElement('<shells></shells>');
         foreach ($commands as $name => $class) {
+            if (is_object($class)) {
+                $class = get_class($class);
+            }
             $shell = $shells->addChild('shell');
             $shell->addAttribute('name', $name);
             $shell->addAttribute('call_as', $name);
@@ -145,7 +153,7 @@ class HelpCommand extends Command implements CommandCollectionAwareInterface
     protected function buildOptionParser(ConsoleOptionParser $parser)
     {
         $parser->setDescription(
-            'Get the list of available shells for this application.'
+            'Get the list of available commands for this application.'
         )->addOption('xml', [
             'help' => 'Get the listing as XML.',
             'boolean' => true

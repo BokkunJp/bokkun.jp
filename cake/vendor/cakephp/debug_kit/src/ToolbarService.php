@@ -13,7 +13,7 @@ namespace DebugKit;
 
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
-use Cake\Core\Plugin;
+use Cake\Core\Plugin as CorePlugin;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Http\Response;
@@ -61,8 +61,10 @@ class ToolbarService
             'DebugKit.Routes' => true,
             'DebugKit.Packages' => true,
             'DebugKit.Mail' => true,
+            'DebugKit.Deprecations' => true,
         ],
         'forceEnable' => false,
+        'safeTld' => []
     ];
 
     /**
@@ -129,11 +131,12 @@ class ToolbarService
         }
 
         $tld = end($host);
-        $safeTLD = ["localhost", "dev", "invalid", "test", "example", "local"];
+        $safeTopLevelDomains = ['localhost', 'dev', 'invalid', 'test', 'example', 'local'];
+        $safeTopLevelDomains = array_merge($safeTopLevelDomains, (array)$this->getConfig('safeTld'));
 
-        if (!in_array($tld, $safeTLD)) {
+        if (!in_array($tld, $safeTopLevelDomains, true) && !$this->getConfig('forceEnable')) {
             $host = implode('.', $host);
-            $safeList = implode(',', $safeTLD);
+            $safeList = implode(', ', $safeTopLevelDomains);
             Log::warning(
                 "DebugKit is disabling itself as your host `{$host}` " .
                 "is not in the known safe list of top-level-domains ({$safeList}). " .
@@ -157,7 +160,7 @@ class ToolbarService
     }
 
     /**
-     * Get the list of loaded panels
+     * Get the a loaded panel
      *
      * @param string $name The name of the panel you want to get.
      * @return \DebugKit\DebugPanel|null The panel or null.
@@ -257,7 +260,7 @@ class ToolbarService
         $url = 'js/toolbar.js';
         $filePaths = [
             str_replace('/', DIRECTORY_SEPARATOR, WWW_ROOT . 'debug_kit/' . $url),
-            str_replace('/', DIRECTORY_SEPARATOR, Plugin::path('DebugKit') . 'webroot/' . $url)
+            str_replace('/', DIRECTORY_SEPARATOR, CorePlugin::path('DebugKit') . 'webroot/' . $url)
         ];
         $url = '/debug_kit/' . $url;
         foreach ($filePaths as $filePath) {

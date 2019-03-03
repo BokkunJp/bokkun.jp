@@ -102,8 +102,8 @@ class SqliteSchema extends BaseSchema
         if ($col === 'binary' && $length === 16) {
             return ['type' => TableSchema::TYPE_BINARY_UUID, 'length' => null];
         }
-        if (in_array($col, ['blob', 'clob'])) {
-            return ['type' => TableSchema::TYPE_BINARY, 'length' => null];
+        if (in_array($col, ['blob', 'clob', 'binary', 'varbinary'])) {
+            return ['type' => TableSchema::TYPE_BINARY, 'length' => $length];
         }
         if (in_array($col, ['date', 'time', 'timestamp', 'datetime'])) {
             return ['type' => $col, 'length' => null];
@@ -294,7 +294,6 @@ class SqliteSchema extends BaseSchema
             TableSchema::TYPE_INTEGER => ' INTEGER',
             TableSchema::TYPE_BIGINTEGER => ' BIGINT',
             TableSchema::TYPE_BOOLEAN => ' BOOLEAN',
-            TableSchema::TYPE_BINARY => ' BLOB',
             TableSchema::TYPE_FLOAT => ' FLOAT',
             TableSchema::TYPE_DECIMAL => ' DECIMAL',
             TableSchema::TYPE_DATE => ' DATE',
@@ -337,6 +336,14 @@ class SqliteSchema extends BaseSchema
 
             if (isset($data['length'])) {
                 $out .= '(' . (int)$data['length'] . ')';
+            }
+        }
+
+        if ($data['type'] === TableSchema::TYPE_BINARY) {
+            if (isset($data['length'])) {
+                $out .= ' BLOB(' . (int)$data['length'] . ')';
+            } else {
+                $out .= ' BLOB';
             }
         }
 
@@ -507,8 +514,9 @@ class SqliteSchema extends BaseSchema
      */
     public function hasSequences()
     {
-        $result = $this->_driver
-            ->prepare('SELECT 1 FROM sqlite_master WHERE name = "sqlite_sequence"');
+        $result = $this->_driver->prepare(
+            'SELECT 1 FROM sqlite_master WHERE name = "sqlite_sequence"'
+        );
         $result->execute();
         $this->_hasSequences = (bool)$result->rowCount();
         $result->closeCursor();

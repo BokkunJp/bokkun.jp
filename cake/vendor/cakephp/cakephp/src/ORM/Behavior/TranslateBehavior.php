@@ -108,6 +108,8 @@ class TranslateBehavior extends Behavior implements PropertyMarshalInterface
 
         if (isset($config['tableLocator'])) {
             $this->_tableLocator = $config['tableLocator'];
+        } else {
+            $this->_tableLocator = $table->associations()->getTableLocator();
         }
 
         parent::__construct($table, $config);
@@ -332,7 +334,7 @@ class TranslateBehavior extends Behavior implements PropertyMarshalInterface
                 'foreign_key' => $key,
                 'model' => $model
             ])
-            ->enableBufferedResults(false)
+            ->disableBufferedResults()
             ->all()
             ->indexBy('field');
 
@@ -750,8 +752,8 @@ class TranslateBehavior extends Behavior implements PropertyMarshalInterface
         $query = $association->find()
             ->select(['id', 'num' => 0])
             ->where(current($ruleSet))
-            ->enableHydration(false)
-            ->enableBufferedResults(false);
+            ->disableHydration()
+            ->disableBufferedResults();
 
         unset($ruleSet[0]);
         foreach ($ruleSet as $i => $conditions) {

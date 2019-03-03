@@ -22,6 +22,9 @@ use Cake\ORM\Behavior;
 use DateTime;
 use UnexpectedValueException;
 
+/**
+ * Class TimestampBehavior
+ */
 class TimestampBehavior extends Behavior
 {
 
@@ -58,7 +61,7 @@ class TimestampBehavior extends Behavior
     /**
      * Current timestamp
      *
-     * @var \DateTime
+     * @var \Cake\I18n\Time
      */
     protected $_ts;
 
@@ -133,7 +136,7 @@ class TimestampBehavior extends Behavior
      *
      * @param \DateTime|null $ts Timestamp
      * @param bool $refreshTimestamp If true timestamp is refreshed.
-     * @return \DateTime
+     * @return \Cake\I18n\Time
      */
     public function timestamp(DateTime $ts = null, $refreshTimestamp = false)
     {

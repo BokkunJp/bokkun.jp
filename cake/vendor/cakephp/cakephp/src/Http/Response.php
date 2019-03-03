@@ -338,7 +338,8 @@ class Response implements ResponseInterface
         'vtt' => 'text/vtt',
         'mkv' => 'video/x-matroska',
         'pkpass' => 'application/vnd.apple.pkpass',
-        'ajax' => 'text/html'
+        'ajax' => 'text/html',
+        'bmp' => 'image/bmp'
     ];
 
     /**
@@ -592,7 +593,7 @@ class Response implements ResponseInterface
         if ($charset) {
             $this->_setHeader('Content-Type', "{$this->_contentType}; charset={$this->_charset}");
         } else {
-            $this->_setHeader('Content-Type', "{$this->_contentType}");
+            $this->_setHeader('Content-Type', (string)$this->_contentType);
         }
     }
 
@@ -1110,7 +1111,7 @@ class Response implements ResponseInterface
     {
         deprecationWarning(
             'Response::type() is deprecated. ' .
-            'Use getType() or withType() instead.'
+            'Use setTypeMap(), getType() or withType() instead.'
         );
 
         if ($contentType === null) {
@@ -1134,6 +1135,22 @@ class Response implements ResponseInterface
         $this->_setContentType();
 
         return $contentType;
+    }
+
+    /**
+     * Sets a content type definition into the map.
+     *
+     * E.g.: setTypeMap('xhtml', ['application/xhtml+xml', 'application/xhtml'])
+     *
+     * This is needed for RequestHandlerComponent and recognition of types.
+     *
+     * @param string $type Content type.
+     * @param string|array $mimeType Definition of the mime type.
+     * @return void
+     */
+    public function setTypeMap($type, $mimeType)
+    {
+        $this->_mimeTypes[$type] = $mimeType;
     }
 
     /**
@@ -1364,6 +1381,10 @@ class Response implements ResponseInterface
      */
     public function sharable($public = null, $time = null)
     {
+        deprecationWarning(
+            'Response::sharable() is deprecated. ' .
+            'Use withSharable() instead.'
+        );
         if ($public === null) {
             $public = array_key_exists('public', $this->_cacheDirectives);
             $private = array_key_exists('private', $this->_cacheDirectives);
@@ -1421,11 +1442,16 @@ class Response implements ResponseInterface
      * a good candidate to be fetched from a shared cache (like in a proxy server).
      * If called with no parameters, this function will return the current max-age value if any
      *
+     * @deprecated 3.6.5 Use withSharedMaxAge() instead.
      * @param int|null $seconds if null, the method will return the current s-maxage value
      * @return int|null
      */
     public function sharedMaxAge($seconds = null)
     {
+        deprecationWarning(
+            'Response::sharedMaxAge() is deprecated. ' .
+            'Use withSharedMaxAge() instead.'
+        );
         if ($seconds !== null) {
             $this->_cacheDirectives['s-maxage'] = $seconds;
             $this->_setCacheControl();
@@ -1461,11 +1487,16 @@ class Response implements ResponseInterface
      * a good candidate to be fetched from the local (client) cache.
      * If called with no parameters, this function will return the current max-age value if any
      *
+     * @deprecated 3.6.5 Use withMaxAge() instead.
      * @param int|null $seconds if null, the method will return the current max-age value
      * @return int|null
      */
     public function maxAge($seconds = null)
     {
+        deprecationWarning(
+            'Response::maxAge() is deprecated. ' .
+            'Use withMaxAge() instead.'
+        );
         if ($seconds !== null) {
             $this->_cacheDirectives['max-age'] = $seconds;
             $this->_setCacheControl();
@@ -2040,19 +2071,20 @@ class Response implements ResponseInterface
     {
         $etags = preg_split('/\s*,\s*/', (string)$request->getHeaderLine('If-None-Match'), 0, PREG_SPLIT_NO_EMPTY);
         $responseTag = $this->getHeaderLine('Etag');
+        $etagMatches = null;
         if ($responseTag) {
             $etagMatches = in_array('*', $etags) || in_array($responseTag, $etags);
         }
 
         $modifiedSince = $request->getHeaderLine('If-Modified-Since');
+        $timeMatches = null;
         if ($modifiedSince && $this->hasHeader('Last-Modified')) {
             $timeMatches = strtotime($this->getHeaderLine('Last-Modified')) === strtotime($modifiedSince);
         }
-        $checks = compact('etagMatches', 'timeMatches');
-        if (empty($checks)) {
+        if ($etagMatches === null && $timeMatches === null) {
             return false;
         }
-        $notModified = !in_array(false, $checks, true);
+        $notModified = $etagMatches !== false && $timeMatches !== false;
         if ($notModified) {
             $this->notModified();
         }
@@ -2160,7 +2192,7 @@ class Response implements ResponseInterface
     /**
      * Create a new response with a cookie set.
      *
-     * ### Options
+     * ### Data
      *
      * - `value`: Value of the cookie
      * - `expire`: Time the cookie expires in
@@ -2191,6 +2223,11 @@ class Response implements ResponseInterface
         if ($name instanceof Cookie) {
             $cookie = $name;
         } else {
+            deprecationWarning(
+                get_called_class() . '::withCookie(string $name, array $data) is deprecated. ' .
+                'Pass an instance of \Cake\Http\Cookie\Cookie instead.'
+            );
+
             if (!is_array($data)) {
                 $data = ['value' => $data];
             }
@@ -2252,6 +2289,11 @@ class Response implements ResponseInterface
         if ($name instanceof CookieInterface) {
             $cookie = $name->withExpired();
         } else {
+            deprecationWarning(
+                get_called_class() . '::withExpiredCookie(string $name, array $data) is deprecated. ' .
+                'Pass an instance of \Cake\Http\Cookie\Cookie instead.'
+            );
+
             $options += [
                 'path' => '/',
                 'domain' => '',
@@ -2693,7 +2735,9 @@ class Response implements ResponseInterface
         }
 
         $bufferSize = 8192;
-        set_time_limit(0);
+        if (strpos(ini_get('disable_functions'), 'set_time_limit') === false) {
+            set_time_limit(0);
+        }
         session_write_close();
         while (!feof($file->handle)) {
             if (!$this->_isActive()) {
@@ -2801,5 +2845,5 @@ class Response implements ResponseInterface
     }
 }
 
-// @deprecated Add backwards compat alias.
+// @deprecated 3.4.0 Add backwards compat alias.
 class_alias('Cake\Http\Response', 'Cake\Network\Response');

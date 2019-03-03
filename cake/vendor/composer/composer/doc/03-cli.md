@@ -65,7 +65,7 @@ php composer.phar init
   to a `composer` repository or a JSON string which similar to what the
   [repositories](04-schema.md#repositories) key accepts.
 
-## install
+## install / i
 
 The `install` command reads the `composer.json` file from the current
 directory, resolves the dependencies, and installs them into `vendor`.
@@ -115,7 +115,7 @@ resolution.
   requirements and force the installation even if the local machine does not
   fulfill these. See also the [`platform`](06-config.md#platform) config option.
 
-## update
+## update / u
 
 In order to get the latest versions of the dependencies and to update the
 `composer.lock` file, you should use the `update` command. This command is also
@@ -129,7 +129,7 @@ php composer.phar update
 This will resolve all dependencies of the project and write the exact versions
 into `composer.lock`.
 
-If you just want to update a few packages and not all, you can list them as such:
+If you only want to update a few packages and not all, you can list them as such:
 
 ```sh
 php composer.phar update vendor/package vendor/package2
@@ -138,7 +138,7 @@ php composer.phar update vendor/package vendor/package2
 You can also use wildcards to update a bunch of packages at once:
 
 ```sh
-php composer.phar update vendor/*
+php composer.phar update "vendor/*"
 ```
 
 ### Options
@@ -184,7 +184,7 @@ php composer.phar require
 After adding/changing the requirements, the modified requirements will be
 installed or updated.
 
-If you do not want to choose requirements interactively, you can just pass them
+If you do not want to choose requirements interactively, you can pass them
 to the command.
 
 ```sh
@@ -272,7 +272,7 @@ This can be used to install CLI utilities globally. Here is an example:
 php composer.phar global require friendsofphp/php-cs-fixer
 ```
 
-Now the `php-cs-fixer` binary is available globally. Just make sure your global
+Now the `php-cs-fixer` binary is available globally. Make sure your global
 [vendor binaries](articles/vendor-binaries.md) directory is in your `$PATH`
 environment variable, you can get its location with the following command :
 
@@ -280,7 +280,7 @@ environment variable, you can get its location with the following command :
 php composer.phar global config bin-dir --absolute
 ```
 
-If you wish to update the binary later on you can just run a global update:
+If you wish to update the binary later on you can run a global update:
 
 ```sh
 php composer.phar global update
@@ -289,7 +289,7 @@ php composer.phar global update
 ## search
 
 The search command allows you to search through the current project's package
-repositories. Usually this will be just packagist. You simply pass it the
+repositories. Usually this will be packagist. You simply pass it the
 terms you want to search for.
 
 ```sh
@@ -491,7 +491,7 @@ php composer.phar validate
 
 ### Options
 
-* **--no-check-all:** Do not emit a warning if requirements in `composer.json` use unbound version constraints.
+* **--no-check-all:** Do not emit a warning if requirements in `composer.json` use unbound or overly strict version constraints.
 * **--no-check-lock:** Do not emit an error if `composer.lock` exists and is not up to date.
 * **--no-check-publish:** Do not emit an error if `composer.json` is unsuitable for publishing as a package on Packagist but is otherwise valid.
 * **--with-dependencies:** Also validate the composer.json of all installed dependencies.
@@ -520,7 +520,7 @@ vendor/seld/jsonlint:
 
 ## self-update (selfupdate)
 
-To update Composer itself to the latest version, just run the `self-update`
+To update Composer itself to the latest version, run the `self-update`
 command. It will replace your `composer.phar` with the latest version.
 
 ```sh
@@ -665,6 +665,9 @@ By default the command checks for the packages on packagist.org.
   package.
 * **--no-progress:** Removes the progress display that can mess with some
   terminals or scripts which don't handle backspace characters.
+* **--no-secure-http:** Disable the secure-http config option temporarily while
+  installing the root package. Use at your own risk. Using this flag is a bad
+  idea.
 * **--keep-vcs:** Skip the deletion of the VCS metadata for the created
   project. This is mostly useful if you run the command in non-interactive
   mode.
@@ -721,7 +724,7 @@ Lists the name, version and license of every package installed. Use
 * **--list (-l):** List user defined scripts.
 
 To run [scripts](articles/scripts.md) manually you can use this command,
-just give it the script name and optionally any required arguments.
+give it the script name and optionally any required arguments.
 
 ## exec
 
@@ -762,7 +765,7 @@ php composer.phar archive vendor/package 2.0.21 --format=zip
 
 ## help
 
-To get more information about a certain command, just use `help`.
+To get more information about a certain command, you can use `help`.
 
 ```sh
 php composer.phar help install
@@ -853,9 +856,9 @@ is a hidden, global (per-user on the machine) directory that is shared between
 all projects.
 
 By default it points to `C:\Users\<user>\AppData\Roaming\Composer` on Windows
-and `/Users/<user>/.composer` on OSX. On *nix systems that follow the [XDG Base
+and `/Users/<user>/.composer` on macOS. On \*nix systems that follow the [XDG Base
 Directory Specifications](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html),
-it points to `$XDG_CONFIG_HOME/composer`. On other *nix systems, it points to
+it points to `$XDG_CONFIG_HOME/composer`. On other \*nix systems, it points to
 `/home/<user>/.composer`.
 
 #### COMPOSER_HOME/config.json
@@ -875,7 +878,7 @@ configuration in the project's `composer.json` always wins.
 The `COMPOSER_CACHE_DIR` var allows you to change the Composer cache directory,
 which is also configurable via the [`cache-dir`](06-config.md#cache-dir) option.
 
-By default it points to `$COMPOSER_HOME/cache` on \*nix and OSX, and
+By default it points to `$COMPOSER_HOME/cache` on \*nix and macOS, and
 `C:\Users\<user>\AppData\Local\Composer` (or `%LOCALAPPDATA%/Composer`) on Windows.
 
 ### COMPOSER_PROCESS_TIMEOUT

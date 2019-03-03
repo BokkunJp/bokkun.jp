@@ -19,7 +19,6 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\Utility\Inflector;
-use InvalidArgumentException;
 
 /**
  * Used by CommandCollection and CommandTask to scan the filesystem
@@ -64,13 +63,13 @@ class CommandScanner
             App::path('Shell')[0],
             $appNamespace . '\Shell\\',
             '',
-            ['app']
+            []
         );
         $appCommands = $this->scanDir(
             App::path('Command')[0],
             $appNamespace . '\Command\\',
             '',
-            ['app']
+            []
         );
 
         return array_merge($appShells, $appCommands);
@@ -84,7 +83,7 @@ class CommandScanner
      */
     public function scanPlugin($plugin)
     {
-        if (!Plugin::loaded($plugin)) {
+        if (!Plugin::isLoaded($plugin)) {
             return [];
         }
         $path = Plugin::classPath($plugin);

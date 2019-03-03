@@ -21,6 +21,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
+use Cake\Validation\Validation;
 
 /**
  * Task class for generating model files.
@@ -166,7 +167,7 @@ class ModelTask extends BakeTask
     {
         $tables = $this->listUnskipped();
         foreach ($tables as $table) {
-            TableRegistry::clear();
+            TableRegistry::getTableLocator()->clear();
             $this->main($table);
         }
     }
@@ -185,11 +186,11 @@ class ModelTask extends BakeTask
             $className = $plugin . '.' . $className;
         }
 
-        if (TableRegistry::exists($className)) {
-            return TableRegistry::get($className);
+        if (TableRegistry::getTableLocator()->exists($className)) {
+            return TableRegistry::getTableLocator()->get($className);
         }
 
-        return TableRegistry::get($className, [
+        return TableRegistry::getTableLocator()->get($className, [
             'name' => $className,
             'table' => $this->tablePrefix . $table,
             'connection' => ConnectionManager::get($this->connection)
@@ -290,7 +291,7 @@ class ModelTask extends BakeTask
             if ($tableClass === 'Cake\ORM\Table') {
                 $namespace = $appNamespace;
 
-                $className = $association->className();
+                $className = $association->getClassName();
                 if (strlen($className)) {
                     list($plugin, $className) = pluginSplit($className);
                     if ($plugin !== null) {
@@ -555,9 +556,12 @@ class ModelTask extends BakeTask
 
         $schema = $model->getSchema();
         foreach ($schema->columns() as $column) {
+            $columnSchema = $schema->getColumn($column);
+
             $properties[$column] = [
                 'kind' => 'column',
-                'type' => $schema->getColumnType($column)
+                'type' => $columnSchema['type'],
+                'null' => $columnSchema['null'],
             ];
         }
 
@@ -707,11 +711,25 @@ class ModelTask extends BakeTask
         } elseif ($metaData['type'] === 'uuid') {
             $rules['uuid'] = [];
         } elseif ($metaData['type'] === 'integer') {
-            $rules['integer'] = [];
+            if ($metaData['unsigned']) {
+                $rules['nonNegativeInteger'] = [];
+            } else {
+                $rules['integer'] = [];
+            }
         } elseif ($metaData['type'] === 'float') {
             $rules['numeric'] = [];
+            if ($metaData['unsigned']) {
+                $rules['greaterThanOrEqual'] = [
+                    0
+                ];
+            }
         } elseif ($metaData['type'] === 'decimal') {
             $rules['decimal'] = [];
+            if ($metaData['unsigned']) {
+                $rules['greaterThanOrEqual'] = [
+                    0
+                ];
+            }
         } elseif ($metaData['type'] === 'boolean') {
             $rules['boolean'] = [];
         } elseif ($metaData['type'] === 'date') {
@@ -731,20 +749,32 @@ class ModelTask extends BakeTask
             }
         }
 
-        if (in_array($fieldName, $primaryKey)) {
-            $rules['allowEmpty'] = ["'create'"];
-        } elseif ($metaData['null'] === true) {
-            $rules['allowEmpty'] = [];
-        } else {
-            $rules['requirePresence'] = ["'create'"];
-            $rules['notEmpty'] = [];
-        }
-
         $validation = [];
         foreach ($rules as $rule => $args) {
             $validation[$rule] = [
                 'rule' => $rule,
                 'args' => $args
+            ];
+        }
+
+        if (in_array($fieldName, $primaryKey)) {
+            $validation['allowEmpty'] = [
+                'rule' => $this->getAllowEmptyMethod($fieldName, $metaData),
+                'args' => ["'create'"],
+            ];
+        } elseif ($metaData['null'] === true) {
+            $validation['allowEmpty'] = [
+                'rule' => $this->getAllowEmptyMethod($fieldName, $metaData),
+                'args' => [],
+            ];
+        } else {
+            $validation['requirePresence'] = [
+                'rule' => 'requirePresence',
+                'args' => ["'create'"],
+            ];
+            $validation['allowEmpty'] = [
+                'rule' => $this->getAllowEmptyMethod($fieldName, $metaData),
+                'args' => ['false'],
             ];
         }
 
@@ -761,6 +791,34 @@ class ModelTask extends BakeTask
         }
 
         return $validation;
+    }
+
+    /**
+     * Get the specific allow empty method for field based on metadata.
+     *
+     * @param string $fieldName Field name.
+     * @param array $metaData Field meta data.
+     * @return string
+     */
+    protected function getAllowEmptyMethod($fieldName, $metaData)
+    {
+        switch ($metaData['type']) {
+            case 'date':
+                return 'allowEmptyDate';
+
+            case 'time':
+                return 'allowEmptyTime';
+
+            case 'datetime':
+            case 'timestamp':
+                return 'allowEmptyDateTime';
+        }
+
+        if (preg_match('/file|image/', $fieldName)) {
+            return 'allowEmptyFile';
+        }
+
+        return 'allowEmptyString';
     }
 
     /**
@@ -965,7 +1023,7 @@ class ModelTask extends BakeTask
         if (file_exists($filename)) {
             require_once $filename;
         }
-        TableRegistry::clear();
+        TableRegistry::getTableLocator()->clear();
 
         $emptyFile = $path . 'Table' . DS . 'empty';
         $this->_deleteEmptyFile($emptyFile);

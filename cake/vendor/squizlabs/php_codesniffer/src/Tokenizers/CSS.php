@@ -91,6 +91,7 @@ class CSS extends PHP
                 || $token['code'] === T_FOREACH
                 || $token['code'] === T_WHILE
                 || $token['code'] === T_DEC
+                || $token['code'] === T_NEW
             ) {
                 $token['type'] = 'T_STRING';
                 $token['code'] = T_STRING;
@@ -106,7 +107,7 @@ class CSS extends PHP
                 && $tokens[($stackPtr + 1)]['content'] === 'PHPCS_CSS_T_OPEN_TAG'
             ) {
                 $content = '<?php';
-                for ($stackPtr = ($stackPtr + 3); $stackPtr < $numTokens; $stackPtr++) {
+                for ($stackPtr += 3; $stackPtr < $numTokens; $stackPtr++) {
                     if ($tokens[$stackPtr]['code'] === T_BITWISE_XOR
                         && $tokens[($stackPtr + 1)]['content'] === 'PHPCS_CSS_T_CLOSE_TAG'
                     ) {
@@ -390,7 +391,7 @@ class CSS extends PHP
 
                     // Needs to be in the format "url(" for it to be a URL.
                     if ($finalTokens[$x]['code'] !== T_OPEN_PARENTHESIS) {
-                        continue;
+                        continue 2;
                     }
 
                     // Make sure the content isn't empty.
@@ -401,7 +402,7 @@ class CSS extends PHP
                     }
 
                     if ($finalTokens[$y]['code'] === T_CLOSE_PARENTHESIS) {
-                        continue;
+                        continue 2;
                     }
 
                     if (PHP_CODESNIFFER_VERBOSITY > 1) {

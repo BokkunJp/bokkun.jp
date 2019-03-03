@@ -140,7 +140,7 @@ final class TlsHelper
         //Convert PEM to DER before SHA1'ing
         $start = '-----BEGIN PUBLIC KEY-----';
         $end = '-----END PUBLIC KEY-----';
-        $pemtrim = substr($pubkeypem, (strpos($pubkeypem, $start) + strlen($start)), (strlen($pubkeypem) - strpos($pubkeypem, $end)) * (-1));
+        $pemtrim = substr($pubkeypem, strpos($pubkeypem, $start) + strlen($start), (strlen($pubkeypem) - strpos($pubkeypem, $end)) * (-1));
         $der = base64_decode($pemtrim);
 
         return sha1($der);
@@ -164,7 +164,7 @@ final class TlsHelper
      *
      * @param string $certName CN/SAN
      *
-     * @return callable|null
+     * @return callable|void
      */
     private static function certNameMatcher($certName)
     {

@@ -9,6 +9,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Cake\Chronos;
 
 use DateTimeImmutable;
@@ -44,8 +45,8 @@ use DateTimeZone;
  * @property-read bool $dst daylight savings time indicator, true if DST, false otherwise
  * @property-read bool $local checks if the timezone is local, true if local, false otherwise
  * @property-read bool $utc checks if the timezone is UTC, true if UTC, false otherwise
- * @property-read string  $timezoneName
- * @property-read string  $tzName
+ * @property-read string $timezoneName
+ * @property-read string $tzName
  */
 class Date extends DateTimeImmutable implements ChronosInterface
 {
@@ -81,7 +82,8 @@ class Date extends DateTimeImmutable implements ChronosInterface
     public function __construct($time = 'now')
     {
         $tz = new DateTimeZone('UTC');
-        if (static::$testNow === null) {
+        $testNow = Chronos::getTestNow();
+        if ($testNow === null) {
             $time = $this->stripTime($time);
 
             parent::__construct($time, $tz);
@@ -98,16 +100,19 @@ class Date extends DateTimeImmutable implements ChronosInterface
             return;
         }
 
-        $testInstance = static::getTestNow();
+        $testNow = clone $testNow;
         if ($relative) {
-            $testInstance = $testInstance->modify($time);
+            $time = $this->stripRelativeTime($time);
+            if (strlen($time) > 0) {
+                $testNow = $testNow->modify($time);
+            }
         }
 
-        if ($tz !== $testInstance->getTimezone()) {
-            $testInstance = $testInstance->setTimezone($tz === null ? date_default_timezone_get() : $tz);
+        if ($tz !== $testNow->getTimezone()) {
+            $testNow = $testNow->setTimezone($tz === null ? date_default_timezone_get() : $tz);
         }
 
-        $time = $testInstance->format('Y-m-d 00:00:00');
+        $time = $testNow->format('Y-m-d 00:00:00');
         parent::__construct($time, $tz);
     }
 
@@ -128,10 +133,17 @@ class Date extends DateTimeImmutable implements ChronosInterface
      */
     public function __debugInfo()
     {
+        // Conditionally add properties if state exists to avoid
+        // errors when using a debugger.
+        $vars = get_object_vars($this);
+
         $properties = [
-            'date' => $this->format('Y-m-d'),
-            'hasFixedNow' => isset(self::$testNow)
+            'hasFixedNow' => static::hasTestNow(),
         ];
+
+        if (isset($vars['date'])) {
+            $properties['date'] = $this->format('Y-m-d');
+        }
 
         return $properties;
     }

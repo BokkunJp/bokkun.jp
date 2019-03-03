@@ -260,16 +260,35 @@ class Configure
     /**
      * Gets the names of the configured Engine objects.
      *
+     * Checking if a specific engine has been configured with this method is deprecated.
+     * Use Configure::isConfigured() instead.
+     *
      * @param string|null $name Engine name.
      * @return array|bool Array of the configured Engine objects, bool for specific name.
      */
     public static function configured($name = null)
     {
         if ($name !== null) {
+            deprecationWarning(
+                'Checking for a named engine with configured() is deprecated. ' .
+                'Use Configure::isConfigured() instead.'
+            );
+
             return isset(static::$_engines[$name]);
         }
 
         return array_keys(static::$_engines);
+    }
+
+    /**
+     * Returns true if the Engine objects is configured.
+     *
+     * @param string $name Engine name.
+     * @return bool
+     */
+    public static function isConfigured($name)
+    {
+        return isset(static::$_engines[$name]);
     }
 
     /**
@@ -427,6 +446,9 @@ class Configure
         if ($data === null) {
             $data = static::$_values;
         }
+        if (!class_exists(Cache::class)) {
+            throw new RuntimeException('You must install cakephp/cache to use Configure::store()');
+        }
 
         return Cache::write($name, $data, $cacheConfig);
     }
@@ -441,6 +463,9 @@ class Configure
      */
     public static function restore($name, $cacheConfig = 'default')
     {
+        if (!class_exists(Cache::class)) {
+            throw new RuntimeException('You must install cakephp/cache to use Configure::restore()');
+        }
         $values = Cache::read($name, $cacheConfig);
         if ($values) {
             return static::write($values);

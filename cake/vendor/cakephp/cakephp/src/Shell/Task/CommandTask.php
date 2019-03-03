@@ -14,7 +14,6 @@
  */
 namespace Cake\Shell\Task;
 
-use Cake\Console\Command;
 use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Core\Plugin;
@@ -164,7 +163,8 @@ class CommandTask extends Shell
      * Return a list of subcommands for a given command
      *
      * @param string $commandName The command you want subcommands from.
-     * @return array
+     * @return string[]
+     * @throws \ReflectionException
      */
     public function subCommands($commandName)
     {

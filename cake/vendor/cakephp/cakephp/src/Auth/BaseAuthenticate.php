@@ -22,12 +22,9 @@ use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * Base Authentication class with common methods and properties.
- *
- * @mixin \Cake\Core\InstanceConfigTrait
  */
 abstract class BaseAuthenticate implements EventListenerInterface
 {
-
     use InstanceConfigTrait;
     use LocatorAwareTrait;
 
@@ -117,8 +114,15 @@ abstract class BaseAuthenticate implements EventListenerInterface
         $result = $this->_query($username)->first();
 
         if (empty($result)) {
-            $hasher = $this->passwordHasher();
-            $hasher->hash((string)$password);
+            // Waste time hashing the password, to prevent
+            // timing side-channels. However, don't hash
+            // null passwords as authentication systems
+            // like digest auth don't use passwords
+            // and hashing *could* create a timing side-channel.
+            if ($password !== null) {
+                $hasher = $this->passwordHasher();
+                $hasher->hash($password);
+            }
 
             return false;
         }

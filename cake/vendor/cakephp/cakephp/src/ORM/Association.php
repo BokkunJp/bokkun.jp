@@ -179,8 +179,9 @@ abstract class Association
 
     /**
      * The default finder name to use for fetching rows from the target table
+     * With array value, finder name and default options are allowed.
      *
-     * @var string
+     * @var string|array
      */
     protected $_finder = 'all';
 
@@ -335,13 +336,52 @@ abstract class Association
     }
 
     /**
+     * Sets the class name of the target table object.
+     *
+     * @param string $className Class name to set.
+     * @return $this
+     * @throws \InvalidArgumentException In case the class name is set after the target table has been
+     *  resolved, and it doesn't match the target table's class name.
+     */
+    public function setClassName($className)
+    {
+        if ($this->_targetTable !== null &&
+            get_class($this->_targetTable) !== App::className($className, 'Model/Table', 'Table')
+        ) {
+            throw new InvalidArgumentException(
+                'The class name doesn\'t match the target table\'s class name.'
+            );
+        }
+
+        $this->_className = $className;
+
+        return $this;
+    }
+
+    /**
+     * Gets the class name of the target table object.
+     *
+     * @return string
+     */
+    public function getClassName()
+    {
+        return $this->_className;
+    }
+
+    /**
      * The class name of the target table object
      *
+     * @deprecated 3.7.0 Use getClassName() instead.
      * @return string
      */
     public function className()
     {
-        return $this->_className;
+        deprecationWarning(
+            get_called_class() . '::className() is deprecated. ' .
+            'Use getClassName() instead.'
+        );
+
+        return $this->getClassName();
     }
 
     /**
@@ -859,7 +899,7 @@ abstract class Association
     /**
      * Gets the default finder to use for fetching rows from the target table.
      *
-     * @return string
+     * @return string|array
      */
     public function getFinder()
     {
@@ -869,7 +909,7 @@ abstract class Association
     /**
      * Sets the default finder to use for fetching rows from the target table.
      *
-     * @param string $finder the finder name to use
+     * @param string|array $finder the finder name to use or array of finder name and option.
      * @return $this
      */
     public function setFinder($finder)
@@ -886,7 +926,7 @@ abstract class Association
      *
      * @deprecated 3.4.0 Use setFinder()/getFinder() instead.
      * @param string|null $finder the finder name to use
-     * @return string
+     * @return string|array
      */
     public function finder($finder = null)
     {

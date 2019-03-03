@@ -60,7 +60,7 @@ class FlashComponent extends Component
     public function __construct(ComponentRegistry $registry, array $config = [])
     {
         parent::__construct($registry, $config);
-        $this->_session = $registry->getController()->request->getSession();
+        $this->_session = $registry->getController()->getRequest()->getSession();
     }
 
     /**
@@ -86,7 +86,7 @@ class FlashComponent extends Component
      */
     public function set($message, array $options = [])
     {
-        $options += $this->getConfig();
+        $options += (array)$this->getConfig();
 
         if ($message instanceof Exception) {
             if (!isset($options['params']['code'])) {

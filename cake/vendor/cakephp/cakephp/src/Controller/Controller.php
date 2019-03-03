@@ -125,18 +125,20 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      * This object contains all the information about a request and several methods for reading
      * additional information about the request.
      *
-     * @var \Cake\Http\ServerRequest|null
+     * Deprecated 3.6.0: The property will become protected in 4.0.0. Use getRequest()/setRequest instead.
+     *
+     * @var \Cake\Http\ServerRequest
      * @link https://book.cakephp.org/3.0/en/controllers/request-response.html#request
-     * @deprecated 3.6.0 The property will become protected in 4.0.0. Use getRequest()/setRequest instead.
      */
     public $request;
 
     /**
      * An instance of a Response object that contains information about the impending response
      *
-     * @var \Cake\Http\Response|null
+     * Deprecated 3.6.0: The property will become protected in 4.0.0. Use getResponse()/setResponse instead.
+
+     * @var \Cake\Http\Response
      * @link https://book.cakephp.org/3.0/en/controllers/request-response.html#response
-     * @deprecated 3.6.0 The property will become protected in 4.0.0. Use getResponse()/setResponse instead.
      */
     public $response;
 
@@ -203,6 +205,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      *
      * @var array
      * @see \Cake\View\View
+     * @deprecated 3.7.0 Use ViewBuilder::setOptions() or any one of it's setter methods instead.
      */
     protected $_validViewOptions = [
         'passedArgs'
@@ -252,7 +255,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
         }
 
         $this->setRequest($request ?: new ServerRequest());
-        $this->setResponse($response ?: new Response());
+        $this->response = $response ?: new Response();
 
         if ($eventManager !== null) {
             $this->setEventManager($eventManager);
@@ -323,6 +326,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      * @param string $name The name of the component to load.
      * @param array $config The config for the component.
      * @return \Cake\Controller\Component
+     * @throws \Exception
      */
     public function loadComponent($name, array $config = [])
     {
@@ -367,11 +371,24 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
         }
 
         list($plugin, $class) = pluginSplit($this->modelClass, true);
-        if ($class !== $name) {
-            return false;
+        if ($class === $name) {
+            return $this->loadModel($plugin . $class);
         }
 
-        return $this->loadModel($plugin . $class);
+        $trace = debug_backtrace();
+        $parts = explode('\\', get_class($this));
+        trigger_error(
+            sprintf(
+                'Undefined property: %s::$%s in %s on line %s',
+                array_pop($parts),
+                $name,
+                $trace[0]['file'],
+                $trace[0]['line']
+            ),
+            E_USER_NOTICE
+        );
+
+        return false;
     }
 
     /**
@@ -495,7 +512,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
     }
 
     /**
-     * Disbale automatic action rendering.
+     * Disable automatic action rendering.
      *
      * @return $this
      * @since 3.6.0
@@ -571,13 +588,12 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      * exists and isn't private.
      *
      * @return mixed The resulting response.
-     * @throws \LogicException When request is not set.
-     * @throws \Cake\Controller\Exception\MissingActionException When actions are not defined or inaccessible.
+     * @throws \ReflectionException
      */
     public function invokeAction()
     {
         $request = $this->request;
-        if (!isset($request)) {
+        if (!$request) {
             throw new LogicException('No Request object configured. Cannot invoke action');
         }
         if (!$this->isAction($request->getParam('action'))) {
@@ -734,7 +750,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      */
     public function setAction($action, ...$args)
     {
-        $this->request = $this->request->withParam('action', $action);
+        $this->setRequest($this->request->withParam('action', $action));
 
         return $this->$action(...$args);
     }
@@ -755,10 +771,8 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
         }
 
         if ($this->request->getParam('bare')) {
-            $builder->enableAutoLayout(false);
+            $builder->disableAutoLayout();
         }
-        $builder->getClassName($this->viewClass);
-
         $this->autoRender = false;
 
         $event = $this->dispatchEvent('Controller.beforeRender');
@@ -775,7 +789,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
 
         $this->View = $this->createView();
         $contents = $this->View->render($view, $layout);
-        $this->response = $this->View->response->withStringBody($contents);
+        $this->setResponse($this->View->getResponse()->withStringBody($contents));
 
         return $this->response;
     }
@@ -881,6 +895,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      *
      * @param string $action The action to check.
      * @return bool Whether or not the method is accessible from a URL.
+     * @throws \ReflectionException
      */
     public function isAction($action)
     {

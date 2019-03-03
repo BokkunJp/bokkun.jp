@@ -490,6 +490,11 @@
                     "description": "IRC channel for support, as irc://server/channel.",
                     "format": "uri"
                 },
+                "chat": {
+                    "type": "string",
+                    "description": "URL to the support chat.",
+                    "format": "uri"
+                },
                 "source": {
                     "type": "string",
                     "description": "URL to browse or download the sources.",
@@ -678,15 +683,14 @@
                         { "$ref": "#/definitions/inline-package" },
                         {
                             "type": "array",
-                            "items": {
-                                "type": { "$ref": "#/definitions/inline-package" }
-                            }
+                            "items": { "$ref": "#/definitions/inline-package" }
                         }
                     ]
                 }
             }
         },
         "inline-package": {
+            "type": "object",
             "required": ["name", "version"],
             "properties": {
                 "name": {

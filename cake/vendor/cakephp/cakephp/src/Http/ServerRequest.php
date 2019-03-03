@@ -112,7 +112,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
      * The full address to the current request
      *
      * @var string
-     * @deprecated 3.4.0 This public property will be removed in 4.0.0. Use getUri()->getPath() instead.
+     * @deprecated 3.4.0 This public property will be removed in 4.0.0. Use getAttribute('here') or getUri()->getPath() instead.
      */
     protected $here;
 
@@ -124,6 +124,13 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
      * @var bool
      */
     public $trustProxy = false;
+
+    /**
+     * trusted proxies list
+     *
+     * @var array
+     */
+    protected $trustedProxies = [];
 
     /**
      * Contents of php://input
@@ -196,7 +203,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
      *
      * @var array
      */
-    protected $emulatedAttributes = ['session', 'webroot', 'base', 'params'];
+    protected $emulatedAttributes = ['session', 'webroot', 'base', 'params', 'here'];
 
     /**
      * Array of Psr\Http\Message\UploadedFileInterface objects.
@@ -267,7 +274,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
      * - `files` Uploaded file data formatted like $_FILES.
      * - `cookies` Cookies for this request.
      * - `environment` $_SERVER and $_ENV data.
-     * - ~~`url`~~ The URL without the base path for the request. This option is deprecated and will be removed in 4.0.0
+     * - `url` The URL without the base path for the request.
      * - `uri` The PSR7 UriInterface object. If null, one will be created.
      * - `base` The base URL for the request.
      * - `webroot` The webroot directory for the request.
@@ -308,7 +315,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
      */
     protected function _setConfig($config)
     {
-        if (!empty($config['url']) && $config['url'][0] === '/') {
+        if (strlen($config['url']) > 1 && $config['url'][0] === '/') {
             $config['url'] = substr($config['url'], 1);
         }
 
@@ -578,8 +585,24 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
     public function clientIp()
     {
         if ($this->trustProxy && $this->getEnv('HTTP_X_FORWARDED_FOR')) {
-            $addresses = explode(',', $this->getEnv('HTTP_X_FORWARDED_FOR'));
-            $ipaddr = end($addresses);
+            $addresses = array_map('trim', explode(',', $this->getEnv('HTTP_X_FORWARDED_FOR')));
+            $trusted = (count($this->trustedProxies) > 0);
+            $n = count($addresses);
+
+            if ($trusted) {
+                $trusted = array_diff($addresses, $this->trustedProxies);
+                $trusted = (count($trusted) === 1);
+            }
+
+            if ($trusted) {
+                return $addresses[0];
+            }
+
+            return $addresses[$n - 1];
+        }
+
+        if ($this->trustProxy && $this->getEnv('HTTP_X_REAL_IP')) {
+            $ipaddr = $this->getEnv('HTTP_X_REAL_IP');
         } elseif ($this->trustProxy && $this->getEnv('HTTP_CLIENT_IP')) {
             $ipaddr = $this->getEnv('HTTP_CLIENT_IP');
         } else {
@@ -587,6 +610,28 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
         }
 
         return trim($ipaddr);
+    }
+
+    /**
+     * register trusted proxies
+     *
+     * @param array $proxies ips list of trusted proxies
+     * @return void
+     */
+    public function setTrustedProxies(array $proxies)
+    {
+        $this->trustedProxies = $proxies;
+        $this->trustProxy = true;
+    }
+
+    /**
+     * Get trusted proxies
+     *
+     * @return array
+     */
+    public function getTrustedProxies()
+    {
+        return $this->trustedProxies;
     }
 
     /**
@@ -1107,8 +1152,8 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
                 $name = $key;
             }
             if ($name !== null) {
-                $name = strtr(strtolower($name), '_', ' ');
-                $name = strtr(ucwords($name), ' ', '-');
+                $name = str_replace('_', ' ', strtolower($name));
+                $name = str_replace(' ', '-', ucwords($name));
                 $headers[$name] = (array)$value;
             }
         }
@@ -1493,8 +1538,8 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
     protected function _parseAcceptWithQualifier($header)
     {
         $accept = [];
-        $header = explode(',', $header);
-        foreach (array_filter($header) as $value) {
+        $headers = explode(',', $header);
+        foreach (array_filter($headers) as $value) {
             $prefValue = '1.0';
             $value = trim($value);
 
@@ -1812,7 +1857,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
      * Get the parsed request body data.
      *
      * If the request Content-Type is either application/x-www-form-urlencoded
-     * or multipart/form-data, nd the request method is POST, this will be the
+     * or multipart/form-data, and the request method is POST, this will be the
      * post data. For other content types, it may be the deserialized request
      * body.
      *
@@ -2113,7 +2158,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
      *
      * @param string $name The attribute name.
      * @return static
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function withoutAttribute($name)
     {
@@ -2150,7 +2195,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
     /**
      * Get all the attributes in the request.
      *
-     * This will include the params, webroot, and base attributes that CakePHP
+     * This will include the params, webroot, base, and here attributes that CakePHP
      * provides.
      *
      * @return array
@@ -2160,7 +2205,8 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
         $emulated = [
             'params' => $this->params,
             'webroot' => $this->webroot,
-            'base' => $this->base
+            'base' => $this->base,
+            'here' => $this->here
         ];
 
         return $this->attributes + $emulated;
@@ -2197,7 +2243,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
      *
      * @param array $files An array of uploaded file objects.
      * @return static
-     * @throws InvalidArgumentException when $files contains an invalid object.
+     * @throws \InvalidArgumentException when $files contains an invalid object.
      */
     public function withUploadedFiles(array $files)
     {
@@ -2214,7 +2260,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
      * @param array $uploadedFiles The new files array to validate.
      * @param string $path The path thus far.
      * @return void
-     * @throws InvalidArgumentException If any leaf elements are not valid files.
+     * @throws \InvalidArgumentException If any leaf elements are not valid files.
      */
     protected function validateUploadedFiles(array $uploadedFiles, $path)
     {
@@ -2445,5 +2491,5 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
     }
 }
 
-// @deprecated Add backwards compat alias.
+// @deprecated 3.4.0 Add backwards compat alias.
 class_alias('Cake\Http\ServerRequest', 'Cake\Network\Request');

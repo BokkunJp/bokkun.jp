@@ -185,6 +185,29 @@ class Validation
     }
 
     /**
+     * Backwards compatibility wrapper for Validation::creditCard().
+     *
+     * @param string $check credit card number to validate
+     * @param string|array $type 'all' may be passed as a string, defaults to fast which checks format of most major credit cards
+     *    if an array is used only the values of the array are checked.
+     *    Example: ['amex', 'bankcard', 'maestro']
+     * @param bool $deep set to true this will check the Luhn algorithm of the credit card.
+     * @param string|null $regex A custom regex can also be passed, this will be used instead of the defined regex values
+     * @return bool Success
+     * @deprecated 3.7.0 Use Validation::creditCard() instead.
+     * @see \Cake\Validation\Validation::creditCard()
+     */
+    public static function cc($check, $type = 'fast', $deep = false, $regex = null)
+    {
+        deprecationWarning(
+            'Validation::cc() is deprecated. ' .
+            'Use Validation::creditCard() instead.'
+        );
+
+        return static::creditCard($check, $type, $deep, $regex);
+    }
+
+    /**
      * Validation of credit card numbers.
      * Returns true if $check is in the proper credit card format.
      *
@@ -197,7 +220,7 @@ class Validation
      * @return bool Success
      * @see \Cake\Validation\Validation::luhn()
      */
-    public static function cc($check, $type = 'fast', $deep = false, $regex = null)
+    public static function creditCard($check, $type = 'fast', $deep = false, $regex = null)
     {
         if (!is_scalar($check)) {
             return false;
@@ -208,10 +231,8 @@ class Validation
             return false;
         }
 
-        if ($regex !== null) {
-            if (static::_check($check, $regex)) {
-                return !$deep || static::luhn($check);
-            }
+        if ($regex !== null && static::_check($check, $regex)) {
+            return !$deep || static::luhn($check);
         }
         $cards = [
             'all' => [
@@ -718,8 +739,7 @@ class Validation
         $decimalPoint = $formatter->getSymbol(NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
         $groupingSep = $formatter->getSymbol(NumberFormatter::GROUPING_SEPARATOR_SYMBOL);
 
-        $check = str_replace($groupingSep, '', $check);
-        $check = str_replace($decimalPoint, '.', $check);
+        $check = str_replace([$groupingSep, $decimalPoint], ['', '.'], $check);
 
         return static::_check($check, $regex);
     }
@@ -778,12 +798,15 @@ class Validation
     /**
      * Checks that value has a valid file extension.
      *
-     * @param string|array $check Value to check
+     * @param string|array|\Psr\Http\Message\UploadedFileInterface $check Value to check
      * @param array $extensions file extensions to allow. By default extensions are 'gif', 'jpeg', 'png', 'jpg'
      * @return bool Success
      */
     public static function extension($check, $extensions = ['gif', 'jpeg', 'png', 'jpg'])
     {
+        if ($check instanceof UploadedFileInterface) {
+            return static::extension($check->getClientFilename(), $extensions);
+        }
         if (is_array($check)) {
             $check = isset($check['name']) ? $check['name'] : array_shift($check);
 
@@ -1111,7 +1134,7 @@ class Validation
         }
 
         for ($position = ($length % 2); $position < $length; $position += 2) {
-            $number = $check[$position] * 2;
+            $number = (int)$check[$position] * 2;
             $sum += ($number < 10) ? $number : $number - 9;
         }
 
@@ -1261,7 +1284,7 @@ class Validation
      * - `optional` - Whether or not this file is optional. Defaults to false.
      *   If true a missing file will pass the validator regardless of other constraints.
      *
-     * @param array $file The uploaded file data from PHP.
+     * @param array|\Psr\Http\Message\UploadedFileInterface $file The uploaded file data from PHP.
      * @param array $options An array of options for the validation.
      * @return bool
      */
@@ -1313,7 +1336,7 @@ class Validation
     /**
      * Validates the size of an uploaded image.
      *
-     * @param array $file The uploaded file data from PHP.
+     * @param array|\Psr\Http\Message\UploadedFileInterface  $file The uploaded file data from PHP.
      * @param array $options Options to validate width and height.
      * @return bool
      */
@@ -1323,11 +1346,7 @@ class Validation
             throw new InvalidArgumentException('Invalid image size validation parameters! Missing `width` and / or `height`.');
         }
 
-        if ($file instanceof UploadedFileInterface) {
-            $file = $file->getStream()->getContents();
-        } elseif (is_array($file) && isset($file['tmp_name'])) {
-            $file = $file['tmp_name'];
-        }
+        $file = static::getFilename($file);
 
         list($width, $height) = getimagesize($file);
 
@@ -1354,7 +1373,7 @@ class Validation
      * Validates the image width.
      *
      * @param array $file The uploaded file data from PHP.
-     * @param string $operator Comparision operator.
+     * @param string $operator Comparison operator.
      * @param int $width Min or max width.
      * @return bool
      */
@@ -1372,7 +1391,7 @@ class Validation
      * Validates the image width.
      *
      * @param array $file The uploaded file data from PHP.
-     * @param string $operator Comparision operator.
+     * @param string $operator Comparison operator.
      * @param int $height Min or max width.
      * @return bool
      */
@@ -1558,6 +1577,41 @@ class Validation
     public static function hexColor($check)
     {
         return static::_check($check, '/^#[0-9a-f]{6}$/iD');
+    }
+
+    /**
+     * Check that the input value has a valid International Bank Account Number IBAN syntax
+     * Requirements are uppercase, no whitespaces, max length 34, country code and checksum exist at right spots,
+     * body matches against checksum via Mod97-10 algorithm
+     *
+     * @param string $check The value to check
+     *
+     * @return bool Success
+     */
+    public static function iban($check)
+    {
+        if (!preg_match('/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/', $check)) {
+            return false;
+        }
+
+        $country = substr($check, 0, 2);
+        $checkInt = intval(substr($check, 2, 2));
+        $account = substr($check, 4);
+        $search = range('A', 'Z');
+        $replace = [];
+        foreach (range(10, 35) as $tmp) {
+            $replace[] = strval($tmp);
+        }
+        $numStr = str_replace($search, $replace, $account . $country . '00');
+        $checksum = intval(substr($numStr, 0, 1));
+        $numStrLength = strlen($numStr);
+        for ($pos = 1; $pos < $numStrLength; $pos++) {
+            $checksum *= 10;
+            $checksum += intval(substr($numStr, $pos, 1));
+            $checksum %= 97;
+        }
+
+        return ((98 - $checksum) === $checkInt);
     }
 
     /**

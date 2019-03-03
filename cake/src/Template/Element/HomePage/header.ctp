@@ -6,7 +6,7 @@
             echo $this->Html->image("HomePage/0113.png", [
                 "class" =>"top-image",
                 "alt" => "Top",
-                'url' => 'https://bokkun.jp',
+                'url' => 'http://bokkun.jp',
             ]);
         ?>
         <strong>

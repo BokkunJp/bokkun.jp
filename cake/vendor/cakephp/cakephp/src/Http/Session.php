@@ -118,6 +118,10 @@ class Session
             unset($sessionConfig['ini']['session.save_handler']);
         }
 
+        if (!isset($sessionConfig['ini']['session.use_strict_mode']) && ini_get('session.use_strict_mode') != 1) {
+            $sessionConfig['ini']['session.use_strict_mode'] = 1;
+        }
+
         if (!isset($sessionConfig['ini']['session.cookie_httponly']) && ini_get('session.cookie_httponly') != 1) {
             $sessionConfig['ini']['session.cookie_httponly'] = 1;
         }
@@ -224,7 +228,7 @@ class Session
             $this->engine($class, $config['handler']);
         }
 
-        $this->_lifetime = ini_get('session.gc_maxlifetime');
+        $this->_lifetime = (int)ini_get('session.gc_maxlifetime');
         $this->_isCLI = (PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg');
         session_register_shutdown();
     }
@@ -257,8 +261,10 @@ class Session
         $className = App::className($class, 'Http/Session');
 
         if (!$className) {
-            deprecationWarning('Session adapters should be moved to the Http/Session namespace.');
             $className = App::className($class, 'Network/Session');
+            if ($className) {
+                deprecationWarning('Session adapters should be moved to the Http/Session namespace.');
+            }
         }
         if (!$className) {
             throw new InvalidArgumentException(
@@ -284,7 +290,7 @@ class Session
      */
     protected function setEngine(SessionHandlerInterface $handler)
     {
-        if (!headers_sent()) {
+        if (!headers_sent() && session_status() !== \PHP_SESSION_ACTIVE) {
             session_set_save_handler($handler, false);
         }
 
@@ -360,6 +366,26 @@ class Session
         }
 
         return $this->_started;
+    }
+
+    /**
+     * Write data and close the session
+     *
+     * @return bool True if session was started
+     */
+    public function close()
+    {
+        if (!$this->_started) {
+            return true;
+        }
+
+        if (!session_write_close()) {
+            throw new RuntimeException('Could not close the session');
+        }
+
+        $this->_started = false;
+
+        return true;
     }
 
     /**
@@ -529,7 +555,7 @@ class Session
             $this->start();
         }
 
-        if (!$this->_isCLI && session_status() === PHP_SESSION_ACTIVE) {
+        if (!$this->_isCLI && session_status() === \PHP_SESSION_ACTIVE) {
             session_destroy();
         }
 
@@ -606,7 +632,7 @@ class Session
         $result = false;
 
         $checkTime = $time !== null && $this->_lifetime > 0;
-        if ($checkTime && (time() - $time > $this->_lifetime)) {
+        if ($checkTime && (time() - (int)$time > $this->_lifetime)) {
             $result = true;
         }
 

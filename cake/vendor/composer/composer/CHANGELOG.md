@@ -1,3 +1,98 @@
+### [1.8.4] 2019-02-11
+
+  * Fixed long standing solver bug leading to odd solving issues in edge cases, see #7946
+  * Fixed HHVM support for upcoming releases
+  * Fixed unix proxy for binaries to be POSIX compatible instead of breaking some shells
+  * Fixed invalid deprecation warning for composer-plugin-api
+  * Fixed edge case issues with Windows junctions when working with path repositories
+
+### [1.8.3] 2019-01-30
+
+  * Fixed regression when executing partial updates
+
+### [1.8.2] 2019-01-29
+
+  * Fixed invalid deprecation warning for ext-pdo_mysql and similar
+  * Updated to latest xdebug-handler
+
+### [1.8.1] 2019-01-29
+
+  * Deprecated support for non-standard package names (anything with uppercase, or no / in it). Make sure to follow the warnings if you see any to avoid problems in 2.0.
+  * Fixed some packages missing from the autoloader config when installing with --no-dev
+  * Fixed support for cloning GitLab repos using OAuth tokens instead of SSH keys
+  * Fixed metapackage installs/updates missing from output
+  * Fixed --with-dependencies / --with-all-dependencies not updating some packages in some edge cases
+  * Fixed compatibility with Symfony 4.2 deprecations
+  * Fixed temp dir not being cleaned up on download error while archiving packages
+  * Updated to latest ca-bundle
+
+### [1.8.0] 2018-12-03
+
+  * Changed `post-package-install` / `post-package-update` event to be fired *after* the lock file has been updated as opposed to before
+  * Added support for removing packages using a wildcard with the `remove` command, e.g. `composer remove foo/*`
+  * Added `chat` to the list of `support` channels you can list in composer.json
+  * Added signal handling on require command to restore the composer.json in case of abort
+  * Added `--ignore` to `outdated` command to pass one or more packages that you do not want to be listed
+  * Added `--no-dev` to `check-platform-reqs` command to skip dev requirements even if they are installed
+  * Added support for running plugin commands from sub-directories within a project much like other Composer commands
+  * Added support for running Composer via phpdbg
+  * Added `lib-imagick` platform package
+  * Fixed validate command always checking for disabled checks when used with `--strict`
+
+### [1.7.3] 2018-11-01
+
+  * Fixed handling of replace/conflict rules. This may affect dependency resolution in some edge cases.
+  * Fixed Bitbucket API support and migrated all calls to API v2 as v1 is deprecated
+  * Fixed support for lib-openssl 1.1.1 having only lowercase algorithm names
+  * Fixed escaping of URLs in Perforce and Svn drivers
+  * Fixed `show` command not respecting `--path` when a single package name was given
+  * Fixed regression in 1.7.2's handling of metapackages
+
+### [1.7.2] 2018-08-16
+
+  * Fixed reporting of authentication/rate limiting issues for GitHub API access
+  * Fixed `create-project` not checking the checking the latest commit out when a cache was already present
+  * Fixed reporting of errors when `global` command can not switch the working directory
+  * Fixed PHP 5.3 JSON encoding issues with complex unicode character sequences
+  * Updated to latest ca-bundle and xdebug-handler projects, see related changelogs
+
+### [1.7.1] 2018-08-07
+
+  * Fixed issue autoloading plugins in require-dev in some conditions
+  * Fixed handling of SSL to repo.packagist.org on very old PHP versions
+
+### [1.7.0] 2018-08-03
+
+  * Added the overridden platform config's PHP version in the `diagnose` command output
+  * Fixed --no-plugins not being respected in a few commands
+  * Fixed 1.7.0-RC regression in output showing <warn> instead of proper colors
+  * Fixed 1.7.0-RC regression in output missing "Loading from cache" output on package install
+
+### [1.7.0-RC] 2018-07-24
+
+  * Changed default repository URL from packagist.org to repo.packagist.org, this might affect people with strict firewall rules
+  * Changed output from Updating to Downgrading when performing package downgrades, this might affect anything parsing output
+  * Several minor performance improvements
+  * Added basic authentication support for mercurial repos
+  * Added explicit `i` and `u` aliases for the `install` and `update` commands
+  * Added support for `show` command to output json format with --tree
+  * Added support for {glob,braces} support in the path repository's path argument
+  * Added support in `status` command for showing diffs in vendor dir even for packages installed as dist/zip archives
+  * Added `--remove-vcs` flag to `create-project` command to avoid prompting for keeping VCS files
+  * Added `--no-secure-http` flag to `create-project` command to bypass https (use at your own risk)
+  * Added `pre-command-run` event that lets plugins modify arguments
+  * Added RemoteFilesystem::getRemoteContents extension point
+  * Fixed setting scripts via `config` command
+
+### [1.6.5] 2018-05-04
+
+  * Fixed regression in 1.6.4 causing strange update behaviors with dev packages
+  * Fixed regression in 1.6.4 color support detection for Windows
+  * Fixed issues dealing with broken symlinks when switching branches and using path repositories
+  * Fixed JSON schema for package repositories
+  * Fixed issues on computers set to Turkish locale
+  * Fixed classmap parsing of files using short-open-tags when they are disabled in php
+
 ### [1.6.4] 2018-04-13
 
   * Security fixes in some edge case scenarios, recommended update for all users
@@ -183,7 +278,7 @@
   * Added `COMPOSER_MIRROR_PATH_REPOS` env var to force mirroring of path repositories vs symlinking
   * Added `COMPOSER_DEV_MODE` env var that is set by Composer to forward the dev mode to script handlers
   * Fixed support for git 2.11
-  * Fixed output from zip and rar leaking out when an error occured
+  * Fixed output from zip and rar leaking out when an error occurred
   * Removed `hash` from composer.lock, only `content-hash` is now used which should reduce conflicts
   * Minor fixes and performance improvements
 
@@ -642,6 +737,17 @@
 
   * Initial release
 
+[1.8.4]: https://github.com/composer/composer/compare/1.8.3...1.8.4
+[1.8.3]: https://github.com/composer/composer/compare/1.8.2...1.8.3
+[1.8.2]: https://github.com/composer/composer/compare/1.8.1...1.8.2
+[1.8.1]: https://github.com/composer/composer/compare/1.8.0...1.8.1
+[1.8.0]: https://github.com/composer/composer/compare/1.7.3...1.8.0
+[1.7.3]: https://github.com/composer/composer/compare/1.7.2...1.7.3
+[1.7.2]: https://github.com/composer/composer/compare/1.7.1...1.7.2
+[1.7.1]: https://github.com/composer/composer/compare/1.7.0...1.7.1
+[1.7.0]: https://github.com/composer/composer/compare/1.7.0-RC...1.7.0
+[1.7.0-RC]: https://github.com/composer/composer/compare/1.6.5...1.7.0-RC
+[1.6.5]: https://github.com/composer/composer/compare/1.6.4...1.6.5
 [1.6.4]: https://github.com/composer/composer/compare/1.6.3...1.6.4
 [1.6.3]: https://github.com/composer/composer/compare/1.6.2...1.6.3
 [1.6.2]: https://github.com/composer/composer/compare/1.6.1...1.6.2

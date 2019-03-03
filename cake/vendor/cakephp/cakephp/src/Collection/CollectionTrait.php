@@ -177,17 +177,17 @@ trait CollectionTrait
     /**
      * {@inheritDoc}
      */
-    public function max($callback, $type = SORT_NUMERIC)
+    public function max($callback, $type = \SORT_NUMERIC)
     {
-        return (new SortIterator($this->unwrap(), $callback, SORT_DESC, $type))->first();
+        return (new SortIterator($this->unwrap(), $callback, \SORT_DESC, $type))->first();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function min($callback, $type = SORT_NUMERIC)
+    public function min($callback, $type = \SORT_NUMERIC)
     {
-        return (new SortIterator($this->unwrap(), $callback, SORT_ASC, $type))->first();
+        return (new SortIterator($this->unwrap(), $callback, \SORT_ASC, $type))->first();
     }
 
     /**
@@ -242,7 +242,7 @@ trait CollectionTrait
     /**
      * {@inheritDoc}
      */
-    public function sortBy($callback, $dir = SORT_DESC, $type = SORT_NUMERIC)
+    public function sortBy($callback, $dir = \SORT_DESC, $type = \SORT_NUMERIC)
     {
         return new SortIterator($this->unwrap(), $callback, $dir, $type);
     }
@@ -283,10 +283,12 @@ trait CollectionTrait
         $callback = $this->_propertyExtractor($callback);
 
         $mapper = function ($value, $key, $mr) use ($callback) {
+            /** @var \Cake\Collection\Iterator\MapReduce $mr */
             $mr->emitIntermediate($value, $callback($value));
         };
 
         $reducer = function ($values, $key, $mr) {
+            /** @var \Cake\Collection\Iterator\MapReduce $mr */
             $mr->emit(count($values), $key);
         };
 
@@ -402,6 +404,105 @@ trait CollectionTrait
     /**
      * {@inheritDoc}
      */
+    public function takeLast($howMany)
+    {
+        if ($howMany < 1) {
+            throw new \InvalidArgumentException("The takeLast method requires a number greater than 0.");
+        }
+
+        $iterator = $this->optimizeUnwrap();
+        if (is_array($iterator)) {
+            return new Collection(array_slice($iterator, $howMany * -1));
+        }
+
+        if ($iterator instanceof Countable) {
+            $count = count($iterator);
+
+            if ($count === 0) {
+                return new Collection([]);
+            }
+
+            $iterator = new LimitIterator($iterator, max(0, $count - $howMany), $howMany);
+
+            return new Collection($iterator);
+        }
+
+        $generator = function ($iterator, $howMany) {
+            $result = [];
+            $bucket = 0;
+            $offset = 0;
+
+            /**
+             * Consider the collection of elements [1, 2, 3, 4, 5, 6, 7, 8, 9], in order
+             * to get the last 4 elements, we can keep a buffer of 4 elements and
+             * fill it circularly using modulo logic, we use the $bucket variable
+             * to track the position to fill next in the buffer. This how the buffer
+             * looks like after 4 iterations:
+             *
+             * 0) 1 2 3 4 -- $bucket now goes back to 0, we have filled 4 elementes
+             * 1) 5 2 3 4 -- 5th iteration
+             * 2) 5 6 3 4 -- 6th iteration
+             * 3) 5 6 7 4 -- 7th iteration
+             * 4) 5 6 7 8 -- 8th iteration
+             * 5) 9 6 7 8
+             *
+             *  We can see that at the end of the iterations, the buffer contains all
+             *  the last four elements, just in the wrong order. How do we keep the
+             *  original order? Well, it turns out that the number of iteration also
+             *  give us a clue on what's going on, Let's add a marker for it now:
+             *
+             * 0) 1 2 3 4
+             *    ^ -- The 0) above now becomes the $offset variable
+             * 1) 5 2 3 4
+             *      ^ -- $offset = 1
+             * 2) 5 6 3 4
+             *        ^ -- $offset = 2
+             * 3) 5 6 7 4
+             *          ^ -- $offset = 3
+             * 4) 5 6 7 8
+             *    ^  -- We use module logic for $offset too
+             *          and as you can see each time $offset is 0, then the buffer
+             *          is sorted exactly as we need.
+             * 5) 9 6 7 8
+             *      ^ -- $offset = 1
+             *
+             * The $offset variable is a marker for splitting the buffer in two,
+             * elements to the right for the marker are the head of the final result,
+             * whereas the elements at the left are the tail. For example consider step 5)
+             * which has an offset of 1:
+             *
+             * - $head = elements to the right = [6, 7, 8]
+             * - $tail = elements to the left =  [9]
+             * - $result = $head + $tail = [6, 7, 8, 9]
+             *
+             * The logic above applies to collections of any size.
+             */
+
+            foreach ($iterator as $k => $item) {
+                $result[$bucket] = [$k, $item];
+                $bucket = (++$bucket) % $howMany;
+                $offset++;
+            }
+
+            $offset = $offset % $howMany;
+            $head = array_slice($result, $offset);
+            $tail = array_slice($result, 0, $offset);
+
+            foreach ($head as $v) {
+                yield $v[0] => $v[1];
+            }
+
+            foreach ($tail as $v) {
+                yield $v[0] => $v[1];
+            }
+        };
+
+        return new Collection($generator($iterator, $howMany));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function append($items)
     {
         $list = new AppendIterator();
@@ -459,6 +560,7 @@ trait CollectionTrait
         ];
 
         $mapper = function ($value, $key, $mapReduce) use ($options) {
+            /** @var \Cake\Collection\Iterator\MapReduce $mapReduce */
             $rowKey = $options['keyPath'];
             $rowVal = $options['valuePath'];
 
@@ -480,6 +582,7 @@ trait CollectionTrait
             foreach ($values as $value) {
                 $result += $value;
             }
+            /** @var \Cake\Collection\Iterator\MapReduce $mapReduce */
             $mapReduce->emit($result, $key);
         };
 
@@ -501,6 +604,7 @@ trait CollectionTrait
             $id = $idPath($row, $key);
             $parentId = $parentPath($row, $key);
             $parents[$id] =& $row;
+            /** @var \Cake\Collection\Iterator\MapReduce $mapReduce */
             $mapReduce->emitIntermediate($id, $parentId);
         };
 
@@ -513,6 +617,7 @@ trait CollectionTrait
             if (empty($key) || !isset($parents[$key])) {
                 foreach ($values as $id) {
                     $parents[$id] = $isObject ? $parents[$id] : new ArrayIterator($parents[$id], 1);
+                    /** @var \Cake\Collection\Iterator\MapReduce $mapReduce */
                     $mapReduce->emit($parents[$id]);
                 }
 
@@ -528,6 +633,7 @@ trait CollectionTrait
 
         return (new Collection(new MapReduce($this->unwrap(), $mapper, $reducer)))
             ->map(function ($value) use (&$isObject) {
+                /** @var \ArrayIterator $value */
                 return $isObject ? $value : $value->getArrayCopy();
             });
     }
@@ -584,6 +690,20 @@ trait CollectionTrait
     public function compile($preserveKeys = true)
     {
         return new Collection($this->toArray($preserveKeys));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function lazy()
+    {
+        $generator = function () {
+            foreach ($this->unwrap() as $k => $v) {
+                yield $k => $v;
+            }
+        };
+
+        return new Collection($generator());
     }
 
     /**
@@ -772,9 +892,10 @@ trait CollectionTrait
     }
 
     /**
-     * {@inheritDoc}
-     *
+     * @param callable|null $operation Operation
+     * @param callable|null $filter Filter
      * @return \Cake\Collection\CollectionInterface
+     * @throws \LogicException
      */
     public function cartesianProduct(callable $operation = null, callable $filter = null)
     {
@@ -828,6 +949,7 @@ trait CollectionTrait
      * {@inheritDoc}
      *
      * @return \Cake\Collection\CollectionInterface
+     * @throws \LogicException
      */
     public function transpose()
     {

@@ -38,12 +38,8 @@ class FunctionCommentSniff extends PEARFunctionCommentSniff
     protected function processReturn(File $phpcsFile, $stackPtr, $commentStart)
     {
         $tokens = $phpcsFile->getTokens();
-
-        // Skip constructor and destructor.
-        $methodName      = $phpcsFile->getDeclarationName($stackPtr);
-        $isSpecialMethod = ($methodName === '__construct' || $methodName === '__destruct');
-
         $return = null;
+
         foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
             if ($tokens[$tag]['content'] === '@return') {
                 if ($return !== null) {
@@ -56,6 +52,9 @@ class FunctionCommentSniff extends PEARFunctionCommentSniff
             }
         }
 
+        // Skip constructor and destructor.
+        $methodName      = $phpcsFile->getDeclarationName($stackPtr);
+        $isSpecialMethod = ($methodName === '__construct' || $methodName === '__destruct');
         if ($isSpecialMethod === true) {
             return;
         }
@@ -423,8 +422,8 @@ class FunctionCommentSniff extends PEARFunctionCommentSniff
                 if ($suggestedTypeHint !== '' && isset($realParams[$pos]) === true) {
                     $typeHint = $realParams[$pos]['type_hint'];
 
-                    // Remove namespace prefixes.
-                    $suggestedTypeHint = substr($suggestedTypeHint, (strlen($typeHint) * -1));
+                    // Remove namespace prefixes when comparing.
+                    $compareTypeHint = substr($suggestedTypeHint, (strlen($typeHint) * -1));
 
                     if ($typeHint === '') {
                         $error = 'Type hint "%s" missing for %s';
@@ -443,7 +442,7 @@ class FunctionCommentSniff extends PEARFunctionCommentSniff
                         }
 
                         $phpcsFile->addError($error, $stackPtr, $errorCode, $data);
-                    } else if ($typeHint !== $suggestedTypeHint && $typeHint !== '?'.$suggestedTypeHint) {
+                    } else if ($typeHint !== $compareTypeHint && $typeHint !== '?'.$compareTypeHint) {
                         $error = 'Expected type hint "%s"; found "%s" for %s';
                         $data  = [
                             $suggestedTypeHint,
@@ -611,6 +610,7 @@ class FunctionCommentSniff extends PEARFunctionCommentSniff
                 $phpcsFile->fixer->replaceToken(($param['tag'] + 2), $content);
 
                 // Fix up the indent of additional comment lines.
+                $diff = ($param['type_space'] - $spaces);
                 foreach ($param['commentLines'] as $lineNum => $line) {
                     if ($lineNum === 0
                         || $param['commentLines'][$lineNum]['indent'] === 0
@@ -618,8 +618,11 @@ class FunctionCommentSniff extends PEARFunctionCommentSniff
                         continue;
                     }
 
-                    $diff      = ($param['type_space'] - $spaces);
                     $newIndent = ($param['commentLines'][$lineNum]['indent'] - $diff);
+                    if ($newIndent <= 0) {
+                        continue;
+                    }
+
                     $phpcsFile->fixer->replaceToken(
                         ($param['commentLines'][$lineNum]['token'] - 1),
                         str_repeat(' ', $newIndent)

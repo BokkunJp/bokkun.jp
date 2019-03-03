@@ -932,6 +932,7 @@ class JS extends Tokenizer
             T_RETURN              => true,
             T_BOOLEAN_OR          => true,
             T_BOOLEAN_AND         => true,
+            T_BOOLEAN_NOT         => true,
             T_BITWISE_OR          => true,
             T_BITWISE_AND         => true,
             T_COMMA               => true,
@@ -1012,7 +1013,7 @@ class JS extends Tokenizer
             echo "\t* found end of regular expression at token $regexEnd *".PHP_EOL;
         }
 
-        for ($next = ($next + 1); $next < $numChars; $next++) {
+        for ($next += 1; $next < $numChars; $next++) {
             if ($chars[$next] !== ' ') {
                 break;
             } else {

@@ -45,8 +45,8 @@ use InvalidArgumentException;
  * @property-read bool $dst daylight savings time indicator, true if DST, false otherwise
  * @property-read bool $local checks if the timezone is local, true if local, false otherwise
  * @property-read bool $utc checks if the timezone is UTC, true if UTC, false otherwise
- * @property-read string  $timezoneName
- * @property-read string  $tzName
+ * @property-read string $timezoneName
+ * @property-read string $tzName
  */
 class MutableDateTime extends DateTime implements ChronosInterface
 {
@@ -82,7 +82,8 @@ class MutableDateTime extends DateTime implements ChronosInterface
             $tz = $tz instanceof DateTimeZone ? $tz : new DateTimeZone($tz);
         }
 
-        if (static::$testNow === null) {
+        $testNow = Chronos::getTestNow();
+        if ($testNow === null) {
             parent::__construct($time === null ? 'now' : $time, $tz);
 
             return;
@@ -95,16 +96,16 @@ class MutableDateTime extends DateTime implements ChronosInterface
             return;
         }
 
-        $testInstance = clone static::getTestNow();
+        $testNow = clone $testNow;
         if ($relative) {
-            $testInstance = $testInstance->modify($time);
+            $testNow = $testNow->modify($time);
         }
 
-        if ($tz !== $testInstance->getTimezone()) {
-            $testInstance = $testInstance->setTimezone($tz === null ? date_default_timezone_get() : $tz);
+        if ($tz !== $testNow->getTimezone()) {
+            $testNow = $testNow->setTimezone($tz === null ? date_default_timezone_get() : $tz);
         }
 
-        $time = $testInstance->format('Y-m-d H:i:s.u');
+        $time = $testNow->format('Y-m-d H:i:s.u');
         parent::__construct($time, $tz);
     }
 
@@ -168,43 +169,27 @@ class MutableDateTime extends DateTime implements ChronosInterface
     }
 
     /**
-     * Overloading original modify method to handling modification with DST change
-     *
-     * For example, i have the date 2014-03-30 00:00:00 in Europe/London (new Carbon('2014-03-30 00:00:00,
-     *   'Europe/London')), then if i want to increase date by 1 day, i expect 2014-03-31 00:00:00, but if want to
-     *   increase date by 24 hours, then i expect 2014-03-31 01:00:00, because in this timezone there will be that time
-     *   after 24 hours (timezone offset changes because of Daylight correction). The same for minutes and seconds.
-     *
-     * @param string $modify argument for php DateTime::modify method
-     *
-     * @return static
-     */
-    public function modify($modify)
-    {
-        if (!preg_match('/(sec|second|min|minute|hour)s?/i', $modify)) {
-            return parent::modify($modify);
-        }
-
-        $timezone = $this->getTimezone();
-        $this->setTimezone('UTC');
-        parent::modify($modify);
-        $this->setTimezone($timezone);
-
-        return $this;
-    }
-
-    /**
      * Return properties for debugging.
      *
      * @return array
      */
     public function __debugInfo()
     {
+        // Conditionally add properties if state exists to avoid
+        // errors when using a debugger.
+        $vars = get_object_vars($this);
+
         $properties = [
-            'time' => $this->format('Y-m-d H:i:s.u'),
-            'timezone' => $this->getTimezone()->getName(),
-            'hasFixedNow' => isset(self::$testNow)
+            'hasFixedNow' => static::hasTestNow(),
         ];
+
+        if (isset($vars['date'])) {
+            $properties['time'] = $this->format('Y-m-d H:i:s.u');
+        }
+
+        if (isset($vars['timezone'])) {
+            $properties['timezone'] = $this->getTimezone()->getName();
+        }
 
         return $properties;
     }

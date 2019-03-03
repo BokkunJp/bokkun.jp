@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
+use Composer\Package\BasePackage;
 
 /**
  * @author Pierre du Plessis <pdples@gmail.com>
@@ -48,7 +49,8 @@ class RemoveCommand extends BaseCommand
                 new InputOption('classmap-authoritative', 'a', InputOption::VALUE_NONE, 'Autoload classes from the classmap only. Implicitly enables `--optimize-autoloader`.'),
                 new InputOption('apcu-autoloader', null, InputOption::VALUE_NONE, 'Use APCu to cache found/not-found classes.'),
             ))
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<EOT
 The <info>remove</info> command removes a package from the current
 list of installed packages
 
@@ -93,10 +95,23 @@ EOT
             if (isset($composer[$type][$package])) {
                 $json->removeLink($type, $composer[$type][$package]);
             } elseif (isset($composer[$altType][$package])) {
-                $io->writeError('<warning>'.$composer[$altType][$package].' could not be found in '.$type.' but it is present in '.$altType.'</warning>');
+                $io->writeError('<warning>' . $composer[$altType][$package] . ' could not be found in ' . $type . ' but it is present in ' . $altType . '</warning>');
                 if ($io->isInteractive()) {
-                    if ($io->askConfirmation('Do you want to remove it from '.$altType.' [<comment>yes</comment>]? ', true)) {
+                    if ($io->askConfirmation('Do you want to remove it from ' . $altType . ' [<comment>yes</comment>]? ', true)) {
                         $json->removeLink($altType, $composer[$altType][$package]);
+                    }
+                }
+            } elseif (isset($composer[$type]) && $matches = preg_grep(BasePackage::packageNameToRegexp($package), array_keys($composer[$type]))) {
+                foreach ($matches as $matchedPackage) {
+                    $json->removeLink($type, $matchedPackage);
+                }
+            } elseif (isset($composer[$altType]) && $matches = preg_grep(BasePackage::packageNameToRegexp($package), array_keys($composer[$altType]))) {
+                foreach ($matches as $matchedPackage) {
+                    $io->writeError('<warning>' . $matchedPackage . ' could not be found in ' . $type . ' but it is present in ' . $altType . '</warning>');
+                    if ($io->isInteractive()) {
+                        if ($io->askConfirmation('Do you want to remove it from ' . $altType . ' [<comment>yes</comment>]? ', true)) {
+                            $json->removeLink($altType, $matchedPackage);
+                        }
                     }
                 }
             } else {

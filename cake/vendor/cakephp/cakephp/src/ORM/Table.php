@@ -150,7 +150,14 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      *
      * @var string
      */
-    const RULES_CLASS = 'Cake\ORM\RulesChecker';
+    const RULES_CLASS = RulesChecker::class;
+
+    /**
+     * The IsUnique class name that is used.
+     *
+     * @var string
+     */
+    const IS_UNIQUE_CLASS = IsUnique::class;
 
     /**
      * Name of the table as it can be found in the database
@@ -494,7 +501,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
     /**
      * Sets the connection instance.
      *
-     * @param \Cake\Database\Connection|\Cake\Datasource\ConnectionInterface $connection The connection instance
+     * @param \Cake\Database\Connection $connection The connection instance
      * @return $this
      */
     public function setConnection(ConnectionInterface $connection)
@@ -773,7 +780,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
                 return $this->_entityClass = $default;
             }
 
-            $alias = Inflector::singularize(substr(array_pop($parts), 0, -5));
+            $alias = Inflector::classify(Inflector::underscore(substr(array_pop($parts), 0, -5)));
             $name = implode('\\', array_slice($parts, 0, -1)) . '\\Entity\\' . $alias;
             if (!class_exists($name)) {
                 return $this->_entityClass = $default;
@@ -960,13 +967,13 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
     /**
      * Returns an association object configured for the specified alias if any.
      *
-     * @deprecated 3.6.0 Use getAssociation() and Table::hasAssocation() instead.
+     * @deprecated 3.6.0 Use getAssociation() and Table::hasAssociation() instead.
      * @param string $name the alias used for the association.
      * @return \Cake\ORM\Association|null Either the association or null.
      */
     public function association($name)
     {
-        deprecationWarning('Use Table::getAssociation() and Table::hasAssocation() instead.');
+        deprecationWarning('Use Table::getAssociation() and Table::hasAssociation() instead.');
 
         return $this->findAssociation($name);
     }
@@ -1288,7 +1295,8 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
     }
 
     /**
-     * {@inheritDoc}
+     * Creates a new Query for this repository and applies some defaults based on the
+     * type of search that was selected.
      *
      * ### Model.beforeFind event
      *
@@ -1340,6 +1348,8 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      *
      * Would invoke the `findPublished` method.
      *
+     * @param string $type the type of query to perform
+     * @param array|\ArrayAccess $options An array that will be passed to Query::applyOptions()
      * @return \Cake\ORM\Query The query builder
      */
     public function find($type = 'all', $options = [])
@@ -1675,14 +1685,20 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      */
     public function findOrCreate($search, callable $callback = null, $options = [])
     {
-        $options += [
+        $options = new ArrayObject($options + [
             'atomic' => true,
-            'defaults' => true
-        ];
+            'defaults' => true,
+        ]);
 
-        return $this->_executeTransaction(function () use ($search, $callback, $options) {
-            return $this->_processFindOrCreate($search, $callback, $options);
+        $entity = $this->_executeTransaction(function () use ($search, $callback, $options) {
+            return $this->_processFindOrCreate($search, $callback, $options->getArrayCopy());
         }, $options['atomic']);
+
+        if ($entity && $this->_transactionCommitted($options['atomic'], true)) {
+            $this->dispatchEvent('Model.afterSaveCommit', compact('entity', 'options'));
+        }
+
+        return $entity;
     }
 
     /**
@@ -1740,7 +1756,9 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
     }
 
     /**
-     * {@inheritDoc}
+     * Creates a new Query instance for a table.
+     *
+     * @return \Cake\ORM\Query
      */
     public function query()
     {
@@ -1786,7 +1804,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
             ->select(['existing' => 1])
             ->where($conditions)
             ->limit(1)
-            ->enableHydration(false)
+            ->disableHydration()
             ->toArray()
         );
     }
@@ -1837,7 +1855,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      *   listeners will receive the entity and the options array as arguments. The type
      *   of operation performed (insert or update) can be determined by checking the
      *   entity's method `isNew`, true meaning an insert and false an update.
-     * - Model.afterSaveCommit: Will be triggered after the transaction is commited
+     * - Model.afterSaveCommit: Will be triggered after the transaction is committed
      *   for atomic save, listeners will receive the entity and the options array
      *   as arguments.
      *
@@ -1855,7 +1873,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      *
      * ```
      * // Only save the comments association
-     * $articles->save($entity, ['associated' => ['Comments']);
+     * $articles->save($entity, ['associated' => ['Comments']]);
      *
      * // Save the company, the employees and related addresses for each of them.
      * // For employees do not check the entity rules
@@ -1872,8 +1890,10 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      * $articles->save($entity, ['associated' => false]);
      * ```
      *
-     * @throws \Cake\ORM\Exception\RolledbackTransactionException If the transaction
-     *   is aborted in the afterSave event.
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param array $options
+     * @return \Cake\Datasource\EntityInterface|false
+     * @throws \Cake\ORM\Exception\RolledbackTransactionException If the transaction is aborted in the afterSave event.
      */
     public function save(EntityInterface $entity, $options = [])
     {
@@ -1881,7 +1901,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
             $options = $options->toArray();
         }
 
-        $options = new ArrayObject($options + [
+        $options = new ArrayObject((array)$options + [
             'atomic' => true,
             'associated' => true,
             'checkRules' => true,
@@ -1889,7 +1909,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
             '_primary' => true
         ]);
 
-        if ($entity->getErrors()) {
+        if ($entity->hasErrors($options['associated'])) {
             return false;
         }
 
@@ -2066,7 +2086,9 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
         $primary = array_combine($primary, $id);
         $primary = array_intersect_key($data, $primary) + $primary;
 
-        $filteredKeys = array_filter($primary, 'strlen');
+        $filteredKeys = array_filter($primary, function ($v) {
+            return $v !== null;
+        });
         $data += $filteredKeys;
 
         if (count($primary) > 1) {
@@ -2189,32 +2211,41 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      * any one of the records fails to save due to failed validation or database
      * error.
      *
-     * @param \Cake\Datasource\EntityInterface[]|\Cake\ORM\ResultSet $entities Entities to save.
+     * @param \Cake\Datasource\EntityInterface[]|\Cake\Datasource\ResultSetInterface $entities Entities to save.
      * @param array|\ArrayAccess $options Options used when calling Table::save() for each entity.
-     * @return bool|\Cake\Datasource\EntityInterface[]|\Cake\ORM\ResultSet False on failure, entities list on success.
+     * @return bool|\Cake\Datasource\EntityInterface[]|\Cake\Datasource\ResultSetInterface False on failure, entities list on success.
+     * @throws \Exception
      */
     public function saveMany($entities, $options = [])
     {
         $isNew = [];
-
-        $return = $this->getConnection()->transactional(
-            function () use ($entities, $options, &$isNew) {
-                foreach ($entities as $key => $entity) {
-                    $isNew[$key] = $entity->isNew();
-                    if ($this->save($entity, $options) === false) {
-                        return false;
-                    }
-                }
-            }
-        );
-
-        if ($return === false) {
+        $cleanup = function ($entities) use (&$isNew) {
             foreach ($entities as $key => $entity) {
                 if (isset($isNew[$key]) && $isNew[$key]) {
                     $entity->unsetProperty($this->getPrimaryKey());
                     $entity->isNew(true);
                 }
             }
+        };
+
+        try {
+            $return = $this->getConnection()
+                ->transactional(function () use ($entities, $options, &$isNew) {
+                    foreach ($entities as $key => $entity) {
+                        $isNew[$key] = $entity->isNew();
+                        if ($this->save($entity, $options) === false) {
+                            return false;
+                        }
+                    }
+                });
+        } catch (\Exception $e) {
+            $cleanup($entities);
+
+            throw $e;
+        }
+
+        if ($return === false) {
+            $cleanup($entities);
 
             return false;
         }
@@ -2251,7 +2282,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      */
     public function delete(EntityInterface $entity, $options = [])
     {
-        $options = new ArrayObject($options + [
+        $options = new ArrayObject((array)$options + [
             'atomic' => true,
             'checkRules' => true,
             '_primary' => true,
@@ -2546,17 +2577,17 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      * ```
      *
      * You can limit fields that will be present in the constructed entity by
-     * passing the `fieldList` option, which is also accepted for associations:
+     * passing the `fields` option, which is also accepted for associations:
      *
      * ```
      * $article = $this->Articles->newEntity($this->request->getData(), [
-     *  'fieldList' => ['title', 'body', 'tags', 'comments'],
-     *  'associated' => ['Tags', 'Comments.Users' => ['fieldList' => 'username']]
+     *  'fields' => ['title', 'body', 'tags', 'comments'],
+     *  'associated' => ['Tags', 'Comments.Users' => ['fields' => 'username']]
      * ]
      * );
      * ```
      *
-     * The `fieldList` option lets remove or restrict input data from ending up in
+     * The `fields` option lets remove or restrict input data from ending up in
      * the entity. If you'd like to relax the entity's default accessible fields,
      * you can use the `accessibleFields` option:
      *
@@ -2615,12 +2646,12 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      * ```
      *
      * You can limit fields that will be present in the constructed entities by
-     * passing the `fieldList` option, which is also accepted for associations:
+     * passing the `fields` option, which is also accepted for associations:
      *
      * ```
      * $articles = $this->Articles->newEntities($this->request->getData(), [
-     *  'fieldList' => ['title', 'body', 'tags', 'comments'],
-     *  'associated' => ['Tags', 'Comments.Users' => ['fieldList' => 'username']]
+     *  'fields' => ['title', 'body', 'tags', 'comments'],
+     *  'associated' => ['Tags', 'Comments.Users' => ['fields' => 'username']]
      *  ]
      * );
      * ```
@@ -2646,12 +2677,12 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      * the data merged, but those that cannot, will be discarded.
      *
      * You can limit fields that will be present in the merged entity by
-     * passing the `fieldList` option, which is also accepted for associations:
+     * passing the `fields` option, which is also accepted for associations:
      *
      * ```
      * $article = $this->Articles->patchEntity($article, $this->request->getData(), [
-     *  'fieldList' => ['title', 'body', 'tags', 'comments'],
-     *  'associated' => ['Tags', 'Comments.Users' => ['fieldList' => 'username']]
+     *  'fields' => ['title', 'body', 'tags', 'comments'],
+     *  'associated' => ['Tags', 'Comments.Users' => ['fields' => 'username']]
      *  ]
      * );
      * ```
@@ -2696,12 +2727,12 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      * the data merged, but those that cannot, will be discarded.
      *
      * You can limit fields that will be present in the merged entities by
-     * passing the `fieldList` option, which is also accepted for associations:
+     * passing the `fields` option, which is also accepted for associations:
      *
      * ```
      * $articles = $this->Articles->patchEntities($articles, $this->request->getData(), [
-     *  'fieldList' => ['title', 'body', 'tags', 'comments'],
-     *  'associated' => ['Tags', 'Comments.Users' => ['fieldList' => 'username']]
+     *  'fields' => ['title', 'body', 'tags', 'comments'],
+     *  'associated' => ['Tags', 'Comments.Users' => ['fields' => 'username']]
      *  ]
      * );
      * ```
@@ -2776,7 +2807,8 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
                 return false;
             }
         }
-        $rule = new IsUnique($fields, $options);
+        $class = static::IS_UNIQUE_CLASS;
+        $rule = new $class($fields, $options);
 
         return $rule($entity, ['repository' => $this]);
     }

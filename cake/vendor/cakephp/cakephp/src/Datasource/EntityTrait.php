@@ -805,10 +805,10 @@ trait EntityTrait
      *
      * @param string $property the field to set or check status for
      * @param bool $isDirty true means the property was changed, false means
-     * it was not changed
+     * it was not changed. Defaults to true.
      * @return $this
      */
-    public function setDirty($property, $isDirty)
+    public function setDirty($property, $isDirty = true)
     {
         if ($isDirty === false) {
             unset($this->_dirty[$property]);
@@ -840,7 +840,7 @@ trait EntityTrait
     /**
      * Gets the dirty properties.
      *
-     * @return array
+     * @return string[]
      */
     public function getDirty()
     {
@@ -892,6 +892,31 @@ trait EntityTrait
     }
 
     /**
+     * Returns whether this entity has errors.
+     *
+     * @param bool $includeNested true will check nested entities for hasErrors()
+     * @return bool
+     */
+    public function hasErrors($includeNested = true)
+    {
+        if (!empty($this->_errors)) {
+            return true;
+        }
+
+        if ($includeNested === false) {
+            return false;
+        }
+
+        foreach ($this->_properties as $property) {
+            if ($this->_readHasErrors($property)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns all validation errors.
      *
      * @return array
@@ -934,7 +959,7 @@ trait EntityTrait
      *
      * ```
      * // Sets the error messages for multiple fields at once
-     * $entity->errors(['salary' => ['message'], 'name' => ['another message']);
+     * $entity->setErrors(['salary' => ['message'], 'name' => ['another message']]);
      * ```
      *
      * @param array $fields The array of errors to set.
@@ -943,11 +968,27 @@ trait EntityTrait
      */
     public function setErrors(array $fields, $overwrite = false)
     {
+        if ($overwrite) {
+            foreach ($fields as $f => $error) {
+                $this->_errors[$f] = (array)$error;
+            }
+
+            return $this;
+        }
+
         foreach ($fields as $f => $error) {
             $this->_errors += [$f => []];
-            $this->_errors[$f] = $overwrite ?
-                (array)$error :
-                array_merge($this->_errors[$f], (array)$error);
+
+            // String messages are appended to the list,
+            // while more complex error structures need their
+            // keys preserved for nested validator.
+            if (is_string($error)) {
+                $this->_errors[$f][] = $error;
+            } else {
+                foreach ($error as $k => $v) {
+                    $this->_errors[$f][$k] = $v;
+                }
+            }
         }
 
         return $this;
@@ -960,7 +1001,7 @@ trait EntityTrait
      *
      * ```
      * // Sets the error messages for a single field
-     * $entity->errors('salary', ['must be numeric', 'must be a positive number']);
+     * $entity->setError('salary', ['must be numeric', 'must be a positive number']);
      * ```
      *
      * @param string $field The field to get errors for, or the array of errors to set.
@@ -991,13 +1032,13 @@ trait EntityTrait
      * $entity->errors('salary', ['must be numeric', 'must be a positive number']);
      *
      * // Returns the error messages for a single field
-     * $entity->errors('salary');
+     * $entity->getErrors('salary');
      *
      * // Returns all error messages indexed by field name
-     * $entity->errors();
+     * $entity->getErrors();
      *
      * // Sets the error messages for multiple fields at once
-     * $entity->errors(['salary' => ['message'], 'name' => ['another message']);
+     * $entity->getErrors(['salary' => ['message'], 'name' => ['another message']);
      * ```
      *
      * When used as a setter, this method will return this entity instance for method
@@ -1075,9 +1116,32 @@ trait EntityTrait
     }
 
     /**
+     * Reads if there are errors for one or many objects.
+     *
+     * @param mixed $object The object to read errors from.
+     * @return bool
+     */
+    protected function _readHasErrors($object)
+    {
+        if ($object instanceof EntityInterface && $object->hasErrors()) {
+            return true;
+        }
+
+        if (is_array($object)) {
+            foreach ($object as $value) {
+                if ($this->_readHasErrors($value)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Read the error(s) from one or many objects.
      *
-     * @param array|\Cake\Datasource\EntityTrait $object The object to read errors from.
+     * @param array|\Cake\Datasource\EntityInterface $object The object to read errors from.
      * @param string|null $path The field name for errors.
      * @return array
      */
@@ -1356,7 +1420,7 @@ trait EntityTrait
             get_called_class() . '::source() is deprecated. ' .
             'Use setSource()/getSource() instead.'
         );
-        if (is_null($alias)) {
+        if ($alias === null) {
             return $this->getSource();
         }
 
@@ -1394,6 +1458,7 @@ trait EntityTrait
             '[dirty]' => $this->_dirty,
             '[original]' => $this->_original,
             '[virtual]' => $this->_virtual,
+            '[hasErrors]' => $this->hasErrors(),
             '[errors]' => $this->_errors,
             '[invalid]' => $this->_invalid,
             '[repository]' => $this->_registryAlias

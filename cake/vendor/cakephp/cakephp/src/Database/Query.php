@@ -299,7 +299,7 @@ class Query implements ExpressionInterface, IteratorAggregate
      * ```
      *
      * @param callable $visitor A function or callable to be executed for each part
-     * @param array $parts The query clauses to traverse
+     * @param string[] $parts The query clauses to traverse
      * @return $this
      */
     public function traverse(callable $visitor, array $parts = [])
@@ -484,6 +484,8 @@ class Query implements ExpressionInterface, IteratorAggregate
     public function from($tables = [], $overwrite = false)
     {
         if (empty($tables)) {
+            deprecationWarning('Using Query::from() to read state is deprecated. Use clause("from") instead.');
+
             return $this->_parts['from'];
         }
 
@@ -589,6 +591,8 @@ class Query implements ExpressionInterface, IteratorAggregate
     public function join($tables = null, $types = [], $overwrite = false)
     {
         if ($tables === null) {
+            deprecationWarning('Using Query::join() to read state is deprecated. Use clause("join") instead.');
+
             return $this->_parts['join'];
         }
 
@@ -1149,7 +1153,15 @@ class Query implements ExpressionInterface, IteratorAggregate
      * $query->order($expression)->order(['title' => 'ASC']);
      * ```
      *
-     * Will become:
+     * and
+     *
+     * ```
+     * $query->order(function ($exp, $query) {
+     *     return [$exp->add(['id % 2 = 0']), 'title' => 'ASC'];
+     * });
+     * ```
+     *
+     * Will both become:
      *
      * `ORDER BY (id %2 = 0), title ASC`
      *
@@ -1160,7 +1172,7 @@ class Query implements ExpressionInterface, IteratorAggregate
      * If you need to set complex expressions as order conditions, you
      * should use `orderAsc()` or `orderDesc()`.
      *
-     * @param array|\Cake\Database\ExpressionInterface|string $fields fields to be added to the list
+     * @param array|\Cake\Database\ExpressionInterface|callable|string $fields fields to be added to the list
      * @param bool $overwrite whether to reset order with field list or not
      * @return $this
      */
@@ -1857,7 +1869,7 @@ class Query implements ExpressionInterface, IteratorAggregate
      *
      * @param string $name name of the clause to be returned
      * @return mixed
-     * @throws InvalidArgumentException When the named clause does not exist.
+     * @throws \InvalidArgumentException When the named clause does not exist.
      */
     public function clause($name)
     {
@@ -2053,6 +2065,22 @@ class Query implements ExpressionInterface, IteratorAggregate
     {
         $this->_dirty();
         $this->_useBufferedResults = (bool)$enable;
+
+        return $this;
+    }
+
+    /**
+     * Disables buffered results.
+     *
+     * Disabling buffering will consume less memory as fetched results are not
+     * remembered for future iterations.
+     *
+     * @return $this
+     */
+    public function disableBufferedResults()
+    {
+        $this->_dirty();
+        $this->_useBufferedResults = false;
 
         return $this;
     }

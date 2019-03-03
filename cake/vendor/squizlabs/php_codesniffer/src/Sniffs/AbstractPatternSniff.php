@@ -10,7 +10,6 @@
 namespace PHP_CodeSniffer\Sniffs;
 
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Util\Tokens;
 use PHP_CodeSniffer\Tokenizers\PHP;
 use PHP_CodeSniffer\Exceptions\RuntimeException;
@@ -786,7 +785,7 @@ abstract class AbstractPatternSniff implements Sniff
                 $specialPattern = $this->createSkipPattern($pattern, ($i - 1));
                 $lastToken      = ($i - $firstToken);
                 $firstToken     = ($i + 3);
-                $i = ($i + 2);
+                $i += 2;
 
                 if ($specialPattern['to'] !== 'unknown') {
                     $firstToken++;
@@ -795,12 +794,12 @@ abstract class AbstractPatternSniff implements Sniff
                 $specialPattern = ['type' => 'string'];
                 $lastToken      = ($i - $firstToken);
                 $firstToken     = ($i + 3);
-                $i = ($i + 2);
+                $i += 2;
             } else if (substr($pattern, $i, 3) === 'EOL') {
                 $specialPattern = ['type' => 'newline'];
                 $lastToken      = ($i - $firstToken);
                 $firstToken     = ($i + 3);
-                $i = ($i + 2);
+                $i += 2;
             }//end if
 
             if ($specialPattern !== false || $isLastChar === true) {

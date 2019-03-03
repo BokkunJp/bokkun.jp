@@ -155,6 +155,9 @@ use Cake\Mailer\Exception\MissingActionException;
  * @method \Cake\Mailer\Email setProfile($config)
  * @method string|array getProfile()
  * @method \Cake\Mailer\Email profile($config = null)
+ * @method \Cake\Mailer\Email setEmailPattern($regex)
+ * @method string getEmailPattern()
+ * @method \Cake\Mailer\Email emailPattern($regex = null)
  */
 abstract class Mailer implements EventListenerInterface
 {
@@ -166,7 +169,7 @@ abstract class Mailer implements EventListenerInterface
      *
      * @var string
      */
-    static public $name;
+    public static $name;
 
     /**
      * Email instance.
@@ -225,7 +228,9 @@ abstract class Mailer implements EventListenerInterface
      */
     public function layout($layout)
     {
-        deprecationWarning('Mailer::layout() is deprecated. Use setLayout() which sets the layout on the email class instead.');
+        deprecationWarning(
+            'Mailer::layout() is deprecated. Use $mailer->viewBuilder()->setLayout() instead.'
+        );
 
         $this->_email->viewBuilder()->setLayout($layout);
 

@@ -80,7 +80,8 @@ class CreateProjectCommand extends BaseCommand
                 new InputOption('no-install', null, InputOption::VALUE_NONE, 'Whether to skip installation of the package dependencies.'),
                 new InputOption('ignore-platform-reqs', null, InputOption::VALUE_NONE, 'Ignore platform requirements (php & ext- packages).'),
             ))
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<EOT
 The <info>create-project</info> command creates a new project from a given
 package into a new directory. If executed without params and in a directory
 with a composer.json file it installs the packages for the current project.
@@ -137,16 +138,14 @@ EOT
             $input->getOption('repository') ?: $input->getOption('repository-url'),
             $input->getOption('no-plugins'),
             $input->getOption('no-scripts'),
-            $input->getOption('keep-vcs'),
             $input->getOption('no-progress'),
             $input->getOption('no-install'),
             $input->getOption('ignore-platform-reqs'),
-            !$input->getOption('no-secure-http'),
-            $input->getOption('remove-vcs')
+            !$input->getOption('no-secure-http')
         );
     }
 
-    public function installProject(IOInterface $io, Config $config, InputInterface $input, $packageName, $directory = null, $packageVersion = null, $stability = 'stable', $preferSource = false, $preferDist = false, $installDevPackages = false, $repository = null, $disablePlugins = false, $noScripts = false, $keepVcs = false, $noProgress = false, $noInstall = false, $ignorePlatformReqs = false, $secureHttp = true, $removeVcs = false)
+    public function installProject(IOInterface $io, Config $config, InputInterface $input, $packageName, $directory = null, $packageVersion = null, $stability = 'stable', $preferSource = false, $preferDist = false, $installDevPackages = false, $repository = null, $disablePlugins = false, $noScripts = false, $noProgress = false, $noInstall = false, $ignorePlatformReqs = false, $secureHttp = true)
     {
         $oldCwd = getcwd();
 
@@ -156,7 +155,7 @@ EOT
         $this->suggestedPackagesReporter = new SuggestedPackagesReporter($io);
 
         if ($packageName !== null) {
-            $installedFromVcs = $this->installRootPackage($io, $config, $packageName, $directory, $packageVersion, $stability, $preferSource, $preferDist, $installDevPackages, $repository, $disablePlugins, $noScripts, $keepVcs, $noProgress, $ignorePlatformReqs, $secureHttp);
+            $installedFromVcs = $this->installRootPackage($io, $config, $packageName, $directory, $packageVersion, $stability, $preferSource, $preferDist, $installDevPackages, $repository, $disablePlugins, $noScripts, $noProgress, $ignorePlatformReqs, $secureHttp);
         } else {
             $installedFromVcs = false;
         }
@@ -198,10 +197,10 @@ EOT
 
         $hasVcs = $installedFromVcs;
         if (
-            !$keepVcs
+            !$input->getOption('keep-vcs')
             && $installedFromVcs
             && (
-                $removeVcs
+                $input->getOption('remove-vcs')
                 || !$io->isInteractive()
                 || $io->askConfirmation('<info>Do you want to remove the existing VCS (.git, .svn..) history?</info> [<comment>Y,n</comment>]? ', true)
             )
@@ -258,7 +257,7 @@ EOT
         return 0;
     }
 
-    protected function installRootPackage(IOInterface $io, Config $config, $packageName, $directory = null, $packageVersion = null, $stability = 'stable', $preferSource = false, $preferDist = false, $installDevPackages = false, $repository = null, $disablePlugins = false, $noScripts = false, $keepVcs = false, $noProgress = false, $ignorePlatformReqs = false, $secureHttp = true)
+    protected function installRootPackage(IOInterface $io, Config $config, $packageName, $directory = null, $packageVersion = null, $stability = 'stable', $preferSource = false, $preferDist = false, $installDevPackages = false, $repository = null, $disablePlugins = false, $noScripts = false, $noProgress = false, $ignorePlatformReqs = false, $secureHttp = true)
     {
         if (!$secureHttp) {
             $config->merge(array('config' => array('secure-http' => false)));
@@ -344,10 +343,6 @@ EOT
 
         if ($package instanceof AliasPackage) {
             $package = $package->getAliasOf();
-        }
-
-        if (0 === strpos($package->getPrettyVersion(), 'dev-') && in_array($package->getSourceType(), array('git', 'hg'))) {
-            $package->setSourceReference(substr($package->getPrettyVersion(), 4));
         }
 
         $dm = $this->createDownloadManager($io, $config);

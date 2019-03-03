@@ -21,6 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Composer\Config;
 use Composer\Config\JsonConfigSource;
 use Composer\Factory;
+use Composer\IO\IOInterface;
 use Composer\Json\JsonFile;
 use Composer\Semver\VersionParser;
 use Composer\Package\BasePackage;
@@ -75,7 +76,8 @@ class ConfigCommand extends BaseCommand
                 new InputArgument('setting-key', null, 'Setting key'),
                 new InputArgument('setting-value', InputArgument::IS_ARRAY, 'Setting value'),
             ))
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<EOT
 This command allows you to edit composer config settings and repositories
 in either the local composer.json file or the global config.json file.
 
@@ -283,7 +285,7 @@ EOT
                 $value = json_encode($value);
             }
 
-            $this->getIO()->write($value);
+            $this->getIO()->write($value, true, IOInterface::QUIET);
 
             return 0;
         }
@@ -612,6 +614,15 @@ EOT
             return;
         }
 
+        // handle script
+        if (preg_match('/^scripts\.(.+)/', $settingKey, $matches)) {
+            if ($input->getOption('unset')) {
+                return $this->configSource->removeProperty($settingKey);
+            }
+
+            return $this->configSource->addProperty($settingKey, count($values) > 1 ? $values : $values[0]);
+        }
+
         throw new \InvalidArgumentException('Setting '.$settingKey.' does not exist or is not supported by this command');
     }
 
@@ -685,9 +696,9 @@ EOT
             }
 
             if (is_string($rawVal) && $rawVal != $value) {
-                $io->write('[<comment>' . $k . $key . '</comment>] <info>' . $rawVal . ' (' . $value . ')</info>');
+                $io->write('[<comment>' . $k . $key . '</comment>] <info>' . $rawVal . ' (' . $value . ')</info>', true, IOInterface::QUIET);
             } else {
-                $io->write('[<comment>' . $k . $key . '</comment>] <info>' . $value . '</info>');
+                $io->write('[<comment>' . $k . $key . '</comment>] <info>' . $value . '</info>', true, IOInterface::QUIET);
             }
         }
     }
