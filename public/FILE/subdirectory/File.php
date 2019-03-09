@@ -5,6 +5,12 @@ require_once ('Page.php');
 require_once ('View.php');
 $file = PublicSetting\Setting::GetFiles();
 
+/*
+ *   画像タイプのExifを返す
+ *   @param FILE img 画像データ
+ *  
+ *   @return なし
+ */
 function FileExif($img) {
     // echo exif_imagetype($img). '<br />';
     // switch (exif_imagetype($img)) {
@@ -21,6 +27,12 @@ function FileExif($img) {
     return exif_imagetype($img);
 }
 
+/*
+ *   画像をアップロードする
+ *   @param FILE file FILE配列
+ *  
+ *   @return なし
+ */
 function ImportImage($file) {
     $imgType = FileExif($file['file']['tmp_name']);
     $imageDir = IMAGE_DIR;
@@ -36,25 +48,40 @@ function ImportImage($file) {
     }
 }
 
-function LoadAllImageFile() {
-    $png = IncludeFiles(IMAGE_DIR . '/FILE/', 'png', true);
-    $jpg = IncludeFiles(IMAGE_DIR . '/FILE/', 'jpg', true);
-    $jpeg = IncludeFiles(IMAGE_DIR . '/FILE/', 'jpeg', true);
-    $gif = IncludeFiles(IMAGE_DIR . '/FILE/', 'gif', true);
+/*
+  画像ファイル名を配列で一括取得する
+  @param なし
 
-    return array_merge($png, $jpg, $jpeg, $gif);
+  @return なし
+ */
+function LoadAllImageFile() {
+    $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp'];
+
+    $imgSrc = [];
+    foreach ($imgArray as $_index) {
+        $imgSrc[mb_strtolower($_index)] = IncludeFiles(IMAGE_DIR . '/FILE/', mb_strtolower($_index), true);
+        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(IMAGE_DIR . '/FILE/', mb_strtoupper($_index), true);
+    }
+
+    foreach ($imgSrc as $_index => $_img) {
+        foreach ($_img as $__val) {
+            $ret[] = $__val;
+        }
+    }
+    
+    // var_dump(array_merge($png, $png_2, $jpg, $jpg_2, $jpeg, $gif));
+
+    return $ret;
 }
 
 /*
-  配列を日時でソートする
-  引数：
-  data 多次元連想配列 (参照渡し)
-  Order ASC or DESC
-  ※配列にtimeの要素があることが前提
-
-  戻り値：なし
+ *   配列を日時でソートする
+ *   @param &FILE 多次元連想配列 (参照渡し)
+ *   @param string ASC or DESC
+ *   ※配列にtimeの要素があることが前提
+ *   
+ *   @return なし
  */
-
 function TimeSort(&$data, $order = 'ASC') {
 
     if (is_array($data) == false) {
@@ -86,6 +113,12 @@ function TimeSort(&$data, $order = 'ASC') {
     array_multisort($time, $sort, $data);
 }
 
+/*
+ *   画像を読み込み、公開する
+ *   @param int real_flg 1:公開, 0:非公開
+ *  
+ *   @return なし
+ */
 function ReadImage($read_flg = 0) {
     if ($read_flg === 0) {
         echo '現在、画像の公開を停止しています。';
@@ -111,6 +144,13 @@ function ReadImage($read_flg = 0) {
     }
 }
 
+/*
+*   画像を一覧表示する
+*   @param mixed data 画像データ
+*   @param string imageURL 画像パス
+*  
+*   @return なし
+ */
 function ShowImage($data, $imageUrl) {
     $page = GetPage();
     if ($page <= 0 || $page === false) {
@@ -138,13 +178,27 @@ function ShowImage($data, $imageUrl) {
     ViewPager($data, $imageUrl);
 }
 
+/*
+ *  エラー文を定義する
+ *  @param string errMsg 1:公開, 0:非公開
+ *  
+ *  @return なし
+ */
 function ErrorSet($errMsg = ERRMessage) {
     $prevLink = new CustomTagCreate();
     $prevLink->TagSet('div', $errMsg, 'error', true);
     $prevLink->TagExec(true);
     $prevLink->SetHref("./FILE/", PREVIOUS, 'page', true, '_self');
+
+    return 1;
 }
 
+/*
+  画像を読み込み、一覧表示する
+  @param なし
+
+  @return なし
+ */
 function DeleteImage() {
     $post = PublicSetting\Setting::getPosts();
     $fileList = LoadAllImageFile();

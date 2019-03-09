@@ -1,5 +1,14 @@
 <?php
-// 画像を表示
+/**
+ * ViewImage
+ * 画像を表示する
+ *
+ * @param  mixed $imageName
+ * @param  mixed $imageUrl
+ * @param  mixed $fileTime
+ *
+ * @return void
+ */
 function ViewImage($imageName, $imageUrl, $fileTime) {
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
@@ -8,7 +17,15 @@ function ViewImage($imageName, $imageUrl, $fileTime) {
     echo 'アップロード日時: ' . date('Y/m/d H:i:s', $fileTime) . '<br/><br/>';
 }
 
-// 画像名を表示
+/**
+ * ViewList
+ * 画像をリスト表示する
+ *
+ * @param  mixed $imageName
+ * @param  mixed $imageUrl
+ *
+ * @return void
+ */
 function ViewList($imageName, $imageUrl) {
     echo "<div><a href='$imageUrl/FILE/$imageName' target='new'>{$imageName}</a>";
     echo "<label><input type='checkbox' name='$imageName' value='$imageName' /><span>削除する</span></label></div>";
