@@ -5,11 +5,13 @@ require_once ('Page.php');
 require_once ('View.php');
 $file = PublicSetting\Setting::GetFiles();
 
-/*
- *   画像タイプのExifを返す
- *   @param FILE img 画像データ
- *  
- *   @return なし
+/**
+ * FileExif
+ * 画像タイプのExifを返す
+ *
+ * @param  mixed $img
+ *
+ * @return void
  */
 function FileExif($img) {
     // echo exif_imagetype($img). '<br />';
@@ -27,11 +29,13 @@ function FileExif($img) {
     return exif_imagetype($img);
 }
 
-/*
- *   画像をアップロードする
- *   @param FILE file FILE配列
- *  
- *   @return なし
+/**
+ * ImportImage
+ * 画像をアップロードする
+ *
+ * @param  mixed $file
+ *
+ * @return void
  */
 function ImportImage($file) {
     $imgType = FileExif($file['file']['tmp_name']);
@@ -48,11 +52,11 @@ function ImportImage($file) {
     }
 }
 
-/*
-  画像ファイル名を配列で一括取得する
-  @param なし
-
-  @return なし
+/**
+ * LoadAllImageFile
+ * 画像ファイル名を配列で一括取得する
+ *
+ * @return void
  */
 function LoadAllImageFile() {
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp'];
@@ -74,13 +78,14 @@ function LoadAllImageFile() {
     return $ret;
 }
 
-/*
- *   配列を日時でソートする
- *   @param &FILE 多次元連想配列 (参照渡し)
- *   @param string ASC or DESC
- *   ※配列にtimeの要素があることが前提
- *   
- *   @return なし
+/**
+ * TimeSort
+ * 配列を日時でソートする
+ *
+ * @param  mixed $data
+ * @param  mixed $order
+ *
+ * @return void
  */
 function TimeSort(&$data, $order = 'ASC') {
 
@@ -113,11 +118,13 @@ function TimeSort(&$data, $order = 'ASC') {
     array_multisort($time, $sort, $data);
 }
 
-/*
- *   画像を読み込み、公開する
- *   @param int real_flg 1:公開, 0:非公開
- *  
- *   @return なし
+/**
+ * ReadImage
+ * 画像を読み込み、公開する
+ *
+ * @param  mixed $read_flg
+ *
+ * @return void
  */
 function ReadImage($read_flg = 0) {
     if ($read_flg === 0) {
@@ -144,12 +151,14 @@ function ReadImage($read_flg = 0) {
     }
 }
 
-/*
-*   画像を一覧表示する
-*   @param mixed data 画像データ
-*   @param string imageURL 画像パス
-*  
-*   @return なし
+/**
+ * ShowImage
+ * 画像一覧を公開する
+ *
+ * @param  mixed $data
+ * @param  mixed $imageUrl
+ *
+ * @return void
  */
 function ShowImage($data, $imageUrl) {
     $page = GetPage();
@@ -178,11 +187,13 @@ function ShowImage($data, $imageUrl) {
     ViewPager($data, $imageUrl);
 }
 
-/*
- *  エラー文を定義する
- *  @param string errMsg 1:公開, 0:非公開
- *  
- *  @return なし
+/**
+ * ErrorSet
+ * エラー文を定義する
+ *
+ * @param  mixed $errMsg
+ *
+ * @return void
  */
 function ErrorSet($errMsg = ERRMessage) {
     $prevLink = new CustomTagCreate();
@@ -193,11 +204,11 @@ function ErrorSet($errMsg = ERRMessage) {
     return 1;
 }
 
-/*
-  画像を読み込み、一覧表示する
-  @param なし
-
-  @return なし
+/**
+ * DeleteImage
+ * 画像を読み込み、一覧表示する
+ *
+ * @return void
  */
 function DeleteImage() {
     $post = PublicSetting\Setting::getPosts();
