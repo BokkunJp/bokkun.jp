@@ -29,7 +29,7 @@ define('COMPONENT_DIR', COMMON_DIR . '/Component');
 define('LAYOUT_DIR', COMMON_DIR . '/Layout');
 define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 define('NOW_PAGE', basename(getcwd()));
-
+define('SECURITY_LENG', 32);
 
 // FILEページの文言
 define('PAGING', 10);

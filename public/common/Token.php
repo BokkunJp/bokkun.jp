@@ -1,13 +1,26 @@
 <?php
 /////////////// CSRF対策 ////////////////////////
-// トークン作成
+/**
+ * MakeToken
+ * トークン作成
+ *
+ * @return void
+ */
 function MakeToken() {
-    $token = sha1(@session_id()). '-'. md5(@session_id());
+    $token = CreateRandom(SECURITY_LENG). '-'. CreateRandom(SECURITY_LENG, "random_bytes");
 
     return $token;
 }
 
-// トークンセット
+
+/**
+ * SetToken
+ * トークンセット
+ *
+ * @param  mixed $token
+ *
+ * @return void
+ */
 function SetToken($token=null) {
     $session = new PublicSetting\Session();
 
@@ -20,7 +33,17 @@ function SetToken($token=null) {
 
 }
 
-// トークンチェック
+/**
+ * CheckToken
+ * トークンチェック
+ *
+ * @param  mixed $tokenName
+ * @param  mixed $errMessage
+ * @param  mixed $pageMessage
+ * @param  mixed $finishFlg
+ *
+ * @return void
+ */
 function CheckToken($tokenName='token', $errMessage='２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage='<br /><a href=\'javascript:location.href = location;\'>前のページへ戻る</a>', $finishFlg=true) {
     $post = PublicSetting\Setting::GetPosts();
     $session = new PublicSetting\Session();

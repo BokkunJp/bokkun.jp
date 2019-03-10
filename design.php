@@ -7,7 +7,7 @@ if (!isset($session)) {
 /*
 // トークン作成
 function MakeToken() {
-    return sha1(session_id());
+    return CreateRandom(SECURITY_LENG);
 }
 
 // トークンセット
