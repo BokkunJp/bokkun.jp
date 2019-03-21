@@ -9,8 +9,6 @@
 </form>
 
 <form action='./FILE/subdirectory/notAutoInclude/server.php?mode=del' method='POST'>
-  <input type='hidden' name='token' value="<?=MakeToken()?>" />
-  
  <?php
   ReadImage(1);
   ?>
