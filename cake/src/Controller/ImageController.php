@@ -17,7 +17,6 @@ class ImageController extends AppController {
       $this->loadComponent('Config');
       $this->loadComponent('File');
       $this->loadComponent('Validate');
-      $this->loadComponent('Csrf');
 
       $this->Config->Initialize([]);
     }
