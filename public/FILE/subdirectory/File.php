@@ -39,7 +39,7 @@ function FileExif($img) {
  */
 function ImportImage($file) {
     $imgType = FileExif($file['file']['tmp_name']);
-    $imageDir = IMAGE_DIR;
+    $imageDir = PUBLIC_IMAGE_DIR;
 
     if (is_numeric($imgType)) {
         if (move_uploaded_file($file['file']['tmp_name'], $imageDir . '/FILE/' . $file['file']['name'])) {
@@ -63,8 +63,8 @@ function LoadAllImageFile() {
 
     $imgSrc = [];
     foreach ($imgArray as $_index) {
-        $imgSrc[mb_strtolower($_index)] = IncludeFiles(IMAGE_DIR . '/FILE/', mb_strtolower($_index), true);
-        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(IMAGE_DIR . '/FILE/', mb_strtoupper($_index), true);
+        $imgSrc[mb_strtolower($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . '/FILE/', mb_strtolower($_index), true);
+        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . '/FILE/', mb_strtoupper($_index), true);
     }
 
     foreach ($imgSrc as $_index => $_img) {
@@ -138,7 +138,7 @@ function ReadImage($read_flg = 0) {
         $sortAray = array();
         foreach ($fileList as $index => $_file) {
             $sortAray[$index]['data'] = $_file;
-            $sortAray[$index]['time'] = filemtime(IMAGE_DIR . '/FILE/' . $_file);
+            $sortAray[$index]['time'] = filemtime(PUBLIC_IMAGE_DIR . '/FILE/' . $_file);
         }
 
         // 画像投稿日時の昇順にソート
@@ -218,7 +218,7 @@ function DeleteImage() {
         if ($post_key !== 'token' && $post_key !== 'delete') {
             $count++;
             if (in_array($post_value, $fileList)) {
-                if (rename(IMAGE_DIR . '/FILE/' . $post_value, IMAGE_DIR . '/FILE/_old/' . $post_value) === true) {
+                if (rename(PUBLIC_IMAGE_DIR . '/FILE/' . $post_value, PUBLIC_IMAGE_DIR . '/FILE/_old/' . $post_value) === true) {
                     echo $count . '件目の画像を削除しました。<br/>';
                 } else {
                     echo '画像を削除できませんでした。';
