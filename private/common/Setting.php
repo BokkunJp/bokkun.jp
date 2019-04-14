@@ -10,8 +10,11 @@ $url = $http.$domain;
 $private = $url. '/private/';
 
 // 定数などの定義
-require dirname(__DIR__). '\common\InitFunction.php';
-require dirname(__DIR__). '\common\Word\Message.php';
+require dirname(__DIR__). DIRECTORY_SEPARATOR . 'common'. DIRECTORY_SEPARATOR . 'InitFunction.php';
+$messagePath = AddPath(dirname(__DIR__), 'common');
+$messagePath = AddPath($messagePath, 'Word');
+$messagePath = AddPath($messagePath, 'Message.php', false);
+require $messagePath;
 
 $Agent = $_SERVER['HTTP_USER_AGENT'];
 if (isset($_SERVER['HTTP_REFERER'])) {

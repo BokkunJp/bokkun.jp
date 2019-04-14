@@ -1,5 +1,5 @@
 <?php
-require_once dirname(dirname(dirname(__DIR__))). '\common\Word\Message.php';
+require_once dirname(dirname(dirname(__DIR__))). DIRECTORY_SEPARATOR. 'common'. DIRECTORY_SEPARATOR . 'Word' . DIRECTORY_SEPARATOR . 'Message.php';
 // CSRFクラス
 function Public_CSRFErrorMessage() {
     $addr = PublicSetting\Setting::GetRemoteADDR();
