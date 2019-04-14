@@ -1,5 +1,9 @@
 <?php
-require_once dirname(dirname(dirname(__DIR__))). DIRECTORY_SEPARATOR. 'common'. DIRECTORY_SEPARATOR . 'Word' . DIRECTORY_SEPARATOR . 'Message.php';
+$commonWordPath = dirname(dirname(dirname(__DIR__)));
+$commonWordPath = AddPath($commonWordPath, 'common');
+$commonWordPath = AddPath($commonWordPath, 'Word');
+$commonWordPath = AddPath($commonWordPath, 'Message.php', false);
+require_once $commonWordPath;
 // CSRFクラス
 function Public_CSRFErrorMessage() {
     $addr = PublicSetting\Setting::GetRemoteADDR();
@@ -11,7 +15,7 @@ function Public_CSRFErrorMessage() {
         $errLists .= "<li>{$_errList}</li>";
     }
     $errMessage .= $errLists;
-    $errMessage .='</ul>';    
+    $errMessage .='</ul>';
 
     return $errMessage;
 }

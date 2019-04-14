@@ -9,7 +9,7 @@
             </strong>
         </div>
     </div>
-    <?php require_once(COMMON_DIR . "/jQuery/include.php"); ?>
+    <?php require_once(PUBLIC_COMMON_DIR . "/jQuery/include.php"); ?>
     <div class='date' align="right"></div>
     <div class='time' align="right"></div>
     <hr class="top_hr" />
