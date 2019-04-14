@@ -56,7 +56,7 @@ function ImportImage($file) {
  * LoadAllImageFile
  * 画像ファイル名を配列で一括取得する
  *
- * @return void
+ * @return array
  */
 function LoadAllImageFile() {
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp'];

@@ -10,14 +10,16 @@ if (!$_SESSION) {
 $homepageTitle = htmlspecialchars(basename(__DIR__));
 
 require_once __DIR__. '/Layout/layout.php';
-require_once COMMON_DIR. '/Token.php';
+require_once PUBLIC_COMMON_DIR. '/Token.php';
 require_once dirname(__DIR__). '/File.php';
 
 echo '<div class=\'contents\' />';
 
-CheckToken('token', '不正な値が送信されました。<br/>');if (!isset($session)) {
+CheckToken('token', '不正な値が送信されました。<br/>');
+if (!isset($session)) {
     $session = new PublicSetting\Session();
-}
+}
+
 if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::GetQuery('mode') === 'del') {
     $count = 0;
     foreach (PublicSetting\Setting::getPosts() as $post_key => $post_value) {
