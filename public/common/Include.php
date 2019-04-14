@@ -4,21 +4,19 @@
  * Subdirectoryディレクトリ以下のPHPファイルを一括で読み込む。
  */
 $base = new PublicSetting\Setting();
-// 必要なファイルの個別読み込み
-require_once("Word/Message.php");
 // 必要なファイルの一括読み込み
-$pwd = COMPONENT_DIR . '/';
+$pwd = PUBLIC_COMPONENT_DIR . '/';
 IncludeFiles($pwd);
 
-use CustomTagCreate as OriginTag;
+use \PublicTag\CustomTagCreate as OriginTag;
 
 // subdirectory内のphpファイルの読み込み
 IncludeFiles(AddPath(getcwd(), 'subdirectory'));
-IncludeDirctories(COMPONENT_DIR);
+IncludeDirctories(PUBLIC_COMPONENT_DIR);
 
 // 必要なjsファイルの読み込み
 $src = new OriginTag();
-$jsFiles = IncludeFiles(AddPath(JS_DIR, 'common'), 'js', true);
+$jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, 'common'), 'js', true);
 foreach ($jsFiles as $_jsFile) {
     $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common'), $_jsFile, false), '', 'common');
     $src->TagExec(true);

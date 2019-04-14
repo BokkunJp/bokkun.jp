@@ -10,7 +10,7 @@ $img = "crown-vector.jpg";
         <title><?php echo $title; ?></title>
         <base href="../" />
         <link rel="shortcut icon" href="client/image/5959715.png">
-        <?php require_once(COMMON_DIR. "/jQuery/include.php");?>
+        <?php require_once(PUBLIC_COMMON_DIR. "/jQuery/include.php");?>
         <script src="client/js/<?php echo $homepageTitle; ?>/index.js"></script>
         <script src="client/js/common/time/realtime.js"></script>
         <script src="client/js/common/time/time.js"></script>

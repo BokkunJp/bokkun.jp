@@ -17,7 +17,7 @@
         <div class='date' align="right"></div>
         <div class='time' align="right"></div>
     </div>
-    <?php require_once(COMMON_DIR. "/jQuery/include.php");  ?>
+    <?php require_once(PUBLIC_COMMON_DIR. "/jQuery/include.php");  ?>
 
     <hr class="top_hr" />
     <!-- <p class='bread'><?php ViewArray($breadCrumbList, $arrow); ?></p> -->

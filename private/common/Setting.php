@@ -10,20 +10,13 @@ $url = $http.$domain;
 $private = $url. '/private/';
 
 // 定数などの定義
-define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
-define('API_DIR', DOCUMENT_ROOT. '/API');
-define('COMMON_DIR', __DIR__);
-define('PUBLIC_DIR', DOCUMENT_ROOT. '/public');
-define('PRIVATE_DIR', DOCUMENT_ROOT. '/private');
-define('FUNCTION_DIR', COMMON_DIR. '/Function');
-define('SAMPLE_DIR', COMMON_DIR. '/Sample');
-define('LAYOUT_DIR', SAMPLE_DIR. '/Layout');
+require dirname(__DIR__). '\common\InitFunction.php';
+require dirname(__DIR__). '\common\Word\Message.php';
 
 $Agent = $_SERVER['HTTP_USER_AGENT'];
 if (isset($_SERVER['HTTP_REFERER'])) {
     $referer = $_SERVER['HTTP_REFERER'];
 }
-
 function GetSelf_Admin() {
     return $_SERVER['PHP_SELF'];
 }

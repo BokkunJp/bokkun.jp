@@ -4,7 +4,7 @@
  * MakeToken
  * トークン作成
  *
- * @return void
+ * @return string
  */
 function MakeToken() {
     $token = CreateRandom(SECURITY_LENG). '-'. CreateRandom(SECURITY_LENG, "random_bytes");
@@ -42,13 +42,13 @@ function SetToken($token=null) {
  * @param  mixed $pageMessage
  * @param  mixed $finishFlg
  *
- * @return void
+ * @return bool
  */
 function CheckToken($tokenName='token', $errMessage='２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage='<br /><a href=\'javascript:location.href = location;\'>前のページへ戻る</a>', $finishFlg=true) {
     $post = PublicSetting\Setting::GetPosts();
     $session = new PublicSetting\Session();
 
-//    $post['deb_flg'] = 1;
+    // $post['deb_flg'] = 1;
     if (isset($post['deb_flg'])) {
         echo 'デバッグ用<br/>';
         echo 'post: '. $post[$tokenName]. '<br/>';
@@ -60,7 +60,7 @@ function CheckToken($tokenName='token', $errMessage='２度目以降のアクセ
         echo '        <div>';
          // 関数内で画面を完結させる場合はこちら
          if ($finishFlg === true) {
-           require_once LAYOUT_DIR. '/footer.php';
+           require_once PUBLIC_LAYOUT_DIR. '/footer.php';
            echo '</div>
              </body>
            </html>';

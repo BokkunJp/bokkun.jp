@@ -1,5 +1,5 @@
 <?php
-require_once COMMON_DIR. '/Token.php';
+require_once PUBLIC_COMMON_DIR. '/Token.php';
 IncludeDirctories();
 $token = PublicSetting\Setting::GetPost('token');
 if ($token) {

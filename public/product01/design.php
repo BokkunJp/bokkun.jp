@@ -42,7 +42,7 @@ if ($post) {
     </form>
 </div>
 <?php
-$filePath = AddPath(CSV_DIR, basename(__DIR__));
+$filePath = AddPath(PUBLIC_CSV_DIR, basename(__DIR__));
 $fileArray = IncludeFiles($filePath, 'csv', true);
 $base = new PublicSetting\Setting();
 

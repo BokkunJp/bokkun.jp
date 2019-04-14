@@ -1,9 +1,9 @@
 <?php
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 require_once dirname(__DIR__). '/Setting.php';
-require_once COMMON_DIR. "/Include.php";
-require_once COMPONENT_DIR. '/UA.php';
-require_once COMMON_DIR. "/Token.php";
+require_once PUBLIC_COMMON_DIR. "/Include.php";
+require_once PUBLIC_COMPONENT_DIR. '/UA.php';
+require_once PUBLIC_COMMON_DIR. "/Token.php";
 
 // タイトルの初期設定
 if (isset($homepageTitle)) {
@@ -50,7 +50,9 @@ while (1) {
 }
 
 // HTML出力用に調整
-$create = new CustomTagCreate();
+use \PublicTag\CustomTagCreate as OriginTag;
+
+$create = new OriginTag();
 $breadCrumbList = array();
 foreach ($breadCrumbList as $bread) {
     $breadCrumbList[] = $create->SetHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
@@ -58,7 +60,7 @@ foreach ($breadCrumbList as $bread) {
 $breadCrumbList = array_reverse($breadCrumbList);
 $breadCrumbList = $breadCrumbList;
 
-$arrow = new HTMLClass(true);
+$arrow = new \PublicTag\HTMLClass(true);
 $arrow->TagSet('span', '->', 'arrow', true);
 $arrow = $arrow->TagExec();
 

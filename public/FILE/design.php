@@ -12,8 +12,10 @@
  <?php
   ReadImage(1);
   ?>
-
-  <p><button type='submit' name='delete'>チェックした画像を削除する</button></p>
+<input type='hidden' name='token' value="<?=$token?>" />
+  <div>
+  <button type='submit' name='delete'>チェックした画像を削除する</button>
+  </div>
 </form>
 
 <?php

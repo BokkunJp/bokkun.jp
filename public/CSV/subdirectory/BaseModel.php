@@ -1,5 +1,5 @@
 <?php
-define('CSV', AddPath(CSV_DIR, '', false, '/') . AddPath(basename(getcwd()), '', false, '/'));
+define('CSV', AddPath(PUBLIC_CSV_DIR, '', false, '/') . AddPath(basename(getcwd()), '', false, '/'));
 class CSV_Base {
 
     private $data, $tmp;
@@ -85,7 +85,7 @@ class CSV_Base {
         if ($fileHandler) {
             foreach ($this->data as $_data) {
             if (fputcsv($fileHandler, $_data) === false) {
-                user_error("書き込みに失敗しました。");
+                user_error("書き込みに失敗しました。", E_RECOVERABLE_ERROR);
             }
             }
             fclose($fileHandler);

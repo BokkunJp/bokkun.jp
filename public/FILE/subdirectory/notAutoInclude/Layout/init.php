@@ -51,7 +51,7 @@ while (1) {
 }
 
 // HTML出力用に調整
-$create = new CustomTagCreate();
+$create = new \PublicTag\CustomTagCreate();
 $breadCrumbList_ = array();
 foreach ($breadCrumbList as $bread) {
     $breadCrumbList_[] = $create->SetHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
@@ -60,7 +60,7 @@ $breadCrumbList_ = array_reverse($breadCrumbList_);
 $breadCrumbList = $breadCrumbList_;
 unset($breadCrumbList_);
 
-$arrow = new HTMLClass(true);
+$arrow = new \PublicTag\HTMLClass(true);
 $arrow->TagSet('span', '->', 'arrow', true);
 $arrow = $arrow->TagExec();
 

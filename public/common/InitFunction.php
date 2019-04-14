@@ -1,48 +1,8 @@
 <?php
-/**
- * AddPath
- * 既存のパスに新たな要素を追加する
- *
- * @param  mixed $local
- * @param  mixed $addpath
- * @param  bool $lastSeparator
- * @param  string $separator
- *
- * @return string
- */
-function AddPath($local, $addpath, $lastSeparator=true,  $separator=DIRECTORY_SEPARATOR) {
-  if (mb_substr($local, -1) == $separator) {
-    $first = '';
-  } else {
-    $first = $separator;
-  }
-  if ($lastSeparator == true) {
-    $last = $separator;
-  } else {
-    $last = '';
-  }
-
-  $local .= $first. $addpath. $last;    // パス追加 + パス結合
-
-  $local = htmlspecialchars($local);    // XSS対策
-
-  return $local;
-}
-
-/**
- * Sanitize
- * ヌルバイト対策 (POST, GET)
- *
- * @param  mixed $arr
- *
- * @return array|mixed
- */
-function Sanitize($arr) {
-    if (is_array($arr) ){
-    return array_map('Sanitize', $arr);
-    }
-    return str_replace("\0", "", $arr);     //ヌルバイトの除去
-}
+$commonInitFunctionPath = dirname (dirname (__DIR__));
+$commonInitFunctionPath = $commonInitFunctionPath . DIRECTORY_SEPARATOR . 'common';
+$commonInitFunctionPath = $commonInitFunctionPath . DIRECTORY_SEPARATOR . 'InitFunction.php';
+require_once $commonInitFunctionPath;
 
 /**
  * CreateRandom

@@ -1,6 +1,8 @@
 <?php
 require_once("Component/Tag.php");
 require_once("Component/UA.php");                 // 必要なディレクトリの読み込み
+require_once("Word/Message.php");
+
 /*
  *      対象ディレクトリ内のファイルを一括で読み込む
  *      引数：

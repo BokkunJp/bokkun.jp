@@ -1,14 +1,14 @@
 <?php
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
- require_once dirname(dirname(dirname(__DIR__))). '/common/Function/Tag.php';
- define("MAX_LENGTH", 32);
+require_once dirname(dirname(__DIR__)) . '/common/Component/Tag.php';
+define("MAX_LENGTH", 32);
 
 $adminError = new AdminError();
-$use = new UseClass();
+$use = new \PrivateTag\UseClass();
 
 $adminPath = dirname(__DIR__);
 $basePath = dirname(dirname(dirname(__DIR__)));
@@ -37,7 +37,7 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
         $pathList = ['php', 'js', 'css', 'image'];
         // ファイル存在チェック
         foreach ($pathList as $_pathList) {
-            $client = $basePath. '/public/';
+            $client = $basePath . '/public/';
             if ($_pathList !== 'php') {
                 $client .= "client/$_pathList/";
             }
@@ -46,22 +46,18 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
                     if (isset($edit) && !isset($delete)) {
                         if ($file === $title) {
                             $adminError->UserError("ご指定のタイトルのファイルは既に存在します。ページの編集を中止します。");
-
                         }
                     }
                 }
-                
             }
-            
         }
         $mode = 'edit';
     }
     if (preg_match('/^[a-zA-Z][a-zA-Z+-_]*/', $title) === 0) {
         $adminError->UserError('タイトルに無効な文字が入力されています。');
     } else if (strlen($title) > MAX_LENGTH) {
-        $adminError->UserError("タイトルの文字数は、". MAX_LENGTH. "文字以下にしてください。");
+        $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
-    
 } else if (empty($edit) && isset($delete) &&  $delete === 'delete') {
     // 削除モード
     $adminError->Confirm('削除してもよろしいですか？');
@@ -75,7 +71,6 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
     unset($session);
     unset($post);
     $adminError->UserError('不正な値が入力されました。');
-
 }
 $adminError->Maintenance();
 
@@ -87,11 +82,11 @@ foreach ($pathList as $_pathList) {
     } else {
         if ($_pathList === 'js') {
             $client = "client/";
-            $adminPath .= '/'. $client;
+            $adminPath .= '/' . $client;
         } else {
             $client = "../";
         }
-        chdir("$client$_pathList");               // パスの移動
+        chdir("$client $_pathList");               // パスの移動
     }
     // ファイル名変更の場合
 
@@ -125,45 +120,52 @@ foreach ($pathList as $_pathList) {
 $use->Alert('ページを作成しました。');
 session_destroy();
 
-class AdminError {
+class AdminError
+{
     protected $use;
-    public function __construct() {
-        $this->use = new UseClass();
+    public function __construct()
+    {
+        $this->use = new \PrivateTag\UseClass();
     }
-    
-    public function UserError($message) {
+
+    public function UserError($message)
+    {
         $this->use->Alert($message);
         $this->use->BackAdmin('create');
         exit;
     }
 
-    public function Alert($message) {
-       $this->use->Alert($message);
+    public function Alert($message)
+    {
+        $this->use->Alert($message);
     }
 
-    public function Confirm($message) {
-       $this->use->Confirm($message);
+    public function Confirm($message)
+    {
+        $this->use->Confirm($message);
     }
-    public function Maintenance() {
+    public function Maintenance()
+    {
         $this->UserError('メンテナンス中です。しばらくお待ちください。');
     }
-} 
+}
 ?>
+
 <head>
     <base href="../" />
 </head>
 <script>
-onload = function () {
-    title = document.getElementsByName('title')[0].value;
-    if (title) {
-        title = location.protocol + '//' + location.host + '/public/' + title;
-        open(title);
+    onload = function() {
+        title = document.getElementsByName('title')[0].value;
+        if (title) {
+            title = location.protocol + '//' + location.host + '/public/' + title;
+            open(title);
+        }
+
+        location.href = "./";
     }
-    
-    location.href="./";
-}
 </script>
 
 <body>
-    <input type="hidden" name="title" value="<?php echo $title; ?>" />    
+    <input type="hidden" name="title" value="<?php echo $title; ?>" />
 </body>

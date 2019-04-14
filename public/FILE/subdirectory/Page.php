@@ -34,7 +34,7 @@ function ViewPager($file, $imageUrl) {
         $page = GetPage();
     }
 
-    $pageHtml = new CustomTagCreate();
+    $pageHtml = new \PublicTag\CustomTagCreate();
     for ($_index = 1, $_vindex = 1; $_index < count($file); $_index += PAGING, $_vindex++) {
         if ($_vindex === $page) {
             $pageHtml->TagSet('span', $_vindex . ' ', 'pager', true);
