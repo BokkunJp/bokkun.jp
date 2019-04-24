@@ -126,12 +126,8 @@ EOPHP;
         yield [0, 8, '/** priv docblock */'];
         yield [0, 9, 'private $priv = 123;'];
         yield [1, 10, '/** pub docblock */'];
-        if (\PHP_VERSION_ID >= 50600) {
-            yield [1, 11, 'public function pub(...$arg) {}'];
-        }
-        if (\PHP_VERSION_ID >= 70000) {
-            yield [1, 11, 'public function pub($arg = null): Foo {}'];
-        }
+        yield [1, 11, 'public function pub(...$arg) {}'];
+        yield [1, 11, 'public function pub($arg = null): Foo {}'];
         yield [0, 11, "public function pub(\$arg = null) {\nreturn 123;\n}"];
         yield [1, 12, '/** prot docblock */'];
         yield [1, 13, 'protected function prot($a = [123]) {}'];

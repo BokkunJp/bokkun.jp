@@ -18,11 +18,9 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * BakeCarFixture
- *
  */
 class BakeCarFixture extends TestFixture
 {
-
     /**
      * @var string
      */

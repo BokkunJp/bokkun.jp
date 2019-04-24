@@ -20,11 +20,9 @@ use Exception;
 
 /**
  * Utility class to filter Model Table associations
- *
  */
 class AssociationFilter
 {
-
     /**
      * Detect existing belongsToMany associations and cleanup the hasMany aliases based on existing
      * belongsToMany associations provided

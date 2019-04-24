@@ -11,7 +11,7 @@
  */
 namespace Migrations\Util;
 
-use Cake\Core\Plugin;
+use Cake\Core\Plugin as CorePlugin;
 use Cake\Utility\Inflector;
 use Symfony\Component\Console\Input\InputInterface;
 
@@ -65,10 +65,15 @@ trait UtilTrait
         $folder = $input->getOption('source') ?: $default;
 
         $dir = ROOT . DS . 'config' . DS . $folder;
+
+        if (defined('CONFIG')) {
+            $dir = CONFIG . $folder;
+        }
+
         $plugin = $this->getPlugin($input);
 
         if ($plugin !== null) {
-            $dir = Plugin::path($plugin) . 'config' . DS . $folder;
+            $dir = CorePlugin::path($plugin) . 'config' . DS . $folder;
         }
 
         return $dir;

@@ -18,11 +18,9 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * CategoriesProductsFixture
- *
  */
 class CategoriesProductsFixture extends TestFixture
 {
-
     /**
      * Fields
      *

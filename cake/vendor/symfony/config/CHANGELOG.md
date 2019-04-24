@@ -1,6 +1,24 @@
 CHANGELOG
 =========
 
+4.2.0
+-----
+
+ * deprecated constructing a `TreeBuilder` without passing root node information
+ * renamed `FileLoaderLoadException` to `LoaderLoadException`
+
+4.1.0
+-----
+
+ * added `setPathSeparator` method to `NodeBuilder` class
+ * added third `$pathSeparator` constructor argument to `BaseNode`
+ * the `Processor` class has been made final
+
+4.0.0
+-----
+
+ * removed `ConfigCachePass`
+
 3.4.0
 -----
 

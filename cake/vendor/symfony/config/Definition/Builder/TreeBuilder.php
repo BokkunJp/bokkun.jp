@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Config\Definition\Builder;
 
+use Symfony\Component\Config\Definition\Exception\TreeWithoutRootNodeException;
 use Symfony\Component\Config\Definition\NodeInterface;
 
 /**
@@ -23,10 +24,14 @@ class TreeBuilder implements NodeParentInterface
     protected $tree;
     protected $root;
 
-    /**
-     * @deprecated since 3.4. To be removed in 4.0
-     */
-    protected $builder;
+    public function __construct(string $name = null, string $type = 'array', NodeBuilder $builder = null)
+    {
+        if (null === $name) {
+            @trigger_error('A tree builder without a root node is deprecated since Symfony 4.2 and will not be supported anymore in 5.0.', E_USER_DEPRECATED);
+        } else {
+            $this->root($name, $type, $builder);
+        }
+    }
 
     /**
      * Creates the root node.
@@ -47,6 +52,18 @@ class TreeBuilder implements NodeParentInterface
     }
 
     /**
+     * @return NodeDefinition|ArrayNodeDefinition The root node (as an ArrayNodeDefinition when the type is 'array')
+     */
+    public function getRootNode(): NodeDefinition
+    {
+        if (null === $this->root) {
+            throw new \RuntimeException(sprintf('Calling %s() before creating the root node is not supported, migrate to the new constructor signature instead.', __METHOD__));
+        }
+
+        return $this->root;
+    }
+
+    /**
      * Builds the tree.
      *
      * @return NodeInterface
@@ -55,13 +72,31 @@ class TreeBuilder implements NodeParentInterface
      */
     public function buildTree()
     {
-        if (null === $this->root) {
-            throw new \RuntimeException('The configuration tree has no root node.');
-        }
+        $this->assertTreeHasRootNode();
         if (null !== $this->tree) {
             return $this->tree;
         }
 
         return $this->tree = $this->root->getNode(true);
+    }
+
+    public function setPathSeparator(string $separator)
+    {
+        $this->assertTreeHasRootNode();
+
+        // unset last built as changing path separator changes all nodes
+        $this->tree = null;
+
+        $this->root->setPathSeparator($separator);
+    }
+
+    /**
+     * @throws \RuntimeException if root node is not defined
+     */
+    private function assertTreeHasRootNode()
+    {
+        if (null === $this->root) {
+            throw new TreeWithoutRootNodeException('The configuration tree has no root node.');
+        }
     }
 }

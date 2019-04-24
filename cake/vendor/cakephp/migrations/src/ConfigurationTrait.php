@@ -11,7 +11,7 @@
  */
 namespace Migrations;
 
-use Cake\Core\Plugin;
+use Cake\Core\Plugin as CorePlugin;
 use Cake\Datasource\ConnectionManager;
 use Migrations\Util\UtilTrait;
 use Phinx\Config\Config;
@@ -81,7 +81,7 @@ trait ConfigurationTrait
         $connectionConfig = ConnectionManager::getConfig($connection);
         $adapterName = $this->getAdapterName($connectionConfig['driver']);
 
-        $templatePath = Plugin::path('Migrations') . 'src' . DS . 'Template' . DS;
+        $templatePath = __DIR__ . DS . 'Template' . DS;
         $config = [
             'paths' => [
                 'migrations' => $migrationsPath,
@@ -103,6 +103,7 @@ trait ConfigurationTrait
                     'name' => $connectionConfig['database'],
                     'charset' => isset($connectionConfig['encoding']) ? $connectionConfig['encoding'] : null,
                     'unix_socket' => isset($connectionConfig['unix_socket']) ? $connectionConfig['unix_socket'] : null,
+                    'suffix' => '',
                 ]
             ]
         ];

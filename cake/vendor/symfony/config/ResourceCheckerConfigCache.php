@@ -37,7 +37,7 @@ class ResourceCheckerConfigCache implements ConfigCacheInterface
      * @param string                              $file             The absolute cache path
      * @param iterable|ResourceCheckerInterface[] $resourceCheckers The ResourceCheckers to use for the freshness check
      */
-    public function __construct($file, $resourceCheckers = [])
+    public function __construct(string $file, iterable $resourceCheckers = [])
     {
         $this->file = $file;
         $this->resourceCheckers = $resourceCheckers;
@@ -169,13 +169,13 @@ class ResourceCheckerConfigCache implements ConfigCacheInterface
 
         try {
             $meta = unserialize($content);
-        } catch (\Error $e) {
-        } catch (\Exception $e) {
-        }
-        restore_error_handler();
-        ini_set('unserialize_callback_func', $prevUnserializeHandler);
-        if (null !== $e && $e !== $signalingException) {
-            throw $e;
+        } catch (\Throwable $e) {
+            if ($e !== $signalingException) {
+                throw $e;
+            }
+        } finally {
+            restore_error_handler();
+            ini_set('unserialize_callback_func', $prevUnserializeHandler);
         }
 
         return $meta;
