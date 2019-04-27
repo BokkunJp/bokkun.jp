@@ -4,7 +4,7 @@
  */
 // 必要なファイルの読み込み
 require_once(__DIR__. "/Function/UA.php");
-require_once(__DIR__. "/jQuery/include.php");
+require_once(__DIR__. "/Load/include.php");
 
 /**
  * こちらの機能はエラーページでは使用しない

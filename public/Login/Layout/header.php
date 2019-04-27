@@ -1,15 +1,15 @@
 <header class='header'>
     <div align="left">
-    <?php $img="crown-vector.jpg"; ?>
+        <?php $img = "crown-vector.jpg"; ?>
         <div>
-        <a href="<?php echo $url; ?>"><img src="<?php echo $public; ?>client/image/<?php echo $img; ?>" width="40" height="40"></a>
-        <strong>
-            <em>Bokkun's homepage</em> <br/>
-            <div class="top" align="center"><?php echo $title; ?></div>
-        </strong>
+            <a href="<?php echo $url; ?>"><img src="<?php echo $public; ?>client/image/<?php echo $img; ?>" width="40" height="40"></a>
+            <strong>
+                <em>Bokkun's homepage</em> <br />
+                <div class="top" align="center"><?php echo $title; ?></div>
+            </strong>
         </div>
     </div>
-    <?php require_once(PUBLIC_COMMON_DIR. "/jQuery/include.php");  ?>
+    <?php require_once(PUBLIC_COMMON_DIR . "/Load/include.php");  ?>
 
     <div class='date' align="right"></div>
     <div class='time' align="right"></div>

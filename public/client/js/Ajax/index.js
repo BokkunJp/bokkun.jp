@@ -16,18 +16,18 @@ function Main() {
  }
 
 /*
- * 参考： 
- 
+ * 参考：
+
  // DOM読み込み
  // $(function() {
  //    Main();     // メイン処理
  // });
- 
+
  // 全体読み込み (画像まで読み込んでから実行)
  // $(window).on('load', function() {
  // });
  //    Main();     // メイン処理
- 
+
  // JQueryを使わない場合のDOM読み込み
  onload = function() {
  //    Main();     // メイン処理
