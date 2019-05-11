@@ -9,7 +9,7 @@ require_once __DIR__ . '/common/Component/Function.php';
     <meta charset='utf-8' />
     <title>トップページ</title>
     <link rel="shortcut icon" href="public/client/image/5959715.png">
-    <script src="//code.jquery.com/jquery-3.4.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="public/client/js/common/time/realtime.js"></script>
     <script src="public/client/js/common/time/time.js"></script>
 </head>
