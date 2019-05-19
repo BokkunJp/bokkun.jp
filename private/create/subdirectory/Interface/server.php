@@ -1,7 +1,7 @@
 <?php
 interface Admin {
-  public DirCopy();
-  public TemplateEngineSet();
-  public DirRename();
-  public DirDelete();
+  public function DirCopy();
+  public function TemplateEngineSet();
+  public function DirRename();
+  public function DirDelete();
 }

@@ -28,17 +28,17 @@ console.log('xxx');
 
 				function Time() {
 				    this.sourceTime = new Date();
-				    this.nowTime = 
+				    this.nowTime =
 				    new Year(this.sourceTime).days +
-				    this.sourceTime.getHours() + '：' + 
-				    this.sourceTime.getMinutes() + '：' + 
+				    this.sourceTime.getHours() + '：' +
+				    this.sourceTime.getMinutes() + '：' +
 				    this.sourceTime.getSeconds();
 				}
 
 				function Year(date) {
-					this.days = 
+					this.days =
 					date.getFullYear() + '/' +
-					(date.getMonth() + 1) + '/' + 
+					(date.getMonth() + 1) + '/' +
 					date.getDate() + ' ';
 				}
     		</script>
@@ -48,10 +48,7 @@ console.log('xxx');
 //			exit;						// テスト中断
 			count_reset();
 			function count_reset() {
-				$fp = fopen( "../count/count.txt", "w" ); // ファイル開く
-				fputs( $fp, 0 ); // 値書き込み
-				fclose( $fp ); // ファイル閉じる
-				echo "<div align='center'><strong>カウンタを初期化しました。</strong></div>";
+				echo "<div align='center'><strong>セッションを初期化しました。</strong></div>";
 
 				session_destroy();
 			}

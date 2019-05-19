@@ -9,8 +9,8 @@ if (!isset($secure)) {
 if (isset($session['admin']['secure'])) {
     $secure = $session['admin']['secure'];
 }
-if (isset($session['front']['count'])) {
-    $secure = $session['front']['count'];
+if (isset($session['admin']['page'])) {
+    $secure = $session['admin']['page'];
 }
 if ($secure !== true) {
     require_once __DIR__. '/secure.php';
@@ -32,11 +32,11 @@ function SessionRead($sessionElm=null) {
     }
 }
 
-function MovePage() {
+function MovePage($loginFlg=true) {
+    $session = SessionRead();
     $ret = array();
-    SessionRead();
     $ret['message'] = '管理画面';
-    $ret['URL'] = 'create/';
+    $ret['URL'] = 'admin.php';
 
     return $ret;
 }
