@@ -2,7 +2,3 @@
 RewriteEngine On
 RewriteBase /
 #RewriteRule ^(.*) "https://bokkun.jp/" [R=503,NC,L]
-
-#アクセス制限
-Require all denied
-Require ip 111.89.19.212

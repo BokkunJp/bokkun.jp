@@ -6,8 +6,9 @@
  *
  * @return string
  */
-function MakeToken() {
-    $token = CreateRandom(SECURITY_LENG). '-'. CreateRandom(SECURITY_LENG, "random_bytes");
+function MakeToken()
+{
+    $token = CreateRandom(SECURITY_LENG) . '-' . CreateRandom(SECURITY_LENG, "random_bytes");
 
     return $token;
 }
@@ -21,16 +22,14 @@ function MakeToken() {
  *
  * @return void
  */
-function SetToken($token=null) {
+function SetToken($token = null)
+{
     $session = new PublicSetting\Session();
 
     if (!isset($token)) {
         $token = MakeToken();
     }
     $session->Add('token', $token);
-
-    @session_regenerate_id();
-
 }
 
 /**
@@ -44,32 +43,32 @@ function SetToken($token=null) {
  *
  * @return bool
  */
-function CheckToken($tokenName='token', $errMessage='２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage='<br /><a href=\'javascript:location.href = location;\'>前のページへ戻る</a>', $finishFlg=true) {
+function CheckToken($tokenName = 'token', $errMessage = '２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage = '<br /><a href=\'javascript:location.href = location;\'>前のページへ戻る</a>', $finishFlg = true)
+{
     $post = PublicSetting\Setting::GetPosts();
     $session = new PublicSetting\Session();
 
     // $post['deb_flg'] = 1;
     if (isset($post['deb_flg'])) {
         echo 'デバッグ用<br/>';
-        echo 'post: '. $post[$tokenName]. '<br/>';
-        echo 'session: '. $session->Read($tokenName). '<br/><br/>';
+        echo 'post: ' . $post[$tokenName] . '<br/>';
+        echo 'session: ' . $session->Read($tokenName) . '<br/><br/>';
     }
     if (!isset($post[$tokenName]) || $post[$tokenName] !== $session->Read($tokenName)) {
         echo $errMessage;
         echo $pageMessage;
         echo '        <div>';
-         // 関数内で画面を完結させる場合はこちら
-         if ($finishFlg === true) {
-           require_once PUBLIC_LAYOUT_DIR. '/footer.php';
-           echo '</div>
-             </body>
-           </html>';
-           die;
-         } else {
-           return false;
-         }
+        // 関数内で画面を完結させる場合はこちら
+        if ($finishFlg === true) {
+            require_once PUBLIC_LAYOUT_DIR . '/footer.php';
+            echo '</div>
+        </body>
+            </html>';
+            die;
+        } else {
+            return false;
+        }
     }
 
     return true;
-
 }

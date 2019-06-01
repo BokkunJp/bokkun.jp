@@ -73,7 +73,7 @@ class Setting {
 
     static public function GetPropaty($elm) {
         if (property_exists('PublicSetting\Setting', $elm) !== false) {
-            return $this->$elm;
+            return self::elm;
         } else {
             return null;
         }
@@ -184,7 +184,7 @@ class Permmision {
     // パーミッション許可
     public function Allow($filePath, $orderName, $mode) {
         if ($orderName) {
-            
+
         }
         // $this->WhoCheck();
         $this->Convert($filePath, $mode);
@@ -192,7 +192,7 @@ class Permmision {
 
     // パーミッション拒否
     public function Deny($filePath, $orderName, $mode) {
-        
+
     }
 
 }

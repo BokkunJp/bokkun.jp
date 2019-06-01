@@ -35,7 +35,6 @@ use Phinx\Db\Action\ChangeColumn;
 use Phinx\Db\Action\ChangeComment;
 use Phinx\Db\Action\ChangePrimaryKey;
 use Phinx\Db\Action\CreateTable;
-use Phinx\Db\Action\DropColumn;
 use Phinx\Db\Action\DropForeignKey;
 use Phinx\Db\Action\DropIndex;
 use Phinx\Db\Action\DropTable;
@@ -408,12 +407,12 @@ class Table
     /**
      * Removes the given index from a table.
      *
-     * @param array $columns Columns
+     * @param string|array $columns Columns
      * @return \Phinx\Db\Table
      */
-    public function removeIndex(array $columns)
+    public function removeIndex($columns)
     {
-        $action = DropIndex::build($this->table, $columns);
+        $action = DropIndex::build($this->table, is_string($columns) ? [$columns] : $columns);
         $this->actions->addAction($action);
 
         return $this;
@@ -596,7 +595,10 @@ class Table
 
             return $this;
         }
-        $this->data[] = $data;
+
+        if (count($data) > 0) {
+            $this->data[] = $data;
+        }
 
         return $this;
     }

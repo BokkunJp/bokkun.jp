@@ -1,69 +1,36 @@
 <?php
-namespace Model;
-require_once 'UI.php';
-
-use PublicSetting\Session as Session;
-class Mail {
-   private $address, $title, $body;
-   private $flg;
-
-    function __construct() {
-        unset($session);
-        $session = new Session();
-   }
-
-   protected function Init() {
-       $this->address=$title=$body=null;
-       $this->flg = true;
-   }
-
-   public function SetAddress($data) {
-     $this->Init();
-     $this->address = $data['email'];
-     $this->title = $data['title'];
-     $this->body = $data['contents'];
-     var_dump($this);
-   }
-
-   public function SendMail() {
-     if (!$this->IsValid()) {
+function SendMail($header, $response=false)
+{
+    if (!isset($header)) {
        return false;
-     }
-   }
+    }
+    list($to, $title, $body, $addtional_headers, $addtional_parameter) = $header;
 
-   public function CheckDataType($aryData) {
-     if (!is_array($aryData) || count($aryData) !== 3) {
-       return false;
-     }
-
-     foreach ($aryData as $_key => $_value) {
-      var_dump($_key);
-      switch ($_key) {
-        case 'email':
-        break;
-        case 'title':
-        break;
-        case 'contents':
-        break;
-        default:
+    if (!isset($to) || empty($to)) {
+        echo '入力が不正です。';
         return false;
-        break;
-      }
-     }
+    }
+    
+    if (!isset($title) || empty($title)) {
+        $title = '';
+    }
+    
+        if (!isset($body) || empty($body)) {
+        $body = '';
+    }
 
-     return true;
+    if (!isset($addtional_headers) || empty($addtional_headers)) {
+        $addtional_headers = '';
+    }
 
-   }
+    if (!isset($addtional_parameter) || empty($addtional_parameter)) {
+        $addtional_parameter = '';
+    }
 
-   public function IsValid() {
-       $this->isValidAddress();
-    //    $this->IsValidTitle();
-    //    $this->IsValidBody();
-
-        return $this->flg;
-   }
-
-   private function isValidAddress() {
-      var_dump(preg_match('/^[a-zA-z0-9]+[a-zA-z0-9\.]*@[a-zA-z0-9\.][a-zA-z0-9]$/', $this->address));
-   }
+    if (mb_send_mail($to, $title, $body, $addtional_headers, $addtional_parameter)) {
+        $message = 'メールを送信しました。';
+    } else {
+      echo 'メールの送信に失敗しました。';
+    }
+    
 }

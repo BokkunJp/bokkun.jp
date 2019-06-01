@@ -44,8 +44,14 @@ use Phinx\Util\Literal;
  */
 class MysqlAdapter extends PdoAdapter implements AdapterInterface
 {
-
-    protected $signedColumnTypes = ['integer' => true, 'biginteger' => true, 'float' => true, 'decimal' => true, 'boolean' => true];
+    protected $signedColumnTypes = [
+        'integer' => true,
+        'biginteger' => true,
+        'float' => true,
+        'decimal' => true,
+        'double' => true,
+        'boolean' => true,
+    ];
 
     const TEXT_TINY = 255;
     const TEXT_SMALL = 255; /* deprecated, alias of TEXT_TINY */
@@ -221,15 +227,10 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
 
         // Add the default primary key
         if (!isset($options['id']) || (isset($options['id']) && $options['id'] === true)) {
-            $column = new Column();
-            $column->setName('id')
-                   ->setType('integer')
-                   ->setSigned(isset($options['signed']) ? $options['signed'] : true)
-                   ->setIdentity(true);
+            $options['id'] = 'id';
+        }
 
-            array_unshift($columns, $column);
-            $options['primary_key'] = 'id';
-        } elseif (isset($options['id']) && is_string($options['id'])) {
+        if (isset($options['id']) && is_string($options['id'])) {
             // Handle id => "field_name" to support AUTO_INCREMENT
             $column = new Column();
             $column->setName($options['id'])
@@ -401,7 +402,8 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
                    ->setDefault($columnInfo['Default'])
                    ->setType($phinxType['name'])
                    ->setSigned(strpos($columnInfo['Type'], 'unsigned') === false)
-                   ->setLimit($phinxType['limit']);
+                   ->setLimit($phinxType['limit'])
+                   ->setScale($phinxType['scale']);
 
             if ($columnInfo['Extra'] === 'auto_increment') {
                 $column->setIdentity(true);
@@ -829,6 +831,7 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
     {
         switch ($type) {
             case static::PHINX_TYPE_FLOAT:
+            case static::PHINX_TYPE_DOUBLE:
             case static::PHINX_TYPE_DECIMAL:
             case static::PHINX_TYPE_DATE:
             case static::PHINX_TYPE_ENUM:
@@ -888,6 +891,8 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
                 return ['name' => 'blob'];
             case static::PHINX_TYPE_BIT:
                 return ['name' => 'bit', 'limit' => $limit ?: 64];
+            case static::PHINX_TYPE_SMALL_INTEGER:
+                return ['name' => 'smallint', 'limit' => $limit ?: 6];
             case static::PHINX_TYPE_INTEGER:
                 if ($limit && $limit >= static::INT_TINY) {
                     $sizes = [
@@ -899,6 +904,7 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
                         'tinyint' => static::INT_TINY,
                     ];
                     $limits = [
+                        'smallint' => 6,
                         'int' => 11,
                         'bigint' => 20,
                     ];
@@ -930,7 +936,7 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
 
                 return ['name' => 'year', 'limit' => $limit];
             default:
-                throw new \RuntimeException('The type: "' . $type . '" is not supported.');
+                throw new UnsupportedColumnTypeException('Column type "' . $type . '" is not supported by MySQL.');
         }
     }
 
@@ -938,24 +944,24 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
      * Returns Phinx type by SQL type
      *
      * @param string $sqlTypeDef
-     * @throws \RuntimeException
+     * @throws UnsupportedColumnTypeException
      * @internal param string $sqlType SQL type
-     * @returns string Phinx type
+     * @return array Phinx type
      */
     public function getPhinxType($sqlTypeDef)
     {
         $matches = [];
         if (!preg_match('/^([\w]+)(\(([\d]+)*(,([\d]+))*\))*(.+)*$/', $sqlTypeDef, $matches)) {
-            throw new \RuntimeException('Column type ' . $sqlTypeDef . ' is not supported');
+            throw new UnsupportedColumnTypeException('Column type "' . $sqlTypeDef . '" is not supported by MySQL.');
         } else {
             $limit = null;
-            $precision = null;
+            $scale = null;
             $type = $matches[1];
             if (count($matches) > 2) {
                 $limit = $matches[3] ? (int)$matches[3] : null;
             }
             if (count($matches) > 4) {
-                $precision = (int)$matches[5];
+                $scale = (int)$matches[5];
             }
             if ($type === 'tinyint' && $limit === 1) {
                 $type = static::PHINX_TYPE_BOOLEAN;
@@ -982,7 +988,7 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
                     $limit = static::INT_TINY;
                     break;
                 case 'smallint':
-                    $type = static::PHINX_TYPE_INTEGER;
+                    $type = static::PHINX_TYPE_SMALL_INTEGER;
                     $limit = static::INT_SMALL;
                     break;
                 case 'mediumint':
@@ -1036,16 +1042,20 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
                     break;
             }
 
-            // Call this to check if parsed type is supported.
-            $this->getSqlType($type, $limit);
+            try {
+                // Call this to check if parsed type is supported.
+                $this->getSqlType($type, $limit);
+            } catch (UnsupportedColumnTypeException $e) {
+                $type = Literal::from($type);
+            }
 
             $phinxType = [
                 'name' => $type,
                 'limit' => $limit,
-                'precision' => $precision
+                'scale' => $scale
             ];
 
-            if (static::PHINX_TYPE_ENUM == $type) {
+            if (static::PHINX_TYPE_ENUM == $type || static::PHINX_TYPE_SET == $type) {
                 $phinxType['values'] = explode("','", trim($matches[6], "()'"));
             }
 

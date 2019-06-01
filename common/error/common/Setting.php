@@ -67,7 +67,7 @@ class Setting {
 
     static public function GetPropaty($elm) {
         if (property_exists('PublicSetting\Setting', $elm) !== false) {
-            return $this->$elm;
+            return self::elm;
         } else {
             return null;
         }
@@ -178,7 +178,7 @@ class Permmision {
     // パーミッション許可
     public function Allow($filePath, $orderName, $mode) {
         if ($orderName) {
-             
+
         }
         // $this->WhoCheck();
          $this->Convert($filePath, $mode);
@@ -223,7 +223,7 @@ class Session {
          return $this->session;
         }
     }
-    
+
     public function Delete($sessionElm=null) {
         if (!isset($_SESSION)) {
             trigger_error('Session is already deleted.', E_USER_ERROR);
