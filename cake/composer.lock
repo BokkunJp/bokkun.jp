@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a7276278a693ad6468519f49cec8f05",
+    "content-hash": "a32065bf9ef49c687bc60eeb80def23a",
     "packages": [
         {
             "name": "aura/intl",
@@ -200,23 +200,23 @@
         },
         {
             "name": "cakephp/migrations",
-            "version": "dev-master",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/migrations.git",
-                "reference": "b8550bf565a8dbfdc334fe4c0d7691511f4fe82f"
+                "reference": "96e3cc00ede11f28bb8bcefcab95f07c487177cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/migrations/zipball/b8550bf565a8dbfdc334fe4c0d7691511f4fe82f",
-                "reference": "b8550bf565a8dbfdc334fe4c0d7691511f4fe82f",
+                "url": "https://api.github.com/repos/cakephp/migrations/zipball/96e3cc00ede11f28bb8bcefcab95f07c487177cf",
+                "reference": "96e3cc00ede11f28bb8bcefcab95f07c487177cf",
                 "shasum": ""
             },
             "require": {
                 "cakephp/cache": "^3.6.0",
                 "cakephp/orm": "^3.6.0",
                 "php": ">=5.6.0",
-                "robmorgan/phinx": "^0.10.3"
+                "robmorgan/phinx": "~0.10.3"
             },
             "require-dev": {
                 "cakephp/bake": "^1.7.0",
@@ -230,7 +230,7 @@
             "type": "cakephp-plugin",
             "autoload": {
                 "psr-4": {
-                    "Migrations\\": "src/"
+                    "Migrations\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -249,7 +249,7 @@
                 "cakephp",
                 "migrations"
             ],
-            "time": "2019-05-12T11:52:12+00:00"
+            "time": "2019-02-07T15:20:33+00:00"
         },
         {
             "name": "cakephp/plugin-installer",
@@ -2861,7 +2861,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "cakephp/cakephp": 5,
-        "cakephp/migrations": 20,
         "josegonzalez/dotenv": 20,
         "mobiledetect/mobiledetectlib": 20,
         "cakephp/bake": 20,
