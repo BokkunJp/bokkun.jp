@@ -1,3 +1,12 @@
+* 1.42.2 (2019-06-18)
+
+ * Display partial output (PHP buffer) when an error occurs in debug mode
+
+* 1.42.1 (2019-06-04)
+
+ * added support for "Twig\Markup" instances in the "in" test (again)
+ * allowed string operators as variables names in assignments
+
 * 1.42.0 (2019-05-31)
 
  * fixed the "filter" filter when the argument is \Traversable but does not implement \Iterator (\SimpleXmlElement for instance)

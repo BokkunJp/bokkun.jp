@@ -70,7 +70,7 @@ class Setting {
 
     static public function GetPropaty($elm) {
         if (property_exists('PublicSetting\Setting', $elm) !== false) {
-            return $this->$elm;
+            return self::$elm;
         } else {
             return null;
         }
