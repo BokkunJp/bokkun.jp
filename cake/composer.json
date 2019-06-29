@@ -6,8 +6,8 @@
     "license": "MIT",
     "require": {
         "php": ">=5.6",
-        "cakephp/cakephp": "3.8.0-RC3",
-        "cakephp/migrations": "^2.1.1",
+        "cakephp/cakephp": "3.8.0",
+        "cakephp/migrations": "dev-master",
         "cakephp/plugin-installer": "^1.1",
         "josegonzalez/dotenv": "dev-master",
         "mobiledetect/mobiledetectlib": "dev-master"
