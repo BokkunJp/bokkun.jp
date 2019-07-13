@@ -1,4 +1,5 @@
 <?php
+use BasicTag\CustomTagCreate;
 
 // require_once dirname(dirname(__DIR__)). '/common/Layout/init.php';
 require_once ('Page.php');
@@ -67,12 +68,15 @@ function LoadAllImageFile() {
         $imgSrc[mb_strtoupper($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . '/FILE/', mb_strtoupper($_index), true);
     }
 
+    $ret = [];
     foreach ($imgSrc as $_index => $_img) {
-        foreach ($_img as $__val) {
-            $ret[] = $__val;
+        if (isset($_img)) {
+            foreach ($_img as $__val) {
+                $ret[] = $__val;
+            }
         }
     }
-    
+
     // var_dump(array_merge($png, $png_2, $jpg, $jpg_2, $jpeg, $gif));
 
     return $ret;
