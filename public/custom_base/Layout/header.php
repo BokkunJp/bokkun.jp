@@ -9,7 +9,6 @@
             </strong>
         </div>
     </div>
-    <?php require_once(COMMON_DIR . "/Load/include.php");  ?>
 
     <div class='date' align="right"></div>
     <div class='time' align="right"></div>
