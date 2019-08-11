@@ -298,6 +298,10 @@ class UseClass extends ScriptClass {
         $this->TagExec(true);
     }
 
+    public function Confirm() {
+
+    }
+
 }
 
 // 共通処理

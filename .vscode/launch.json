@@ -17,6 +17,21 @@
         "program": "${file}",
         "cwd": "${fileDirname}",
         "port": 9000
+    },
+    {
+        "type": "firefox",
+        "request": "launch",
+        "reAttach": true,
+        "name": "JavaScript Debug(FireFox)",
+        "url": "http://localhost",
+        "webRoot": "${workspaceFolder}"
+    },
+    {
+        "type": "chrome",
+        "request": "launch",
+        "name": "JavaScript Debug(Chrome)",
+        "url": "http://bokkun.jp.project",
+        "webRoot": "${workspaceFolder}"
     }
 ]
 }
