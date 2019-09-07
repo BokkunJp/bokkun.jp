@@ -14,6 +14,9 @@ if (strpos($base->GetURL(), 'public')) {
     return true;
 }
 
+require_once AddPath(__DIR__, "Config.php", false);
+$siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
+
 if (isset($_SERVER['HTTPS'])) {
     $http = '//';
 } else {

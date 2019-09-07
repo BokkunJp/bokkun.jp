@@ -15,7 +15,7 @@ class DB {
     protected $stmt;
     protected $query;
 
-    public function __construct($dbName='bokkun', $tableName=null, $dbPass, $dbHost = 'localhost', $dbPort=5432) {
+    public function __construct($dbName='bokkun', $dbPass = null, $tableName=null, $dbHost = 'localhost', $dbPort=5432) {
         try {
             if (!isset($tableName) && isset($dbName)) {
                 $tableName = $dbName;
@@ -26,7 +26,7 @@ class DB {
             $this->hash = password_hash($dbPass, PASSWORD_DEFAULT);
             $this->dsn = "pgsql:dbname=$this->dbName host=$dbHost port=$dbPort";
             $this->stmt = new PDO($this->dsn, $this->user, $dbPass);
-            // print_r('データベースの接続に成功しました。<br/>');
+            print_r('データベースの接続に成功しました。<br/>');
             $this->access = true;
         } catch (PDOException $e) {
             print_r('ERROR!! '.$e->getMessage());
@@ -60,10 +60,10 @@ class DB {
             $sth->execute(array(':value' => $val));
             $this->stmt->commit();                                      // コミット
         } catch (Exception $e) {
-            print_r_r('ERROR!! '.$e->getMessage());
+            print_r('ERROR!! '.$e->getMessage());
             $this->stmt->rollback();
             error_reporting(E_STRICT);
-         }
+        }
     }
 
     public function Update($id, $val) {
@@ -83,7 +83,7 @@ class DB {
             $this->stmt->commit();                                      // コミット
 
         } catch (Exception $e) {
-            print_r_r('ERROR!! '.$e->getMessage());
+            print_r('ERROR!! '.$e->getMessage());
             $this->stmt->rollback();
             error_reporting(E_STRICT);
         }

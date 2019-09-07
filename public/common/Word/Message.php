@@ -1,4 +1,7 @@
 <?php
+
+use CommonSetting\Setting;
+
 $commonWordPath = dirname(dirname(dirname(__DIR__)));
 $commonWordPath = AddPath($commonWordPath, 'common');
 $commonWordPath = AddPath($commonWordPath, 'Word');

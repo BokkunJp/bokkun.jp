@@ -4,12 +4,14 @@
  * Subdirectoryディレクトリ以下のPHPファイルを一括で読み込む。
  */
 $base = new PublicSetting\Setting();
+
 // 必要なファイルの一括読み込み
 $pwd = PUBLIC_COMPONENT_DIR . '/';
 IncludeFiles($pwd);
 
 use \PublicTag\CustomTagCreate as OriginTag;
-
+//JSファイル
+require_once PUBLIC_COMMON_DIR . "/Load/include.php";
 // subdirectory内のphpファイルの読み込み
 IncludeFiles(AddPath(getcwd(), 'subdirectory'));
 IncludeDirctories(PUBLIC_COMPONENT_DIR);
@@ -18,12 +20,35 @@ IncludeDirctories(PUBLIC_COMPONENT_DIR);
 $src = new OriginTag();
 $jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, 'common'), 'js', true);
 foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common'), $_jsFile, false), '', 'common');
+    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false), $_jsFile, false), 'common');
     $src->TagExec(true);
 }
 
+$jsFiles = IncludeFiles(AddPath(AddPath(PUBLIC_JS_DIR, 'common'), 'time'), 'js', true);
+foreach ($jsFiles as $_jsFile) {
+    $src->ReadJS(AddPath(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false), 'time'), $_jsFile, false), 'time');
+    $src->TagExec(true);
+}
+
+// 個別ディレクトリのjsファイルの読み込み
+$jsTitle = basename(getcwd());
+$jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, $jsTitle), 'js', true);
+if (is_null($jsFiles)) {
+    return;
+}
+
+foreach ($jsFiles as $_jsFile) {
+    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $jsTitle, false), $_jsFile, false), $jsTitle);
+    $src->TagExec(true);
+}
+
+
+IncludeDirctories(addPath(PUBLIC_JS_DIR, basename(getcwd())));
+
+
 /*
- *      対象ディレクトリ内のディレクトリをファイルごと一括で読み込む
+ *      対象ディレクトリ内のファイルをディレクトリごと一括で読み込む
+ *      (ディレクトリが複数あった場合、ディレクトリ毎それぞれのファイルを読み込む)
  *      引数：
  *          $pwd:ディレクトリまでのパス
  *          $extension:拡張子
@@ -58,6 +83,7 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false) {
 
 /*
  *      対象ディレクトリ内のファイルを一括で読み込む
+ *      (対象ディレクトリ内にはファイルのみがある前提)
  *      引数：
  *          $pwd:ディレクトリまでのパス
  *          $extension:拡張子
@@ -93,3 +119,20 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false) {
         return $retList;
     }
 }
+
+/*
+ *      対象ディレクトリ内のJSファイルを一括で読み込み、HTMLのscriptタグとして出力する
+ *      引数：
+ *          $pwd:ディレクトリまでのパス
+ *          $extension:拡張子
+ *
+ */
+function IncludeJSFiles($pwd, $ret = true) {
+$src = new OriginTag();
+$jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, 'common'), 'js', true);
+foreach ($jsFiles as $_jsFile) {
+    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common'), $_jsFile, false), '', 'common');
+    $src->TagExec(true);
+}
+
+    }

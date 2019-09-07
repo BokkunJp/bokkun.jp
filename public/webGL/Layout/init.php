@@ -7,19 +7,5 @@ require_once PUBLIC_COMMON_DIR. "/Include.php";
 if (isset($homepageTitle)) {
     $title = htmlspecialchars($homepageTitle);
 } else {
-    $title = htmlspecialchars(basename(__DIR__)); 
-}
-$ua = new UA\UA();
-define('Phone', 2);
-define('PC', 1);
-$statusCode = $ua->designJudege();
-switch ($statusCode) {
-    case PC:
-        $agentCode = 'PC';
-        break;
-    case Phone:
-        $agentCode = 'SMP';
-        break;
-    default:
-        break;
+    $title = htmlspecialchars(basename(__DIR__));
 }

@@ -14,10 +14,10 @@ class Admin {
     public function Initialize() {
         $this->adminError = new AdminError();
         $this->use = new UseClass();
-        
+
         $this->adminPath = dirname(__DIR__);
         $this->basePath = dirname(dirname(dirname(__DIR__)));
-        
+
         session_start();
         $this->session = $_SESSION;
         $this->post = $_POST;
@@ -46,9 +46,9 @@ class Admin {
 class AdminError {
     protected $use;
     public function __construct() {
-        $this->use = new UseClass();
+        $this->use = new PrivateTag\UseClass();
     }
-    
+
     public function UserError($message) {
         $this->use->Alert($message);
         $this->use->BackAdmin('create');
@@ -58,4 +58,4 @@ class AdminError {
     public function Maintenance() {
         $this->UserError('メンテナンス中です。しばらくお待ちください。');
     }
-} 
+}

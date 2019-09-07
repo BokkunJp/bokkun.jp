@@ -4,6 +4,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+if (!isset($_SESSION)) {
+    session_start();
+}
 require_once dirname(dirname(__DIR__)) . '/common/Component/Tag.php';
 define("MAX_LENGTH", 32);
 
@@ -13,7 +16,6 @@ $use = new \PrivateTag\UseClass();
 $adminPath = dirname(__DIR__);
 $basePath = dirname(dirname(dirname(__DIR__)));
 
-session_start();
 $session = $_SESSION;
 $post = $_POST;
 $judge = array();
@@ -68,6 +70,8 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
         $session['addition'] = $post;
         $_SESSION = $session;
     }
+    var_dump($edit);
+    die;
     unset($session);
     unset($post);
     $adminError->UserError('不正な値が入力されました。');

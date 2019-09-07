@@ -4,6 +4,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+if (!isset($_SESSION)) {
+    session_start();
+}
 require_once dirname(dirname(__DIR__)) . '/common/Component/Tag.php';
 define('MAX_LENGTH', 32);
 $adminError = new AdminError();
@@ -12,7 +15,6 @@ $use = new PrivateTag\UseClass();
 $adminPath = dirname(__DIR__);
 $samplePath = dirname($adminPath) . DIRECTORY_SEPARATOR . 'Sample';
 $basePath = DOCUMENT_ROOT;
-session_start();
 $session = $_SESSION;
 $post = $_POST;
 $judge = array();

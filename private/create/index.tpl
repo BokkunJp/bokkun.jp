@@ -10,7 +10,7 @@
 <button type='submit' id='create'>ページの新規作成</button>
 </form>
 <br />
-<form action='./{$base}/edit.php' method='POST'>
+<form action='./{$base}/' method='POST'>
     <div><p2>編集</p2></div>
     <div class="warning">本機能は現在鋭意実装中です。</div>
     <select name='select'>

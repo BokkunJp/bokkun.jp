@@ -4,4 +4,4 @@ if (!isset($_SESSION)) {
 }
 // 初期設定を記述
 $homepageTitle = htmlspecialchars(basename(__DIR__));
-require_once __DIR__. '/Layout/layout.php';
+require_once dirname(__DIR__). '/common/Layout/layout.php';

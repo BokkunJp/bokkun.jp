@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/common/Setting.php");
+require_once __DIR__ . "/common/Setting.php";
 require_once 'common.php';
 if (empty($session)) {
     $session = SessionRead();
@@ -11,7 +11,7 @@ if (empty($session['admin'])) {
 }
 
 if (!isset($adminURL) || empty($adminURL) && $session['admin']['send'] !== true) {
-    $adminURL = explode('/', GetSelf_Admin());
+    $adminURL = explode('/', PrivateSetting\GetSelf_Admin());
     $session['admin']['adminURL'] = $adminURL;
 } else {
     $adminURL = $session['admin']['adminURL'];
@@ -23,6 +23,7 @@ $refererArray = [$adminURL];
 $referer = end($refererArray);
 ?>
 <!DOCTYPE html>
+
 <html>
 
 <head>

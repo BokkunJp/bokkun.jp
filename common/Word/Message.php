@@ -10,7 +10,7 @@ function CSRFErrorMessage() {
         $errLists .= "<li>{$_errList}</li>";
     }
     $errMessage .= $errLists;
-    $errMessage .='</ul>';    
+    $errMessage .='</ul>';
 
     return $errMessage;
 }

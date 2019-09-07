@@ -1,6 +1,6 @@
 <?php
 session_regenerate_id();
-require_once __DIR__ . '/init.php';
+require_once __DIR__ . '/require.php';
 // トークンセット
 // SetToken();
 // $title = "テンプレート";
@@ -13,13 +13,10 @@ $img = "crown-vector.jpg";
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
-    <title><?php echo $title; ?></title>
+    <title><?php echo basename(getcwd()); ?></title>
     <base href="../" />
     <link rel="shortcut icon" href="client/image/5959715.png">
-    <?php require_once(PUBLIC_COMMON_DIR . "/Load/include.php"); ?>
-    <script src="client/js/common/time/realtime.js"></script>
-    <script src="client/js/common/time/time.js"></script>
-    <script src="client/js/<?php echo $homepageTitle; ?>/index.js"></script>
+    <?php require_once __DIR__ . '/init.php'; ?>
     <link rel="stylesheet" type="text/css" href="client/css/<?php echo $homepageTitle; ?>/design.css">
 </head>
 

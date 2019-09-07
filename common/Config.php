@@ -1,8 +1,6 @@
 <?php
-class Config {
-    private $start;
-    private $end;
 
+class Config {
     function __construct() {
         if (isset($base)) {
             $base = new PublicSetting\Setting();
@@ -11,19 +9,32 @@ class Config {
 }
 
 class Header extends Config {
+
+    // バージョン判定
+    private function SetVersion()
+    {
+        switch ($_SERVER['SERVER_NAME']) {
+            case 'bokkun.xyz':
+            $ret = '-dev';
+            break;
+            case 'bokkun.jp':
+            break;
+            default:
+            $ret = '-local';
+            break;
+        }
+        return $ret;
+    }
+    public function GetVersion()
+    {
+        return $this->SetVersion();
+    }
 }
 
 class Footer extends Config {
-    public function GetDate($arg, $elm) {
-        switch ($arg) {
-            case 'year':
-                $this->GetYear($elm);
-            break;
-            default:
-                break;
-        }
-    }
-    public function GetYear($arg='') {
+    private $start;
+    private $end;
+    private function SetYear($arg) {
         $time = new DateTime();
         $this->end = $time->format('Y');
         $this->start = '2016';
@@ -39,5 +50,9 @@ class Footer extends Config {
                 break;
         }
         return $ret;
+    }
+    public function GetYear($arg='')
+    {
+        return $this->SetYear($arg);
     }
 }

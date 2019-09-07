@@ -1,31 +1,9 @@
 <?php
-ini_set('error_reporting', E_ALL | ~E_STRICT);
-require_once dirname(__DIR__). '/Setting.php';
-require_once PUBLIC_COMMON_DIR. "/Include.php";
-require_once PUBLIC_COMPONENT_DIR. '/UA.php';
-require_once PUBLIC_COMMON_DIR. "/Token.php";
-
 // タイトルの初期設定
 if (isset($homepageTitle)) {
     $title = htmlspecialchars($homepageTitle);
 } else {
     $title = htmlspecialchars(basename(__DIR__));
-}
-
-// ユーザーエージェントの設定
-$ua = new UA\UA();
-define('Phone', 2);
-define('PC', 1);
-$statusCode = $ua->DesignJudege();
-switch ($statusCode) {
-    case PC:
-        $agentCode = 'PC';
-        break;
-    case Phone:
-        $agentCode = 'SMP';
-        break;
-    default:
-        break;
 }
 
 // パンくずリストの生成 (完成・検証後にSetting.phpに移動)

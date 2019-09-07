@@ -1,6 +1,6 @@
 <?php
-// require_once dirname(dirname(__DIR__)). '/common/Layout/init.php';  // 共通処理用
-require_once __DIR__ . '/init.php'; // 個別処理用 (別途init.phpが必要)
+session_regenerate_id();
+require_once __DIR__ . '/require.php';
 
 $title = "カスタムテンプレート";
 $img = "crown-vector.jpg";
@@ -12,10 +12,7 @@ $img = "crown-vector.jpg";
     <title><?php echo $title; ?></title>
     <base href="../" />
     <link rel="shortcut icon" href="client/image/5959715.png">
-    <?php require_once(PUBLIC_COMMON_DIR . "/Load/include.php"); ?>
-    <script src="client/js/<?php echo $homepageTitle; ?>/index.js"></script>
-    <script src="client/js/<?php echo $homepageTitle; ?>/realtime.js"></script>
-    <script src="client/js/<?php echo $homepageTitle; ?>/time.js"></script>
+    <?php require_once dirname(dirname(__DIR__)) . '/common/Layout/init.php'; ?>
     <link rel="stylesheet" type="text/css" href="client/css/<?php echo $homepageTitle; ?>/design.css">
 </head>
 
