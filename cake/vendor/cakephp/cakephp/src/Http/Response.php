@@ -43,7 +43,7 @@ class Response implements ResponseInterface
     /**
      * Holds HTTP response statuses
      *
-     * @var array
+     * @var string[]
      */
     protected $_statusCodes = [
         100 => 'Continue',
@@ -1105,7 +1105,7 @@ class Response implements ResponseInterface
      * type(['jpg' => 'text/plain']);
      * ```
      *
-     * @param string|null $contentType Content type key.
+     * @param string|array|null $contentType Content type key.
      * @return mixed Current content type or false if supplied an invalid content type.
      * @deprecated 3.5.5 Use getType() or withType() instead.
      */
@@ -1210,7 +1210,7 @@ class Response implements ResponseInterface
      * e.g `getMimeType('pdf'); // returns 'application/pdf'`
      *
      * @param string $alias the content type alias to map
-     * @return mixed String mapped mime type or false if $alias is not mapped
+     * @return string|array|false String mapped mime type or false if $alias is not mapped
      */
     public function getMimeType($alias)
     {
