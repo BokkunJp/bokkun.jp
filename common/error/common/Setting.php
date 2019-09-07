@@ -20,6 +20,9 @@ if (isset($_SERVER['HTTP_REFERER'])) {
     $referer = $_SERVER['HTTP_REFERER'];
 }
 
+require_once AddPath(dirname(dirname(COMMON_DIR)), "Config.php", false);
+$siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
+
 // インスタンスの定義
 $base = new Setting();
 // 設定関係のクラス化(実装中)
