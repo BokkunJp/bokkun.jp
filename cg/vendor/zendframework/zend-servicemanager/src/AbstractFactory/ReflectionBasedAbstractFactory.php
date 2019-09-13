@@ -1,8 +1,8 @@
 <?php
 /**
- * @link      http://github.com/zendframework/zend-servicemanager for the canonical source repository
- * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-servicemanager for the canonical source repository
+ * @copyright Copyright (c) 2016-2018 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   https://github.com/zendframework/zend-servicemanager/blob/master/LICENSE.md New BSD License
  */
 
 namespace Zend\ServiceManager\AbstractFactory;
@@ -134,7 +134,14 @@ class ReflectionBasedAbstractFactory implements AbstractFactoryInterface
      */
     public function canCreate(ContainerInterface $container, $requestedName)
     {
-        return class_exists($requestedName);
+        return class_exists($requestedName) && $this->canCallConstructor($requestedName);
+    }
+
+    private function canCallConstructor($requestedName)
+    {
+        $constructor = (new ReflectionClass($requestedName))->getConstructor();
+
+        return $constructor === null || $constructor->isPublic();
     }
 
     /**
@@ -150,7 +157,7 @@ class ReflectionBasedAbstractFactory implements AbstractFactoryInterface
     private function resolveParameterWithoutConfigService(ContainerInterface $container, $requestedName)
     {
         /**
-         * @param ReflectionClass $parameter
+         * @param ReflectionParameter $parameter
          * @return mixed
          * @throws ServiceNotFoundException If type-hinted parameter cannot be
          *   resolved to a service in the container.
@@ -173,7 +180,7 @@ class ReflectionBasedAbstractFactory implements AbstractFactoryInterface
     private function resolveParameterWithConfigService(ContainerInterface $container, $requestedName)
     {
         /**
-         * @param ReflectionClass $parameter
+         * @param ReflectionParameter $parameter
          * @return mixed
          * @throws ServiceNotFoundException If type-hinted parameter cannot be
          *   resolved to a service in the container.
@@ -189,7 +196,7 @@ class ReflectionBasedAbstractFactory implements AbstractFactoryInterface
     /**
      * Logic common to all parameter resolution.
      *
-     * @param ReflectionClass $parameter
+     * @param ReflectionParameter $parameter
      * @param ContainerInterface $container
      * @param string $requestedName
      * @return mixed
@@ -218,7 +225,11 @@ class ReflectionBasedAbstractFactory implements AbstractFactoryInterface
         $type = $parameter->getClass()->getName();
         $type = isset($this->aliases[$type]) ? $this->aliases[$type] : $type;
 
-        if (! $container->has($type)) {
+        if ($container->has($type)) {
+            return $container->get($type);
+        }
+
+        if (! $parameter->isOptional()) {
             throw new ServiceNotFoundException(sprintf(
                 'Unable to create service "%s"; unable to resolve parameter "%s" using type hint "%s"',
                 $requestedName,
@@ -227,6 +238,8 @@ class ReflectionBasedAbstractFactory implements AbstractFactoryInterface
             ));
         }
 
-        return $container->get($type);
+        // Type not available in container, but the value is optional and has a
+        // default defined.
+        return $parameter->getDefaultValue();
     }
 }

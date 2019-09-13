@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.2.3 - 2019-03-28
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Fixes an information disclosure vulnerability; see https://framework.zend.com/security/advisory/ZF2019-01
+  for more details.
+
+## 1.2.2 - 2019-03-05
+
+### Added
+
+- [#253](https://github.com/zendframework/zend-developer-tools/pull/253) and [#254](https://github.com/zendframework/zend-developer-tools/pull/254) add support for PHP 7.3.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 1.2.1 - 2018-04-18
 
 ### Added

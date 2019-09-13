@@ -2,6 +2,127 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.9.2 - 2019-08-19
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#89](https://github.com/zendframework/zend-filter/pull/89) fixes infinite
+  loop on malformed HTML comments in StripTags filter.
+
+- [#92](https://github.com/zendframework/zend-filter/pull/92) fixes Tar adapter
+  to not require `archive` in options when decompressing.
+
+## 2.9.1 - 2018-12-17
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#79](https://github.com/zendframework/zend-filter/pull/79) fixes a regression introduced in 2.9.0 when using
+  `Zend\Filter\File\RenameUpload` via the traditional SAPI.
+
+## 2.9.0 - 2018-12-12
+
+### Added
+
+- [#70](https://github.com/zendframework/zend-inputfilter/pull/70) Adds compatibility with the PSR-7 `UploadedFileInterface` to the
+  `RenameUpload` filter. The functionality requires PHP 7 and a
+  psr/http-factory-implementation in your application. When present,
+  `RenameUpload` will accept a PSR-7 `UploadedFileInterface`, and return a new
+  one representing the renamed file.
+
+- [#71](https://github.com/zendframework/zend-filter/pull/71) adds the `ToFloat` filter, to complement the `ToInt` filter.
+
+- [#69](https://github.com/zendframework/zend-filter/pull/69) adds `Zend\Filter\StringSufix`; when provided with a string `suffix`
+  option, it will suffix scalar values with that string.
+
+- [#69](https://github.com/zendframework/zend-filter/pull/69) adds `Zend\Filter\StringPrefix`; when provided with a string `prefix`
+  option, it will prefix scalar values with that string.
+
+### Changed
+
+- [#66](https://github.com/zendframework/zend-filter/pull/66) modifies how the FilterPluginManager is registered with the dependency
+  injection container. Previously, it was registered only under the name
+  `FilterManager`. Now it regisers `Zend\Filter\FilterPluginManager` as a
+  factory service, and `FilterManager` as an alias to that service.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.8.0 - 2018-04-11
+
+### Added
+
+- [#26](https://github.com/zendframework/zend-filter/pull/26) adds the interface
+  `Zend\Filter\FilterProviderInterface`, which can be used to provide
+  configuration for the `FilterPluginManager` via zend-mvc `Module` classes.
+
+- [#61](https://github.com/zendframework/zend-filter/pull/61) adds support for
+  PHP 7.2.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#61](https://github.com/zendframework/zend-filter/pull/61) removes support
+  for PHP 5.5.
+
+- [#61](https://github.com/zendframework/zend-filter/pull/61) removes support
+  for HHVM.
+
+- [#61](https://github.com/zendframework/zend-filter/pull/61) removes support
+  for zend-crypt versions prior to 3.0. This was done as PHP deprecated the
+  mcrypt extension starting in PHP 7.1, and does not ship it by default
+  starting in PHP 7.2. zend-crypt 3.0 adds an OpenSSL adapter for its
+  BlockCipher capabilities, and acts as a polyfill for mcrypt usage. Since this
+  functionality has been used by default since 2.7.2, users should be able to
+  upgrade seamlessly.
+
+### Fixed
+
+- Nothing.
+
 ## 2.7.2 - 2017-05-17
 
 ### Added

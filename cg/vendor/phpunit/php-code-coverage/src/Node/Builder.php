@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the php-code-coverage package.
  *
@@ -35,7 +35,9 @@ final class Builder
     private function addItems(Directory $root, array $items, array $tests, bool $cacheTokens): void
     {
         foreach ($items as $key => $value) {
-            if (\substr($key, -2) == '/f') {
+            $key = (string) $key;
+
+            if (\substr($key, -2) === '/f') {
                 $key = \substr($key, 0, -2);
 
                 if (\file_exists($root->getPath() . \DIRECTORY_SEPARATOR . $key)) {
@@ -93,14 +95,14 @@ final class Builder
         $result = [];
 
         foreach ($files as $path => $file) {
-            $path    = \explode('/', $path);
+            $path    = \explode(\DIRECTORY_SEPARATOR, $path);
             $pointer = &$result;
             $max     = \count($path);
 
             for ($i = 0; $i < $max; $i++) {
                 $type = '';
 
-                if ($i == ($max - 1)) {
+                if ($i === ($max - 1)) {
                     $type = '/f';
                 }
 
@@ -160,7 +162,7 @@ final class Builder
         $paths      = \array_keys($files);
 
         if (\count($files) === 1) {
-            $commonPath                  = \dirname($paths[0]) . '/';
+            $commonPath                  = \dirname($paths[0]) . \DIRECTORY_SEPARATOR;
             $files[\basename($paths[0])] = $files[$paths[0]];
 
             unset($files[$paths[0]]);
@@ -190,7 +192,7 @@ final class Builder
             for ($i = 0; $i < $max - 1; $i++) {
                 if (!isset($paths[$i][0]) ||
                     !isset($paths[$i + 1][0]) ||
-                    $paths[$i][0] != $paths[$i + 1][0]) {
+                    $paths[$i][0] !== $paths[$i + 1][0]) {
                     $done = true;
 
                     break;
@@ -200,7 +202,7 @@ final class Builder
             if (!$done) {
                 $commonPath .= $paths[0][0];
 
-                if ($paths[0][0] != \DIRECTORY_SEPARATOR) {
+                if ($paths[0][0] !== \DIRECTORY_SEPARATOR) {
                     $commonPath .= \DIRECTORY_SEPARATOR;
                 }
 
@@ -214,7 +216,7 @@ final class Builder
         $max      = \count($original);
 
         for ($i = 0; $i < $max; $i++) {
-            $files[\implode('/', $paths[$i])] = $files[$original[$i]];
+            $files[\implode(\DIRECTORY_SEPARATOR, $paths[$i])] = $files[$original[$i]];
             unset($files[$original[$i]]);
         }
 

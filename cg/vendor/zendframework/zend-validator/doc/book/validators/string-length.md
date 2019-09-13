@@ -3,7 +3,7 @@
 This validator allows you to validate if a given string is between a defined
 length.
 
-> Supports only string validation
+> ### Supports only string validation
 >
 > `Zend\Validator\StringLength` supports only the validation of strings.
 > Integers, floats, dates or objects can not be validated with this validator.
@@ -19,7 +19,7 @@ The following options are supported for `Zend\Validator\StringLength`:
 ## Default behaviour
 
 By default, this validator checks if a value is between `min` and `max` using a
-default`min` value of `0` and default `max` value of `NULL` (meaning unlimited).
+default `min` value of `0` and default `max` value of `NULL` (meaning unlimited).
 
 As such, without any options, the validator only checks that the input is a
 string.
@@ -84,7 +84,20 @@ $validator->isValid("Test"); // returns true
 $validator->isValid("Testing"); // returns true
 ```
 
-> ### Setting a maximum lower  than the minimum
+## Limiting to a strict length
+
+If you need a strict length, then set the `min` and `max` properties to the same
+value:
+
+```php
+$validator = new Zend\Validator\StringLength(['min' => 4, 'max' => 4]);
+
+$validator->isValid('Tes'); // returns false
+$validator->isValid('Test'); // returns true
+$validator->isValid('Testi'); // returns false
+```
+
+> ### Setting a maximum lower than the minimum
 >
 > When you try to set a lower maximum value than the specified minimum value, or
 > a higher minimum value as the actual maximum value, the validator will raise
@@ -116,3 +129,11 @@ $validator2->isValid("Ärger"); // returns true
 
 When your installation and your application are using different encodings, then
 you should always set an encoding manually.
+
+## Validation Messages
+Using the setMessage() method you can set another message to be returned in case of the specified failure.
+
+```php
+$validator = new Zend\Validator\StringLength(['min' => 3, 'max' => 30]);
+$validator->setMessage('Youre string is too long. You typed '%length%' chars.', Zend\Validator\StringLength::TOO_LONG);
+```

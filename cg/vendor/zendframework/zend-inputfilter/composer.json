@@ -7,40 +7,28 @@
         "zendframework",
         "inputfilter"
     ],
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.7-dev",
-            "dev-develop": "2.8-dev"
-        },
-        "zf": {
-            "component": "Zend\\InputFilter",
-            "config-provider": "Zend\\InputFilter\\ConfigProvider"
-        }
-    },
     "support": {
         "docs": "https://docs.zendframework.com/zend-inputfilter/",
         "issues": "https://github.com/zendframework/zend-inputfilter/issues",
         "source": "https://github.com/zendframework/zend-inputfilter",
         "rss": "https://github.com/zendframework/zend-inputfilter/releases.atom",
-        "slack": "https://zendframework-slack.herokuapp.com",
-        "forum": "https://discourse.zendframework.com/c/questions/expressive"
+        "chat": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions/components"
     },
     "require": {
         "php": "^5.6 || ^7.0",
-        "zendframework/zend-filter": "^2.6",
+        "zendframework/zend-filter": "^2.9.1",
+        "zendframework/zend-servicemanager": "^2.7.10 || ^3.3.1",
         "zendframework/zend-stdlib": "^2.7 || ^3.0",
-        "zendframework/zend-validator": "^2.6"
+        "zendframework/zend-validator": "^2.11"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7.23 || ^6.4.3",
-        "zendframework/zend-coding-standard": "~1.0.0",
-        "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3"
+        "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.5.15",
+        "psr/http-message": "^1.0",
+        "zendframework/zend-coding-standard": "~1.0.0"
     },
     "suggest": {
-        "zendframework/zend-servicemanager": "To support plugin manager support"
+        "psr/http-message-implementation": "PSR-7 is required if you wish to validate PSR-7 UploadedFileInterface payloads"
     },
     "autoload": {
         "psr-4": {
@@ -52,6 +40,19 @@
             "ZendTest\\InputFilter\\": "test/"
         }
     },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.10.x-dev",
+            "dev-develop": "2.11.x-dev"
+        },
+        "zf": {
+            "component": "Zend\\InputFilter",
+            "config-provider": "Zend\\InputFilter\\ConfigProvider"
+        }
+    },
     "scripts": {
         "check": [
             "@cs-check",
@@ -60,7 +61,6 @@
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
-        "upload-coverage": "coveralls -v"
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     }
 }

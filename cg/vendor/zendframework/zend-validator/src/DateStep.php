@@ -63,26 +63,26 @@ class DateStep extends Date
     {
         if ($options instanceof Traversable) {
             $options = ArrayUtils::iteratorToArray($options);
-        } elseif (!is_array($options)) {
+        } elseif (! is_array($options)) {
             $options = func_get_args();
             $temp['baseValue'] = array_shift($options);
-            if (!empty($options)) {
+            if (! empty($options)) {
                 $temp['step'] = array_shift($options);
             }
-            if (!empty($options)) {
+            if (! empty($options)) {
                 $temp['format'] = array_shift($options);
             }
-            if (!empty($options)) {
+            if (! empty($options)) {
                 $temp['timezone'] = array_shift($options);
             }
 
             $options = $temp;
         }
 
-        if (!isset($options['step'])) {
+        if (! isset($options['step'])) {
             $options['step'] = new DateInterval('P1D');
         }
-        if (!isset($options['timezone'])) {
+        if (! isset($options['timezone'])) {
             $options['timezone'] = new DateTimeZone(date_default_timezone_get());
         }
 
@@ -166,10 +166,10 @@ class DateStep extends Date
         if (strpos($this->format, 'Y-\WW') === 0
             && preg_match('/^([0-9]{4})\-W([0-9]{2})/', $value, $matches)
         ) {
-            $date = new DateTime;
+            $date = new DateTime();
             $date->setISODate($matches[1], $matches[2]);
         } else {
-            $date = DateTime::createFromFormat($this->format, $value, $this->timezone);
+            $date = DateTime::createFromFormat($this->format, $value, new DateTimeZone('UTC'));
         }
 
         // Invalid dates can show up as warnings (ie. "2007-02-99")
@@ -194,7 +194,7 @@ class DateStep extends Date
      */
     public function isValid($value)
     {
-        if (!parent::isValid($value)) {
+        if (! parent::isValid($value)) {
             return false;
         }
 

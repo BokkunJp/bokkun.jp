@@ -2,6 +2,250 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.10.1 - 2019-08-28
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#185](https://github.com/zendframework/zend-inputfilter/pull/185) fixes
+  validation response on invalid file upload request.
+
+- [#181](https://github.com/zendframework/zend-inputfilter/pull/181) fixes
+  missing abstract service factory registration in `Module` as per the
+  [latest documentation](https://docs.zendframework.com/zend-inputfilter/specs/#setup).
+  In particular, it ensures that the `InputFilterAbstractFactory` is registered
+  under the `input_filters` configuration.
+
+- [#180](https://github.com/zendframework/zend-inputfilter/pull/180) fixes
+  attaching validators on creation of InputFilter - `priority` value is now used.
+
+## 2.10.0 - 2019-01-30
+
+### Added
+
+- [#176](https://github.com/zendframework/zend-inputfilter/pull/176) adds the interface `UnfilteredDataInterface`, with the following methods:
+
+  ```php
+  public function getUnfilteredData() : array|object;
+  public function setUnfilteredData(array|object $data) : $this;
+  ```
+
+  By default, the `BaseInputFilter` now implements this interface.
+
+  The primary purpose of the interface is to allow the ability to access ALL
+  original raw data, and not just the data the input filter knows about. This is
+  particularly useful with collections.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.9.1 - 2019-01-07
+
+### Added
+
+- [#174](https://github.com/zendframework/zend-inputfilter/pull/174) adds support for PHP 7.3.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#175](https://github.com/zendframework/zend-inputfilter/pull/175) fixes a regression introduced in 2.9.0 when overriding the default
+  validator of a `FileInput`. 2.9.0 changed the default to use the
+  fully-qualified class name of `Zend\Validator\File\Upload` as the service,
+  instead of the previous 'fileuploadfile`; this release returns to the original
+  behavior.
+
+## 2.9.0 - 2018-12-17
+
+### Added
+
+- [#172](https://github.com/zendframework/zend-inputfilter/pull/172) adds support for PSR-7 `UploadedFileInterface` to `Zend\InputFilter\FileInput`.
+  It adds a new interface, `Zend\InputFilter\FileInput\FileInputDecoratorInterface`,
+  which defines methods required for validating and filtering file uploads. It
+  also provides two implementations of it, one for standard SAPI file uploads,
+  and the other for PSR-7 uploads. The `FileInput` class does detection on the
+  value being tested and decorates itself using the appropriate decorator, which
+  then performs the work of validating and filtering the upload or uploads.
+
+- [#170](https://github.com/zendframework/zend-inputfilter/pull/170) adds the ability to set a "required" message on a `CollectionInputFilter`.
+  By default, such instances will lazy-load a `NotEmpty` validator, and use its
+  messages to report that the collection was empty if it is marked as required.
+  If you wish to set a different message, you have two options:
+
+  - provide a custom `NotEmpty` validator via the new method
+    `setNotEmptyValidator()`.
+
+  - if using a factory, provide the key `required_message` as a sibling to
+    `required`, containing the custom message. This will replace the typical
+    `IS_EMPTY` message.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.8.3 - 2018-12-13
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#167](https://github.com/zendframework/zend-inputfilter/pull/167) fixes the combination of marking an `ArrayInput` required, and passing an
+  empty array for validation; it now correctly detects these as invalid.
+
+## 2.8.2 - 2018-05-14
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#163](https://github.com/zendframework/zend-inputfilter/pull/163) adds code to `BaseInputFilter::populate()` to detect non-iterable,
+  non-null values passed as a value for a composed input filter. Previously, these would trigger
+  an exception; they now instead result in an empty array being used to populate the
+  input filter, which will generally result in invalidation without causing an
+  exception.
+
+- [#162](https://github.com/zendframework/zend-inputfilter/pull/162) fixes incorrect abstract service factory registration in `ConfigProvider`as per
+  the [latest documentation](https://docs.zendframework.com/zend-inputfilter/specs/#setup).  In particular, it ensures that the `InputFilterAbstractFactory`
+  is registered under the `input_filters` configuration instead of the
+  `dependencies` configuration.
+
+## 2.8.1 - 2018-01-22
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#160](https://github.com/zendframework/zend-inputfilter/pull/160) adds
+  zend-servicemanager as a direct requirement, rather than a suggestion. The
+  package has not worked without it since [#67](https://github.com/zendframework/zend-inputfilter/pull/67)
+  was merged for the 2.6.1 release.
+
+- [#161](https://github.com/zendframework/zend-inputfilter/pull/161) fixes an
+  issue whereby an input filter receiving a `null` value to `setData()` would
+  raise an exception, instead of being treated as an empty data set.
+
+## 2.8.0 - 2017-12-04
+
+### Added
+
+- [#135](https://github.com/zendframework/zend-inputfilter/pull/135) adds
+  `Zend\InputFilter\OptionalInputFilter`, which allows defining optional sets of
+  data. This acts like a standard input filter, but is considered valid if no
+  data, `null` data, or empty data sets are provided to it; if a non-empty data
+  set is provided, it will run normal validations.
+
+- [#142](https://github.com/zendframework/zend-inputfilter/pull/142) adds
+  support for PHP 7.2.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#142](https://github.com/zendframework/zend-inputfilter/pull/142) removes
+  support for HHVM.
+
+### Fixed
+
+- Nothing.
+
 ## 2.7.6 - 2017-12-04
 
 ### Added

@@ -74,6 +74,7 @@ class IsImage extends MimeType
             'image/vnd.djvu',
             'image/vnd.fpx',
             'image/vnd.net-fpx',
+            'image/webp',
             'image/x-cmu-raster',
             'image/x-cmx',
             'image/x-coreldraw',
@@ -109,7 +110,7 @@ class IsImage extends MimeType
 
         parent::__construct($options);
 
-        if (!$this->getMimeType()) {
+        if (! $this->getMimeType()) {
             $this->setMimeType($default);
         }
     }

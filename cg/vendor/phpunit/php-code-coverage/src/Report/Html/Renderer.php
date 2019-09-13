@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the php-code-coverage package.
  *
@@ -185,12 +185,12 @@ abstract class Renderer
     protected function getActiveBreadcrumb(AbstractNode $node): string
     {
         $buffer = \sprintf(
-            '        <li class="active">%s</li>' . "\n",
+            '         <li class="breadcrumb-item active">%s</li>' . "\n",
             $node->getName()
         );
 
         if ($node instanceof DirectoryNode) {
-            $buffer .= '        <li>(<a href="dashboard.html">Dashboard</a>)</li>' . "\n";
+            $buffer .= '         <li class="breadcrumb-item">(<a href="dashboard.html">Dashboard</a>)</li>' . "\n";
         }
 
         return $buffer;
@@ -199,7 +199,7 @@ abstract class Renderer
     protected function getInactiveBreadcrumb(AbstractNode $node, string $pathToRoot): string
     {
         return \sprintf(
-            '        <li><a href="%sindex.html">%s</a></li>' . "\n",
+            '         <li class="breadcrumb-item"><a href="%sindex.html">%s</a></li>' . "\n",
             $pathToRoot,
             $node->getName()
         );
@@ -262,6 +262,13 @@ abstract class Renderer
             $buffer .= \sprintf(
                 ' with <a href="https://xdebug.org/">Xdebug %s</a>',
                 \phpversion('xdebug')
+            );
+        }
+
+        if ($runtime->hasPCOV() && !$runtime->hasPHPDBGCodeCoverage()) {
+            $buffer .= \sprintf(
+                ' with <a href="https://github.com/krakjoe/pcov">PCOV %s</a>',
+                \phpversion('pcov')
             );
         }
 

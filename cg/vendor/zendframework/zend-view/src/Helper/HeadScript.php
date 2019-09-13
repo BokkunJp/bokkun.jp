@@ -10,21 +10,20 @@
 namespace Zend\View\Helper;
 
 use stdClass;
-use Zend\View;
 use Zend\View\Exception;
 
 /**
  * Helper for setting and retrieving script elements for HTML head section
  *
  * Allows the following method calls:
- * @method HeadScript appendFile($src, $type = 'text/javascript', $attrs = array())
- * @method HeadScript offsetSetFile($index, $src, $type = 'text/javascript', $attrs = array())
- * @method HeadScript prependFile($src, $type = 'text/javascript', $attrs = array())
- * @method HeadScript setFile($src, $type = 'text/javascript', $attrs = array())
- * @method HeadScript appendScript($script, $type = 'text/javascript', $attrs = array())
- * @method HeadScript offsetSetScript($index, $src, $type = 'text/javascript', $attrs = array())
- * @method HeadScript prependScript($script, $type = 'text/javascript', $attrs = array())
- * @method HeadScript setScript($script, $type = 'text/javascript', $attrs = array())
+ * @method HeadScript appendFile($src, $type = 'text/javascript', $attrs = [])
+ * @method HeadScript offsetSetFile($index, $src, $type = 'text/javascript', $attrs = [])
+ * @method HeadScript prependFile($src, $type = 'text/javascript', $attrs = [])
+ * @method HeadScript setFile($src, $type = 'text/javascript', $attrs = [])
+ * @method HeadScript appendScript($script, $type = 'text/javascript', $attrs = [])
+ * @method HeadScript offsetSetScript($index, $src, $type = 'text/javascript', $attrs = [])
+ * @method HeadScript prependScript($script, $type = 'text/javascript', $attrs = [])
+ * @method HeadScript setScript($script, $type = 'text/javascript', $attrs = [])
  */
 class HeadScript extends Placeholder\Container\AbstractStandalone
 {
@@ -35,13 +34,6 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
      */
     const FILE   = 'FILE';
     const SCRIPT = 'SCRIPT';
-
-    /**
-     * Registry key for placeholder
-     *
-     * @var string
-     */
-    protected $regKey = 'Zend_View_Helper_HeadScript';
 
     /**
      * Are arbitrary attributes allowed?
@@ -85,11 +77,13 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
      */
     protected $optionalAttributes = [
         'charset',
+        'integrity',
         'crossorigin',
         'defer',
         'async',
         'language',
         'src',
+        'id',
     ];
 
     /**
@@ -211,7 +205,7 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
                     break;
                 case 'file':
                 default:
-                    if (!$this->isDuplicate($content)) {
+                    if (! $this->isDuplicate($content)) {
                         $attrs['src'] = $content;
                         $item = $this->createData($type, $attrs);
                         if ('offsetSet' == $action) {
@@ -253,7 +247,7 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
         $items = [];
         $this->getContainer()->ksort();
         foreach ($this as $item) {
-            if (!$this->isValid($item)) {
+            if (! $this->isValid($item)) {
                 continue;
             }
 
@@ -362,10 +356,10 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
      */
     protected function isValid($value)
     {
-        if ((!$value instanceof stdClass)
-            || !isset($value->type)
-            || (!isset($value->source)
-                && !isset($value->attributes))
+        if ((! $value instanceof stdClass)
+            || ! isset($value->type)
+            || (! isset($value->source)
+                && ! isset($value->attributes))
         ) {
             return false;
         }
@@ -385,9 +379,9 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
     public function itemToString($item, $indent, $escapeStart, $escapeEnd)
     {
         $attrString = '';
-        if (!empty($item->attributes)) {
+        if (! empty($item->attributes)) {
             foreach ($item->attributes as $key => $value) {
-                if ((!$this->arbitraryAttributesAllowed() && !in_array($key, $this->optionalAttributes))
+                if ((! $this->arbitraryAttributesAllowed() && ! in_array($key, $this->optionalAttributes))
                     || in_array($key, ['conditional', 'noescape'])) {
                     continue;
                 }
@@ -397,20 +391,24 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
                 if ('async' == $key) {
                     $value = 'async';
                 }
-                $attrString .= sprintf(' %s="%s"', $key, ($this->autoEscape) ? $this->escape($value) : $value);
+                $attrString .= sprintf(
+                    ' %s="%s"',
+                    $key,
+                    ($this->autoEscape) ? $this->escapeAttribute($value) : $value
+                );
             }
         }
 
-        $addScriptEscape = !(isset($item->attributes['noescape'])
+        $addScriptEscape = ! (isset($item->attributes['noescape'])
             && filter_var($item->attributes['noescape'], FILTER_VALIDATE_BOOLEAN));
 
         if (empty($item->type) && $this->view && $this->view->plugin('doctype')->isHtml5()) {
             $html = '<script ' . $attrString . '>';
         } else {
-            $type = ($this->autoEscape) ? $this->escape($item->type) : $item->type;
+            $type = ($this->autoEscape) ? $this->escapeAttribute($item->type) : $item->type;
             $html = '<script type="' . $type . '"' . $attrString . '>';
         }
-        if (!empty($item->source)) {
+        if (! empty($item->source)) {
             $html .= PHP_EOL;
 
             if ($addScriptEscape) {
@@ -428,7 +426,7 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
         $html .= '</script>';
 
         if (isset($item->attributes['conditional'])
-            && !empty($item->attributes['conditional'])
+            && ! empty($item->attributes['conditional'])
             && is_string($item->attributes['conditional'])
         ) {
             // inner wrap with comment end and start if !IE
@@ -452,7 +450,7 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
      */
     public function append($value)
     {
-        if (!$this->isValid($value)) {
+        if (! $this->isValid($value)) {
             throw new Exception\InvalidArgumentException(
                 'Invalid argument passed to append(); '
                 . 'please use one of the helper methods, appendScript() or appendFile()'
@@ -471,7 +469,7 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
      */
     public function prepend($value)
     {
-        if (!$this->isValid($value)) {
+        if (! $this->isValid($value)) {
             throw new Exception\InvalidArgumentException(
                 'Invalid argument passed to prepend(); '
                 . 'please use one of the helper methods, prependScript() or prependFile()'
@@ -490,7 +488,7 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
      */
     public function set($value)
     {
-        if (!$this->isValid($value)) {
+        if (! $this->isValid($value)) {
             throw new Exception\InvalidArgumentException(
                 'Invalid argument passed to set(); please use one of the helper methods, setScript() or setFile()'
             );
@@ -509,7 +507,7 @@ class HeadScript extends Placeholder\Container\AbstractStandalone
      */
     public function offsetSet($index, $value)
     {
-        if (!$this->isValid($value)) {
+        if (! $this->isValid($value)) {
             throw new Exception\InvalidArgumentException(
                 'Invalid argument passed to offsetSet(); '
                 . 'please use one of the helper methods, offsetSetScript() or offsetSetFile()'

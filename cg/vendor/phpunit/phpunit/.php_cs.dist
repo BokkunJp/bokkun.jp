@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 $header = <<<'EOF'
 This file is part of PHPUnit.
 
@@ -51,6 +51,7 @@ return PhpCsFixer\Config::create()
             'compact_nullable_typehint' => true,
             'concat_space' => ['spacing' => 'one'],
             'declare_equal_normalize' => ['space' => 'none'],
+            'declare_strict_types' => true,
             'dir_constant' => true,
             'elseif' => true,
             'encoding' => true,
@@ -141,6 +142,10 @@ return PhpCsFixer\Config::create()
                 ],
             ],
             'ordered_imports' => true,
+            'ordered_interfaces' => [
+                'direction' => 'ascend',
+                'order' => 'alpha',
+            ],
             'phpdoc_add_missing_param_annotation' => true,
             'phpdoc_align' => true,
             'phpdoc_annotation_without_dot' => true,
@@ -156,7 +161,7 @@ return PhpCsFixer\Config::create()
             'phpdoc_to_comment' => true,
             'phpdoc_trim' => true,
             'phpdoc_trim_consecutive_blank_line_separation' => true,
-            'phpdoc_types' => true,
+            'phpdoc_types' => ['groups' => ['simple', 'meta']],
             'phpdoc_types_order' => true,
             'phpdoc_var_without_name' => true,
             'pow_to_exponentiation' => true,
@@ -177,16 +182,26 @@ return PhpCsFixer\Config::create()
             'trailing_comma_in_multiline_array' => true,
             'trim_array_spaces' => true,
             'unary_operator_spaces' => true,
-            'visibility_required' => true,
-            //'void_return' => true,
+            'visibility_required' => [
+                'elements' => [
+                    'const',
+                    'method',
+                    'property',
+                ],
+            ],
+            'void_return' => true,
             'whitespace_after_comma_in_array' => true,
         ]
     )
     ->setFinder(
         PhpCsFixer\Finder::create()
         ->files()
-        ->in(__DIR__ . '/build')
         ->in(__DIR__ . '/src')
-        ->in(__DIR__ . '/tests')
+        ->in(__DIR__ . '/tests/_files')
+        ->in(__DIR__ . '/tests/basic')
+        ->in(__DIR__ . '/tests/end-to-end')
+        ->in(__DIR__ . '/tests/fail')
+        ->in(__DIR__ . '/tests/unit')
         ->notName('*.phpt')
+        ->notName('ClassWithAllPossibleReturnTypes.php')
     );

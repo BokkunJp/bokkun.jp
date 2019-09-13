@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -18,12 +18,18 @@ class BaseInputFilter implements
     InputFilterInterface,
     UnknownInputsCapableInterface,
     InitializableInterface,
-    ReplaceableInputInterface
+    ReplaceableInputInterface,
+    UnfilteredDataInterface
 {
     /**
      * @var null|array
      */
     protected $data;
+
+    /**
+     * @var array|object
+     */
+    protected $unfilteredData = [];
 
     /**
      * @var InputInterface[]|InputFilterInterface[]
@@ -172,15 +178,21 @@ class BaseInputFilter implements
     /**
      * Set data to use when validating and filtering
      *
-     * @param  array|Traversable $data
+     * @param  null|array|Traversable $data null is cast to an empty array.
      * @throws Exception\InvalidArgumentException
      * @return InputFilterInterface
      */
     public function setData($data)
     {
+        // A null value indicates an empty set
+        if (null === $data) {
+            $data = [];
+        }
+
         if ($data instanceof Traversable) {
             $data = ArrayUtils::iteratorToArray($data);
         }
+
         if (! is_array($data)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects an array or Traversable argument; received %s',
@@ -188,8 +200,12 @@ class BaseInputFilter implements
                 (is_object($data) ? get_class($data) : gettype($data))
             ));
         }
+
+        $this->setUnfilteredData($data);
+
         $this->data = $data;
         $this->populate();
+
         return $this;
     }
 
@@ -517,6 +533,11 @@ class BaseInputFilter implements
             $value = $this->data[$name];
 
             if ($input instanceof InputFilterInterface) {
+                // Fixes #159
+                if (! is_array($value) && ! $value instanceof Traversable) {
+                    $value = [];
+                }
+
                 $input->setData($value);
                 continue;
             }
@@ -533,7 +554,7 @@ class BaseInputFilter implements
      */
     public function hasUnknown()
     {
-        return count($this->getUnknown()) > 0;
+        return $this->getUnknown() ? true : false;
     }
 
     /**
@@ -589,6 +610,24 @@ class BaseInputFilter implements
             $this->add($input, $name);
         }
 
+        return $this;
+    }
+
+    /**
+     * @return array|object
+     */
+    public function getUnfilteredData()
+    {
+        return $this->unfilteredData;
+    }
+
+    /**
+     * @param array|object $data
+     * @return $this
+     */
+    public function setUnfilteredData($data)
+    {
+        $this->unfilteredData = $data;
         return $this;
     }
 }

@@ -328,7 +328,7 @@ class Form extends Fieldset implements FormInterface
      * @param array $values
      * @return mixed
      */
-    public function bindValues(array $values = [])
+    public function bindValues(array $values = [], array $validationGroup = null)
     {
         if (! is_object($this->object)) {
             if ($this->baseFieldset === null || $this->baseFieldset->allowValueBinding() == false) {
@@ -361,7 +361,9 @@ class Form extends Fieldset implements FormInterface
 
         // If there is a base fieldset, only hydrate beginning from the base fieldset
         if ($this->baseFieldset !== null) {
-            $data = $data[$this->baseFieldset->getName()];
+            $data = array_key_exists($this->baseFieldset->getName(), $data)
+                ? $data[$this->baseFieldset->getName()]
+                : [];
             $this->object = $this->baseFieldset->bindValues($data, $validationGroup[$this->baseFieldset->getName()]);
         } else {
             $this->object = parent::bindValues($data, $validationGroup);

@@ -211,7 +211,7 @@ class Fieldset extends Element implements FieldsetInterface
      * Retrieve a named element or fieldset
      *
      * @param  string $elementOrFieldset
-     * @return ElementInterface
+     * @return ElementInterface|FieldsetInterface
      */
     public function get($elementOrFieldset)
     {
@@ -539,7 +539,11 @@ class Fieldset extends Element implements FieldsetInterface
             if ($this->object instanceof HydratorAwareInterface) {
                 $this->setHydrator($this->object->getHydrator());
             } else {
-                $this->setHydrator(new Hydrator\ArraySerializable());
+                $this->setHydrator(
+                    class_exists(Hydrator\ArraySerializableHydrator::class)
+                    ? new Hydrator\ArraySerializableHydrator()
+                    : new Hydrator\ArraySerializable()
+                );
             }
         }
         return $this->hydrator;
@@ -569,9 +573,7 @@ class Fieldset extends Element implements FieldsetInterface
         $hydrator = $this->getHydrator();
         $hydratableData = [];
 
-        foreach ($this->iterator as $element) {
-            $name = $element->getName();
-
+        foreach ($this->iterator as $name => $element) {
             if ($validationGroup
                 && (! array_key_exists($name, $validationGroup) && ! in_array($name, $validationGroup))
             ) {
@@ -600,7 +602,7 @@ class Fieldset extends Element implements FieldsetInterface
             }
         }
 
-        if (! empty($hydratableData)) {
+        if (! empty($hydratableData) && $this->object) {
             $this->object = $hydrator->hydrate($hydratableData, $this->object);
         }
 

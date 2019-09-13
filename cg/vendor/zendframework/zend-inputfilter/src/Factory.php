@@ -319,6 +319,9 @@ class Factory
             if (isset($inputFilterSpecification['required'])) {
                 $inputFilter->setIsRequired($inputFilterSpecification['required']);
             }
+            if (isset($inputFilterSpecification['required_message'])) {
+                $inputFilter->getNotEmptyValidator()->setMessage($inputFilterSpecification['required_message']);
+            }
             return $inputFilter;
         }
 
@@ -422,7 +425,8 @@ class Factory
                 if (isset($validator['break_chain_on_failure'])) {
                     $breakChainOnFailure = $validator['break_chain_on_failure'];
                 }
-                $chain->attachByName($name, $options, $breakChainOnFailure);
+                $priority = isset($validator['priority']) ? $validator['priority'] : ValidatorChain::DEFAULT_PRIORITY;
+                $chain->attachByName($name, $options, $breakChainOnFailure, $priority);
                 continue;
             }
 

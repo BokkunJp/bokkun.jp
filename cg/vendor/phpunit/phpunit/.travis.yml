@@ -1,20 +1,19 @@
 language: php
 
-sudo: false
-
 addons:
   apt:
     packages:
       - libxml2-utils
 
 php:
-  - 7.1
   - 7.2
-  - master
+  - 7.3
+  - 7.4snapshot
+  - nightly
 
 matrix:
   allow_failures:
-    - php: master
+    - php: nightly
   fast_finish: true
 
 env:
@@ -25,11 +24,11 @@ env:
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
 
 before_install:
-  - ./build/tools/composer clear-cache
+  - ./tools/composer clear-cache
 
 install:
-  - if [[ "$DEPENDENCIES" = 'high' ]]; then travis_retry ./build/tools/composer update $DEFAULT_COMPOSER_FLAGS; fi
-  - if [[ "$DEPENDENCIES" = 'low' ]]; then travis_retry ./build/tools/composer update $DEFAULT_COMPOSER_FLAGS --prefer-lowest; fi
+  - if [[ "$DEPENDENCIES" = 'high' ]]; then travis_retry ./tools/composer update $DEFAULT_COMPOSER_FLAGS; fi
+  - if [[ "$DEPENDENCIES" = 'low' ]]; then travis_retry ./tools/composer update $DEFAULT_COMPOSER_FLAGS --prefer-lowest; fi
 
 before_script:
   - echo 'zend.assertions=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
@@ -51,10 +50,26 @@ notifications:
 
 jobs:
   include:
-    - stage: Static Code Analysis
-      php: 7.2
+    - stage: "Static Code Analysis"
+      php: 7.3
       env: php-cs-fixer
       install:
         - phpenv config-rm xdebug.ini
       script:
-        - ./build/tools/php-cs-fixer fix --dry-run -v --show-progress=dots --diff-format=udiff
+        - ./tools/php-cs-fixer fix --dry-run -v --show-progress=dots --diff-format=udiff
+    - stage: "Static Code Analysis"
+      php: 7.3
+      env: psalm
+      install:
+        - phpenv config-rm xdebug.ini
+      script:
+        - travis_retry ./tools/composer update $DEFAULT_COMPOSER_FLAGS
+        - ./tools/psalm --config=.psalm/static-analysis.xml --no-progress
+        - ./tools/psalm --config=.psalm/config.xml --no-progress --shepherd --stats
+    - stage: "Static Code Analysis"
+      php: 7.3
+      env: roave-backward-compatibility-check
+      install:
+          - phpenv config-rm xdebug.ini
+      script:
+          - ./tools/roave-backward-compatibility-check --from=8.3.3

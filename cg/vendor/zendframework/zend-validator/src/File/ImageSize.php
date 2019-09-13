@@ -12,12 +12,15 @@ namespace Zend\Validator\File;
 use Zend\Stdlib\ErrorHandler;
 use Zend\Validator\AbstractValidator;
 use Zend\Validator\Exception;
+use Zend\Validator\File\FileInformationTrait;
 
 /**
  * Validator for the image size of an image file
  */
 class ImageSize extends AbstractValidator
 {
+    use FileInformationTrait;
+
     /**
      * @const string Error constants
      */
@@ -92,16 +95,16 @@ class ImageSize extends AbstractValidator
     public function __construct($options = null)
     {
         if (1 < func_num_args()) {
-            if (!is_array($options)) {
+            if (! is_array($options)) {
                 $options = ['minWidth' => $options];
             }
 
             $argv = func_get_args();
             array_shift($argv);
             $options['minHeight'] = array_shift($argv);
-            if (!empty($argv)) {
+            if (! empty($argv)) {
                 $options['maxWidth'] = array_shift($argv);
-                if (!empty($argv)) {
+                if (! empty($argv)) {
                     $options['maxHeight'] = array_shift($argv);
                 }
             }
@@ -124,8 +127,8 @@ class ImageSize extends AbstractValidator
      * Sets the minimum allowed width
      *
      * @param  int $minWidth
-     * @return ImageSize Provides a fluid interface
      * @throws Exception\InvalidArgumentException When minwidth is greater than maxwidth
+     * @return self Provides a fluid interface
      */
     public function setMinWidth($minWidth)
     {
@@ -154,8 +157,8 @@ class ImageSize extends AbstractValidator
      * Sets the maximum allowed width
      *
      * @param  int $maxWidth
-     * @return ImageSize Provides a fluid interface
      * @throws Exception\InvalidArgumentException When maxwidth is less than minwidth
+     * @return self Provides a fluid interface
      */
     public function setMaxWidth($maxWidth)
     {
@@ -184,8 +187,8 @@ class ImageSize extends AbstractValidator
      * Sets the minimum allowed height
      *
      * @param  int $minHeight
-     * @return ImageSize Provides a fluid interface
      * @throws Exception\InvalidArgumentException When minheight is greater than maxheight
+     * @return self Provides a fluid interface
      */
     public function setMinHeight($minHeight)
     {
@@ -214,8 +217,8 @@ class ImageSize extends AbstractValidator
      * Sets the maximum allowed height
      *
      * @param  int $maxHeight
-     * @return ImageSize Provides a fluid interface
      * @throws Exception\InvalidArgumentException When maxheight is less than minheight
+     * @return self Provides a fluid interface
      */
     public function setMaxHeight($maxHeight)
     {
@@ -274,7 +277,7 @@ class ImageSize extends AbstractValidator
      * Sets the minimum image size
      *
      * @param  array $options                 The minimum image dimensions
-     * @return ImageSize Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setImageMin($options)
     {
@@ -286,7 +289,7 @@ class ImageSize extends AbstractValidator
      * Sets the maximum image size
      *
      * @param  array|\Traversable $options The maximum image dimensions
-     * @return ImageSize Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setImageMax($options)
     {
@@ -298,7 +301,7 @@ class ImageSize extends AbstractValidator
      * Sets the minimum and maximum image width
      *
      * @param  array $options               The image width dimensions
-     * @return ImageSize Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setImageWidth($options)
     {
@@ -312,7 +315,7 @@ class ImageSize extends AbstractValidator
      * Sets the minimum and maximum image height
      *
      * @param  array $options               The image height dimensions
-     * @return ImageSize Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setImageHeight($options)
     {
@@ -332,32 +335,18 @@ class ImageSize extends AbstractValidator
      */
     public function isValid($value, $file = null)
     {
-        if (is_string($value) && is_array($file)) {
-            // Legacy Zend\Transfer API support
-            $filename = $file['name'];
-            $file     = $file['tmp_name'];
-        } elseif (is_array($value)) {
-            if (!isset($value['tmp_name']) || !isset($value['name'])) {
-                throw new Exception\InvalidArgumentException(
-                    'Value array must be in $_FILES format'
-                );
-            }
-            $file     = $value['tmp_name'];
-            $filename = $value['name'];
-        } else {
-            $file     = $value;
-            $filename = basename($file);
-        }
-        $this->setValue($filename);
+        $fileInfo = $this->getFileInfo($value, $file);
+
+        $this->setValue($fileInfo['filename']);
 
         // Is file readable ?
-        if (empty($file) || false === stream_resolve_include_path($file)) {
+        if (empty($fileInfo['file']) || false === is_readable($fileInfo['file'])) {
             $this->error(self::NOT_READABLE);
             return false;
         }
 
         ErrorHandler::start();
-        $size = getimagesize($file);
+        $size = getimagesize($fileInfo['file']);
         ErrorHandler::stop();
 
         if (empty($size) || ($size[0] === 0) || ($size[1] === 0)) {
@@ -383,7 +372,7 @@ class ImageSize extends AbstractValidator
             $this->error(self::HEIGHT_TOO_BIG);
         }
 
-        if (count($this->getMessages()) > 0) {
+        if ($this->getMessages()) {
             return false;
         }
 

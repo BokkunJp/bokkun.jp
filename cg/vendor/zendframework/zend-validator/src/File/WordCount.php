@@ -11,12 +11,15 @@ namespace Zend\Validator\File;
 
 use Zend\Validator\AbstractValidator;
 use Zend\Validator\Exception;
+use Zend\Validator\File\FileInformationTrait;
 
 /**
  * Validator for counting all words in a file
  */
 class WordCount extends AbstractValidator
 {
+    use FileInformationTrait;
+
     /**
      * @const string Error constants
      */
@@ -28,8 +31,8 @@ class WordCount extends AbstractValidator
      * @var array Error message templates
      */
     protected $messageTemplates = [
-        self::TOO_MUCH => "Too many words, maximum '%max%' are allowed but '%count%' were counted",
-        self::TOO_LESS => "Too few words, minimum '%min%' are expected but '%count%' were counted",
+        self::TOO_MUCH  => "Too many words, maximum '%max%' are allowed but '%count%' were counted",
+        self::TOO_LESS  => "Too few words, minimum '%min%' are expected but '%count%' were counted",
         self::NOT_FOUND => "File is not readable or does not exist",
     ];
 
@@ -75,7 +78,7 @@ class WordCount extends AbstractValidator
     public function __construct($options = null)
     {
         if (1 < func_num_args()) {
-            $args = func_get_args();
+            $args    = func_get_args();
             $options = [
                 'min' => array_shift($args),
                 'max' => array_shift($args),
@@ -103,8 +106,8 @@ class WordCount extends AbstractValidator
      * Sets the minimum word count
      *
      * @param  int|array $min The minimum word count
-     * @return WordCount Provides a fluent interface
      * @throws Exception\InvalidArgumentException When min is greater than max
+     * @return self Provides a fluent interface
      */
     public function setMin($min)
     {
@@ -141,8 +144,8 @@ class WordCount extends AbstractValidator
      * Sets the maximum file count
      *
      * @param  int|array $max The maximum word count
-     * @return WordCount Provides a fluent interface
      * @throws Exception\InvalidArgumentException When max is smaller than min
+     * @return self Provides a fluent interface
      */
     public function setMax($max)
     {
@@ -175,31 +178,17 @@ class WordCount extends AbstractValidator
      */
     public function isValid($value, $file = null)
     {
-        if (is_string($value) && is_array($file)) {
-            // Legacy Zend\Transfer API support
-            $filename = $file['name'];
-            $file     = $file['tmp_name'];
-        } elseif (is_array($value)) {
-            if (!isset($value['tmp_name']) || !isset($value['name'])) {
-                throw new Exception\InvalidArgumentException(
-                    'Value array must be in $_FILES format'
-                );
-            }
-            $file     = $value['tmp_name'];
-            $filename = $value['name'];
-        } else {
-            $file     = $value;
-            $filename = basename($file);
-        }
-        $this->setValue($filename);
+        $fileInfo = $this->getFileInfo($value, $file);
+
+        $this->setValue($fileInfo['filename']);
 
         // Is file readable ?
-        if (empty($file) || false === stream_resolve_include_path($file)) {
+        if (empty($fileInfo['file']) || false === is_readable($fileInfo['file'])) {
             $this->error(self::NOT_FOUND);
             return false;
         }
 
-        $content     = file_get_contents($file);
+        $content     = file_get_contents($fileInfo['file']);
         $this->count = str_word_count($content);
         if (($this->getMax() !== null) && ($this->count > $this->getMax())) {
             $this->error(self::TOO_MUCH);

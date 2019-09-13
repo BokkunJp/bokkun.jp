@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the php-code-coverage package.
  *
@@ -130,7 +130,7 @@ final class File extends Renderer
             $buffer .= $this->renderItemTemplate(
                 $template,
                 [
-                    'name'                         => $name,
+                    'name'                         => $this->abbreviateClassName($name),
                     'numClasses'                   => $numClasses,
                     'numTestedClasses'             => $numTestedClasses,
                     'numMethods'                   => $numMethods,
@@ -339,14 +339,14 @@ final class File extends Renderer
 
             if (!empty($popoverTitle)) {
                 $popover = \sprintf(
-                    ' data-title="%s" data-content="%s" data-placement="bottom" data-html="true"',
+                    ' data-title="%s" data-content="%s" data-placement="top" data-html="true"',
                     $popoverTitle,
                     \htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags)
                 );
             }
 
             $lines .= \sprintf(
-                '     <tr%s%s><td><div align="right"><a name="%d"></a><a href="#%d">%d</a></div></td><td class="codeLine">%s</td></tr>' . "\n",
+                '     <tr%s><td%s><div align="right"><a name="%d"></a><a href="#%d">%d</a></div></td><td class="codeLine">%s</td></tr>' . "\n",
                 $trClass,
                 $popover,
                 $i,
@@ -510,5 +510,20 @@ final class File extends Renderer
         }
 
         return $result;
+    }
+
+    private function abbreviateClassName(string $className): string
+    {
+        $tmp = \explode('\\', $className);
+
+        if (\count($tmp) > 1) {
+            $className = \sprintf(
+                '<abbr title="%s">%s</abbr>',
+                $className,
+                \array_pop($tmp)
+            );
+        }
+
+        return $className;
     }
 }

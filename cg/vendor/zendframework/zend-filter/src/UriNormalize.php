@@ -10,24 +10,24 @@
 namespace Zend\Filter;
 
 use Zend\Uri\Exception\ExceptionInterface as UriException;
-use Zend\Uri\UriFactory;
 use Zend\Uri\Uri;
+use Zend\Uri\UriFactory;
 
 class UriNormalize extends AbstractFilter
 {
     /**
      * The default scheme to use when parsing scheme-less URIs
      *
-     * @var string
+     * @var string|null
      */
-    protected $defaultScheme = null;
+    protected $defaultScheme;
 
     /**
      * Enforced scheme for scheme-less URIs. See setEnforcedScheme docs for info
      *
-     * @var string
+     * @var string|null
      */
-    protected $enforcedScheme = null;
+    protected $enforcedScheme;
 
     /**
      * Sets filter options
@@ -98,7 +98,7 @@ class UriNormalize extends AbstractFilter
 
         try {
             $uri = UriFactory::factory($value, $defaultScheme);
-            if ($this->enforcedScheme && (! $uri->getScheme())) {
+            if ($this->enforcedScheme && ! $uri->getScheme()) {
                 $this->enforceScheme($uri);
             }
         } catch (UriException $ex) {

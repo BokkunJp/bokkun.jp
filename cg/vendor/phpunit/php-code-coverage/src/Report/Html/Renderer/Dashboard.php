@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the php-code-coverage package.
  *
@@ -273,8 +273,8 @@ final class Dashboard extends Renderer
     protected function getActiveBreadcrumb(AbstractNode $node): string
     {
         return \sprintf(
-            '        <li><a href="index.html">%s</a></li>' . "\n" .
-            '        <li class="active">(Dashboard)</li>' . "\n",
+            '         <li class="breadcrumb-item"><a href="index.html">%s</a></li>' . "\n" .
+            '         <li class="breadcrumb-item active">(Dashboard)</li>' . "\n",
             $node->getName()
         );
     }

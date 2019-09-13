@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -16,14 +16,14 @@ class ExceptionNamespaceTest extends \PHPUnit\Framework\TestCase
      *
      * @var string
      */
-    const ERROR_MESSAGE = 'Exception namespace message';
+    public const ERROR_MESSAGE = 'Exception namespace message';
 
     /**
      * Exception code
      *
      * @var int
      */
-    const ERROR_CODE = 200;
+    public const ERROR_CODE = 200;
 
     /**
      * @expectedException Class

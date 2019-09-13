@@ -2,6 +2,284 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.11.2 - 2019-02-19
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#180](https://github.com/zendframework/zend-view/pull/180) alters the behavior of the `HeadMeta` helper to honor the value of the
+  `autoEscape` flag when rendering values. Previously, it would ignore the
+  setting and always escape the values.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.11.1 - 2018-12-10
+
+### Added
+
+- [#179](https://github.com/zendframework/zend-view/pull/179) adds `^3.0` to the zendframework/zend-json constraints, allowing v3
+  releases to be used with zend-view.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.11.0 - 2018-12-06
+
+### Added
+
+- [#168](https://github.com/zendframework/zend-view/pull/168) adds two new methods to `Zend\View\Helper\Placeholder` (and thus any
+  helper extending it):
+
+  - `deleteContainer(string $name)` can be used to delete a placeholder container.
+  - `clearContainers()` can be used to clear all placeholder containers.
+
+  These new features are particularly useful when in long-running server
+  environments, such as Swoole, where you may need to clear the contents on each
+  request.
+
+### Changed
+
+- [#155](https://github.com/zendframework/zend-view/pull/155) modifies the `Zend\View\Helper\Service\IdentifyFactory` such that it will
+  now also look for the service `Zend\Authentication\AuthenticationServiceInterface`
+  if the service `Zend\Authentication\AuthenticationService` is not found. This
+  allows using a service named after the interface instead of the
+  implementation if desired.
+
+- [#158](https://github.com/zendframework/zend-view/pull/158) modifies how a `ViewModel` (and all extensions) is cloned; the `$variables`
+  property, if it is an object, is now cloned as well to ensure changes in the
+  new instance do not affect the current one.
+
+- [#153](https://github.com/zendframework/zend-view/pull/153) updates the `ConsoleModel::setErrorLevel()` method to implement a fluent
+  interface.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#147](https://github.com/zendframework/zend-view/pull/147) removes the property `$regKey` from a number of helpers; these were a
+  remnant of ZF1, and have not been used internally since the initial 2.0.0
+  release.
+
+### Fixed
+
+- [#164](https://github.com/zendframework/zend-view/pull/164) fixes the various `Head*` view helpers such that they will now properly
+  escape attributes as HTML attributes (instead of as HTML content).
+
+## 2.10.1 - 2018-12-06
+
+### Added
+
+- [#173](https://github.com/zendframework/zend-view/pull/173) adds support for PHP 7.3.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#170](https://github.com/zendframework/zend-view/pull/170) ensures that variables referenced in `compact()` operations are properly
+  initialized, fixing an error that occures in PHP 7.3.
+
+- [#169](https://github.com/zendframework/zend-view/pull/169) adds zendframework/zend-json as a required dependency, as it is referenced
+  in multiple locations within the package.
+
+- [#156](https://github.com/zendframework/zend-view/pull/156) adds missing `@method` annotations to the `HeadMeta` helper.
+
+## 2.10.0 - 2018-01-17
+
+### Added
+
+- [#135](https://github.com/zendframework/zend-view/pull/135) adds support
+  for PHP 7.2.
+
+- [#138](https://github.com/zendframework/zend-view/pull/138) adds support for
+  the HTML5 "as" attribute to the `HeadLink` helper. This can be used to help
+  prioritize resource loading.
+
+- [#139](https://github.com/zendframework/zend-view/pull/139) adds two new
+  methods to the `Zend\View\Helper\Gravatar` class: `setAttributes()` and
+  `getAttributes()`.
+
+### Changed
+
+- [#133](https://github.com/zendframework/zend-view/pull/133) modifies the
+  behavior the `placeholder()` helper to no longer render a prefix or postfix if
+  no items are available in the container.
+
+### Deprecated
+
+- [#139](https://github.com/zendframework/zend-view/pull/139) deprecates the
+  `Zend\View\Helper\Gravatar` methods `setAttribs()` and `getAttribs()` in favor
+  of the new methods `setAttributes()` and `getAttributes()`, respectively.
+
+### Removed
+
+- [#135](https://github.com/zendframework/zend-view/pull/135) removes support
+  for HHVM.
+
+### Fixed
+
+- Nothing.
+
+## 2.9.1 - 2018-01-17
+
+### Added
+
+- [#136](https://github.com/zendframework/zend-view/pull/136) updates the
+  `Navigation` helper class to document the various proxy methods it allows via
+  method overloading via `@method` annotations.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#123](https://github.com/zendframework/zend-view/pull/123) updates the
+  `HelperPluginManager` such that it no longer injects a translator in a helper
+  if one is already present.
+
+- [#125](https://github.com/zendframework/zend-view/pull/125) provides an update
+  to the `PhpRenderer:render()` method such that it will now catch not only
+  `Exception` instances, but also PHP 7 `Throwable` instances, and properly
+  cleanup the output buffers when it does.
+
+- [#121](https://github.com/zendframework/zend-view/pull/121) provides a fix to
+  ensure that content generated on a previous execution of `PhpRenderer::render()`
+  is never re-used.
+
+## 2.9.0 - 2017-03-21
+
+### Added
+
+- [#89](https://github.com/zendframework/zend-view/pull/89) updates the
+  `HeadScript` and `InlineScript` view helpers to whitelist the `id` attribute
+  as an optional attribute.
+
+- [#96](https://github.com/zendframework/zend-view/pull/96) updates the
+  `HeadScript`, `HeadLink`, and `InlineScript` view helpers to whitelist the
+  `crossorigin` and `integrity` attributes as optional attributes.
+
+- [#64](https://github.com/zendframework/zend-view/pull/64) adds a new `Asset`
+  view helper. This helper uses the following configuration to map a named asset
+  to the actual file to serve:
+
+  ```php
+  'view_helper_config' => [
+      'asset' => [
+          'resource_map' => [
+              'css/style.css' => 'css/style-3a97ff4ee3.css',
+              'js/vendor.js' => 'js/vendor-a507086eba.js',
+          ],
+      ],
+  ],
+  ```
+
+  This can also be automated via tools such as gulp-rev and grunt-rev by using
+  the `rev-manifest.json` each creates directly within your configuration:
+
+  ```php
+  'view_helper_config' => [
+      'asset' => [
+          'resource_map' => json_decode(file_get_contents('path/to/rev-manifest.json'), true),
+      ],
+  ],
+  ```
+
+  The benefit of this approach is that it allows your view scripts to reference
+  a static asset name, while integrating with your JS and CSS build tools.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#114](https://github.com/zendframework/zend-view/pull/114) removes support
+  for PHP 5.5.
+
+### Fixed
+
+- [#110](https://github.com/zendframework/zend-view/pull/110) provides a fix
+  for the navigation helpers to ensure that usage of either the `default` or
+  `navigation` containers (documentation specified `default`, but usage only
+  allowed `navigation` previously). When `default` is specified, the
+  `Zend\Navigation\Navigation` service will be used for the container; if
+  `navigation` is used, that service will be pulled instead (which is usually an
+  alias for the `Zend\Navigation\Navigation` service anyways).
+
+## 2.8.2 - 2017-03-20
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#92](https://github.com/zendframework/zend-view/pull/92) fixes the docblocks
+  and exception messages in the breadcrumbs and menu navigation helpers to
+  remove references to 'module' keys for the `$partial` argument, as that key
+  is no longer used.
+- [#98](https://github.com/zendframework/zend-view/pull/98) fixes how the
+  `HeadMeta` helper renders the `<meta charset>` tag, ensuring it is the first
+  rendered. As long as the `HeadMeta` helper is called early in your markup, this
+  should ensure it is within the first 1024 characters, ensuring your document
+  validates.
+- [#104](https://github.com/zendframework/zend-view/pull/104) fixes the
+  `@method` annotation for the `Placeholder` view helper to use the correct case,
+  fixing issues with method completion in IDEs.
+- [#112](https://github.com/zendframework/zend-view/pull/112) fixes an issue in
+  the `PhpRendererStrategy` whereby absence of a response instance in the
+  `ViewEvent` would lead to a fatal error.
+
 ## 2.8.1 - 2016-06-30
 
 ### Added

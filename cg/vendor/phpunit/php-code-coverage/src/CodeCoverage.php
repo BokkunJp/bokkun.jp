@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the php-code-coverage package.
  *
@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Runner\PhptTestCase;
 use PHPUnit\Util\Test;
 use SebastianBergmann\CodeCoverage\Driver\Driver;
+use SebastianBergmann\CodeCoverage\Driver\PCOV;
 use SebastianBergmann\CodeCoverage\Driver\PHPDBG;
 use SebastianBergmann\CodeCoverage\Driver\Xdebug;
 use SebastianBergmann\CodeCoverage\Node\Builder;
@@ -138,12 +139,12 @@ final class CodeCoverage
      */
     public function __construct(Driver $driver = null, Filter $filter = null)
     {
-        if ($driver === null) {
-            $driver = $this->selectDriver();
-        }
-
         if ($filter === null) {
             $filter = new Filter;
+        }
+
+        if ($driver === null) {
+            $driver = $this->selectDriver($filter);
         }
 
         $this->driver = $driver;
@@ -158,9 +159,7 @@ final class CodeCoverage
     public function getReport(): Directory
     {
         if ($this->report === null) {
-            $builder = new Builder;
-
-            $this->report = $builder->build($this);
+            $this->report = (new Builder)->build($this);
         }
 
         return $this->report;
@@ -612,6 +611,17 @@ final class CodeCoverage
             return $this->ignoredLines[$fileName];
         }
 
+        try {
+            return $this->getLinesToBeIgnoredInner($fileName);
+        } catch (\OutOfBoundsException $e) {
+            // This can happen with PHP_Token_Stream if the file is syntactically invalid,
+            // and probably affects a file that wasn't executed.
+            return [];
+        }
+    }
+
+    private function getLinesToBeIgnoredInner(string $fileName): array
+    {
         $this->ignoredLines[$fileName] = [];
 
         $lines = \file($fileName);
@@ -651,8 +661,7 @@ final class CodeCoverage
 
             $firstMethod          = \array_shift($classOrTrait['methods']);
             $firstMethodStartLine = $firstMethod['startLine'];
-            $firstMethodEndLine   = $firstMethod['endLine'];
-            $lastMethodEndLine    = $firstMethodEndLine;
+            $lastMethodEndLine    = $firstMethod['endLine'];
 
             do {
                 $lastMethod = \array_pop($classOrTrait['methods']);
@@ -685,7 +694,7 @@ final class CodeCoverage
             switch (\get_class($token)) {
                 case \PHP_Token_COMMENT::class:
                 case \PHP_Token_DOC_COMMENT::class:
-                    $_token = \trim($token);
+                    $_token = \trim((string) $token);
                     $_line  = \trim($lines[$token->getLine() - 1]);
 
                     if ($_token === '// @codeCoverageIgnore' ||
@@ -702,7 +711,7 @@ final class CodeCoverage
 
                     if (!$ignore) {
                         $start = $token->getLine();
-                        $end   = $start + \substr_count($token, "\n");
+                        $end   = $start + \substr_count((string) $token, "\n");
 
                         // Do not ignore the first line when there is a token
                         // before the comment
@@ -729,7 +738,7 @@ final class CodeCoverage
                 case \PHP_Token_FUNCTION::class:
                     /* @var \PHP_Token_Interface $token */
 
-                    $docblock = $token->getDocblock();
+                    $docblock = (string) $token->getDocblock();
 
                     $this->ignoredLines[$fileName][] = $token->getLine();
 
@@ -752,6 +761,7 @@ final class CodeCoverage
                 case \PHP_Token_OPEN_TAG::class:
                 case \PHP_Token_CLOSE_TAG::class:
                 case \PHP_Token_USE::class:
+                case \PHP_Token_USE_FUNCTION::class:
                     $this->ignoredLines[$fileName][] = $token->getLine();
 
                     break;
@@ -878,7 +888,7 @@ final class CodeCoverage
     /**
      * @throws RuntimeException
      */
-    private function selectDriver(): Driver
+    private function selectDriver(Filter $filter): Driver
     {
         $runtime = new Runtime;
 
@@ -891,7 +901,11 @@ final class CodeCoverage
         }
 
         if ($runtime->hasXdebug()) {
-            return new Xdebug;
+            return new Xdebug($filter);
+        }
+
+        if ($runtime->hasPCOV()) {
+            return new PCOV;
         }
 
         throw new RuntimeException('No code coverage driver available');
@@ -946,10 +960,9 @@ final class CodeCoverage
                 }
             }
 
-            $data     = [];
-            $coverage = $this->driver->stop();
+            $data = [];
 
-            foreach ($coverage as $file => $fileCoverage) {
+            foreach ($this->driver->stop() as $file => $fileCoverage) {
                 if ($this->filter->isFiltered($file)) {
                     continue;
                 }

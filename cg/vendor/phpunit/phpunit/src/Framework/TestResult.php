@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -16,6 +16,7 @@ use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Util\Blacklist;
 use PHPUnit\Util\ErrorHandler;
 use PHPUnit\Util\Printer;
+use PHPUnit\Util\Test as TestUtil;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\CoveredCodeNotExecutedException as OriginalCoveredCodeNotExecutedException;
 use SebastianBergmann\CodeCoverage\Exception as OriginalCodeCoverageException;
@@ -28,156 +29,173 @@ use SebastianBergmann\Timer\Timer;
 use Throwable;
 
 /**
- * A TestResult collects the results of executing a test case.
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-class TestResult implements Countable
+final class TestResult implements Countable
 {
     /**
      * @var array
      */
-    protected $passed = [];
+    private $passed = [];
 
     /**
-     * @var array
+     * @var TestFailure[]
      */
-    protected $errors = [];
+    private $errors = [];
 
     /**
-     * @var array
+     * @var TestFailure[]
      */
-    protected $failures = [];
+    private $failures = [];
 
     /**
-     * @var array
+     * @var TestFailure[]
      */
-    protected $warnings = [];
+    private $warnings = [];
 
     /**
-     * @var array
+     * @var TestFailure[]
      */
-    protected $notImplemented = [];
+    private $notImplemented = [];
 
     /**
-     * @var array
+     * @var TestFailure[]
      */
-    protected $risky = [];
+    private $risky = [];
 
     /**
-     * @var array
+     * @var TestFailure[]
      */
-    protected $skipped = [];
+    private $skipped = [];
 
     /**
-     * @var array
+     * @deprecated Use the `TestHook` interfaces instead
+     *
+     * @var TestListener[]
      */
-    protected $listeners = [];
+    private $listeners = [];
 
     /**
      * @var int
      */
-    protected $runTests = 0;
+    private $runTests = 0;
 
     /**
      * @var float
      */
-    protected $time = 0;
+    private $time = 0;
 
     /**
      * @var TestSuite
      */
-    protected $topTestSuite;
+    private $topTestSuite;
 
     /**
      * Code Coverage information.
      *
      * @var CodeCoverage
      */
-    protected $codeCoverage;
+    private $codeCoverage;
 
     /**
      * @var bool
      */
-    protected $convertErrorsToExceptions = true;
+    private $convertDeprecationsToExceptions = true;
 
     /**
      * @var bool
      */
-    protected $stop = false;
+    private $convertErrorsToExceptions = true;
 
     /**
      * @var bool
      */
-    protected $stopOnError = false;
+    private $convertNoticesToExceptions = true;
 
     /**
      * @var bool
      */
-    protected $stopOnFailure = false;
+    private $convertWarningsToExceptions = true;
 
     /**
      * @var bool
      */
-    protected $stopOnWarning = false;
+    private $stop = false;
 
     /**
      * @var bool
      */
-    protected $beStrictAboutTestsThatDoNotTestAnything = true;
+    private $stopOnError = false;
 
     /**
      * @var bool
      */
-    protected $beStrictAboutOutputDuringTests = false;
+    private $stopOnFailure = false;
 
     /**
      * @var bool
      */
-    protected $beStrictAboutTodoAnnotatedTests = false;
+    private $stopOnWarning = false;
 
     /**
      * @var bool
      */
-    protected $beStrictAboutResourceUsageDuringSmallTests = false;
+    private $beStrictAboutTestsThatDoNotTestAnything = true;
 
     /**
      * @var bool
      */
-    protected $enforceTimeLimit = false;
+    private $beStrictAboutOutputDuringTests = false;
+
+    /**
+     * @var bool
+     */
+    private $beStrictAboutTodoAnnotatedTests = false;
+
+    /**
+     * @var bool
+     */
+    private $beStrictAboutResourceUsageDuringSmallTests = false;
+
+    /**
+     * @var bool
+     */
+    private $enforceTimeLimit = false;
 
     /**
      * @var int
      */
-    protected $timeoutForSmallTests = 1;
+    private $timeoutForSmallTests = 1;
 
     /**
      * @var int
      */
-    protected $timeoutForMediumTests = 10;
+    private $timeoutForMediumTests = 10;
 
     /**
      * @var int
      */
-    protected $timeoutForLargeTests = 60;
+    private $timeoutForLargeTests = 60;
 
     /**
      * @var bool
      */
-    protected $stopOnRisky = false;
+    private $stopOnRisky = false;
 
     /**
      * @var bool
      */
-    protected $stopOnIncomplete = false;
+    private $stopOnIncomplete = false;
 
     /**
      * @var bool
      */
-    protected $stopOnSkipped = false;
+    private $stopOnSkipped = false;
 
     /**
      * @var bool
      */
-    protected $lastTestFailed = false;
+    private $lastTestFailed = false;
 
     /**
      * @var int
@@ -194,26 +212,11 @@ class TestResult implements Countable
      */
     private $registerMockObjectsFromTestArgumentsRecursively = false;
 
-    public static function isAnyCoverageRequired(TestCase $test)
-    {
-        $annotations = $test->getAnnotations();
-
-        // If any methods have covers, coverage must me generated
-        if (isset($annotations['method']['covers'])) {
-            return true;
-        }
-
-        // If there are no explicit covers, and the test class is
-        // marked as covers nothing, all coverage can be skipped
-        if (isset($annotations['class']['coversNothing'])) {
-            return false;
-        }
-
-        // Otherwise each test method can generate coverage
-        return true;
-    }
-
     /**
+     * @deprecated Use the `TestHook` interfaces instead
+     *
+     * @codeCoverageIgnore
+     *
      * Registers a TestListener.
      */
     public function addListener(TestListener $listener): void
@@ -222,6 +225,10 @@ class TestResult implements Countable
     }
 
     /**
+     * @deprecated Use the `TestHook` interfaces instead
+     *
+     * @codeCoverageIgnore
+     *
      * Unregisters a TestListener.
      */
     public function removeListener(TestListener $listener): void
@@ -234,6 +241,10 @@ class TestResult implements Countable
     }
 
     /**
+     * @deprecated Use the `TestHook` interfaces instead
+     *
+     * @codeCoverageIgnore
+     *
      * Flushes all flushable TestListeners.
      */
     public function flushListeners(): void
@@ -250,7 +261,7 @@ class TestResult implements Countable
      */
     public function addError(Test $test, Throwable $t, float $time): void
     {
-        if ($t instanceof RiskyTest) {
+        if ($t instanceof RiskyTestError) {
             $this->risky[] = new TestFailure($test, $t);
             $notifyMethod  = 'addRiskyTest';
 
@@ -322,7 +333,7 @@ class TestResult implements Countable
      */
     public function addFailure(Test $test, AssertionFailedError $e, float $time): void
     {
-        if ($e instanceof RiskyTest || $e instanceof OutputError) {
+        if ($e instanceof RiskyTestError || $e instanceof OutputError) {
             $this->risky[] = new TestFailure($test, $e);
             $notifyMethod  = 'addRiskyTest';
 
@@ -461,7 +472,9 @@ class TestResult implements Countable
     }
 
     /**
-     * Returns an Enumeration for the risky tests.
+     * Returns an array of TestFailure objects for the risky tests
+     *
+     * @return TestFailure[]
      */
     public function risky(): array
     {
@@ -469,7 +482,9 @@ class TestResult implements Countable
     }
 
     /**
-     * Returns an Enumeration for the incomplete tests.
+     * Returns an array of TestFailure objects for the incomplete tests
+     *
+     * @return TestFailure[]
      */
     public function notImplemented(): array
     {
@@ -493,7 +508,9 @@ class TestResult implements Countable
     }
 
     /**
-     * Returns an Enumeration for the skipped tests.
+     * Returns an array of TestFailure objects for the skipped tests
+     *
+     * @return TestFailure[]
      */
     public function skipped(): array
     {
@@ -509,7 +526,9 @@ class TestResult implements Countable
     }
 
     /**
-     * Returns an Enumeration for the errors.
+     * Returns an array of TestFailure objects for the errors
+     *
+     * @return TestFailure[]
      */
     public function errors(): array
     {
@@ -525,7 +544,9 @@ class TestResult implements Countable
     }
 
     /**
-     * Returns an Enumeration for the failures.
+     * Returns an array of TestFailure objects for the failures
+     *
+     * @return TestFailure[]
      */
     public function failures(): array
     {
@@ -541,7 +562,9 @@ class TestResult implements Countable
     }
 
     /**
-     * Returns an Enumeration for the warnings.
+     * Returns an array of TestFailure objects for the warnings
+     *
+     * @return TestFailure[]
      */
     public function warnings(): array
     {
@@ -579,7 +602,6 @@ class TestResult implements Countable
      * @throws OriginalCoveredCodeNotExecutedException
      * @throws OriginalMissingCoversAnnotationException
      * @throws UnintentionallyCoveredCodeException
-     * @throws \ReflectionException
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
      * @throws \SebastianBergmann\CodeCoverage\RuntimeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
@@ -588,14 +610,12 @@ class TestResult implements Countable
     {
         Assert::resetCount();
 
-        $coversNothing = false;
-
         if ($test instanceof TestCase) {
             $test->setRegisterMockObjectsFromTestArgumentsRecursively(
                 $this->registerMockObjectsFromTestArgumentsRecursively
             );
 
-            $isAnyCoverageRequired = self::isAnyCoverageRequired($test);
+            $isAnyCoverageRequired = TestUtil::requiresCodeCoverageDataCollection($test);
         }
 
         $error      = false;
@@ -607,19 +627,15 @@ class TestResult implements Countable
 
         $this->startTest($test);
 
-        $errorHandlerSet = false;
-
-        if ($this->convertErrorsToExceptions) {
-            $oldErrorHandler = \set_error_handler(
-                [ErrorHandler::class, 'handleError'],
-                \E_ALL | \E_STRICT
+        if ($this->convertDeprecationsToExceptions || $this->convertErrorsToExceptions || $this->convertNoticesToExceptions || $this->convertWarningsToExceptions) {
+            $errorHandler = new ErrorHandler(
+                $this->convertDeprecationsToExceptions,
+                $this->convertErrorsToExceptions,
+                $this->convertNoticesToExceptions,
+                $this->convertWarningsToExceptions
             );
 
-            if ($oldErrorHandler === null) {
-                $errorHandlerSet = true;
-            } else {
-                \restore_error_handler();
-            }
+            $errorHandler->register();
         }
 
         $collectCodeCoverage = $this->codeCoverage !== null &&
@@ -826,32 +842,54 @@ class TestResult implements Countable
             }
         }
 
-        if ($errorHandlerSet === true) {
-            \restore_error_handler();
+        if (isset($errorHandler)) {
+            $errorHandler->unregister();
+
+            unset($errorHandler);
         }
 
-        if ($error === true) {
+        if ($error) {
             $this->addError($test, $e, $time);
-        } elseif ($failure === true) {
+        } elseif ($failure) {
             $this->addFailure($test, $e, $time);
-        } elseif ($warning === true) {
+        } elseif ($warning) {
             $this->addWarning($test, $e, $time);
         } elseif ($this->beStrictAboutTestsThatDoNotTestAnything &&
             !$test->doesNotPerformAssertions() &&
             $test->getNumAssertions() == 0) {
-            $reflected = new \ReflectionClass($test);
-            $name      = $test->getName(false);
+            try {
+                $reflected = new \ReflectionClass($test);
+            } catch (\ReflectionException $e) {
+                throw new Exception(
+                    $e->getMessage(),
+                    (int) $e->getCode(),
+                    $e
+                );
+            }
+
+            $name = $test->getName(false);
 
             if ($name && $reflected->hasMethod($name)) {
-                $reflected = $reflected->getMethod($name);
+                try {
+                    $reflected = $reflected->getMethod($name);
+                } catch (\ReflectionException $e) {
+                    throw new Exception(
+                        $e->getMessage(),
+                        (int) $e->getCode(),
+                        $e
+                    );
+                }
             }
+
             $this->addFailure(
                 $test,
-                new RiskyTestError(\sprintf(
-                    "This test did not perform any assertions\n\n%s:%d",
-                    $reflected->getFileName(),
-                    $reflected->getStartLine()
-                )),
+                new RiskyTestError(
+                    \sprintf(
+                        "This test did not perform any assertions\n\n%s:%d",
+                        $reflected->getFileName(),
+                        $reflected->getStartLine()
+                    )
+                ),
                 $time
             );
         } elseif ($this->beStrictAboutTestsThatDoNotTestAnything &&
@@ -859,10 +897,12 @@ class TestResult implements Countable
             $test->getNumAssertions() > 0) {
             $this->addFailure(
                 $test,
-                new RiskyTestError(\sprintf(
-                    'This test is annotated with "@doesNotPerformAssertions" but performed %d assertions',
-                    $test->getNumAssertions()
-                )),
+                new RiskyTestError(
+                    \sprintf(
+                        'This test is annotated with "@doesNotPerformAssertions" but performed %d assertions',
+                        $test->getNumAssertions()
+                    )
+                ),
                 $time
             );
         } elseif ($this->beStrictAboutOutputDuringTests && $test->hasOutput()) {
@@ -934,6 +974,22 @@ class TestResult implements Countable
     }
 
     /**
+     * Enables or disables the deprecation-to-exception conversion.
+     */
+    public function convertDeprecationsToExceptions(bool $flag): void
+    {
+        $this->convertDeprecationsToExceptions = $flag;
+    }
+
+    /**
+     * Returns the deprecation-to-exception conversion setting.
+     */
+    public function getConvertDeprecationsToExceptions(): bool
+    {
+        return $this->convertDeprecationsToExceptions;
+    }
+
+    /**
      * Enables or disables the error-to-exception conversion.
      */
     public function convertErrorsToExceptions(bool $flag): void
@@ -947,6 +1003,38 @@ class TestResult implements Countable
     public function getConvertErrorsToExceptions(): bool
     {
         return $this->convertErrorsToExceptions;
+    }
+
+    /**
+     * Enables or disables the notice-to-exception conversion.
+     */
+    public function convertNoticesToExceptions(bool $flag): void
+    {
+        $this->convertNoticesToExceptions = $flag;
+    }
+
+    /**
+     * Returns the notice-to-exception conversion setting.
+     */
+    public function getConvertNoticesToExceptions(): bool
+    {
+        return $this->convertNoticesToExceptions;
+    }
+
+    /**
+     * Enables or disables the warning-to-exception conversion.
+     */
+    public function convertWarningsToExceptions(bool $flag): void
+    {
+        $this->convertWarningsToExceptions = $flag;
+    }
+
+    /**
+     * Returns the warning-to-exception conversion setting.
+     */
+    public function getConvertWarningsToExceptions(): bool
+    {
+        return $this->convertWarningsToExceptions;
     }
 
     /**
@@ -1068,7 +1156,12 @@ class TestResult implements Countable
      */
     public function wasSuccessful(): bool
     {
-        return empty($this->errors) && empty($this->failures) && empty($this->warnings);
+        return $this->wasSuccessfulIgnoringWarnings() && empty($this->warnings);
+    }
+
+    public function wasSuccessfulIgnoringWarnings(): bool
+    {
+        return empty($this->errors) && empty($this->failures);
     }
 
     /**

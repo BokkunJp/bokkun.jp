@@ -1,7 +1,7 @@
 --TEST--
 Mock method and call original method with variadic argument
 --FILE--
-<?php
+<?php declare(strict_types=1);
 class Foo
 {
     private function bar(...$args){}
@@ -19,7 +19,6 @@ $mockMethod = \PHPUnit\Framework\MockObject\MockMethod::fromReflection(
 $code = $mockMethod->generateCode();
 
 print $code;
-?>
 --EXPECT--
 
 private function bar(...$args)
@@ -36,8 +35,8 @@ private function bar(...$args)
         }
 
         $this->__phpunit_getInvocationMocker()->invoke(
-            new \PHPUnit\Framework\MockObject\Invocation\ObjectInvocation(
-                'Foo', 'bar', $__phpunit_arguments, '', $this, false
+            new \PHPUnit\Framework\MockObject\Invocation(
+                'Foo', 'bar', $__phpunit_arguments, '', $this, false, true
             )
         );
 

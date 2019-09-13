@@ -10,13 +10,13 @@
 namespace Zend\Filter\Encrypt;
 
 use Traversable;
+use Zend\Crypt\BlockCipher as CryptBlockCipher;
+use Zend\Crypt\Exception as CryptException;
+use Zend\Crypt\Symmetric\Exception as SymmetricException;
 use Zend\Filter\Compress;
 use Zend\Filter\Decompress;
 use Zend\Filter\Exception;
 use Zend\Stdlib\ArrayUtils;
-use Zend\Crypt\BlockCipher as CryptBlockCipher;
-use Zend\Crypt\Exception as CryptException;
-use Zend\Crypt\Symmetric\Exception as SymmetricException;
 
 /**
  * Encryption adapter for Zend\Crypt\BlockCipher
@@ -34,9 +34,9 @@ class BlockCipher implements EncryptionAlgorithmInterface
      * )
      */
     protected $encryption = [
-        'key_iteration'       => 5000,
-        'algorithm'           => 'aes',
-        'hash'                => 'sha256',
+        'key_iteration' => 5000,
+        'algorithm'     => 'aes',
+        'hash'          => 'sha256',
     ];
 
     /**
@@ -118,7 +118,7 @@ class BlockCipher implements EncryptionAlgorithmInterface
             throw new Exception\InvalidArgumentException('Invalid options argument provided to filter');
         }
 
-        $options = $options + $this->encryption;
+        $options += $this->encryption;
 
         if (isset($options['key'])) {
             $this->blockCipher->setKey($options['key']);

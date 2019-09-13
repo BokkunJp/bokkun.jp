@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.7.2 - 2019-06-18
+
+### Added
+
+- [#26](https://github.com/zendframework/zend-dom/pull/26) adds support for PHP 7.3.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 2.7.1 - 2018-04-09
 
 ### Added

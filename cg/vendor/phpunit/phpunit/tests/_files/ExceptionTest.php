@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -16,21 +16,21 @@ class ExceptionTest extends TestCase
      *
      * @var string
      */
-    const ERROR_MESSAGE = 'Exception message';
+    public const ERROR_MESSAGE = 'Exception message';
 
     /**
      * Exception message
      *
      * @var string
      */
-    const ERROR_MESSAGE_REGEX = '#regex#';
+    public const ERROR_MESSAGE_REGEX = '#regex#';
 
     /**
      * Exception code
      *
      * @var int
      */
-    const ERROR_CODE = 500;
+    public const ERROR_CODE = 500;
 
     /**
      * @expectedException FooBarBaz

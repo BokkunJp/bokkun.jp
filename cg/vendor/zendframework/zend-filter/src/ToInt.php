@@ -18,7 +18,7 @@ class ToInt extends AbstractFilter
      *
      * If the value provided is non-scalar, the value will remain unfiltered
      *
-     * @param  string $value
+     * @param  mixed $value
      * @return int|mixed
      */
     public function filter($value)
@@ -26,7 +26,6 @@ class ToInt extends AbstractFilter
         if (! is_scalar($value)) {
             return $value;
         }
-        $value = (string) $value;
 
         return (int) $value;
     }
