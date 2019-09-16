@@ -126,7 +126,6 @@ use RuntimeException;
  */
 class Table implements RepositoryInterface, EventListenerInterface, EventDispatcherInterface, ValidatorAwareInterface
 {
-
     use EventDispatcherTrait;
     use RulesAwareTrait;
     use ValidatorAwareTrait;
@@ -2934,7 +2933,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
      */
     public function loadInto($entities, array $contain)
     {
-        return (new LazyEagerLoader)->loadInto($entities, $contain, $this);
+        return (new LazyEagerLoader())->loadInto($entities, $contain, $this);
     }
 
     /**

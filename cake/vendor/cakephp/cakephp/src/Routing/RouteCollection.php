@@ -30,7 +30,6 @@ use RuntimeException;
  */
 class RouteCollection
 {
-
     /**
      * The routes connected to this collection.
      *
@@ -222,7 +221,7 @@ class RouteCollection
      * and newer style urls containing '_name'
      *
      * @param array $url The url to match.
-     * @return array The set of names of the url
+     * @return string[] The set of names of the url
      */
     protected function _getNames($url)
     {
@@ -370,11 +369,11 @@ class RouteCollection
     /**
      * Get/set the extensions that the route collection could handle.
      *
-     * @param null|string|array $extensions Either the list of extensions to set,
+     * @param string[]|string|null $extensions Either the list of extensions to set,
      *   or null to get.
      * @param bool $merge Whether to merge with or override existing extensions.
      *   Defaults to `true`.
-     * @return array The valid extensions.
+     * @return string[] The valid extensions.
      * @deprecated 3.5.0 Use getExtensions()/setExtensions() instead.
      */
     public function extensions($extensions = null, $merge = true)
@@ -445,6 +444,7 @@ class RouteCollection
      * @param string $name Name of the middleware group
      * @param string[] $middlewareNames Names of the middleware
      * @return $this
+     * @throws \RuntimeException
      */
     public function middlewareGroup($name, array $middlewareNames)
     {
