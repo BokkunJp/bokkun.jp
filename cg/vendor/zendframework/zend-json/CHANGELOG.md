@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.1.2 - 2019-10-09
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#46](https://github.com/zendframework/zend-json/pull/46) changes
+  curly braces in array and string offset access to square brackets
+  in order to prevent issues under the upcoming PHP 7.4 release.
+
+- [#37](https://github.com/zendframework/zend-json/pull/37) fixes
+  output of `\Zend\Json::prettyPrint` to not remove spaces after
+  commas in value.
+
 ## 3.1.1 - 2019-06-18
 
 ### Added
