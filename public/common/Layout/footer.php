@@ -1,4 +1,9 @@
-    <?php $year = $siteConfig['footer']->GetYear(); ?>
+    <?php
+    if (!isset($siteConfig)) {
+    $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
+    }
+     $year = $siteConfig['footer']->GetYear();
+     ?>
     <footer class='footer'>
         <div align='center'>Bokkun's Page</div>
         <div class="footer_char" align='right'>本ホームページは、<a href="https://www.value-domain.com">バリュードメイン様</a>のレンタルサーバを用いて作成しています。</div>
