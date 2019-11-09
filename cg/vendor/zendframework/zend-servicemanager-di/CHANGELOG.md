@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.2.1 - 2019-10-18
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#18](https://github.com/zendframework/zend-servicemanager-di/pull/18) fixes `Zend\ServiceManager\Di\DiServiceFactory::__invoke`
+  when parameter `$options` is `null`.
+
 ## 1.2.0 - 2018-04-30
 
 ### Added
