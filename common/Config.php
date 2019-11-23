@@ -18,6 +18,7 @@ class Header extends Config {
             $ret = '-dev';
             break;
             case 'bokkun.jp':
+            $ret = '';
             break;
             default:
             $ret = '-local';
