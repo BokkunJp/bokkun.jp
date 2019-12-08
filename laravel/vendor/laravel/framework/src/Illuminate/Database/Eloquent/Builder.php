@@ -104,7 +104,7 @@ class Builder
      * Create and return an un-saved model instance.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model|static
      */
     public function make(array $attributes = [])
     {
@@ -215,8 +215,8 @@ class Builder
      * Add a basic where clause to the query.
      *
      * @param  \Closure|string|array  $column
-     * @param  mixed   $operator
-     * @param  mixed   $value
+     * @param  mixed  $operator
+     * @param  mixed  $value
      * @param  string  $boolean
      * @return $this
      */
@@ -492,7 +492,7 @@ class Builder
     /**
      * Execute the query as a "select" statement.
      *
-     * @param  array  $columns
+     * @param  array|string  $columns
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function get($columns = ['*'])
@@ -512,7 +512,7 @@ class Builder
     /**
      * Get the hydrated models without eager loading.
      *
-     * @param  array  $columns
+     * @param  array|string  $columns
      * @return \Illuminate\Database\Eloquent\Model[]|static[]
      */
     public function getModels($columns = ['*'])
@@ -1094,7 +1094,7 @@ class Builder
 
                 [$name, $constraints] = Str::contains($name, ':')
                             ? $this->createSelectWithConstraint($name)
-                            : [$name, function () {
+                            : [$name, static function () {
                                 //
                             }];
             }
@@ -1118,7 +1118,7 @@ class Builder
      */
     protected function createSelectWithConstraint($name)
     {
-        return [explode(':', $name)[0], function ($query) use ($name) {
+        return [explode(':', $name)[0], static function ($query) use ($name) {
             $query->select(explode(',', explode(':', $name)[1]));
         }];
     }
@@ -1141,7 +1141,7 @@ class Builder
             $progress[] = $segment;
 
             if (! isset($results[$last = implode('.', $progress)])) {
-                $results[$last] = function () {
+                $results[$last] = static function () {
                     //
                 };
             }
