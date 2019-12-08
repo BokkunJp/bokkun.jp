@@ -34,7 +34,7 @@ class PluginTask extends BakeTask
      * @var array
      */
     public $tasks = [
-        'Bake.BakeTemplate'
+        'Bake.BakeTemplate',
     ];
 
     /**
@@ -316,8 +316,8 @@ class PluginTask extends BakeTask
                 $this->out($i + 1 . '. ' . $option);
             }
             $prompt = 'Choose a plugin path from the paths above.';
-            $choice = $this->in($prompt, null, 1);
-            if ((int)$choice > 0 && (int)$choice <= $max) {
+            $choice = (int)$this->in($prompt, null, '1');
+            if ($choice > 0 && $choice <= $max) {
                 $valid = true;
             }
         }
@@ -336,10 +336,10 @@ class PluginTask extends BakeTask
             'Create the directory structure, AppController class and testing setup for a new plugin. ' .
             'Can create plugins in any of your bootstrapped plugin paths.'
         )->addArgument('name', [
-            'help' => 'CamelCased name of the plugin to create.'
+            'help' => 'CamelCased name of the plugin to create.',
         ])->addOption('composer', [
             'default' => ROOT . DS . 'composer.phar',
-            'help' => 'The path to the composer executable.'
+            'help' => 'The path to the composer executable.',
         ])->removeOption('plugin');
 
         return $parser;

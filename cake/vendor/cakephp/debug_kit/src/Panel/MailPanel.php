@@ -44,7 +44,7 @@ class MailPanel extends DebugPanel
         $property->setAccessible(true);
         $configs = $property->getValue();
 
-        $log = $this->emailLog = new ArrayObject;
+        $log = $this->emailLog = new ArrayObject();
 
         foreach ($configs as $name => &$transport) {
             if (is_object($transport)) {
@@ -73,7 +73,7 @@ class MailPanel extends DebugPanel
     public function data()
     {
         return [
-            'emails' => isset($this->emailLog) ? $this->emailLog->getArrayCopy() : []
+            'emails' => isset($this->emailLog) ? $this->emailLog->getArrayCopy() : [],
         ];
     }
 

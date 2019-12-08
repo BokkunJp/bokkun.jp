@@ -47,7 +47,7 @@ class BakeHelper extends Helper
         }
         $options += [
             'name' => $name,
-            'value' => $value
+            'value' => $value,
         ];
 
         return $this->_View->element('array_property', $options);
@@ -62,12 +62,13 @@ class BakeHelper extends Helper
      */
     public function stringifyList(array $list, array $options = [])
     {
-        $options += [
+        $defaults = [
             'indent' => 2,
             'tab' => '    ',
-            'trailingComma' => false,
-            'quotes' => true
+            'trailingComma' => (!isset($options['indent']) || $options['indent']) ? true : false,
+            'quotes' => true,
         ];
+        $options += $defaults;
 
         if (!$list) {
             return '';
@@ -179,7 +180,7 @@ class BakeHelper extends Helper
             'plugin' => $plugin,
             'class' => $name . $suffix,
             'name' => $name,
-            'fullName' => $class
+            'fullName' => $class,
         ];
     }
 
@@ -246,14 +247,16 @@ class BakeHelper extends Helper
                 if (isset($associationFields[$field])) {
                     return 'string';
                 }
-                if (in_array($type, [
+                if (
+                    in_array($type, [
                     'decimal',
                     'biginteger',
                     'integer',
                     'float',
                     'smallinteger',
                     'tinyinteger',
-                ])) {
+                    ])
+                ) {
                     return 'number';
                 }
                 if (in_array($type, ['date', 'time', 'datetime', 'timestamp'])) {

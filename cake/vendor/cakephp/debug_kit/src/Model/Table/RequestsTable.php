@@ -31,7 +31,6 @@ use DebugKit\Model\Entity\Request;
  */
 class RequestsTable extends Table
 {
-
     use LazyTableTrait;
 
     /**
@@ -47,8 +46,8 @@ class RequestsTable extends Table
         ]);
         $this->addBehavior('Timestamp', [
             'events' => [
-                'Model.beforeSave' => ['requested_at' => 'new']
-            ]
+                'Model.beforeSave' => ['requested_at' => 'new'],
+            ],
         ]);
         $this->ensureTables(['DebugKit.Requests', 'DebugKit.Panels']);
     }

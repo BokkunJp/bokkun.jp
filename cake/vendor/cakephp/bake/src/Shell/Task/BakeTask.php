@@ -125,7 +125,7 @@ class BakeTask extends Shell
      * Base execute method parses some parameters and sets some properties on the bake tasks.
      * call when overriding execute()
      *
-     * @return void
+     * @return bool|int|null|void
      */
     public function main()
     {
@@ -155,7 +155,7 @@ class BakeTask extends Shell
         $descriptorSpec = [
             0 => ['pipe', 'r'],
             1 => ['pipe', 'w'],
-            2 => ['pipe', 'w']
+            2 => ['pipe', 'w'],
         ];
         $this->_io->verbose('Running ' . $command);
         $process = proc_open(

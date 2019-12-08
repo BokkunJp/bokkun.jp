@@ -47,7 +47,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
         'controller' => null,
         'action' => null,
         '_ext' => null,
-        'pass' => []
+        'pass' => [],
     ];
 
     /**
@@ -320,7 +320,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
 
         if (empty($config['session'])) {
             $config['session'] = new Session([
-                'cookiePath' => $config['base']
+                'cookiePath' => $config['base'],
             ]);
         }
 
@@ -383,7 +383,8 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
         $method = $this->getEnv('REQUEST_METHOD');
         $override = false;
 
-        if (in_array($method, ['PUT', 'DELETE', 'PATCH']) &&
+        if (
+            in_array($method, ['PUT', 'DELETE', 'PATCH'], true) &&
             strpos($this->contentType(), 'application/x-www-form-urlencoded') === 0
         ) {
             $data = $this->input();
@@ -400,7 +401,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
             $override = true;
         }
 
-        if ($override && !in_array($this->_environment['REQUEST_METHOD'], ['PUT', 'POST', 'DELETE', 'PATCH'])) {
+        if ($override && !in_array($this->_environment['REQUEST_METHOD'], ['PUT', 'POST', 'DELETE', 'PATCH'], true)) {
             $data = [];
         }
 
@@ -1119,7 +1120,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
     protected function normalizeHeaderName($name)
     {
         $name = str_replace('-', '_', strtoupper($name));
-        if (!in_array($name, ['CONTENT_LENGTH', 'CONTENT_TYPE'])) {
+        if (!in_array($name, ['CONTENT_LENGTH', 'CONTENT_TYPE'], true)) {
             $name = 'HTTP_' . $name;
         }
 
@@ -1335,7 +1336,8 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
     {
         $new = clone $this;
 
-        if (!is_string($method) ||
+        if (
+            !is_string($method) ||
             !preg_match('/^[!#$%&\'*+.^_`\|~0-9a-z-]+$/i', $method)
         ) {
             throw new InvalidArgumentException(sprintf(
@@ -1496,7 +1498,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
             return $accept;
         }
 
-        return in_array($type, $accept);
+        return in_array($type, $accept, true);
     }
 
     /**
@@ -1544,7 +1546,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
             return $accept;
         }
 
-        return in_array(strtolower($language), $accept);
+        return in_array(strtolower($language), $accept, true);
     }
 
     /**
@@ -2227,7 +2229,7 @@ class ServerRequest implements ArrayAccess, ServerRequestInterface
             'params' => $this->params,
             'webroot' => $this->webroot,
             'base' => $this->base,
-            'here' => $this->here
+            'here' => $this->here,
         ];
 
         return $this->attributes + $emulated;

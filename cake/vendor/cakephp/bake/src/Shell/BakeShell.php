@@ -136,7 +136,7 @@ class BakeShell extends Shell
      * - Shell/Task for each loaded plugin
      * - App/Shell/Task/
      *
-     * @return void
+     * @return bool
      */
     public function loadTasks()
     {
@@ -153,7 +153,8 @@ class BakeShell extends Shell
         $tasks = $this->_findTasks($tasks, APP, Configure::read('App.namespace'));
 
         $this->tasks = array_values($tasks);
-        parent::loadTasks();
+
+        return parent::loadTasks();
     }
 
     /**
@@ -239,8 +240,10 @@ class BakeShell extends Shell
      */
     public function all($name = null)
     {
-        if ($this->param('connection') && $this->param('everything') &&
-            $this->param('connection') !== 'default') {
+        if (
+            $this->param('connection') && $this->param('everything') &&
+            $this->param('connection') !== 'default'
+        ) {
             $this->warn('Can only bake everything on default connection');
 
             return false;
@@ -307,10 +310,10 @@ class BakeShell extends Shell
             'default' => false,
             'boolean' => true,
         ])->addOption('prefix', [
-            'help' => 'Prefix to bake controllers and templates into.'
+            'help' => 'Prefix to bake controllers and templates into.',
         ])->addOption('tablePrefix', [
             'help' => 'Table prefix to be used in models.',
-            'default' => null
+            'default' => null,
         ]);
 
         $parser = $this->_setCommonOptions($parser);
@@ -320,7 +323,7 @@ class BakeShell extends Shell
             $this->{$task}->interactive = $this->interactive;
             $parser->addSubcommand(Inflector::underscore($task), [
                 'help' => $taskParser->getDescription(),
-                'parser' => $taskParser
+                'parser' => $taskParser,
             ]);
         }
 

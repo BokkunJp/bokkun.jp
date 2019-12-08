@@ -154,7 +154,7 @@ class RouteCollection
                 list($url, $queryParameters) = explode('?', $url, 2);
                 parse_str($queryParameters, $queryParameters);
             }
-            /* @var \Cake\Routing\Route\Route $route */
+            /** @var \Cake\Routing\Route\Route $route */
             foreach ($this->_paths[$path] as $route) {
                 $r = $route->parse($url, $method);
                 if ($r === false) {
@@ -199,7 +199,7 @@ class RouteCollection
                 continue;
             }
 
-            /* @var \Cake\Routing\Route\Route $route */
+            /** @var \Cake\Routing\Route\Route $route */
             foreach ($this->_paths[$path] as $route) {
                 $r = $route->parseRequest($request);
                 if ($r === false) {
@@ -335,7 +335,7 @@ class RouteCollection
             if (empty($this->_routeTable[$name])) {
                 continue;
             }
-            /* @var \Cake\Routing\Route\Route $route */
+            /** @var \Cake\Routing\Route\Route $route */
             foreach ($this->_routeTable[$name] as $route) {
                 $match = $route->match($url, $context);
                 if ($match) {
@@ -504,6 +504,7 @@ class RouteCollection
      * @param string $path The URL path to register middleware for.
      * @param string[] $middleware The middleware names to add for the path.
      * @return $this
+     * @throws \RuntimeException
      */
     public function applyMiddleware($path, array $middleware)
     {

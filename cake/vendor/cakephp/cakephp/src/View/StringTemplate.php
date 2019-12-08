@@ -121,7 +121,7 @@ class StringTemplate
     {
         $this->_configStack[] = [
             $this->_config,
-            $this->_compiled
+            $this->_compiled,
         ];
     }
 
@@ -182,7 +182,7 @@ class StringTemplate
             preg_match_all('#\{\{([\w\._]+)\}\}#', $template, $matches);
             $this->_compiled[$name] = [
                 str_replace($matches[0], '%s', $template),
-                $matches[1]
+                $matches[1],
             ];
         }
     }
@@ -300,7 +300,7 @@ class StringTemplate
      * Works with minimized attributes that have the same value as their name such as 'disabled' and 'checked'
      *
      * @param string $key The name of the attribute to create
-     * @param string|array $value The value of the attribute to create.
+     * @param string|string[] $value The value of the attribute to create.
      * @param bool $escape Define if the value must be escaped
      * @return string The composed attribute.
      */

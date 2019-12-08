@@ -1441,7 +1441,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
         $options += [
             'keyField' => $this->getPrimaryKey(),
             'valueField' => $this->getDisplayField(),
-            'groupField' => null
+            'groupField' => null,
         ];
 
         if (isset($options['idField'])) {
@@ -1450,7 +1450,8 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
             deprecationWarning('Option "idField" is deprecated, use "keyField" instead.');
         }
 
-        if (!$query->clause('select') &&
+        if (
+            !$query->clause('select') &&
             !is_object($options['keyField']) &&
             !is_object($options['valueField']) &&
             !is_object($options['groupField'])
@@ -1510,7 +1511,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
         $options += [
             'keyField' => $this->getPrimaryKey(),
             'parentField' => 'parent_id',
-            'nestingKey' => 'children'
+            'nestingKey' => 'children',
         ];
 
         if (isset($options['idField'])) {
@@ -1918,7 +1919,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
             'associated' => true,
             'checkRules' => true,
             'checkExisting' => true,
-            '_primary' => true
+            '_primary' => true,
         ]);
 
         if ($entity->hasErrors($options['associated'])) {
@@ -2307,7 +2308,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
         if ($success && $this->_transactionCommitted($options['atomic'], $options['_primary'])) {
             $this->dispatchEvent('Model.afterDeleteCommit', [
                 'entity' => $entity,
-                'options' => $options
+                'options' => $options,
             ]);
         }
 
@@ -2364,7 +2365,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
 
         $event = $this->dispatchEvent('Model.beforeDelete', [
             'entity' => $entity,
-            'options' => $options
+            'options' => $options,
         ]);
 
         if ($event->isStopped()) {
@@ -2389,7 +2390,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
 
         $this->dispatchEvent('Model.afterDelete', [
             'entity' => $entity,
-            'options' => $options
+            'options' => $options,
         ]);
 
         return $success;
@@ -2489,7 +2490,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
         } elseif ($hasOr !== false) {
             $fields = explode('_or_', $fields);
             $conditions = [
-            'OR' => $makeConditions($fields, $args)
+            'OR' => $makeConditions($fields, $args),
             ];
         } elseif ($hasAnd !== false) {
             $fields = explode('_and_', $fields);
@@ -2808,7 +2809,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
             [
                 'useSetters' => false,
                 'markNew' => $context['newRecord'],
-                'source' => $this->getRegistryAlias()
+                'source' => $this->getRegistryAlias(),
             ]
         );
         $fields = array_merge(
@@ -2964,7 +2965,7 @@ class Table implements RepositoryInterface, EventListenerInterface, EventDispatc
             'associations' => $associations ? $associations->keys() : false,
             'behaviors' => $behaviors ? $behaviors->loaded() : false,
             'defaultConnection' => static::defaultConnectionName(),
-            'connectionName' => $conn ? $conn->configName() : null
+            'connectionName' => $conn ? $conn->configName() : null,
         ];
     }
 }
