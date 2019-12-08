@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.11.4 - 2019-12-04
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#203](https://github.com/zendframework/zend-view/pull/203) fixes PHP 7.4 compatibility.
+
 ## 2.11.3 - 2019-10-11
 
 ### Added
