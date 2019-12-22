@@ -43,7 +43,7 @@ function SetToken($token = null)
  *
  * @return bool
  */
-function CheckToken($tokenName = 'token', $errMessage = '２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage = '<br /><a href=\'javascript:location.href = location;\'>前のページへ戻る</a>', $finishFlg = true)
+function CheckToken($tokenName = 'token', $finishFlg = true, $errMessage = '２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage = '<br /><a href=\'javascript:location.href = location;\'>前のページへ戻る</a>')
 {
     $post = PublicSetting\Setting::GetPosts();
     $session = new PublicSetting\Session();

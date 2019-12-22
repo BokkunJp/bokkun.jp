@@ -9,14 +9,14 @@ if (!isset($posts) || empty($posts)) {
     return -1;
 }
 
-CheckToken('token', '不正な値が送信されました。<br/>');
+CheckToken('token', true, '不正な値が送信されました。<br/>');
 $session = $_SESSION;
 if ($session['mail']['send_flg']) {
     echo '';
     CheckToken('closed
-    ', '本日はもうメール送信できません。<br/>');
+    ', true, '本日はもうメール送信できません。<br/>');
 
-} 
+}
 
 $session['mail']['send_flg'] = true;
 $_SESSION = $session;

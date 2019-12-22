@@ -3,7 +3,7 @@ require_once PUBLIC_COMMON_DIR. '/Token.php';
 IncludeDirctories();
 $token = PublicSetting\Setting::GetPost('token');
 if ($token) {
-    CheckToken('token', '不正な値が送信されました。<br/>');
+    CheckToken('token', true, '不正な値が送信されました。<br/>');
 }
 
 Main();

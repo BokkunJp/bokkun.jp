@@ -18,15 +18,16 @@ IncludeDirctories(PUBLIC_COMPONENT_DIR);
 
 // 必要なjsファイルの読み込み
 $src = new OriginTag();
-$jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, 'common'), 'js', true);
+
+$jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, 'common', true, '/'), 'js', true, '/');
 foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false), $_jsFile, false), 'common');
+    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false, '/'), $_jsFile, false, '/'), 'common', '/');
     $src->TagExec(true);
 }
 
-$jsFiles = IncludeFiles(AddPath(AddPath(PUBLIC_JS_DIR, 'common'), 'time'), 'js', true);
+$jsFiles = IncludeFiles(AddPath(AddPath(PUBLIC_JS_DIR, 'common', true, '/'), 'time', true, '/'), 'js', true);
 foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false), 'time'), $_jsFile, false), 'time');
+    $src->ReadJS(AddPath(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false, '/'), 'time', true, '/'), $_jsFile, false, '/'), 'time',true , '/');
     $src->TagExec(true);
 }
 
@@ -129,6 +130,7 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false) {
  */
 function IncludeJSFiles($pwd, $ret = true) {
 $src = new OriginTag();
+$base = new PublicSetting\Setting();
 $jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, 'common'), 'js', true);
 foreach ($jsFiles as $_jsFile) {
     $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common'), $_jsFile, false), '', 'common');
