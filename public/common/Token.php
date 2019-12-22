@@ -43,7 +43,7 @@ function SetToken($token = null)
  *
  * @return bool
  */
-function CheckToken($tokenName = 'token', $errMessage = '２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage = '<br /><a href=\'javascript:location.href = location;\'>前のページへ戻る</a>', $finishFlg = true)
+function CheckToken($tokenName = 'token', $finishFlg = true, $errMessage = '２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage = '<br /><a href=\'javascript:location.href = location;\'>前のページへ戻る</a>')
 {
     $post = PublicSetting\Setting::GetPosts();
     $session = new PublicSetting\Session();
@@ -55,11 +55,12 @@ function CheckToken($tokenName = 'token', $errMessage = '２度目以降のア�
         echo 'session: ' . $session->Read($tokenName) . '<br/><br/>';
     }
     if (!isset($post[$tokenName]) || $post[$tokenName] !== $session->Read($tokenName)) {
-        echo $errMessage;
-        echo $pageMessage;
-        echo '        <div>';
-        // 関数内で画面を完結させる場合はこちら
+        // 画面を完結させる場合はこちら
         if ($finishFlg === true) {
+            require_once PUBLIC_LAYOUT_DIR . '/header.php';
+            echo $errMessage;
+            echo $pageMessage;
+            echo '        <div>';
             require_once PUBLIC_LAYOUT_DIR . '/footer.php';
             echo '</div>
         </body>

@@ -18,4 +18,4 @@ switch ($statusCode) {
     default:
         break;
 }
-require_once PUBLIC_COMMON_DIR . "/Include.php";
+require_once "Include.php";

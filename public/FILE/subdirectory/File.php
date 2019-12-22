@@ -222,14 +222,11 @@ function DeleteImage() {
         if ($post_key !== 'token' && $post_key !== 'delete') {
             $count++;
             if (in_array($post_value, $fileList)) {
-                if (rename(PUBLIC_IMAGE_DIR . '/FILE/' . $post_value, PUBLIC_IMAGE_DIR . '/FILE/_old/' . $post_value) === true) {
-                    echo $count . '件目の画像を削除しました。<br/>';
-                } else {
-                    echo '画像を削除できませんでした。';
+                if (!rename(PUBLIC_IMAGE_DIR . '/FILE/' . $post_value, PUBLIC_IMAGE_DIR . '/FILE/_old/' . $post_value) === true) {
+                    return false;
                 }
             }
         }
     }
-    echo '<br/>';
-    echo '全' . $count . '件の画像を削除しました。<br/>';
+    return true;
 }

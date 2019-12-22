@@ -1,24 +1,24 @@
-<?
+<?php
 if (!isset($_SESSION)) {
     session_start();
 }
-?>
-<script>
-    history.replaceState('', '', '/public/FILE/');
-</script>
-<?php
+
 $homepageTitle = htmlspecialchars(basename(__DIR__));
 
-require_once __DIR__ . '/Layout/layout.php';
-require_once PUBLIC_COMMON_DIR . '/Token.php';
-require_once dirname(__DIR__) . '/File.php';
+require_once __DIR__. '/component/require.php';
+require_once dirname(__DIR__). '/File.php';
 
-echo '<div class=\'contents\' />';
-
-CheckToken('token', '不正な値が送信されました。<br/>', false);
+$checkToken = CheckToken('token', false);
 
 if (!isset($session)) {
     $session = new PublicSetting\Session();
+}
+
+if ($checkToken === false) {
+    $session->Delete();
+    $session->Add('notice', '不正な遷移です。もう一度操作してください。');
+    $url = new PublicSetting\Setting();
+    header('Location:' . $url->GetUrl('public/FILE'));
 }
 
 if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::GetQuery('mode') === 'del') {
@@ -33,8 +33,9 @@ if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::Ge
         $session->Add('notice', '削除対象が選択されていないか、画像がありません。');
     }
     if (!$session->Judge('notice')) {
-        $session->Add('success', ($count - COUNT_START) . '件の画像の削除に成功しました。');
+        $session->Add('success', ($count - COUNT_START). '件の画像の削除に成功しました。');
     }
+
 } else {
     if (isset($file['file']) && is_uploaded_file($file['file']['tmp_name'])) {
         $result = ImportImage($file);
@@ -55,6 +56,4 @@ $session->Add('token', sha1(session_id()));
 $url = new PublicSetting\Setting();
 header('Location:' . $url->GetUrl('public/FILE'));
 ?>
-<script>
-    window.location.href = 'https://bokkun.jp/public/FILE/';
-</script>
+<!-- <script>window.location.href = 'https://bokkun.jp/public/FILE/';</script> -->
