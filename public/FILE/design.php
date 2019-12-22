@@ -1,10 +1,14 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
+// セッション開始
 if (!isset($session)) {
   $session = new PublicSetting\Session();
 }
+
+// ページ数取得
+$page = PublicSetting\Setting::GetQuery('page');
 ?>
-<form enctype="multipart/form-data" action='./FILE/subdirectory/notAutoInclude/server.php' method='POST'>
+<form enctype="multipart/form-data" action="./FILE/subdirectory/notAutoInclude/server.php<?=$page != null ? "?page={$page}" : "" ?>" method='POST'>
   <input type='hidden' name='token' value="<?= $token = MakeToken() ?>" />
   <input type='file' name='file' /> <button type='submit' class='fileButton'>送信</button>
   <span>
@@ -31,7 +35,7 @@ if (!isset($session)) {
   <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
 </form>
 
-<form action='./FILE/subdirectory/notAutoInclude/server.php?mode=del' method='POST'>
+<form action="./FILE/subdirectory/notAutoInclude/server.php?mode=del<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>
   <?php
   ReadImage(1);
   ?>

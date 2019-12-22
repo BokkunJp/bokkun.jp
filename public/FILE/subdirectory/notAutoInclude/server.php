@@ -3,10 +3,13 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-$homepageTitle = htmlspecialchars(basename(__DIR__));
-
 require_once __DIR__. '/component/require.php';
 require_once dirname(__DIR__). '/File.php';
+
+// ページ数取得
+$page = PublicSetting\Setting::GetQuery('page');
+$str = 'public/FILE';
+$str .= !empty($page) ? "?page={$page}" : "";
 
 // セッション開始
 if (!isset($session)) {
@@ -19,7 +22,7 @@ $checkToken = CheckToken('token', false);
 if ($checkToken === false) {
     $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
     $url = new PublicSetting\Setting();
-    header('Location:' . $url->GetUrl('public/FILE'));
+    header('Location:' . $url->GetUrl($str));
     exit;
 }
 
@@ -55,6 +58,6 @@ if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::Ge
 $session->Add('token', sha1(session_id()));
 // $session->FinaryDestroy();
 $url = new PublicSetting\Setting();
-header('Location:' . $url->GetUrl('public/FILE'));
+header('Location:' . $url->GetUrl($str));
 ?>
 <!-- <script>window.location.href = 'https://bokkun.jp/public/FILE/';</script> -->
