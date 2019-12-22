@@ -19,6 +19,7 @@ if ($checkToken === false) {
     $session->Add('notice', '不正な遷移です。もう一度操作してください。');
     $url = new PublicSetting\Setting();
     header('Location:' . $url->GetUrl('public/FILE'));
+    exit;
 }
 
 if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::GetQuery('mode') === 'del') {
