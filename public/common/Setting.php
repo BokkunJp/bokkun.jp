@@ -285,6 +285,15 @@ class Session {
         return true;
     }
 
+    // セッション参照後、外套のセッションを削除する
+    public function OnlyView($tag)
+    {
+        if ($this->Judge($tag) === true) {
+            $this->View($tag);
+            $this->Delete($tag);
+        }
+    }
+
     // セッションの完全な破棄
     public function FinaryDestroy() {
         session_unset();

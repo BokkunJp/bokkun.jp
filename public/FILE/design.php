@@ -18,29 +18,14 @@ if (!isset($session)) {
   </span>
   <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
   <div class='notice'>
-    <?php
-    if ($session->Judge(('notice')) === true) {
-      $session->View('notice');
-      $session->Delete('notice');
-    }
-    ?>
+    <?= $session->OnlyView('notice'); ?>
   </div>
   <div class='warning'>
-    <?php
-    if ($session->Judge(('notice')) === true) {
-      $session->View('notice');
-      $session->Delete('notice');
-    }
-    ?>
+    <?= $session->OnlyView('notice'); ?>
   </div>
 
   <div class='success'>
-    <?php
-    if ($session->Judge(('success')) === true) {
-      $session->View('success');
-      $session->Delete('success');
-    }
-    ?>
+    <?= $session->OnlyView('success'); ?>
   </div>
 
   <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
