@@ -6,3 +6,14 @@ body {
 @media only screen and (max-width: 750px) {
 .fileButton { font-size: 2vh; }
 }
+
+.success {
+    font-size: small;
+    font-style: italic;
+    color:green;
+}
+
+.notice {
+    font-size: small;
+    color:red;
+}
