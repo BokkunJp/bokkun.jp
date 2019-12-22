@@ -73,7 +73,7 @@ class Setting {
 
     static public function GetPropaty($elm) {
         if (property_exists('PublicSetting\Setting', $elm) !== false) {
-            return self::elm;
+            return $elm;
         } else {
             return null;
         }
@@ -262,6 +262,20 @@ class Session {
         } else {
             var_dump($this->session);
         }
+        return true;
+    }
+
+    // セッション判定用
+    public function Judge($id = null)
+    {
+        if (!isset($id)) {
+            return false;
+        }
+
+        if (!isset($this->session[$id])) {
+            return false;
+        }
+
         return true;
     }
 

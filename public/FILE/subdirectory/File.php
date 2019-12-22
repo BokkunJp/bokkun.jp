@@ -44,12 +44,12 @@ function ImportImage($file) {
 
     if (is_numeric($imgType)) {
         if (move_uploaded_file($file['file']['tmp_name'], $imageDir . '/FILE/' . $file['file']['name'])) {
-            echo 'ファイルをアップロードしました。<br/>';
+            return true;
         } else {
-            echo 'ファイルのアップロードに失敗しました。<br/>';
+            return false;
         }
     } else {
-        echo '画像ファイル以外はアップロードできません。<br/>';
+        return -1;
     }
 }
 

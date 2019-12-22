@@ -46,7 +46,7 @@ $arrow = $arrow->TagExec();
 function ViewArray($ary, $arow="\t") {
     foreach ($ary as $_elm => $_ary) {
         // 配列の末尾では間の文字(矢印)は消す
-        if ($_elm === (count($ary) - 1)) {
+        if ($_elm === (count($_ary) - 1)) {
             $arow = '';
         }
         echo $ary[$_elm]. $arow;
