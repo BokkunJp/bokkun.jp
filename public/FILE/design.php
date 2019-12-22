@@ -6,9 +6,9 @@ if (!isset($session)) {
 }
 
 // ページ数取得
-$page = PublicSetting\Setting::GetQuery('page');
+$page = GetPage();
 ?>
-<form enctype="multipart/form-data" action="./FILE/subdirectory/notAutoInclude/server.php<?=$page != null ? "?page={$page}" : "" ?>" method='POST'>
+<form enctype="multipart/form-data" action="./FILE/subdirectory/notAutoInclude/server.php<?=$page != false ? "?page={$page}" : "" ?>" method='POST'>
   <input type='hidden' name='token' value="<?= $token = MakeToken() ?>" />
   <input type='file' name='file' /> <button type='submit' class='fileButton'>送信</button>
   <span>
@@ -35,7 +35,7 @@ $page = PublicSetting\Setting::GetQuery('page');
   <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
 </form>
 
-<form action="./FILE/subdirectory/notAutoInclude/server.php?mode=del<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>
+<form action="./FILE/subdirectory/notAutoInclude/server.php?mode=del<?= $page !== false ? "&page={$page}" : "" ?>" method='POST'>
   <?php
   ReadImage(1);
   ?>

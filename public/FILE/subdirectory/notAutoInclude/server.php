@@ -7,9 +7,9 @@ require_once __DIR__. '/component/require.php';
 require_once dirname(__DIR__). '/File.php';
 
 // ページ数取得
-$page = PublicSetting\Setting::GetQuery('page');
+$page = GetPage();
 $str = 'public/FILE';
-$str .= !empty($page) ? "?page={$page}" : "";
+$str .= $page!=false ? "?page={$page}" : "";
 
 // セッション開始
 if (!isset($session)) {
