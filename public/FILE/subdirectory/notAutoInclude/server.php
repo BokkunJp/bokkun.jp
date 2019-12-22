@@ -8,15 +8,16 @@ $homepageTitle = htmlspecialchars(basename(__DIR__));
 require_once __DIR__. '/component/require.php';
 require_once dirname(__DIR__). '/File.php';
 
-$checkToken = CheckToken('token', false);
-
+// セッション開始
 if (!isset($session)) {
     $session = new PublicSetting\Session();
 }
 
+// tokenチェック
+$checkToken = CheckToken('token', false);
+// 不正tokenの場合は、エラーを出力して処理を中断。
 if ($checkToken === false) {
-    $session->Delete();
-    $session->Add('notice', '不正な遷移です。もう一度操作してください。');
+    $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
     $url = new PublicSetting\Setting();
     header('Location:' . $url->GetUrl('public/FILE'));
     exit;
@@ -30,25 +31,24 @@ if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::Ge
     if ($count > COUNT_START) {
         DeleteImage();
     } else {
-        $session->Delete();
-        $session->Add('notice', '削除対象が選択されていないか、画像がありません。');
+        $session->Write('notice', '削除対象が選択されていないか、画像がありません。', 'Delete');
     }
     if (!$session->Judge('notice')) {
-        $session->Add('success', ($count - COUNT_START). '件の画像の削除に成功しました。');
+        $session->Write('success', ($count - COUNT_START) . '件の画像の削除に成功しました。', 'Delete');
     }
 
 } else {
     if (isset($file['file']) && is_uploaded_file($file['file']['tmp_name'])) {
         $result = ImportImage($file);
         if ($result === true) {
-            $session->Add('success', '画像のアップロードに成功しました。');
+            $session->Write('success', '画像のアップロードに成功しました。', 'Delete');
         } else if ($result === false) {
-            $session->Add('notice', '画像のアップロードに失敗しました。');
+            $session->Write('notice', '画像のアップロードに失敗しました。', 'Delete');
         } else if ($result === -1) {
-            $session->Add('notice', '画像ファイル以外はアップロードできません。');
+            $session->Write('notice', '画像ファイル以外はアップロードできません。', 'Delete');
         }
     } else {
-        $session->Add('notice', 'ファイルが存在しません。');
+        $session->Write('notice', 'ファイルが存在しません。', 'Delete');
     }
 }
 @session_regenerate_id();

@@ -214,13 +214,19 @@ class Session {
         }
     }
 
-    private function Write() {
-        $_SESSION = $this->session;
+    // セッションの書き込み
+    public function Write($tag, $message, $handle=null)
+    {
+        if (!empty($handle)) {
+            $this->$handle();
+        }
+        $this->Add($tag, $message);
     }
+
 
     public function Add($sessionElm, $sessionVal) {
         $this->session[$sessionElm] = $sessionVal;
-        $this->Write();
+        $_SESSION = $this->session;
     }
 
     public function Read($sessionElm = null) {
@@ -244,7 +250,7 @@ class Session {
         }
         if (isset($sessionElm)) {
             unset($this->session[$sessionElm]);
-            $this->Write();
+            $_SESSION = $this->session;
         } else {
             unset($this->session);
             $this->session = $this->init;
