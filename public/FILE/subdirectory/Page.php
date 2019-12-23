@@ -27,11 +27,11 @@ function GetPage() {
  */function GetPaging() {
     $session = new PublicSetting\Session();
     $post = PublicSetting\Setting::GetPost('image-value');
-    if ($session->Judge('image-view')) {
-        $paging = (int)$session->Read('image-view');
-    } else if (isset($post) && is_numeric($post)) {
+    if (isset($post) && is_numeric($post)) {
         $paging = (int) $post;
         $session->Add('image-view', $paging);
+    } else if ($session->Judge('image-view')) {
+        $paging = (int)$session->Read('image-view');
     } else {
         $paging = PAGING;
     }
