@@ -13,7 +13,7 @@ $page = PublicSetting\Setting::GetQuery('page');
   <form method='POST' action='./FILE/<?= $page != null ? "?page={$page}" : "" ?>'>
     <select name='image-value'>
       <?php
-      for ($i = 1; $i <= 10; $i++) {
+      for ($i = 1; $i <= MAX_VIEW; $i++) {
         $_val = $i * PAGING;
         echo "<option value={$_val}>" . $_val . "</option>";
       }

@@ -29,6 +29,10 @@ function GetPage() {
     $post = PublicSetting\Setting::GetPost('image-value');
     if (isset($post) && is_numeric($post)) {
         $paging = (int) $post;
+        // 上限設定
+        if ($paging > (PAGING * MAX_VIEW)) {
+            $paging = PAGING * MAX_VIEW;
+        }
         $session->Add('image-view', $paging);
     } else if ($session->Judge('image-view')) {
         $paging = (int)$session->Read('image-view');
