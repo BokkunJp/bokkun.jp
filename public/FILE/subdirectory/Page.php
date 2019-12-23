@@ -18,6 +18,26 @@ function GetPage() {
 
 /**
  * ViewPager
+ * ページ当たりの画像数を取得する
+ * (post値が確認できない場合はデフォルト値を取得する)
+ *
+ * @param  void
+ *
+ * @return int
+ */function GetPaging() {
+    $post = PublicSetting\Setting::GetPost('image-value');
+    if (isset($post) && is_numeric($post)) {
+        $paging = (int) $post;
+    } else {
+        $paging = PAGING;
+    }
+
+    return $paging;
+
+}
+
+/**
+ * ViewPager
  * ページングを表示する
  *
  * @param  mixed $file
@@ -27,7 +47,8 @@ function GetPage() {
  */
 function ViewPager($file, $imageUrl) {
     $nowPage = GetPage();
-    $maxPage = round(count($file) / PAGING);
+    $paging = GetPaging();
+    $maxPage = round(count($file) / $paging);
     if ($nowPage === false || $nowPage > $maxPage) {
         $page = 1;
     } else {
@@ -35,7 +56,7 @@ function ViewPager($file, $imageUrl) {
     }
 
     $pageHtml = new \PublicTag\CustomTagCreate();
-    for ($_index = 1, $_vindex = 1; $_index < count($file); $_index += PAGING, $_vindex++) {
+    for ($_index = 1, $_vindex = 1; $_index < count($file); $_index += $paging, $_vindex++) {
         if ($_vindex === $page) {
             $pageHtml->TagSet('span', $_vindex . ' ', 'pager', true);
         } else {

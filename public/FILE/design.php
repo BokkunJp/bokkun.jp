@@ -4,36 +4,42 @@
 if (!isset($session)) {
   $session = new PublicSetting\Session();
 }
+$posts = PublicSetting\Setting::GetPosts();
 
 // ページ数取得
 $page = PublicSetting\Setting::GetQuery('page');
 echo $page != null ? "?page={$page}" : "";
 ?>
-<form enctype="multipart/form-data" action="./FILE/subdirectory/notAutoInclude/server.php<?=$page != null ? "?page={$page}" : "" ?>" method='POST'>
-  <input type='hidden' name='token' value="<?= $token = MakeToken() ?>" />
-  <input type='file' name='file' /> <button type='submit' class='fileButton'>送信</button>
-  <span>
-    <select>
+<div class='view-image'>
+  <form method='POST' action='./FILE/'>
+    <select name='image-value'>
       <?php
       for ($i = 1; $i <= 10; $i++) {
-        echo '<option>' . $i * PAGING . '</option>';
+        $_val = $i * PAGING;
+        echo "<option value={$_val}>" . $_val . "</option>";
       }
       ?>
     </select>
-  </span>
-  <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
-  <div class='notice'>
-    <?= $session->OnlyView('notice'); ?>
-  </div>
-  <div class='warning'>
-    <?= $session->OnlyView('notice'); ?>
-  </div>
+    <span><button value='editView'>表示枚数の変更</button>
+  </form>
+</div>
+<form enctype="multipart/form-data" action="./FILE/subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>" method='POST'>
+  <input type='hidden' name='token' value="<?= $token = MakeToken() ?>" />
+  <input type='file' name='file' /> <button type='submit' class='fileButton'>送信</button>
+  <span>
+    <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
+    <div class='notice'>
+      <?= $session->OnlyView('notice'); ?>
+    </div>
+    <div class='warning'>
+      <?= $session->OnlyView('notice'); ?>
+    </div>
 
-  <div class='success'>
-    <?= $session->OnlyView('success'); ?>
-  </div>
+    <div class='success'>
+      <?= $session->OnlyView('success'); ?>
+    </div>
 
-  <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
+    <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
 </form>
 
 <form action="./FILE/subdirectory/notAutoInclude/server.php?mode=del<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>

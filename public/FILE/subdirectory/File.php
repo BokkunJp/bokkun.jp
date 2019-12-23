@@ -170,9 +170,9 @@ function ShowImage($data, $imageUrl) {
         ErrorSet('ページの指定が不正です。');
         return false;
     } else {
-        $start = ($page - 1) * PAGING + 1;
+        $start = ($page - 1) * GetPaging() + 1;
     }
-    $end = $start + PAGING;
+    $end = $start + GetPaging();
     if ($end > count($data)) {
         $end = count($data);
     }
