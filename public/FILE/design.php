@@ -8,10 +8,9 @@ $posts = PublicSetting\Setting::GetPosts();
 
 // ページ数取得
 $page = PublicSetting\Setting::GetQuery('page');
-echo $page != null ? "?page={$page}" : "";
 ?>
 <div class='view-image'>
-  <form method='POST' action='./FILE/'>
+  <form method='POST' action='./FILE/<?= $page != null ? "?page={$page}" : "" ?>'>
     <select name='image-value'>
       <?php
       for ($i = 1; $i <= 10; $i++) {
