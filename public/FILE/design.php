@@ -24,19 +24,12 @@ $page = PublicSetting\Setting::GetQuery('page');
 </div>
 <form enctype="multipart/form-data" action="./FILE/subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>" method='POST'>
   <input type='hidden' name='token' value="<?= $token = MakeToken() ?>" />
-  <input type='file' name='file' /> <button type='submit' class='fileButton'>送信</button>
+  <input type='file' name='all-files[]' multiple /> <button type='submit' class='fileButton'>送信</button>
   <span>
     <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
-    <div class='notice'>
-      <?= $session->OnlyView('notice'); ?>
-    </div>
-    <div class='warning'>
-      <?= $session->OnlyView('notice'); ?>
-    </div>
-
-    <div class='success'>
-      <?= $session->OnlyView('success'); ?>
-    </div>
+    <div class='notice'><?= $session->OnlyView('notice'); ?></div>
+    <div class='warning'><?= $session->OnlyView('warning'); ?></div>
+    <div class='success'><?= $session->OnlyView('success'); ?></div>
 
     <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
 </form>

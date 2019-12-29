@@ -285,7 +285,7 @@ class Session {
         return true;
     }
 
-    // セッション参照後、外套のセッションを削除する
+    // セッション参照後、該当のセッションを削除する
     public function OnlyView($tag)
     {
         if ($this->Judge($tag) === true) {

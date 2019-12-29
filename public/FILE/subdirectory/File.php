@@ -4,7 +4,6 @@ use BasicTag\CustomTagCreate;
 // require_once dirname(dirname(__DIR__)). '/common/Layout/init.php';
 require_once ('Page.php');
 require_once ('View.php');
-$file = PublicSetting\Setting::GetFiles();
 
 /**
  * FileExif
@@ -32,25 +31,104 @@ function FileExif($img) {
 
 /**
  * ImportImage
+ * ファイルデータを成型する
+ *
+ * @param  mixed $file
+ * @param  string $fileName
+ *
+ * @return array
+ */
+function MoldFile($file, String $fileName)
+{
+    $moldFiles = [];
+    foreach ($file[$fileName] as $_key => $_files) {
+        foreach ($_files as $__key => $__val) {
+            $moldFiles[$__key][$_key] = $__val;
+        }
+    }
+
+    return $moldFiles;
+}
+
+
+/**
+ * ImportImage
  * 画像をアップロードする
  *
  * @param  mixed $file
  *
  * @return void
  */
-function ImportImage($file) {
-    $imgType = FileExif($file['file']['tmp_name']);
+function ImportImage() {
+    $upFiles = PublicSetting\Setting::GetFiles();
     $imageDir = PUBLIC_IMAGE_DIR;
 
-    if (is_numeric($imgType)) {
-        if (move_uploaded_file($file['file']['tmp_name'], $imageDir . '/FILE/' . $file['file']['name'])) {
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        return -1;
+    // データ成型
+    $moldFiles = MoldFile($upFiles, 'all-files');
+
+    // アップロード結果
+    $result = [];
+    // 成功パターン
+    $result['success'] = [];
+    $result['success']['count'] = 0;
+    // ファイルアップロード失敗パターン
+    $result['fail'] = [];
+    $result['fail']['count'] = 0;
+    // ファイルの種類が違うパターン
+    $result['-1'] = [];
+    $result['-1']['count'] = 0;
+    // その他、ファイルのアップロードに失敗したパターン
+    // ファイルサイズ系
+    // $result['size'] = [];
+    // ファイルがない
+    // $result['no-file'] = [];
+    // tmpディレクトリがない
+    // $result['tmp'] = [];
+
+    // ファイル数が規定の条件を超えた場合はアップロード中断
+    if (count($moldFiles) > FILE_COUNT_MAX) {
+        $result = FILE_COUNT_OVER;
+        return $result;
     }
+
+    foreach ($moldFiles as $_files) {
+        if (!empty($_files) && $_files['error'] === UPLOAD_ERR_OK) {
+            $imgType = FileExif($_files['tmp_name']);
+        } else {
+            switch ($_files['error']) {
+                case UPLOAD_ERR_NO_FILE:
+                    return null;
+                    break;
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+
+                case UPLOAD_ERR_PARTIAL:
+                case UPLOAD_ERR_NO_TMP_DIR:
+                case UPLOAD_ERR_CANT_WRITE:
+                case UPLOAD_ERR_EXTENSION:
+                    $result['fail']['count']++;
+                break;
+            }
+            continue;
+        }
+
+        if (is_numeric($imgType)) {
+            if (move_uploaded_file($_files['tmp_name'], $imageDir . '/FILE/' . $_files['name'])) {
+                // $result['success'][$_files['name']] = true;
+                $result['success']['count']++;
+            } else {
+                // $result['fail'][$_files['name']] = false;
+                $result['fail']['count']++;
+            }
+        } else {
+            // $result['-1'][$_files['name']] = -1;
+            $result['-1']['count']++;
+        }
+    }
+
+
+    return $result;
+
 }
 
 /**
@@ -201,16 +279,15 @@ function ShowImage($data, $imageUrl) {
  */
 function ErrorSet($errMsg = ERRMessage) {
     $prevLink = new CustomTagCreate();
-    $prevLink->TagSet('div', $errMsg, 'error', true);
+    $prevLink->TagSet('div', $errMsg, 'warning', true);
     $prevLink->TagExec(true);
     $prevLink->SetHref("./FILE/", PREVIOUS, 'page', true, '_self');
 
-    return 1;
 }
 
 /**
  * DeleteImage
- * 画像を読み込み、一覧表示する
+ * 画像を一括削除する
  *
  * @return void
  */

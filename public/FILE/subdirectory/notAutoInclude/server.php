@@ -3,8 +3,10 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-require_once __DIR__. '/component/require.php';
-require_once dirname(__DIR__). '/File.php';
+require_once __DIR__ . '/component/require.php';
+require_once dirname(__DIR__) . '/File.php';
+$files = PublicSetting\Setting::GetFiles();
+
 
 // ページ数取得
 $page = PublicSetting\Setting::GetQuery('page');
@@ -39,19 +41,40 @@ if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::Ge
     if (!$session->Judge('notice')) {
         $session->Write('success', ($count - COUNT_START) . '件の画像の削除に成功しました。', 'Delete');
     }
-
 } else {
-    if (isset($file['file']) && is_uploaded_file($file['file']['tmp_name'])) {
-        $result = ImportImage($file);
-        if ($result === true) {
-            $session->Write('success', '画像のアップロードに成功しました。', 'Delete');
-        } else if ($result === false) {
-            $session->Write('notice', '画像のアップロードに失敗しました。', 'Delete');
-        } else if ($result === -1) {
-            $session->Write('notice', '画像ファイル以外はアップロードできません。', 'Delete');
+    $result = ImportImage($files);
+
+    var_dump($result);
+
+    // アップロードに成功したファイルがなかった場合
+    if (empty($result['success'])) {
+        if (empty($result)) {
+            $session->Write('notice', FILE_NONE);
+        } else if ($result == FILE_COUNT_OVER) {
+            $session->Write('notice', FILE_COUNT_OVER_ERROR);
+        } else {
+            // 1枚以上アップロードに成功したファイルがあった場合
+            // 一度も発生しなかった結果パターンを除外
+            foreach ($result as $_key => $_filter) {
+                if (empty($_filter['count'])) {
+                    unset($result[$_key]);
+                }
+            }
         }
     } else {
-        $session->Write('notice', 'ファイルが存在しません。', 'Delete');
+        if (!empty($result['-1']['count'])) {
+            define('FILE_ERR_CONST', "{$result['-1']['count']}枚のファイル");
+            $session->Write('notice', FILE_ERR_CONST . FILE_NO_MATCH_FAIL);
+        }
+
+        if (!empty($result['fail']['count'])) {
+            define('FILE_FAIL_CONST', "{$result['fail']['count']}枚のファイル");
+            $session->Write('notice', FILE_FAIL_CONST . FILE_UPLOAD_FAIL);
+        }
+        if (!empty($result['success']['count'])) {
+            define('FILE_SUCCESS_CONST', "{$result['success']['count']}枚のファイル");
+            $session->Write('success', FILE_SUCCESS_CONST . FILE_UPLOAD_SUCCESS);
+        }
     }
 }
 @session_regenerate_id();

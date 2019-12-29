@@ -37,3 +37,14 @@ define('MAX_VIEW', 10);
 define('COUNT_START', 2);
 define('PREVIOUS', 'ファイルページへ戻る');
 define('ERRMessage', 'エラーが発生しました。');
+
+define('FILE_COUNT_MAX', 50);
+define('FILE_COUNT_OVER', -1);
+
+define('FILE_NONE', "ファイルが選択されていません。");
+define('FILE_COUNT_OVER_ERROR', (FILE_COUNT_MAX + 1)."枚以上の画像をアップロードすることはできません。処理を中断します。");
+// アップロード後の文言 (ファイル数の部分は処理時に定義)
+define('FILE_NO_MATCH_FAIL', "は、画像ファイルではないためアップロードできませんでした。");
+define('FILE_UPLOAD_FAIL', "のアップロードに失敗しました。");
+define('FILE_UPLOAD_SUCCESS', "のアップロードに成功しました。");
+

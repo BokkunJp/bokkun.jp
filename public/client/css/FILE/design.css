@@ -13,7 +13,7 @@ body {
     color:green;
 }
 
-.notice {
+.notice,.warning,.fail {
     font-size: small;
     color:red;
 }
