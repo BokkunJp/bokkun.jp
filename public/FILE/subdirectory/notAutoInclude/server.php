@@ -44,8 +44,6 @@ if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::Ge
 } else {
     $result = ImportImage($files);
 
-    var_dump($result);
-
     // アップロードに成功したファイルがなかった場合
     if (empty($result['success'])) {
         if (empty($result)) {
