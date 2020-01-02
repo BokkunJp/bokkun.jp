@@ -6,15 +6,18 @@ function SendMail($header, $response=false)
     }
     list($to, $title, $body, $addtional_headers, $addtional_parameter) = $header;
 
+    // 差出人名文字化け回避用
+    // $from_encoded_name = mb_encode_mimeheader($from_encoded_name, 'ISO-2022-JP-MS');
+
     if (!isset($to) || empty($to)) {
         echo '入力が不正です。';
         return false;
     }
-    
+
     if (!isset($title) || empty($title)) {
         $title = '';
     }
-    
+
         if (!isset($body) || empty($body)) {
         $body = '';
     }
@@ -32,5 +35,5 @@ function SendMail($header, $response=false)
     } else {
       echo 'メールの送信に失敗しました。';
     }
-    
+
 }

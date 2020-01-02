@@ -21,6 +21,6 @@ if ($session['mail']['send_flg']) {
 $session['mail']['send_flg'] = true;
 $_SESSION = $session;
 
-SendMail(['private.mail@bokkun.jp', $posts['title'], $posts['body'], 'From: from.mail@bokkun.jp' . "\r\n"]);
+SendMail(['private.mail@bokkun.jp', $posts['title'], $posts['body'], 'ぼっくん', 'from.mail@bokkun.jp']);
 
  echo '<script>メールを送信しました</script>';
