@@ -206,6 +206,9 @@ class Session {
     private function SessionStart() {
         if (!isset($_SESSION) || session_status() === PHP_SESSION_DISABLED) {
             session_start();
+        } else {
+            // セッションが定義されている場合は更新
+            session_regenerate_id();
         }
     }
 
