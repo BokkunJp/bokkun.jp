@@ -1,8 +1,4 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-
 require_once __DIR__ . '/component/require.php';
 require_once dirname(__DIR__) . '/File.php';
 $files = PublicSetting\Setting::GetFiles();

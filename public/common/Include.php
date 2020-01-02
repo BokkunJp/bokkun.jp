@@ -3,7 +3,6 @@
 /*
  * Subdirectoryディレクトリ以下のPHPファイルを一括で読み込む。
  */
-$base = new PublicSetting\Setting();
 
 // 必要なファイルの一括読み込み
 $pwd = PUBLIC_COMPONENT_DIR . '/';

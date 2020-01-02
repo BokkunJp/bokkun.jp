@@ -4,7 +4,6 @@
 
 namespace PublicSetting;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'InitFunction.php';
 if (isset($_SERVER['HTTPS'])) {
     $http = '//';
 } else {
@@ -22,10 +21,6 @@ $css = $client . 'css';
 $js = $client . 'js';
 $image = $client . 'image';
 
-// 定数などの定義
-require_once AddPath(AddPath(__DIR__, "Word", false), "Message.php", false);
-require_once AddPath(AddPath(DOCUMENT_ROOT, "common"), "Config.php", false);
-$siteConfig = ['header' =>new \Header(), 'footer' => new \Footer()];
 
 define('IMAGE_URL', $image);
 
@@ -309,3 +304,33 @@ class Session {
     }
 
 }
+
+// Cookieクラス
+class Cookie {
+    private $cookie;
+    function __construct()
+    {
+        $this->Init();
+    }
+
+    private function Init() {
+        foreach ($_COOKIE as $_key => $_val) {
+            setcookie($_key, "", time() - 100);
+        }
+        unset($_COOKIE);
+        $this->cookie = null;
+    }
+
+    public function GetCookie() {
+        $this->cookie = $_COOKIE;
+    }
+
+    public function SetCookie($name, $val=null) {
+        setCookie($val, $name);
+    }
+
+    public function ViewCookie() {
+        print_r($this->cookie);
+    }
+}
+

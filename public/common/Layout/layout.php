@@ -1,8 +1,7 @@
 <?php
-session_regenerate_id();
 require_once __DIR__ . '/require.php';
-// トークンセット
-// SetToken();
+require_once __DIR__ . '/init.php';
+
 // $title = "テンプレート";
 $img = "crown-vector.jpg";
 
@@ -16,7 +15,6 @@ $img = "crown-vector.jpg";
     <title><?php echo basename(getcwd()); ?></title>
     <base href="../" />
     <link rel="shortcut icon" href="client/image/5959715.png">
-    <?php require_once __DIR__ . '/init.php'; ?>
     <link rel="stylesheet" type="text/css" href="client/css/<?php echo $homepageTitle; ?>/design.css">
 </head>
 

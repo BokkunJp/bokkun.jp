@@ -41,6 +41,12 @@ function FileExif($img) {
 function MoldFile($file, String $fileName)
 {
     $moldFiles = [];
+
+    // FILEが配列でない場合は中断
+    if (!is_array($file)) {
+        return false;
+    }
+
     foreach ($file[$fileName] as $_key => $_files) {
         foreach ($_files as $__key => $__val) {
             $moldFiles[$__key][$_key] = $__val;

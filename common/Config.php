@@ -2,9 +2,6 @@
 
 class Config {
     function __construct() {
-        if (isset($base)) {
-            $base = new PublicSetting\Setting();
-        }
     }
 }
 

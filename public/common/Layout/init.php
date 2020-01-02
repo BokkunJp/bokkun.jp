@@ -1,10 +1,30 @@
 <?php
+// セッションの設定
+$sess = new PublicSetting\Session();
+
 // タイトルの初期設定
 if (isset($homepageTitle)) {
     $title = htmlspecialchars($homepageTitle);
 } else {
     $title = htmlspecialchars(basename(__DIR__));
 }
+
+// ユーザーエージェントの設定
+$ua = new UA\UA();
+define('Phone', 2);
+define('PC', 1);
+$statusCode = $ua->DesignJudege();
+switch ($statusCode) {
+    case PC:
+        $agentCode = 'PC';
+        break;
+    case Phone:
+        $agentCode = 'SMP';
+        break;
+    default:
+        break;
+}
+
 
 // パンくずリストの生成 (完成・検証後にSetting.phpに移動)
 $dir = scandir(__DIR__);
