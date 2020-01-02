@@ -1,8 +1,6 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
-<span class='test'></span>
-<script>
-    $('.test').val('test');
-    console.log(AjaxMain());
-</script>
-<?php
-echo 'server';
+<div class='coord' id='coord'>
+    <span class='coord' id='coord-x'></span>
+    <span class='coord' id='coord-y'></span>
+    <span class='coord' id='coord-z'></span>
+</div>
