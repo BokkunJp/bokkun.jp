@@ -21,9 +21,8 @@ $img = "crown-vector.jpg";
         <div class='contents'>
             <?php require_once('design.php'); ?>
         </div>
-        <div class='footer'>
             <?php require_once('footer.php'); ?>
-        </div>
+    </div>
 </body>
 
 </html>

@@ -29,7 +29,7 @@ if (isset($homepageTitle)) {
 }
 $ua = new UA\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
-$homepageTitle = basename($base->GetURI());
+$homepageTitle = basename(getcwd());
 
 // ファイル読み込み処理
 require_once PUBLIC_COMMON_DIR . "/Include.php";
