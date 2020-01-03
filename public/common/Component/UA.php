@@ -17,7 +17,7 @@ class UA {
     public function UpdateAgent() {
             return $this->ua = $_SERVER['HTTP_USER_AGENT'];
     }
-    
+
     public function GetAgent() {
         return $this->ua;
     }
@@ -25,20 +25,20 @@ class UA {
     public static function GetConst() {
         return [[1 => 'PC_design'], [2 => 'SP_design']];
     }
-    
+
     // device = 2 → スマホ
     // device = 1 → PC
-    public function DesignJudege($device=null) {
+    public function DesignJudge($device=null) {
         if ($this->Judge('iPhone') || $this->Judge('Android')) {
             return SP_design;
         } else {
             return PC_design;
         }
     }
-    
+
     public function Judge($device) {
         $ret = strpos($this->ua, $device);
         return $ret;
     }
-    
+
 }

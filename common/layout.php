@@ -6,7 +6,7 @@ $agent = new UA\UA();
 
 define('Phone', 2);
 define('PC', 1);
-$statusCode = $agent->designJudege();
+$statusCode = $agent->DesignJudge();
 switch ($statusCode) {
     case PC:
         $agentCode = 'PC';

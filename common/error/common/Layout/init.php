@@ -8,12 +8,11 @@ $title = 'Page Error -';            // タイトル用に調整
 $title .= $errCode;
 $title .= '-';
 
-// スマホ判定処理 (内容はベースと同様)
+// UA判定処理 (内容はベースと同様)
 $agent = new UA\UA();
 define('Phone', 2);
 define('PC', 1);
-$statusCode = $agent->designJudege();
-switch ($statusCode) {
+switch ($agent->DesignJudge()) {
     case PC:
         $agentCode = 'PC';
         break;

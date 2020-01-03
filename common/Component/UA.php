@@ -10,14 +10,14 @@ class UA {
             $this->ua = $_SERVER['HTTP_USER_AGENT'];
         }
     }
-    
+
     public function getAgent() {
         return $this->ua;
     }
-    
+
     // device = 2 → スマホ
     // device = 1 → PC
-    public function designJudege($device=null) {
+    public function DesignJudge($device=null) {
         if ($this->judge('iPhone')|| $this->judge('Android')) {
             return 2;
         } else {
@@ -27,10 +27,10 @@ class UA {
             return $device;
         }
     }
-    
+
     public function judge($device) {
         $ret = strpos($this->ua, $device);
         return $ret;
     }
-    
+
 }

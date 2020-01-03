@@ -2,19 +2,10 @@
 // セッションの設定
 $sess = new PublicSetting\Session();
 
-// タイトルの初期設定
-if (isset($homepageTitle)) {
-    $title = htmlspecialchars($homepageTitle);
-} else {
-    $title = htmlspecialchars(basename(__DIR__));
-}
-
-// ユーザーエージェントの設定
-$ua = new UA\UA();
+// JA判定処理
 define('Phone', 2);
 define('PC', 1);
-$statusCode = $ua->DesignJudege();
-switch ($statusCode) {
+switch ($ua->DesignJudge()) {
     case PC:
         $agentCode = 'PC';
         break;
