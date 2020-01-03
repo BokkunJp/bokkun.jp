@@ -85,7 +85,7 @@ function GetAnswer (val1, val2, ope)
 {
 
     var _answer;
-tw
+
     switch ( ope )
     {
         case 'add':
