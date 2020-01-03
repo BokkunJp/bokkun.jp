@@ -11,7 +11,7 @@ if (isset($_SERVER['HTTPS'])) {
 }
 
 // 設定のベースとなる変数
-$domain = Setting::GetServarName('SERVER_NAME');
+$domain = Setting::GetServarName();
 $url = $http . $domain;
 $public = $url . '/public/';
 
@@ -62,8 +62,8 @@ class Setting {
         }
     }
 
-    static public function GetServarName($elm) {
-        return self::GetSERVER($elm);
+    static public function GetServarName() {
+        return self::GetSERVER('SERVER_NAME');
     }
 
     static public function GetPropaty($elm) {

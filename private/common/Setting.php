@@ -77,15 +77,15 @@ class Setting {
         }
     }
 
-    static public function GetServarName($elm)
+    static public function GetServarName()
     {
-        return self::GetSERVER($elm);
+        return self::GetSERVER('SERVER_NAME');
     }
 
     static public function GetPropaty($elm)
     {
         if (property_exists('PublicSetting\Setting', $elm) !== false) {
-            return self::elm;
+            return $elm;
         } else {
             return null;
         }
