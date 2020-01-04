@@ -8,34 +8,23 @@
   *  戻り値：
   */
  function Main() {
-     //  $('.fileButton').on('click', function(e) {
-     //      var ajax = Ajax('POST', location.href + '/subdirectory/server/fileServer.php', 'test');
-     //      ajax.always(function() {
-     //              alert('Complate!!!');
-     //          })
-     //          .done(function(response) {
-     //              $('.result').html(response);
-     //              $('.createResult').show();
-     //          })
-     //          .fail(function() {
-     //              alert('Failure!!');
-     //          });
-
-     //  });
- }
-
- function Ajax(type, url, data) {
-     sendData = {
-         type: type,
-         url: url,
-         data: data,
-     }
-     return $.ajax(sendData);
-
+    //  $('.image-value').change(function(e) {
+    //      e.preventDefault();
+    //      url = location.href;
+    //      data = $('.image-value').val();
+    //      console.log( "image-value=" + data);
+    //      $.post( url,"image-value=" + data)
+    //          .done(function(data) {
+    //              console.log(data);
+    //          })
+    //          .fail(function(){
+    //              console.error('send error');
+    //          });
+    //  });
  }
 
  /*
-  * 参考： 
+  * 参考：
 
   // DOM読み込み
  // $(function() {
