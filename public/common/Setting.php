@@ -222,7 +222,7 @@ class Session {
     }
 
 
-    public function Add($sessionElm, $sessionVal) {
+    private function Add($sessionElm, $sessionVal) {
         $this->session[$sessionElm] = $sessionVal;
         $_SESSION = $this->session;
     }
@@ -230,7 +230,7 @@ class Session {
     public function Read($sessionElm = null) {
         if (!isset($_SESSION)) {
             $this->SessionStart();
-        }
+        } else
 
         $this->session = $_SESSION;
 

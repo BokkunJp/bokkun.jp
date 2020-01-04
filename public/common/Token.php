@@ -29,7 +29,7 @@ function SetToken($token = null)
     if (!isset($token)) {
         $token = MakeToken();
     }
-    $session->Add('token', $token);
+    $session->Write('token', $token);
 }
 
 /**

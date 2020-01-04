@@ -114,9 +114,6 @@ if (isset($edit)) {
 }else if (isset($delete)) {
     $use->Alert('ページを削除しました。');
 }
-session_destroy();
-
-// 削除用の関数群
 
 class AdminError
 {

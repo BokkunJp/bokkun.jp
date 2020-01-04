@@ -72,7 +72,7 @@ if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::Ge
     }
 }
 @session_regenerate_id();
-$session->Add('token', sha1(session_id()));
+$session->Write('token', sha1(session_id()));
 // $session->FinaryDestroy();
 $url = new PublicSetting\Setting();
 header('Location:' . $url->GetUrl($str));

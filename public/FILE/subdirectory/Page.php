@@ -33,7 +33,7 @@ function GetPage() {
         if ($paging > (PAGING * MAX_VIEW)) {
             $paging = PAGING * MAX_VIEW;
         }
-        $session->Add('image-view', $paging);
+        $session->Write('image-view', $paging);
     } else if ($session->Judge('image-view')) {
         $paging = (int)$session->Read('image-view');
     } else {
