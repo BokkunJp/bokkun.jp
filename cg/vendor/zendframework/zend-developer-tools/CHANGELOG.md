@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.3.0 - 2019-12-26
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#261](https://github.com/zendframework/zend-developer-tools/pull/261) swaps in symfony/var-dumper for zendframework/zend-debug, as the latter is now archived and abandoned.
+
+- [#262](https://github.com/zendframework/zend-developer-tools/pull/262) moves the file `src/Controller/DeveloperToolsController.php` to `src/Controller/IndexController.php`, so that the filename matches the class name it defines.
+
+- [#262](https://github.com/zendframework/zend-developer-tools/pull/262) moves the file `src/Match/MatchInterface.php` to `src/MatchInterface.php`, so that the filename matches the class name it defines.
+
+- [#262](https://github.com/zendframework/zend-developer-tools/pull/262) moves the file `test/Collector/ConfigCollectionTest.php` to `src/Collector/ConfigCollectorTest.php`, so that the filename matches the class name it defines.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 1.2.4 - 2019-12-26
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#259](https://github.com/zendframework/zend-developer-tools/pull/259) adjusts the casing used when retrieving the "config" service within the `ConfigCollector` to be all lowercase, ensuring it works with all versions of zend-mvc.
+
 ## 1.2.3 - 2019-03-28
 
 ### Added

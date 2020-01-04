@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.11.2 - 2019-12-30
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#207](https://github.com/zendframework/zend-http/pull/207) fixes case sensitivity for SameSite directive.
+
 ## 2.11.1 - 2019-12-04
 
 ### Added

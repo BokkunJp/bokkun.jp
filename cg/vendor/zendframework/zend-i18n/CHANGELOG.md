@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.10.1 - 2019-12-12
+
+### Added
+
+- [#130](https://github.com/zendframework/zend-i18n/pull/130) adds support for PHP 7.4.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#129](https://github.com/zendframework/zend-i18n/pull/129) fixes Hungarian PhoneNumber validator (mobile numbers starting from 50).
+
 ## 2.10.0 - 2019-11-18
 
 ### Added
