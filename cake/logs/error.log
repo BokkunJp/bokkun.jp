@@ -1,0 +1,646 @@
+2019-12-18 13:28:43 Warning: DebugKit is disabling itself as your host `bokkun.jp.project` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 13:28:43 Warning: DebugKit is disabling itself as your host `bokkun.jp.project` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 13:28:43 Warning: DebugKit is disabling itself as your host `bokkun.jp.project` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 13:28:58 Warning: DebugKit is disabling itself as your host `bokkun.jp.project` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 13:28:58 Warning: DebugKit is disabling itself as your host `bokkun.jp.project` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 13:28:58 Warning: DebugKit is disabling itself as your host `bokkun.jp.project` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:05 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:05 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:05 Error: [Cake\Http\Exception\MissingControllerException] Controller class Tutorial could not be found. in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Controller/ControllerFactory.php on line 155
+Exception Attributes: array (
+  'class' => 'Tutorial',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => NULL,
+)
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Controller/ControllerFactory.php:46
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:227
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:77
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:77
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Middleware/CsrfProtectionMiddleware.php:123
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:58
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php:162
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php:68
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php:118
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/debug_kit/src/Middleware/DebugKitMiddleware.php:60
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:58
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:90
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+Request URL: /Tutorial
+Client IP: 111.89.121.80
+
+
+2019-12-18 14:15:05 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:08 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:08 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:08 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:46 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:46 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:46 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:47 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:47 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:47 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:58 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:58 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:58 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:59 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:59 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:15:59 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:16:37 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:16:37 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:16:37 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:16:39 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:16:39 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:16:39 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:18:52 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:18:52 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:18:52 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:18:53 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:18:53 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:18:53 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:19:25 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:19:25 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:19:25 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:21:02 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:21:02 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:21:02 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:23:21 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:23:21 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:23:21 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:23:35 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:23:35 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:23:35 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:24:54 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:24:54 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:24:54 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:25:46 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:25:46 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:25:46 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:25:48 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:25:48 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:25:48 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:30:26 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:30:26 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:30:26 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:30:27 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:30:27 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:30:27 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:30:28 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:30:28 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:30:28 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:30:51 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:30:52 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:31:55 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:31:57 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:32:06 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:32:08 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:32:47 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:32:48 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:32:51 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:32:52 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:34:19 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:34:36 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:34:36 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:34:36 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:22 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:22 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:22 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:24 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:24 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:24 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:29 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:29 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:29 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:30 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:30 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:30 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:33 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:33 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:35:33 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:36:38 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:36:38 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:36:38 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:37:59 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:38:00 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:38:30 Warning: Warning (512): Unable to emit headers. Headers sent in file=/virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php line=89 in [/virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/ResponseEmitter.php, line 72]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 178
+Cake\Http\ResponseEmitter::emit() - CORE/src/Http/ResponseEmitter.php, line 72
+Cake\Error\ErrorHandler::_sendResponse() - CORE/src/Error/ErrorHandler.php, line 212
+Cake\Error\ErrorHandler::_displayException() - CORE/src/Error/ErrorHandler.php, line 139
+Cake\Error\BaseErrorHandler::handleException() - CORE/src/Error/BaseErrorHandler.php, line 211
+[main] - [internal], line ??
+
+
+
+2019-12-18 14:38:30 Warning: Warning (2): Cannot modify header information - headers already sent by (output started at /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:89) in [/virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/ResponseEmitter.php, line 169]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 178
+header - [internal], line ??
+Cake\Http\ResponseEmitter::emitStatusLine() - CORE/src/Http/ResponseEmitter.php, line 169
+Cake\Http\ResponseEmitter::emit() - CORE/src/Http/ResponseEmitter.php, line 75
+Cake\Error\ErrorHandler::_sendResponse() - CORE/src/Error/ErrorHandler.php, line 212
+Cake\Error\ErrorHandler::_displayException() - CORE/src/Error/ErrorHandler.php, line 139
+Cake\Error\BaseErrorHandler::handleException() - CORE/src/Error/BaseErrorHandler.php, line 211
+[main] - [internal], line ??
+
+
+
+2019-12-18 14:38:30 Warning: Warning (2): Cannot modify header information - headers already sent by (output started at /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:89) in [/virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/ResponseEmitter.php, line 198]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 178
+header - [internal], line ??
+Cake\Http\ResponseEmitter::emitHeaders() - CORE/src/Http/ResponseEmitter.php, line 198
+Cake\Http\ResponseEmitter::emit() - CORE/src/Http/ResponseEmitter.php, line 76
+Cake\Error\ErrorHandler::_sendResponse() - CORE/src/Error/ErrorHandler.php, line 212
+Cake\Error\ErrorHandler::_displayException() - CORE/src/Error/ErrorHandler.php, line 139
+Cake\Error\BaseErrorHandler::handleException() - CORE/src/Error/BaseErrorHandler.php, line 211
+[main] - [internal], line ??
+
+
+
+2019-12-18 14:38:30 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 167 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:167
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:40:42 Warning: Warning (512): Unable to emit headers. Headers sent in file=/virtual/bokkun/public_html/bokkun.jp/cake4/config/app.php line=9 in [/virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/ResponseEmitter.php, line 72]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 178
+Cake\Http\ResponseEmitter::emit() - CORE/src/Http/ResponseEmitter.php, line 72
+Cake\Error\ErrorHandler::_sendResponse() - CORE/src/Error/ErrorHandler.php, line 212
+Cake\Error\ErrorHandler::_displayException() - CORE/src/Error/ErrorHandler.php, line 139
+Cake\Error\BaseErrorHandler::handleException() - CORE/src/Error/BaseErrorHandler.php, line 211
+[main] - [internal], line ??
+
+
+
+2019-12-18 14:40:42 Warning: Warning (2): Cannot modify header information - headers already sent by (output started at /virtual/bokkun/public_html/bokkun.jp/cake4/config/app.php:9) in [/virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/ResponseEmitter.php, line 169]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 178
+header - [internal], line ??
+Cake\Http\ResponseEmitter::emitStatusLine() - CORE/src/Http/ResponseEmitter.php, line 169
+Cake\Http\ResponseEmitter::emit() - CORE/src/Http/ResponseEmitter.php, line 75
+Cake\Error\ErrorHandler::_sendResponse() - CORE/src/Error/ErrorHandler.php, line 212
+Cake\Error\ErrorHandler::_displayException() - CORE/src/Error/ErrorHandler.php, line 139
+Cake\Error\BaseErrorHandler::handleException() - CORE/src/Error/BaseErrorHandler.php, line 211
+[main] - [internal], line ??
+
+
+
+2019-12-18 14:40:42 Warning: Warning (2): Cannot modify header information - headers already sent by (output started at /virtual/bokkun/public_html/bokkun.jp/cake4/config/app.php:9) in [/virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/ResponseEmitter.php, line 198]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 178
+header - [internal], line ??
+Cake\Http\ResponseEmitter::emitHeaders() - CORE/src/Http/ResponseEmitter.php, line 198
+Cake\Http\ResponseEmitter::emit() - CORE/src/Http/ResponseEmitter.php, line 76
+Cake\Error\ErrorHandler::_sendResponse() - CORE/src/Error/ErrorHandler.php, line 212
+Cake\Error\ErrorHandler::_displayException() - CORE/src/Error/ErrorHandler.php, line 139
+Cake\Error\BaseErrorHandler::handleException() - CORE/src/Error/BaseErrorHandler.php, line 211
+[main] - [internal], line ??
+
+
+
+2019-12-18 14:40:42 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:42:09 Warning: Warning (512): Unable to emit headers. Headers sent in file=/virtual/bokkun/public_html/bokkun.jp/cake4/config/app.php line=9 in [/virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/ResponseEmitter.php, line 72]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 178
+Cake\Http\ResponseEmitter::emit() - CORE/src/Http/ResponseEmitter.php, line 72
+Cake\Error\ErrorHandler::_sendResponse() - CORE/src/Error/ErrorHandler.php, line 212
+Cake\Error\ErrorHandler::_displayException() - CORE/src/Error/ErrorHandler.php, line 139
+Cake\Error\BaseErrorHandler::handleException() - CORE/src/Error/BaseErrorHandler.php, line 211
+[main] - [internal], line ??
+
+
+
+2019-12-18 14:42:09 Warning: Warning (2): Cannot modify header information - headers already sent by (output started at /virtual/bokkun/public_html/bokkun.jp/cake4/config/app.php:9) in [/virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/ResponseEmitter.php, line 169]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 178
+header - [internal], line ??
+Cake\Http\ResponseEmitter::emitStatusLine() - CORE/src/Http/ResponseEmitter.php, line 169
+Cake\Http\ResponseEmitter::emit() - CORE/src/Http/ResponseEmitter.php, line 75
+Cake\Error\ErrorHandler::_sendResponse() - CORE/src/Error/ErrorHandler.php, line 212
+Cake\Error\ErrorHandler::_displayException() - CORE/src/Error/ErrorHandler.php, line 139
+Cake\Error\BaseErrorHandler::handleException() - CORE/src/Error/BaseErrorHandler.php, line 211
+[main] - [internal], line ??
+
+
+
+2019-12-18 14:42:09 Warning: Warning (2): Cannot modify header information - headers already sent by (output started at /virtual/bokkun/public_html/bokkun.jp/cake4/config/app.php:9) in [/virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/ResponseEmitter.php, line 198]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 178
+header - [internal], line ??
+Cake\Http\ResponseEmitter::emitHeaders() - CORE/src/Http/ResponseEmitter.php, line 198
+Cake\Http\ResponseEmitter::emit() - CORE/src/Http/ResponseEmitter.php, line 76
+Cake\Error\ErrorHandler::_sendResponse() - CORE/src/Error/ErrorHandler.php, line 212
+Cake\Error\ErrorHandler::_displayException() - CORE/src/Error/ErrorHandler.php, line 139
+Cake\Error\BaseErrorHandler::handleException() - CORE/src/Error/BaseErrorHandler.php, line 211
+[main] - [internal], line ??
+
+
+
+2019-12-18 14:42:09 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:43:00 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:43:32 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:43:35 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:43:48 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:43:49 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:44:31 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:50:34 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:50:34 Error: [TypeError] Argument 1 passed to Cake\Utility\Security::setSalt() must be of the type string, null given, called in /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php on line 164 in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Utility/Security.php on line 306
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/config/bootstrap.php:164
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:139
+- /virtual/bokkun/public_html/bokkun.jp/cake4/src/Application.php:43
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:110
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:79
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+
+
+2019-12-18 14:51:30 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:30 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:30 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:49 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:49 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:49 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:50 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:50 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:50 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:52 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:52 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:52 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:57 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:57 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:51:58 Error: [Cake\Http\Exception\MissingControllerException] Controller class Tutorial could not be found. in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Controller/ControllerFactory.php on line 155
+Exception Attributes: array (
+  'class' => 'Tutorial',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => NULL,
+)
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Controller/ControllerFactory.php:46
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:227
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:77
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:77
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Middleware/CsrfProtectionMiddleware.php:136
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:58
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php:162
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php:68
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php:118
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/debug_kit/src/Middleware/DebugKitMiddleware.php:60
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:58
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:90
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+Request URL: /Tutorial
+Client IP: 111.89.121.80
+
+
+2019-12-18 14:51:58 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:53:26 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:53:26 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:53:26 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:53:34 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:53:34 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:53:34 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:53:36 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:53:36 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:53:36 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:58:18 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:58:18 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 14:58:18 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 15:00:13 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 15:00:13 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 15:00:13 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 15:00:15 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 15:00:15 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 15:00:15 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 15:14:50 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 15:14:50 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-18 15:14:50 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 04:43:13 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 04:43:13 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 04:43:13 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 04:57:43 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 04:57:43 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 04:57:43 Error: [Cake\Http\Exception\MissingControllerException] Controller class Image could not be found. in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Controller/ControllerFactory.php on line 155
+Exception Attributes: array (
+  'class' => 'Image',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => NULL,
+)
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Controller/ControllerFactory.php:46
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:227
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:77
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:77
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Middleware/CsrfProtectionMiddleware.php:136
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:58
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php:162
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php:68
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php:118
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/debug_kit/src/Middleware/DebugKitMiddleware.php:60
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:58
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:90
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+Request URL: /image/send
+Client IP: 111.239.166.206
+
+
+2019-12-19 04:57:43 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 14:48:52 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 14:48:52 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 14:48:52 Error: [Cake\Http\Exception\MissingControllerException] Controller class Tutorial could not be found. in /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Controller/ControllerFactory.php on line 155
+Exception Attributes: array (
+  'class' => 'Tutorial',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => NULL,
+)
+Stack Trace:
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Controller/ControllerFactory.php:46
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/BaseApplication.php:227
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:77
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:77
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Middleware/CsrfProtectionMiddleware.php:136
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:58
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php:162
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php:68
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php:118
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/debug_kit/src/Middleware/DebugKitMiddleware.php:60
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:73
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Runner.php:58
+- /virtual/bokkun/public_html/bokkun.jp/cake4/vendor/cakephp/cakephp/src/Http/Server.php:90
+- /virtual/bokkun/public_html/bokkun.jp/cake4/webroot/index.php:40
+
+Request URL: /Tutorial
+Client IP: 111.89.121.80
+
+
+2019-12-19 14:48:52 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 16:14:11 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 16:14:11 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 16:14:11 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 17:04:48 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 17:04:48 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-19 17:04:48 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-20 05:58:23 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-20 05:58:23 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-20 05:58:23 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-20 15:29:16 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-20 15:29:16 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-20 15:29:16 Warning: DebugKit is disabling itself as your host `bokkun.jp` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-27 19:46:19 Warning: DebugKit is disabling itself as your host `bokkun.jp.project` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-27 19:46:19 Warning: DebugKit is disabling itself as your host `bokkun.jp.project` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2019-12-27 19:46:20 Warning: DebugKit is disabling itself as your host `bokkun.jp.project` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.

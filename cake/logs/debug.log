@@ -1,0 +1,16 @@
+2019-12-18 14:43:00 Notice: Notice (8): Undefined property: TypeError::$params in [/virtual/bokkun/public_html/bokkun.jp/cake4/templates/Error/error500.php, line 38]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 178
+include - ROOT/templates/Error/error500.php, line 38
+Cake\View\View::_evaluate() - CORE/src/View/View.php, line 1164
+Cake\View\View::_render() - CORE/src/View/View.php, line 1125
+Cake\View\View::render() - CORE/src/View/View.php, line 750
+Cake\Controller\Controller::render() - CORE/src/Controller/Controller.php, line 691
+Cake\Error\ExceptionRenderer::_outputMessage() - CORE/src/Error/ExceptionRenderer.php, line 369
+Cake\Error\ExceptionRenderer::render() - CORE/src/Error/ExceptionRenderer.php, line 248
+Cake\Error\ErrorHandler::_displayException() - CORE/src/Error/ErrorHandler.php, line 138
+Cake\Error\BaseErrorHandler::handleException() - CORE/src/Error/BaseErrorHandler.php, line 211
+[main] - [internal], line ??
+
+
+
