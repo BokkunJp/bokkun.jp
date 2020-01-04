@@ -230,7 +230,7 @@ class Session {
     public function Read($sessionElm = null) {
         if (!isset($_SESSION)) {
             $this->SessionStart();
-        } else
+        }
 
         $this->session = $_SESSION;
 
