@@ -39,3 +39,52 @@ function CreateRandom(int $length, string $type = 'security')
     }
     return $bytes;
 }
+
+/**
+ * FindFileName
+ * 親ディレクトリ・カレントディレクトリ以外のファイルを検索する
+ *
+ * @param  string $str
+ *
+ * @return bool|string
+ */
+function FindFileName($str)
+{
+    if (preg_match('/^.$/', $str) || preg_match('/^..$/', $str)) {
+        return false;
+    } else {
+        return $str;
+    }
+}
+
+/**
+ * DeleteData
+ * 対象のパスのディレクトリとファイルを削除する
+ * (ディレクトリ内にディレクトリがある場合、そのディレクトリも削除対象となる)
+ *
+ * @param  string $dirPath
+ *
+ * @return bool
+ */
+function DeleteData($dirPath)
+{
+    if (is_dir($dirPath)) {
+        foreach (scandir($dirPath) as $_file) {
+            if (FindFileName($_file) && is_file($_file)) {
+                unlink(AddPath($dirPath, $_file, false));
+            } else if ((FindFileName($_file) && !is_file($_file))) {
+                if (file_exists(AddPath($dirPath, $_file))) {
+                    DeleteData(AddPath($dirPath, $_file));
+                } else {
+                    unlink(AddPath($dirPath, $_file, false));
+                }
+            }
+        }
+
+        rmdir($dirPath);
+    } else {
+        return false;
+    }
+
+    return true;
+}

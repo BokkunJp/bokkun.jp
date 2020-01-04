@@ -24,6 +24,8 @@ foreach ($post as $post_key => $post_value) {
     $judge[$$post_key] = $post_value;
 }
 
+$pathList = ['php', 'js', 'css', 'image'];
+
 if (isset($edit) && $edit === 'edit' && empty($delete)) {
     // 編集モード
     if (empty($title)) {
@@ -36,7 +38,6 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
         echo $title;
         $adminError->UserError('未記入の項目があります。');
     } else {
-        $pathList = ['php', 'js', 'css', 'image'];
         // ファイル存在チェック
         foreach ($pathList as $_pathList) {
             $client = $basePath . '/public/';
@@ -53,7 +54,6 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
                 }
             }
         }
-        $mode = 'edit';
     }
     if (preg_match('/^[a-zA-Z][a-zA-Z+-_]*/', $title) === 0) {
         $adminError->UserError('タイトルに無効な文字が入力されています。');
@@ -63,66 +63,60 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
 } else if (empty($edit) && isset($delete) &&  $delete === 'delete') {
     // 削除モード
     $adminError->Confirm('削除してもよろしいですか？');
-    $mode = 'delete';
 } else {
     // その他（不正値）
     if (!isset($session['addition'])) {
         $session['addition'] = $post;
         $_SESSION = $session;
     }
-    var_dump($edit);
-    die;
     unset($session);
     unset($post);
     $adminError->UserError('不正な値が入力されました。');
 }
-$adminError->Maintenance();
+// $adminError->Maintenance();
 
 chdir($basePath);
-// フォルダ・ファイル名の変更
 foreach ($pathList as $_pathList) {
     if ($_pathList === 'php') {
         chdir("public/");
+        if (isset($delete)) {
+            // 削除モード
+            DeleteData(AddPath(getcwd(), $select));
+
+        } else if (isset($edit)) {
+            // 編集モード
+        } else {
+            // どちらでもない
+            $adminError->UserError("不正な遷移です。");
+        }
     } else {
-        if ($_pathList === 'js') {
+        if ($_pathList !== 'php' && empty($client)) {
             $client = "client/";
             $adminPath .= '/' . $client;
         } else {
             $client = "../";
         }
-        chdir("$client $_pathList");               // パスの移動
-    }
-    // ファイル名変更の場合
-
-
-    // ファイル削除の場合
-    // mkdir($title);
-    // if (file_exists("$title") === false) {         // ディレクトリ作成
-    //     $$adminError->UserError('ページの作成に失敗しました。');
-    // }
-
-    if ($_pathList === 'image') {
-        break;
-    }
-
-    if ($_pathList === 'css') {
-        $fileName = 'design';
-    } else {
-        $fileName = 'index';
-    }
-    copy("$baseFileName/$fileName.$_pathList", "$title/$fileName.$_pathList");            // フォルダ内のindex.php作成
-    if ($_pathList === 'php') {
-        var_dump("/$baseFileName/design.php");
-        // copy("$baseFileName/design.php", "$title/design.php");          // フォルダ内のdesgin.php作成
-        if ($use_smarty === 'on') {
-            // copy("$baseFileName/index.tpl", "$title/index.tpl");        // smarty設定時、index.tpl作成
+        chdir("{$client}{$_pathList}");               // パスの移動
+        if (isset($delete)) {
+            // 削除モード
+            DeleteData(AddPath(getcwd(), $select));
+        } else if (isset($edit)) {
+            // 編集モード
         } else {
-            // mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
+            // どちらでもない
+            $adminError->UserError("不正な遷移です。");
         }
     }
 }
-$use->Alert('ページを作成しました。');
+
+if (isset($edit)) {
+    $use->Alert('ページを編集しました。');
+}else if (isset($delete)) {
+    $use->Alert('ページを削除しました。');
+}
 session_destroy();
+
+// 削除用の関数群
 
 class AdminError
 {
@@ -132,11 +126,13 @@ class AdminError
         $this->use = new \PrivateTag\UseClass();
     }
 
-    public function UserError($message)
+    public function UserError($message, $exit_flg=true)
     {
         $this->use->Alert($message);
         $this->use->BackAdmin('create');
-        exit;
+        if ($exit_flg === true) {
+            exit;
+        }
     }
 
     public function Alert($message)

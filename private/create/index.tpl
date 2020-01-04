@@ -3,14 +3,14 @@
   <input type='radio' name='type' value='default' {if isset($session.type) } {if $session.type == 'default'}checked = "cehcked"{/if}{/if} /> デフォルト
   <input type='radio' name='type' value='custom' {if isset($session.type) } {if $session.type == 'custom'}checked = "cehcked"{/if}{/if} /> カスタマイズ
   <p>使用するテンプレートエンジン<br/>
-     smarty <input type='radio' name='use_template_engine' value='smarty' {if isset($session.use_template_engine) } {if $session.use_template_engine == 'on'}checked = "cehcked"{/if}{/if} />
+     smarty <input type='radio' name='use_template_engine' value='smarty' {if isset($session.use_template_engine) } {if $session.use_tezmplate_engine == 'on'}checked = "cehcked"{/if}{/if} />
      twig <input type='radio' name='use_template_engine' value='twig' {if isset($session.use_template_engine) } {if $session.use_template_engine == 'on'}checked = "cehcked"{/if}{/if} />
      使わない <input type='radio' name='use_template_engine' value='off' {if isset($session.use_template_engine) } {if $session.use_template_engine == 'off'}checked = "cehcked"{/if}{/if} /></p>
 タイトル： <input type='textbox' name='title' {if isset($session.title) } {if !empty($session.title)}value={$session.title}{/if}{/if} />
 <button type='submit' id='create'>ページの新規作成</button>
 </form>
 <br />
-<form action='./{$base}/' method='POST'>
+<form action='./{$base}/edit.php' method='POST'>
     <div><p2>編集</p2></div>
     <div class="warning">本機能は現在鋭意実装中です。</div>
     <select name='select'>
