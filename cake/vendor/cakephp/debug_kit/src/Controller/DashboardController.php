@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -19,13 +21,15 @@ use Cake\Http\Exception\NotFoundException;
 
 /**
  * Dashboard and common DebugKit backend.
+ *
+ * @property \DebugKit\Model\Table\RequestsTable $Requests
  */
 class DashboardController extends Controller
 {
     /**
      * Before filter handler.
      *
-     * @param \Cake\Event\Event $event The event.
+     * @param \Cake\Event\EventInterface $event The event.
      * @return void
      * @throws \Cake\Http\Exception\NotFoundException
      */
@@ -43,7 +47,7 @@ class DashboardController extends Controller
      * Dashboard.
      *
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException
+     * @throws \Cake\Http\Exception\NotFoundException
      */
     public function index()
     {

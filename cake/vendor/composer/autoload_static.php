@@ -49,6 +49,7 @@ class ComposerStaticInitdf314504915882c3c2e8cd5f266fc2f4
         ),
         'T' => 
         array (
+            'Twig\\Extra\\Markdown\\' => 20,
             'Twig\\' => 5,
         ),
         'S' => 
@@ -152,6 +153,10 @@ class ComposerStaticInitdf314504915882c3c2e8cd5f266fc2f4
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'Twig\\Extra\\Markdown\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/markdown-extra/src',
         ),
         'Twig\\' => 
         array (
@@ -357,10 +362,6 @@ class ComposerStaticInitdf314504915882c3c2e8cd5f266fc2f4
         ),
     );
 
-    public static $fallbackDirsPsr4 = array (
-        0 => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib',
-    );
-
     public static $prefixesPsr0 = array (
         'j' => 
         array (
@@ -370,25 +371,11 @@ class ComposerStaticInitdf314504915882c3c2e8cd5f266fc2f4
                 1 => __DIR__ . '/..' . '/josegonzalez/dotenv/tests',
             ),
         ),
-        'T' => 
-        array (
-            'Twig_' => 
-            array (
-                0 => __DIR__ . '/..' . '/twig/twig/lib',
-            ),
-        ),
         'D' => 
         array (
             'Detection' => 
             array (
                 0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced',
-            ),
-        ),
-        'A' => 
-        array (
-            'Aptoma' => 
-            array (
-                0 => __DIR__ . '/..' . '/aptoma/twig-markdown/src',
             ),
         ),
     );
@@ -982,7 +969,6 @@ class ComposerStaticInitdf314504915882c3c2e8cd5f266fc2f4
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitdf314504915882c3c2e8cd5f266fc2f4::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitdf314504915882c3c2e8cd5f266fc2f4::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInitdf314504915882c3c2e8cd5f266fc2f4::$fallbackDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInitdf314504915882c3c2e8cd5f266fc2f4::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitdf314504915882c3c2e8cd5f266fc2f4::$classMap;
 

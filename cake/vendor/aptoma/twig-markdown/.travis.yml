@@ -1,9 +1,0 @@
-language: php
-php:
-  - 7.1
-
-install:
-  - composer install -n
-
-before_script:
-  - mkdir -p build/logs

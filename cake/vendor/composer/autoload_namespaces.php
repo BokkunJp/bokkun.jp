@@ -7,7 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'josegonzalez\\Dotenv' => array($vendorDir . '/josegonzalez/dotenv/src', $vendorDir . '/josegonzalez/dotenv/tests'),
-    'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
-    'Aptoma' => array($vendorDir . '/aptoma/twig-markdown/src'),
 );
