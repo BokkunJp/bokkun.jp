@@ -42,13 +42,13 @@ img {
 }
 
 .footer {
+    position: absolute;
     color: #FFFF00;
     font-family: 'arial black';
     background-image: url("../image/metal01-768x576.jpg");
     background-size: 10px 150%;
     width: 100%;
     z-index: 1;
-    bottom: 0;
 }
 
 .footer_char {
