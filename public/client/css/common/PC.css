@@ -65,13 +65,12 @@ header {
 }
 
 .footer {
-    position: fixed;
+    position: absolute;
     color: #FFFF00;
     font-family: 'arial black';
     background-image: url("../../image/metal01-768x576.jpg");
     background-size: 10px 150%;
     width: 100%;
-    bottom: 0;
 }
 
 .footer_char {

@@ -36,13 +36,12 @@ img {
     background-size: 10px 150%;
 }
 
-.time {
+.date, .time {
     color: #111111;
     font-family: 'Mv Boli';
 }
 
 .footer {
-    position: fixed;
     color: #FFFF00;
     font-family: 'arial black';
     background-image: url("../image/metal01-768x576.jpg");
