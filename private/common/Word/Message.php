@@ -30,9 +30,13 @@ define('PRIVATE_CLIENT_DIR', PRIVATE_DIR . '/client');
 define('PRIVATE_CSS_DIR', PRIVATE_CLIENT_DIR . '/css');
 define('PRIVATE_JS_DIR', PRIVATE_CLIENT_DIR . '/js');
 define('PRIVATE_IMAGE_DIR', PRIVATE_CLIENT_DIR . '/image');
+
 // define('CSV_DIR', CLIENT_DIR . '/csv');
 define('PRIVATE_COMPONENT_DIR', PRIVATE_COMMON_DIR . '/Component');
 define('PRIVATE_LAYOUT_DIR', PRIVATE_COMMON_DIR . '/Layout');
 // define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 // define('NOW_PAGE', basename(getcwd()));
 // define('SECURITY_LENG', 32);
+
+// 公開側ファイル
+define('PUBLIC_IMAGE_DIR', DOCUMENT_ROOT . '/public/client/image/');

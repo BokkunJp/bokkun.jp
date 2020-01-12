@@ -1,56 +1,80 @@
-<?
-if (!$_SESSION) {
-    session_start();
-}
-?>
-<script>
-    history.replaceState('', '', '/private/FILE/');
-</script>
 <?php
-$homepageTitle = htmlspecialchars(basename(__DIR__));
+require_once __DIR__ . '/component/require.php';
+require_once dirname(__DIR__) . '/File.php';
+$files = PrivateSetting\Setting::GetFiles();
 
-require_once __DIR__. '/Layout/layout.php';
-require_once COMMON_DIR. '/Token.php';
-require_once dirname(__DIR__). '/File.php';
 
-echo '<div class=\'contents\' />';
+// ページ数取得
+$page = PrivateSetting\Setting::GetQuery('page');
+$str = 'private/FILE';
+$str .= !empty($page) ? "?page={$page}" : "";
 
-CheckToken('token', '不正な値が送信されました。<br/>');
+// セッション開始
 if (!isset($session)) {
-    $session = new PublicSetting\Session();
+    $session = new PrivateSetting\Session();
 }
 
-if (!empty(PublicSetting\Setting::GetQuery('mode')) && PublicSetting\Setting::GetQuery('mode') === 'del') {
+// tokenチェック
+$checkToken = CheckToken('token', false);
+// 不正tokenの場合は、エラーを出力して処理を中断。
+if ($checkToken === false) {
+    $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+    $url = new PrivateSetting\Setting();
+    header('Location:' . $url->GetUrl($str));
+    exit;
+}
+
+if (!empty(PrivateSetting\Setting::GetQuery('mode')) && PrivateSetting\Setting::GetQuery('mode') === 'del') {
     $count = 0;
-    foreach (PublicSetting\Setting::getPosts() as $post_key => $post_value) {
-        if (count($post_key)) {
-            $count++;
-        }
+    foreach (PrivateSetting\Setting::getPosts() as $post_key => $post_value) {
+        $count++;
     }
     if ($count > COUNT_START) {
         DeleteImage();
     } else {
-        echo '削除対象が選択されていないか、画像がありません。<br/>';
+        $session->Write('notice', '削除対象が選択されていないか、画像がありません。', 'Delete');
     }
-
+    if (!$session->Judge('notice')) {
+        $session->Write('success', ($count - COUNT_START) . '件の画像の削除に成功しました。', 'Delete');
+    }
 } else {
-    if (isset($file['file']) && is_uploaded_file($file['file']['tmp_name'])) {
-        ImportImage($file);
+    $result = ImportImage($files);
+
+    // アップロードに成功したファイルがなかった場合
+    if (empty($result['success'])) {
+        if (empty($result)) {
+            $session->Write('notice', FILE_NONE);
+        } else if ($result == FILE_COUNT_OVER) {
+            $session->Write('notice', FILE_COUNT_OVER_ERROR);
+        } else {
+            // 1枚以上アップロードに成功したファイルがあった場合
+            // 一度も発生しなかった結果パターンを除外
+            foreach ($result as $_key => $_filter) {
+                if (empty($_filter['count'])) {
+                    unset($result[$_key]);
+                }
+            }
+        }
     } else {
-        echo 'ファイルが存在しません。<br/>';
+        if (!empty($result['-1']['count'])) {
+            define('FILE_ERR_CONST', "{$result['-1']['count']}枚のファイル");
+            $session->Write('notice', FILE_ERR_CONST . FILE_NO_MATCH_FAIL);
+        }
+
+        if (!empty($result['fail']['count'])) {
+            define('FILE_FAIL_CONST', "{$result['fail']['count']}枚のファイル");
+            $session->Write('notice', FILE_FAIL_CONST . FILE_UPLOAD_FAIL);
+        }
+        if (!empty($result['success']['count'])) {
+            define('FILE_SUCCESS_CONST', "{$result['success']['count']}枚のファイル");
+            $session->Write('success', FILE_SUCCESS_CONST . FILE_UPLOAD_SUCCESS);
+        }
     }
 }
-
 @session_regenerate_id();
-$session->Add('token', sha1(session_id()));
+$session->Write('token', sha1(session_id()));
 // $session->FinaryDestroy();
+$url = new PrivateSetting\Setting();
+header('Location:' . $url->GetUrl($str));
 ?>
-
-<br />
-<a href='javascript:location.href = location;'>ファイル選択ページへ戻る</a>
-</div>
-        <div>
-            <?php require_once __DIR__. '/Layout/footer.php'; ?>
-        </div>
-    </body>
-</html>
+<!-- <script>window.location.href = 'https://bokkun.jp/public/FILE/';</script> -->

@@ -1,24 +1,5 @@
 <?php
-// require_once dirname(__DIR__) . "/common/Setting.php";
-
-require_once '../common.php';
-?>
-
-<?php
-$title = "FILEページ";
-$img = "crown-vector.jpg";
-?>
-<!DOCTYPE html>
-<html>
-
-<head>
-    <link rel="shortcut icon" href="./client/image/5959715.png">
-    <title><?php echo $title; ?></title>
-    <base href="../" />
-</head>
-
-<body>
-    <?php require_once('../common/layout.php'); ?>
-</body>
-
-</html>
+$title = '管理側 画像投稿画面';
+$homepageTitle = 'FILE';
+// レイアウト呼び出し
+require_once dirname(__DIR__) . '/common/layout.php';

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/common/Setting.php";
+require_once __DIR__ . "/common/require.php";
 require_once 'common.php';
 require_once dirname(__DIR__) . '/common/Component/Function.php';
 $title = '管理側コンテンツ一覧';

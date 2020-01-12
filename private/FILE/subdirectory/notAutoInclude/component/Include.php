@@ -1,62 +1,8 @@
 <?php
-
 /*
  * Subdirectoryディレクトリ以下のPHPファイルを一括で読み込む。
  */
-
-use PrivateSetting\Setting;
-
-$base = new Setting;
-// 必要なファイルの一括読み込み
-$pwd = PRIVATE_COMPONENT_DIR . '/';
-IncludeFiles($pwd);
-
-use \PrivateTag\CustomTagCreate as OriginTag;
-//JSファイル
-IncludeDirctories(PRIVATE_COMPONENT_DIR);
-// subdirectory内のphpファイルの読み込み (指定ディレクトリのみ)
-$subDirectryReadList = ['FILE'];
-if (in_array(basename(getcwd()), $subDirectryReadList)) {
-    IncludeFiles(AddPath(getcwd(), 'subdirectory'));
-}
-// 必要なjsファイルの読み込み
-$src = new OriginTag();
-$jsFiles = IncludeFiles(AddPath(PRIVATE_JS_DIR, 'common'), 'js', true);
-foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false), $_jsFile, false), 'common');
-    $src->TagExec(true);
-}
-
-$jsFiles = IncludeFiles(AddPath(AddPath(PRIVATE_JS_DIR, 'common'), 'time'), 'js', true);
-foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false), 'time'), $_jsFile, false), 'time');
-    $src->TagExec(true);
-}
-
-// 個別ディレクトリのjsファイルの読み込み
-$jsTitle = basename(getcwd());
-$jsFiles = IncludeFiles(AddPath(PRIVATE_JS_DIR, $jsTitle), 'js', true);
-if ($jsFiles !== NULL) {
-    foreach ($jsFiles as $_jsFile) {
-        $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $jsTitle, false), $_jsFile, false), $jsTitle);
-        $src->TagExec(true);
-    }
-    IncludeDirctories(addPath(PRIVATE_JS_DIR, basename(getcwd())));
-}
-
-
-
-/*
- *      対象ディレクトリ内のファイルをディレクトリごと一括で読み込む
- *      (ディレクトリが複数あった場合、ディレクトリ毎それぞれのファイルを読み込む)
- *      引数：
- *          $pwd:ディレクトリまでのパス
- *          $extension:拡張子
- *
- */
-
-function IncludeDirctories($pwd = '', $extension = 'php', $ret = false)
-{
+function IncludeDirctories($pwd = '', $extension = 'php', $ret = false) {
     // パスの指定がない場合は、カレントディレクトリ一覧を取得
     if (empty($pwd)) {
         $pwd = getcwd();
@@ -91,8 +37,7 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false)
  *
  */
 
-function IncludeFiles($pwd, $extension = 'php', $ret = false)
-{
+function IncludeFiles($pwd, $extension = 'php', $ret = false) {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
         return null;

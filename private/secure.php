@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/common/Setting.php";
+require_once __DIR__ . "/common/require.php";
 require_once 'common.php';
 if (empty($session)) {
     $session = SessionRead();

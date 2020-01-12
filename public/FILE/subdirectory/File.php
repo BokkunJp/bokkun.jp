@@ -56,87 +56,6 @@ function MoldFile($file, String $fileName)
     return $moldFiles;
 }
 
-
-/**
- * ImportImage
- * 画像をアップロードする
- *
- * @param  mixed $file
- *
- * @return void
- */
-function ImportImage() {
-    $upFiles = PublicSetting\Setting::GetFiles();
-    $imageDir = PUBLIC_IMAGE_DIR;
-
-    // データ成型
-    $moldFiles = MoldFile($upFiles, 'all-files');
-
-    // アップロード結果
-    $result = [];
-    // 成功パターン
-    $result['success'] = [];
-    $result['success']['count'] = 0;
-    // ファイルアップロード失敗パターン
-    $result['fail'] = [];
-    $result['fail']['count'] = 0;
-    // ファイルの種類が違うパターン
-    $result['-1'] = [];
-    $result['-1']['count'] = 0;
-    // その他、ファイルのアップロードに失敗したパターン
-    // ファイルサイズ系
-    // $result['size'] = [];
-    // ファイルがない
-    // $result['no-file'] = [];
-    // tmpディレクトリがない
-    // $result['tmp'] = [];
-
-    // ファイル数が規定の条件を超えた場合はアップロード中断
-    if (count($moldFiles) > FILE_COUNT_MAX) {
-        $result = FILE_COUNT_OVER;
-        return $result;
-    }
-
-    foreach ($moldFiles as $_files) {
-        if (!empty($_files) && $_files['error'] === UPLOAD_ERR_OK) {
-            $imgType = FileExif($_files['tmp_name']);
-        } else {
-            switch ($_files['error']) {
-                case UPLOAD_ERR_NO_FILE:
-                    return null;
-                    break;
-                case UPLOAD_ERR_INI_SIZE:
-                case UPLOAD_ERR_FORM_SIZE:
-
-                case UPLOAD_ERR_PARTIAL:
-                case UPLOAD_ERR_NO_TMP_DIR:
-                case UPLOAD_ERR_CANT_WRITE:
-                case UPLOAD_ERR_EXTENSION:
-                    $result['fail']['count']++;
-                break;
-            }
-            continue;
-        }
-
-        if (is_numeric($imgType)) {
-            if (move_uploaded_file($_files['tmp_name'], $imageDir . '/FILE/' . $_files['name'])) {
-                // $result['success'][$_files['name']] = true;
-                $result['success']['count']++;
-            } else {
-                // $result['fail'][$_files['name']] = false;
-                $result['fail']['count']++;
-            }
-        } else {
-            // $result['-1'][$_files['name']] = -1;
-            $result['-1']['count']++;
-        }
-    }
-
-
-    return $result;
-
-}
-
 /**
  * LoadAllImageFile
  * 画像ファイル名を配列で一括取得する
@@ -289,27 +208,4 @@ function ErrorSet($errMsg = ERRMessage) {
     $prevLink->TagExec(true);
     $prevLink->SetHref("./FILE/", PREVIOUS, 'page', true, '_self');
 
-}
-
-/**
- * DeleteImage
- * 画像を一括削除する
- *
- * @return void
- */
-function DeleteImage() {
-    $post = PublicSetting\Setting::getPosts();
-    $fileList = LoadAllImageFile();
-    $count = 0;
-    foreach ($post as $post_key => $post_value) {
-        if ($post_key !== 'token' && $post_key !== 'delete') {
-            $count++;
-            if (in_array($post_value, $fileList)) {
-                if (!rename(PUBLIC_IMAGE_DIR . '/FILE/' . $post_value, PUBLIC_IMAGE_DIR . '/FILE/_old/' . $post_value) === true) {
-                    return false;
-                }
-            }
-        }
-    }
-    return true;
 }

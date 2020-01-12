@@ -15,6 +15,7 @@
         </div>
     </div>
 
-    <div class='time' align="right"><?php echo date('20y-m-d'); ?></div>
-    <hr />
+    <div class='date' align="right"></div>
+    <div class='time' align="right"></div>
+    <hr class="top_hr" />
 </header>

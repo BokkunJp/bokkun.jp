@@ -12,8 +12,8 @@
 function ViewImage($imageName, $imageUrl, $fileTime) {
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
-    echo "<a href='$imageUrl/FILE/$imageName' target='new'><img src='$imageUrl/FILE/$imageName' title='$imageName' width=400px height=400px /></a>";
-    echo "<label><input type='checkbox' name='$imageName' value='$imageName' /><span>削除する</span></label> <br/>";
+    echo "<a href='$imageUrl/FILE/$imageName' target='new'><img src='$imageUrl/FILE/$imageName' title='$imageName' width=400px height=400px /></a> <br/>";
+    // echo "<label><input type='checkbox' name='$imageName' value='$imageName' /><span>削除する</span></label> <br/>";
     echo 'アップロード日時: ' . date('Y/m/d H:i:s', $fileTime) . '<br/><br/>';
 }
 

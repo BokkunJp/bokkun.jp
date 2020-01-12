@@ -1,12 +1,4 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-if (!isset($_SESSION)) {
-    session_start();
-}
 require_once dirname(dirname(__DIR__)) . '/common/Component/Tag.php';
 define("MAX_LENGTH", 32);
 
@@ -62,7 +54,7 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
     }
 } else if (empty($edit) && isset($delete) &&  $delete === 'delete') {
     // 削除モード
-    $adminError->Confirm('削除してもよろしいですか？');
+    // $adminError->Confirm('削除してもよろしいですか？');
 } else {
     // その他（不正値）
     if (!isset($session['addition'])) {

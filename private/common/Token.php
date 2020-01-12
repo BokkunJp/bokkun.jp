@@ -24,12 +24,12 @@ function MakeToken()
  */
 function SetToken($token = null)
 {
-    $session = new PublicSetting\Session();
+    $session = new PrivateSetting\Session();
 
     if (!isset($token)) {
         $token = MakeToken();
     }
-    $session->Add('token', $token);
+    $session->Write('token', $token);
 }
 
 /**
@@ -45,8 +45,8 @@ function SetToken($token = null)
  */
 function CheckToken($tokenName = 'token', $finishFlg = true, $errMessage = '２度目以降のアクセスか、直接アクセスは禁止しています。<br/>', $pageMessage = '<br /><a href=\'javascript:location.href = location;\'>前のページへ戻る</a>')
 {
-    $post = PublicSetting\Setting::GetPosts();
-    $session = new PublicSetting\Session();
+    $post = PrivateSetting\Setting::GetPosts();
+    $session = new PrivateSetting\Session();
 
     // $post['deb_flg'] = 1;
     if (isset($post['deb_flg'])) {

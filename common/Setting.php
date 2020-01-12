@@ -150,3 +150,160 @@ class Setting {
     }
 
 }
+
+// セッションクラス
+class Session
+{
+
+    private $init;
+    private $session;
+
+    function __construct()
+    {
+        $this->Read();
+        $this->init = $this->session;
+    }
+
+    private function SessionStart()
+    {
+        if (!isset($_SESSION) || session_status() === PHP_SESSION_DISABLED) {
+            session_start();
+        } else {
+            // セッションが定義されている場合は更新
+            session_regenerate_id();
+        }
+    }
+
+    // セッションの追加
+    private function Add($sessionElm, $sessionVal)
+    {
+        $this->session[$sessionElm] = $sessionVal;
+        $_SESSION = $this->session;
+    }
+
+    // セッションの書き込み
+    public function Write($tag, $message, $handle = null)
+    {
+        if (!empty($handle)) {
+            $this->$handle();
+        }
+        $this->Add($tag, $message);
+    }
+
+    public function Read($sessionElm = null)
+    {
+        if (!isset($_SESSION)) {
+            $this->SessionStart();
+        }
+
+        $this->session = $_SESSION;
+
+        if (isset($sessionElm)) {
+            return $this->session[$sessionElm];
+        } else {
+            return $this->session;
+        }
+    }
+
+    public function Delete($sessionElm = null)
+    {
+        if (!isset($_SESSION)) {
+            trigger_error('Session is already deleted.', E_USER_ERROR);
+            exit;
+        }
+        if (isset($sessionElm)) {
+            unset($this->session[$sessionElm]);
+            $_SESSION = $this->session;
+        } else {
+            unset($this->session);
+            $this->session = $this->init;
+        }
+    }
+
+    // セッション閲覧用
+    public function View($id = null)
+    {
+        if (isset($id)) {
+            if (isset($this->session[$id])) {
+                echo $this->session[$id];
+            } else {
+                return false;
+            }
+        } else {
+            var_dump($this->session);
+        }
+        return true;
+    }
+
+    // セッション判定用
+    public function Judge($id = null)
+    {
+        if (!isset($id)) {
+            return null;
+        }
+
+        if (!isset($this->session[$id])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // セッション参照後、該当のセッションを削除する
+    public function OnlyView($tag)
+    {
+        if ($this->Judge($tag) === true) {
+            $this->View($tag);
+            $this->Delete($tag);
+        }
+    }
+
+    // セッションの完全な破棄
+    public function FinaryDestroy()
+    {
+        session_unset();
+
+        // セッションを切断するにはセッションクッキーも削除する。
+        // Note: セッション情報だけでなくセッションを破壊する。
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time() - 42000, '/');
+        }
+
+        // 最終的に、セッションを破壊する
+        session_destroy();
+    }
+}
+
+// Cookieクラス
+class Cookie
+{
+    private $cookie;
+    function __construct()
+    {
+        $this->Init();
+    }
+
+    private function Init()
+    {
+        foreach ($_COOKIE as $_key => $_val) {
+            setcookie($_key, "", time() - 100);
+        }
+        unset($_COOKIE);
+        $this->cookie = null;
+    }
+
+    public function GetCookie()
+    {
+        $this->cookie = $_COOKIE;
+    }
+
+    public function SetCookie($name, $val = null)
+    {
+        setCookie($val, $name);
+    }
+
+    public function ViewCookie()
+    {
+        print_r($this->cookie);
+    }
+}

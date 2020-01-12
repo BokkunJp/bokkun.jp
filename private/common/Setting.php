@@ -11,19 +11,21 @@ $url = $http.$domain;
 $private = $url. '/private/';
 
 // 定数などの定義
-require dirname(__DIR__). DIRECTORY_SEPARATOR . 'common'. DIRECTORY_SEPARATOR . 'InitFunction.php';
-$messagePath = AddPath(dirname(__DIR__), 'common');
-$messagePath = AddPath($messagePath, 'Word');
-$messagePath = AddPath($messagePath, 'Message.php', false);
-require $messagePath;
-
-require_once AddPath(COMMON_DIR, "Config.php", false);
-$siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
-
 $Agent = $_SERVER['HTTP_USER_AGENT'];
 if (isset($_SERVER['HTTP_REFERER'])) {
     $referer = $_SERVER['HTTP_REFERER'];
 }
+
+$public = $url . '/public/';
+
+// 公開ファイル関係
+$client = $public . 'client/';
+$css = $client . 'css';
+$js = $client . 'js';
+$image = $client . 'image';
+
+define('IMAGE_URL', $image);
+
 function GetSelf_Admin() {
     return $_SERVER['PHP_SELF'];
 }
@@ -49,13 +51,17 @@ class Setting {
         $this->domain = $this->GetSERVER('SERVER_NAME');
         $this->url = $this->url . $this->domain;
         $this->public = $this->url . '/public/';
+        $this->private = $this->url. '/private/';
+
 
         // 公開パス関係
-        $this->client = $this->public . 'client/';
+        $this->client = $this->private . 'client/';
+        $this->publicClient = $this->public. 'public/';
         $this->css = $this->client . 'css';
         $this->js = $this->client . 'js';
         $this->image = $this->client . 'image';
         $this->csv = $this->client . 'csv';
+        $this->filepageImage = $this->publicClient. 'image';
     }
 
     private function InitSSL(&$http)
@@ -84,7 +90,7 @@ class Setting {
 
     static public function GetPropaty($elm)
     {
-        if (property_exists('PublicSetting\Setting', $elm) !== false) {
+        if (property_exists('PrivateSetting\Setting', $elm) !== false) {
             return $elm;
         } else {
             return null;
@@ -191,4 +197,18 @@ class Admin extends Setting {
     {
         return $_SERVER['REQUEST_URI'];
     }
+}
+
+$commonPath = AddPath(dirname(dirname(__DIR__)), basename(__DIR__));
+
+require_once(AddPath($commonPath, 'Setting.php', false));
+
+// セッションクラス (公開側)
+class Session extends \CommonSetting\Session
+{
+}
+
+// クッキークラス (公開側)
+class Cookie extends \CommonSetting\Cookie
+{
 }
