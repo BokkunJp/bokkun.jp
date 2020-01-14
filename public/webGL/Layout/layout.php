@@ -18,9 +18,9 @@ $img = "crown-vector.jpg";
     <link rel="stylesheet" type="text/css" href="<?php echo $public; ?>client/css/common/<?php echo $agentCode; ?>.css">
     <div class="container">
         <?php require_once('header.php'); ?>
-        <div class='contents'>
+        <main class="contents">
             <?php require_once('design.php'); ?>
-        </div>
+        </main>
             <?php require_once('footer.php'); ?>
     </div>
 </body>

@@ -19,9 +19,7 @@ require_once __DIR__ . '/common/Component/Function.php';
 
 
 <body>
-    <div class='container'>
-        <?php require_once('./common/layout.php'); ?>
-    </div>
+    <?php require_once('./common/layout.php'); ?>
 </body>
 
 </html>

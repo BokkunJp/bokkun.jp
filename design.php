@@ -32,7 +32,7 @@ function SetToken() {
   スマートフォン・タブレットからのアクセス非推奨。<br />
   また、ガラケーは未対応です。
 </small>
-<nav>
+<div>
   <h1>サイト一覧</h1>
   <ul>
     <li>PHP</li>
@@ -71,4 +71,4 @@ function SetToken() {
     ?>
   </ol>
   <?php require_once "history.php" ?>
-</nav>
+  </div>

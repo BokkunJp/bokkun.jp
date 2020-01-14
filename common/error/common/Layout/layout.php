@@ -22,9 +22,9 @@ $img = "crown-vector.jpg";
      <body>
         <div class="container">
             <?php require_once('header.php'); ?>
-        <div class='contents'>
+        <main class="contents">
             <?php require_once('design.php'); ?>
-        </div>
+        </main>
             <?php require_once('footer.php'); ?>
         </div>
     </body>

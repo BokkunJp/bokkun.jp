@@ -22,8 +22,8 @@ switch ($statusCode) {
 <link rel="stylesheet" type="text/css" href="<?=$base->GetURL('', 'css')?>/design.css">
 <div class="container">
     <?php require_once('header.php'); ?>
-    <div class='contents'>
+    <main class="contents">
         <?php require_once(getcwd().'/design.php'); ?>
-    </div>
+    </main>
     <?php require_once('footer.php'); ?>
 </div>

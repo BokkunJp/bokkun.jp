@@ -23,12 +23,6 @@ body {
     height: 100%;
 }
 
-img {
-    /*    filter: alpha(opacity=50);
-    -moz-opacity:0.5;
-    opacity:0.5;*/
-}
-
 .header {
     position: static;
     background-image: url("../image/gold03.jpg");
@@ -41,14 +35,19 @@ img {
     font-family: 'Mv Boli';
 }
 
+.container {
+    min-height: 100%;
+}
+
 .footer {
-    position: absolute;
+    position: relative;
     color: #FFFF00;
     font-family: 'arial black';
     background-image: url("../image/metal01-768x576.jpg");
     background-size: 10px 150%;
     width: 100%;
     z-index: 1;
+    bottom: 0;
 }
 
 .footer_char {
