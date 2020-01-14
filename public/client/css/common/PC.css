@@ -58,7 +58,7 @@ header {
 }
 
 .footer {
-    position: relative;
+    position: absolute;
     color: #FFFF00;
     font-family: 'arial black';
     background-image: url("../../image/metal01-768x576.jpg");

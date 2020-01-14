@@ -21,39 +21,36 @@ $title = '管理側コンテンツ一覧';
 </head>
 
 <body>
-    <!-- #wrapper -->
-    <div class="wrapper">
+    <!-- container -->
+    <div class="container">
         <!-- header -->
         <?php require_once "./common/header.php" ?>
-        <!-- container -->
-        <div class="container">
-            <!-- content -->
-            <div class="content">
-                <form>
-                    <?php
-                    $notList = ['.', '..', 'Sample', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'reset.php', 'secure.php'];
-                    $dirList = scandir(__DIR__);
-                    $titleList = ['FILE' => '画像投稿', 'create' => 'ページ作成'];
-                    $notList = ListAdd($notList, $dirList, '.', 1);
-                    $notList = ListAdd($notList, $dirList, '_', 1);
+        <!-- content -->
+        <div class="content">
+            <form>
+                <?php
+                $notList = ['.', '..', 'Sample', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'reset.php', 'secure.php'];
+                $dirList = scandir(__DIR__);
+                $titleList = ['FILE' => '画像投稿', 'create' => 'ページ作成'];
+                $notList = ListAdd($notList, $dirList, '.', 1);
+                $notList = ListAdd($notList, $dirList, '_', 1);
 
-                    foreach ($dirList as $index => $_dir) {
-                        if (!in_array($_dir, $notList)) {
-                            echo "<li><a href=\"./$_dir/\" target=\"_new\">{$titleList[$_dir]}画面へ移動</a></li>";
-                        }
+                foreach ($dirList as $index => $_dir) {
+                    if (!in_array($_dir, $notList)) {
+                        echo "<li><a href=\"./$_dir/\" target=\"_new\">{$titleList[$_dir]}画面へ移動</a></li>";
                     }
-                    ?>
-                </form>
-                <form method="POST" action="./reset.php">
-                    <button type='submit'>セッションのリセット</button>
-                </form>
-            </div>
-            <!-- conent end -->
+                }
+                ?>
+            </form>
+            <form method="POST" action="./reset.php">
+                <button type='submit'>セッションのリセット</button>
+            </form>
         </div>
-        <!-- continer end -->
-        <?php require_once './common/footer.php'; ?>
+        <!-- conent end -->
     </div>
-    <!-- #wrapper end -->
+    <?php require_once './common/footer.php'; ?>
+    </div>
+    <!-- continer end -->
 </body>
 
 </html>

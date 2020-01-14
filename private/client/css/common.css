@@ -36,11 +36,18 @@ body {
 }
 
 .container {
+    position: relative;
     min-height: 100%;
+    height: auto;
+}
+
+.contents {
+    padding-bottom: 9vh;
+    margin-bottom: 0;
 }
 
 .footer {
-    position: relative;
+    position: absolute;
     color: #FFFF00;
     font-family: 'arial black';
     background-image: url("../image/metal01-768x576.jpg");
