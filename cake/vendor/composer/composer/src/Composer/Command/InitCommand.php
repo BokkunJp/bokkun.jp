@@ -402,7 +402,7 @@ EOT
         return $this->repos;
     }
 
-    final protected function determineRequirements(InputInterface $input, OutputInterface $output, $requires = array(), $phpVersion = null, $preferredStability = 'stable', $checkProvidedVersions = true, $fixed = false)
+    protected function determineRequirements(InputInterface $input, OutputInterface $output, $requires = array(), $phpVersion = null, $preferredStability = 'stable', $checkProvidedVersions = true)
     {
         if ($requires) {
             $requires = $this->normalizeRequirements($requires);
@@ -412,7 +412,7 @@ EOT
             foreach ($requires as $requirement) {
                 if (!isset($requirement['version'])) {
                     // determine the best version automatically
-                    list($name, $version) = $this->findBestVersionAndNameForPackage($input, $requirement['name'], $phpVersion, $preferredStability, null, null, $fixed);
+                    list($name, $version) = $this->findBestVersionAndNameForPackage($input, $requirement['name'], $phpVersion, $preferredStability);
                     $requirement['version'] = $version;
 
                     // replace package name from packagist.org
@@ -425,7 +425,7 @@ EOT
                     ));
                 } else {
                     // check that the specified version/constraint exists before we proceed
-                    list($name, $version) = $this->findBestVersionAndNameForPackage($input, $requirement['name'], $phpVersion, $preferredStability, $checkProvidedVersions ? $requirement['version'] : null, 'dev', $fixed);
+                    list($name, $version) = $this->findBestVersionAndNameForPackage($input, $requirement['name'], $phpVersion, $preferredStability, $checkProvidedVersions ? $requirement['version'] : null, 'dev');
 
                     // replace package name from packagist.org
                     $requirement['name'] = $name;
@@ -702,11 +702,10 @@ EOT
      * @param  string                    $preferredStability
      * @param  string|null               $requiredVersion
      * @param  string                    $minimumStability
-     * @param  bool                      $fixed
      * @throws \InvalidArgumentException
      * @return array                     name version
      */
-    private function findBestVersionAndNameForPackage(InputInterface $input, $name, $phpVersion, $preferredStability = 'stable', $requiredVersion = null, $minimumStability = null, $fixed = null)
+    private function findBestVersionAndNameForPackage(InputInterface $input, $name, $phpVersion, $preferredStability = 'stable', $requiredVersion = null, $minimumStability = null)
     {
         // find the latest version allowed in this pool
         $versionSelector = new VersionSelector($this->getPool($input, $minimumStability));
@@ -780,7 +779,7 @@ EOT
 
         return array(
             $package->getPrettyName(),
-            $fixed ? $package->getPrettyVersion() : $versionSelector->findRecommendedRequireVersion($package),
+            $versionSelector->findRecommendedRequireVersion($package),
         );
     }
 

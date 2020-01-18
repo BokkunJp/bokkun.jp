@@ -21,6 +21,7 @@ class Zip
      * Gets content of the root composer.json inside a ZIP archive.
      *
      * @param string $pathToZip
+     * @param string $filename
      *
      * @return string|null
      */
