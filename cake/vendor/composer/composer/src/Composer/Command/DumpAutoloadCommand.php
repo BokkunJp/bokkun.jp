@@ -63,11 +63,11 @@ EOT
         $apcu = $input->getOption('apcu') || $config->get('apcu-autoloader');
 
         if ($authoritative) {
-            $this->getIO()->write('<info>Generating optimized autoload files (authoritative)</info>');
+            $this->getIO()->writeError('<info>Generating optimized autoload files (authoritative)</info>', false);
         } elseif ($optimize) {
-            $this->getIO()->write('<info>Generating optimized autoload files</info>');
+            $this->getIO()->writeError('<info>Generating optimized autoload files</info>', false);
         } else {
-            $this->getIO()->write('<info>Generating autoload files</info>');
+            $this->getIO()->writeError('<info>Generating autoload files</info>', false);
         }
 
         $generator = $composer->getAutoloadGenerator();
@@ -78,11 +78,11 @@ EOT
         $numberOfClasses = $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $optimize);
 
         if ($authoritative) {
-            $this->getIO()->write('<info>Generated optimized autoload files (authoritative) containing '. $numberOfClasses .' classes</info>');
+            $this->getIO()->overwriteError('<info>Generated optimized autoload files (authoritative) containing '. $numberOfClasses .' classes</info>');
         } elseif ($optimize) {
-            $this->getIO()->write('<info>Generated optimized autoload files containing '. $numberOfClasses .' classes</info>');
+            $this->getIO()->overwriteError('<info>Generated optimized autoload files containing '. $numberOfClasses .' classes</info>');
         } else {
-            $this->getIO()->write('<info>Generated autoload files containing '. $numberOfClasses .' classes</info>');
+            $this->getIO()->overwriteError('<info>Generated autoload files containing '. $numberOfClasses .' classes</info>');
         }
 
         return 0;

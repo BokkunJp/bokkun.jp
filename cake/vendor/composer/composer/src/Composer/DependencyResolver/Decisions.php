@@ -183,7 +183,7 @@ class Decisions implements \Iterator, \Countable
 
         $previousDecision = isset($this->decisionMap[$packageId]) ? $this->decisionMap[$packageId] : null;
         if ($previousDecision != 0) {
-            $literalString = $this->pool->literalToPrettyString($literal, array());
+            $literalString = $this->pool->literalToString($literal);
             $package = $this->pool->literalToPackage($literal);
             throw new SolverBugException(
                 "Trying to decide $literalString on level $level, even though $package was previously decided as ".(int) $previousDecision."."

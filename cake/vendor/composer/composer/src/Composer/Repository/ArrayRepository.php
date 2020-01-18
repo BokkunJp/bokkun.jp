@@ -28,11 +28,6 @@ class ArrayRepository extends BaseRepository
 {
     /** @var PackageInterface[] */
     protected $packages;
-    
-    /** 
-      * @var PackageInterface[] indexed by package unique name and used to cache hasPackage calls
-      */
-    protected $packageMap;
 
     public function __construct(array $packages = array())
     {
@@ -126,14 +121,15 @@ class ArrayRepository extends BaseRepository
      */
     public function hasPackage(PackageInterface $package)
     {
-        if ($this->packageMap === null) {
-            $this->packageMap = array();
-            foreach ($this->getPackages() as $repoPackage) {
-                $this->packageMap[$repoPackage->getUniqueName()] = $repoPackage;
+        $packageId = $package->getUniqueName();
+
+        foreach ($this->getPackages() as $repoPackage) {
+            if ($packageId === $repoPackage->getUniqueName()) {
+                return true;
             }
         }
 
-        return isset($this->packageMap[$package->getUniqueName()]);
+        return false;
     }
 
     /**
@@ -155,9 +151,6 @@ class ArrayRepository extends BaseRepository
                 $this->addPackage($aliasedPackage);
             }
         }
-
-        // invalidate package map cache
-        $this->packageMap = null;
     }
 
     protected function createAliasPackage(PackageInterface $package, $alias, $prettyAlias)
@@ -177,9 +170,6 @@ class ArrayRepository extends BaseRepository
         foreach ($this->getPackages() as $key => $repoPackage) {
             if ($packageId === $repoPackage->getUniqueName()) {
                 array_splice($this->packages, $key, 1);
-
-                // invalidate package map cache
-                $this->packageMap = null;
 
                 return;
             }
