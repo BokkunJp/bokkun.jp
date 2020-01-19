@@ -1,5 +1,5 @@
 <?php
-require dirname(__DIR__). "/common/Setting.php";
+require __DIR__. "/common/require.php";
 require_once "common.php";
 ?>
 <!DOCTYPE html>

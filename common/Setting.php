@@ -190,6 +190,18 @@ class Session
         $this->Add($tag, $message);
     }
 
+    public function WriteArray($parentId, $childId, $data)
+    {
+        if ($this->Read($parentId) != NULL) {
+            $tmp = $this->Read($parentId);
+        } else {
+            $tmp = [];
+        }
+
+        $tmp[$childId] = $data;
+        $this->Write($parentId, $tmp);
+    }
+
     public function Read($sessionElm = null)
     {
         if (!isset($_SESSION)) {
@@ -199,6 +211,9 @@ class Session
         $this->session = $_SESSION;
 
         if (isset($sessionElm)) {
+            if (!isset($this->session[$sessionElm])) {
+                return null;
+            }
             return $this->session[$sessionElm];
         } else {
             return $this->session;

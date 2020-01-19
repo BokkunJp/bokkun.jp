@@ -7,10 +7,9 @@
  */
 require_once ('../common/smarty/core.php');
 
-if (isset($session['addition'])) {
-    $smarty->assign('session', $session['addition']);
-    unset($session);
-    unset($_SESSION['addition']);
+if ($session->Judge('addition')) {
+    $smarty->assign('session', $session->Read('addition'));
+    $session->Delete('addition');
 }
 
 $dir = scandir('../../public/');

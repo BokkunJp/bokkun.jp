@@ -1,23 +1,18 @@
 <?php
-require_once __DIR__ . "/common/require.php";
-require_once 'common.php';
+require_once __DIR__. '/common/require.php';
 if (empty($session)) {
-    $session = SessionRead();
-} else {
-    $session['admin']['send'] = true;
-}
-if (empty($session['admin'])) {
-    $session['admin'] = array();
+    $session = new PrivateSetting\Session();
 }
 
-if (!isset($adminURL) || empty($adminURL) && $session['admin']['send'] !== true) {
-    $adminURL = explode('/', PrivateSetting\GetSelf_Admin());
-    $session['admin']['adminURL'] = $adminURL;
-} else {
-    $adminURL = $session['admin']['adminURL'];
-    unset($session['admin']['adminURL']);
+if (!$session->Judge('admin')) {
+    $session->Write('admin', []);
 }
-SessionWrite($session);
+if (!isset($adminURL) || empty($adminURL) && $session->Read('admin')['send'] !== true) {
+    $adminURL = explode('/', PrivateSetting\GetSelf_Admin());
+    $session->WriteArray('admin', 'adminURL', $adminURL);
+} else {
+    $adminURL = $session->Read('admin')['adminURL'];
+}
 $page = MovePage();
 $refererArray = [$adminURL];
 $referer = end($refererArray);
@@ -57,24 +52,20 @@ if (!empty($post)) {
 if ((!($adminAuth) && !($guestAuth))) {
     if (!empty($post)) {
         echo '<p>IDまたはパスワードが違います。</p>';
-        unset($session['admin']);
+        $session->Delete('admin');
     }
     exit;
 } else {
-    if (!isset($session['id'])) {
-        $session['id'] = $post['id'];
-        SessionWrite($session);
+    if (!$session->Judge('id')) {
+        $session->Write('id', $post['id']);
     }
 
-    if (!isset($session['old_id'])) {
-        $session['old_id'] = $session['id'];
-        SessionWrite($session);
+    if (!$session->Judge('old_id')) {
+        $session->Write('old_id', $session->Read('id'));
     }
     echo "<p>認証に成功しました。以下のリンクから$page[message]へ移動できます。<br/>";
     echo "<a href='$url/private/$page[URL]'>$page[message]へ</a></p>";
-    $session['admin']['secure'] = true;
-    SessionAdd('old_id', $session['id']);
-    SessionAdd('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
-    SessionWrite($session);
-    unset($session);
+    $session->WriteArray('admin', 'secure', true);
+    $session->Write('old_id', $session->Read('id'));
+    $session->Write('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
 }

@@ -52,15 +52,15 @@ function SetToken() {
     ?>
   </ol>
   <ul>
-    <li>CakePHP3</li>
+    <li>CakePHP4</li>
   </ul>
   <ol>
     <?php
     $notList = [
-      '.', '..', 'Cell', 'Element', 'Email', 'Error', 'Layout',
+      '.', '..', 'cell', 'element', 'email', 'Error', 'layout',
       'Pages'
     ];
-    $dirList = scandir(__DIR__ . '/cake/src/Template');
+    $dirList = scandir(__DIR__ . '/cake/Templates');
     $notList = ListAdd($notList, $dirList, '_', 1);
 
     foreach ($dirList as $index => $_dir) {
