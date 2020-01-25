@@ -1,0 +1,22 @@
+body {
+    background-color: #FF7755;
+    color: #FFFFAA;
+}
+
+ul li {
+    list-style: none;
+}
+
+.label {
+    margin-right: 10px;
+    float: left;
+}
+
+.form {
+    margin-left: 1%;
+}
+
+:placeholder-shown {
+    color: #AAAAAA;
+    font-style: italic;
+}
