@@ -1,3 +1,0 @@
-#X-Frame-Options対策
-#Header always append X-Frame-Options ALLOW-FROM
-#RewriteRule ^(.*) "https://bokkun.jp/" [R=503,NC,L]

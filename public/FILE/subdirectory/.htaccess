@@ -1,4 +1,0 @@
-# .htaccessでRewriteを有効化する
-<IfModule mod_rewrite.c>
-RewriteEngine On
-</IfModule>
