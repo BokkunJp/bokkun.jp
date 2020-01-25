@@ -3090,24 +3090,24 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.10.1",
+            "version": "v1.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "cbe1df668b3fe136bcc909126a0f529a78d4cbbc"
+                "reference": "b4400efc9d206e83138e2bb97ed7f5b14b831cd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/cbe1df668b3fe136bcc909126a0f529a78d4cbbc",
-                "reference": "cbe1df668b3fe136bcc909126a0f529a78d4cbbc",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/b4400efc9d206e83138e2bb97ed7f5b14b831cd9",
+                "reference": "b4400efc9d206e83138e2bb97ed7f5b14b831cd9",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
                 "php": "^5.3|^7.0",
                 "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0|^5.0",
-                "sebastian/comparator": "^1.2.3|^2.0|^3.0",
-                "sebastian/recursion-context": "^1.0|^2.0|^3.0"
+                "sebastian/comparator": "^1.2.3|^2.0|^3.0|^4.0",
+                "sebastian/recursion-context": "^1.0|^2.0|^3.0|^4.0"
             },
             "require-dev": {
                 "phpspec/phpspec": "^2.5 || ^3.2",
@@ -3149,7 +3149,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2019-12-22T21:05:45+00:00"
+            "time": "2020-01-20T15:57:02+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -4220,16 +4220,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.0.2",
+            "version": "v5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "d7bc61d5d335fa9b1b91e14bb16861e8ca50f53a"
+                "reference": "ccb1be566ae15f790020f917f06d1da0b04fe47b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/d7bc61d5d335fa9b1b91e14bb16861e8ca50f53a",
-                "reference": "d7bc61d5d335fa9b1b91e14bb16861e8ca50f53a",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/ccb1be566ae15f790020f917f06d1da0b04fe47b",
+                "reference": "ccb1be566ae15f790020f917f06d1da0b04fe47b",
                 "shasum": ""
             },
             "require": {
@@ -4291,7 +4291,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2019-12-18T13:50:31+00:00"
+            "time": "2020-01-04T14:08:26+00:00"
         },
         {
             "name": "theseer/tokenizer",
