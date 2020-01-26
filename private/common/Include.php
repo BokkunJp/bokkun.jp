@@ -20,31 +20,10 @@ if (in_array(basename(getcwd()), $subDirectryReadList)) {
     IncludeFiles(AddPath(getcwd(), 'subdirectory'));
 }
 // 必要なjsファイルの読み込み
-$src = new OriginTag();
-$jsFiles = IncludeFiles(AddPath(PRIVATE_JS_DIR, 'common'), 'js', true);
-foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false), $_jsFile, false), 'common');
-    $src->TagExec(true);
-}
-
-$jsFiles = IncludeFiles(AddPath(AddPath(PRIVATE_JS_DIR, 'common'), 'time'), 'js', true);
-foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false), 'time'), $_jsFile, false), 'time');
-    $src->TagExec(true);
-}
-
-// 個別ディレクトリのjsファイルの読み込み
+IncludeJSFiles('common');
+IncludeJSFiles(AddPath('common', 'time'));
 $jsTitle = basename(getcwd());
-$jsFiles = IncludeFiles(AddPath(PRIVATE_JS_DIR, $jsTitle), 'js', true);
-if ($jsFiles !== NULL) {
-    foreach ($jsFiles as $_jsFile) {
-        $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $jsTitle, false), $_jsFile, false), $jsTitle);
-        $src->TagExec(true);
-    }
-    IncludeDirctories(addPath(PRIVATE_JS_DIR, basename(getcwd())));
-}
-
-
+IncludeJSFiles($jsTitle);
 
 /*
  *      対象ディレクトリ内のファイルをディレクトリごと一括で読み込む
@@ -119,5 +98,32 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false)
             $retList = [];
         }
         return $retList;
+    }
+}
+
+/*
+ *      対象ディレクトリ内のJSファイルを一括で読み込み、HTMLのscriptタグとして出力する
+ *      引数：
+ *          $pwd:ディレクトリまでのパス
+ *          (JSファイルが所定の場所に置いてあることを前提とする)
+ *          $extension:拡張子
+ *
+ */
+function IncludeJSFiles($pwd, $className = '', $ret = true)
+{
+    $src = new OriginTag();
+    $base = new PrivateSetting\Setting();
+    $jsFiles = IncludeFiles(AddPath(PRIVATE_JS_DIR, $pwd), 'js', $ret);
+    if ($jsFiles === NULL) {
+        return null;
+    }else if (is_array($jsFiles)) {
+        foreach ($jsFiles as $_jsFile) {
+            $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $_jsFile, false), $className);
+            $src->TagExec(true);
+        }
+    } else {
+        $jsFile = $jsFiles;
+        $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $jsFile, false), $className);
+        $src->TagExec(true);
     }
 }

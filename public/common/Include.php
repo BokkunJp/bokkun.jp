@@ -16,34 +16,10 @@ IncludeFiles(AddPath(getcwd(), 'subdirectory'));
 IncludeDirctories(PUBLIC_COMPONENT_DIR);
 
 // 必要なjsファイルの読み込み
-$src = new OriginTag();
-
-$jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, 'common', true, '/'), 'js', true, '/');
-foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false, '/'), $_jsFile, false, '/'), 'common', '/');
-    $src->TagExec(true);
-}
-
-$jsFiles = IncludeFiles(AddPath(AddPath(PUBLIC_JS_DIR, 'common', true, '/'), 'time', true, '/'), 'js', true);
-foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath(AddPath($base->GetUrl('', 'js'), 'common', false, '/'), 'time', true, '/'), $_jsFile, false, '/'), 'time',true , '/');
-    $src->TagExec(true);
-}
-
-// 個別ディレクトリのjsファイルの読み込み
+IncludeJSFiles('common');
+IncludeJSFiles(AddPath('common', 'time'));
 $jsTitle = basename(getcwd());
-$jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, $jsTitle), 'js', true);
-if (is_null($jsFiles)) {
-    return;
-}
-
-foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $jsTitle, false), $_jsFile, false), $jsTitle);
-    $src->TagExec(true);
-}
-
-
-IncludeDirctories(addPath(PUBLIC_JS_DIR, basename(getcwd())));
+IncludeJSFiles($jsTitle);
 
 
 /*
@@ -55,7 +31,7 @@ IncludeDirctories(addPath(PUBLIC_JS_DIR, basename(getcwd())));
  *
  */
 
-function IncludeDirctories($pwd = '', $extension = 'php', $ret = false) {
+function IncludeDirctories($pwd = '', $extension = 'php', $ret = false, $classLoad = false) {
     // パスの指定がない場合は、カレントディレクトリ一覧を取得
     if (empty($pwd)) {
         $pwd = getcwd();
@@ -68,7 +44,7 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false) {
     $dirList = scandir($pwd);           // ファイルリスト取得
     foreach ($dirList as $_dirList) {
         if (is_dir($_dirList) && !is_numeric(strpos($_dirList, '.'))) {
-            IncludeFiles(AddPath($pwd, $_dirList), $extension, false);
+            IncludeFiles(AddPath($pwd, $_dirList), $extension, $ret, $classLoad);
         }
     }
     if (isset($localPath)) {
@@ -90,11 +66,19 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false) {
  *
  */
 
-function IncludeFiles($pwd, $extension = 'php', $ret = false) {
+function IncludeFiles($pwd, $extension = 'php', $ret = false, $classLoad = false) {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
         return null;
     }
+
+    // クラスを読み込む場合は、spl_auto_registerを使う
+    if ($classLoad === true) {
+        return spl_autoload_register(function ($name) use ($pwd) {
+            require_once AddPath($pwd, "{$name}.php", false);
+        });
+    }
+
 
     $dirList = scandir($pwd);           // ファイルリスト取得
     $extension = '.' . $extension;       // 検索用
@@ -124,16 +108,24 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false) {
  *      対象ディレクトリ内のJSファイルを一括で読み込み、HTMLのscriptタグとして出力する
  *      引数：
  *          $pwd:ディレクトリまでのパス
+ *          (JSファイルが所定の場所に置いてあることを前提とする)
  *          $extension:拡張子
  *
  */
-function IncludeJSFiles($pwd, $ret = true) {
-$src = new OriginTag();
-$base = new PublicSetting\Setting();
-$jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, 'common'), 'js', true);
-foreach ($jsFiles as $_jsFile) {
-    $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), 'common'), $_jsFile, false), '', 'common');
-    $src->TagExec(true);
-}
-
+function IncludeJSFiles($pwd, $className='', $ret = true) {
+    $src = new OriginTag();
+    $base = new PublicSetting\Setting();
+    $jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, $pwd), 'js', $ret);
+    if ($jsFiles === NULL) {
+        return null;
+    } else if (is_array($jsFiles)) {
+        foreach ($jsFiles as $_jsFile) {
+            $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $_jsFile, false), $className);
+            $src->TagExec(true);
+        }
+    } else {
+        $jsFile = $jsFiles;
+        $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $jsFile, false), $className);
+        $src->TagExec(true);
     }
+}

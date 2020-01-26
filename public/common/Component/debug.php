@@ -1,5 +1,4 @@
 <?php
-IncludeFiles('../Tag.php');
 class DebugClass extends \BasicTag\HTMLClass {
   private $debug_tag, $message;
   function __construct($mode='detail') {
