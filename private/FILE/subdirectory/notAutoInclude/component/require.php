@@ -26,4 +26,4 @@ $ua = new UA\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 
 // ファイル読み込み処理
-require_once "Include.php";
+require_once AddPath(__DIR__, "include.php", false);
