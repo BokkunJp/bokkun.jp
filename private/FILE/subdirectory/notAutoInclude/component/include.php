@@ -38,11 +38,21 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false)
  *
  */
 
-function IncludeFiles($pwd, $extension = 'php', $ret = false)
+function IncludeFiles($pwd, $extension = 'php', $ret = false, Array $classLoad=[])
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
         return null;
+    }
+
+    // クラスを読み込む場合は、spl_auto_registerを使う
+    if (!empty($classLoad)) {
+        return spl_autoload_register(function () use ($pwd, $classLoad) {
+            while ($name = current($classLoad)) {
+                require_once AddPath($pwd, "{$name}.php", false);
+                next($classLoad);
+            }
+        });
     }
 
     $dirList = scandir($pwd);           // ファイルリスト取得
