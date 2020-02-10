@@ -18,6 +18,9 @@ function Convert($decData, $n) {
     return $octData;
 }
 
-function Output($str) {
-     echo  strpos($str, '');
+function Output($expression)
+{
+    print_r("<pre>");
+    print_r($expression);
+    print_r("</pre>");
 }

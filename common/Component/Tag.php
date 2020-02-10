@@ -12,7 +12,7 @@ class Base {
 
     protected function Initialize($init = false) {
         if ($init === true) {
-            $initArray = ['div', 'span'];
+            $initArray = ['div', 'span', 'pre'];
         } else {
             $initArray = [];
         }
