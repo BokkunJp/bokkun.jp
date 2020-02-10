@@ -18,9 +18,15 @@ function Convert($decData, $n) {
     return $octData;
 }
 
-function Output($expression)
+function Output($expression,$formatFlg=false)
 {
-    print_r("<pre>");
-    print_r($expression);
-    print_r("</pre>");
+    if ($formatFlg === true) {
+        print_r("<pre>");
+        print_r($expression);
+        print_r("</pre>");
+
+    } else {
+        print_r($expression);
+        print_r(nl2br("\n"));
+    }
 }
