@@ -151,7 +151,7 @@ class Setting {
 
 }
 
-// セッションクラス
+// セッションクラス (ファイルを分離予定)
 class Session
 {
 
@@ -174,14 +174,27 @@ class Session
         }
     }
 
-    // セッションの追加
+    /**
+     * セッションの追加 (プライベートクラス)
+     *
+     * @param [Strging] $sessionElm
+     * @param [mixed] $sessionVal
+     * @return void
+     */
     private function Add($sessionElm, $sessionVal)
     {
         $this->session[$sessionElm] = $sessionVal;
         $_SESSION = $this->session;
     }
 
-    // セッションの書き込み
+    /**
+     * セッションの書き込み
+     *
+     * @param [String] $tag
+     * @param [String] $message
+     * @param [mixed] $handle
+     * @return void
+     */
     public function Write($tag, $message, $handle = null)
     {
         if (!empty($handle)) {
@@ -190,6 +203,14 @@ class Session
         $this->Add($tag, $message);
     }
 
+    /**
+     * セッション配列の更新
+     *
+     * @param String $parentId
+     * @param String $childId
+     * @param mixed $data
+     * @return void
+     */
     public function WriteArray($parentId, $childId, $data)
     {
         if ($this->Read($parentId) != NULL) {
