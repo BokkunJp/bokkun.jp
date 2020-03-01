@@ -306,7 +306,7 @@ function DeleteImage() {
     if (!is_dir(PUBLIC_IMAGE_DIR . '/FILE/_old/')) {
         mkdir(PUBLIC_IMAGE_DIR . '/FILE/_old/');
     }
-    var_dump(is_dir(PUBLIC_IMAGE_DIR . '/FILE/_old/'));die;
+    // 指定されたファイルをすべて削除 (退避ディレクトリに追加)
     foreach ($post as $post_key => $post_value) {
         if ($post_key !== 'token' && $post_key !== 'delete') {
             $count++;
