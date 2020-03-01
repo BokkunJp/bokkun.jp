@@ -301,6 +301,12 @@ function DeleteImage() {
     $post = PrivateSetting\Setting::getPosts();
     $fileList = LoadAllImageFile();
     $count = 0;
+
+    // _oldディレクトリがない場合はディレクトリを生成
+    if (!is_dir(PUBLIC_IMAGE_DIR . '/FILE/_old/')) {
+        mkdir(PUBLIC_IMAGE_DIR . '/FILE/_old/');
+    }
+    var_dump(is_dir(PUBLIC_IMAGE_DIR . '/FILE/_old/'));die;
     foreach ($post as $post_key => $post_value) {
         if ($post_key !== 'token' && $post_key !== 'delete') {
             $count++;
