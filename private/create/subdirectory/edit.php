@@ -77,9 +77,9 @@ foreach ($pathList as $_pathList) {
             // 入力値のチェック
             $validate = ValidateData(getcwd(), $select);
             if ($validate === null) {
-                $adminError->UserError('ページ名が選択されていません。');
+                $adminError->UserError('ページが選択されていません。');
             } else if ($validate === false) {
-                $adminError->UserError('ページ名の指定が不正です。');
+                $adminError->UserError('ページの指定が不正です。');
             }
 
             DeleteData(AddPath(getcwd(), $select));
