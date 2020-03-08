@@ -7,12 +7,19 @@ $(function() {
  *  引数：
  *  戻り値：
  */
-function Main() {
-    // alert('jQuery動作確認');
+function Main ()
+{
+    $('button[name="delete"]').on('click', function (e)
+    {
+        if (!confirm( '本当に削除しますか？' ) )
+        {
+            return false;
+        }
+    } );
 }
 
 /*
- * 参考： 
+ * 参考：
 
  // DOM読み込み
 // $(function() {

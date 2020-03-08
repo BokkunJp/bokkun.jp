@@ -3,7 +3,6 @@ require_once __DIR__ . '/require.php';
 
 // $title = "テンプレート";
 $img = "crown-vector.jpg";
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,11 +13,11 @@ $img = "crown-vector.jpg";
     <title>管理側</title>
     <base href="../" />
     <link rel="shortcut icon" href="client/image/5959715.png">
-    <link rel="stylesheet" type="text/css" href="client/css/<?php echo $homepageTitle; ?>/design.css">
+    <link rel="stylesheet" type="text/css" href="/private/client/css/common.css">
+    <link rel="stylesheet" type="text/css" href="client/css/<?php echo basename(getcwd()); ?>/design.css">
 </head>
 
 <body>
-    <link rel="stylesheet" type="text/css" href="/private/client/css/common.css">
     <div class='container'>
         <?php require_once('header.php'); ?>
         <main class="contents">
