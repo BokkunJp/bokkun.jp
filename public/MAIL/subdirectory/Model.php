@@ -4,10 +4,11 @@ function SendMail($header, $response=false)
     if (!isset($header)) {
        return false;
     }
-    list($to, $title, $body, $addtional_headers, $addtional_parameter) = $header;
+    list($to, $title, $body, $from_name, $from_address) = $header;
 
     // 差出人名文字化け回避用
-    // $from_encoded_name = mb_encode_mimeheader($from_encoded_name, 'ISO-2022-JP-MS');
+    $from_name = mb_encode_mimeheader($from_name);
+    $addtional_headers ="From:{$from_name}<{$from_address}>";
 
     if (!isset($to) || empty($to)) {
         echo '入力が不正です。';
@@ -29,6 +30,7 @@ function SendMail($header, $response=false)
     if (!isset($addtional_parameter) || empty($addtional_parameter)) {
         $addtional_parameter = '';
     }
+
 
     if (mb_send_mail($to, $title, $body, $addtional_headers, $addtional_parameter)) {
         $message = 'メールを送信しました。';
