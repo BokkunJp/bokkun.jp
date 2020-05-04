@@ -1,26 +1,39 @@
 <?php
+
+use BasicTag\ScriptClass as ScriptClass;
+
 require_once 'Model.php';
 require_once PUBLIC_COMMON_DIR . '/Token.php';
 
-
+$script = new ScriptClass();
 $posts = PublicSetting\Setting::getPosts();
 
-if (!isset($posts) || empty($posts)) {
-    return -1;
+$valid = true;
+
+if (isset($posts) && !empty($posts)) {
+    $token = CheckToken('token');
+
+    if ($token === false) {
+        $script->Alert("不正な値が送信されました。");
+    } else {
+        $session = $_SESSION;
+
+        if (isset($session['mail']['send_flg']) && $session['mail']['send_flg'] === true) {
+            $closed = CheckToken('closed
+        ');
+
+            if ($closed === false) {
+                $script->Alert("本日はもうメール送信できません。");
+                $valid = false;
+            }
+        }
+
+        $session['mail']['send_flg'] = true;
+        $_SESSION = $session;
+
+        if ($valid === true) {
+            SendMail(['private.mail@bokkun.jp', $posts['title'], $posts['body'], 'ぼっくん', 'from.mail@bokkun.jp']);
+            $script->Alert("メールを送信しました。");
+        }
+    }
 }
-
-CheckToken('token', true, '不正な値が送信されました。<br/>');
-$session = $_SESSION;
-
-if (isset($session['mail']['send_flg']) && $session['mail']['send_flg'] === true) {
-    echo '';
-    CheckToken('closed
-    ', true, '本日はもうメール送信できません。<br/>');
-}
-
-$session['mail']['send_flg'] = true;
-$_SESSION = $session;
-
-SendMail(['private.mail@bokkun.jp', $posts['title'], $posts['body'], 'ぼっくん', 'from.mail@bokkun.jp']);
-
- echo '<script>alert("メールを送信しました。");</script>';

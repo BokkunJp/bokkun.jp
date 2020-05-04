@@ -1,4 +1,7 @@
 <?php
+
+use BasicTag\ScriptClass;
+
 function SendMail($header, $response=false)
 {
     if (!isset($header)) {
@@ -35,7 +38,8 @@ function SendMail($header, $response=false)
     if (mb_send_mail($to, $title, $body, $addtional_headers, $addtional_parameter)) {
         $message = 'メールを送信しました。';
     } else {
-      echo 'メールの送信に失敗しました。';
+        $script = new ScriptClass();
+        $script->Alert('メールの送信に失敗しました。');
     }
 
 }
