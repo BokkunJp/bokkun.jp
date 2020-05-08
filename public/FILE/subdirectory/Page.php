@@ -56,7 +56,7 @@ function GetPage() {
 function ViewPager($file, $imageUrl) {
     $nowPage = GetPage();
     $paging = GetPaging();
-    $maxPage = round(count($file) / $paging);
+    $maxPage = round(count($file) / $paging + 1);
     if ($nowPage === false || $nowPage > $maxPage) {
         $page = 1;
     } else {

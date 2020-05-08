@@ -144,7 +144,7 @@ function ReadImage($read_flg = 0) {
         // ソート用にデータを調整
         $sortAray = array();
         foreach ($fileList as $index => $_file) {
-            $sortAray[$index]['data'] = $_file;
+            $sortAray[$index]['name'] = $_file;
             $sortAray[$index]['time'] = filemtime(PUBLIC_IMAGE_DIR . '/FILE/' . $_file);
         }
 
@@ -173,7 +173,7 @@ function ShowImage($data, $imageUrl) {
         ErrorSet('ページの指定が不正です。');
         return false;
     } else {
-        $start = ($page - 1) * GetPaging() + 1;
+        $start = ($page - 1) * GetPaging();
     }
     $end = $start + GetPaging();
     if ($end > count($data)) {
@@ -187,9 +187,10 @@ function ShowImage($data, $imageUrl) {
     }
 
     for ($i = $start; $i < $end; $i++) {
-        $_file = $data[$i]['data'];
+        $_file = $data[$i]['name'];
         $_time = $data[$i]['time'];
         ViewImage($_file, $imageUrl, $_time);
+
     }
     ViewPager($data, $imageUrl);
 }
