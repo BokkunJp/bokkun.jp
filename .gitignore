@@ -1,0 +1,17 @@
+cake/.gitattributes
+cake/.gitignore
+cake/.htaccess
+cake/.php_cs.dist
+cake/.travis.yml
+cake/CHANGELOG
+cake/composer.json
+cake/composer.lock
+cake/drupal_test.sh
+cake/LICENSE
+cake/phpunit.xml.dist
+cake/README.md
+cake/README.rst
+cake/webroot/.htaccess
+public/client/csv/CSV/*
+public/client/image/FILE/*
+private/create/subdirectory/templates_c/*

@@ -30,7 +30,7 @@ $title = '管理側コンテンツ一覧';
                 <?php
                 $notList = ['.', '..', 'Sample', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'reset.php', 'secure.php'];
                 $dirList = scandir(__DIR__);
-                $titleList = ['FILE' => '画像投稿', 'create' => 'ページ作成'];
+                $titleList = ['FILE' => '画像投稿', 'create' => 'ページ作成', 'edit' => 'ソース編集'];
                 $notList = ListAdd($notList, $dirList, '.', 1);
                 $notList = ListAdd($notList, $dirList, '_', 1);
 

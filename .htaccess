@@ -1,0 +1,37 @@
+# .htaccessでRewriteを有効化する
+RewriteEngine On
+RewriteBase /
+
+#エラー関連
+ErrorDocument 400 /common/error/400/
+ErrorDocument 401 /common/error/401/
+ErrorDocument 403 /common/error/403/
+ErrorDocument 404 /common/error/404/
+ErrorDocument 405 /common/error/405/
+ErrorDocument 406 /common/error/406/
+ErrorDocument 408 /common/error/408/
+ErrorDocument 410 /common/error/410/
+ErrorDocument 421 /common/error/421/
+ErrorDocument 423 /common/error/423/
+ErrorDocument 500 /common/error/500/
+ErrorDocument 502 /common/error/502/
+ErrorDocument 503 /common/error/503/
+ErrorDocument 507 /common/error/507/
+ErrorDocument 510 /common/error/510/
+
+#セキュリティ対策
+#XSS
+Header always set X-XSS-Protection "1; mode=block"
+#Content Type (ダウンロード)
+Header always set X-Content-Type-Options "nosniff"
+#クリックジャッキング
+Header always append X-Frame-Options SAMEORIGIN
+
+#HSTS
+RewriteCond %{HTTPS} !=on [NC]
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+#HSTSプリロード
+Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; preload"
+
+#メンテナンス
+#RewriteRule ^.*$ - [R=503,L]
