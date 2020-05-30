@@ -11,11 +11,29 @@ $( function ()
 function Main ()
 {
     //  alert('jQuery動作確認');
+    // 選択したソースを読み込む
     $( 'button[name="edit"]' ).on( 'click', function ( e )
     {
         var url = location.href;
+        var selectObj = { "select": $( 'select[name="select"]' ).val() };
         // console.log(  );
-        var ajax = AjaxMain( url, null, 'server.php', 'POST', { "tests": $( 'select[name="select"]' ).val() }, 'json' );
+        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json' );
+    } );
+
+    // ソースの中身を更新する
+    $( 'button[name="save"]' ).on( 'click', function ( e )
+    {
+        if ( confirm( '本当に更新しますか？' ) )
+        {
+            var url = location.href;
+            var saveObj = { "select": $( 'select[name="select"]' ).val(), "input": $( '.result-src' ).val(), "save": 'true' };
+            // console.log(  );
+            var ajax = AjaxMain( url, null, 'server.php', 'POST', saveObj, 'json' );
+
+            // $( '.result-src' ).val();
+            alert( '更新しました。' );
+
+        }
     } );
 
 }

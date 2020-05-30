@@ -12,6 +12,11 @@
     </select>
 
     <button type='button' name="edit" value="select">ソースを選択する</button>
-</form>
 
-<span name='test'></span>
+  <div class='result'>
+    <textarea row="4000" cols="100" class='result-src'></textarea>
+    <p><h3>現在のソース：</h3></p>
+    <p><span class='result-src-view'></span></p>
+    <button type='button' name="save">ソースを保存する</button>
+  </div>
+</form>
