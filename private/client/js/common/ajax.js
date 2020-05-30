@@ -18,10 +18,12 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text" )
             dir += file;
         }
         url += dir;
+        console.log( data );
         var ajx = Ajax( type, url, datatype, data );
-        ajx.always( function ()
+        ajx.always( function ( xmlhttp)
         {
             //        alert('Complate!!!');
+            console.log( xmlhttp.responseText ); // パースするJSON(デバッグ用)
         } )
             .done( function ( response )
             {
@@ -37,7 +39,9 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text" )
             } )
             .fail( function ( xhr, textStatus, errorThrown )
             {
-                alert( "NG: " + textStatus.status );
+                console.log( "NG");
+                console.log( "textStatus: " + textStatus );
+                console.log("errorThrown    : " + errorThrown.message);
             } );
     } catch ( e )
     {
