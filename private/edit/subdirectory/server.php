@@ -21,9 +21,10 @@ if (isset($saveObj)) {
 } else {
     $file = 'failure';
 }
+
 // ソースの読み込み
 $contents = file_get_contents($srcFile);
-$data = ['src'=> $contents, 'src-view' => htmlentities($contents)];
+$data = ['src'=> $contents, 'src-view' => nl2br(htmlentities($contents), ENT_HTML5)];
 $json = json_encode($data); // データをJSON形式にエンコードする
 
 echo $json; // 結果を出力
