@@ -18,13 +18,14 @@ if (isset($saveObj)) {
     $srcObj = $set->GetPost('input');
     file_put_contents($srcFile, $srcObj);
     $contents='';
-} else {
-    $file = 'failure';
 }
+
 
 // ソースの読み込み
 $contents = file_get_contents($srcFile);
-$data = ['src'=> $contents, 'src-view' => nl2br(htmlentities($contents), ENT_HTML5)];
+// var_dump($contents);die;
+
+$data = ['src'=> htmlentities($contents), 'src-view' => nl2br(htmlentities($contents))];
 $json = json_encode($data); // データをJSON形式にエンコードする
 
 echo $json; // 結果を出力
