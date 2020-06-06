@@ -199,7 +199,7 @@ class Admin extends Setting {
     }
 }
 
-$commonPath = AddPath(dirname(dirname(__DIR__)), basename(__DIR__));
+$commonPath = AddPath(dirname(__DIR__, 2), basename(__DIR__));
 
 require_once(AddPath($commonPath, 'Setting.php', false));
 
