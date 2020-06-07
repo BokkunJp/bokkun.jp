@@ -38,6 +38,27 @@ function Main ()
 
 }
 
+/* テキストエリアの幅を自動で調整
+ *  引数：
+ *  戻り値：
+ */
+function AutoSetTextArea ( argObj )
+{
+    // 一旦テキストエリアを小さくしてスクロールバー（縦の長さを取得）
+    argObj.style.height = "10px";
+    var wSclollHeight = parseInt( argObj.scrollHeight );
+    // 1行の長さを取得する
+    var wLineH = parseInt( argObj.style.lineHeight.replace( /px/, '' ) );
+    // 最低2行の表示エリアにする
+    if ( wSclollHeight < ( wLineH * 2 ) )
+    {
+        wSclollHeight = ( wLineH * 2 );
+    }
+    // テキストエリアの高さを設定する
+    argObj.style.height = wSclollHeight + "px";
+
+}
+
 /*
  * 参考：
 

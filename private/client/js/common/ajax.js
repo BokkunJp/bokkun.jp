@@ -22,12 +22,13 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text" )
         var ajx = Ajax( type, url, datatype, data );
         ajx.always( function ( xmlhttp)
         {
-            // console.log( xmlhttp.responseText ); // パースするJSON(デバッグ用)
+            // console.log( xmlhttp.responseText ); // JSONデータ(デバッグ用)
         } )
             .done( function ( response )
             {
-                // var jsonData = JSON.parse( response ); // JSONデータへパースする場合の処理
-                var jsonData = response;
+                var jsonData = JSON.stringify( response );  // レスポンスデータをエンコード
+                jsonData = JSON.parse( jsonData ); // エンコードしたJSONデータをデコード
+
                 for ( var _key in jsonData )
                 {
                     $( '.result-' + _key ).html( jsonData[ _key ] );
