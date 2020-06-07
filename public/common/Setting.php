@@ -122,7 +122,7 @@ class Setting {
     public function GetUrl($query='', $type='url') {
         switch ($type) {
             case 'client':
-                $url = $this->client;
+                $url = rtrim($this->client, '/');
                 break;
             case 'css':
                 $url = $this->css;
