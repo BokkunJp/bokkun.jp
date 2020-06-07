@@ -8,7 +8,7 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text" )
         }
         if ( !dir )
         {
-            dir = '/subdirectory/';
+            dir = 'subdirectory/';
         }
         if ( !file )
         {
@@ -19,15 +19,14 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text" )
         }
         url += dir;
         var ajx = Ajax( type, url, datatype, data );
-        ajx.always( function ()
+        ajx.always( function ( xmlhttp )
         {
-            //        alert('Complate!!!');
+            // console.log( xmlhttp.responseText ); // パースするJSON(デバッグ用)
         } )
             .done( function ( response )
             {
-                //                alert('Success!!!');
-                console.log( JSON.parse( response ) );
-                var jsonData = JSON.parse( response );
+                // var jsonData = JSON.parse( response ); // JSONデータへパースする場合の処理
+                var jsonData = response;
                 for ( var _key in jsonData )
                 {
                     $( '.result-' + _key ).html( jsonData[ _key ] );
@@ -36,7 +35,9 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text" )
             } )
             .fail( function ( xhr, textStatus, errorThrown )
             {
-                alert( "NG:" + textStatus.status );
+                console.log( "NG" );
+                console.log( "textStatus: " + textStatus );
+                console.log( "errorThrown    : " + errorThrown.message );
             } );
     } catch ( e )
     {
@@ -47,7 +48,7 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text" )
 
 function Ajax ( type, url, datatype, data )
 {
-    console.log( [ type, url, datatype, data ] );
+    // console.log( [ type, url, datatype, data ] );
     sendData = {
         type: type,
         url: url,
@@ -55,10 +56,5 @@ function Ajax ( type, url, datatype, data )
         data: data,
     }
     return $.ajax( sendData );
-
-}
-
-Ajax.prototype.Get = function ( url, data, callback )
-{
 
 }

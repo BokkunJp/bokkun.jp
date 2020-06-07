@@ -15,3 +15,4 @@ cake/webroot/.htaccess
 public/client/csv/CSV/*
 public/client/image/FILE/*
 private/create/subdirectory/templates_c/*
+private/edit/subdirectory/templates_c/*

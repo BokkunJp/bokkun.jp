@@ -155,7 +155,7 @@ class Setting {
     {
         switch ($type) {
             case 'client':
-                $url = $this->client;
+                $url = rtrim($this->client, '/');
                 break;
             case 'css':
                 $url = $this->css;

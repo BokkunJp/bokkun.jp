@@ -6,8 +6,6 @@ use PrivateSetting\Setting;
 
 $set = new Setting();
 
-// $basename = dirname(__DIR__, 2). DIRECTORY_SEPARATOR. "public";
-
 $saveObj = $set->GetPost('save');
 $srcName = $set->GetPost('select');
 $srcFile = dirname(__DIR__, 3) . DS . 'public' . DS . $srcName. DS . 'design.php';
@@ -19,7 +17,6 @@ if (isset($saveObj)) {
     file_put_contents($srcFile, $srcObj);
     $contents='';
 }
-
 
 // ソースの読み込み
 $contents = file_get_contents($srcFile);
