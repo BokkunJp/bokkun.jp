@@ -66,7 +66,7 @@ if (is_null($set->GetPost('select_log'))) {
         default:
             // ソースの読み込み
             $verObj = scandir($dirPath);
-            if (file_exists($contents)) {
+            if (file_exists($srcFile)) {
                 $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
             } else {
                 $contents = 'ファイルが存在しません。';
