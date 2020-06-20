@@ -42,7 +42,7 @@ function readFileList (ver)
     $select.children().remove();
     console.log( $select );
     $option = $( '<option>' )
-        .val( '---' )
+        .val( null)
         .text( '---' )
         .prop( 'selected', 'select_log' );
     $select.append( $option );

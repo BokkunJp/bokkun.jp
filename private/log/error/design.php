@@ -13,7 +13,7 @@ if ($session->Judge('addition')) {
 }
 
 $dirPath = rtrim(dirname(__DIR__, 5), "\\") . CreateClient();
-$dir = ["---"];
+$dir = ["---" => "---"];
 
 $dir = array_merge($dir, scandir($dirPath));
 
