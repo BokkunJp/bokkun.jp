@@ -35,8 +35,21 @@ function Main ()
 
 function readFileList (ver)
 {
-    $select = $('select[name="select_log"]')
-    $.each( ver, function( index, value ) {
+    $select = $( 'select[name="select_log"]' );
+
+    console.log( $select );
+    // オプションの初期化
+    $select.children().remove();
+    console.log( $select );
+    $option = $( '<option>' )
+        .val( '---' )
+        .text( '---' )
+        .prop( 'selected', 'select_log' );
+    $select.append( $option );
+    console.log( $select );
+
+    $.each( ver, function ( index, value )
+    {
         if (value !== '.' && value !== '..' && value !== '_old') {
             console.log( index + ':' + value );
             $option = $( '<option>' )
