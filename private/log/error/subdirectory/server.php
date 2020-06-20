@@ -34,15 +34,17 @@ if (is_null($set->GetPost('select_log'))) {
 } else {
 
     $srcName = $set->GetPost('select_log');
-    $srcFile = AddPath($dirPath, $srcName, false);
+    if ($verPath === '---') {
+        $contents = '正しいバージョンが選択されていません。';
+    } else {
+        $srcFile = AddPath($dirPath, $srcName, false);
 
-
-    // // ソースの読み込み
-    $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
+        // // ソースの読み込み
+        $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
+    }
 
     $data = ['log-view'=> nl2br(htmlentities($contents))];
     $json = json_encode($data); // データをJSON形式にエンコードする
 
     echo $json; // 結果を出力
-
 }
