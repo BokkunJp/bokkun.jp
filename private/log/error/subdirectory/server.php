@@ -21,26 +21,57 @@ $errPath = CreateClient($errPath);
 $verPath = $set->GetPost('ver');
 $dirPath = rtrim(dirname(__DIR__, 6), "\\") . $errPath. $verPath;
 
-$verObj = scandir($dirPath);
+$errCode=null;
+if ($verPath === '---') {
+    $errCode=1;
+}
+
+if ($set->GetPost('select_log') === '') {
+    $errCode = 2;
+}
+
 
 if (is_null($set->GetPost('select_log'))) {
-
-    // 添え字がないので添え字を振り直し
-    $verObj = array_values($verObj);
-
-    $jsonData = json_encode($verObj);
+    switch ($errCode) {
+        case 1:
+            $contents = 'バージョンまたはファイルを選択してください。';
+            $data = ['log-view' => nl2br(htmlentities($contents))];
+            $jsonData = json_encode($data); // データをJSON形式にエンコードする
+            break;
+        case 2:
+            $contents = 'バージョンまたはファイルの選択が不正です。';
+            $data = ['log-view' => nl2br(htmlentities($contents))];
+            $jsonData = json_encode($data); // データをJSON形式にエンコードする
+            break;
+        default:
+            // 添え字がないので添え字を振り直し
+            $verObj = scandir($dirPath);
+            $verObj = array_values($verObj);
+            $jsonData = json_encode($verObj);
+        break;
+    }
 
     echo $jsonData;
 } else {
-
     $srcName = $set->GetPost('select_log');
-    if ($verPath === '---') {
-        $contents = '正しいバージョンが選択されていません。';
-    } else {
-        $srcFile = AddPath($dirPath, $srcName, false);
+    $srcFile = AddPath($dirPath, $srcName, false);
 
-        // // ソースの読み込み
-        $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
+    switch ($errCode) {
+        case 1:
+            $contents = 'バージョンまたはファイルを選択してください。';
+        break;
+            case 2:
+            $contents = 'バージョンまたはファイルの選択が不正です。';
+        break;
+        default:
+            // ソースの読み込み
+            $verObj = scandir($dirPath);
+            if (file_exists($contents)) {
+                $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
+            } else {
+                $contents = 'ファイルが存在しません。';
+            }
+        break;
     }
 
     $data = ['log-view'=> nl2br(htmlentities($contents))];
