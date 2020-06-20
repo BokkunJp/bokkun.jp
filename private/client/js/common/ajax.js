@@ -1,4 +1,4 @@
-function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text" )
+function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text", CallBack = null )
 {
     try
     {
@@ -18,9 +18,9 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text" )
             dir += file;
         }
         url += dir;
-        console.log( data );
         var ajx = Ajax( type, url, datatype, data );
-        ajx.always( function ( xmlhttp)
+
+        ajx.always( function ( xmlhttp )
         {
             // console.log( xmlhttp.responseText ); // JSONデータ(デバッグ用)
         } )
@@ -29,10 +29,17 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text" )
                 var jsonData = JSON.stringify( response );  // レスポンスデータをエンコード
                 jsonData = JSON.parse( jsonData ); // エンコードしたJSONデータをデコード
 
-                for ( var _key in jsonData )
+                // コールバック関数が定義されていない場合は、取得・成形したデータを出力するのみ
+                if ( CallBack === null )
                 {
-                    $( '.result-' + _key ).html( jsonData[ _key ] );
+                    for ( var _key in jsonData )
+                    {
+                        $( '.result-' + _key ).html( jsonData[ _key ] );
 
+                    }
+                // コールバック関数が定義されている場合は、取得したJSONデータをコールバック関数に渡す
+                } else {
+                    CallBack( jsonData );
                 }
             } )
             .fail( function ( xhr, textStatus, errorThrown )

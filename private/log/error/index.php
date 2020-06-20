@@ -1,5 +1,5 @@
 <?php
 $homepageTitle = '管理画面';
-$title = 'ソース調整';
+$title = 'エラーログ';
 $ary = [$homepageTitle, $title];
-require_once('../common/layout.php');
+require_once('../../common/layout.php');

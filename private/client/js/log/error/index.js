@@ -10,52 +10,42 @@ $( function ()
  */
 function Main ()
 {
-    //  alert('jQuery動作確認');
-    // 選択したソースを読み込む
-    $( 'button[name="edit"]' ).on( 'click', function ( e )
+    var num;
+    // 選択したバージョンからログ一覧を出力する
+    $( 'select[name="error_log"]' ).on( 'change', function ( e )
     {
         var url = location.href;
-        var selectObj = { "select": $( 'select[name="select"]' ).val() };
-        // console.log(  );
-        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json' );
+        var selectVersion = { "ver": $( this ).val() };
+        num = $( this ).val();
+        // 選択したバージョンを渡して、バージョン内のログ一覧を作成
+        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectVersion, 'json', readFileList );
     } );
 
-    // ソースの中身を更新する
-    $( 'button[name="save"]' ).on( 'click', function ( e )
+    // 選択したログを読み込む
+    $( 'button[name="edit"]' ).on( 'click', function ( e )
     {
-        if ( confirm( '本当に更新しますか？' ) )
-        {
-            var url = location.href;
-            var saveObj = { "select": $( 'select[name="select"]' ).val(), "input": $( '.result-src' ).val(), "save": 'true' };
-            // console.log(  );
-            var ajax = AjaxMain( url, null, 'server.php', 'POST', saveObj, 'json' );
-
-            // $( '.result-src' ).val();
-            alert( '更新しました。' );
-
-        }
+        console.log( num );
+        var url = location.href;
+        var selectObj = { "ver": num, "select_log": $( 'select[name="select_log"]' ).val() };
+        console.log( selectObj );
+        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json' );
     } );
 
 }
 
-/* テキストエリアの幅を自動で調整
- *  引数：
- *  戻り値：
- */
-function AutoSetTextArea ( argObj )
+function readFileList (ver)
 {
-    // 一旦テキストエリアを小さくしてスクロールバー（縦の長さを取得）
-    argObj.style.height = "10px";
-    var wSclollHeight = parseInt( argObj.scrollHeight );
-    // 1行の長さを取得する
-    var wLineH = parseInt( argObj.style.lineHeight.replace( /px/, '' ) );
-    // 最低2行の表示エリアにする
-    if ( wSclollHeight < ( wLineH * 2 ) )
-    {
-        wSclollHeight = ( wLineH * 2 );
-    }
-    // テキストエリアの高さを設定する
-    argObj.style.height = wSclollHeight + "px";
+    $select = $('select[name="select_log"]')
+    $.each( ver, function( index, value ) {
+        if (value !== '.' && value !== '..' && value !== '_old') {
+            console.log( index + ':' + value );
+            $option = $( '<option>' )
+                .val( value )
+                .text( value )
+                .prop( 'selected', 'select_log' );
+            $select.append( $option );
+        }
+    } );
 
 }
 

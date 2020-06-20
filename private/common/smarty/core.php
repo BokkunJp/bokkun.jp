@@ -1,6 +1,6 @@
 <?php
 $libs = '/smarty-3.1.30/libs/';
-define('SMARTY_DIR', '../common/smarty'.$libs);
+define('SMARTY_DIR', dirname(__DIR__, 2). '/common/smarty'.$libs);
 
 require(SMARTY_DIR. '/Smarty.class.php');
 $smarty = new Smarty();

@@ -26,3 +26,36 @@ function Sanitize($arr) {
     }
     return str_replace("\0", "", $arr);     //ヌルバイトの除去
 }
+
+/**
+ * CreateClient
+ * 所定のディレクトリまでのディレクトリ群を走査し、パスを生成する。
+ *
+ * @param  string $target
+ *
+ * @return bool
+ */
+function CreateClient($src = '', $target = 'private')
+{
+  if (empty($src)) {
+    $srcPath = getcwd();
+  } else {
+    $srcPath = $src;
+  }
+
+  $clientPath = "";
+  $clientAry = [];
+
+  while (strcmp(basename($srcPath), $target)) {
+    $clientAry[] = basename($srcPath);
+    $srcPath = dirname($srcPath);
+  }
+
+  $clientAry = array_reverse($clientAry);
+
+  foreach ($clientAry as $_client) {
+    $clientPath = AddPath($clientPath, $_client);
+  }
+
+  return $clientPath;
+}
