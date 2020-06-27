@@ -35,7 +35,7 @@ function Sanitize($arr) {
  *
  * @return bool
  */
-function CreateClient($src = '', $target = 'private')
+function CreateClient($target, $src = '')
 {
   if (empty($src)) {
     $srcPath = getcwd();
@@ -46,11 +46,13 @@ function CreateClient($src = '', $target = 'private')
   $clientPath = "";
   $clientAry = [];
 
-  while (strcmp(basename($srcPath), $target)) {
+  while (1) {
     $clientAry[] = basename($srcPath);
     $srcPath = dirname($srcPath);
+    if (strcmp(basename($srcPath), $target)) {
+        break;
+    }
   }
-
   $clientAry = array_reverse($clientAry);
 
   foreach ($clientAry as $_client) {

@@ -13,7 +13,9 @@ $img = "crown-vector.jpg";
     <title>管理側</title>
     <link rel="shortcut icon" href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
     <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css/common.css">
-    <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient() ?>design.css">
+
+    <!-- ログファイル以外を含めて正常に動作(ログファイル以外は最初でループが止まる) -->
+    <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('log') ?>design.css">
 </head>
 
 <body>

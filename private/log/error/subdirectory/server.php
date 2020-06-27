@@ -9,7 +9,7 @@ $set = new Setting();
 
 // エラーパスをセット
 $errPath = dirname(__DIR__);
-$errPath = CreateClient($errPath);
+$errPath = CreateClient('log', $errPath);
 
     //選択したバージョンの指定
 $verPath = $set->GetPost('ver');

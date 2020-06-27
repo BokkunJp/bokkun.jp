@@ -22,8 +22,8 @@ if (in_array(basename(getcwd()), $subDirectryReadList)) {
 // 必要なjsファイルの読み込み
 IncludeJSFiles('common');
 IncludeJSFiles(AddPath('common', 'time'));
-$jsTitle = CreateClient();
-IncludeJSFiles($jsTitle);
+$jsTitle = CreateClient('private');
+IncludeJSFiles(basename($jsTitle));
 
 /*
  *      対象ディレクトリ内のファイルをディレクトリごと一括で読み込む
