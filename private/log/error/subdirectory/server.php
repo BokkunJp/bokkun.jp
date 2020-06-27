@@ -1,12 +1,6 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-//直接のページ遷移を阻止
-$request = isset($_SERVER['HTTP_X_REQUESTED_WITH']) ? strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) : '';
-if ($request !== 'xmlhttprequest') {
-    exit;
-}
-
 define ("DS", DIRECTORY_SEPARATOR);
 require_once dirname(__DIR__, 3). DS. "common". DS . "ajax-require.php";
 use PrivateSetting\Setting;

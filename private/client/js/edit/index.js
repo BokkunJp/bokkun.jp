@@ -10,13 +10,37 @@ $( function ()
  */
 function Main ()
 {
-    //  alert('jQuery動作確認');
+    var num;
+    // 選択したバージョンからログ一覧を出力する
+    $( 'select[name="select"]' ).on( 'change', function ( e )
+    {
+        var url = location.href;
+        var selectVersion = { "dir_name": $( this ).val() };
+        num = $( this ).val();
+        // 選択したバージョンを渡して、バージョン内のログ一覧を作成
+        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList );
+    } );
+
+    // ファイル名またはディレクトリ名からファイルリストを生成する
+    $( 'select[name="select_directory"]' ).on( 'change', function ( e )
+    {
+        var url = location.href;
+        var selectDirectory = { "select_directory": $( this ).val(), "dir_name": $( 'select[name="select"]' ).val() };
+        num = $( this ).val();
+        // 選択したバージョンを渡して、バージョン内のログ一覧を作成
+        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectDirectory, 'json', SetFileList);
+    } );
+
     // 選択したソースを読み込む
     $( 'button[name="edit"]' ).on( 'click', function ( e )
     {
         var url = location.href;
-        var selectObj = { "select": $( 'select[name="select"]' ).val() };
-        // console.log(  );
+        var selectObj = {
+            "edit": $('.edit').val(),
+            "directory": $( 'select[name="select"]' ).val(),
+            "subdirectory": $( 'select[name="select_directory"]' ).val(),
+            "file": $( 'select[name="select_file"]' ).val()
+        };
         var ajax = AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json' );
     } );
 
@@ -26,16 +50,87 @@ function Main ()
         if ( confirm( '本当に更新しますか？' ) )
         {
             var url = location.href;
-            var saveObj = { "select": $( 'select[name="select"]' ).val(), "input": $( '.result-src' ).val(), "save": 'true' };
+            var saveObj = {
+                "edit": $( '.edit' ).val(),
+                "directory": $( 'select[name="select"]' ).val(),
+                "subdirectory": $( 'select[name="select_directory"]' ).val(),
+                "file": $( 'select[name="select_file"]' ).val(),
+                "input": $( '.result-src' ).val(),
+                "save": 'true'
+            };
             // console.log(  );
             var ajax = AjaxMain( url, null, 'server.php', 'POST', saveObj, 'json' );
 
             // $( '.result-src' ).val();
             alert( '更新しました。' );
 
+        } else
+        {
+            alert( '更新を中止しました。' );
         }
     } );
 
+}
+
+function ReadFileList ( ver )
+{
+    select = $( 'select[name="select_directory"]' );
+
+    console.log( select );
+    // オプションの初期化
+    select.children().remove();
+    option = $( '<option>' )
+        .val( null )
+        .text( '---' )
+        .prop( 'selected', 'select' );
+    select.append( option );
+
+    $.each( ver, function ( index, value )
+    {
+        // console.log( index );
+        if ( value !== '.' && value !== '..' && value !== '_old' )
+        {
+            // console.log( index + ':' + value );
+            option = $( '<option>' )
+                .val( value )
+                .text( value )
+            select.append( option );
+        }
+    } );
+}
+
+function SetFileList (dir)
+{
+    select = $( 'select[name="select_file"]' );
+
+    // オプションの初期化
+    select.children().remove();
+    option = $( '<option>' )
+        .val( null )
+        .text( '---' )
+        .prop( 'selected', 'select' );
+    select.append( option );
+
+    if ( $.isArray( dir ) )
+    {
+
+        $.each( dir, function ( index, value )
+        {
+            // console.log( index );
+            if ( value !== '.' && value !== '..' && value !== '_old' && value !== 'notInclude' )
+            {
+                // console.log( index + ':' + value );
+                option = $( '<option>' )
+                    .val( value )
+                    .text( value )
+                select.append( option );
+            }
+        } );
+    } else
+    {
+        // 選択肢を削除
+        select.children().remove();
+    }
 }
 
 /* テキストエリアの幅を自動で調整

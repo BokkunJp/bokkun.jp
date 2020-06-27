@@ -10,8 +10,10 @@
           {/if}
       {/foreach}
     </select>
+    <select class='select_directory' id='select_directory' name='select_directory'></select>
+    <select class='select_file' id='select_file' name='select_file'></select>
 
-    <button type='button' name="edit" value="select">ソースを選択する</button>
+    <button type='button' name="edit" class="edit" value="edit">ソースを選択する</button>
 
   <div class='result'>
     <textarea row="4000" cols="100" class='result-src'></textarea>

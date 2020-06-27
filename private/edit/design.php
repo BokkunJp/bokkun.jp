@@ -12,7 +12,9 @@ if ($session->Judge('addition')) {
     $session->Delete('addition');
 }
 
-$dir = scandir('../../public/');
+$dir = ["---" => "---"];
+
+$dir = array_merge($dir, scandir('../../public/'));
 $smarty->assign('base', basename(__DIR__). '/subdirectory');
 $smarty->assign('dir', $dir);
 $smarty->display('index.tpl');

@@ -1,28 +1,80 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
-define ("DS", DIRECTORY_SEPARATOR);
+define("DS", DIRECTORY_SEPARATOR);
+
 require_once dirname(__DIR__, 2). DS. "common". DS . "ajax-require.php";
 use PrivateSetting\Setting;
 
 $set = new Setting();
 
 $saveObj = $set->GetPost('save');
-$srcName = $set->GetPost('select');
-$srcFile = dirname(__DIR__, 3) . DS . 'public' . DS . $srcName. DS . 'design.php';
+$editObj = $set->GetPost('edit');
+$srcName = $set->GetPost('dir_name');
+$selectObj = $set->GetPost('select_directory');
 
 
-if (isset($saveObj)) {
-    // ソースの保存
-    $srcObj = $set->GetPost('input');
-    file_put_contents($srcFile, $srcObj);
-    $contents='';
+// パスをセット
+$srcPath = AddPath(dirname(__DIR__, 3), AddPath('public', $srcName, false), false);
+
+
+// 第2ディレクトリの選択
+if (isset($selectObj)) {
+    $srcPath = AddPath($srcPath, $selectObj, false);
+    if (is_dir($srcPath)) {
+        $dataList = scandir($srcPath);
+        $contents = array_values($dataList);
+        $viewContents = $contents;
+    } else {
+        $contents = $viewContents = $selectObj;
+    }
+} else if (isset($srcName) && $srcName !== '---') {
+// ディレクトリの選択
+    $dataList = scandir($srcPath);
+    $contents = array_values($dataList);
+    $viewContents = $contents;
+} else {
+    $contents = $viewContents = ['err' => 'ディレクトリが存在しません。'];
+}
+// ディレクトリ選択時は、データをそのまま出力
+$data = $contents;
+
+// ソースの保存・書き込み共通処理
+if (isset($saveObj) || isset($editObj)) {
+    $selectSrc = AddPath($srcPath, AddPath($set->GetPost('directory'), $set->GetPost('subdirectory'), false), false);
+
+    if (is_dir($selectSrc)) {
+        $srcFile = AddPath($selectSrc, $set->GetPost('file'), false);
+    } else {
+        $srcFile = $selectSrc;
+    }
+}
+
+// ソースの保存
+if (isset($saveObj) && $set->GetPost('directory') != '---') {
+
+    if (file_exists($srcFile) && is_file($srcFile)) {
+        $srcObj = $set->GetPost('input');
+        file_put_contents($srcFile, $srcObj);
+        $contents='';
+    }
 }
 
 // ソースの読み込み
-$contents = file_get_contents($srcFile);
+if (isset($editObj) && $set->GetPost('directory') != '---') {
+    if (file_exists($srcFile) && is_file($srcFile)) {
+        $contents = htmlentities(file_get_contents($srcFile));
+        $viewContents = nl2br($contents);
+    } else {
+        $contents = '';
+        $viewContents = 'ファイルが存在しません。';
+    }
+    $data = ['src'=> $contents, 'src-view' => $viewContents];
+} else {
+    $contents = '';
+    $viewContents = 'ファイルが存在しません。';
+}
 // var_dump($contents);die;
 
-$data = ['src'=> htmlentities($contents), 'src-view' => nl2br(htmlentities($contents))];
 $json = json_encode($data); // データをJSON形式にエンコードする
 
 echo $json; // 結果を出力
