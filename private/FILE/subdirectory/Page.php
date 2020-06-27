@@ -69,7 +69,7 @@ function ViewPager($file, $imageUrl) {
         if ($_vindex === $page) {
             $pageHtml->TagSet('span', $_vindex . ' ', 'pager', true);
         } else {
-            $pageHtml->SetHref("./FILE/?page={$_vindex}", $_vindex, 'page', false, '_self');
+            $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'page', false, '_self');
         }
         $pageHtml->TagExec(true);
         echo ' ';
