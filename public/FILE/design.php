@@ -10,7 +10,7 @@ $posts = PublicSetting\Setting::GetPosts();
 $page = PublicSetting\Setting::GetQuery('page');
 ?>
 <div class='view-image'>
-  <form method='POST' action='./FILE/<?= $page != null ? "?page={$page}" : "" ?>'>
+  <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
     <select name='image-value'>
       <?php
       for ($i = 1; $i <= MAX_VIEW; $i++) {
