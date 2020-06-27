@@ -1,6 +1,5 @@
 <form action='./{$base}/server.php' method='POST'>
     <div><p2>編集</p2></div>
-    <div class="warning">本機能は現在鋭意実装中です。</div>
     <select class='set_log' id='error' name='error_log'>
       {$count=0}
       {$max=count($dir)}
