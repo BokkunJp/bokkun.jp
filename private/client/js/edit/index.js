@@ -76,7 +76,6 @@ function ReadFileList ( ver )
 {
     select = $( 'select[name="select_directory"]' );
 
-    console.log( select );
     // オプションの初期化
     select.children().remove();
     option = $( '<option>' )
@@ -87,10 +86,8 @@ function ReadFileList ( ver )
 
     $.each( ver, function ( index, value )
     {
-        // console.log( index );
         if ( value !== '.' && value !== '..' && value !== '_old' )
         {
-            // console.log( index + ':' + value );
             option = $( '<option>' )
                 .val( value )
                 .text( value )
@@ -99,7 +96,7 @@ function ReadFileList ( ver )
     } );
 }
 
-function SetFileList (dir)
+function SetFileList ( dir )
 {
     select = $( 'select[name="select_file"]' );
 
@@ -116,10 +113,8 @@ function SetFileList (dir)
 
         $.each( dir, function ( index, value )
         {
-            // console.log( index );
             if ( value !== '.' && value !== '..' && value !== '_old' && value !== 'notInclude' )
             {
-                // console.log( index + ':' + value );
                 option = $( '<option>' )
                     .val( value )
                     .text( value )
