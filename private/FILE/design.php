@@ -10,7 +10,7 @@ $posts = PrivateSetting\Setting::GetPosts();
 $page = PrivateSetting\Setting::GetQuery('page');
 ?>
 <div class='view-image'>
-  <form method='POST' action='./FILE/<?= $page != null ? "?page={$page}" : "" ?>'>
+  <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
     <select name='image-value'>
       <?php
       for ($i = 1; $i <= MAX_VIEW; $i++) {
@@ -23,7 +23,7 @@ $page = PrivateSetting\Setting::GetQuery('page');
     <span>現在の表示枚数:<?= GetPaging(); ?>枚</span>
   </form>
 </div>
-<form enctype="multipart/form-data" action="./FILE/subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>" method='POST'>
+<form enctype="multipart/form-data" action="./subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>" method='POST'>
   <input type='hidden' name='token' value="<?= $token = MakeToken() ?>" />
   <input type='file' name='all-files[]' multiple /> <button type='submit' class='fileButton'>送信</button>
   <span>
@@ -36,7 +36,7 @@ $page = PrivateSetting\Setting::GetQuery('page');
   </span>
 </form>
 
-<form action="./FILE/subdirectory/notAutoInclude/server.php?mode=del<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>
+<form action="./subdirectory/notAutoInclude/server.php?mode=del<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>
   <?php
   ReadImage(1);
   ?>
