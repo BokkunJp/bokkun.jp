@@ -75,6 +75,9 @@ foreach ($pathList as $_pathList) {
             // 削除モード
 
             // 入力値のチェック
+            if (!isset($select)) {
+                $select = null;
+            }
             $validate = ValidateData(getcwd(), $select);
             if ($validate === null) {
                 $adminError->UserError('ページが選択されていません。');

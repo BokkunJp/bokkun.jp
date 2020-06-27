@@ -13,6 +13,7 @@ if ($session->Judge('addition')) {
 }
 
 $dir = scandir('../../public/');
-$smarty->assign('base', basename(__DIR__). '/subdirectory');
+
+$smarty->assign('base', 'subdirectory');
 $smarty->assign('dir', $dir);
 $smarty->display('index.tpl');
