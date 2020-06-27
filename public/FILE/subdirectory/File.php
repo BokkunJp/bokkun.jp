@@ -207,6 +207,6 @@ function ErrorSet($errMsg = ERRMessage) {
     $prevLink = new CustomTagCreate();
     $prevLink->TagSet('div', $errMsg, 'warning', true);
     $prevLink->TagExec(true);
-    $prevLink->SetHref("./FILE/", PREVIOUS, 'page', true, '_self');
+    $prevLink->SetHref("./", PREVIOUS, 'page', true, '_self');
 
 }
