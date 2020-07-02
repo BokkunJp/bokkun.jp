@@ -107,7 +107,7 @@ foreach ($pathList as $_pathList) {
             $adminError->UserError("不正な遷移です。");
         }
     } else {
-        if ($_pathList !== 'php' && empty($client)) {
+        if ($_pathList !== 'php' && !strpos(getcwd(), 'client')) {
             $client = "client/";
             $adminPath .= '/' . $client;
         } else {
