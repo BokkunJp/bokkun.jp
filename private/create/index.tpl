@@ -8,6 +8,7 @@
      使わない <input type='radio' name='use_template_engine' value='off' {if isset($session.use_template_engine) } {if $session.use_template_engine == 'off'}checked = "cehcked"{/if}{/if} /></p>
 タイトル： <input type='textbox' name='title' {if isset($session.title) } {if !empty($session.title)}value={$session.title}{/if}{/if} />
 <button type='submit' id='create'>ページの新規作成</button>
+  <input type='hidden' name='token' value={$token} />
 </form>
 <br />
 <form action='./{$base}/edit.php' method='POST'>
@@ -26,4 +27,5 @@
     <button type='submit' name="delete" value="delete">削除する</button>
     タイトル(編集用)： <input type='textbox' name='title' {if isset($session.title) } {if !empty($session.title)}value={$session.title}{/if}{/if} />
     <button type='submit' name="edit" value="edit">編集する</button>
+  <input type='hidden' name='token' value={$token} />
 </form>

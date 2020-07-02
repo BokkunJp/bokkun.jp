@@ -1,9 +1,22 @@
 <?php
-require_once dirname(dirname(__DIR__)) . '/common/Component/Tag.php';
+define("DS", DIRECTORY_SEPARATOR);
+require_once dirname(__DIR__, 2). DS. "common". DS . "require.php";
 define("MAX_LENGTH", 32);
 
 $adminError = new AdminError();
 $use = new \PrivateTag\UseClass();
+
+// tokenチェック
+$checkToken = CheckToken('token');
+
+// 不正tokenの場合は、エラーを出力して処理を中断。
+if ($checkToken === false) {
+    $sessClass =  new PrivateSetting\Session();
+    $sessClass->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
+    $url = new PrivateSetting\Setting();
+    header('Location:' . $url->GetUrl(CreateClient('private', dirname(__DIR__))));
+    exit;
+}
 
 $adminPath = dirname(__DIR__);
 $basePath = dirname(dirname(dirname(__DIR__)));

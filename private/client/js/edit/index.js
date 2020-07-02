@@ -11,11 +11,14 @@ $( function ()
 function Main ()
 {
     var num;
-    // 選択したバージョンからログ一覧を出力する
+    // 選択したディレクトリ名からファイル・サブディレクトリ一覧を出力する
     $( 'select[name="select"]' ).on( 'change', function ( e )
     {
         var url = location.href;
-        var selectVersion = { "dir_name": $( this ).val() };
+        var selectVersion = {
+            "dir_name": $( this ).val(),
+            'token': $( '.token' ).val()
+        };
         num = $( this ).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
         var ajax = AjaxMain( url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList );
@@ -25,7 +28,11 @@ function Main ()
     $( 'select[name="select_directory"]' ).on( 'change', function ( e )
     {
         var url = location.href;
-        var selectDirectory = { "select_directory": $( this ).val(), "dir_name": $( 'select[name="select"]' ).val() };
+        var selectDirectory = {
+            "select_directory": $( this ).val(),
+            "dir_name": $( 'select[name="select"]' ).val(),
+            "token": $( '.token' ).val()
+        };
         num = $( this ).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
         var ajax = AjaxMain( url, null, 'server.php', 'POST', selectDirectory, 'json', SetFileList);
@@ -39,7 +46,8 @@ function Main ()
             "edit": $('.edit').val(),
             "directory": $( 'select[name="select"]' ).val(),
             "subdirectory": $( 'select[name="select_directory"]' ).val(),
-            "file": $( 'select[name="select_file"]' ).val()
+            "file": $( 'select[name="select_file"]' ).val(),
+            "token": $( '.token' ).val()
         };
         var ajax = AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json' );
     } );
@@ -56,7 +64,8 @@ function Main ()
                 "subdirectory": $( 'select[name="select_directory"]' ).val(),
                 "file": $( 'select[name="select_file"]' ).val(),
                 "input": $( '.result-src' ).val(),
-                "save": 'true'
+                "save": 'true',
+                'token': $( '.token' ).val()
             };
             // console.log(  );
             var ajax = AjaxMain( url, null, 'server.php', 'POST', saveObj, 'json' );

@@ -14,7 +14,15 @@ if ($session->Judge('addition')) {
 
 $dir = ["---" => "---"];
 
+if (!$session->Judge('token')) {
+    $token = MakeToken();
+    SetToken($token);
+} else {
+    $token = $session->Read('token');
+}
+
 $dir = array_merge($dir, scandir('../../public/'));
 $smarty->assign('base', basename(__DIR__). '/subdirectory');
+$smarty->assign('token', $token);
 $smarty->assign('dir', $dir);
 $smarty->display('index.tpl');

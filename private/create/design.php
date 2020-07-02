@@ -14,6 +14,16 @@ if ($session->Judge('addition')) {
 
 $dir = scandir('../../public/');
 
+if (!$session->Judge('token')) {
+    $token = MakeToken();
+    SetToken($token);
+} else {
+    $token = $session->Read('token');
+}
+
+$session->OnlyView('notice');
+
 $smarty->assign('base', 'subdirectory');
+$smarty->assign('token', $token);
 $smarty->assign('dir', $dir);
 $smarty->display('index.tpl');
