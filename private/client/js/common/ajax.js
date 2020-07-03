@@ -22,7 +22,7 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text", Call
 
         ajx.always( function ( xmlhttp )
         {
-            console.log( xmlhttp.responseText ); // JSONデータ(デバッグ用)
+            // console.log( xmlhttp.responseText ); // JSONデータ(デバッグ用)
         } )
             .done( function ( response )
             {

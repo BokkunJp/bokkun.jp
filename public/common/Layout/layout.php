@@ -14,7 +14,6 @@ $img = "crown-vector.jpg";
     <meta name="robots" content="noindex,nofollow">
     <title><?php echo basename(getcwd()); ?></title>
     <link rel="shortcut icon" href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
-    <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css/common.css">
     <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('') ?>design.css"></head>
 <body>
     <link rel="stylesheet" type="text/css" href="<?php echo $public; ?>client/css/common/<?php echo $agentCode; ?>.css">

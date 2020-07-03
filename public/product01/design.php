@@ -55,6 +55,7 @@ foreach ($fileArray as $_value) {
     echo "<a href=\"{$_filePath}\" download>{$_value}ダウンロード</a>";
 }
 ?>
+<base href='../' />
 <div class='product-webgl'>
     <script src="client/js/<?php echo basename(__DIR__); ?>/WebGLProgram/shader.js"></script>
     <script src="client/js/<?php echo basename(__DIR__); ?>/WebGLProgram/ProgramObject.js"></script>
