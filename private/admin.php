@@ -9,6 +9,7 @@ $title = '管理側コンテンツ一覧';
 <head>
     <meta charset='utf-8' />
     <title>管理画面</title>
+    <link rel="shortcut icon" href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
     <link rel="stylesheet" type="text/css" href="./client/css/common.css">
     <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css/design.css">
 </head>
