@@ -9,14 +9,8 @@ $title = '管理側コンテンツ一覧';
 <head>
     <meta charset='utf-8' />
     <title>管理画面</title>
-    <script src="<?php echo $url; ?>/js/JavaScript/time/time.js"></script>
-    <script src="<?php echo $url; ?>/js/JavaScript/time/realtime.js"></script>
-    <script src="<?php echo $url; ?>/js/JavaScript/time/convert.js"></script>
-
-    <script>
-        var t = new Time();
-    </script>
-    <?php require_once "common_css.php"; ?>
+    <link rel="stylesheet" type="text/css" href="./client/css/common.css">
+    <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css/design.css">
 </head>
 
 <body>
