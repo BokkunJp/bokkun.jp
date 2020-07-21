@@ -77,6 +77,12 @@ class CSV_Base {
     }
 
     public function MakeFile($fileName, $filePath = CSV) {
+
+        // CSV保管用のディレクトリがない場合は作成
+        if (!file_exists($filePath)) {
+            mkdir($filePath);
+        }
+
         $validate = $this->NameValidate($fileName);
         if ($validate === false) {
             return false;
