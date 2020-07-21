@@ -119,6 +119,10 @@ function ImportImage() {
         }
 
         if (is_numeric($imgType)) {
+            // 画像保管用のディレクトリがない場合は作成
+            if (!file_exists($imageDir . '/FILE/')) {
+                mkdir($imageDir . '/FILE/');
+            }
             if (move_uploaded_file($_files['tmp_name'], $imageDir . '/FILE/' . $_files['name'])) {
                 // $result['success'][$_files['name']] = true;
                 $result['success']['count']++;
