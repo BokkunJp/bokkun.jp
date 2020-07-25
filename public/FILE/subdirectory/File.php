@@ -173,16 +173,16 @@ function ShowImage($data, $imageUrl) {
         ErrorSet('ページの指定が不正です。');
         return false;
     } else {
-        $start = ($page - 1) * GetPaging();
+        $start = ($page - 1) * GetCountPerPage();
     }
-    $end = $start + GetPaging();
+    $end = $start + GetCountPerPage();
     if ($end > count($data)) {
         $end = count($data);
     }
 
     if ($start >= $end) {
         ErrorSet('画像がありません。');
-//        ViewPager($data, $imageUrl);
+//        ViewPager($data);
         return false;
     }
 
@@ -192,7 +192,7 @@ function ShowImage($data, $imageUrl) {
         ViewImage($_file, $imageUrl, $_time);
 
     }
-    ViewPager($data, $imageUrl);
+    ViewPager($data);
 }
 
 /**

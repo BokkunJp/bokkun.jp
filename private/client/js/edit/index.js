@@ -122,7 +122,7 @@ function SetFileList ( dir )
 
         $.each( dir, function ( index, value )
         {
-            if ( value !== '.' && value !== '..' && value !== '_old' && value !== 'notInclude' )
+            if ( value !== '.' && value !== '..' && value !== '_old' && value !== 'notAutoInclude' )
             {
                 option = $( '<option>' )
                     .val( value )

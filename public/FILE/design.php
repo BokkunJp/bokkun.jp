@@ -14,13 +14,13 @@ $page = PublicSetting\Setting::GetQuery('page');
     <select name='image-value'>
       <?php
       for ($i = 1; $i <= MAX_VIEW; $i++) {
-        $_val = $i * PAGING;
+        $_val = $i * PAGER;
         echo "<option value={$_val}>" . $_val . "</option>";
       }
       ?>
     </select>
     <span><button value='editView'>表示枚数の変更</button>
-      <span>現在の表示枚数:<?= GetPaging(); ?>枚</span>
+      <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
   </form>
 </div>
 <form>

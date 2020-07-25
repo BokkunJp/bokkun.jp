@@ -11,7 +11,7 @@ $(function () {
 function Main() {
     //  alert('jQuery動作確認');
     var url = location.href;
-    var subdirectory = 'subdirectory/notInclude/';
+    var subdirectory = 'subdirectory/notAutoInclude/';
     var ajax = AjaxMain(url, subdirectory, 'Server.php', 'GET');
  }
 

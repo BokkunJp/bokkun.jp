@@ -8,20 +8,55 @@
   *  戻り値：
   */
  function Main() {
-    //  $('.image-value').change(function(e) {
-    //      e.preventDefault();
-    //      url = location.href;
-    //      data = $('.image-value').val();
-    //      console.log( "image-value=" + data);
-    //      $.post( url,"image-value=" + data)
-    //          .done(function(data) {
-    //              console.log(data);
-    //          })
-    //          .fail(function(){
-    //              console.error('send error');
-    //          });
-    //  });
+    // // 選択したディレクトリ名からファイル・サブディレクトリ一覧を出力する
+    $( '.page_number' ).on( 'keypress', function ( e )
+    {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            var url = location.href;
+            var selectVersion = {
+                "dir_name": $( this ).val(),
+                'token': $( '.token' ).val()
+            };
+            var num = $( this ).val();
+            // 選択したバージョンを渡して、バージョン内のログ一覧を作成
+            var ajax = AjaxMain( url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList );
+        }
+    } );
  }
+
+ function ReadFileList ( ver )
+ {
+    //  select = $( 'select[name="select_directory"]' );
+ 
+     // オプションの初期化
+    //  select.children().remove();
+    //  option = $( '<option>' )
+    //      .val( null )
+    //      .text( '---' )
+    //      .prop( 'selected', 'select' );
+    //  select.append( option );
+ 
+    //  $.each( ver, function ( index, value )
+    //  {
+    //      if ( value !== '.' && value !== '..' && value !== '_old' )
+    //      {
+    //          option = $( '<option>' )
+    //              .val( value )
+    //              .text( value )
+    //          select.append( option );
+    //      }
+    //  } );
+
+     alert('クリックされました');
+
+ }
+
+
+ /**
+  * ReadF
+  * 
+  */
 
  /*
   * 参考：

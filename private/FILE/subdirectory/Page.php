@@ -17,46 +17,46 @@ function GetPage() {
 }
 
 /**
- * ViewPager
+ * GetCountPerPage
  * ページ当たりの画像数を取得する
  * (post値が確認できない場合はデフォルト値を取得する)
  *
  * @param  void
  *
  * @return int
- */function GetPaging() {
+ */function GetCountPerPage() {
     $session = new PrivateSetting\Session();
     $post = PrivateSetting\Setting::GetPost('image-value');
     if (isset($post) && is_numeric($post)) {
-        $paging = (int) $post;
+        $pager= (int) $post;
         // 上限設定
-        if ($paging > (PAGING * MAX_VIEW)) {
-            $paging = PAGING * MAX_VIEW;
+        if ($pager> (PAGER * MAX_VIEW)) {
+            $pager= PAGER * MAX_VIEW;
         }
-        $session->Write('image-view', $paging);
+        $session->Write('image-view', $pager);
     } else if ($session->Judge('image-view')) {
-        $paging = (int)$session->Read('image-view');
+        $pager= (int)$session->Read('image-view');
     } else {
-        $paging = PAGING;
+        $pager= PAGER;
     }
 
-    return $paging;
+    return $pager;
 
 }
 
 /**
  * ViewPager
- * ページングを表示する
+ * ページャーを表示する
  *
  * @param  mixed $file
- * @param  mixed $imageUrl
  *
  * @return void
  */
-function ViewPager($file, $imageUrl) {
+function ViewPager($file) {
     $nowPage = GetPage();
-    $paging = GetPaging();
-    $maxPage = round(count($file) / $paging + 1);
+    $pager = GetCountPerPage();
+    $minPage = MIN_PAGE_COUNT;
+    $maxPage = round(count($file) / $pager+ 1);
     if ($nowPage === false || $nowPage > $maxPage) {
         $page = 1;
     } else {
@@ -65,13 +65,61 @@ function ViewPager($file, $imageUrl) {
 
     $pageHtml = new \PrivateTag\CustomTagCreate();
 
-    for ($_index = 1, $_vindex = 1; $_index < count($file); $_index += $paging, $_vindex++) {
-        if ($_vindex === $page) {
+    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index < count($file); $_index += $pager, $_vindex++) {
+        $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
+        if ($pageValid === false) {
             $pageHtml->TagSet('span', $_vindex . ' ', 'pager', true);
-        } else {
-            $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'page', false, '_self');
+            $pageHtml->TagExec(true);
+        } else if ($pageValid === true) {
+            $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
+            $pageHtml->TagExec(true);
         }
-        $pageHtml->TagExec(true);
-        echo ' ';
+
+        if ($pageValid === SPACE_ON && $_vindex !== $maxPage) {
+            echo '...';
+        } else {
+            echo ' ';
+        }
     }
+    // 任意ページ番号入力フォーム
+    SetInputForm($maxPage);
 }
+
+/**
+ * ValidateLoop
+ * Pagenatorのページ数を表示するかを判定する
+ *
+ * @param  int $nowPage
+ * @param  int $minPage
+ * @param  int $maxPage
+ * @return void
+ */
+function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
+    // var_dump(['currentPage' => $currentPage, 'nowPage' => $nowPage,  'minPage' => $minPage, 'maxPage' => $maxPage]);
+    switch ($currentPage) {
+        case $minPage:
+        case $maxPage:
+        case $nowPage - 1:
+        case $nowPage + 1:
+            $valid = true;
+        break;
+        case $nowPage - 2:
+        case $nowPage + 2:
+            $valid = SPACE_ON;
+        break;
+        case $nowPage:
+            $valid = false;
+        break;
+    default:
+            $valid = null;
+        break;
+    }
+
+    return $valid;
+}
+
+function SetInputForm($maxLength) 
+{
+    // require __DIR__. '/notAutoInclude/input.php';
+}
+
