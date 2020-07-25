@@ -66,7 +66,7 @@ function ViewPager($file) {
     $pageHtml = new \PublicTag\CustomTagCreate();
 
     for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index < count($file); $_index += $pager, $_vindex++) {
-        $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
+        $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage - 1);
         if ($pageValid === false) {
             $pageHtml->TagSet('span', $_vindex . ' ', 'pager', true);
             $pageHtml->TagExec(true);
@@ -97,7 +97,6 @@ function ViewPager($file) {
  * @return void
  */
 function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
-    // var_dump(['currentPage' => $currentPage, 'nowPage' => $nowPage,  'minPage' => $minPage, 'maxPage' => $maxPage]);
     switch ($currentPage) {
         case $minPage:
         case $maxPage:
