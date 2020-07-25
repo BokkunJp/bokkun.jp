@@ -98,6 +98,10 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
     switch ($currentPage) {
         case $minPage:
         case $maxPage:
+            if ($nowPage === $currentPage) {
+                $valid = false;
+                break;
+            }
         case $nowPage - 1:
         case $nowPage + 1:
             $valid = true;

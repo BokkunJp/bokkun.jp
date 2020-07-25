@@ -67,6 +67,7 @@ function ViewPager($file) {
 
     for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index < count($file); $_index += $pager, $_vindex++) {
         $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage - 1);
+        // var_dump($pageValid);
         if ($pageValid === false) {
             $pageHtml->TagSet('span', $_vindex . ' ', 'pager', true);
             $pageHtml->TagExec(true);
@@ -100,6 +101,10 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
     switch ($currentPage) {
         case $minPage:
         case $maxPage:
+            if ($nowPage === $currentPage) {
+                $valid = false;
+                break;
+            }
         case $nowPage - 1:
         case $nowPage + 1:
             $valid = true;
@@ -115,6 +120,10 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
             $valid = null;
         break;
     }
+
+    // if ($nowPage === $minPage || $nowPage === $minPage) {
+    //     $valid = false;
+    // }
 
     return $valid;
 }
