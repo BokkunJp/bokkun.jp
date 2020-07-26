@@ -56,7 +56,10 @@ function ViewPager($file) {
     $nowPage = GetPage();
     $pager = GetCountPerPage();
     $minPage = MIN_PAGE_COUNT;
-    $maxPage = (int)round(count($file) / $pager + 1);
+    $maxPage = (int)round(count($file) / $pager);
+    if ($maxPage === 0) {
+        $maxPage = 1;
+    }
     if ($nowPage === false || $nowPage > $maxPage) {
         $page = 1;
     } else {
@@ -123,7 +126,7 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
     return $valid;
 }
 
-function SetInputForm($minPage, $maxLength) 
+function SetInputForm($minPage, $maxPage) 
 {
-    Output("<input type='number' class='update_page' name='update_page' min=$minPage max=$maxLength />ページへ移動");
+    Output("<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ移動");
 }

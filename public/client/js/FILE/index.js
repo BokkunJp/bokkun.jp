@@ -15,6 +15,14 @@
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
             var url = $(location).attr('pathname');
+            var queryArray = $('update_page');
+            console.log(queryArray);
+
+            $.each(queryArray, function(index, val) {
+                console.log(index);
+                console.log(val);
+            });
+            console.log($('.update_page').val());
             var query = parseInt($('.update_page').val());
             var min = parseInt($('.update_page').attr('min'));
             var max = parseInt($('.update_page').attr('max'));
