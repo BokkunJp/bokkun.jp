@@ -36,7 +36,7 @@ $page = PrivateSetting\Setting::GetQuery('page');
   </span>
 </form>
 
-<form action="./subdirectory/notAutoInclude/server.php?mode=del<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>
+<form class='pageForm' action="./subdirectory/notAutoInclude/server.php?mode=del<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>
   <?php
   ReadImage(1);
   ?>

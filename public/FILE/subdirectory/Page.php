@@ -65,9 +65,8 @@ function ViewPager($file) {
 
     $pageHtml = new \PublicTag\CustomTagCreate();
 
-    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index < count($file); $_index += $pager, $_vindex++) {
-        $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage - 1);
-        // var_dump($pageValid);
+    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= count($file); $_index += $pager, $_vindex++) {
+        $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
         if ($pageValid === false) {
             $pageHtml->TagSet('span', $_vindex . ' ', 'pager', true);
             $pageHtml->TagExec(true);
@@ -77,14 +76,14 @@ function ViewPager($file) {
         }
 
         if ($pageValid === SPACE_ON && $_vindex !== $maxPage) {
-            echo '...';
+            echo ' ... ';
         } else {
             echo ' ';
         }
 }
 
     // 任意ページ番号入力フォーム
-    SetInputForm($maxPage);
+    SetInputForm($minPage, $maxPage);
 }
 
 
@@ -121,14 +120,10 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
         break;
     }
 
-    // if ($nowPage === $minPage || $nowPage === $minPage) {
-    //     $valid = false;
-    // }
-
     return $valid;
 }
 
-function SetInputForm($maxLength) 
+function SetInputForm($minPage, $maxLength) 
 {
-    // require __DIR__. '/notAutoInclude/input.php';
+    Output("<input type='number' class='update_page' name='update_page' min=$minPage max=$maxLength />ページへ移動");
 }

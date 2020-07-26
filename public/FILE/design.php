@@ -4,10 +4,16 @@
 if (!isset($session)) {
   $session = new PublicSetting\Session();
 }
-$posts = PublicSetting\Setting::GetPosts();
 
 // ページ数取得
 $page = PublicSetting\Setting::GetQuery('page');
+
+// 更新用ページに関する処理
+$update_page = PublicSetting\Setting::GetPost('update_page');
+
+if (isset($update_page) && is_numeric($update_page)) {
+  echo "{$update_page}ページに移動しました。";
+}
 ?>
 <div class='view-image'>
   <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
@@ -19,11 +25,12 @@ $page = PublicSetting\Setting::GetQuery('page');
       }
       ?>
     </select>
-    <span><button value='editView'>表示枚数の変更</button>
+    <span><button value='editView'>表示枚数の変更</button></span>
       <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
   </form>
 </div>
-<form>
+
+  <form class='pageForm' method="POST">
   <?php
   ReadImage(1);
   ?>

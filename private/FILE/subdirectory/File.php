@@ -271,6 +271,8 @@ function ShowImage($data, $imageUrl) {
         return false;
     }
 
+    ViewPager($data);
+
     for ($i = $start; $i < $end; $i++) {
         $_file = $data[$i]['name'];
         $_time = $data[$i]['time'];

@@ -8,55 +8,33 @@
   *  戻り値：
   */
  function Main() {
-    // // 選択したディレクトリ名からファイル・サブディレクトリ一覧を出力する
-    $( '.page_number' ).on( 'keypress', function ( e )
+    // 選択したページ数を判別し、問題なければページ遷移する。
+    // ページ数に問題がある場合はエラーを出力し、送信を中止する。
+    $( '.update_page' ).on( 'keypress', function ( e )
     {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
-            var url = location.href;
-            var selectVersion = {
-                "dir_name": $( this ).val(),
-                'token': $( '.token' ).val()
-            };
-            var num = $( this ).val();
-            // 選択したバージョンを渡して、バージョン内のログ一覧を作成
-            var ajax = AjaxMain( url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList );
+            var url = $(location).attr('pathname');
+            var query = parseInt($('.update_page').val());
+            var min = parseInt($('.update_page').attr('min'));
+            var max = parseInt($('.update_page').attr('max'));
+            var sendUrl = url + "?page=" + query;
+            if (!$.isNumeric(query)) {
+                alert('ページの指定が不正です。');
+                return false;
+            } else if (query < min) {
+                alert(min + 'ページ以上のページ番号を指定してください。');
+                return false;
+            } else if (query > max) {
+                alert(max + 'ページ以下のページ番号を指定してください。');
+                return false;
+            } else {
+                $('.pageForm').attr('action', sendUrl);
+                $('.pageForm').submit();
+            }
         }
     } );
  }
-
- function ReadFileList ( ver )
- {
-    //  select = $( 'select[name="select_directory"]' );
- 
-     // オプションの初期化
-    //  select.children().remove();
-    //  option = $( '<option>' )
-    //      .val( null )
-    //      .text( '---' )
-    //      .prop( 'selected', 'select' );
-    //  select.append( option );
- 
-    //  $.each( ver, function ( index, value )
-    //  {
-    //      if ( value !== '.' && value !== '..' && value !== '_old' )
-    //      {
-    //          option = $( '<option>' )
-    //              .val( value )
-    //              .text( value )
-    //          select.append( option );
-    //      }
-    //  } );
-
-     alert('クリックされました');
-
- }
-
-
- /**
-  * ReadF
-  * 
-  */
 
  /*
   * 参考：
