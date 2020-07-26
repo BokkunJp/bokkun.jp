@@ -56,7 +56,7 @@ function ViewPager($file) {
     $nowPage = GetPage();
     $pager = GetCountPerPage();
     $minPage = MIN_PAGE_COUNT;
-    $maxPage = (int)round(count($file) / $pager);
+    $maxPage = (int)ceil(count($file) / $pager);
     if ($maxPage === 0) {
         $maxPage = 1;
     }
