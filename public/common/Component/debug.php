@@ -8,13 +8,13 @@ class DebugClass extends \BasicTag\HTMLClass {
       $this->AllowAuthority('pre');
       $this->debug_tag = 'pre';
     }
-    $this->TagSet($this->debug_tag, 'debug_test', 'debug', true);
+    $this->SetTag($this->debug_tag, 'debug_test', 'debug', true);
   }
 
   private function setMessage($message, $view) {
     if ($view === true) {
-      $this->TagSet($this->debug_tag, implode(",", $message), 'debug', true);
-      $this->message = $this->TagExec();
+      $this->SetTag($this->debug_tag, implode(",", $message), 'debug', true);
+      $this->message = $this->ExecTag();
     } else {
       $this->message = $message;
     }

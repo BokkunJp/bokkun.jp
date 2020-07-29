@@ -291,8 +291,8 @@ function ShowImage($data, $imageUrl) {
  */
 function ErrorSet($errMsg = ERRMessage) {
     $prevLink = new CustomTagCreate();
-    $prevLink->TagSet('div', $errMsg, 'warning', true);
-    $prevLink->TagExec(true);
+    $prevLink->SetTag('div', $errMsg, 'warning', true);
+    $prevLink->ExecTag(true);
     $prevLink->SetHref("./", PREVIOUS, 'page', true, '_self');
 
 }

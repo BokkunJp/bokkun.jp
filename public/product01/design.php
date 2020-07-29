@@ -49,7 +49,7 @@ $base = new PublicSetting\Setting();
 // 次期改修
 //$downloadHtml = new CustomTagCreate();
 //$downloadHtml->SetHref('test', 'download', 'csv', false, "download");
-//$downloadHtml->TagExec(true);
+//$downloadHtml->ExecTag(true);
 foreach ($fileArray as $_value) {
     $_filePath = AddPath($base->GetUrl(basename(__DIR__), 'csv'), $_value, false);
     echo "<a href=\"{$_filePath}\" download>{$_value}ダウンロード</a>";

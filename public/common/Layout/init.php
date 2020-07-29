@@ -53,8 +53,8 @@ $breadCrumbList = array_reverse($breadCrumbList);
 $breadCrumbList = $breadCrumbList;
 
 $arrow = new \PublicTag\HTMLClass(true);
-$arrow->TagSet('span', '->', 'arrow', true);
-$arrow = $arrow->TagExec();
+$arrow->SetTag('span', '->', 'arrow', true);
+$arrow = $arrow->ExecTag();
 
 // 配列を順に出力する (パンくず出力用)
 function ViewArray($ary, $arow="\t") {
