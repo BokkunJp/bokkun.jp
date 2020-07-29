@@ -2,18 +2,21 @@
 // セッションの設定
 $sess = new PublicSetting\Session();
 
-// JA判定処理
-define('Phone', 2);
-define('PC', 1);
-switch ($ua->DesignJudge()) {
-    case PC:
-        $agentCode = 'PC';
-        break;
-    case Phone:
-        $agentCode = 'SMP';
-        break;
-    default:
-        break;
+// UA判定処理
+if (isset($ua)) {
+    define('Phone', 2);
+    define('PC', 1);
+    switch ($ua->DesignJudge()) {
+        case PC:
+            $agentCode = 'PC';
+            break;
+        case Phone:
+            $agentCode = 'SMP';
+            break;
+        default:
+            break;
+    }
+    
 }
 
 
