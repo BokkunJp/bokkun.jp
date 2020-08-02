@@ -25,7 +25,9 @@ $base = new PublicSetting\Setting();
 $ua = new UA\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 $homepageTitle = basename(getcwd());
-$title = htmlspecialchars($homepageTitle);
+if (!isset($title)) {
+    $title = htmlspecialchars($homepageTitle);
+}
 
 // ファイル読み込み処理
 require_once PUBLIC_COMMON_DIR . "/Include.php";

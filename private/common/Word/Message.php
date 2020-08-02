@@ -38,5 +38,7 @@ define('PRIVATE_LAYOUT_DIR', PRIVATE_COMMON_DIR . '/Layout');
 // define('NOW_PAGE', basename(getcwd()));
 // define('SECURITY_LENG', 32);
 
-// 公開側ファイル
+// 公開側画像パス
 define('PUBLIC_IMAGE_DIR', DOCUMENT_ROOT . '/public/client/image/');
+// デフォルトの可視フラグ
+define('DEFAULT_VIEW', NOT_VIEW);

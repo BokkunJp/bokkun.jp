@@ -2,40 +2,58 @@
 <?php
 // セッション開始
 if (!isset($session)) {
-  $session = new PublicSetting\Session();
+    $session = new PublicSetting\Session();
+    // 表示フラグ
+    if (!empty($session->Judge('image-view-require'))) {
+        $readFlg = $session->Read('image-view-require');
+    } else {
+    // 表示フラグをデフォルトに
+    $readFlg = DEFAULT_VIEW;
+    }
+} else {
+    // 表示フラグをデフォルトに
+    $readFlg = DEFAULT_VIEW;
 }
 
 // ページ数取得
 $page = PublicSetting\Setting::GetQuery('page');
 
 // 更新用ページに関する処理
-$update_page = PublicSetting\Setting::GetPost('update_page');
+$updatePage = PublicSetting\Setting::GetPost('update_page');
 
-if (isset($update_page) && is_numeric($update_page)) {
-  echo "{$update_page}ページに移動しました。";
+if (isset($updatePage) && is_numeric($updatePage)) {
+    echo "{$updatePage}ページに移動しました。";
 }
+
 ?>
-<div class='view-image'>
-  <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
-    <select name='image-value'>
-      <?php
-      for ($i = 1; $i <= MAX_VIEW; $i++) {
-        $_val = $i * PAGER;
-        echo "<option value={$_val}>" . $_val . "</option>";
-      }
-      ?>
-    </select>
-    <span><button value='editView'>表示枚数の変更</button></span>
-      <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
-  </form>
-</div>
+<?php if ($readFlg === VIEW) :?>
+  <div class='view-image'>
+    <form 
+    <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
+      <select name='image-value'>
+        <?php
+        for ($i = 1; $i <= MAX_VIEW; $i++) {
+          $_val = $i * PAGER;
+          echo "<option value={$_val}>" . $_val . "</option>";
+        }
+        ?>
+      </select>
+      <span><button value='editView'>表示枚数の変更</button></span>
+        <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
+    </form>
+  </div>
+<?php endif;?>
 
   <form class='pageForm' method="POST">
   <?php
-  ReadImage(1);
+  ReadImage($readFlg);
   ?>
-  <input type='hidden' name='token' value="<?= $token = MakeToken(); ?>" />
+  <?php if ($readFlg === VIEW) :?>
+    <input type='hidden' name='token' value="<?= $token = MakeToken(); ?>" />
+  <?php endif;?>
 </form>
 
 <?php
-SetToken($token);
+if (isset($token)) {
+  SetToken($token);
+}

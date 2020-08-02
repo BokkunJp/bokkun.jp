@@ -24,8 +24,6 @@ function Public_CSRFErrorMessage() {
 }
 
 // 共通部分
-// define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
-// define('API_DIR', DOCUMENT_ROOT . '/API');
 define('PUBLIC_DIR', DOCUMENT_ROOT . '/public');
 define('PUBLIC_COMMON_DIR', PUBLIC_DIR. '/common');
 define('PUBLIC_CLIENT_DIR', PUBLIC_DIR . '/client');
@@ -35,6 +33,5 @@ define('PUBLIC_IMAGE_DIR', PUBLIC_CLIENT_DIR . '/image');
 define('PUBLIC_CSV_DIR', PUBLIC_CLIENT_DIR . '/csv');
 define('PUBLIC_COMPONENT_DIR', PUBLIC_COMMON_DIR . '/Component');
 define('PUBLIC_LAYOUT_DIR', PUBLIC_COMMON_DIR . '/Layout');
-// define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
-// define('NOW_PAGE', basename(getcwd()));
-// define('SECURITY_LENG', 32);
+// デフォルトの可視フラグ
+define('DEFAULT_VIEW', VIEW);
