@@ -42,4 +42,4 @@ define('PRIVATE_PREVIOUS', '画像管理ページへ戻る');
 // 公開側画像パス
 define('PUBLIC_IMAGE_DIR', DOCUMENT_ROOT . '/public/client/image/');
 // デフォルトの可視フラグ
-define('DEFAULT_VIEW', NOT_VIEW);
+define('DEFAULT_VIEW', VIEW);
