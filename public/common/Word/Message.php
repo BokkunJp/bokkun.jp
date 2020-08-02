@@ -33,5 +33,6 @@ define('PUBLIC_IMAGE_DIR', PUBLIC_CLIENT_DIR . '/image');
 define('PUBLIC_CSV_DIR', PUBLIC_CLIENT_DIR . '/csv');
 define('PUBLIC_COMPONENT_DIR', PUBLIC_COMMON_DIR . '/Component');
 define('PUBLIC_LAYOUT_DIR', PUBLIC_COMMON_DIR . '/Layout');
+define('PUBLIC_PREVIOUS', '画像閲覧ページへ戻る');
 // デフォルトの可視フラグ
 define('DEFAULT_VIEW', VIEW);

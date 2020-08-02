@@ -40,7 +40,6 @@ define('MAX_VIEW', 10);
 define('MIN_PAGE_COUNT', 1);
 define('SPACE_ON', 1);
 define('COUNT_START', 3);
-define('PREVIOUS', 'ファイルページへ戻る');
 define('ERRMessage', 'エラーが発生しました。');
 
 
