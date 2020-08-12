@@ -133,10 +133,10 @@ function TimeSort(&$data, $order = 'ASC') {
  *
  * @return void
  */
-function ReadImage($read_flg = 0) {
-    if ($read_flg === 0) {
+function ReadImage($read_flg = NOT_VIEW) {
+    if ($read_flg === NOT_VIEW) {
         echo '現在、画像の公開を停止しています。';
-        return null;
+        return NOT_VIEW;
     } else {
         // アップロードされている画像データを読み込む
         $fileList = LoadAllImageFile();
@@ -186,6 +186,8 @@ function ShowImage($data, $imageUrl) {
         return false;
     }
 
+    Output('<p><a href="#update_page">一番下へ</a></p>');
+
     for ($i = $start; $i < $end; $i++) {
         $_file = $data[$i]['name'];
         $_time = $data[$i]['time'];
@@ -205,8 +207,8 @@ function ShowImage($data, $imageUrl) {
  */
 function ErrorSet($errMsg = ERRMessage) {
     $prevLink = new CustomTagCreate();
-    $prevLink->TagSet('div', $errMsg, 'warning', true);
-    $prevLink->TagExec(true);
-    $prevLink->SetHref("./", PREVIOUS, 'page', true, '_self');
+    $prevLink->SetTag('div', $errMsg, 'warning', true);
+    $prevLink->ExecTag(true);
+    $prevLink->SetHref("./", PUBLIC_PREVIOUS, 'page', true, '_self');
 
 }

@@ -52,7 +52,7 @@ class Setting {
     }
     
     // タグ名リスト生成
-    public function authorityListCreate($notuseList) {
+    public function CreateAuthorityList($notuseList) {
         $select = '<select>';
         $authorityList = $this->authoritys;
         $notuse = array_search('script', $authorityList);

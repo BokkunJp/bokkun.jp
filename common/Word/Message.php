@@ -32,13 +32,16 @@ define('NOW_PAGE', basename(getcwd()));
 define('SECURITY_LENG', 32);
 
 // FILEページの文言
+define('VIEW', 1);
+define('NOT_VIEW', -1);
+
 define('PAGER', 10);
 define('MAX_VIEW', 10);
 define('MIN_PAGE_COUNT', 1);
 define('SPACE_ON', 1);
-define('COUNT_START', 2);
-define('PREVIOUS', 'ファイルページへ戻る');
+define('COUNT_START', 3);
 define('ERRMessage', 'エラーが発生しました。');
+
 
 define('FILE_COUNT_MAX', 50);
 define('FILE_COUNT_OVER', -1);

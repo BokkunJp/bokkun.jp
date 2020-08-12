@@ -256,21 +256,6 @@ class Session
         }
     }
 
-    // セッション閲覧用
-    public function View($id = null)
-    {
-        if (isset($id)) {
-            if (isset($this->session[$id])) {
-                echo $this->session[$id];
-            } else {
-                return false;
-            }
-        } else {
-            var_dump($this->session);
-        }
-        return true;
-    }
-
     // セッション判定用
     public function Judge($id = null)
     {
@@ -283,6 +268,17 @@ class Session
         }
 
         return true;
+    }
+
+    // セッション閲覧用
+    public function View($id = null)
+    {
+        $judge = $this->Judge($id);
+        if ($judge === null) {
+            var_dump($this->session);
+        } else if ($judge === true) {
+            print_r($this->session[$id]);
+        }
     }
 
     // セッション参照後、該当のセッションを削除する

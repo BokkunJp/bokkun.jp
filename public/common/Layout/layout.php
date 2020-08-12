@@ -12,9 +12,10 @@ $img = "crown-vector.jpg";
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
-    <title><?php echo basename(getcwd()); ?></title>
+    <title><?php echo $title; ?></title>
     <link rel="shortcut icon" href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
-    <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('') ?>design.css"></head>
+    <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('') ?>design.css">
+</head>
 <body>
     <link rel="stylesheet" type="text/css" href="<?php echo $public; ?>client/css/common/<?php echo $agentCode; ?>.css">
     <div class="container">

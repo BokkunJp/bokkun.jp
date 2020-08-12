@@ -56,7 +56,11 @@ function ViewPager($file) {
     $nowPage = GetPage();
     $pager = GetCountPerPage();
     $minPage = MIN_PAGE_COUNT;
-    $maxPage = round(count($file) / $pager+ 1);
+    $maxPage = (int)ceil(count($file) / $pager);
+    if ($maxPage === 0) {
+        $maxPage = 1;
+    }
+
     if ($nowPage === false || $nowPage > $maxPage) {
         $page = 1;
     } else {
@@ -65,14 +69,14 @@ function ViewPager($file) {
 
     $pageHtml = new \PrivateTag\CustomTagCreate();
 
-    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index < count($file); $_index += $pager, $_vindex++) {
-        $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage - 1);
+    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= count($file); $_index += $pager, $_vindex++) {
+        $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
         if ($pageValid === false) {
-            $pageHtml->TagSet('span', $_vindex . ' ', 'pager', true);
-            $pageHtml->TagExec(true);
+            $pageHtml->SetTag('span', $_vindex . ' ', 'pager', true);
+            $pageHtml->ExecTag(true);
         } else if ($pageValid === true) {
             $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
-            $pageHtml->TagExec(true);
+            $pageHtml->ExecTag(true);
         }
 
         if ($pageValid === SPACE_ON && $_vindex !== $maxPage) {
@@ -82,7 +86,7 @@ function ViewPager($file) {
         }
     }
     // 任意ページ番号入力フォーム
-    SetInputForm($maxPage);
+    SetInputForm($minPage, $maxPage);
 }
 
 /**
@@ -121,8 +125,7 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
     return $valid;
 }
 
-function SetInputForm($maxLength) 
+function SetInputForm($minPage, $maxPage) 
 {
-    // require __DIR__. '/notAutoInclude/input.php';
+    print_r("<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ移動");
 }
-

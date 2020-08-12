@@ -124,11 +124,11 @@ function IncludeJSFiles($pwd, $className='', $ret = true) {
     } else if (is_array($jsFiles)) {
         foreach ($jsFiles as $_jsFile) {
             $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $_jsFile, false), $className);
-            $src->TagExec(true);
+            $src->ExecTag(true);
         }
     } else {
         $jsFile = $jsFiles;
         $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $jsFile, false), $className);
-        $src->TagExec(true);
+        $src->ExecTag(true);
     }
 }

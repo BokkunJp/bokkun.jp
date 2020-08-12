@@ -2,18 +2,21 @@
 // セッションの設定
 $sess = new PublicSetting\Session();
 
-// JA判定処理
-define('Phone', 2);
-define('PC', 1);
-switch ($ua->DesignJudge()) {
-    case PC:
-        $agentCode = 'PC';
-        break;
-    case Phone:
-        $agentCode = 'SMP';
-        break;
-    default:
-        break;
+// UA判定処理
+if (isset($ua)) {
+    define('Phone', 2);
+    define('PC', 1);
+    switch ($ua->DesignJudge()) {
+        case PC:
+            $agentCode = 'PC';
+            break;
+        case Phone:
+            $agentCode = 'SMP';
+            break;
+        default:
+            break;
+    }
+    
 }
 
 
@@ -50,8 +53,8 @@ $breadCrumbList = array_reverse($breadCrumbList);
 $breadCrumbList = $breadCrumbList;
 
 $arrow = new \PublicTag\HTMLClass(true);
-$arrow->TagSet('span', '->', 'arrow', true);
-$arrow = $arrow->TagExec();
+$arrow->SetTag('span', '->', 'arrow', true);
+$arrow = $arrow->ExecTag();
 
 // 配列を順に出力する (パンくず出力用)
 function ViewArray($ary, $arow="\t") {
