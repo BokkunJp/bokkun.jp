@@ -12,6 +12,7 @@ cake/phpunit.xml.dist
 cake/README.md
 cake/README.rst
 cake/webroot/.htaccess
+cake/vendor/
 public/client/csv/CSV/*
 public/client/image/FILE/*
 private/create/subdirectory/templates_c/*
