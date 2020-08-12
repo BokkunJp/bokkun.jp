@@ -13,6 +13,7 @@ cake/README.md
 cake/README.rst
 cake/webroot/.htaccess
 public/client/csv/CSV/*
+public/client/csv/product01/*
 public/client/image/FILE/*
 private/create/subdirectory/templates_c/*
 private/edit/subdirectory/templates_c/*
