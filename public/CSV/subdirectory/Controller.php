@@ -5,18 +5,36 @@ $token = PublicSetting\Setting::GetPost('token');
 
 Main();
 
-function Main() {
+function Main($inputFlg=false) {
     $csv = new CSV();
 
-//    var_Dump(PublicSetting\Setting::GetPosts());
+    if ($inputFlg === true) {
+        $csv->SetHeader(['x', 'y', 'z']);
 
-    $csv->SetHeader(['x', 'y', 'z']);
-    $csv->SetData([1, 2, 4]);
-    $csv->SetData([2.5, 1.31, 2.47]);
-    $csv->SetData([2.55, 1.323, 3.162]);
+        // ファイル名を設定
+        $valid = $csv->InputName();
+        if ($valid === false) {
+            echo "<div class='warning'>ファイル名を入力してください。</div>";
+            return false;
+        }
 
-    $csv->MakeFile('test.csv');
+        // CSVファイルを取得(編集の場合)
+        $valid = $csv->ReadData();
+        if ($valid === false) {
+            echo "<div class='warning'>列番号の指定が不正です。</div>";
+            return false;
+        }
 
+        // 入力値を設定
+        $valid = $csv->InputData();
+        if ($valid === false) {
+            return false;
+        }
+
+        // CSVファイルを書き込み
+        $csv->SetCSV();
+
+    }
 }
 
 // CSVオブジェクトを作成

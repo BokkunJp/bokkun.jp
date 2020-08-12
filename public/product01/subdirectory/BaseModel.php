@@ -54,7 +54,7 @@ class CSV_Base {
         }
     }
 
-    private function NameValidate($haystack, $extensiton = 'csv') {
+    private function ValidateName($haystack, $extensiton = 'csv') {
         $ret = true;
 
         // 文字列以外は除外 (配列など)
@@ -77,7 +77,7 @@ class CSV_Base {
     }
 
     public function MakeFile($fileName, $filePath = CSV) {
-        $validate = $this->NameValidate($fileName);
+        $validate = $this->ValidateName($fileName);
         if ($validate === false) {
             return false;
         }
