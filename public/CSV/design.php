@@ -51,7 +51,7 @@ if ($post) {
         </tbody>
     </table>
     <input type='hidden' name='csv' value="make" />
-    <input type='hidden' name='token' value="<?=MakeToken()?>" />
+    <input type='hidden' name='token' value="<?=$token=MakeToken()?>" />
     <button type='submit'>データを送信</button>
 </form>
 <?php
@@ -71,4 +71,4 @@ foreach ($fileArray as $_value) {
 
 
 <?php
-SetToken();
+SetToken($token);

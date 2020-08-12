@@ -1,14 +1,15 @@
 <?php
-require_once PUBLIC_COMMON_DIR. '/Token.php';
 IncludeDirctories();
-$token = PublicSetting\Setting::GetPost('token');
-if ($token) {
-    CheckToken('token', true, '不正な値が送信されました。<br/>');
-}
-
-Main();
 
 function Main($inputFlg=false) {
+    $token = PublicSetting\Setting::GetPost('token');
+    $tokenValid = CheckToken('token');
+
+    if ($tokenValid === false) {
+        echo "<div class='warning'>不正な遷移です。</div>";
+        return false;
+    }
+
     $csv = new CSV();
 
     if ($inputFlg === true) {
