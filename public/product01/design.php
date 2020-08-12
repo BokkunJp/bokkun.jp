@@ -1,22 +1,39 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
+
+use BasicTag\ScriptClass;
+
 $post = PublicSetting\Setting::GetPost('csv');
 if ($post) {
-    echo 'CSVを作成しました。';
+    $alert = new ScriptClass();
+
+    $alert->Alert('CSVを作成します。');
+    $inputFlg = true;
+
+    Main($inputFlg);
 }
 ?>
 <div class='product-csv'>
     <form method='POST'>
         <table>
-            <caption><h2>CSVデータ作成</h2></caption>
+            <caption>
+                <h2>CSV作成／データ追加・変更</h2>
+            </caption>
             <thead>
                 <tr>
-                    <th>ファイル名：
+                    <th>
+                        ファイル名
                     </th>
                     <td>
                         <input type='text' name='file-name' />
                     </td>
 
+                    <th>
+                        列番号
+                    </th>
+                    <td>
+                        <input type='text' name='col-number' />
+                    </td>
                 </tr>
                 <tr>
                     <th>要素x</th>
@@ -25,19 +42,19 @@ if ($post) {
                 </tr>
             </thead>
             <tbody>
-            <td>
-                <input type='text' name='x-value' />
-            </td>
-            <td>
-                <input type='text' name='y-value' />
-            </td>
-            <td>
-                <input type='text' name='z-value' />
-            </td>
+                <td>
+                    <input type='text' name='x-value' />
+                </td>
+                <td>
+                    <input type='text' name='y-value' />
+                </td>
+                <td>
+                    <input type='text' name='z-value' />
+                </td>
             </tbody>
         </table>
         <input type='hidden' name='csv' value="make" />
-        <input type='hidden' name='token' value="<?= MakeToken() ?>" />
+        <input type='hidden' name='token' value="<?= $token=MakeToken() ?>" />
         <button type='submit'>データを送信</button>
     </form>
 </div>
@@ -52,7 +69,7 @@ $base = new PublicSetting\Setting();
 //$downloadHtml->TagExec(true);
 foreach ($fileArray as $_value) {
     $_filePath = AddPath($base->GetUrl(basename(__DIR__), 'csv'), $_value, false);
-    echo "<a href=\"{$_filePath}\" download>{$_value}ダウンロード</a>";
+    echo "<a href=\"{$_filePath}\" download>{$_value}ダウンロード</a><br/>";
 }
 ?>
 <base href='../' />
@@ -105,4 +122,4 @@ foreach ($fileArray as $_value) {
     </contents>
 </div>
 <?php
-SetToken();
+SetToken($token);
