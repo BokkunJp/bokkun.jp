@@ -3,16 +3,6 @@ namespace CommonSetting;
 require_once 'InitFunction.php';
 
 $base = new Setting();
-//Publicであればpublic/Setting.PHPを
-//Adminであればadmin/Seetting.phpを
-// どちらもなければこのページを参照(Topページ)
-if (strpos($base->GetURL(), 'public')) {
-    require_once ('public/Setting.php');
-    return true;
-} else if (strpos($base->GetURL(), 'admin')) {
-    require_once ('admin/Setting.php');
-    return true;
-}
 
 require_once AddPath(__DIR__, "Config.php", false);
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
@@ -32,22 +22,16 @@ $FUNCTION_DIR = $COMMON_DIR . '/Function';
 // 設定関係のクラス化(実装中)
 class Setting {
 
-    private $domain, $url, $public;
-    private $client, $css, $js, $image;
+    protected $domain, $url, $public;
+    protected $client, $css, $js, $image;
 
     function __construct() {
         // 基本設定
         $this->InitSSL($this->url);
         $this->domain = $this->GetSERVER('SERVER_NAME');
         $this->url = $this->url . $this->domain;
-        $this->public = $this->url . '/public/';
-
-        // 公開パス関係
-        $this->client = $this->public . 'client/';
-        $this->css = $this->client . 'css';
-        $this->js = $this->client . 'js';
-        $this->image = $this->client . 'image';
-        $this->csv = $this->client . 'csv';
+        $this->public = AddPath('', 'public', true, '/');
+        $this->client = AddPath($this->public, 'client', true, '/');
     }
 
     private function InitSSL(&$http) {
@@ -60,11 +44,7 @@ class Setting {
     }
 
     static private function GetSERVER($elm) {
-        if (isset($_SERVER[$elm])) {
-            return Sanitize($_SERVER[$elm]);
-        } else {
-            return null;
-        }
+        return Sanitize(filter_input(INPUT_SERVER, $elm));
     }
 
     static public function GetServarName() {
@@ -88,17 +68,12 @@ class Setting {
     }
 
     static public function GetPosts() {
-        return Sanitize($_POST);
+        return Sanitize(filter_input_array(INPUT_POST));
     }
 
     // 指定した要素のPost値を取得
     static public function GetPost($elm = '') {
-        $_post = Sanitize($_POST);
-        if (key_exists($elm, $_post)) {
-            return $_post[$elm];
-        } else {
-            return null;
-        }
+        return Sanitize(filter_input(INPUT_POST, $elm));
     }
 
     static public function GetRemoteADDR() {
@@ -107,48 +82,48 @@ class Setting {
 
     // すべてのGet値を取得
     static public function GetRequest() {
-        return Sanitize($_GET);
+        return Sanitize(filter_input_array(INPUT_GET));
     }
 
     // 指定した要素のGet値を取得
     static public function GetQuery($elm = '') {
-        $_get = Sanitize($_GET);
-        if (key_exists($elm, $_get)) {
-            return $_get[$elm];
-        } else {
-            return null;
-        }
+        Sanitize(filter_input(INPUT_GET, $elm));
     }
 
+    // FILEを取得
     static public function GetFiles() {
         return $_FILES;
     }
 
     // 公開パスなどのURLを取得
-    public function GetUrl($query='', $type = 'url') {
+    public function GetUrl($query='', $type='url', $relativePath = false) {
+        if ($relativePath === false) {
+            $url = $this->url;
+        } else {
+            $url = '';
+        }
+
         switch ($type) {
             case 'client':
-                $url = $this->client;
+                $url .= rtrim($this->client, '/');
                 break;
             case 'css':
-                $url = $this->css;
+                $url .= $this->css;
                 break;
             case 'js':
-                $url = $this->js;
+                $url .= $this->js;
                 break;
             case 'image':
-                $url = $this->image;
+                $url .= $this->image;
                 break;
             case 'csv':
-                $url = $this->csv;
+                $url .= $this->csv;
                 break;
             default:
-                $url = $this->url;
                 break;
         }
-        return $url . '/' . $query;
+        return AddPath($url, $query, false, '/');
     }
-
 }
 
 // セッションクラス (ファイルを分離予定)

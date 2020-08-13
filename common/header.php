@@ -1,11 +1,10 @@
 <?php
-
+$img = "0113.png";
 ?>
 <header class='header'>
     <div align="left">
-        <?php $img = "0113.png"; ?>
         <div>
-            <a href="<?= $base->GetURL('') ?>"><img class='top-image' src="<?= $base->GetURL($img, 'image') ?>"></a>
+            <a href="<?= $base->GetURL('') ?>"><img class='top-image' src="<?= AddPath($base->GetURL('image', 'client', false), $img, false, '/') ?>"></a>
             <strong>
                 <em>Bokkun's homepage<?= $siteConfig['header']->GetVersion() ?></em> <br />
                 <div class="top" align="center"><?php if (isset($title)) {

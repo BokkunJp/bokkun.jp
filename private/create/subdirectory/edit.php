@@ -18,7 +18,7 @@ $adminError = new AdminError();
 $use = new \PrivateTag\UseClass();
 
 // tokenチェック
-$checkToken = CheckToken('token');
+$checkToken = CheckToken();
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
 if ($checkToken === false) {

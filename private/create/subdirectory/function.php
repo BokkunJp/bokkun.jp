@@ -19,10 +19,10 @@ class Admin {
         $this->basePath = dirname(dirname(dirname(__DIR__)));
 
         session_start();
-        $this->session = $_SESSION;
-        $this->post = $_POST;
+        $this->session = filter_input_array(INPUT_SESSION);
+        $this->post = filter_input_array(INPUT_POST);
         $judge = array();
-        foreach ($post as $post_key => $post_value) {
+        foreach ($this->post as $post_key => $post_value) {
             $$post_key = $post_value;
             $judge[$$post_key] = $post_value;
         }

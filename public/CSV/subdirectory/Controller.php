@@ -3,7 +3,7 @@ IncludeDirctories();
 
 function Main($inputFlg=false) {
     $token = PublicSetting\Setting::GetPost('token');
-    $tokenValid = CheckToken('token');
+    $tokenValid = CheckToken();
 
     if ($tokenValid === false) {
         echo "<div class='warning'>不正な遷移です。</div>";

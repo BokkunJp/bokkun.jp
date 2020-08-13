@@ -18,8 +18,8 @@ switch ($statusCode) {
         break;
 }
 ?>
-<link rel="stylesheet" type="text/css" href="<?=$base->GetURL('common', 'css')?>/<?php echo $agentCode; ?>.css">
-<link rel="stylesheet" type="text/css" href="<?=$base->GetURL('', 'css')?>design.css">
+<link rel="stylesheet" type="text/css" href="<?=AddPath($base->GetURL('', 'client', false), AddPath(AddPath('css', 'common', false, '/'), $agentCode. ".css", false, '/'), false, '/') ?>">
+<link rel="stylesheet" type="text/css" href="<?=AddPath($base->GetURL('', 'client', false), 'css', true, '/')?>design.css">
 <div class="container">
     <?php require_once('header.php'); ?>
     <main class="contents">
