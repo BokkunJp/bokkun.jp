@@ -36,27 +36,14 @@ function SetToken($token = null)
  * CheckToken
  * トークンチェック
  *
- * @param  mixed $tokenName
- * @param  mixed $errMessage
- * @param  mixed $pageMessage
- * @param  mixed $finishFlg
+ * @param  string $tokenName
+ * @param  boolean $chkFlg
  *
  * @return bool
  */
-function CheckToken($tokenName = 'token')
+function CheckToken($tokenName = 'token', $chkFlg=false)
 {
-    $post = PublicSetting\Setting::GetPosts();
-    $session = new PublicSetting\Session();
+    $checkToken = CheckSession($tokenName, $chkFlg);
 
-    // $post['deb_flg'] = 1;
-    if (isset($post['deb_flg'])) {
-        echo 'デバッグ用<br/>';
-        echo 'post: ' . $post[$tokenName] . '<br/>';
-        echo 'session: ' . $session->Read($tokenName) . '<br/><br/>';
-    }
-    if (!isset($post[$tokenName]) || $post[$tokenName] !== $session->Read($tokenName)) {
-        return false;
-    }
-
-    return true;
+    return $checkToken;
 }

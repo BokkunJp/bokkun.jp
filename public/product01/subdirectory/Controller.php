@@ -3,7 +3,7 @@ require_once PUBLIC_COMMON_DIR. '/Token.php';
 IncludeDirctories();
 
 function Main($inputFlg=false) {
-    $tokenValid = CheckToken('token');
+    $tokenValid = CheckToken();
 
     if ($tokenValid === false) {
         echo "<div class='warning'>不正な遷移です。</div>";

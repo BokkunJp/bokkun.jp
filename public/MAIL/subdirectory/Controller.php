@@ -11,7 +11,7 @@ $posts = PublicSetting\Setting::getPosts();
 $valid = true;
 
 if (isset($posts) && !empty($posts)) {
-    $token = CheckToken('token');
+    $token = CheckToken();
 
     if ($token === false) {
         $script->Alert("不正な値が送信されました。");

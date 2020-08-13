@@ -7,7 +7,7 @@ require_once dirname(__DIR__, 2) . DS . "common" . DS . "ajax-require.php";
 use PrivateSetting\Setting;
 
 // tokenチェック
-$checkToken = CheckToken('token');
+$checkToken = CheckToken();
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
 if ($checkToken === false) {
