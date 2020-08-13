@@ -24,7 +24,6 @@ if ($set->GetPost('select_log') === '') {
     $errCode = 2;
 }
 
-
 if (is_null($set->GetPost('select_log'))) {
     switch ($errCode) {
         case 1:

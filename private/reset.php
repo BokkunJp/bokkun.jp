@@ -7,7 +7,7 @@ require_once "common.php";
     <head>
         <meta charset='utf-8' />
         <title>カウンタリセット</title>
-        <?php require_once "common_css.php"; ?>
+        <link rel="stylesheet" type="text/css" href="./client/css/common.css">
     </head>
     <?php require_once "./common/header.php" ?>
     <body>
