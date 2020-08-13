@@ -6,7 +6,7 @@ function GetSelf_Admin() {
 }
 
 function GetPrevPage_Admin() {
-    return filter_input(INPUT_SERVER, 'HTTP_REFERER');
+    return filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
 }
 
 
@@ -51,7 +51,7 @@ class Admin extends Setting {
 
     public static function GetPrevPage()
     {
-        return filter_input(INPUT_SERVER, 'HTTP_REFERER');
+        return filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
     }
 
 

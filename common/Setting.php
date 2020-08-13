@@ -44,7 +44,7 @@ class Setting {
     }
 
     static private function GetSERVER($elm) {
-        return Sanitize(filter_input(INPUT_SERVER, $elm));
+        return Sanitize(filter_input_fix(INPUT_SERVER, $elm));
     }
 
     static public function GetServarName() {
@@ -73,7 +73,7 @@ class Setting {
 
     // 指定した要素のPost値を取得
     static public function GetPost($elm = '') {
-        return Sanitize(filter_input(INPUT_POST, $elm));
+        return Sanitize(filter_input_fix(INPUT_POST, $elm));
     }
 
     static public function GetRemoteADDR() {
@@ -87,7 +87,7 @@ class Setting {
 
     // 指定した要素のGet値を取得
     static public function GetQuery($elm = '') {
-        Sanitize(filter_input(INPUT_GET, $elm));
+        Sanitize(filter_input_fix(INPUT_GET, $elm));
     }
 
     // FILEを取得
