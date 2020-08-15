@@ -8,7 +8,7 @@
  */
 function GetPage() {
     $page = PublicSetting\Setting::GetQuery('page');
-    if (is_null($page)) {
+    if ($page === false) {
         $page = 1;
     } else if (!is_numeric($page)) {
         return false;
@@ -126,7 +126,7 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
     return $valid;
 }
 
-function SetInputForm($minPage, $maxPage) 
+function SetInputForm($minPage, $maxPage)
 {
     Output("<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ移動");
 }

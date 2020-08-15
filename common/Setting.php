@@ -94,7 +94,7 @@ class Setting {
 
     // 指定した要素のGet値を取得
     static public function GetQuery($elm = '',$filter = FILTER_DEFAULT, $options = null) {
-        Sanitize(filter_input_fix(INPUT_GET, $elm, $filter, $options));
+        return Sanitize(filter_input_fix(INPUT_GET, $elm, $filter, $options));
     }
 
     // 配列形式のGet値を取得

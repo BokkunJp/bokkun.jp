@@ -24,7 +24,8 @@ if ($checkToken === false) {
     exit;
 }
 
-if (!empty(PrivateSetting\Setting::GetQuery('mode')) && PrivateSetting\Setting::GetQuery('mode') === 'del') {
+$mode = PrivateSetting\Setting::GetQuery('mode');
+if (!empty($mode) && $mode === 'del') {
     $count = 0;
     foreach (PrivateSetting\Setting::getPosts() as $post_key => $post_value) {
         $count++;
