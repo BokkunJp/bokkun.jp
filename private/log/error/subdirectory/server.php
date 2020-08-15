@@ -15,17 +15,17 @@ $errPath = CreateClient('log', $errPath);
 $verPath = $set->GetPost('ver');
 $dirPath = rtrim(dirname(__DIR__, 6), "\\") . $errPath. $verPath;
 
+$srcName = $set->GetPost('select_log');
+
 $errCode=null;
 if ($verPath === '---') {
     $errCode=1;
-}
-
-if ($set->GetPost('select_log') === '') {
+} else if ($srcName === null) {
     $errCode = 2;
 }
 
-if (is_null($set->GetPost('select_log'))) {
-    switch ($errCode) {
+if ($srcName === false) {
+    switch ($srcName) {
         case 1:
             $contents = 'バージョンまたはファイルを選択してください。';
             $data = ['log-view' => nl2br(htmlentities($contents))];
@@ -46,7 +46,6 @@ if (is_null($set->GetPost('select_log'))) {
 
     echo $jsonData;
 } else {
-    $srcName = $set->GetPost('select_log');
     $srcFile = AddPath($dirPath, $srcName, false);
 
     switch ($errCode) {

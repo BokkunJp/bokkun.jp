@@ -30,7 +30,7 @@ $srcPath = AddPath(dirname(__DIR__, 3), AddPath('public', $srcName, false), fals
 
 
 // 第2ディレクトリの選択
-if (isset($selectObj)) {
+if ($selectObj !== false) {
     $srcPath = AddPath($srcPath, $selectObj, false);
     if (is_dir($srcPath)) {
         $dataList = scandir($srcPath);
@@ -39,7 +39,7 @@ if (isset($selectObj)) {
     } else {
         $contents = $viewContents = $selectObj;
     }
-} else if (isset($srcName) && $srcName !== '---') {
+} else if ($srcName !== false && $srcName !== '---') {
 // ディレクトリの選択
     $dataList = scandir($srcPath);
     $contents = array_values($dataList);
@@ -51,7 +51,7 @@ if (isset($selectObj)) {
 $data = $contents;
 
 // ソースの保存・書き込み共通処理
-if (isset($saveObj) || isset($editObj)) {
+if ($saveObj !== false || $editObj !== false) {
     $selectSrc = AddPath($srcPath, AddPath($set->GetPost('directory'), $set->GetPost('subdirectory'), false), false);
 
     if (is_dir($selectSrc)) {
@@ -62,7 +62,7 @@ if (isset($saveObj) || isset($editObj)) {
 }
 
 // ソースの保存
-if (isset($saveObj) && $set->GetPost('directory') != '---') {
+if ($saveObj  !== false && $set->GetPost('directory') != '---') {
 
     if (file_exists($srcFile) && is_file($srcFile)) {
         $srcObj = $set->GetPost('input');
@@ -72,7 +72,7 @@ if (isset($saveObj) && $set->GetPost('directory') != '---') {
 }
 
 // ソースの読み込み
-if (isset($editObj) && $set->GetPost('directory') != '---') {
+if ($editObj !== false && $set->GetPost('directory') != '---') {
     if (file_exists($srcFile) && is_file($srcFile)) {
         $contents = htmlentities(file_get_contents($srcFile));
         $viewContents = nl2br($contents);

@@ -44,9 +44,9 @@ function AjaxMain ( url, dir, file, type = 'POST', data, datatype = "text", Call
             } )
             .fail( function ( xhr, textStatus, errorThrown )
             {
-                console.log( "NG");
-                console.log( "textStatus: " + textStatus );
-                console.log("errorThrown    : " + errorThrown.message);
+                // console.log( "NG");
+                // console.log( "textStatus: " + textStatus );
+                // console.log("errorThrown    : " + errorThrown.message);
             } );
     } catch ( e )
     {
