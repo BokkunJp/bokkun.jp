@@ -75,12 +75,12 @@ class Setting {
     // 配列形式のPost値を取得
     static public function GetPostArray($var)
     {
-        return Sanitize(filter_input(INPUT_POST, $var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY));
+        return self::GetPost($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
     }
 
     // 指定した要素のPost値を取得
-    static public function GetPost($elm = '',$definetion = null, $add_empty = true) {
-        return Sanitize(filter_input_fix(INPUT_POST, $elm, $definetion, $add_empty));
+    static public function GetPost($elm = '', $filter = FILTER_DEFAULT, $options = null) {
+        return Sanitize(filter_input_fix(INPUT_POST, $elm, $filter, $options));
     }
 
     static public function GetRemoteADDR() {
@@ -93,14 +93,14 @@ class Setting {
     }
 
     // 指定した要素のGet値を取得
-    static public function GetQuery($elm = '',$definetion = null, $add_empty = true) {
-        Sanitize(filter_input_fix(INPUT_GET, $elm, $definetion, $add_empty));
+    static public function GetQuery($elm = '',$filter = FILTER_DEFAULT, $options = null) {
+        Sanitize(filter_input_fix(INPUT_GET, $elm, $filter, $options));
     }
 
     // 配列形式のGet値を取得
     static public function GetQueryArray($var)
     {
-        return Sanitize(filter_input(INPUT_GET, $var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY));
+        return self::GetQuery($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
     }
 
     // FILEを取得
