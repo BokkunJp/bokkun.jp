@@ -67,13 +67,20 @@ class Setting {
         return self::GetSERVER('SCRIPT_NAME');
     }
 
-    static public function GetPosts() {
-        return Sanitize(filter_input_array(INPUT_POST));
+    // 全Post値を取得
+    static public function GetPosts($definetion = null, $add_empty = true) {
+        return Sanitize(filter_input_array(INPUT_POST, $definetion, $add_empty));
+    }
+
+    // 配列形式のPost値を取得
+    static public function GetPostArray($var)
+    {
+        return Sanitize(filter_input(INPUT_POST, $var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY));
     }
 
     // 指定した要素のPost値を取得
-    static public function GetPost($elm = '') {
-        return Sanitize(filter_input_fix(INPUT_POST, $elm));
+    static public function GetPost($elm = '',$definetion = null, $add_empty = true) {
+        return Sanitize(filter_input_fix(INPUT_POST, $elm, $definetion, $add_empty));
     }
 
     static public function GetRemoteADDR() {
@@ -81,13 +88,19 @@ class Setting {
     }
 
     // すべてのGet値を取得
-    static public function GetRequest() {
-        return Sanitize(filter_input_array(INPUT_GET));
+    static public function GetRequest($definetion = null, $add_empty = true) {
+        return Sanitize(filter_input_array(INPUT_GET, $definetion, $add_empty));
     }
 
     // 指定した要素のGet値を取得
-    static public function GetQuery($elm = '') {
-        Sanitize(filter_input_fix(INPUT_GET, $elm));
+    static public function GetQuery($elm = '',$definetion = null, $add_empty = true) {
+        Sanitize(filter_input_fix(INPUT_GET, $elm, $definetion, $add_empty));
+    }
+
+    // 配列形式のGet値を取得
+    static public function GetQueryArray($var)
+    {
+        return Sanitize(filter_input(INPUT_GET, $var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY));
     }
 
     // FILEを取得

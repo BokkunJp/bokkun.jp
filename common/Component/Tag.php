@@ -83,6 +83,12 @@ class HTMLClass extends Base {
 
     protected $tag, $tagName, $className, $contents;
 
+    function __construct($init=false, $allowTag=[]) {
+        parent::__construct($init);
+        $this->AllowAuthoritys(array_merge($allowTag));
+    }
+
+
     // タグ名・内容・クラス名をセットする
     public function SetTag($tagName = 'div', $contents = '', $className = '', $setClass = false, $tagOption = '') {
         $count = func_num_args();
@@ -203,9 +209,8 @@ class HTMLClass extends Base {
 // 特殊タグ用の処理
 class CustomTagCreate extends HTMLClass {
 
-    function __construct() {
-        parent::__construct();
-        $this->AllowAuthoritys(['a href', 'script src', 'img']);
+    function __construct($init=true, $initArray=['a href', 'script src', 'img']) {
+        parent::__construct($init, $initArray);
     }
 
     protected function CreateClosedTag($tagName, $tagOption, $className, $setClass, $viewLink = false) {
