@@ -43,7 +43,7 @@ class Setting {
         }
     }
 
-    static private function GetSERVER($elm) {
+    static protected function GetSERVER($elm) {
         return Sanitize(filter_input_fix(INPUT_SERVER, $elm));
     }
 

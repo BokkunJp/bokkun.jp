@@ -2,23 +2,22 @@
 // サーバの設定
 namespace ErrorSetting;
 require_once 'InitFunction.php';
-if (isset($_SERVER['HTTPS'])) {
+$http_flg = filter_input_fix(INPUT_SERVER, 'HTTPS');
+if (isset($http_flg)) {
     $http = '//';
 } else {
     $http = 'http://';
 }
 
 // 定数などの定義
-define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
+define('DOCUMENT_ROOT', filter_input_fix(INPUT_SERVER, 'DOCUMENT_ROOT'));
 define('COMMON_DIR', __DIR__);
 define('PUBLIC_DIR', dirname(__DIR__));
 define('FUNCTION_DIR', COMMON_DIR. '/Function');
 define('LAYOUT_DIR', COMMON_DIR. '/Layout');
 define('ROOT', '/');
-$Agent = $_SERVER['HTTP_USER_AGENT'];
-if (isset($_SERVER['HTTP_REFERER'])) {
-    $referer = $_SERVER['HTTP_REFERER'];
-}
+$agent = filter_input_fix(INPUT_SERVER, 'HTTP_USER_AGENT');
+$referer = filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
 
 require_once AddPath(dirname(dirname(COMMON_DIR)), "Config.php", false);
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
@@ -57,11 +56,7 @@ class Setting {
     }
 
     static private function GetSERVER($elm) {
-        if (isset($_SERVER[$elm])) {
-            return Sanitize($_SERVER[$elm]);
-        } else {
-            return null;
-        }
+        return Sanitize(filter_input_fix(INPUT_SERVER, $elm));
     }
 
     static public function GetServarName($elm) {
@@ -70,7 +65,7 @@ class Setting {
 
     static public function GetPropaty($elm) {
         if (property_exists('PublicSetting\Setting', $elm) !== false) {
-            return self::elm;
+            return self::$$elm;
         } else {
             return null;
         }

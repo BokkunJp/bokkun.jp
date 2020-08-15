@@ -2,7 +2,7 @@
 namespace PrivateSetting;
 require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
 function GetSelf_Admin() {
-    return $_SERVER['PHP_SELF'];
+    return filter_input_fix(INPUT_SERVER, 'PHP_SELF');
 }
 
 function GetPrevPage_Admin() {
@@ -11,7 +11,7 @@ function GetPrevPage_Admin() {
 
 
 function getURI_Admin() {
-    return $_SERVER['REQUEST_URI'];
+    return filter_input_fix(INPUT_SERVER, 'REQUEST_URI');
 }
 
 class Setting extends \commonSetting\Setting {
@@ -46,18 +46,18 @@ class Admin extends Setting {
 
     public static function GetSelf()
     {
-        return $_SERVER['PHP_SELF'];
+        return parent::GetSERVER('PHP_SELF');
     }
 
     public static function GetPrevPage()
     {
-        return filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
+        return parent::GetSERVER('HTTP_REFERER');
     }
 
 
     public static function getURI()
     {
-        return $_SERVER['REQUEST_URI'];
+        return filter_input_fix(INPUT_SERVER, 'PHP_SELF');
     }
 }
 
@@ -75,16 +75,14 @@ class Cookie extends \CommonSetting\Cookie
 {
 }
 
-$domain = $_SERVER['SERVER_NAME'];
+$domain = filter_input_fix(INPUT_SERVER, 'SERVER_NAME');
 
 $url = $http.$domain;
 $private = $url. '/private/';
 
 // 定数などの定義
-$Agent = $_SERVER['HTTP_USER_AGENT'];
-if (isset($_SERVER['HTTP_REFERER'])) {
-    $referer = $_SERVER['HTTP_REFERER'];
-}
+$agent = filter_input_fix(INPUT_SERVER, 'HTTP_USER_AGENT');
+$referer = filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
 
 $public = $url . '/public/';
 
