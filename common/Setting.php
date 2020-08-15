@@ -68,8 +68,8 @@ class Setting {
     }
 
     // 全Post値を取得
-    static public function GetPosts($definetion = null, $add_empty = true) {
-        return Sanitize(filter_input_array(INPUT_POST, $definetion, $add_empty));
+    static public function GetPosts() {
+        return Sanitize(filter_input_array(INPUT_POST));
     }
 
     // 配列形式のPost値を取得
@@ -88,8 +88,8 @@ class Setting {
     }
 
     // すべてのGet値を取得
-    static public function GetRequest($definetion = null, $add_empty = true) {
-        return Sanitize(filter_input_array(INPUT_GET, $definetion, $add_empty));
+    static public function GetRequest() {
+        return Sanitize(filter_input_array(INPUT_GET));
     }
 
     // 指定した要素のGet値を取得
