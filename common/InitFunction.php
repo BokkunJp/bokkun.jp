@@ -21,7 +21,7 @@ function AddPath($local, $addpath, $lastSeparator=true,  $separator=DIRECTORY_SE
 
 // ヌルバイト対策 (POST, GET)
 function Sanitize($arr) {
-    if (is_null($arr)) {
+    if (!is_string($arr)) {
         return $arr;
     }
 
