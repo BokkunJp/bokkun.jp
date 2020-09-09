@@ -172,7 +172,7 @@ class Session
     private function Add($sessionElm, $sessionVal)
     {
         $this->session[$sessionElm] = $sessionVal;
-        $_SESSION = $this->session;
+        $_SESSION[$sessionElm] = $this->session[$sessionElm];
     }
 
     /**
