@@ -1,5 +1,16 @@
 <?php
-// 既存のパスに新たな要素を追加する
+/**
+ * AddPath
+ * 既存のパスに新たな要素を追加する
+ *
+ * @param  string $local
+ * @param  string $addpath
+ * @param  boolean $lastSeparator
+
+ * @param  string $separator
+
+ * @return void
+ */
 function AddPath($local, $addpath, $lastSeparator=true,  $separator=DIRECTORY_SEPARATOR) {
     if (mb_substr($local, -1) == $separator) {
         $first = '';
@@ -19,7 +30,14 @@ function AddPath($local, $addpath, $lastSeparator=true,  $separator=DIRECTORY_SE
     return $local;
 }
 
-// ヌルバイト対策 (POST, GET)
+/**
+ * Sanitize
+*  ヌルバイト対策 (POST, GET)
+ *
+ * @param  mixed $arr
+
+ * @return mixed|string
+ */
 function Sanitize($arr) {
     if (!is_string($arr)) {
         return $arr;
