@@ -22,12 +22,14 @@ $jsTitle = basename(getcwd());
 IncludeJSFiles($jsTitle);
 
 
-/*
- *      対象ディレクトリ内のファイルをディレクトリごと一括で読み込む
- *      (ディレクトリが複数あった場合、ディレクトリ毎それぞれのファイルを読み込む)
- *      引数：
- *          $pwd:ディレクトリまでのパス
- *          $extension:拡張子
+/** 
+ * IncludeDirctories
+ * 
+ *    対象ディレクトリ内のファイルをディレクトリごと一括で読み込む
+ *    (ディレクトリが複数あった場合、ディレクトリ毎それぞれのファイルを読み込む)
+ * 
+ * @param string  $pwd:ディレクトリまでのパス
+ * @param string  [$extension:拡張子]
  *
  */
 
@@ -57,15 +59,18 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false, Array $c
     }
 }
 
-/*
- *      対象ディレクトリ内のファイルを一括で読み込む
- *      (対象ディレクトリ内にはファイルのみがある前提)
- *      引数：
- *          $pwd:ディレクトリまでのパス
- *          $extension:拡張子
- *
+/** 
+ * IncludeFiles
+ *     対象ディレクトリ内のファイルを一括で読み込む
+ *     (対象ディレクトリ内にはファイルのみがある前提)
+ * 
+ * @param string  $pwd:ディレクトリまでのパス
+ * @param string  [$extension:拡張子]
+ * @param boolean [$ret:出力フラグ]
+ * @param string [$classLoad:クラスが定義されたファイル名の配列]
+ * 
+ * @return void
  */
-
 function IncludeFiles($pwd, $extension = 'php', $ret = false, Array $classLoad=[]) {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -74,8 +79,12 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, Array $classLoad=[
 
     // クラスを読み込む場合は、spl_auto_registerを使う
     if (!empty($classLoad)) {
+        // print_r("<script>alert('クラスをロードしました。');</script>");
         return spl_autoload_register(function () use ($pwd, $classLoad) {
-            while ($name = current($classLoad)) {
+            while (($name = current($classLoad)) !== false) {
+                if (!is_file(AddPath($pwd, "{$name}.php", false))) {
+                    user_error("指定されたファイルが存在しません。");
+                }
                 require_once AddPath($pwd, "{$name}.php", false);
                 next($classLoad);
             }
@@ -107,12 +116,14 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, Array $classLoad=[
     }
 }
 
-/*
+/**
+ *  IncludeJSFiles
  *      対象ディレクトリ内のJSファイルを一括で読み込み、HTMLのscriptタグとして出力する
  *      引数：
- *          $pwd:ディレクトリまでのパス
+ * @param string $pwd:ディレクトリまでのパス
  *          (JSファイルが所定の場所に置いてあることを前提とする)
- *          $extension:拡張子
+ * @param string  $className:クラス名
+ * @param boolean [$ret:出力フラグ]
  *
  */
 function IncludeJSFiles($pwd, $className='', $ret = true) {

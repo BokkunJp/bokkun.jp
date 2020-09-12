@@ -22,14 +22,14 @@ function MakeToken()
  *
  * @return void
  */
-function SetToken($token = null)
+function SetToken($token = null, $tokenName='token')
 {
     $session = new PublicSetting\Session();
 
     if (!isset($token)) {
         $token = MakeToken();
     }
-    $session->Write('token', $token);
+    $session->Write($tokenName, $token);
 }
 
 /**

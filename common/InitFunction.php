@@ -1,4 +1,40 @@
 <?php
+set_error_handler(function($error_no, $error_msg, $error_file, $error_line, $error_vars) {
+    if (error_reporting() === 0) {
+        return;
+    }
+    throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
+});
+
+// set_exception_handler(function($throwable) {
+//     $development = true;
+//     // 開発環境ならエラーログを標準出力出すようにしてしまったほうが使い勝手がよさそうです（なくてもいい）
+//     if (isset($development) && $development === true) {
+//         echo $throwable;
+//     }
+//     send_error_log($throwable);
+// });
+
+register_shutdown_function(function() {
+    $error = error_get_last();
+    if ($error === null) {
+        return;
+    }
+
+    // fatal error の場合はすでに何らかの出力がされているはずなので、何もしない
+    print_r('<script>alert("エラーが発生しました。");</script>');
+    $cnf = new Header();
+    if (strcmp($cnf->GetVersion(), '-local') === 0) {
+        print_r('<script>alert("'. $error['message']. '")</script>');
+    }
+});
+
+
+function send_error_log($throwable) {
+    // 何かエラーをどこかに渡すコードをここに。
+    // この例ではテンポラリファイルディレクトリを取得してそこに php_error_log.txt という名前のファイルに追記していくような処理にした。
+    file_put_contents(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'php_error_log.txt', $throwable->__toString(), FILE_APPEND | LOCK_EX);
+}
 // 既存のパスに新たな要素を追加する
 function AddPath($local, $addpath, $lastSeparator=true,  $separator=DIRECTORY_SEPARATOR) {
     if (mb_substr($local, -1) == $separator) {
@@ -128,4 +164,24 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
     } else {
         return NULL;
     }
+}
+
+/**
+ * MoldData
+ * 
+ * 
+ */
+function MoldData($data, $debugLine =__LINE__) {
+    $ret = false;
+    if (is_null($data)) {
+        return false;
+    }
+
+    if (is_array($data)) {
+        $ret = implode(',', $data);
+    } else if (is_string($data)) {
+        $ret = explode(',', $data);
+    }
+
+    return $ret;
 }
