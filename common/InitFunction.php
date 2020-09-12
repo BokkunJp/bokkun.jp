@@ -86,13 +86,18 @@ function CreateClient($target, $src = '')
   $clientPath = "";
   $clientAry = [];
 
-  while (1) {
-    $clientAry[] = basename($srcPath);
-    $srcPath = dirname($srcPath);
-    if (strcmp(basename($srcPath), $target)) {
-        break;
-    }
-  }
+  if ($srcPath !== dirname($srcPath)) {
+    while (1) {
+        $clientAry[] = basename($srcPath);
+        $srcPath = dirname($srcPath);
+        if (strcmp(basename($srcPath), $target)) {
+            break;
+        }
+     }
+} else {
+    $clientAry[] = $target;
+}
+
   $clientAry = array_reverse($clientAry);
 
   foreach ($clientAry as $_client) {
@@ -168,8 +173,8 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
 
 /**
  * MoldData
- * 
- * 
+ *
+ *
  */
 function MoldData($data, $debugLine =__LINE__) {
     $ret = false;
