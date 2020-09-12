@@ -10,7 +10,7 @@ $set = new Setting();
 
 // ログパスをセット
 $dirPath = rtrim(dirname(__DIR__, 6), "\\");
-$dirPath .= CreateClient('log', $dirPath);
+$dirPath = AddPath($dirPath, 'log');
 
 $srcName = $set->GetPost('select_log');
 
