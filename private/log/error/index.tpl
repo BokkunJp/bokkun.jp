@@ -1,5 +1,5 @@
 <form action='./{$base}/server.php' method='POST'>
-    <div><p2>編集</p2></div>
+    <div><p2><h3>エラーログ選択</h3></p2></div>
     <select class='set_log' id='error' name='error_log'>
       {$count=0}
       {$max=count($dir)}
@@ -14,7 +14,7 @@
 
     <button type='button' name="edit" value="select">ログを選択する</button>
   <div class='result'>
-    <p><h3>選択したエラーログ：</h3></p>
+    <p><h3>選択したエラーログの内容</h3></p>
     <p><span class='result-log-view'></span></p>
   </div>
 </form>
