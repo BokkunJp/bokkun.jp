@@ -74,5 +74,5 @@ if ((!($adminAuth) && !($guestAuth))) {
     $session->Write('old_id', $session->Read('id'));
     $session->Write('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
 
-    AlertAdmin('login', 'login_success');
+    AlertAdmin('login_success', '');
 }
