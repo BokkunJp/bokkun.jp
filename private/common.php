@@ -49,6 +49,10 @@ function AlertAdmin(string $noticeType, $pageTitle)
         $body = "IP {$ip} ({$host}) の方から、管理画面の{$pageTitle}へアクセスがありました。";
     } else if ($noticeType === 'login') {
         $title = "管理画面ログイン通知";
+        $body = "IP {$ip} ({$host})の方が、管理画面へログインを試みました。
+十分にご注意ください。";
+    } else if ($noticeType === 'login_success') {
+        $title = "管理画面ログイン通知";
         $body = "IP {$ip} ({$host})の方が、管理画面へログインされました。
 意図したものでない場合は、早急にパスワードを変更ください。";
     } else {

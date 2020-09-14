@@ -43,7 +43,11 @@ $referer = end($refererArray);
 
 </html>
 <?php
-if (!empty($post)) {
+
+    // ログイン警告メール
+    AlertAdmin('login', '');
+
+    if (!empty($post)) {
     $adminAuth = ($post['id'] === 'admin' && $post['pass'] === 'bokkunAdmin777');
     $guestAuth = ($post['id'] === 'guest' && $post['pass'] === 'guestPass1234');
 } else {
@@ -69,7 +73,5 @@ if ((!($adminAuth) && !($guestAuth))) {
     $session->Write('old_id', $session->Read('id'));
     $session->Write('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
 
-    // ログイン警告メール
-    AlertAdmin('login', '');
-
+    AlertAdmin('login', 'login_success');
 }
