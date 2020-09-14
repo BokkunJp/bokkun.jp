@@ -44,9 +44,6 @@ $referer = end($refererArray);
 </html>
 <?php
 
-    // ログイン警告メール
-    AlertAdmin('login', '');
-
     if (!empty($post)) {
     $adminAuth = ($post['id'] === 'admin' && $post['pass'] === 'bokkunAdmin777');
     $guestAuth = ($post['id'] === 'guest' && $post['pass'] === 'guestPass1234');
@@ -58,6 +55,10 @@ if ((!($adminAuth) && !($guestAuth))) {
         echo '<p>IDまたはパスワードが違います。</p>';
         $session->Delete('admin');
     }
+
+    // ログイン警告メール
+    AlertAdmin('login', '');
+
     exit;
 } else {
     if (!$session->Judge('id')) {
