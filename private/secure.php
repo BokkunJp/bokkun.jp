@@ -56,7 +56,7 @@ if ((!($adminAuth) && !($guestAuth))) {
         $session->Delete('admin');
     }
 
-    // ログイン警告メール
+    // ログイン警告メール (ログイン失敗時)
     AlertAdmin('login', '');
 
     exit;
@@ -74,5 +74,6 @@ if ((!($adminAuth) && !($guestAuth))) {
     $session->Write('old_id', $session->Read('id'));
     $session->Write('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
 
+    // ログイン警告メール (ログイン成功時)
     AlertAdmin('login_success', '');
 }
