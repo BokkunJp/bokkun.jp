@@ -68,4 +68,8 @@ if ((!($adminAuth) && !($guestAuth))) {
     $session->WriteArray('admin', 'secure', true);
     $session->Write('old_id', $session->Read('id'));
     $session->Write('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
+
+    // ログイン警告メール
+    AlertAdmin('login', '');
+
 }

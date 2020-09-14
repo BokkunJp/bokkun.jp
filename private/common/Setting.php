@@ -37,6 +37,25 @@ class Setting extends \commonSetting\Setting {
         $this->filepageImage = AddPath($this->public, 'image', false, '/');
     }
 
+    // IPアドレスを取得
+    public static function GetHostIp($hostName = null) {
+        if (is_null($hostName)) {
+            $ret = parent::GetSERVER('REMOTE_ADDR');
+        } else {
+            $ret = gethostbyname($hostName);
+        }
+        return $ret;
+    }
+
+    // IPアドレスからホスト名を取得
+    public static function GetHostName($ipName = null) {
+        if (is_null($ipName)) {
+            $ipName = self::GetHostIp();
+        }
+
+        return gethostbyaddr($ipName);
+    }
+
 }
 
 class Admin extends Setting {
