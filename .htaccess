@@ -36,6 +36,5 @@ Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; prel
 ##メンテナンス
 #RewriteCond %{REQUEST_FILENAME} !-f
 ##ページを指定してメンテナンスをかけるときに使用
-#RewriteCond %{REQUEST_URI} !(/public/BOKKUN-24/)
 #RewriteCond %{REQUEST_URI} !(/public/FILE/)
 #RewriteRule ^.*$ - [R=503,L]
