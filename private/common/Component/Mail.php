@@ -1,6 +1,6 @@
 <?php
 
-require_once AddPath(dirname(__DIR__), AddPath('Component', 'Tag.php', false), false);
+require_once AddPath(__DIR__, 'Tag.php', false);
 
 use PrivateTag\ScriptClass;
 
