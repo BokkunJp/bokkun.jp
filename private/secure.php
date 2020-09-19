@@ -1,7 +1,8 @@
 <?php
+
 use PrivateTag\UseClass;
 
-require_once __DIR__. '/common/require.php';
+require_once __DIR__ . '/common/require.php';
 if (empty($session)) {
     $session = new PrivateSetting\Session();
 }
@@ -66,19 +67,19 @@ if ($moveURL[2] === 'secure.php' || $moveURL[2] === 'reset.php') {
 
 $movePage = implode('/', $moveURL);
 
-$session->WriteArray('admin', 'movePage', $url. $movePage);
+$session->WriteArray('admin', 'movePage', $url . $movePage);
 
 if ((!($adminAuth) && !($guestAuth))) {
     if (!empty($post)) {
         echo '<p>IDまたはパスワードが違います。</p>';
+        // ログイン警告メール (ログイン失敗時)
+        AlertAdmin('login', $adminSession['movePage']);
     }
 
-    // ログイン警告メール (ログイン失敗時)
-    AlertAdmin('login', $adminSession['movePage']);
     exit;
 } else {
     // ログイン警告メール (ログイン成功時)
-    // AlertAdmin('login_success', '');
+    AlertAdmin('login_success', '');
 
     if (!$session->Judge('id')) {
         $session->Write('id', $post['id']);
@@ -99,12 +100,10 @@ if ((!($adminAuth) && !($guestAuth))) {
         $script = new UseClass();
         $script->Alert('認証に成功しました。自動で遷移します。');
         $script->MovePage($adminSession['movePage']);
-    
-    // リンクから遷移
+
+        // リンクから遷移
     } else {
         echo "<p>認証に成功しました。以下のリンクから$page[message]へ移動できます。<br/>";
         echo "<a href={$adminSession['movePage']}>$page[message]へ</a></p>";
-
     }
-
 }
