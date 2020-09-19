@@ -36,6 +36,11 @@ class Setting extends \commonSetting\Setting {
         $this->csv = AddPath($this->client, 'csv', false, '/');
         $this->filepageImage = AddPath($this->public, 'image', false, '/');
     }
+    
+    // URLのドメインを取得
+    public static function GetDomain() {
+        return parent::GetSERVER('HTTP_HOST');
+    }
 
     // IPアドレスを取得
     public static function GetHostIp($hostName = null) {
