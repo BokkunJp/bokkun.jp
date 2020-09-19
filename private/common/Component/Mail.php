@@ -1,5 +1,7 @@
 <?php
 
+require_once AddPath(__DIR__, 'Tag.php', false);
+
 use PrivateTag\ScriptClass;
 
 function SendMail($header, $response=false)
