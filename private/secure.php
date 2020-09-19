@@ -1,4 +1,6 @@
 <?php
+use PrivateTag\UseClass;
+
 require_once __DIR__. '/common/require.php';
 if (empty($session)) {
     $session = new PrivateSetting\Session();
@@ -13,9 +15,7 @@ if (!isset($adminURL) || empty($adminURL) && $session->Read('admin')['send'] !==
 } else {
     $adminURL = $session->Read('admin')['adminURL'];
 }
-$page = MovePage();
-$refererArray = [$adminURL];
-$referer = end($refererArray);
+$mode = 'movePage';
 ?>
 <!DOCTYPE html>
 
@@ -43,24 +43,43 @@ $referer = end($refererArray);
 
 </html>
 <?php
-
-    if (!empty($post)) {
+// 初期遷移か判定
+if (!empty($post)) {
     $adminAuth = ($post['id'] === 'admin' && $post['pass'] === 'bokkunAdmin777');
     $guestAuth = ($post['id'] === 'guest' && $post['pass'] === 'guestPass1234');
 } else {
     $adminAuth = $guestAuth = null;
 }
+
+// アクセスしてきたページを保存
+$adminSession = $session->Read("admin");
+$moveURL = $adminSession['adminURL'];
+
+// 特定のページの際の処理
+if (isset($moveURL[3])) {
+    unset($moveURL[3]);
+}
+
+if ($moveURL[2] === 'secure.php' || $moveURL[2] === 'reset.php') {
+    $moveURL[2] = 'admin.php';
+}
+
+$movePage = implode('/', $moveURL);
+
+$session->WriteArray('admin', 'movePage', $url. $movePage);
+
 if ((!($adminAuth) && !($guestAuth))) {
     if (!empty($post)) {
         echo '<p>IDまたはパスワードが違います。</p>';
-        $session->Delete('admin');
     }
 
     // ログイン警告メール (ログイン失敗時)
-    AlertAdmin('login', '');
-
+    AlertAdmin('login', $adminSession['movePage']);
     exit;
 } else {
+    // ログイン警告メール (ログイン成功時)
+    // AlertAdmin('login_success', '');
+
     if (!$session->Judge('id')) {
         $session->Write('id', $post['id']);
     }
@@ -68,12 +87,24 @@ if ((!($adminAuth) && !($guestAuth))) {
     if (!$session->Judge('old_id')) {
         $session->Write('old_id', $session->Read('id'));
     }
-    echo "<p>認証に成功しました。以下のリンクから$page[message]へ移動できます。<br/>";
-    echo "<a href='$url/private/$page[URL]'>$page[message]へ</a></p>";
+
+    // セッション書き込み
     $session->WriteArray('admin', 'secure', true);
     $session->Write('old_id', $session->Read('id'));
     $session->Write('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
 
-    // ログイン警告メール (ログイン成功時)
-    AlertAdmin('login_success', '');
+    // 直接遷移
+    if ($mode === 'movePage') {
+        // ページ遷移
+        $script = new UseClass();
+        $script->Alert('認証に成功しました。自動で遷移します。');
+        $script->MovePage($adminSession['movePage']);
+    
+    // リンクから遷移
+    } else {
+        echo "<p>認証に成功しました。以下のリンクから$page[message]へ移動できます。<br/>";
+        echo "<a href={$adminSession['movePage']}>$page[message]へ</a></p>";
+
+    }
+
 }
