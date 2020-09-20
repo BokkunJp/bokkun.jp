@@ -97,6 +97,7 @@ class CSV extends CSV_Base {
                 $exitFlg = true;
                 $this->SetErrorMessage($_key, $_key. FALSE_MESSAGE);
             } else if ($_val === null) {
+                $exitFlg = true;
                 $this->SetErrorMessage($_key, $_key . NULL_MESSAGE);
 
             }
@@ -108,6 +109,8 @@ class CSV extends CSV_Base {
 
         // データセット
         $this->SetData($data);
+
+        return true;
     }
 
     private function SetErrorMessage($key, $message = '') {
