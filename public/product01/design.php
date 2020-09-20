@@ -74,13 +74,13 @@ foreach ($fileArray as $_value) {
 ?>
 <base href='../' />
 <div class='product-webgl'>
-    <script src="client/js/<?php echo basename(__DIR__); ?>/WebGLProgram/shader.js"></script>
-    <script src="client/js/<?php echo basename(__DIR__); ?>/WebGLProgram/ProgramObject.js"></script>
-    <script src="client/js/<?php echo basename(__DIR__); ?>/WebGLProgram/BufferObject.js"></script>
-    <script src="client/js/<?php echo basename(__DIR__); ?>/WebGLProgram/VBO.js"></script>
-    <script src="client/js/<?php echo basename(__DIR__); ?>/WebGLProgram/IBO.js"></script>
-    <script src="client/js/<?php echo basename(__DIR__); ?>/WebGLProgram/texture.js"></script>
-    <script src="client/js/<?php echo basename(__DIR__); ?>/WebGLProgram/minMatrix.js"></script>
+    <script src="client/js/<?=basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/shader.js"></script>
+    <script src="client/js/<?=basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/ProgramObject.js"></script>
+    <script src="client/js/<?=basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/BufferObject.js"></script>
+    <script src="client/js/<?=basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/VBO.js"></script>
+    <script src="client/js/<?=basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/IBO.js"></script>
+    <script src="client/js/<?=basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/texture.js"></script>
+    <script src="client/js/<?=basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/minMatrix.js"></script>
 
 
     <script id='vshader' type='x-shader/x-vertex'>
