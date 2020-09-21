@@ -1,4 +1,9 @@
 <?php
+if (!function_exists('IncludeDirctories')) {
+    echo '不正な遷移です。';
+    return false;
+}
+
 define("FALSE_MESSAGE",  "の値が不正です。");
 define("NULL_MESSAGE",  "の値を入力してください。");
 IncludeDirctories();
@@ -97,6 +102,7 @@ class CSV extends CSV_Base {
                 $exitFlg = true;
                 $this->SetErrorMessage($_key, $_key. FALSE_MESSAGE);
             } else if ($_val === null) {
+                $exitFlg = true;
                 $this->SetErrorMessage($_key, $_key . NULL_MESSAGE);
 
             }
@@ -108,6 +114,8 @@ class CSV extends CSV_Base {
 
         // データセット
         $this->SetData($data);
+
+        return true;
     }
 
     private function SetErrorMessage($key, $message = '') {

@@ -9,6 +9,11 @@ body {
     }
 }
 
+.result-src {
+    width: 100%;
+    height: 40%;
+}
+
 .success {
     font-size: small;
     font-style: italic;

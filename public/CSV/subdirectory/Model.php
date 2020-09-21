@@ -1,4 +1,9 @@
 <?php
+if (!function_exists('IncludeDirctories')) {
+    echo '不正な遷移です。';
+    return false;
+}
+
 define("FALSE_MESSAGE",  "の値が不正です。");
 define("NULL_MESSAGE",  "の値を入力してください。");
 IncludeDirctories();
