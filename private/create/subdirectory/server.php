@@ -38,7 +38,9 @@ if ($checkToken === false) {
     $sessClass =  new PrivateSetting\Session();
     $sessClass->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new PrivateSetting\Setting();
-    header('Location:' . $url->GetUrl(CreateClient('private', dirname(__DIR__))));
+    $backUrl = CreateClient('private', dirname(__DIR__));
+    $backUrl = ltrim($backUrl, '\\');
+    header('Location:' . $url->GetUrl($backUrl));
     exit;
 }
 
@@ -165,7 +167,7 @@ class AdminError
 
     public function Maintenance()
     {
-        $this->UserError('メンテナンス中です。しばらくお待ちください。');
+        $this->UserError('当機能はメンテナンス中です。しばらくお待ちください。');
     }
 }
 ?>

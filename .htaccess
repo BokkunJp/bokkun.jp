@@ -33,8 +33,20 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 #HSTSプリロード
 Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; preload"
 
-##メンテナンス
+#特定のファイルのアクセス制限
+RewriteCond %{REQUEST_URI} (^/private/$)
+RewriteRule ^.*$ - [R=404]
+#(一部のファイル以外のPHPファイルに直接アクセスできなくさせる)
+RewriteCond %{REQUEST_URI} !(/private/admin.php)
+RewriteCond %{REQUEST_URI} !(^/private.+/server.php$)
+RewriteCond %{REQUEST_URI} !(^/private.+/edit.php$)
+RewriteRule \.php$ - [R=403]
+
+
+##メンテナンス対象外ページを指定してメンテナンスをかけるときに使用
 #RewriteCond %{REQUEST_FILENAME} !-f
-##ページを指定してメンテナンスをかけるときに使用
+#RewriteCond %{REQUEST_URI} !(/public/CSV/)
 #RewriteCond %{REQUEST_URI} !(/public/FILE/)
+#
+##メンテナンス
 #RewriteRule ^.*$ - [R=503,L]

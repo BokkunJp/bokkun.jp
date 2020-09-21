@@ -1,9 +1,4 @@
 <?php
-if (!function_exists('IncludeDirctories')) {
-    echo '不正な遷移です。';
-    return false;
-}
-
 require_once PUBLIC_COMMON_DIR. '/Token.php';
 IncludeDirctories();
 
