@@ -1,5 +1,0 @@
-# .htaccessでRewriteを有効化する
-RewriteEngine On
-RewriteBase /
-
-RewriteRule \.php$ - [R=403,L]
