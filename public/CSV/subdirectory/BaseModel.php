@@ -1,9 +1,4 @@
 <?php
-if (!function_exists('IncludeDirctories')) {
-    echo '不正な遷移です。';
-    return false;
-}
-
 define('CSV', AddPath(PUBLIC_CSV_DIR, '', false, '/') . AddPath(basename(getcwd()), '', false, '/'));
 define("EXTENSION_NONE_TRUE", 2);
 class CSV_Base {
