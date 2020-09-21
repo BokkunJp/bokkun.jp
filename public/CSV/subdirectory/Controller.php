@@ -1,8 +1,12 @@
 <?php
+if (!function_exists('IncludeDirctories')) {
+    echo '不正な遷移です。';
+    return false;
+}
+
 IncludeDirctories();
 
 function Main($inputFlg=false) {
-    $token = PublicSetting\Setting::GetPost('token');
     $tokenValid = CheckToken();
 
     if ($tokenValid === false) {

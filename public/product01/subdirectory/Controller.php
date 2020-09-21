@@ -1,4 +1,9 @@
 <?php
+if (!function_exists('IncludeDirctories')) {
+    echo '不正な遷移です。';
+    return false;
+}
+
 require_once PUBLIC_COMMON_DIR. '/Token.php';
 IncludeDirctories();
 
@@ -36,15 +41,9 @@ function Main($inputFlg=false) {
         }
 
         // CSVファイルを書き込み
-        if ($valid === true) {
-            $csv->SetCSV();
-        }
+        $csv->SetCSV();
 
     }
 }
-
-// CSVオブジェクトを作成
-// CSVオブジェクトにデータを挿入
-// ファイルに書き出す ←ｲﾏｺｺ
 
 ?>
