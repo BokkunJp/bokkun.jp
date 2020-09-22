@@ -33,7 +33,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 #HSTSプリロード
 Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; preload"
 
-#特定のファイルのアクセス制限
+#特定のディレクトリのアクセス制限 (管理側と類推されないようにするため)
 RewriteCond %{REQUEST_URI} (^/private/$)
 RewriteRule ^.*$ - [R=404]
 #(一部のファイル以外のPHPファイルに直接アクセスできなくさせる)
