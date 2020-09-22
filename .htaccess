@@ -37,9 +37,9 @@ Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; prel
 RewriteCond %{REQUEST_URI} (^/private/$)
 RewriteRule ^.*$ - [R=404]
 #(一部のファイル以外のPHPファイルに直接アクセスできなくさせる)
-RewriteCond %{REQUEST_URI} !(/private/admin.php)
-RewriteCond %{REQUEST_URI} !(/private/secure.php)
-RewriteCond %{REQUEST_URI} !(/private/reset.php)
+RewriteCond %{REQUEST_URI} !(^/private/admin.php$)
+RewriteCond %{REQUEST_URI} !(^/private/secure.php$)
+RewriteCond %{REQUEST_URI} !(^/private/reset.php$)
 RewriteCond %{REQUEST_URI} !(^/private.+/server.php$)
 RewriteCond %{REQUEST_URI} !(^/private.+/edit.php$)
 RewriteRule \.php$ - [R=403]
