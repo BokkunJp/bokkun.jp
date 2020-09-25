@@ -1,16 +1,16 @@
 <?php
 define("DS", DIRECTORY_SEPARATOR);
-                                                // 関数定義 (初期処理用)
-                                                require dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
-                                                // タグ
-                                                require_once dirname(__DIR__, 2) . DS . AddPath("common", "Component") . DS . "Tag.php";
-                                                // 設定
-                                                require_once dirname(__DIR__, 2) . DS . "common" . DS . "Setting.php";
-                                                require_once dirname(__DIR__, 2) . DS . "common.php";
-                                                // 定数・固定文言など
-                                                require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
-                                                // CSRF
-                                                require_once PRIVATE_COMMON_DIR . "/Token.php";
+
+// 関数定義 (初期処理用)
+require dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
+// タグ
+require_once dirname(__DIR__, 2) . DS . AddPath("common", "Component") . DS . "Tag.php";
+// 設定
+require_once dirname(__DIR__, 2) . DS . "common" . DS . "Setting.php";
+// 定数・固定文言など
+require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
+// CSRF
+require_once PRIVATE_COMMON_DIR . "/Token.php";
 
 define("MAX_LENGTH", 32);
 
@@ -25,7 +25,9 @@ if ($checkToken === false) {
     $sessClass =  new PrivateSetting\Session();
     $sessClass->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new PrivateSetting\Setting();
-    header('Location:' . $url->GetUrl(CreateClient('private', dirname(__DIR__))));
+    $backUrl = CreateClient('private', dirname(__DIR__));
+    $backUrl = ltrim($backUrl, '\\');
+    header('Location:' . $url->GetUrl($backUrl));
     exit;
 }
 
