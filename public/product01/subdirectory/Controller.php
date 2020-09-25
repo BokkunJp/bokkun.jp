@@ -36,15 +36,9 @@ function Main($inputFlg=false) {
         }
 
         // CSVファイルを書き込み
-        if ($valid === true) {
-            $csv->SetCSV();
-        }
+        $csv->SetCSV();
 
     }
 }
-
-// CSVオブジェクトを作成
-// CSVオブジェクトにデータを挿入
-// ファイルに書き出す ←ｲﾏｺｺ
 
 ?>

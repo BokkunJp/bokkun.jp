@@ -2,7 +2,7 @@
 require __DIR__. "/common/require.php";
 require_once "common.php";
 
-$title = 'リセット';
+$title = 'ログアウト';
 // アクセス警告メール
 AlertAdmin('access', $title);
 ?>

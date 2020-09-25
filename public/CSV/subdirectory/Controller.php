@@ -2,7 +2,6 @@
 IncludeDirctories();
 
 function Main($inputFlg=false) {
-    $token = PublicSetting\Setting::GetPost('token');
     $tokenValid = CheckToken();
 
     if ($tokenValid === false) {

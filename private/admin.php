@@ -42,7 +42,7 @@ AlertAdmin('access', $title);
                 ?>
             </form>
             <form method="POST" action="./reset.php">
-                <button type='submit'>セッションのリセット</button>
+                <button type='submit'>ログアウト</button>
             </form>
         </div>
         <!-- conent end -->
