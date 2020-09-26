@@ -127,7 +127,7 @@ function CheckSession($SessionName, $chkFlg)
         echo 'session: ' . $session->Read($SessionName) . '<br/><br/>';
     }
 
-    if (is_null($input) || $input === false || !hash_equals($session->Read($SessionName), $input)) {
+    if (is_null($input) || $input === false || is_null($session->Read($SessionName)) || !hash_equals($session->Read($SessionName), $input)) {
         return false;
     }
 
