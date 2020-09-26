@@ -39,13 +39,13 @@ function SetToken() {
   </ul>
   <ol>
     <?php
-    $notList = ['.', '..', '.htaccess', 'index.php', 'client', 'common', 'template', 'template_base', 'custom', 'custom_base'];
+    $notList = ['.', '..', '.htaccess', 'client', 'common', 'template', 'template_base', 'custom', 'custom_base'];
     $dirList = scandir(__DIR__ . '/');
     $notList = AddList($notList, $dirList, '.', 1);
     $notList = AddList($notList, $dirList, '_', 1);
 
     foreach ($dirList as $index => $_dir) {
-      if (!in_array($_dir, $notList)) {
+      if (!in_array($_dir, $notList) && !preg_match("/\.php$|\.html$/", $_dir)) {
         echo "<li><a href=\"./$_dir/\" target=\"_new\">$_dir</a></li>";
       }
     }

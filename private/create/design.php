@@ -14,6 +14,12 @@ if ($session->Judge('addition')) {
 
 $dir = scandir('../../');
 
+foreach ($dir as $_key => $_dir) {
+    if (preg_match("/\.php$|\.html$|\.txt$/", $_dir)) {
+        unset($dir[$_key]);
+    }
+}
+
 if (!$session->Judge('token')) {
     $token = MakeToken();
     SetToken($token);
