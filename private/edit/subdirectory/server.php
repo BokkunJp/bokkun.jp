@@ -26,7 +26,7 @@ $selectObj = $set->GetPost('select_directory');
 
 
 // パスをセット
-$srcPath = AddPath(dirname(__DIR__, 3), AddPath('public', $srcName, false), false);
+$srcPath = AddPath(dirname(__DIR__, 3), $srcName, false);
 
 
 // 第2ディレクトリの選択

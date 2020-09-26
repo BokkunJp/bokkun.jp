@@ -21,7 +21,7 @@ if (!$session->Judge('token')) {
     $token = $session->Read('token');
 }
 
-$dir = array_merge($dir, scandir('../../public/'));
+$dir = array_merge($dir, scandir('../../'));
 $smarty->assign('base', basename(__DIR__). '/subdirectory');
 $smarty->assign('token', $token);
 $smarty->assign('dir', $dir);

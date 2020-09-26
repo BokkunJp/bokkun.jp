@@ -59,10 +59,13 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
         // ファイル存在チェック
         foreach ($pathList as $_pathList) {
             $client = $basePath . '/public/';
-            if ($_pathList !== 'php') {
-                $client .= "client/$_pathList/";
+            if ($_pathList === 'php') {
+                $client = $basePath;
+            } else {
+                $client .= "client/".
+                $_pathList. "/";
             }
-            foreach (scandir($client) as $file) {
+                foreach (scandir($client) as $file) {
                 if (mb_strpos($file, '.') !== 0) {
                     if (isset($edit) && !isset($delete)) {
                         if ($file === $title) {
@@ -99,19 +102,18 @@ foreach ($pathList as $_pathList) {
         chdir("public/");
         if (isset($delete)) {
             // 削除モード
-
             // 入力値のチェック
             if (!isset($select)) {
                 $select = null;
             }
-            $validate = ValidateData(getcwd(), $select);
+            $validate = ValidateData(dirname(getcwd()), $select);
             if ($validate === null) {
                 $adminError->UserError('ページが選択されていません。');
             } else if ($validate === false) {
                 $adminError->UserError('ページの指定が不正です。');
             }
 
-            DeleteData(AddPath(getcwd(), $select));
+            DeleteData(AddPath(dirname(getcwd()), $select));
 
         } else if (isset($edit)) {
             // 編集モード
@@ -120,7 +122,7 @@ foreach ($pathList as $_pathList) {
             $adminError->UserError("不正な遷移です。");
         }
     } else {
-        if ($_pathList !== 'php' && !strpos(getcwd(), 'client')) {
+        if (!strpos(getcwd(), 'client')) {
             $client = "client/";
             $adminPath .= '/' . $client;
         } else {

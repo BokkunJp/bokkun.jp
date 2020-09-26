@@ -43,13 +43,13 @@ RewriteCond %{REQUEST_URI} !(^/private/secure.php$)
 RewriteCond %{REQUEST_URI} !(^/private/reset.php$)
 RewriteCond %{REQUEST_URI} !(^/private.+/server.php$)
 RewriteCond %{REQUEST_URI} !(^/private.+/edit.php$)
-RewriteRule \.php$ - [R=403]
+RewriteRule \.php - [R=403]
 
 
 ##メンテナンス対象外ページを指定してメンテナンスをかけるときに使用
 #RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_URI} !(/public/CSV/)
-#RewriteCond %{REQUEST_URI} !(/public/FILE/)
+#RewriteCond %{REQUEST_URI} !(/CSV/)
+#RewriteCond %{REQUEST_URI} !(/FILE/)
 #
 ##メンテナンス
 #RewriteRule ^.*$ - [R=503,L] 

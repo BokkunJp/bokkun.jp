@@ -10,7 +10,7 @@ onload = function() {
 function Main() {
 
     var vue = new VueClass();
-    vue.SetData('#test', 'Message');
+    vue.SetData('#test', 'Default');
     vue.Exec();
 
 
@@ -24,9 +24,11 @@ function Main() {
 class VueClass
 {
     constructor() {
+        console.log('construct');
         this.MakeData();
     }
     MakeData(){
+
         this.el = null;
         this.data = null;
     }

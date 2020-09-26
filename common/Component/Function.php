@@ -1,5 +1,5 @@
 <?php
-function ListAdd($list1, $list2, $extension=null, $headFlg=-1) {
+function AddList($list1, $list2, $extension=null, $headFlg=-1) {
   if (!is_array($list2) || empty($extension)) {
     return false;
   }
