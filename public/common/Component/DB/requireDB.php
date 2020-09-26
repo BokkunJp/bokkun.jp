@@ -17,76 +17,109 @@ class DB {
 
     public function __construct($dbName='bokkun', $dbPass = null, $tableName=null, $dbHost = 'localhost', $dbPort=5432) {
         try {
-            if (!isset($tableName) && isset($dbName)) {
-                $tableName = $dbName;
-            }
-            $this->tableName = $tableName;
             $this->dbName = $dbName;
             $this->user = $dbName;
             $this->hash = password_hash($dbPass, PASSWORD_DEFAULT);
-            $this->dsn = "pgsql:dbname=$this->dbName host=$dbHost port=$dbPort";
+            $this->dsn = "pgsql:dbname={$this->dbName} host={$dbHost} port={$dbPort}";
             $this->stmt = new PDO($this->dsn, $this->user, $dbPass);
-            print_r('データベースの接続に成功しました。<br/>');
-            $this->access = true;
+            // print_r('データベースの接続に成功しました。<br/>');
+            return true;
         } catch (PDOException $e) {
             print_r('ERROR!! '.$e->getMessage());
-            $this->access = false;
-            die();
+            return false;
         }
 
 }
 
-    public function InitSequence($id_name='test_id_seq', $seq_id=1) {
-        $this->sql = "select setval ('$id_name', :seq_id, false);";
-        $sth = $this->stmt->prepare($this->sql);
-        $sth->execute(array(':seq_id' => $seq_id));
+public function SetTable($tableName) {
+    $this->tableName = $tableName;
+}
+
+public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
+        $this->sql = "select setval ('{$id_name}', :{$id_name}, false);";
+        $sth = $this->SQLExec($id_name, [$seq_id]);
         $exec = $sth->fetchAll();
 
         return $exec;
 
     }
 
-    public function Insert($val) {
+    private function SetPlaceholder(array $colArray, $colFlg=false) {
+        $newArray = [];
 
+        foreach ($colArray as $_key => $_val) {
+            $newArray[$_key] = "";
+            if ($colFlg) {
+                $newArray[$_key] .= $_val . "=";
+            }
+            $newArray[$_key] .= ":". $_val;
+        }
+
+        return $newArray;
+    }
+
+    private function SQLExec(string $colString=null, array $valArray=null) {
         try {
             $this->stmt->beginTransaction();                             // トランザクション開始
 
-            if (empty($val)) {
-                $this->stmt->rollback();
-                error_reporting(E_STRICT);
-            }
-            $this->sql = "Insert into {$this->tableName}(val) values(:value)";
+            // カラム文字列からカラム配列を生成
+            $colArray = MoldData($colString);
+
+            // SQL文をプリペア
             $sth = $this->stmt->prepare($this->sql);
-            $sth->execute(array(':value' => $val));
-            $this->stmt->commit();                                      // コミット
+
+            // 変数をバインド (SQL文にカラムを指定している場合)
+            if ($colArray !== false) {
+                foreach ($colArray as $_key => $_value) {
+                    $sth->bindValue($colArray[$_key], $valArray[$_key]);
+                }
+            }
+
+        // SQLの実行
+        $sth->execute();
+        $this->stmt->commit();                                      // コミット
+
+        // ステートメントを返却
+        return $sth;
         } catch (Exception $e) {
-            print_r('ERROR!! '.$e->getMessage());
+            // SQLの実行に失敗した場合はエラー
+            print_r('ERROR!! : '.$e->getMessage());
+            print_r(nl2br("\n"));
             $this->stmt->rollback();
             error_reporting(E_STRICT);
+            return false;
         }
     }
 
-    public function Update($id, $val) {
+    public function Insert(array $cols, array $vals) {
 
-        try {
-            $this->stmt->beginTransaction();                             // トランザクション開始
+        // カラム群からそれぞれのカラムのプレースホルダを生成し、それを文字列に成型
+        $placeholder = MoldData($this->SetPlaceholder($cols));
 
-            if (empty($id) || empty($val)) {
-                $this->stmt->rollback();
-                error_reporting(E_STRICT);
-            }
+        // カラムを文字列に成型
+        $cols = MoldData($cols);
 
-            $this->sql = "update {$this->tableName} set val=:value, updatetime=NOW(), updateday=NOW() where id= :id";
-            $sth = $this->stmt->prepare($this->sql);
-            $sth->execute(array(':value'=>$val, ':id' => $id));
+        // 実行するSQL
+        $this->sql  = "Insert into {$this->tableName}({$cols}) values({$placeholder})";
 
-            $this->stmt->commit();                                      // コミット
+        // SQL文実行
+        return $this->SQLExec($cols, $vals);
+    }
 
-        } catch (Exception $e) {
-            print_r('ERROR!! '.$e->getMessage());
-            $this->stmt->rollback();
-            error_reporting(E_STRICT);
-        }
+    public function Update($cols, $vals) {
+
+        // カラムからプレースホルダを生成
+        $placeholder = MoldData($this->SetPlaceholder($cols));
+
+        // カラムを成型
+        $cols = MoldData($cols);
+
+        // 実行するSQL
+        $this->sql  = "Update {$this->tableName} set {$cols}=:col, updatetime=NOW(), updateday=NOW() where id= :id";
+
+        // SQL文実行
+        return $this->SQLExec($cols, $vals);
+
     }
 
     public function Select($id) {
@@ -103,8 +136,7 @@ class DB {
     public function SelectAll() {
 
         $this->sql = "select * from {$this->tableName} order by id";
-        $sth = $this->stmt->prepare($this->sql);
-        $sth->execute(array());
+        $sth = $this->SQLExec();
 
         $ary = $sth->fetchAll();
         return $ary;
@@ -112,6 +144,7 @@ class DB {
     }
 
     public function SelectIDMin() {
+
         $this->sql = "select MIN(ID) from {$this->tableName} group by id";
         $sth = $this->stmt->prepare($this->sql);
         $sth->execute();
@@ -123,50 +156,56 @@ class DB {
     }
 
     public function SelectIDMax() {
+ 
         $this->sql = "select MAX(ID) from {$this->tableName} group by id";
-        $sth = $this->stmt->prepare($this->sql);
-        $sth->execute();
+        $sth = $this->SQLExec();
 
         $ret = $sth->fetch();
+
+        if (empty($ret)) {
+            return 1;
+        }
 
         return $ret['max'];
 
     }
 
-    public function Delete($id) {
-        try{
-            $this->stmt->beginTransaction();                             // トランザクション開始
-            if (empty($id) || !$this->select($id)) {
-                $this->stmt->rollback();
-                error_reporting(E_STRICT);
-                return -1;
-            }
-            $this->sql = "delete from {$this->tableName} where id= :id";
-            $sth = $this->stmt->prepare($this->sql);
-            $sth->execute(array(':id' => $id));
-            $this->stmt->commit();                                      // コミット
+    public function SelectDataCount() {
 
-        } catch (Exception $e) {
-            print_r('ERROR!! '.$e->getMessage());
-            $this->stmt->rollback();
-            error_reporting(E_STRICT);
-            throw $e;
+        $this->sql = "select COUNT(*) from {$this->tableName}";
+        $sth = $this->SQLExec();
+
+        $ret = $sth->fetch();
+
+        if (empty($ret)) {
+            return 1;
         }
+
+        return $ret['count'];
 
     }
+
+    public function Delete(array $cols, array $vals) {
+
+        // where句生成
+        $where = MoldData($this->SetPlaceholder($cols, true));
+
+        // カラムを成型
+        $cols = MoldData($cols);
+
+
+        // 実行するSQL
+        $this->sql  = "Delete from {$this->tableName} where {$where}";
+
+        // SQL文実行
+        return $this->SQLExec($cols, $vals);
+
+    }
+
     public function DeleteAll() {
-        try {
-            $this->stmt->beginTransaction();                             // トランザクション開始
-            $this->sql = "delete from {$this->tableName}";
-            $sth = $this->stmt->prepare($this->sql);
-            $sth->execute();
-            $this->stmt->commit();                                      // コミット
-        } catch (Exception $e) {
-            print_r('ERROR!! '.$e->getMessage());
-            $this->stmt->rollback();
-            error_reporting(E_STRICT);
-            throw $e;
-        }
-        $this->InitSequence();
+
+        $this->sql  = "Delete From {$this->tableName}";
+
+        $this->SQLExec();
     }
 }

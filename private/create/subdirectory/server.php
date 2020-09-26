@@ -63,7 +63,9 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
     // ファイル存在チェック
     foreach ($pathList as $_pathList) {
         $client = $basePath . '/public/';
-        if ($_pathList !== 'php') {
+        if ($_pathList === 'php') {
+            $client = $basePath;
+        } else {
             $client .= "client/".
             $_pathList. "/";
         }
@@ -95,21 +97,43 @@ if ($use_template_engine === 'smarty') {
 
 chdir($basePath);
 
-// フォルダ・ファイルの作成
-foreach ($pathList as $_pathList) {
-    if ($_pathList === 'php') {
-        chdir("public/");
-    } else {
-        if ($_pathList === 'js') {
-            $client = "client/";
-        } else {
-            $client = "../";
-        }
-        chdir($client. $_pathList);               // パスの移動
-    }
+// 公開ディレクトリの作成
+if (!is_dir($title)) {
     mkdir($title);
-    if (file_exists("$title") === false) {         // ディレクトリ作成
-        $$adminError->UserError('ページの作成に失敗しました。');
+}
+
+if (file_exists("$title") === false) {         // ディレクトリ作成
+    $$adminError->UserError('ページの作成に失敗しました。');
+}
+
+// PHP部分で必要なファイルを作成
+copy("$baseFileName/design.php", "$title/design.php");          // フォルダ内のdesgin.php作成
+$fileName = 'index';
+$srcfileName = $fileName . '_base';
+copy("$baseFileName/$srcfileName.{$pathList[0]}", "$title/$fileName.{$pathList[0]}");            // それぞれのフォルダに必要なファイルの作成
+if (!empty($templateExtenion)) {
+    copy("$baseFileName/$fileName.$templateExtenion", "$title/$fileName.$templateExtenion");  // テンプレートエンジン用のindexファイル作成
+    if ($templateExtenion !== 'tpl') {
+        mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
+    }
+} else {
+    mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
+}
+
+unset($pathList[0]);
+
+// js/css/imageフォルダの作成
+chdir("public/");
+foreach ($pathList as $_pathList) {
+    if ($_pathList === 'js') {
+        $client = "client/";
+    } else {
+        $client = "../";
+    }
+    chdir($client. $_pathList);               // パスの移動
+
+    if (!is_dir($title)) {
+        mkdir($title);
     }
 
     switch ($_pathList) {
@@ -123,27 +147,13 @@ foreach ($pathList as $_pathList) {
             $fileName = 'index';
             copy("$samplePath/client/$_pathList/$fileName.$_pathList", "$title/$fileName.$_pathList");            // それぞれのフォルダに必要なファイルの作成
             break;
-        case 'php':
-            copy("$baseFileName/design.php", "$title/design.php");          // フォルダ内のdesgin.php作成
-            $fileName = 'index';
-            $srcfileName = $fileName . '_base';
-            copy("$baseFileName/$srcfileName.$_pathList", "$title/$fileName.$_pathList");            // それぞれのフォルダに必要なファイルの作成
-            if (!empty($templateExtenion)) {
-                copy("$baseFileName/$fileName.$templateExtenion", "$title/$fileName.$templateExtenion");  // テンプレートエンジン用のindexファイル作成
-                if ($templateExtenion !== 'tpl') {
-                    mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
-                }
-            } else {
-                mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
-            }
-            break;
         default:
             break;
     }
 }
 if (!empty($templateExtenion)) {
-    unlink("$basePath/public/$title/design.php");
-    copy("$baseFileName/design" . "_$templateExtenion" . ".php", "$basePath/public/$title/design.php");            // design.phpファイル上書き
+    unlink("$basePath/$title/design.php");
+    copy("$baseFileName/design" . "_$templateExtenion" . ".php", "$basePath/$title/design.php");            // design.phpファイル上書き
 }
 
 $use->Alert('ページを作成しました。');
@@ -178,7 +188,7 @@ class AdminError
     onload = function() {
         title = document.getElementsByName('title')[0].value;
         if (title) {
-            title = location.protocol + '//' + location.host + '/public/' + title;
+            title = location.protocol + '//' + location.host + '/' + title;
             open(title);
         }
 

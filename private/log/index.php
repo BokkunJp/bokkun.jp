@@ -26,8 +26,8 @@ $title = 'ログ一覧';
                 $notList = [];
                 $dirList = scandir(__DIR__);
                 $titleList = ['error' => 'エラー', 'access' => 'アクセス'];
-                $notList = ListAdd($notList, $dirList, '.', 1);
-                $notList = ListAdd($notList, $dirList, '_', 1);
+                $notList = AddList($notList, $dirList, '.', 1);
+                $notList = AddList($notList, $dirList, '_', 1);
 
                 foreach ($dirList as $index => $_dir) {
                     if (!in_array($_dir, $notList) && isset($titleList[$_dir])) {

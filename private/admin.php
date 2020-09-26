@@ -30,9 +30,9 @@ AlertAdmin('access', $title);
                 <?php
                 $notList = ['.', '..', 'Sample', 'Test', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'reset.php', 'secure.php'];
                 $dirList = scandir(__DIR__);
-                $titleList = ['FILE' => '画像投稿', 'create' => 'ページ作成', 'edit' => 'ソース編集', 'log' => 'ログ'];
-                $notList = ListAdd($notList, $dirList, '.', 1);
-                $notList = ListAdd($notList, $dirList, '_', 1);
+                $titleList = ['IMAGE' => '画像投稿', 'create' => 'ページ作成', 'edit' => 'ソース編集', 'log' => 'ログ'];
+                $notList = AddList($notList, $dirList, '.', 1);
+                $notList = AddList($notList, $dirList, '_', 1);
 
                 foreach ($dirList as $index => $_dir) {
                     if (!in_array($_dir, $notList)) {

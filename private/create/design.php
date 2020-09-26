@@ -12,7 +12,7 @@ if ($session->Judge('addition')) {
     $session->Delete('addition');
 }
 
-$dir = scandir('../../public/');
+$dir = scandir('../../');
 
 if (!$session->Judge('token')) {
     $token = MakeToken();

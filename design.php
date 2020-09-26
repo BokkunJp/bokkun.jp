@@ -40,13 +40,13 @@ function SetToken() {
   <ol>
     <?php
     $notList = ['.', '..', '.htaccess', 'index.php', 'client', 'common', 'template', 'template_base', 'custom', 'custom_base'];
-    $dirList = scandir(__DIR__ . '/public');
-    $notList = ListAdd($notList, $dirList, '.', 1);
-    $notList = ListAdd($notList, $dirList, '_', 1);
+    $dirList = scandir(__DIR__ . '/');
+    $notList = AddList($notList, $dirList, '.', 1);
+    $notList = AddList($notList, $dirList, '_', 1);
 
     foreach ($dirList as $index => $_dir) {
       if (!in_array($_dir, $notList)) {
-        echo "<li><a href=\"./public/$_dir/\" target=\"_new\">$_dir</a></li>";
+        echo "<li><a href=\"./$_dir/\" target=\"_new\">$_dir</a></li>";
       }
     }
     ?>
@@ -61,7 +61,7 @@ function SetToken() {
       'Pages'
     ];
     $dirList = scandir(__DIR__ . '/cake/Templates');
-    $notList = ListAdd($notList, $dirList, '_', 1);
+    $notList = AddList($notList, $dirList, '_', 1);
 
     foreach ($dirList as $index => $_dir) {
       if (!in_array($_dir, $notList)) {

@@ -15,7 +15,7 @@ use \PrivateTag\CustomTagCreate as OriginTag;
 //JSファイル
 IncludeDirctories(PRIVATE_COMPONENT_DIR);
 // subdirectory内のphpファイルの読み込み (指定ディレクトリのみ)
-$subDirectryReadList = ['FILE'];
+$subDirectryReadList = ['IMAGE'];
 if (in_array(basename(getcwd()), $subDirectryReadList)) {
     IncludeFiles(AddPath(getcwd(), 'subdirectory'));
 }
@@ -24,6 +24,7 @@ IncludeJSFiles('common');
 IncludeJSFiles(AddPath('common', 'time'));
 $jsTitle = CreateClient('private');
 IncludeJSFiles(basename($jsTitle));
+
 
 /*
  *      対象ディレクトリ内のファイルをディレクトリごと一括で読み込む

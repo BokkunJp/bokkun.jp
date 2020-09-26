@@ -8,7 +8,7 @@ class Admin {
     private $post;
 
     public function __construct() {
-        require_once dirname(dirname(dirname(__DIR__))). '/public/common/Function/Tag.php';
+        require_once dirname(dirname(dirname(__DIR__))). '/private/common/Function/Tag.php';
         $this->Initialize();
     }
     public function Initialize() {
