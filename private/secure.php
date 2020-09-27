@@ -25,9 +25,6 @@ $mode = 'movePage';
 <head>
     <meta charset="utf8" />
     <title>管理者認証</title>
-    <script src="<?php echo $url; ?>/js/JavaScript/time/time.js"></script>
-    <script src="<?php echo $url; ?>/js/JavaScript/time/realtime.js"></script>
-    <script src="<?php echo $url; ?>/js/JavaScript/time/convert.js"></script>
 
 </head>
 
@@ -36,9 +33,9 @@ $mode = 'movePage';
     管理ページに進まれる場合はID・パスワードを入力してください。<br />
     詳細はサイト管理人にお問い合わせください(トップページのtwitter参照)。<br />
     <form method='POST' action='<?php echo $private; ?>secure.php'>
-        <p>ID <input type='text' name='id' maxLength='20' /></p>
-        <p>PASS <input type='password' name='pass' maxLength='20' /></p>
-        <button type='submit'>送信</button>
+        <p>ID <input type='text' name='id' class='id' maxLength='20' /></p>
+        <p>PASS <input type='password' name='pass' class='pass' maxLength='20' /></p>
+        <button type='submit' class='send'>送信</button>
     </form>
 </body>
 
@@ -81,6 +78,10 @@ if ((!($adminAuth) && !($guestAuth))) {
     // ログイン警告メール (ログイン成功時)
     AlertAdmin('login_success', '');
 
+    // script読み込み
+    print_r("<script src='{$url}/private/client/js/common/jquery-3.1.1.min.js'></script>
+    <script src='{$url}/private/client/js/secure.js'></script>");
+
     if (!$session->Judge('id')) {
         $session->Write('id', $post['id']);
     }
@@ -103,7 +104,7 @@ if ((!($adminAuth) && !($guestAuth))) {
 
         // リンクから遷移
     } else {
-        echo "<p>認証に成功しました。以下のリンクから$page[message]へ移動できます。<br/>";
-        echo "<a href={$adminSession['movePage']}>$page[message]へ</a></p>";
+        echo "<p>認証に成功しました。<a href={$adminSession['movePage']}>リンク</a>から移動できます。<br/>
+        </p>";
     }
 }
