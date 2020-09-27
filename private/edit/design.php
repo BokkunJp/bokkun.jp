@@ -22,6 +22,13 @@ if (!$session->Judge('token')) {
 }
 
 $dir = array_merge($dir, scandir('../../'));
+
+foreach ($dir as $_key => $_dir) {
+    if (preg_match("/\.php$|\.html$|\.txt$/", $_dir)) {
+        unset($dir[$_key]);
+    }
+}
+
 $smarty->assign('base', basename(__DIR__). '/subdirectory');
 $smarty->assign('token', $token);
 $smarty->assign('dir', $dir);
