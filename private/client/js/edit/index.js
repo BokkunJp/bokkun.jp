@@ -21,7 +21,7 @@ function Main ()
         };
         num = $( this ).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
-        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList );
+        AjaxMain( url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList );
     } );
 
     // ファイル名またはディレクトリ名からファイルリストを生成する
@@ -35,7 +35,7 @@ function Main ()
         };
         num = $( this ).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
-        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectDirectory, 'json', SetFileList);
+        AjaxMain( url, null, 'server.php', 'POST', selectDirectory, 'json', SetFileList);
     } );
 
     // 選択したソースを読み込む
@@ -49,7 +49,7 @@ function Main ()
             "file": $( 'select[name="select_file"]' ).val(),
             "token": $( '.token' ).val()
         };
-        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json' );
+        AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json' );
     } );
 
     // ソースの中身を更新する
@@ -68,7 +68,7 @@ function Main ()
                 'token': $( '.token' ).val()
             };
             // console.log(  );
-            var ajax = AjaxMain( url, null, 'server.php', 'POST', saveObj, 'json' );
+            AjaxMain( url, null, 'server.php', 'POST', saveObj, 'json' );
 
             // $( '.result-src' ).val();
             alert( '更新しました。' );
