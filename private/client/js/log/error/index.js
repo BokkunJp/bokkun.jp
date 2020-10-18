@@ -18,7 +18,7 @@ function Main ()
         var selectVersion = { "ver": $( this ).val() };
         num = $( this ).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
-        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectVersion, 'json', readFileList );
+        AjaxMain( url, null, 'server.php', 'POST', selectVersion, 'json', readFileList );
     } );
 
     // 選択したログを読み込む
@@ -28,7 +28,7 @@ function Main ()
         var url = location.href;
         var selectObj = { "ver": num, "select_log": $( 'select[name="select_log"]' ).val() };
         console.log( selectObj );
-        var ajax = AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json' );
+        AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json' );
     } );
 
 }
