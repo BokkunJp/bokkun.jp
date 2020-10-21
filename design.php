@@ -39,7 +39,7 @@ function SetToken() {
   </ul>
   <ol>
     <?php
-    $notList = ['.', '..', '.htaccess', 'client', 'common', 'template', 'template_base', 'custom', 'custom_base'];
+    $notList = ['.', '..', '.htaccess', 'client', 'common', 'template', 'template_base', 'custom', 'custom_base', 'public', 'laravel', 'cg', 'cake', 'private'];
     $dirList = scandir(__DIR__ . '/');
     $notList = AddList($notList, $dirList, '.', 1);
     $notList = AddList($notList, $dirList, '_', 1);
