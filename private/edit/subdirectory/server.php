@@ -34,6 +34,14 @@ if ($selectObj !== false) {
     $srcPath = AddPath($srcPath, $selectObj, false);
     if (is_dir($srcPath)) {
         $dataList = scandir($srcPath);
+        $notList = ['templates_c'];
+        foreach ($dataList as $_key => $_data) {
+            foreach ($notList as $_nList) {
+                if ($_data === $_nList) {
+                    unset($dataList[$_key]);
+                }
+            }
+        }
         $contents = array_values($dataList);
         $viewContents = $contents;
     } else {
@@ -42,6 +50,14 @@ if ($selectObj !== false) {
 } else if ($srcName !== false && $srcName !== '---') {
 // ディレクトリの選択
     $dataList = scandir($srcPath);
+    $notList = ['Layout'];
+    foreach ($dataList as $_key => $_data) {
+        foreach ($notList as $_nList) {
+            if ($_data === $_nList) {
+                unset($dataList[$_key]);
+            }
+        }
+    }
     $contents = array_values($dataList);
     $viewContents = $contents;
 } else {
