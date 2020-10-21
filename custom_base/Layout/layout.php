@@ -12,7 +12,7 @@ $img = "crown-vector.jpg";
     <title><?php echo $title; ?></title>
     <base href="../" />
     <link rel="shortcut icon" href="client/image/5959715.png">
-    <?php require_once dirname(dirname(__DIR__)) . '/common/Layout/init.php'; ?>
+    <?php require_once dirname(dirname(__DIR__)) . '/public/common/Layout/init.php'; ?>
     <link rel="stylesheet" type="text/css" href="client/css/<?php echo $homepageTitle; ?>/design.css">
 </head>
 
