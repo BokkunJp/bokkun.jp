@@ -40,9 +40,10 @@ RewriteRule ^.*$ - [R=404]
 
 #(一部のファイル以外のPHPファイルに直接アクセスできなくさせる)
 #共通
-RewriteCond %{REQUEST_URI} !(/common/error/403/)
-RewriteCond %{REQUEST_URI} !(/common/error/404/)
 RewriteCond %{REQUEST_URI} !(/common/error/)
+RewriteCond %{REQUEST_URI} !(/index.php$)
+RewriteCond %{REQUEST_URI} !(/subdirectory.*/index.php$)
+RewriteCond %{REQUEST_URI} !(/subdirectory.*/design.php$)
 RewriteCond %{REQUEST_URI} !(/subdirectory.*/server.php$)
 #管理側
 RewriteCond %{REQUEST_URI} !(^/private/admin.php$)
@@ -63,6 +64,6 @@ RewriteRule ^public/(.*) $1 [R]
 #RewriteCond %{REQUEST_URI} !(/private/admin.php)
 #
 ##メンテナンス
-RewriteCond %{REQUEST_URI} !(/common/error/503/)
-RewriteCond %{REQUEST_URI} !(/common/error/client/)
-RewriteRule ^.*$ - [R=503,L]
+#RewriteCond %{REQUEST_URI} !(/common/error/503/)
+#RewriteCond %{REQUEST_URI} !(/common/error/client/)
+#RewriteRule ^.*$ - [R=503,L]
