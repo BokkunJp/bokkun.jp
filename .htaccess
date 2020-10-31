@@ -53,10 +53,11 @@ RewriteCond %{REQUEST_URI} !(^/public/client)
 RewriteRule ^public/(.*) $1 [R]
 
 
-##メンテナンス対象外ページを指定してメンテナンスをかけるときに使用
+#メンテナンス対象外ページを指定してメンテナンスをかけるときに使用
 #RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_URI} !(/CSV/)
-#RewriteCond %{REQUEST_URI} !(/FILE/)
+#RewriteCond %{REQUEST_URI} !(/IMAGE/)
+#RewriteCond %{REQUEST_URI} !(/private/admin.php)
 #
-##メンテナンス
-#RewriteRule ^.*$ - [R=503,L]
+#メンテナンス
+RewriteCond %{REQUEST_URI} !(/common/error/)
+RewriteRule ^.*$ - [R=503,L]
