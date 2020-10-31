@@ -10,7 +10,8 @@ $img = "crown-vector.jpg";
 <head>
     <title><?php echo $title; ?></title>
     <base href="../" />
-    <link rel="shortcut icon" href="client/image/5959715.png">
+    <link rel="shortcut icon" href="<?php echo $public; ?>client/image/5959715.png">
+    <link rel="stylesheet" type="text/css" href="<?php echo $public; ?>client/css/webGL/design.css">
     <?php require_once __DIR__ . '/init.php'; ?>
 </head>
 
@@ -21,7 +22,7 @@ $img = "crown-vector.jpg";
         <main class="contents">
             <?php require_once('design.php'); ?>
         </main>
-            <?php require_once('footer.php'); ?>
+        <?php require_once('footer.php'); ?>
     </div>
 </body>
 
