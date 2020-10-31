@@ -15,7 +15,7 @@ if ($session->Judge('addition')) {
 $dir = scandir('../../');
 
 foreach ($dir as $_key => $_dir) {
-    if (preg_match("/\.php$|\.html$|\.txt$/", $_dir)) {
+    if (preg_match("/public$|private$|common$|custom.*$|template.*$|\..*$/", $_dir)) {
         unset($dir[$_key]);
     }
 }
