@@ -18,13 +18,12 @@
       {$count=0}
       {$max=count($dir)}
       {foreach from=$dir item=item_name}
-        {if mb_strpos($item_name, '.')!==0 && mb_strpos($item_name, 'template')!==0 && mb_strpos($item_name, 'common')!==0&& mb_strpos($item_name, 'index.php')!==0&& mb_strpos($item_name, 'client')!==0}
               <option value='{$item_name}' >{$item_name}</option>
-          {/if}
       {/foreach}
     </select>
 
     <button type='submit' name="delete" value="delete">削除する</button>
+    <button type='submit' name="copy"" value="copy">複製する</button>
     タイトル(編集用)： <input type='textbox' name='title' {if isset($smarty.session.title) } {if !empty($smarty.session.title)}value={$smarty.session.title}{/if}{/if} />
     <button type='submit' name="edit" value="edit">編集する</button>
   <input type='hidden' name='token' value={$token} />
