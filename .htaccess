@@ -58,6 +58,6 @@ RewriteRule ^public/(.*) $1 [R]
 #RewriteCond %{REQUEST_URI} !(/IMAGE/)
 #RewriteCond %{REQUEST_URI} !(/private/admin.php)
 #
-#メンテナンス
-RewriteCond %{REQUEST_URI} !(/common/error/)
-RewriteRule ^.*$ - [R=503,L]
+##メンテナンス
+#RewriteCond %{REQUEST_URI} !(/common/error/)
+#RewriteRule ^.*$ - [R=503,L]
