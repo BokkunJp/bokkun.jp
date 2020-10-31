@@ -74,7 +74,7 @@ class CSV_Base {
     protected function ReadFile($fileName, $filePath = CSV) {
         // ファイルパスにCSVファイルが存在しない場合は終了
         if (!file_exists(AddPath($filePath, $fileName, false))) {
-            return -1;
+            return false;
         }
 
         $this->data = null; // データリセット
@@ -90,6 +90,32 @@ class CSV_Base {
             fclose($fileHandler);
         }
     }
+
+    /**
+     * OutData
+     * CSVデータを配列用に成形
+     *
+     * @param none
+     * @return mixed
+     */
+    protected function OutData() {
+        if (!isset($this->data) || !is_array($this->data)) {
+            return false;
+        }
+        $header = $this->data[0];
+        $body = $this->data;
+        unset($body[0]);
+
+        $ret = [];
+        foreach ($body as $b_key => $b_data) {
+            foreach ($b_data as $col_key => $col_data) {
+                $ret[$b_key][$header[$col_key]] = $col_data;
+            }
+        }
+
+        return $ret;
+    }
+
 
     /**
      * ValidateName

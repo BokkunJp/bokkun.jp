@@ -159,4 +159,24 @@ class CSV extends CSV_Base {
         // 存在しない場合は、CSVファイルを作成
         $this->MakeFile($this->fileName, CSV);
     }
+
+    /**
+     * Output
+     *
+     *
+     * 指定したCSVファイルを読み込み、配列用データに成形して返す。
+     *
+     * @return string
+     * @return array
+     */
+
+    public function Output($fileName) {
+        if ($this->ValidateName($fileName) === false) {
+            return false;
+        }
+
+        $this->ReadFile($fileName);
+
+        return $this->OutData();
+    }
 }
