@@ -176,16 +176,16 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
  *
  *
  */
-function MoldData($data, $debugLine =__LINE__) {
+function MoldData($data, $parameter = ',') {
     $ret = false;
     if (is_null($data)) {
         return false;
     }
 
     if (is_array($data)) {
-        $ret = implode(',', $data);
+        $ret = implode($parameter, $data);
     } else if (is_string($data)) {
-        $ret = explode(',', $data);
+        $ret = explode($parameter, $data);
     }
 
     return $ret;
