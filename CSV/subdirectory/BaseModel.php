@@ -95,21 +95,25 @@ class CSV_Base {
      * OutData
      * CSVデータを配列用に成形
      *
-     * @param none
-     * @return mixed
+     * @return boolean|array
      */
-    protected function OutData() {
+    protected function OutData($option) {
         if (!isset($this->data) || !is_array($this->data)) {
             return false;
         }
-        $header = $this->data[0];
-        $body = $this->data;
-        unset($body[0]);
+        $header = $this->GetHeader();
+        $row = $this->data;
+        unset($row[0]);
+        if ($option === 'header') {
+            return $header;
+        } else if ($option === 'body' || $option === 'row') {
+            return $row;
+        }
 
         $ret = [];
-        foreach ($body as $b_key => $b_data) {
-            foreach ($b_data as $col_key => $col_data) {
-                $ret[$b_key][$header[$col_key]] = $col_data;
+        foreach ($row as $r_key => $r_data) {
+            foreach ($r_data as $col_key => $col_data) {
+               $ret[$r_key][$header[$col_key]] = $col_data;
             }
         }
 

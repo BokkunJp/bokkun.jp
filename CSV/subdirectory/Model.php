@@ -166,17 +166,16 @@ class CSV extends CSV_Base {
      *
      * 指定したCSVファイルを読み込み、配列用データに成形して返す。
      *
-     * @return string
      * @return array
      */
 
-    public function Output($fileName) {
-        if ($this->ValidateName($fileName) === false) {
+    public function Output($option=null) {
+        if (!is_file(CSV. $this->fileName) || $this->ValidateName($this->fileName) === false) {
             return false;
         }
 
-        $this->ReadFile($fileName);
+        $this->ReadFile($this->fileName);
 
-        return $this->OutData();
+        return $this->OutData($option);
     }
 }
