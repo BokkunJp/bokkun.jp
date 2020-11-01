@@ -78,6 +78,11 @@ if (empty($csvData)) {
 
 <?php
 $filePath = AddPath(PUBLIC_CSV_DIR, basename(__DIR__));
+// ディレクトリが存在しない場合は作成
+if (!is_dir($filePath)) {
+    mkdir($filePath);
+}
+
 $fileArray = IncludeFiles($filePath, 'csv', true);
 $base = new PublicSetting\Setting();
 
