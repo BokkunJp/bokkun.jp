@@ -24,7 +24,7 @@
 
     <button type='submit' name="delete" value="delete">削除する</button>
     <button type='submit' name="copy"" value="copy">複製する</button>
-    タイトル(編集用)： <input type='textbox' name='title' {if isset($smarty.session.title) } {if !empty($smarty.session.title)}value={$smarty.session.title}{/if}{/if} />
+    タイトル(編集・複製用)： <input type='textbox' name='title' {if isset($smarty.session.title) } {if !empty($smarty.session.title)}value={$smarty.session.title}{/if}{/if} />
     <button type='submit' name="edit" value="edit">編集する</button>
   <input type='hidden' name='token' value={$token} />
 </form>

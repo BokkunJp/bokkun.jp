@@ -114,3 +114,37 @@ function DeleteData($dirPath)
 
     return true;
 }
+
+/**
+ * CopyData
+ * 対象のパスのディレクトリとファイルを複製する
+ * (ディレクトリ内にディレクトリがある場合、そのディレクトリも複製対象となる)
+ * 名称はテキストボックスの入力値
+ *
+ * @param  string $dirPath
+ * @param  string $copyName
+ *
+ * @return bool
+ */
+function CopyData($dirPath, $copyName)
+{
+    if (is_dir($dirPath)) {
+        foreach (scandir($dirPath) as $_file) {
+            if (FindFileName($_file) && is_file($_file)) {
+                unlink(AddPath($dirPath, $_file, false));
+            } else if ((FindFileName($_file) && !is_file($_file))) {
+                if (file_exists(AddPath($dirPath, $_file))) {
+                    DeleteData(AddPath($dirPath, $_file));
+                } else {
+                    unlink(AddPath($dirPath, $_file, false));
+                }
+            }
+        }
+
+        rmdir($dirPath);
+    } else {
+        return false;
+    }
+
+    return true;
+}

@@ -44,7 +44,7 @@ foreach ($post as $post_key => $post_value) {
 
 $pathList = ['php', 'js', 'css', 'image'];
 
-if (isset($edit) && $edit === 'edit' && empty($delete)) {
+if ((isset($edit) || isset($copy)) && empty($delete)) {
     // 編集モード
     if (empty($title)) {
         if (!isset($session['addition'])) {
@@ -81,10 +81,7 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
     } else if (strlen($title) > MAX_LENGTH) {
         $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
-} else if (empty($edit) && isset($delete) &&  $delete === 'delete') {
-    // 削除モード
-    // $adminError->Confirm('削除してもよろしいですか？');
-} else {
+} else if (!isset($edit) && !isset($delete) && !isset($copy)) {
     // その他（不正値）
     if (!isset($session['addition'])) {
         $session['addition'] = $post;
@@ -95,26 +92,26 @@ if (isset($edit) && $edit === 'edit' && empty($delete)) {
     $adminError->UserError('不正な値が入力されました。');
 }
 // $adminError->Maintenance();
-
 chdir($basePath);
 foreach ($pathList as $_pathList) {
     if ($_pathList === 'php') {
         chdir("public/");
+        // 入力値のチェック
+        if (!isset($select)) {
+            $select = null;
+        }
+        $validate = ValidateData(dirname(getcwd()), $select);
+        if ($validate === null) {
+            $adminError->UserError('ページが選択されていません。');
+        } else if ($validate === false) {
+            $adminError->UserError('ページの指定が不正です。');
+        }
+
         if (isset($delete)) {
             // 削除モード
-            // 入力値のチェック
-            if (!isset($select)) {
-                $select = null;
-            }
-            $validate = ValidateData(dirname(getcwd()), $select);
-            if ($validate === null) {
-                $adminError->UserError('ページが選択されていません。');
-            } else if ($validate === false) {
-                $adminError->UserError('ページの指定が不正です。');
-            }
-
             DeleteData(AddPath(dirname(getcwd()), $select));
-
+        } else if (isset($copy)) {
+            // 複製モード
         } else if (isset($edit)) {
             // 編集モード
         } else {
@@ -132,6 +129,8 @@ foreach ($pathList as $_pathList) {
         if (isset($delete)) {
             // 削除モード
             DeleteData(AddPath(getcwd(), $select));
+        } else if (isset($copy)) {
+            // 複製モード
         } else if (isset($edit)) {
             // 編集モード
         } else {
@@ -143,7 +142,9 @@ foreach ($pathList as $_pathList) {
 
 if (isset($edit)) {
     $use->Alert('ページを編集しました。');
-}else if (isset($delete)) {
+} else if (isset($copy)) {
+    $use->Alert('ページを複製しました。');
+} else if (isset($delete)) {
     $use->Alert('ページを削除しました。');
 }
 
