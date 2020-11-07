@@ -35,7 +35,7 @@ Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; prel
 
 #特定のページの404化
 RewriteCond %{REQUEST_URI} ^/private/$ [OR]
-RewriteCond %{REQUEST_URI} ^/private/Sample/ [OR]
+RewriteCond %{REQUEST_URI} ^/private/Sample/$ [OR]
 RewriteCond %{REQUEST_URI} ^/public/client/image/IMAGE/_old/(.*)$
 RewriteRule ^.*$ - [R=404]
 
