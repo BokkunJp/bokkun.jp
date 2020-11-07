@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__ . '/require.php';
 require_once __DIR__ . '/init.php';
-
-// $title = "テンプレート";
 $img = "crown-vector.jpg";
 ?>
 <!DOCTYPE html>
