@@ -24,7 +24,9 @@ require_once PUBLIC_COMMON_DIR . "/Token.php";
 $base = new PublicSetting\Setting();
 $ua = new UA\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
-$homepageTitle = basename(getcwd());
+if (!isset($homepageTitle)) {
+    $homepageTitle = basename(getcwd());
+}
 if (!isset($title)) {
     $title = htmlspecialchars($homepageTitle);
 }
