@@ -92,26 +92,26 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
     $adminError->UserError('不正な値が入力されました。');
 }
 // $adminError->Maintenance();
+
 chdir($basePath);
 foreach ($pathList as $_pathList) {
     if ($_pathList === 'php') {
-        chdir("public/");
-        // 入力値のチェック
-        if (!isset($select)) {
-            $select = null;
-        }
-        $validate = ValidateData(dirname(getcwd()), $select);
-        if ($validate === null) {
-            $adminError->UserError('ページが選択されていません。');
-        } else if ($validate === false) {
-            $adminError->UserError('ページの指定が不正です。');
-        }
-
+            // 入力値のチェック
+            if (!isset($select)) {
+                $select = null;
+            }
+            $validate = ValidateData(getcwd(), $select);
+            if ($validate === null) {
+                $adminError->UserError('ページが選択されていません。');
+            } else if ($validate === false) {
+                $adminError->UserError('ページの指定が不正です。');
+            }
         if (isset($delete)) {
             // 削除モード
             DeleteData(AddPath(dirname(getcwd()), $select));
         } else if (isset($copy)) {
             // 複製モード
+            CopyData(AddPath(getcwd(), $select), $title);
         } else if (isset($edit)) {
             // 編集モード
         } else {
@@ -120,7 +120,7 @@ foreach ($pathList as $_pathList) {
         }
     } else {
         if (!strpos(getcwd(), 'client')) {
-            $client = "client/";
+            $client = "public/client/";
             $adminPath .= '/' . $client;
         } else {
             $client = "../";
@@ -131,6 +131,7 @@ foreach ($pathList as $_pathList) {
             DeleteData(AddPath(getcwd(), $select));
         } else if (isset($copy)) {
             // 複製モード
+            CopyData(AddPath(getcwd(), $select), $title);
         } else if (isset($edit)) {
             // 編集モード
         } else {
@@ -188,7 +189,7 @@ class AdminError
     onload = function() {
         title = document.getElementsByName('title')[0].value;
         if (title) {
-            title = location.protocol + '//' + location.host + '/public/' + title;
+            title = location.protocol + '//' + location.host + title;
             open(title);
         }
 
