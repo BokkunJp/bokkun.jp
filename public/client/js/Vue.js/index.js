@@ -24,7 +24,7 @@ function Main() {
 class VueClass
 {
     constructor() {
-        console.log('construct');
+        // console.log('construct');
         this.MakeData();
     }
     MakeData(){

@@ -11,7 +11,7 @@ $img = "crown-vector.jpg";
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
-    <title><?php echo basename(getcwd()); ?></title>
+    <title><?php echo $title; ?></title>
     <base href="../" />
     <link rel="shortcut icon" href="client/image/5959715.png">
     <?php require_once dirname(dirname(__DIR__)) . '/public/common/Layout/init.php'; ?>
