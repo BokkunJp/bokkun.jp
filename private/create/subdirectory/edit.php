@@ -53,7 +53,6 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
         }
         unset($session);
         unset($post);
-        echo $title;
         $adminError->UserError('未記入の項目があります。');
     } else {
         // ファイル存在チェック
@@ -82,6 +81,12 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
         $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
 } else if (!isset($edit) && !isset($delete) && !isset($copy)) {
+    // 削除モード
+    // $adminError->Confirm('削除してもよろしいですか？');
+} else if (!empty($copy) && isset( $copy) &&  $copy === 'copy') {
+        $use->Alert("{$select}を複製します。");die;
+} else {
+    var_dump($copy);die;
     // その他（不正値）
     if (!isset($session['addition'])) {
         $session['addition'] = $post;
@@ -114,6 +119,8 @@ foreach ($pathList as $_pathList) {
             // 複製モード
         } else if (isset($edit)) {
             // 編集モード
+        } else if (isset($copy)) {
+            // 複製モード
         } else {
             // どちらでもない
             $adminError->UserError("不正な遷移です。");
