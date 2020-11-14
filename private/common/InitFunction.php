@@ -128,15 +128,14 @@ function DeleteData($dirPath)
  */
 function CopyData($dirPath, $copyName)
 {
+    var_dump([$dirPath, $copyName]);die;
     if (is_dir($dirPath)) {
         foreach (scandir($dirPath) as $_file) {
             if (FindFileName($_file) && is_file($_file)) {
-                unlink(AddPath($dirPath, $_file, false));
             } else if ((FindFileName($_file) && !is_file($_file))) {
                 if (file_exists(AddPath($dirPath, $_file))) {
-                    DeleteData(AddPath($dirPath, $_file));
+                    // CopyData(AddPath($dirPath, $_file), $copyName);
                 } else {
-                    unlink(AddPath($dirPath, $_file, false));
                 }
             }
         }

@@ -5,7 +5,7 @@
         <a href="<?php echo $url; ?>"><img class='top-image' src="<?php echo $public; ?>client/image/<?php echo $img; ?>"></a>
         <strong>
             <em>Bokkun's homepage<?=$siteConfig['header']->GetVersion()?></em> <br/>
-            <div class="top" align="center"><?php echo $title; ?></div>
+            <div class="top" align="center"><?php echo $homepageTitle; ?></div>
         </strong>
         </div>
     </div>
