@@ -50,10 +50,10 @@ function CreateRandom(int $length, string $type = 'security')
  */
 function FindFileName($str)
 {
-    if (preg_match('/^.$/', $str) || preg_match('/^..$/', $str)) {
+    if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
         return false;
     } else {
-        return $str;
+        return true;
     }
 }
 /**
@@ -110,6 +110,90 @@ function DeleteData($dirPath)
         rmdir($dirPath);
     } else {
         return false;
+    }
+
+    return true;
+}
+
+/**
+ * CopyData
+ * 対象のパスのディレクトリとファイルを複製する
+ * 名称はテキストボックスの入力値
+ * ※入力文字チェックは考慮しない
+ *
+ * @param  string $srcPath
+ * @param  string $copyName
+ *
+ * @return bool
+ */
+function CopyData($srcPath, $copyName, $dpAuthFlg=true)
+{
+    $dstPath = AddPath(dirname($srcPath), $copyName);
+
+    if (is_dir($srcPath)) {
+        // コピー元にファイルがある場合は、ファイルを走査してコピー
+        if (!is_dir($dstPath)) {
+            mkdir($dstPath);
+        } else {
+            if ($dpAuthFlg === false) {
+                return -1;
+            }
+        }
+
+        foreach (scandir($srcPath) as $_file) {
+            if ((FindFileName($_file))) {
+                if (is_file(AddPath($srcPath, $_file, false))) {
+                    copy(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+                } else {
+                    if (is_dir(AddPath($srcPath, $_file, false))) {
+                        if (!is_dir(AddPath($dstPath, $_file, false))) {
+                            mkdir(AddPath($dstPath, $_file, false));
+                        }
+                        CopySubData(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+                    }
+                }
+            }
+        }
+    } else {
+        // コピー元にファイルがない場合は終了
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * CopySubData
+ * 対象のパスの子階層のディレクトリとファイルを複製する
+ * (ディレクトリ内にディレクトリがある場合、そのディレクトリ・ファイルも複製対象となる)
+ * 名称はテキストボックスの入力値
+ * ※入力文字チェック・重複チェックは考慮しない
+ *
+ * @param  string $srcPath
+ * @param  string $copyName
+ *
+ * @return bool
+ */
+function CopySubData($srcPath, $dstPath)
+{
+    // 主階層のディレクトリがコピー先にない場合は作成
+    if (!is_dir($dstPath)) {
+        mkdir($dstPath);
+    }
+
+    foreach (scandir($srcPath) as $_file) {
+        if ((FindFileName($_file))) {
+            if (is_file(AddPath($srcPath, $_file, false))) {
+                copy(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+            } else {
+                if (is_dir(AddPath($dstPath, $_file, false))) {
+                    if (!is_dir(AddPath($dstPath, $_file, false))) {
+                        mkdir(AddPath($dstPath, $_file, false));
+                    }
+                }
+                CopySubData(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+            }
+        }
     }
 
     return true;

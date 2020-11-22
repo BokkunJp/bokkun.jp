@@ -13,7 +13,7 @@
 <br />
 <form action='./{$base}/edit.php' method='POST'>
     <div><p2>編集</p2></div>
-    <div class="warning">本機能は現在鋭意実装中です。</div>
+    {* <div><span><input type='checkbox'' name='all-copy' value='true' />すべてコピーする</span></div> *}
     <select name='select'>
       {$count=0}
       {$max=count($dir)}
@@ -24,7 +24,7 @@
 
     <button type='submit' name="delete" value="delete">削除する</button>
     <button type='submit' name="copy"" value="copy">複製する</button>
-    タイトル(編集用)： <input type='textbox' name='title' {if isset($smarty.session.title) } {if !empty($smarty.session.title)}value={$smarty.session.title}{/if}{/if} />
+    タイトル(編集・複製用)： <input type='textbox' name='title' {if isset($smarty.session.title) } {if !empty($smarty.session.title)}value={$smarty.session.title}{/if}{/if} />
     <button type='submit' name="edit" value="edit">編集する</button>
   <input type='hidden' name='token' value={$token} />
 </form>

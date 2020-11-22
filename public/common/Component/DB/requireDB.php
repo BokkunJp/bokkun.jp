@@ -5,7 +5,8 @@
    必要な引数：
    dbuser, dbname, dbpass, host(任意、デフォルトはローカル), port(任意)
 */
-class DB {
+class DB
+{
     protected $dsn;
     protected $user;
     protected $hash;
@@ -15,7 +16,8 @@ class DB {
     protected $stmt;
     protected $query;
 
-    public function __construct($dbName='bokkun', $dbPass = null, $tableName=null, $dbHost = 'localhost', $dbPort=5432) {
+    public function __construct($dbName = 'bokkun', $dbPass = null, $tableName = null, $dbHost = 'localhost', $dbPort = 5432)
+    {
         try {
             $this->dbName = $dbName;
             $this->user = $dbName;
@@ -25,26 +27,27 @@ class DB {
             // print_r('データベースの接続に成功しました。<br/>');
             return true;
         } catch (PDOException $e) {
-            print_r('ERROR!! '.$e->getMessage());
+            print_r('ERROR!! ' . $e->getMessage());
             return false;
         }
+    }
 
-}
+    public function SetTable($tableName)
+    {
+        $this->tableName = $tableName;
+    }
 
-public function SetTable($tableName) {
-    $this->tableName = $tableName;
-}
-
-public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
+    public function SetSequence($seq_id = 1, $id_name = 'test_db_id_seq')
+    {
         $this->sql = "select setval ('{$id_name}', :{$id_name}, false);";
         $sth = $this->SQLExec($id_name, [$seq_id]);
         $exec = $sth->fetchAll();
 
         return $exec;
-
     }
 
-    private function SetPlaceholder(array $colArray, $colFlg=false) {
+    private function SetPlaceholder(array $colArray, $colFlg = false)
+    {
         $newArray = [];
 
         foreach ($colArray as $_key => $_val) {
@@ -52,13 +55,14 @@ public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
             if ($colFlg) {
                 $newArray[$_key] .= $_val . "=";
             }
-            $newArray[$_key] .= ":". $_val;
+            $newArray[$_key] .= ":" . $_val;
         }
 
         return $newArray;
     }
 
-    private function SQLExec(string $colString=null, array $valArray=null) {
+    private function SQLExec(string $colString = null, array $valArray = null)
+    {
         try {
             $this->stmt->beginTransaction();                             // トランザクション開始
 
@@ -75,15 +79,15 @@ public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
                 }
             }
 
-        // SQLの実行
-        $sth->execute();
-        $this->stmt->commit();                                      // コミット
+            // SQLの実行
+            $sth->execute();
+            $this->stmt->commit();                                      // コミット
 
-        // ステートメントを返却
-        return $sth;
+            // ステートメントを返却
+            return $sth;
         } catch (Exception $e) {
             // SQLの実行に失敗した場合はエラー
-            print_r('ERROR!! : '.$e->getMessage());
+            print_r('ERROR!! : ' . $e->getMessage());
             print_r(nl2br("\n"));
             $this->stmt->rollback();
             error_reporting(E_STRICT);
@@ -91,7 +95,8 @@ public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
         }
     }
 
-    public function Insert(array $cols, array $vals) {
+    public function Insert(array $cols, array $vals)
+    {
 
         // カラム群からそれぞれのカラムのプレースホルダを生成し、それを文字列に成型
         $placeholder = MoldData($this->SetPlaceholder($cols));
@@ -106,7 +111,8 @@ public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
         return $this->SQLExec($cols, $vals);
     }
 
-    public function Update($cols, $vals) {
+    public function Update($cols, $vals)
+    {
 
         // カラムからプレースホルダを生成
         $placeholder = MoldData($this->SetPlaceholder($cols));
@@ -119,12 +125,12 @@ public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
 
         // SQL文実行
         return $this->SQLExec($cols, $vals);
-
     }
 
-    public function Select($id) {
+    public function Select($id)
+    {
 
-        $this->sql = "select * from {$this->tableName} where id= :id";
+        $this->sql = "Select * from {$this->tableName} where id= :id";
         $sth = $this->stmt->prepare($this->sql);
         $sth->execute(array(':id' => $id));
 
@@ -133,17 +139,34 @@ public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
         return $exec;
     }
 
-    public function SelectAll() {
+    public function newSelect(array $cols, array $vals)
+    {
+
+        // カラム群からそれぞれのカラムのプレースホルダを生成し、それを文字列に成型
+        $placeholder = MoldData($this->SetPlaceholder($cols));
+
+        // カラムを文字列に成型
+        $cols = MoldData($cols);
+
+        // 実行するSQL
+        $this->sql  = "Select {$cols}=:col From {$this->tableName}";
+
+        // SQL文実行
+        return $this->SQLExec($cols, $vals);
+    }
+
+    public function SelectAll()
+    {
 
         $this->sql = "select * from {$this->tableName} order by id";
         $sth = $this->SQLExec();
 
         $ary = $sth->fetchAll();
         return $ary;
-
     }
 
-    public function SelectIDMin() {
+    public function SelectIDMin()
+    {
 
         $this->sql = "select MIN(ID) from {$this->tableName} group by id";
         $sth = $this->stmt->prepare($this->sql);
@@ -152,11 +175,11 @@ public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
         $ret = $sth->fetch();
 
         return $ret['min'];
-
     }
 
-    public function SelectIDMax() {
- 
+    public function SelectIDMax()
+    {
+
         $this->sql = "select MAX(ID) from {$this->tableName} group by id";
         $sth = $this->SQLExec();
 
@@ -167,10 +190,10 @@ public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
         }
 
         return $ret['max'];
-
     }
 
-    public function SelectDataCount() {
+    public function SelectDataCount()
+    {
 
         $this->sql = "select COUNT(*) from {$this->tableName}";
         $sth = $this->SQLExec();
@@ -182,10 +205,10 @@ public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
         }
 
         return $ret['count'];
-
     }
 
-    public function Delete(array $cols, array $vals) {
+    public function Delete(array $cols, array $vals)
+    {
 
         // where句生成
         $where = MoldData($this->SetPlaceholder($cols, true));
@@ -199,10 +222,10 @@ public function SetSequence($seq_id=1, $id_name='test_db_id_seq') {
 
         // SQL文実行
         return $this->SQLExec($cols, $vals);
-
     }
 
-    public function DeleteAll() {
+    public function DeleteAll()
+    {
 
         $this->sql  = "Delete From {$this->tableName}";
 

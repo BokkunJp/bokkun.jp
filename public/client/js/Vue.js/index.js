@@ -1,13 +1,15 @@
- // DOM読み込み
-onload = function() {
+// DOM読み込み
+onload = function ()
+{
     Main();     // メイン処理
 }
 
- /* JQueryによる処理の流れ
-  *  引数：
-  *  戻り値：
-  */
-function Main() {
+/* JQueryによる処理の流れ
+ *  引数：
+ *  戻り値：
+ */
+function Main()
+{
 
     var vue = new VueClass();
     vue.SetData('#test', 'Default');
@@ -27,12 +29,14 @@ class VueClass
         // console.log('construct');
         this.MakeData();
     }
-    MakeData(){
+    MakeData()
+    {
 
         this.el = null;
         this.data = null;
     }
-    SetData(el, data) {
+    SetData(el, data)
+    {
         this.SetElement(el);
         this.SetMessage(data);
 
@@ -47,24 +51,33 @@ class VueClass
         this.obj.data = this.data;
     }
 
-    SetElement(el) {
+    SetElement(el)
+    {
         this.el = el;
     }
 
-    SetMessage(message) {
-        this.data = {message:message};
+    SetMessage(message)
+    {
+        this.data = { message: message };
     }
 
-    SetError ()
+    SetError()
     {
         return;
     }
 
-    Exec ()
+    Exec()
     {
-        if ( !this.obj )
+        if (!this.obj)
         {
             this.SetObject();
+        }
+        if (document.domain == 'bokkun.jp.project')
+        {
+            Vue.config.devtools = true;
+        } else
+        {
+            console.log('real server');
         }
         return new Vue(this.obj);
     }
@@ -72,21 +85,21 @@ class VueClass
 
 
 
- /*
-  * 参考：
+/*
+ * 参考：
 
-  // DOM読み込み
- // $(function() {
- //    Main();     // メイン処理
- // });
+ // DOM読み込み
+// $(function() {
+//    Main();     // メイン処理
+// });
 
- // 全体読み込み (画像まで読み込んでから実行)
- // $(window).on('load', function() {
-     // });
-     //    Main();     // メイン処理
+// 全体読み込み (画像まで読み込んでから実行)
+// $(window).on('load', function() {
+    // });
+    //    Main();     // メイン処理
 
- // JQueryを使わない場合のDOM読み込み
- onload = function() {
- //    Main();     // メイン処理
- }
-  */
+// JQueryを使わない場合のDOM読み込み
+onload = function() {
+//    Main();     // メイン処理
+}
+ */
