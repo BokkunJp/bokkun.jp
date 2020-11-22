@@ -13,7 +13,7 @@
 <br />
 <form action='./{$base}/edit.php' method='POST'>
     <div><p2>編集</p2></div>
-    <div class="warning">本機能は現在鋭意実装中です。</div>
+    {* <div><span><input type='checkbox'' name='all-copy' value='true' />すべてコピーする</span></div> *}
     <select name='select'>
       {$count=0}
       {$max=count($dir)}

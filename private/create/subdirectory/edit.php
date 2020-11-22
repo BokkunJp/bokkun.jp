@@ -42,7 +42,14 @@ foreach ($post as $post_key => $post_value) {
     $judge[$$post_key] = $post_value;
 }
 
-$pathList = ['php', 'js', 'css', 'image'];
+$pathList = ['php'];
+$subPathList = scandir(AddPath(AddPath($basePath, 'public'), 'client'));
+foreach ($subPathList as $_key => $_val) {
+    if (!FindFileName($_val)) {
+        unset($subPathList[$_key]);
+    }
+}
+$pathList = array_merge($pathList, $subPathList);
 
 if ((isset($edit) || isset($copy)) && empty($delete)) {
     // 編集モード
@@ -80,13 +87,12 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
     } else if (strlen($title) > MAX_LENGTH) {
         $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
-} else if (!isset($edit) && !isset($delete) && !isset($copy)) {
+} else if (!isset($edit) && isset($delete) && !isset($copy)) {
     // 削除モード
     // $adminError->Confirm('削除してもよろしいですか？');
 } else if (!empty($copy) && isset( $copy) &&  $copy === 'copy') {
-        $use->Alert("{$select}を複製します。");die;
+        $use->Alert("{$select}を複製します。");
 } else {
-    var_dump($copy);die;
     // その他（不正値）
     if (!isset($session['addition'])) {
         $session['addition'] = $post;
@@ -113,14 +119,12 @@ foreach ($pathList as $_pathList) {
             }
         if (isset($delete)) {
             // 削除モード
-            DeleteData(AddPath(dirname(getcwd()), $select));
+            DeleteData(AddPath(getcwd(), $select));
         } else if (isset($copy)) {
             // 複製モード
             CopyData(AddPath(getcwd(), $select), $title);
         } else if (isset($edit)) {
             // 編集モード
-        } else if (isset($copy)) {
-            // 複製モード
         } else {
             // どちらでもない
             $adminError->UserError("不正な遷移です。");
@@ -138,7 +142,9 @@ foreach ($pathList as $_pathList) {
             DeleteData(AddPath(getcwd(), $select));
         } else if (isset($copy)) {
             // 複製モード
-            CopyData(AddPath(getcwd(), $select), $title);
+            if (is_dir(AddPath(getcwd(), $select))) {
+                CopyData(AddPath(getcwd(), $select), $title);
+            }
         } else if (isset($edit)) {
             // 編集モード
         } else {
@@ -196,7 +202,7 @@ class AdminError
     onload = function() {
         title = document.getElementsByName('title')[0].value;
         if (title) {
-            title = location.protocol + '//' + location.host + title;
+            title = location.protocol + '//' + location.host + '/' + title;
             open(title);
         }
 
