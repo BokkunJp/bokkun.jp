@@ -30,7 +30,7 @@ AlertAdmin('access', $title);
                 <?php
                 $notList = ['.', '..', 'Sample', 'Test', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'reset.php', 'secure.php'];
                 $dirList = scandir(__DIR__);
-                $titleList = ['IMAGE' => '画像投稿', 'create' => 'ページ調整', 'edit' => 'ソース調整', 'log' => 'ログ'];
+                $titleList = ['IMAGE' => '画像投稿', 'create' => 'ページ作成', 'edit' => 'ソース編集', 'log' => 'ログ'];
                 $notList = AddList($notList, $dirList, '.', 1);
                 $notList = AddList($notList, $dirList, '_', 1);
 
