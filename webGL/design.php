@@ -1,10 +1,10 @@
-    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/shader.js"></script>
-    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/ProgramObject.js"></script>
-    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/BufferObject.js"></script>
-    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/VBO.js"></script>
-    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/IBO.js"></script>
-    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/texture.js"></script>
-    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR)?>/WebGLProgram/minMatrix.js"></script>
+    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR) ?>/WebGLProgram/shader.js"></script>
+    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR) ?>/WebGLProgram/ProgramObject.js"></script>
+    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR) ?>/WebGLProgram/BufferObject.js"></script>
+    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR) ?>/WebGLProgram/VBO.js"></script>
+    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR) ?>/WebGLProgram/IBO.js"></script>
+    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR) ?>/WebGLProgram/texture.js"></script>
+    <script src="public/client/js/<?= basename(PUBLIC_COMMON_DIR) ?>/WebGLProgram/minMatrix.js"></script>
     <script id='vshader' type='x-shader/x-vertex'>
         /* 頂点シェーダ  */
         attribute vec3 position;
@@ -38,7 +38,7 @@
 
         <button type="button" name="redraw" onclick="console.clear(); main();">再描画</button>
     </form>
-    <contents>
+    <p>
         色付きの三角形ポリゴンを表示する。
         色はバーで選択できる。
-    </contents>
+    </p>
