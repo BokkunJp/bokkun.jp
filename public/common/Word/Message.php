@@ -1,7 +1,4 @@
 <?php
-
-use CommonSetting\Setting;
-
 $commonWordPath = dirname(dirname(dirname(__DIR__)));
 $commonWordPath = AddPath($commonWordPath, 'common');
 $commonWordPath = AddPath($commonWordPath, 'Word');
@@ -24,15 +21,16 @@ function Public_CSRFErrorMessage() {
 }
 
 // 共通部分
-define('PUBLIC_DIR', DOCUMENT_ROOT . '/public');
-define('PUBLIC_COMMON_DIR', PUBLIC_DIR. '/common');
-define('PUBLIC_CLIENT_DIR', PUBLIC_DIR . '/client');
-define('PUBLIC_CSS_DIR', PUBLIC_CLIENT_DIR . '/css');
-define('PUBLIC_JS_DIR', PUBLIC_CLIENT_DIR . '/js');
-define('PUBLIC_IMAGE_DIR', PUBLIC_CLIENT_DIR . '/image');
-define('PUBLIC_CSV_DIR', PUBLIC_CLIENT_DIR . '/csv');
-define('PUBLIC_COMPONENT_DIR', PUBLIC_COMMON_DIR . '/Component');
-define('PUBLIC_LAYOUT_DIR', PUBLIC_COMMON_DIR . '/Layout');
+define('PUBLIC_DIR', AddPath(DOCUMENT_ROOT, 'public', false));
+define('PUBLIC_COMMON_DIR', AddPath(PUBLIC_DIR, 'common', false));
+define('PUBLIC_CLIENT_DIR', AddPath(PUBLIC_DIR, 'client', false));
+define('PUBLIC_CSS_DIR', AddPath(PUBLIC_CLIENT_DIR, '/css', false));
+define('PUBLIC_JS_DIR', AddPath(PUBLIC_CLIENT_DIR, '/js', false));
+define('PUBLIC_IMAGE_DIR', AddPath(PUBLIC_CLIENT_DIR, '/image', false));
+define('PUBLIC_3D_DIR', AddPath(PUBLIC_CLIENT_DIR, '3d', false));
+define('PUBLIC_CSV_DIR', AddPath(PUBLIC_CLIENT_DIR, 'csv', false));
+define('PUBLIC_COMPONENT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Component', false));
+define('PUBLIC_LAYOUT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Layout', false));
 define('PUBLIC_PREVIOUS', '画像閲覧ページへ戻る');
 // デフォルトの可視フラグ
 define('DEFAULT_VIEW', VIEW);

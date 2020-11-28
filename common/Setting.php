@@ -47,6 +47,10 @@ class Setting {
         return Sanitize(filter_input_fix(INPUT_SERVER, $elm));
     }
 
+    static public function GetDocumentRoot() {
+        return self::GetSERVER('DOCUMENT_ROOT');
+    }
+
     static public function GetServarName() {
         return self::GetSERVER('SERVER_NAME');
     }

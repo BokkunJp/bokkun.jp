@@ -25,21 +25,22 @@ function PrivateCSRFErrorMessage() {
 // define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
 // define('API_DIR', DOCUMENT_ROOT . '/API');
 define('PRIVATE_COMMON_DIR', dirname(__DIR__));
-define('PRIVATE_DIR', DOCUMENT_ROOT . '/private');
-define('PRIVATE_CLIENT_DIR', PRIVATE_DIR . '/client');
-define('PRIVATE_CSS_DIR', PRIVATE_CLIENT_DIR . '/css');
-define('PRIVATE_JS_DIR', PRIVATE_CLIENT_DIR . '/js');
-define('PRIVATE_IMAGE_DIR', PRIVATE_CLIENT_DIR . '/image');
+define('PRIVATE_DIR', AddPath(DOCUMENT_ROOT, 'private', false));
+define('PRIVATE_CLIENT_DIR', AddPath(PRIVATE_DIR, 'client', false));
+define('PRIVATE_CSS_DIR', AddPath(PRIVATE_CLIENT_DIR, 'css', false));
+define('PRIVATE_JS_DIR', AddPath(PRIVATE_CLIENT_DIR, 'js', false));
+define('PRIVATE_IMAGE_DIR', AddPath(PRIVATE_CLIENT_DIR, 'image', false));
 
-// define('CSV_DIR', CLIENT_DIR . '/csv');
-define('PRIVATE_COMPONENT_DIR', PRIVATE_COMMON_DIR . '/Component');
-define('PRIVATE_LAYOUT_DIR', PRIVATE_COMMON_DIR . '/Layout');
+// define('PRIVATE_CSV_DIR', AddPath(PRIVATE_CLIENT_DIR, 'csv', false));
+define('PRIVATE_COMPONENT_DIR', AddPath(PRIVATE_COMMON_DIR, 'Component', false));
+define('PRIVATE_LAYOUT_DIR', AddPath(PRIVATE_COMMON_DIR, 'Layout', false));
 // define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 // define('NOW_PAGE', basename(getcwd()));
 // define('SECURITY_LENG', 32);
 define('PRIVATE_PREVIOUS', '画像管理ページへ戻る');
 
 // 公開側画像パス
-define('PUBLIC_IMAGE_DIR', DOCUMENT_ROOT . '/public/client/image/');
+define('PUBLIC_IMAGE_DIR', AddPath(AddPath(DOCUMENT_ROOT, 'public'), AddPath('client', 'image'), false));
+
 // デフォルトの可視フラグ
 define('DEFAULT_VIEW', VIEW);
