@@ -16,17 +16,9 @@ function CSRFErrorMessage() {
 }
 
 // 共通部分
-define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
-define('API_DIR', DOCUMENT_ROOT . '/API');
+define('DOCUMENT_ROOT', CommonSetting\Setting::GetDocumentRoot());
+define('API_DIR', AddPath(DOCUMENT_ROOT, 'API', false));
 define('COMMON_DIR', dirname(__DIR__));
-// define('PUBLIC_DIR', DOCUMENT_ROOT . '/public');
-// define('CLIENT_DIR', PUBLIC_DIR . '/client');
-// define('CSS_DIR', CLIENT_DIR . '/css');
-// define('JS_DIR', CLIENT_DIR . '/js');
-// define('IMAGE_DIR', CLIENT_DIR . '/image');
-// define('CSV_DIR', CLIENT_DIR . '/csv');
-// define('COMPONENT_DIR', COMMON_DIR . '/Component');
-// define('LAYOUT_DIR', COMMON_DIR . '/Layout');
 define('NL', nl2br(PHP_EOL));
 define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 define('NOW_PAGE', basename(getcwd()));
