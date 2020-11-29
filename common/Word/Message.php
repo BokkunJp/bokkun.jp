@@ -17,14 +17,12 @@ function CSRFErrorMessage() {
 
 // 共通部分
 define('DOCUMENT_ROOT', CommonSetting\Setting::GetDocumentRoot());
-define('API_DIR', AddPath(dirname(dirname(DOCUMENT_ROOT)), 'Plugin', false));
+define('PLUGIN_DIR', AddPath(dirname(dirname(DOCUMENT_ROOT)), 'Plugin', false));
 define('COMMON_DIR', dirname(__DIR__));
 define('NL', nl2br(PHP_EOL));
 define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 define('NOW_PAGE', basename(getcwd()));
 define('SECURITY_LENG', 32);
-
-var_dump(API_DIR);
 
 // FILEページの文言
 define('VIEW', 1);
@@ -35,8 +33,7 @@ define('MAX_VIEW', 10);
 define('MIN_PAGE_COUNT', 1);
 define('SPACE_ON', 1);
 define('COUNT_START', 3);
-define('ERRMessage', 'エラーが発生しました。');
-
+define('ERROR_MESSAGE', 'エラーが発生しました。');
 
 define('FILE_COUNT_MAX', 50);
 define('FILE_COUNT_OVER', -1);
