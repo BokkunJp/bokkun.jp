@@ -23,7 +23,7 @@ function PrivateCSRFErrorMessage() {
 
 // 共通部分
 // define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
-// define('API_DIR', DOCUMENT_ROOT . '/API');
+// define('API_DIR', AddPath(dirname(dirname(DOCUMENT_ROOT)), 'Plugin', false));
 define('PRIVATE_COMMON_DIR', dirname(__DIR__));
 define('PRIVATE_DIR', AddPath(DOCUMENT_ROOT, 'private', false));
 define('PRIVATE_CLIENT_DIR', AddPath(PRIVATE_DIR, 'client', false));
