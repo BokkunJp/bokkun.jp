@@ -3,10 +3,10 @@ define("DS", DIRECTORY_SEPARATOR);
 
 // 関数定義 (初期処理用)
 require dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
-// タグ
-require_once dirname(__DIR__, 2) . DS . AddPath("common", "Component") . DS . "Tag.php";
 // 設定
 require_once dirname(__DIR__, 2) . DS . "common" . DS . "Setting.php";
+// タグ
+require_once dirname(__DIR__, 2) . DS . AddPath("common", "Component") . DS . "Tag.php";
 // 定数・固定文言など
 require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
 // CSRF
