@@ -289,7 +289,7 @@ function ShowImage($data, $imageUrl) {
  *
  * @return void
  */
-function ErrorSet($errMsg = ERRMessage) {
+function ErrorSet($errMsg = ERROR_MESSAGE) {
     $prevLink = new CustomTagCreate();
     $prevLink->SetTag('div', $errMsg, 'warning', true);
     $prevLink->ExecTag(true);
