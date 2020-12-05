@@ -80,7 +80,7 @@ if (empty($csvData)) {
 $filePath = AddPath(PUBLIC_CSV_DIR, basename(__DIR__));
 // ディレクトリが存在しない場合は作成
 if (!is_dir($filePath)) {
-    mkdir($filePath);
+    mkdir($filePath, 0775, true);
 }
 
 $fileArray = IncludeFiles($filePath, 'csv', true);
