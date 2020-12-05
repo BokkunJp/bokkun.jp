@@ -82,7 +82,7 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
 
     // ディレクトリが存在しない場合は作成
     if (!is_dir($filePath)) {
-        mkdir($filePath);
+        mkdir($filePath, 0775, true);
     }
 
     $fileArray = IncludeFiles($filePath, 'csv', true);
