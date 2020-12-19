@@ -4,12 +4,10 @@ require_once __DIR__ . '/require.php';
 // アクセス警告メール
 AlertAdmin('access', $title);
 
-
-// $title = "テンプレート";
 $img = "crown-vector.jpg";
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
     <meta charset="utf-8">

@@ -1,5 +1,5 @@
 <?php
-set_error_handler(function($error_no, $error_msg, $error_file, $error_line) {
+set_error_handler(function ($error_no, $error_msg, $error_file, $error_line) {
     if (error_reporting() === 0) {
         return;
     }
@@ -15,6 +15,7 @@ set_error_handler(function($error_no, $error_msg, $error_file, $error_line) {
 //     send_error_log($throwable);
 // });
 
+
 register_shutdown_function(function() {
     $error = error_get_last();
     if ($error === null) {
@@ -22,10 +23,15 @@ register_shutdown_function(function() {
     }
 
     // fatal error の場合はすでに何らかの出力がされているはずなので、何もしない
-    print_r('<script>alert("エラーが発生しました。");</script>');
-    $cnf = new Header();
-    if (strcmp($cnf->GetVersion(), '-local') === 0) {
-        print_r('<script>alert("'. $error['message']. '")</script>');
+
+    if (php_sapi_name() !== 'cli') {
+        print_r('<script>alert("エラーが発生しました。");</script>');
+        $cnf = new Header();
+        if (strcmp($cnf->GetVersion(), '-local') === 0) {
+            print_r('<script>alert("' . $error['message'] . '")</script>');
+        } else {
+            print_r('エラーが発生しました。');
+        }
     }
 });
 
@@ -161,14 +167,16 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
     }
 
     if (in_array($type, $checkTypes) || filter_has_var($type, $variable_name)) {
-        return filter_input($type, $variable_name, $filter, $options);
+        $ret = filter_input($type, $variable_name, $filter, $options);
     } else if ($type == INPUT_SERVER && isset($_SERVER[$variable_name])) {
-        return filter_var($_SERVER[$variable_name], $filter, $options);
+        $ret = filter_var($_SERVER[$variable_name], $filter, $options);
     } else if ($type == INPUT_ENV && isset($_ENV[$variable_name])) {
-        return filter_var($_ENV[$variable_name], $filter, $options);
+        $ret = filter_var($_ENV[$variable_name], $filter, $options);
     } else {
-        return NULL;
+        $ret = NULL;
     }
+
+    return $ret;
 }
 
 /**

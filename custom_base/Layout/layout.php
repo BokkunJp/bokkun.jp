@@ -6,7 +6,7 @@ $title = "カスタムテンプレート";
 $img = "crown-vector.jpg";
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
     <title><?php echo $title; ?></title>

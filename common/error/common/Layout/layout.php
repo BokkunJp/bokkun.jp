@@ -2,13 +2,16 @@
 require_once __DIR__. '/init.php';
 require_once COMMON_DIR. '/word.php';
 
-foreach ($title as $key => $value) {
-    $$key = $value;
+if (is_array($title)) {
+    foreach ($title as $key => $value) {
+        $$key = $value;
+    }
 }
+
 $img = "crown-vector.jpg";
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
     <head>
         <title><?php echo $headerTitle; ?></title>
         <base href="../" />
