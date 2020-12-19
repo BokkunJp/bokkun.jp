@@ -4,7 +4,7 @@ require_once __DIR__ . '/init.php';
 $img = "crown-vector.jpg";
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
     <meta charset="utf-8">

@@ -20,7 +20,7 @@ $mode = 'movePage';
 ?>
 <!DOCTYPE html>
 
-<html>
+<html lang="ja">
 
 <head>
     <meta charset="utf8" />

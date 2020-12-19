@@ -8,7 +8,7 @@ foreach ($title as $key => $value) {
 $img = "crown-vector.jpg";
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
     <head>
         <title><?php echo $headerTitle; ?></title>
         <base href="../" />
