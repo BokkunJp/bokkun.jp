@@ -113,7 +113,7 @@ class CSV_Base {
         $ret = [];
         foreach ($row as $r_key => $r_data) {
             foreach ($r_data as $col_key => $col_data) {
-               $ret[$r_key][$header[$col_key]] = $col_data;
+                $ret[$r_key][$header[$col_key]] = $col_data;
             }
         }
 
@@ -135,13 +135,13 @@ class CSV_Base {
         // 行頭・行末の空白を取り除く
         $haystack = trim($haystack);
 
-        // 文字列以外は除外 (配列など)
-        if (!is_string($haystack)) {
-            $ret = false;
+        // 空文字は除外 (未入力エラー)
+        if (empty($haystack)) {
+            $ret = null;
         }
 
-        // 空文字は除外
-        if (empty($haystack)) {
+        // 文字列以外は除外 (配列など)
+        if (!is_string($haystack)) {
             $ret = false;
         }
 
@@ -150,17 +150,20 @@ class CSV_Base {
             $ret = false;
         }
 
-        // a-z, A-Z, 0-9, 日本語のみをファイル名に用いることができるとする (特殊文字は不可)
-        mb_regex_encoding('UTF-8');
+        if ($ret === true) {
+            // a-z, A-Z, 0-9, 日本語のみをファイル名に用いることができるとする (特殊文字は不可)
+            mb_regex_encoding('UTF-8');
 
-        if (preg_match("/[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]$/", $haystack)) {
-            if (!preg_match("/[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]+\.{$extensiton}$/", $haystack)) {
-                $ret = EXTENSION_NONE_TRUE;
-        } else {
-                $ret = true;
-
+            if (preg_match("/[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]$/", $haystack)) {
+                if (preg_match("/[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]+\.{$extensiton}$/", $haystack)) {
+                    $ret = true;
+                } else {
+                    $ret = EXTENSION_NONE_TRUE;
+                }
+            } else {
+                $ret = false;
+            }
         }
-    }
 
         return $ret;
     }

@@ -44,6 +44,7 @@ class CSV extends CSV_Base {
 
         if ($nameValid === EXTENSION_NONE_TRUE) {
             $this->fileName .= ".csv";
+            return EXTENSION_NONE_TRUE;
         }
     }
 
