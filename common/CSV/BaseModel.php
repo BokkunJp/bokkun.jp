@@ -159,8 +159,8 @@ class CSV_Base {
             // a-z, A-Z, 0-9, 日本語のみをファイル名に用いることができるとする (特殊文字は不可)
             mb_regex_encoding('UTF-8');
 
-            if (preg_match("/[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]$/", $haystack)) {
-                if (!preg_match("/[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]+\.{$extensiton}$/", $haystack)) {
+            if (preg_match("/^[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]+$/", $haystack)) {
+                if (preg_match("/^[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]+\.{$extensiton}$/", $haystack)) {
                     $ret = EXTENSION_NONE_TRUE;
                 } else {
                     $ret = true;
