@@ -155,13 +155,13 @@ class CSV_Base {
             mb_regex_encoding('UTF-8');
 
             if (preg_match("/^[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]+$/", $haystack)) {
+                $ret = EXTENSION_NONE_TRUE;
+            } else {
                 if (preg_match("/^[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]+\.{$extensiton}$/", $haystack)) {
                     $ret = true;
                 } else {
-                    $ret = EXTENSION_NONE_TRUE;
+                    $ret = false;
                 }
-            } else {
-                $ret = false;
             }
         }
 
