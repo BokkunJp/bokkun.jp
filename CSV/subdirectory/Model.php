@@ -36,7 +36,7 @@ class CSV extends CSV_Base {
         // ファイル名のバリデート
         $nameValid = $this->ValidateName($fileName);
 
-        if ($nameValid === false) {
+        if ($nameValid === null || $nameValid === false) {
             return $nameValid;
         }
 
@@ -46,6 +46,8 @@ class CSV extends CSV_Base {
             $this->fileName .= ".csv";
             return EXTENSION_NONE_TRUE;
         }
+
+        return $nameValid;
     }
 
     /**
@@ -90,16 +92,22 @@ class CSV extends CSV_Base {
             'y-value' => $post['y-value'],
             'z-value' => $post['z-value']
         ];
+        $csvElmWord = [
+            'x-value' => '要素X',
+            'y-value' => '要素Y',
+            'z-value' => '要素Z'
+        ];
+
         $valid = $this->ValidateNumber($data);
 
         $exitFlg = false;
         foreach ($valid as $_key => $_val) {
             if ($_val === false) {
                 $exitFlg = true;
-                $this->SetErrorMessage($_key, $_key. FALSE_MESSAGE);
+                $this->SetErrorMessage($csvElmWord[$_key], FALSE_MESSAGE);
             } else if ($_val === null) {
                 $exitFlg = true;
-                $this->SetErrorMessage($_key, $_key . NULL_MESSAGE);
+                $this->SetErrorMessage($csvElmWord[$_key], NULL_MESSAGE);
 
             }
         }
@@ -114,14 +122,10 @@ class CSV extends CSV_Base {
         return true;
     }
 
-    private function SetErrorMessage($key, $message = '') {
+    private function SetErrorMessage($key, $message) {
         $elm = ["<div class='warning'>", "</div>"];
 
-        if (!$message) {
-            $message = $key. "の値が不正です。";
-        }
-
-        print_r($elm[0] . $message . $elm[1]);
+        print_r($elm[0] . $key . $message . $elm[1]);
     }
 
     /**
