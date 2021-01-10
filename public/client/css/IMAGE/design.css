@@ -4,7 +4,7 @@ body {
 }
 
 .contents {
-    padding-bottom: 21vh;
+    padding-bottom: 21vh !important;
 }
 
 .image-box ul {
