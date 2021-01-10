@@ -18,7 +18,7 @@ function Convert($decData, $n) {
     return $octData;
 }
 
-function Output($expression,$formatFlg=false)
+function Output($expression,$formatFlg=false, $indentFlg=true)
 {
     if ($formatFlg === true) {
         print_r("<pre>");
@@ -27,6 +27,8 @@ function Output($expression,$formatFlg=false)
 
     } else {
         print_r($expression);
-        print_r(nl2br("\n"));
+        if ($indentFlg === true) {
+            print_r(nl2br("\n"));
+        }
     }
 }
