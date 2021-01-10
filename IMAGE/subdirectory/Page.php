@@ -4,7 +4,7 @@
  * GetPage
  * 現在のページ番号を取得する
  *
- * @return void
+ * @return int
  */
 function GetPage() {
     $page = PublicSetting\Setting::GetQuery('page');
