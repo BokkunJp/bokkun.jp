@@ -3,29 +3,6 @@ body {
     color: #FFFFAA;
 }
 
-.contents {
-    padding-bottom: 21vh !important;
-}
-
-.image-box {
-    padding-top: 2vh;
-}
-.image-box ul {
-    list-style: none;
-}
-.image-box ul li{
-    margin-bottom: 5vh;
-}
-
-p .admin-image-name {
-    line-height: 0px;
-    margin-top: 1vh;
-}
-
-.image-name-text {
-    width: 340px;
-}
-
 @media only screen and (max-width: 750px) {
     .fileButton {
         font-size: 2vh;
