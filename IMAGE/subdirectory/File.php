@@ -186,14 +186,19 @@ function ShowImage($data, $imageUrl) {
         return false;
     }
 
-    Output('<p><a href="#update_page">一番下へ</a></p>');
+    Output('<p><a href="#update_page">一番下へ</a></p>', false, false);
 
+    Output("<div class='image-box'  ontouchstart=''>", false, false);
+    Output("<ul>", false, false);
     for ($i = $start; $i < $end; $i++) {
         $_file = $data[$i]['name'];
         $_time = $data[$i]['time'];
         ViewImage($_file, $imageUrl, $_time);
 
     }
+    Output("</ul>", false, false);
+    Output("</div>", false, false);
+
     ViewPager($data);
 }
 
