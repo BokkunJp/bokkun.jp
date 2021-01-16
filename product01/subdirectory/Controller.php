@@ -16,11 +16,8 @@ function Main($inputFlg=false) {
 
         // ファイル名を設定
         $valid = $csv->InputName();
-        if ($valid === null) {
+        if ($valid === false) {
             echo "<div class='warning'>ファイル名を入力してください。</div>";
-            return false;
-        } else if ($valid === false) {
-            echo "<div class='warning'>ファイル名が不正です。</div>";
             return false;
         }
 
@@ -45,7 +42,7 @@ function Main($inputFlg=false) {
     } else {
         // ファイル名を設定
         $valid = $csv->InputName();
-        if ($valid === null) {
+        if ($valid === false) {
             echo "<div class='warning'>ファイル名を入力してください。</div>";
             return false;
         }

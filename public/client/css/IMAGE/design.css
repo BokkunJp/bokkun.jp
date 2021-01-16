@@ -3,56 +3,6 @@ body {
     color: #e07116;
 }
 
-.contents {
-    padding-bottom: 21vh !important;
-}
-
-.image-box ul {
-    list-style: none;
-	display: flex;
-	flex-wrap:wrap;
-}
-.image-box li {
-    width: calc(100%/5);
-    padding:0 5px;
-    box-sizing:border-box;
-}
-.image-box li img {
-    max-width:100%;
-    width: 200px;
-    height: 200px;
-    border:solid 1px #ccc; /*←画像を1pxのグレーの枠線で囲む指定の場合*/
-}
-
-.image-box li .image-info {
-    display: none;
-    margin-top: 2px;
-    overflow-wrap:anywhere;
-    border: solid transparent;
-    background-color: #33cc99;
-    border-width: 5px;
-    font-weight: bold;
-}
-
-.image-box li .image-info:after {
-    position: absolute;
-    width: 0;
-    height: 0;
-    left: 0;
-    top: -25px;
-    margin-left: 5px;
-    border: solid transparent;
-    border-bottom-color: #33cc99;
-    border-width: 10px;
-    pointer-events: none;
-    content: " ";
-}
-
-.image-box li a:hover  + .image-info {
-    position:absolute;
-    display: block;
-}
-
 @media only screen and (max-width: 750px) {
 .fileButton { font-size: 2vh; }
 }
