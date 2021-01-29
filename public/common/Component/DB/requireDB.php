@@ -87,8 +87,9 @@ class DB
             return $sth;
         } catch (Exception $e) {
             // SQLの実行に失敗した場合はエラー
-            print_r('ERROR!! : ' . $e->getMessage());
-            print_r(nl2br("\n"));
+            print_r('ERRORの内容: ' . $e->getMessage());
+            $sess = new PublicSetting\Session();
+            $sess->Write("db-system-error", "ERROR!! SQLの実行に失敗しました。");
             $this->stmt->rollback();
             error_reporting(E_STRICT);
             return false;
@@ -168,7 +169,7 @@ class DB
     public function SelectIDMin()
     {
 
-        $this->sql = "select MIN(ID) from {$this->tableName} group by id";
+        $this->sql = "select MIN(ID) from {$this->tableName}";
         $sth = $this->stmt->prepare($this->sql);
         $sth->execute();
 
@@ -180,7 +181,7 @@ class DB
     public function SelectIDMax()
     {
 
-        $this->sql = "select MAX(ID) from {$this->tableName} group by id";
+        $this->sql = "select MAX(ID) from {$this->tableName}";
         $sth = $this->SQLExec();
 
         $ret = $sth->fetch();
