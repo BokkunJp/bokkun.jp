@@ -50,7 +50,7 @@ if ($selectObj !== false) {
 } else if ($srcName !== false && $srcName !== '---') {
 // ディレクトリの選択
     $dataList = scandir($srcPath);
-    $notList = ['Layout'];
+    $notList = [];
     foreach ($dataList as $_key => $_data) {
         foreach ($notList as $_nList) {
             if ($_data === $_nList) {
