@@ -87,12 +87,16 @@ if (preg_match('/^[a-zA-Z][a-zA-Z+-_]*/', $title) === 0) {
 
 $baseFileName = $samplePath;
 
-if ($use_template_engine === 'smarty') {
-    $templateExtenion = 'tpl';
-} else if ($use_template_engine === 'twig') {
-    $templateExtenion = 'twig';
-} else {
-    $templateExtenion = null;
+switch ($use_template_engine) {
+    case 'smarty':
+        $templateExtenion = 'tpl';
+        break;
+    case 'twig':
+        $templateExtenion = 'twig';
+        break;
+    default:
+        $templateExtenion = null;
+        break;
 }
 
 chdir($basePath);
@@ -109,8 +113,38 @@ if (file_exists("$title") === false) {         // ディレクトリ作成
 // PHP部分で必要なファイルを作成
 copy("$baseFileName/design.php", "$title/design.php");          // フォルダ内のdesgin.php作成
 $fileName = 'index';
-$srcfileName = $fileName . '_base';
+switch ($type) {
+    case 'default':
+        $srcfileName = $fileName . '_base';
+        break;
+    case 'scratch':
+        $srcfileName = $fileName . '_scratch';
+        break;
+    default:
+        $srcfileName = $fileName;
+        break;
+}
+
 copy("$baseFileName/$srcfileName.{$pathList[0]}", "$title/$fileName.{$pathList[0]}");            // それぞれのフォルダに必要なファイルの作成
+
+// デフォルト選択時以外は処理追加
+if ($type === "scratch" && $templateExtenion !== null) {
+    $fp = fopen("$title/$fileName.{$pathList[0]}", "a");
+    if (fwrite($fp, ADD_DESIGN) === false) {
+        $adminError->UserError('indexファイルのスクラッチ用の追記に失敗しました。');
+    }
+    fclose($fp);
+} else if ($type === "custom") {
+    // カスタム選択時には追加のディレクトリをコピー
+    mkdir("$title/Layout");                               // Layoutディレクトリ作成
+
+    foreach (scandir(AddPath($samplePath, 'Layout')) as $_file) {
+        if (!is_dir($_file)) {
+            copy("$baseFileName/Layout/{$_file}", "$title/Layout/{$_file}");
+        }
+    }
+}
+
 if (!empty($templateExtenion)) {
     copy("$baseFileName/$fileName.$templateExtenion", "$title/$fileName.$templateExtenion");  // テンプレートエンジン用のindexファイル作成
     if ($templateExtenion !== 'tpl') {

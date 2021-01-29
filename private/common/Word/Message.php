@@ -39,6 +39,9 @@ define('PRIVATE_LAYOUT_DIR', AddPath(PRIVATE_COMMON_DIR, 'Layout', false));
 // define('SECURITY_LENG', 32);
 define('PRIVATE_PREVIOUS', '画像管理ページへ戻る');
 
+// 管理側の追加ソース
+define('ADD_DESIGN', 'require AddPath(__DIR__, "design.php", false);');
+
 // 公開側画像パス
 define('PUBLIC_IMAGE_DIR', AddPath(AddPath(DOCUMENT_ROOT, 'public'), AddPath('client', 'image'), false));
 

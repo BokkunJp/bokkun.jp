@@ -26,11 +26,12 @@ AlertAdmin('access', $title);
         <?php require_once "./common/header.php" ?>
         <!-- content -->
         <div class="content">
+            <h2>管理メニュー</h2>
             <form>
                 <?php
                 $notList = ['.', '..', 'Sample', 'Test', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'reset.php', 'secure.php'];
                 $dirList = scandir(__DIR__);
-                $titleList = ['IMAGE' => '画像投稿', 'create' => 'ページ調整', 'edit' => 'ソース調整', 'log' => 'ログ'];
+                $titleList = ['create' => 'ページ調整', 'edit' => 'ソース調整','IMAGE' => '画像投稿', 'log' => 'ログ'];
                 $notList = AddList($notList, $dirList, '.', 1);
                 $notList = AddList($notList, $dirList, '_', 1);
 
