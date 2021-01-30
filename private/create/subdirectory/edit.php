@@ -87,7 +87,7 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
     } else if (strlen($title) > MAX_LENGTH) {
         $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
-} else {
+} else if (empty($delete)) {
     // その他（不正値）
     if (!isset($session['addition'])) {
         $session['addition'] = $post;
