@@ -128,7 +128,7 @@ switch ($type) {
 copy("$baseFileName/$srcfileName.{$pathList[0]}", "$title/$fileName.{$pathList[0]}");            // それぞれのフォルダに必要なファイルの作成
 
 // デフォルト選択時以外は処理追加
-if ($type === "scratch" && $templateExtenion !== null) {
+if ($type === "scratch") {
     $fp = fopen("$title/$fileName.{$pathList[0]}", "a");
     if (fwrite($fp, ADD_DESIGN) === false) {
         $adminError->UserError('indexファイルのスクラッチ用の追記に失敗しました。');
