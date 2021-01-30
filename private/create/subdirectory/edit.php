@@ -87,11 +87,6 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
     } else if (strlen($title) > MAX_LENGTH) {
         $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
-} else if (!isset($edit) && isset($delete) && !isset($copy)) {
-    // 削除モード
-    // $adminError->Confirm('削除してもよろしいですか？');
-} else if (!empty($copy) && isset( $copy) &&  $copy === 'copy') {
-        $use->Alert("{$select}を複製します。");
 } else {
     // その他（不正値）
     if (!isset($session['addition'])) {
@@ -102,7 +97,6 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
     unset($post);
     $adminError->UserError('不正な値が入力されました。');
 }
-// $adminError->Maintenance();
 
 chdir($basePath);
 foreach ($pathList as $_pathList) {
@@ -155,11 +149,11 @@ foreach ($pathList as $_pathList) {
 }
 
 if (isset($edit)) {
-    $use->Alert('ページを編集しました。');
+    $use->Alert("{$select}ページを編集しました。");
 } else if (isset($copy)) {
-    $use->Alert('ページを複製しました。');
+    $use->Alert("{$select}ページを複製しました。");
 } else if (isset($delete)) {
-    $use->Alert('ページを削除しました。');
+    $use->Alert("{$select}ページを削除しました。");
 }
 
 class AdminError
