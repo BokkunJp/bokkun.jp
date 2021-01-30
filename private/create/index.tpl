@@ -15,7 +15,8 @@
 </form>
 <br />
 <form action='./{$base}/edit.php' method='POST'>
-    <div><h2>複製・削除</h2></div>
+    <div>
+        <h2>削除・複製</h2></div>
     {* <div><span><input type='checkbox'' name='all-copy' value='true' />すべてコピーする</span></div> *}
     <select name='select'>
       {$count=0}
@@ -26,7 +27,7 @@
     </select>
 
     <button type='submit' name="delete" value="delete">削除する</button>
-    タイトル(編集・複製用)： <input type='textbox' name='title' {if isset($smarty.session.title) } {if !empty($smarty.session.title)}value={$smarty.session.title}{/if}{/if} />
+    タイトル(削除・複製用)： <input type='textbox' name='title' {if isset($smarty.session.title) } {if !empty($smarty.session.title)}value={$smarty.session.title}{/if}{/if} />
     <button type='submit' name="copy"" value="copy">複製する</button>
     {* <button type='submit' name="edit" value="edit">編集する</button> *}
   <input type='hidden' name='token' value={$token} />

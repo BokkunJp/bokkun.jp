@@ -79,7 +79,7 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
         }
     }
 }
-if (preg_match('/^[a-zA-Z][a-zA-Z+-_]*/', $title) === 0) {
+if (preg_match('/[a-zA-Z][a-zA-Z-_+]+$/', $title) === 0) {
     $adminError->UserError('タイトルに無効な文字が入力されています。');
 } else if (strlen($title) > MAX_LENGTH) {
     $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
