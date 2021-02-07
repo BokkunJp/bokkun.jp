@@ -32,3 +32,18 @@ function Output($expression,$formatFlg=false, $indentFlg=true)
         }
     }
 }
+
+/**
+ * CheckSpeed
+ *
+ *
+ * @param [mixed] $func
+ * @return void
+ */
+function CheckSpeed($func)
+{
+    $sTime = microtime(true);
+    $func();
+    $time = microtime(true) - $sTime;
+    echo sprintf("%.53f", $time) . nl2br("\n");
+}
