@@ -22,12 +22,12 @@ $jsTitle = basename(getcwd());
 IncludeJSFiles($jsTitle);
 
 
-/** 
+/**
  * IncludeDirctories
- * 
+ *
  *    対象ディレクトリ内のファイルをディレクトリごと一括で読み込む
  *    (ディレクトリが複数あった場合、ディレクトリ毎それぞれのファイルを読み込む)
- * 
+ *
  * @param string  $pwd:ディレクトリまでのパス
  * @param string  [$extension:拡張子]
  *
@@ -59,16 +59,16 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false, Array $c
     }
 }
 
-/** 
+/**
  * IncludeFiles
  *     対象ディレクトリ内のファイルを一括で読み込む
  *     (対象ディレクトリ内にはファイルのみがある前提)
- * 
+ *
  * @param string  $pwd:ディレクトリまでのパス
  * @param string  [$extension:拡張子]
  * @param boolean [$ret:出力フラグ]
  * @param string [$classLoad:クラスが定義されたファイル名の配列]
- * 
+ *
  * @return void
  */
 function IncludeFiles($pwd, $extension = 'php', $ret = false, Array $classLoad=[]) {
@@ -82,7 +82,7 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, Array $classLoad=[
         // print_r("<script>alert('クラスをロードしました。');</script>");
         return spl_autoload_register(function () use ($pwd, $classLoad) {
             while (($name = current($classLoad)) !== false) {
-                if (!is_file(AddPath($pwd, "{$name}.php", false))) {
+                if (!is_readable(AddPath($pwd, "{$name}.php", false))) {
                     user_error("指定されたファイルが存在しません。");
                 }
                 require_once AddPath($pwd, "{$name}.php", false);

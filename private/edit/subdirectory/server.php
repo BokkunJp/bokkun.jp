@@ -80,7 +80,7 @@ if ($saveObj !== false || $editObj !== false) {
 // ソースの保存
 if ($saveObj  !== false && $set->GetPost('directory') != '---') {
 
-    if (file_exists($srcFile) && is_file($srcFile)) {
+    if (file_exists($srcFile) && is_readable($srcFile)) {
         $srcObj = $set->GetPost('input');
         file_put_contents($srcFile, $srcObj);
         $contents='';
@@ -89,7 +89,7 @@ if ($saveObj  !== false && $set->GetPost('directory') != '---') {
 
 // ソースの読み込み
 if ($editObj !== false && $set->GetPost('directory') != '---') {
-    if (file_exists($srcFile) && is_file($srcFile)) {
+    if (file_exists($srcFile) && is_readable($srcFile)) {
         $contents = htmlentities(file_get_contents($srcFile));
         $viewContents = nl2br($contents);
     } else {

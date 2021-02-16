@@ -170,7 +170,7 @@ class CSV extends CSV_Base {
      */
 
     public function Output($option=null) {
-        if (!is_file(CSV. $this->fileName) || $this->ValidateName($this->fileName) === false) {
+        if (!is_readable(CSV. $this->fileName) || $this->ValidateName($this->fileName) === false) {
             return false;
         }
 
