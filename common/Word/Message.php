@@ -44,4 +44,14 @@ define('FILE_COUNT_OVER_ERROR', (FILE_COUNT_MAX + 1)."枚以上の画像をア�
 define('FILE_NO_MATCH_FAIL', "は、画像ファイルではないためアップロードできませんでした。");
 define('FILE_UPLOAD_FAIL', "のアップロードに失敗しました。");
 define('FILE_UPLOAD_SUCCESS', "のアップロードに成功しました。");
+// デバッグ表示エラー
+define(
+    'DEBUG_MESSAGE_SOURCE',
+    array(
+        "ERR_DEBUG_COND" => "デバッグに必要な要件を満たせていません。(modeとlayerの引数が必要です。)",
+        "ERR_DEBUG_FEW_TRACE_LAYER" => "階層の指定が不正です。",
+        "ERR_DEBUG_TOO_TRACE_LAYER" => "その階層にはデバッグリソースが存在しません。",
+        "SETTING_DEBUG_TRACE" => "デバッグトレース表示の調整：mode引数にfile, line, functionのいずれかを指定してください。それ以外の文字列入力で全項目表示されます。(2項目を指定したりはできません。)"
+    )
+);
 
