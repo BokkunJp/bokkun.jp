@@ -96,9 +96,9 @@ function DeleteData($dirPath)
 {
     if (is_dir($dirPath)) {
         foreach (scandir($dirPath) as $_file) {
-            if (FindFileName($_file) && is_file($_file)) {
+            if (FindFileName($_file) && is_readable($_file)) {
                 unlink(AddPath($dirPath, $_file, false));
-            } else if ((FindFileName($_file) && !is_file($_file))) {
+            } else if ((FindFileName($_file) && !is_readable($_file))) {
                 if (file_exists(AddPath($dirPath, $_file))) {
                     DeleteData(AddPath($dirPath, $_file));
                 } else {
@@ -142,7 +142,7 @@ function CopyData($srcPath, $copyName, $dpAuthFlg=true)
 
         foreach (scandir($srcPath) as $_file) {
             if ((FindFileName($_file))) {
-                if (is_file(AddPath($srcPath, $_file, false))) {
+                if (is_readable(AddPath($srcPath, $_file, false))) {
                     copy(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
                 } else {
                     if (is_dir(AddPath($srcPath, $_file, false))) {
@@ -183,7 +183,7 @@ function CopySubData($srcPath, $dstPath)
 
     foreach (scandir($srcPath) as $_file) {
         if ((FindFileName($_file))) {
-            if (is_file(AddPath($srcPath, $_file, false))) {
+            if (is_readable(AddPath($srcPath, $_file, false))) {
                 copy(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
             } else {
                 if (is_dir(AddPath($dstPath, $_file, false))) {

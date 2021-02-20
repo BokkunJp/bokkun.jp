@@ -1,4 +1,7 @@
 <?php
+
+use DebugKit\DebugMemory;
+
 set_error_handler(function ($error_no, $error_msg, $error_file, $error_line) {
     if (error_reporting() === 0) {
         return;
@@ -197,4 +200,87 @@ function MoldData($data, $parameter = ',') {
     }
 
     return $ret;
+}
+/**
+ * Output
+ *
+ * @param [mixed] $expression
+ * @param boolean $formatFlg
+ * @param boolean $indentFlg
+ * @param array $debug
+ * @return void
+ */
+function Output($expression, $formatFlg = false, $indentFlg = true, array $debug = [])
+{
+    if ($formatFlg === true) {
+        print_r("<pre>");
+        print_r($expression);
+        print_r("</pre>");
+    } else {
+        print_r($expression);
+        if ($indentFlg === true) {
+            print_r(nl2br("\n"));
+        }
+    }
+
+    $debugMessage = DEBUG_MESSAGE_SOURCE;
+    if (!empty($debug)) {
+        $debugTrace = debug_backtrace();
+        $debugValidate = DebugValidate($debug, $debugTrace);
+        if (!empty($debugValidate)) {
+            $errScript = new BasicTag\ScriptClass();
+            foreach ($debugValidate as $_DEBUG_KEY) {
+                if ($debugMessage[$_DEBUG_KEY]) {
+                    $errScript->Alert($debugMessage[$_DEBUG_KEY]);
+                }
+            }
+            return -1;
+        }
+
+        $layer = $debug['layer'] - 1;
+
+        var_dump($debugTrace[$layer]);
+
+        if (isset($debug['mode'])) {
+            switch ($debug['mode']) {
+                case 'file':
+                    echo "<pre>source: " . $debugTrace[$layer]['file'] . "</pre>";
+                    break;
+                case 'line':
+                    echo "<pre>line: " . $debugTrace[$layer]['line'] . "</pre>";
+                    break;
+                case 'function':
+                    echo "<pre>function: " . $debugTrace[$layer]['function'] . "</pre>";
+                    break;
+                default:
+                    echo "<pre>source: " . $debugTrace[$layer]['file'] . "</pre>";
+                    echo "<pre>line: " . $debugTrace[$layer]['line'] . "</pre>";
+                    echo "<pre>function: " . $debugTrace[$layer]['function'] . "</pre>";
+                    break;
+            }
+        }
+    }
+}
+
+function DebugValidate(array $debug, array $debugTrace) {
+    $validate = [];
+
+    if (!isset($debug['layer']) || !isset($debug['mode'])) {
+        $validate[] = "ERR_DEBUG_COND";
+        return $validate;
+    }
+
+    if (!is_string($debug['mode'])) {
+        $validate[] = "SETTING_DEBUG_TRACE";
+    }
+
+    if ($debug['layer'] - 1 < 0) {
+        $validate[] = "ERR_DEBUG_FEW_TRACE_LAYER";
+    }
+
+    if ($debug['layer'] - 1 > count($debugTrace)) {
+        $validate[] = "ERR_DEBUG_TOO_TRACE_LAYER";
+    }
+
+    return $validate;
 }
