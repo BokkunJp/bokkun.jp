@@ -31,6 +31,6 @@ define('PUBLIC_3D_DIR', AddPath(PUBLIC_CLIENT_DIR, '3d', false));
 define('PUBLIC_CSV_DIR', AddPath(PUBLIC_CLIENT_DIR, 'csv', false));
 define('PUBLIC_COMPONENT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Component', false));
 define('PUBLIC_LAYOUT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Layout', false));
+// 画像閲覧ページ
 define('PUBLIC_PREVIOUS', '画像閲覧ページへ戻る');
-// デフォルトの可視フラグ
 define('DEFAULT_VIEW', VIEW);

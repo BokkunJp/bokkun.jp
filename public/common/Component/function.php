@@ -18,21 +18,6 @@ function Convert($decData, $n) {
     return $octData;
 }
 
-function Output($expression,$formatFlg=false, $indentFlg=true)
-{
-    if ($formatFlg === true) {
-        print_r("<pre>");
-        print_r($expression);
-        print_r("</pre>");
-
-    } else {
-        print_r($expression);
-        if ($indentFlg === true) {
-            print_r(nl2br("\n"));
-        }
-    }
-}
-
 /**
  * CheckSpeed
  *
