@@ -1,7 +1,4 @@
 <?php
-
-use DebugKit\DebugMemory;
-
 set_error_handler(function ($error_no, $error_msg, $error_file, $error_line) {
     if (error_reporting() === 0) {
         return;
