@@ -71,7 +71,7 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
         }
         foreach (scandir($client) as $file) {
             if (mb_strpos($file, '.') !== 0) {
-                if ($file === $title) {
+                if (strtolower($file) === strtolower($title)) {
                     $adminError->UserError("ご指定のタイトルの" . $_pathList . "ファイルが存在します。ページの作成を中止します。");
                     // $adminError->UserError("ご指定のページは既に作成済みです。");
                 }
