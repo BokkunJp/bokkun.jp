@@ -236,11 +236,9 @@ function Output($expression, $formatFlg = false, $indentFlg = true, array $debug
 
         $layer = $debug['layer'] - 1;
 
-        var_dump($debugTrace[$layer]);
-
         if (isset($debug['mode'])) {
             switch ($debug['mode']) {
-                case 'file':
+                case 'source':
                     echo "<pre>source: " . $debugTrace[$layer]['file'] . "</pre>";
                     break;
                 case 'line':
