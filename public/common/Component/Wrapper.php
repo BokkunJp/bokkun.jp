@@ -1,6 +1,6 @@
 <?php
 /**
- * @method mixed Wrap_[method_Jname]()
+ * @method mixed wrap_[method_name]()
 
  * @abstract Wrapper関数を定義する。
  * (数が増えた場合は、ソースファイル単位で管理しなおす予定)
@@ -17,16 +17,18 @@
  * @abstract array_combineのWrapper関数。
  * @param array $keys
  * @param array $values
- * @param integer $fill
+ * @param boolean $fill
  * @return array
  */
-function wrap_array_combine(array $keys = [], array $values = [], $fill = 0)
+function wrap_array_combine(array $keys = [], array $values = [], $fill = false)
 {
+    var_dump($keys);
+    var_dump($values);
     if (count($keys) > count($values)) {
         foreach ($keys as $_key => $_val) {
-            print_r("$_key: $_val");
+            $values[$_key] = $_val;
         }
     } else if (count($keys) < count($values)) {
     }
-    var_dump(count($values));
+    var_dump($values);
 }
