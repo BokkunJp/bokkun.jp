@@ -30,5 +30,5 @@ function CheckSpeed($func)
     $sTime = microtime(true);
     $func();
     $time = microtime(true) - $sTime;
-    echo sprintf("%.53f", $time) . nl2br("\n");
+    echo sprintf("%.22f", $time) . nl2br("\n");
 }
