@@ -5,7 +5,7 @@ if (!$tokenCheck) {
     return -1;
 }
 $file = PublicSetting\Setting::GetFiles();
-if ($file['xml']['error']) {
+if ($file['xml']['error'] || $file['xml']['type'] !== "application/octet-stream") {
     return -1;
 }
 
