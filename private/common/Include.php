@@ -25,6 +25,8 @@ IncludeJSFiles(AddPath('common', 'time'));
 $jsTitle = CreateClient('private');
 IncludeJSFiles(basename($jsTitle));
 
+// traitファイルの読み込み
+IncludeFiles(AddPath(PRIVATE_COMMON_DIR, 'Trait'));
 
 /*
  *      対象ディレクトリ内のファイルをディレクトリごと一括で読み込む

@@ -21,6 +21,8 @@ IncludeJSFiles(AddPath('common', 'time'));
 $jsTitle = basename(getcwd());
 IncludeJSFiles($jsTitle);
 
+// traitファイルの読み込み
+IncludeFiles(AddPath(PUBLIC_COMMON_DIR, 'Trait'));
 
 /**
  * IncludeDirctories
