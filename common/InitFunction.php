@@ -1,4 +1,18 @@
 <?php
+// エラーログの設定(初期設定)
+$errLogArray = [];
+$errLogArray['errLogBasePath'] = AddPath(dirname(__DIR__, 3), AddPath("log", "error"), false);
+$errLogArray['errLogPath'] = AddPath($errLogArray['errLogBasePath'],  phpversion());
+if (!is_dir($errLogArray['errLogPath'])) {
+    mkdir($errLogArray['errLogPath']);
+    mkdir(AddPath($errLogArray['errLogPath'], '_old'));
+}
+ini_set("error_log", AddPath($errLogArray['errLogPath'], "php_error_log.log", false));
+unset($errLogArray);
+
+require_once AddPath('mode', 'remote.php', false);
+
+// エラーハンドラ設定
 set_error_handler(function ($error_no, $error_msg, $error_file, $error_line) {
     if (error_reporting() === 0) {
         return;
