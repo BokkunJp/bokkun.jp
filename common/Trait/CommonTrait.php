@@ -231,13 +231,13 @@ trait CommonTrait
                 $bytes = bin2hex(openssl_random_pseudo_bytes($length));
                 break;
             case 'sha1':
-                $bytes = sha1(CreateRandom($length, 'mt_rand'));
+                $bytes = sha1($this->CreateRandom($length, 'mt_rand'));
                 break;
             case 'md5':
-                $bytes = md5(CreateRandom($length, 'mt_rand'));
+                $bytes = md5($this->CreateRandom($length, 'mt_rand'));
                 break;
             case 'uniq':
-                $bytes = uniqid(CreateRandom($length, 'mt_rand'));
+                $bytes = uniqid($this->CreateRandom($length, 'mt_rand'));
                 break;
             case 'mt_rand':
                 $bytes = mt_rand(0, $length);
@@ -246,7 +246,7 @@ trait CommonTrait
                 $bytes = bin2hex(random_bytes($length));
                 break;
             default:
-                $bytes = CreateRandom($length);
+                $bytes = $this->CreateRandom($length);
                 break;
         }
         return $bytes;
