@@ -7,7 +7,7 @@ if (!is_dir($errLogArray['errLogPath'])) {
     mkdir($errLogArray['errLogPath']);
     mkdir(AddPath($errLogArray['errLogPath'], '_old'));
 }
-ini_set("error_log", AddPath($errLogArray['errLogPath'], "php_error_log.log", false));
+ini_set("error_log", AddPath($errLogArray['errLogPath'], "php_error.log", false));
 unset($errLogArray);
 
 require_once AddPath('mode', 'remote.php', false);
