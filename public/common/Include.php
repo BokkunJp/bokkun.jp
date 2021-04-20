@@ -84,7 +84,7 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, Array $classLoad=[
         // print_r("<script>alert('クラスをロードしました。');</script>");
         return spl_autoload_register(function () use ($pwd, $classLoad) {
             while (($name = current($classLoad)) !== false) {
-                if (!is_readable(AddPath($pwd, "{$name}.php", false))) {
+                if (!is_file(AddPath($pwd, "{$name}.php", false))) {
                     user_error("指定されたファイルが存在しません。");
                 }
                 require_once AddPath($pwd, "{$name}.php", false);
