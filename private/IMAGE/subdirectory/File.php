@@ -271,7 +271,7 @@ function ShowImage($data, $imageUrl) {
         return false;
     }
 
-    print_r('<p><a href="#update_page">一番下へ</a></p>');
+    Output('<p><a href="#update_page">一番下へ</a></p>');
 
     for ($i = $start; $i < $end; $i++) {
         $_file = $data[$i]['name'];
