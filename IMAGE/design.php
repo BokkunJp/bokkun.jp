@@ -1,5 +1,8 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
+// 画像表示関係のメソッドを読み込み
+require_once AddPath(AddPath(PUBLIC_COMMON_DIR, "IMAGE"), 'File.php', false);
+
 // セッション開始
 if (!isset($session)) {
     $session = new PublicSetting\Session();
@@ -28,7 +31,7 @@ if (isset($updatePage) && is_numeric($updatePage)) {
 ?>
 <?php if ($readFlg === VIEW) :?>
   <div class='view-image'>
-    <form 
+    <form
     <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
       <select name='image-value'>
         <?php

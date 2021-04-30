@@ -12,8 +12,10 @@
 function ViewImage($imageName, $imageUrl, $fileTime) {
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
+    $imageDirName = basename(getcwd());
+
     echo "<li>";
-    echo "<a href='$imageUrl/IMAGE/$imageName' target='new'><img src='$imageUrl/IMAGE/$imageName' title='$imageName' width=400px height=400px /></a>";
+    echo "<a href='$imageUrl/{$imageDirName}/$imageName' target='new'><img src='$imageUrl/{$imageDirName}/$imageName' title='$imageName' width=400px height=400px /></a>";
     echo "<p class='image-info'>画像名: {$imageName}<br/>";
     echo "アップロード日時: " . date('Y/m/d H:i:s', $fileTime) . "</p>";
     echo "</li>";
@@ -29,6 +31,7 @@ function ViewImage($imageName, $imageUrl, $fileTime) {
      * @return void
      */
 function ViewList($imageName, $imageUrl) {
-    echo "<div><a href='$imageUrl/IMAGE/$imageName' target='new'>{$imageName}</a>";
+    $imageDirName = basename(getcwd());
+    echo "<div><a href='$imageUrl/{$imageDirName}/$imageName' target='new'>{$imageName}</a>";
     echo "<label><input type='checkbox' name='$imageName' value='$imageName' /><span>削除する</span></label></div>";
 }

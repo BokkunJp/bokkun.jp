@@ -65,10 +65,12 @@ function MoldFile($file, String $fileName)
 function LoadAllImageFile() {
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp'];
 
-    $imgSrc = [];
+    $imageDirName = basename(getcwd());
+
+     $imgSrc = [];
     foreach ($imgArray as $_index) {
-        $imgSrc[mb_strtolower($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . '/IMAGE/', mb_strtolower($_index), true);
-        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . '/IMAGE/', mb_strtoupper($_index), true);
+        $imgSrc[mb_strtolower($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . "/{$imageDirName}/", mb_strtolower($_index), true);
+        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . "/{$imageDirName}/", mb_strtoupper($_index), true);
     }
 
     $ret = [];
@@ -143,9 +145,10 @@ function ReadImage($read_flg = NOT_VIEW) {
 
         // ソート用にデータを調整
         $sortAray = array();
+        $imageDirName = basename(getcwd());
         foreach ($fileList as $index => $_file) {
             $sortAray[$index]['name'] = $_file;
-            $sortAray[$index]['time'] = filemtime(PUBLIC_IMAGE_DIR . '/IMAGE/' . $_file);
+            $sortAray[$index]['time'] = filemtime(PUBLIC_IMAGE_DIR . "/{$imageDirName}/" . $_file);
         }
 
         // 画像投稿日時の昇順にソート
