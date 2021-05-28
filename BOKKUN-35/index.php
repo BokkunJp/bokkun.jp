@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 $title = "BOKKUN-35";
 

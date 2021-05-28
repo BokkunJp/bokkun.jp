@@ -8,7 +8,6 @@ require_once __DIR__ . '/require.php';
 $title = "カスタムテンプレート";
 $img = "crown-vector.jpg";
 ?>
-<!DOCTYPE html>
 <html lang="ja">
 
 <head>

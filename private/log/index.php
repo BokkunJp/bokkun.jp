@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 require_once dirname(__DIR__) . "/common/require.php";
 require_once dirname(__DIR__, 2) . '/common/Component/Function.php';
