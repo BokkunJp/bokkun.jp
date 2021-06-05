@@ -41,10 +41,8 @@ $mode = 'movePage';
 
 </html>
 <?php
-// 初期遷移か判定
 if (!empty($post)) {
-    $adminAuth = ($post['id'] === 'admin' && $post['pass'] === 'bokkunAdmin777');
-    $guestAuth = ($post['id'] === 'guest' && $post['pass'] === 'guestPass1234');
+    $adminAuth = ($post['id'] === 'admin' && password_verify($post['pass'], password_hash(LOGIN_PASSWORD, PASSWORD_DEFAULT)));
 } else {
     $adminAuth = $guestAuth = null;
 }
@@ -66,7 +64,7 @@ $movePage = implode('/', $moveURL);
 
 $session->WriteArray('admin', 'movePage', $url . $movePage);
 
-if ((!($adminAuth) && !($guestAuth))) {
+if ((!($adminAuth))) {
     if (!empty($post)) {
         echo '<p>IDまたはパスワードが違います。</p>';
         // ログイン警告メール (ログイン失敗時)
