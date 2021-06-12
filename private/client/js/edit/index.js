@@ -11,6 +11,10 @@ $( function ()
 function Main ()
 {
     var num;
+
+    tinyMCE.init( {
+        selector: 'textarea',
+    });
     // 選択したディレクトリ名からファイル・サブディレクトリ一覧を出力する
     $( 'select[name="select"]' ).on( 'change', function ( e )
     {

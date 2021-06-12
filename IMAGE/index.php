@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 // タイトル
 $title = 'Image-View';

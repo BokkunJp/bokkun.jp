@@ -47,3 +47,6 @@ define('PUBLIC_IMAGE_DIR', AddPath(AddPath(DOCUMENT_ROOT, 'public'), AddPath('cl
 
 // デフォルトの可視フラグ
 define('DEFAULT_VIEW', VIEW);
+
+// ログインパスワード
+define("LOGIN_PASSWORD", "bokkunAdmin777");

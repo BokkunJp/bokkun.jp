@@ -39,12 +39,23 @@ register_shutdown_function(function() {
     // fatal error の場合はすでに何らかの出力がされているはずなので、何もしない
 
     if (php_sapi_name() !== 'cli') {
-        print_r('<script>alert("エラーが発生しました。");</script>');
         $cnf = new Header();
-        if (strcmp($cnf->GetVersion(), '-local') === 0) {
-            print_r('<script>alert("' . $error['message'] . '")</script>');
-        } else {
-            print_r('エラーが発生しました。');
+        $errScript = new BasicTag\ScriptClass();
+
+        $errScript->Alert("エラーが発生しました。");
+        if (strcmp($cnf->GetVersion(), '-local') === 0 || strcmp($cnf->GetVersion(), '-dev') === 0) {
+            $errMessage = str_replace('\\', '/', $error['message']);
+            $errMessage = str_replace(array("\r\n", "\r", "\n"), '\\n', $errMessage);
+            $errMessage = str_replace("'", "\'", $errMessage);
+            if (strcmp($cnf->GetVersion(), '-local') === 0) {
+                $errFile = str_replace('\\', '/', $error['file']);
+                $errFile = str_replace('\n', '\\n', $errFile);
+                $errScript->Alert($errMessage. "\\n\\n".
+                    "file: ". $errFile . "\\n".
+                    "line: ". $error['line']);
+            } else {
+                $errScript->Alert($errMessage);
+            }
         }
     }
 });
@@ -292,4 +303,29 @@ function DebugValidate(array $debug, array $debugTrace) {
     }
 
     return $validate;
+}
+
+function SetPlugin($name) {
+    if (is_array($name)) {
+        foreach ($name as $_dir) {
+            SetPlugin($_dir);
+        }
+        return FINISH;
+    }
+
+    if (is_dir(AddPath(PLUGIN, $name))) {
+        IncludeDirctories(AddPath(PLUGIN, $name));
+    }
+}
+
+function SetAllPlugin() {
+    $addDir = scandir(PLUGIN);
+
+    foreach ($addDir as $_key => $_dir) {
+        if (strpos($_dir, '.') !== false && strpos($_dir, '..')  !== false) {
+            unset($addDir[$_key]);
+        }
+    }
+
+    SetPlugin($addDir);
 }

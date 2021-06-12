@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 $homepageTitle = '管理画面';
 $title = 'ソース調整';

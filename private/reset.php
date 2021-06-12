@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 require __DIR__. "/common/require.php";
 require_once "common.php";
@@ -6,7 +7,6 @@ $title = 'ログアウト';
 // アクセス警告メール
 AlertAdmin('access', $title);
 ?>
-<!DOCTYPE html>
 <html lang="ja">
     <head>
         <meta charset='utf-8' />

@@ -10,7 +10,6 @@ if (is_array($title)) {
 
 $img = "crown-vector.jpg";
 ?>
-<!DOCTYPE html>
 <html lang="ja">
     <head>
         <title><?php echo $headerTitle; ?></title>
