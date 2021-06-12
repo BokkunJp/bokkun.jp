@@ -55,3 +55,8 @@ define(
     )
 );
 
+// プラグインパス
+define("PLUGIN", AddPath(dirname(DOCUMENT_ROOT, 2), "Plugin"));
+
+// FINISHフラグ
+define("FINISH", 1);

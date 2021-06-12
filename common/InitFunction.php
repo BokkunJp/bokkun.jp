@@ -304,3 +304,28 @@ function DebugValidate(array $debug, array $debugTrace) {
 
     return $validate;
 }
+
+function SetPlugin($name) {
+    if (is_array($name)) {
+        foreach ($name as $_dir) {
+            SetPlugin($_dir);
+        }
+        return FINISH;
+    }
+
+    if (is_dir(AddPath(PLUGIN, $name))) {
+        IncludeDirctories(AddPath(PLUGIN, $name));
+    }
+}
+
+function SetAllPlugin() {
+    $addDir = scandir(PLUGIN);
+
+    foreach ($addDir as $_key => $_dir) {
+        if (strpos($_dir, '.') !== false && strpos($_dir, '..')  !== false) {
+            unset($addDir[$_key]);
+        }
+    }
+
+    SetPlugin($addDir);
+}

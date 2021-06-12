@@ -5,7 +5,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once ('../common/smarty/core.php');
+SetPlugin('smarty');
+$smarty = new Smarty();
+
+$smarty->template_dir = './subdirectory/templates/';
+$smarty->compile_dir  = './subdirectory/templates_c/';
+$smarty->config_dir   = './subdirectory/configs/';
+$smarty->cache_dir    = './subdirectory/cache/';
 
 if ($session->Judge('addition')) {
     $smarty->assign('session', $session->Read('addition'));
