@@ -1,3 +1,4 @@
+<script src="//cdn.tiny.cloud/1/pdj8ilco6qfdzmqzm941oa79h5gg9z7q4vg93ucxtbhshozs/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <?php
 
 /*
