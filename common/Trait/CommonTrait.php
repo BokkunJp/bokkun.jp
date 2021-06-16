@@ -252,7 +252,7 @@ trait CommonTrait
         return $bytes;
     }
 
-    function SetPlugin($name) {
+    public function SetPlugin($name) {
         if (is_array($name)) {
             foreach ($name as $_dir) {
                 $targetName = SetPlugin($_dir);
@@ -264,7 +264,7 @@ trait CommonTrait
         }
     }
 
-    function SetAllPlugin() {
+    public function SetAllPlugin() {
         $addDir = scandir(PLUGIN);
 
         foreach ($addDir as $_key => $_dir) {
