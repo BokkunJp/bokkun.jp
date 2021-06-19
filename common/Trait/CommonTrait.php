@@ -1,4 +1,11 @@
 <?php
+SetPlugin('qr-code');
+
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+
 trait CommonTrait
 {
 
@@ -268,12 +275,36 @@ trait CommonTrait
         $addDir = scandir(PLUGIN);
 
         foreach ($addDir as $_key => $_dir) {
-            if (strpos($_dir, '.') === false && strpos($_dir, '..')  === false) {
+            if (strpos($_dir, '.') !== false || strpos($_dir, '..')  !== false) {
                 unset($addDir[$_key]);
             }
         }
 
         SetPlugin($addDir);
+    }
+
+    /**
+     * MakeQrCode
+     *
+     * @param [string] $qrCodeName
+     * @return void
+     */
+    public function MakeQrCode(int $size, string $contents, bool $outputFlg = false) {
+        $qrCode = new QrCode('qr-sample');
+        $qrCode->setEncoding(new Encoding('UTF-8'));
+        $qrCode->setErrorCorrectionLevel(new ErrorCorrectionLevelHigh());
+        $qrCode->setSize($size);
+        $qrCode->setData($contents);
+
+        $writer = new PngWriter();
+        $qrWriter = $writer->write($qrCode);
+
+        if ($outputFlg === true) {
+            $this->Output("<img src=\"". $qrWriter->getDataUri(). "\"></img>");
+        } else {
+            return $qrWriter->getDataUri();
+        }
+
     }
 
 }
