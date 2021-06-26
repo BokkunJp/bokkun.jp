@@ -8,7 +8,23 @@
  *  戻り値：
  */
 function Main() {
+
+    // 選択した内容を調整
+
    // 選択したページ数を判別し、問題なければページ遷移する。
+    $( '.image-type' ).on( 'change', function ( e )
+    {
+        alert( 'test' );
+        var url = location.href;
+        var selectValue = {
+            "type": $( this ).val(),
+            'token': $( '.token' ).val()
+        };
+        num = $( this ).val();
+        // 選択したバージョンを渡して、バージョン内のログ一覧を作成
+        AjaxMain( url, './', 'design.php', 'POST', selectValue, 'json');
+    } );
+
    // ページ数に問題がある場合はエラーを出力し、送信を中止する。
    $( '.update_page' ).on( 'keypress', function ( e )
    {
