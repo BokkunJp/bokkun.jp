@@ -322,7 +322,7 @@ function SetAllPlugin() {
     $addDir = scandir(PLUGIN);
 
     foreach ($addDir as $_key => $_dir) {
-        if (strpos($_dir, '.') !== false && strpos($_dir, '..')  !== false) {
+        if (strpos($_dir, '.') !== false || strpos($_dir, '..')  !== false) {
             unset($addDir[$_key]);
         }
     }

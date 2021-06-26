@@ -3,6 +3,7 @@ IncludeFiles(AddPath(COMMON_DIR, 'Trait'));
 
 trait PrivateTrait
 {
+    use CommonTrait;
     /**
      * FindFileName
      * 親ディレクトリ・カレントディレクトリ以外のファイルを検索する
