@@ -17,6 +17,7 @@ if (is_dir(AddPath(AddPath(PUBLIC_JS_DIR, $dirName), $pageName))) {
 } else {
     $jsPath = $dirName;
 }
+
 // imageのディレクトリ指定
 if (is_dir(AddPath(AddPath(PUBLIC_IMAGE_DIR, $dirName), $pageName))) {
     $imagePath = AddPath($dirName, $pageName, false);
