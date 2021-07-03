@@ -1,8 +1,26 @@
 <?php
+// 必要なファイルの読み込み
 require_once dirname(__DIR__, 3) . '/public/common/Layout/require.php';
 
-$dirName = basename(dirname(__DIR__, 2));
-$pageName = basename(dirname(__DIR__));
+// 対象ディレクトリの決定
+if (basename(dirname(__DIR__, 2)) !== basename(DOCUMENT_ROOT)) {
+    $dirName = basename(dirname(__DIR__, 2));
+    $pageName = basename(dirname(__DIR__));
+} else {
+    $dirName = basename(dirname(__DIR__));
+    $pageName = basename(__DIR__);
+}
+
+// phpのディレクトリ指定
+$phpPath = "";
+if ($dirName !== basename(DOCUMENT_ROOT)) {
+    $phpPath = $dirName;
+} else {
+    $dirName = $pageName;
+}
+if ($pageName !== basename(__DIR__)) {
+    $phpPath = AddPath($phpPath, $pageName, false, "/");
+}
 
 // cssのディレクトリ指定
 if (is_dir(AddPath(AddPath(PUBLIC_CSS_DIR, $dirName), $pageName))) {
@@ -54,10 +72,10 @@ if (is_dir(AddPath(AddPath(PUBLIC_IMAGE_DIR, $dirName), $pageName))) {
 <!--PC用（801px以上端末）メニュー-->
 <nav id="menubar">
 <ul>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/">Home</a></li>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/about/">About</a></li>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/gallery/">Gallery</a></li>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/link/">Link</a></li>
+<li><a href="/<?=$phpPath?>/">Home</a></li>
+<li><a href="/<?=$phpPath?>/about/">About</a></li>
+<li><a href="/<?=$phpPath?>/gallery/">Gallery</a></li>
+<li><a href="/<?=$phpPath?>/link/">Link</a></li>
 </ul>
 </nav>
 
@@ -138,10 +156,10 @@ style.cssの「/*galleryページの画像切り替え」ブロックもコピ�
 <!--小さな端末用（800px以下端末）メニュー-->
 <nav id="menubar-s">
 <ul>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/">Home</a></li>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/about/">About</a></li>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/gallery/">Gallery</a></li>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/link/">Link</a></li>
+<li><a href="/<?=$phpPath?>/">Home</a></li>
+<li><a href="/<?=$phpPath?>/about/">About</a></li>
+<li><a href="/<?=$phpPath?>/gallery/">Gallery</a></li>
+<li><a href="/<?=$phpPath?>/link/">Link</a></li>
 </ul>
 </nav>
 
