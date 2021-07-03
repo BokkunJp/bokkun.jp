@@ -67,7 +67,7 @@ if (is_dir(AddPath(AddPath(PUBLIC_IMAGE_DIR, $dirName), $pageName))) {
 
 <header>
 
-<h1 id="logo"><a href="indexphp"><img src="/public/client/image/<?=$imagePath?>/logo.png" alt="SAMPLE SITE"></a></h1>
+<h1 id="logo"><a href="/<?=$phpPath?>"><img src="/public/client/image/<?=$imagePath?>/logo.png" alt="SAMPLE SITE"></a></h1>
 
 <!--PC用（801px以上端末）メニュー-->
 <nav id="menubar">
