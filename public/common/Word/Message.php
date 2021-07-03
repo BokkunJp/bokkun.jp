@@ -24,9 +24,9 @@ function Public_CSRFErrorMessage() {
 define('PUBLIC_DIR', AddPath(DOCUMENT_ROOT, 'public', false));
 define('PUBLIC_COMMON_DIR', AddPath(PUBLIC_DIR, 'common', false));
 define('PUBLIC_CLIENT_DIR', AddPath(PUBLIC_DIR, 'client', false));
-define('PUBLIC_CSS_DIR', AddPath(PUBLIC_CLIENT_DIR, '/css', false));
-define('PUBLIC_JS_DIR', AddPath(PUBLIC_CLIENT_DIR, '/js', false));
-define('PUBLIC_IMAGE_DIR', AddPath(PUBLIC_CLIENT_DIR, '/image', false));
+define('PUBLIC_CSS_DIR', AddPath(PUBLIC_CLIENT_DIR, 'css', false));
+define('PUBLIC_JS_DIR', AddPath(PUBLIC_CLIENT_DIR, 'js', false));
+define('PUBLIC_IMAGE_DIR', AddPath(PUBLIC_CLIENT_DIR, 'image', false));
 define('PUBLIC_3D_DIR', AddPath(PUBLIC_CLIENT_DIR, '3d', false));
 define('PUBLIC_CSV_DIR', AddPath(PUBLIC_CLIENT_DIR, 'csv', false));
 define('PUBLIC_COMPONENT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Component', false));
