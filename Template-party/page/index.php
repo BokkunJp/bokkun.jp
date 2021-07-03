@@ -23,7 +23,6 @@ if (is_dir(AddPath(AddPath(PUBLIC_IMAGE_DIR, $dirName), $pageName))) {
 } else {
     $imagePath = $dirName;
 }
-Output($pageName);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -109,7 +108,7 @@ Output($pageName);
 また、当サイトのテンプレート「以外」に使いたいなど、「プログラムのみ」を使う場合は<a href="http://template-party.com/free_program/openclose_license.html">こちらの規約</a>をお守り下さい。</p>
 
 <h3>当テンプレートの詳しい使い方は</h3>
-<p><a href="about.html">こちらをご覧下さい。</a></p>
+<p><a href="/<?=$dirName?>/<?=$pageName?>/about/">こちらをご覧下さい。</a></p>
 
 </section>
 
