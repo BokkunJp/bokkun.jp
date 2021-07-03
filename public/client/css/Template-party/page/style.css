@@ -159,7 +159,7 @@ header .icon img {
 	text-align: center;		/*文字をセンタリング*/
 	letter-spacing: 0.2em;	/*文字間隔を少し広くとる設定*/
 	line-height: 1.5;		/*行間をデフォルトから少し狭くする*/
-	background: url(../../image/Template-party/bg_line1.png) repeat-x center bottom / auto 3px;	/*下線の背景画像の読み込み。X軸(横)にリピート、左右中央、下部に配置。幅はauto(自動)で高さを3pxにする。*/
+	background: url(../../../image/Template-party/page/bg_line1.png) repeat-x center bottom / auto 3px;	/*下線の背景画像の読み込み。X軸(横)にリピート、左右中央、下部に配置。幅はauto(自動)で高さを3pxにする。*/
 	padding-bottom: 10px;
 }
 /*h3見出し*/

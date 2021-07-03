@@ -1,8 +1,30 @@
 <?php
-require_once dirname(__DIR__, 3) . '/public/common/Layout/require.php';
+// 必要なファイルの読み込み
+$data = scandir(__DIR__);
+foreach ($data as $_i => $_d) {
+    if (preg_match('/\.$/', $_d) || preg_match('/^\.\.$/', $_d)|| preg_match('/[php]$/', $_d)) {
+        unset($data[$_i]);
+    }
+}
 
-$dirName = basename(dirname(__DIR__, 2));
-$pageName = basename(dirname(__DIR__));
+if (empty($data)) {
+    $firstPath = dirname(__DIR__, 3);
+    $dirPath =  dirname(__DIR__, 2);
+    $pagePath = dirname(__DIR__);
+} else {
+    $firstPath = dirname(__DIR__, 2);
+    $dirPath =  dirname(__DIR__);
+    $pagePath = __DIR__;
+}
+
+require_once $firstPath . '/public/common/Layout/require.php';
+
+// 対象ディレクトリの決定
+$dirName = basename($dirPath);
+$pageName = basename($pagePath);
+
+// phpのディレクトリ指定
+$phpPath = AddPath($dirName, $pageName, false);
 
 // cssのディレクトリ指定
 if (is_dir(AddPath(AddPath(PUBLIC_CSS_DIR, $dirName), $pageName))) {
@@ -54,10 +76,10 @@ if (is_dir(AddPath(AddPath(PUBLIC_IMAGE_DIR, $dirName), $pageName))) {
 <!--PC用（801px以上端末）メニュー-->
 <nav id="menubar">
 <ul>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/">Home</a></li>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/about/">About</a></li>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/gallery/">Gallery</a></li>
-<li><a href="/<?=$dirName?>/<?=$pageName?>/link/">Link</a></li>
+<li><a href="/<?=$phpPath?>/">Home</a></li>
+<li><a href="/<?=$phpPath?>/about/">About</a></li>
+<li><a href="/<?=$phpPath?>/gallery/">Gallery</a></li>
+<li><a href="/<?=$phpPath?>/link/">Link</a></li>
 </ul>
 </nav>
 
@@ -215,10 +237,10 @@ offsettop = 350;<br>
 <!--小さな端末用（800px以下端末）メニュー-->
 <nav id="menubar-s">
 <ul>
-<li><a href="/<?=$dirName?>/<?=$imagePath?>/">Home</a></li>
-<li><a href="/<?=$dirName?>/<?=$imagePath?>/about/">About</a></li>
-<li><a href="/<?=$dirName?>/<?=$imagePath?>/gallery/">Gallery</a></li>
-<li><a href="/<?=$dirName?>/<?=$imagePath?>/link/">Link</a></li>
+<li><a href="/<?=$phpPath?>/">Home</a></li>
+<li><a href="/<?=$phpPath?>/about/">About</a></li>
+<li><a href="/<?=$phpPath?>/gallery/">Gallery</a></li>
+<li><a href="/<?=$phpPath?>/link/">Link</a></li>
 </ul>
 </nav>
 
