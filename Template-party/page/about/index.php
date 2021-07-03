@@ -71,7 +71,7 @@ if (is_dir(AddPath(AddPath(PUBLIC_IMAGE_DIR, $dirName), $pageName))) {
 
 <header>
 
-<h1 id="logo"><a href="index.html"><img src="/public/client/image/<?=$imagePath?>/logo.png" alt="SAMPLE SITE"></a></h1>
+<h1 id="logo"><a href="/<?=$phpPath?>"><img src="/public/client/image/<?=$imagePath?>/logo.png" alt="SAMPLE SITE"></a></h1>
 
 <!--PC用（801px以上端末）メニュー-->
 <nav id="menubar">
@@ -211,7 +211,7 @@ offsettop = 350;<br>
 </section>
 
 <footer>
-<small>Copyright&copy; <a href="index.html">SAMPLE SITE</a> All Rights Reserved.</small>
+<small>Copyright&copy; <a href="/<?=$phpPath?>">SAMPLE SITE</a> All Rights Reserved.</small>
 <span class="pr">《<a href="https://template-party.com/" target="_blank">Web Design:Template-Party</a>》</span>
 </footer>
 
