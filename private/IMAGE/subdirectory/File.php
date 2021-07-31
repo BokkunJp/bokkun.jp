@@ -85,19 +85,19 @@ function ImportImage() {
     // 成功パターン
     $result['success'] = [];
     $result['success']['count'] = 0;
-    // ファイルアップロード失敗パターン
-    $result['fail'] = [];
-    $result['fail']['count'] = 0;
     // ファイルの種類が違うパターン
     $result['-1'] = [];
     $result['-1']['count'] = 0;
-    // その他、ファイルのアップロードに失敗したパターン
-    // ファイルサイズ系
-    // $result['size'] = [];
+    // ファイルサイズが0バイトのパターン
+    $result['size'] = [];
+    $result['size']['count'] = 0;
     // ファイルがない
     // $result['no-file'] = [];
     // tmpディレクトリがない
     // $result['tmp'] = [];
+    // ファイルアップロード失敗パターン
+    $result['other'] = [];
+    $result['other']['count'] = 0;
 
     // ファイル数が規定の条件を超えた場合はアップロード中断
     if (count($moldFiles) > FILE_COUNT_MAX) {
@@ -105,7 +105,17 @@ function ImportImage() {
         return $result;
     }
 
+    Output($moldFiles);
+
     foreach ($moldFiles as $_files) {
+        if ($_files['error'] === UPLOAD_ERR_NO_FILE) {
+            return null;
+        }
+        // ファイルサイズが0バイトの場合はファイルサイズエラー
+        if (!$_files['size']) {
+            $result['size']['count']++;
+            continue;
+        }
         // アップロードされたファイルのTypeが画像用のものか調べる
         if (!CheckType($_files['type'])) {
             $result['-1']['count']++;
@@ -116,17 +126,13 @@ function ImportImage() {
             $imgType = FileExif($_files['tmp_name']);
         } else {
             switch ($_files['error']) {
-                case UPLOAD_ERR_NO_FILE:
-                    return null;
-                    break;
                 case UPLOAD_ERR_INI_SIZE:
                 case UPLOAD_ERR_FORM_SIZE:
-
                 case UPLOAD_ERR_PARTIAL:
                 case UPLOAD_ERR_NO_TMP_DIR:
                 case UPLOAD_ERR_CANT_WRITE:
                 case UPLOAD_ERR_EXTENSION:
-                    $result['fail']['count']++;
+                    $result['other']['count']++;
                 break;
             }
             continue;
@@ -141,8 +147,8 @@ function ImportImage() {
                 // $result['success'][$_files['name']] = true;
                 $result['success']['count']++;
             } else {
-                // $result['fail'][$_files['name']] = false;
-                $result['fail']['count']++;
+                // $result['other'][$_files['name']] = false;
+                $result['other']['count']++;
             }
         } else {
             // $result['-1'][$_files['name']] = -1;
