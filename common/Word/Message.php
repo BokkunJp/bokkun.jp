@@ -41,9 +41,14 @@ define('FILE_COUNT_OVER', -1);
 define('FILE_NONE', "ファイルが選択されていません。");
 define('FILE_COUNT_OVER_ERROR', (FILE_COUNT_MAX + 1)."枚以上の画像をアップロードすることはできません。処理を中断します。");
 // アップロード後の文言 (ファイル数の部分は処理時に定義)
-define('FILE_NO_MATCH_FAIL', "は、画像ファイルではないためアップロードできませんでした。");
 define('FILE_UPLOAD_FAIL', "のアップロードに失敗しました。");
+define('FILE_NO_MATCH_FAIL', "は、画像ファイルではないためアップロードできませんでした。");
+define('FILE_SIZE_FAIL', "は、ファイルサイズが0バイトのためアップロードできませんでした。");
+define("FILE_OTHER_FAIL", "は、他の要因でファイルアップロードできませんでした。");
+
 define('FILE_UPLOAD_SUCCESS', "のアップロードに成功しました。");
+
+
 // デバッグ表示エラー
 define(
     'DEBUG_MESSAGE_SOURCE',
