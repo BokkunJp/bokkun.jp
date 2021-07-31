@@ -39,9 +39,11 @@ if (!empty($mode) && $mode === 'del') {
         $session->Write('success', ($count - COUNT_START) . '件の画像の削除に成功しました。', 'Delete');
     }
 } else {
+    /** @var array ファイルアップロード結果
+    */
     $result = ImportImage($files);
 
-    // アップロードに成功したファイルがなかった場合
+    // ファイルがアップロードされなかった場合
     if (empty($result['success'])) {
         if (empty($result)) {
             $session->Write('notice', FILE_NONE);
@@ -57,14 +59,37 @@ if (!empty($mode) && $mode === 'del') {
             }
         }
     } else {
-        if (!empty($result['-1']['count'])) {
-            define('FILE_ERR_CONST', "{$result['-1']['count']}枚のファイル");
-            $session->Write('notice', FILE_ERR_CONST . FILE_NO_MATCH_FAIL);
+        $failCount = 0;
+        foreach ($result as $_key => $_r) {
+            if (strpos($_key, "success") || $_r['count'] === 0) {
+                continue;
+            }
+            $failCount++;
         }
 
-        if (!empty($result['fail']['count'])) {
-            define('FILE_FAIL_CONST', "{$result['fail']['count']}枚のファイル");
-            $session->Write('notice', FILE_FAIL_CONST . FILE_UPLOAD_FAIL);
+        if (!empty($failCount)) {
+            $noticeWord = "";
+                define('FILE_FAIL_CONST', "{$failCount}枚のファイル");
+                $noticeWord .= FILE_FAIL_CONST . FILE_UPLOAD_FAIL;
+
+                if (!empty($result['-1']['count'])) {
+                if (!empty($noticeWord)) {
+                    $noticeWord .= nl2br("\n");
+                }
+                define('FILE_ERR_CONST', "{$result['-1']['count']}枚のファイル");
+                $noticeWord .= "・". FILE_ERR_CONST . FILE_NO_MATCH_FAIL;
+            }
+
+            if (!empty($result['size']['count'])) {
+                if (!empty($noticeWord)) {
+                    $noticeWord .= nl2br("\n");
+                }
+                define('FILE_SIZE_CONST', "{$result['size']['count']}枚のファイル");
+                $noticeWord .= "・". FILE_SIZE_CONST . FILE_SIZE_FAIL;
+            }
+
+            $session->Write('notice', $noticeWord);
+
         }
         if (!empty($result['success']['count'])) {
             define('FILE_SUCCESS_CONST', "{$result['success']['count']}枚のファイル");
