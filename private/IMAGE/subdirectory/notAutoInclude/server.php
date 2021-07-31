@@ -61,7 +61,8 @@ if (!empty($mode) && $mode === 'del') {
     } else {
         $failCount = 0;
         foreach ($result as $_key => $_r) {
-            if (strpos($_key, "success") || $_r['count'] === 0) {
+            if ($_key === "success" || $_r['count'] === 0) {
+            Output([$_key => $_r['count']]);
                 continue;
             }
             $failCount++;
