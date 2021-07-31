@@ -56,6 +56,14 @@ function MoldFile($file, String $fileName)
     return $moldFiles;
 }
 
+function CheckType(string $inputType, string $targetType = 'image') {
+    if (preg_match("/^{$targetType}/", $inputType)) {
+        return true;
+    }
+
+    return false;
+}
+
 
 /**
  * ImportImage
@@ -98,6 +106,12 @@ function ImportImage() {
     }
 
     foreach ($moldFiles as $_files) {
+        // アップロードされたファイルのTypeが画像用のものか調べる
+        if (!CheckType($_files['type'])) {
+            $result['-1']['count']++;
+            continue;
+        }
+
         if (!empty($_files) && $_files['error'] === UPLOAD_ERR_OK) {
             $imgType = FileExif($_files['tmp_name']);
         } else {
@@ -165,8 +179,6 @@ function LoadAllImageFile() {
         }
     }
 
-    // var_dump(array_merge($png, $png_2, $jpg, $jpg_2, $jpeg, $gif));
-
     return $ret;
 }
 
@@ -194,7 +206,6 @@ function TimeSort(&$data, $order = 'ASC') {
             return -1;
         }
         $time[] = $_data['time'];  // 時刻データ配列を生成
-        // $time[] = strtotime($_data['time']);  // 時刻を調整
     }
 
     // 順番の指定
