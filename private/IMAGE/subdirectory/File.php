@@ -105,8 +105,6 @@ function ImportImage() {
         return $result;
     }
 
-    Output($moldFiles);
-
     foreach ($moldFiles as $_files) {
         if ($_files['error'] === UPLOAD_ERR_NO_FILE) {
             return null;
