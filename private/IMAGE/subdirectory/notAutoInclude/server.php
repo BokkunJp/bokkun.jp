@@ -64,7 +64,7 @@ if (!empty($mode) && $mode === 'del') {
             if ($_key === "success" || $_r['count'] === 0) {
                 continue;
             }
-            $failCount++;
+            $failCount += $_r['count'];
         }
 
         if (!empty($failCount)) {
