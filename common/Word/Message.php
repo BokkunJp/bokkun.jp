@@ -17,7 +17,6 @@ function CSRFErrorMessage() {
 
 // 共通部分
 define('DOCUMENT_ROOT', CommonSetting\Setting::GetDocumentRoot());
-define('PLUGIN_DIR', AddPath(dirname(dirname(DOCUMENT_ROOT)), 'Plugin', false));
 define('COMMON_DIR', dirname(__DIR__));
 define('NL', nl2br(PHP_EOL));
 define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
@@ -61,7 +60,7 @@ define(
 );
 
 // プラグインパス
-define("PLUGIN", AddPath(dirname(DOCUMENT_ROOT, 2), "Plugin"));
+define("PLUGIN_DIR", AddPath(dirname(DOCUMENT_ROOT, 2), "Plugin"));
 
 // FINISHフラグ
 define("FINISH", 1);

@@ -16,7 +16,7 @@ class DB
     protected $stmt;
     protected $query;
 
-    public function __construct($dbName = 'bokkun', $dbPass = null, $tableName = null, $dbHost = 'localhost', $dbPort = 5432)
+    public function __construct($dbName = 'bokkun', $dbPass = null, $dbHost = 'localhost', $dbPort = 5432)
     {
         try {
             $this->dbName = $dbName;
@@ -198,6 +198,10 @@ class DB
 
         $this->sql = "select COUNT(*) from {$this->tableName}";
         $sth = $this->SQLExec();
+
+        if ($sth === false) {
+            return false;
+        }
 
         $ret = $sth->fetch();
 
