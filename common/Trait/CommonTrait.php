@@ -266,13 +266,13 @@ trait CommonTrait
             }
         }
 
-        if (is_dir(AddPath(PLUGIN, $name))) {
-            IncludeDirctories(AddPath(PLUGIN, $name));
+        if (is_dir(AddPath(PLUGIN_DIR, $name))) {
+            IncludeDirctories(AddPath(PLUGIN_DIR, $name));
         }
     }
 
     public function SetAllPlugin() {
-        $addDir = scandir(PLUGIN);
+        $addDir = scandir(PLUGIN_DIR);
 
         foreach ($addDir as $_key => $_dir) {
             if (strpos($_dir, '.') !== false || strpos($_dir, '..')  !== false) {

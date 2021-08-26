@@ -19,8 +19,8 @@ AlertAdmin('access', $title);
     <?php
 
 //  exit;   // テスト中断
-    count_reset();
-    function count_reset() {
+    CountReset();
+    function CountReset() {
     echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 
     session_destroy();
