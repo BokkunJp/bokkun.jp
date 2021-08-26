@@ -7,8 +7,8 @@ IncludeFiles(AddPath(AddPath(PUBLIC_COMMON_DIR, 'Component'), 'DB'));
  *
  * @return mixed
  */
-function LoadDb($dbName='bokkun_test', $dbPath='bX3Ht6Gk', $tableName='test_db') {
-    $dbTest = new DB($dbName, $dbPath);
+function LoadDb($dbName='bokkun_test', $dbPass='bX3Ht6Gk', $tableName='test_db') {
+    $dbTest = new DB($dbName, $dbPass);
     $dbTest->SetTable($tableName);
 
     return $dbTest;
@@ -31,7 +31,8 @@ function InputData($val) {
     // $dbBokkunCG = new myPg('bokkun_cg', 'Pp47dNUZ', 'position_zaxis');
     // $dbBokkunCG = new myPg('bokkun_cg', 'Pp47dNUZ', 'timestamp');
 
-    $dbTest = LoadDb();
+    // $dbTest = LoadDb();
+    $dbTest = LoadDb(dbPass:'bokkun_test');
 
     $column = ['id', 'contents'];
 
@@ -49,11 +50,16 @@ function InputData($val) {
  * @return void
  */
 function SelectTable($cond) {
-    $dbTest = LoadDb();
+    // $dbTest = LoadDb();
+        $dbTest = LoadDb(dbPass:'bokkun_test');
+
 }
 
 function InitializeTable() {
-    $dbTest = LoadDb();
+    // $dbTest = LoadDb();
+
+    $dbTest = LoadDb(dbPass:'bokkun_test');
+
 
     $dbTest->SetSequence();
 
@@ -67,7 +73,8 @@ function InitializeTable() {
  * @return mixed
  */
 function DeleteTable($id) {
-    $dbTest = LoadDb();
+    // $dbTest = LoadDb();
+    $dbTest = LoadDb(dbPass:'bokkun_test');
 
     $column = ['id'];
     $data = [$id];

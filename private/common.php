@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 
 }
 $session = new PrivateSetting\Session();
-$post = $_POST;
+$post = PrivateSetting\Setting::GetPosts();
 
 if (!isset($secure)) {
     $secure = null;
@@ -27,7 +27,7 @@ if ($secure !== true) {
  *
  * @param  string $noticeType
  * access or login
- * 
+ *
  * @return boolean|void
  */
 function AlertAdmin(string $noticeType, $pageTitle)
