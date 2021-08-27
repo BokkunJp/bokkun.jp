@@ -102,15 +102,13 @@ class CSV extends CSV_Base {
 
             }
         }
-        // 不正値が1つでもあれば中断
-        if ($exitFlg) {
+        // 不正値が1つでもあればデータはセットしない
+        if (!$exitFlg) {
+            // データセット
+            $this->SetData($data);
+        } else {
             return false;
         }
-
-        // データセット
-        $this->SetData($data);
-
-        return true;
     }
 
     private function SetErrorMessage($key, $message = '') {
@@ -171,11 +169,11 @@ class CSV extends CSV_Base {
 
     public function Output($option=null) {
         if (!is_file(CSV. $this->fileName) || $this->ValidateName($this->fileName) === false) {
-            return false;
+            $ret = false;
+        } else {
+            $this->ReadFile($this->fileName);
+            $ret = $this->OutData($option);
         }
-
-        $this->ReadFile($this->fileName);
-
-        return $this->OutData($option);
+        return $ret;
     }
 }
