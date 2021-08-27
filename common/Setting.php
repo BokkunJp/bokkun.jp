@@ -205,7 +205,7 @@ class Session
      */
     public function WriteArray($parentId, $childId, $data)
     {
-        if ($this->Read($parentId) != NULL) {
+        if ($this->Judge($parentId)) {
             $tmp = $this->Read($parentId);
         } else {
             $tmp = [];
@@ -251,15 +251,16 @@ class Session
     // セッション判定用
     public function Judge($id = null)
     {
+        $ret = true;
         if (!isset($id)) {
-            return null;
+            $ret = null;
         }
 
         if (!isset($this->session[$id])) {
-            return false;
+            $ret = false;
         }
 
-        return true;
+        return $ret;
     }
 
     // セッション閲覧用
