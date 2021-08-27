@@ -104,16 +104,19 @@ class CSV_Base {
         $header = $this->GetHeader();
         $row = $this->data;
         unset($row[0]);
+        $ret = null;
         if ($option === 'header') {
-            return $header;
+            $ret = $header;
         } else if ($option === 'body' || $option === 'row') {
-            return $row;
+            $ret = $row;
         }
 
-        $ret = [];
-        foreach ($row as $r_key => $r_data) {
-            foreach ($r_data as $col_key => $col_data) {
-               $ret[$r_key][$header[$col_key]] = $col_data;
+        if (is_null($ret)) {
+            $ret = [];
+            foreach ($row as $r_key => $r_data) {
+                foreach ($r_data as $col_key => $col_data) {
+                    $ret[$r_key][$header[$col_key]] = $col_data;
+                }
             }
         }
 
