@@ -14,18 +14,18 @@ if (!isset($session)) {
     $session = new PrivateSetting\Session();
 }
 
-// tokenチェック
-$checkToken = CheckToken();
-// 不正tokenの場合は、エラーを出力して処理を中断。
-if ($checkToken === false) {
-    $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
-    $url = new PrivateSetting\Setting();
-    header('Location:' . $url->GetUrl($str));
-    exit;
-}
-
 $mode = PrivateSetting\Setting::GetQuery('mode');
 if (!empty($mode) && $mode === 'del') {
+    // view-tokenチェック
+    $checkToken = CheckToken('view-token');
+    // 不正tokenの場合は、エラーを出力して処理を中断。
+    if ($checkToken === false) {
+        $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $url = new PrivateSetting\Setting();
+        header('Location:' . $url->GetUrl($str));
+        exit;
+    }
+
     $count = 0;
     foreach (PrivateSetting\Setting::getPosts() as $post_key => $post_value) {
         $count++;
@@ -38,8 +38,18 @@ if (!empty($mode) && $mode === 'del') {
     if (!$session->Judge('notice')) {
         $session->Write('success', ($count - COUNT_START) . '件の画像の削除に成功しました。', 'Delete');
     }
-} else {
-    /** @var array ファイルアップロード結果
+    } else {
+    // upload-tokenチェック
+    $checkToken = CheckToken('upload-token');
+    // 不正tokenの場合は、エラーを出力して処理を中断。
+    if ($checkToken === false) {
+        $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $url = new PrivateSetting\Setting();
+        header('Location:' . $url->GetUrl($str));
+        exit;
+    }
+
+/** @var array ファイルアップロード結果
     */
     $result = ImportImage($files);
 
@@ -103,4 +113,3 @@ $session->Write('token', sha1(session_id()));
 $url = new PrivateSetting\Setting();
 header('Location:' . $url->GetUrl($str));
 ?>
-<!-- <script>window.location.href = 'https://bokkun.jp/public/IMAGE/';</script> -->

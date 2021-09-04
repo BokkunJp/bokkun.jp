@@ -50,14 +50,15 @@ function CreateRandom(int $length, string $type = 'security')
  */
 function FindFileName($str)
 {
+    $ret = true;
     if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
-        return false;
-    } else {
-        return true;
+        $ret = false;
     }
+
+    return $ret;
 }
 /**
- * DeleteData
+ * ValidateData
  * 対象のパスのディレクトリに、指定したファイルが存在するか調べる
  * (in_arrayは速度的に問題があるため、issetで対応する)
  *
@@ -75,12 +76,14 @@ function ValidateData(String $dirPath, $select)
     $dirArray = scandir($dirPath);
     $filipDirArray = array_flip($dirArray);
 
+    $ret = true;
+
     // 指定した名称のディレクトリが存在しない
     if (!isset($filipDirArray[$select])) {
-        return false;
+        $ret = false;
     }
 
-    return true;
+    return $ret;
 }
 
 /**
@@ -197,4 +200,15 @@ function CopySubData($srcPath, $dstPath)
     }
 
     return true;
+}
+
+/**
+ * GetNotDelFileList
+ * 削除不可ディレクトリリストを配列で取得する。
+ *
+ * @return array
+ */
+function GetNotDelFileList()
+{
+    return ['IMAGE'];
 }

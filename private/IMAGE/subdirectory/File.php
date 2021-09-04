@@ -136,12 +136,15 @@ function ImportImage() {
             continue;
         }
 
+        // 画像タイプの取得
+        $imagePageName = GetImagePageName();
+
         if (is_numeric($imgType)) {
             // 画像保管用のディレクトリがない場合は作成
-            if (!file_exists($imageDir . '/IMAGE/')) {
-                mkdir($imageDir . '/IMAGE/');
+            if (!file_exists(AddPath($imageDir, $imagePageName))) {
+                mkdir(AddPath($imageDir, $imagePageName));
             }
-            if (move_uploaded_file($_files['tmp_name'], $imageDir . '/IMAGE/' . $_files['name'])) {
+            if (move_uploaded_file($_files['tmp_name'], AddPath(AddPath($imageDir, $imagePageName), $_files['name'], false))) {
                 // $result['success'][$_files['name']] = true;
                 $result['success']['count']++;
             } else {
@@ -160,18 +163,43 @@ function ImportImage() {
 }
 
 /**
+ * SetImageType
+ * 画像ページの種類を取得する
+ *
+ * @return void
+ */
+function GetImagePageName() {
+    // セッション開始
+    if (!isset($session)) {
+        $session = new PrivateSetting\Session();
+    }
+
+if (empty($session->Judge('image-view-directory'))) {
+        $imagePageName = DEFAULT_IMAGE;
+    } else {
+        $imagePageName = $session->Read('image-view-directory');
+    }
+
+    return $imagePageName;
+
+}
+
+/**
  * LoadAllImageFile
  * 画像ファイル名を配列で一括取得する
  *
  * @return array
  */
 function LoadAllImageFile() {
+
+    $imagePageName = GetImagePageName();
+
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp'];
 
     $imgSrc = [];
     foreach ($imgArray as $_index) {
-        $imgSrc[mb_strtolower($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . '/IMAGE/', mb_strtolower($_index), true);
-        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . '/IMAGE/', mb_strtoupper($_index), true);
+        $imgSrc[mb_strtolower($_index)] = IncludeFiles(AddPath(PUBLIC_IMAGE_DIR , $imagePageName), mb_strtolower($_index), true);
+        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(AddPath(PUBLIC_IMAGE_DIR , $imagePageName), mb_strtoupper($_index), true);
     }
 
     $ret = [];
@@ -233,8 +261,12 @@ function TimeSort(&$data, $order = 'ASC') {
  *
  * @return void
  */
-function ReadImage($read_flg = NOT_VIEW) {
-    if ($read_flg === NOT_VIEW) {
+function ReadImage($readFlg = NOT_VIEW, $ajaxFlg = false) {
+
+    // 現在選択している画像タイプを取得
+    $imagePageName = GetImagePageName();
+
+    if ($readFlg === NOT_VIEW) {
         echo '現在、画像の公開を停止しています。';
         return NOT_VIEW;
     } else {
@@ -245,16 +277,17 @@ function ReadImage($read_flg = NOT_VIEW) {
         $sortAray = array();
         foreach ($fileList as $index => $_file) {
             $sortAray[$index]['name'] = $_file;
-            $sortAray[$index]['time'] = filemtime(PUBLIC_IMAGE_DIR . '/IMAGE/' . $_file);
+            $sortAray[$index]['time'] = filemtime(AddPath(AddPath(PUBLIC_IMAGE_DIR , $imagePageName), $_file, false));
         }
 
         // 画像投稿日時の昇順にソート
         TimeSort($sortAray);
 
-        // ソートした順に画像を表示
-        $imageUrl = IMAGE_URL;
-
-        ShowImage($sortAray, $imageUrl);
+        if ($ajaxFlg === true) {
+            return $sortAray;
+        } else {
+            ShowImage($sortAray, IMAGE_URL);
+        }
     }
 }
 
@@ -268,7 +301,10 @@ function ReadImage($read_flg = NOT_VIEW) {
  * @return void
  */
 function ShowImage($data, $imageUrl) {
+
+    // 現在のページ番号の取得
     $page = GetPage();
+
     if ($page <= 0 || $page === false) {
         ErrorSet('ページの指定が不正です。');
         return false;
@@ -282,7 +318,7 @@ function ShowImage($data, $imageUrl) {
 
     if ($start >= $end) {
         ErrorSet('画像がありません。');
-//        ViewPager($data);
+
         return false;
     }
 
@@ -321,18 +357,21 @@ function ErrorSet($errMsg = ERROR_MESSAGE) {
 function DeleteImage() {
     $post = PrivateSetting\Setting::getPosts();
     $fileList = LoadAllImageFile();
+    $imagePageName = GetImagePageName();
     $count = 0;
 
+    $baseImageDir = AddPath(PUBLIC_IMAGE_DIR, $imagePageName);
+
     // _oldディレクトリがない場合はディレクトリを生成
-    if (!is_dir(PUBLIC_IMAGE_DIR . '/IMAGE/_old/')) {
-        mkdir(PUBLIC_IMAGE_DIR . '/IMAGE/_old/');
+    if (!is_dir(AddPath($baseImageDir, '_old'))) {
+        mkdir(AddPath($baseImageDir, '_old'));
     }
     // 指定されたファイルをすべて削除 (退避ディレクトリに追加)
     foreach ($post as $post_key => $post_value) {
         if ($post_key !== 'token' && $post_key !== 'delete') {
             $count++;
             if (in_array($post_value, $fileList)) {
-                if (!rename(PUBLIC_IMAGE_DIR . '/IMAGE/' . $post_value, PUBLIC_IMAGE_DIR . '/IMAGE/_old/' . $post_value) === true) {
+                if (!rename(AddPath($baseImageDir, $post_value, false), AddPath(AddPath($baseImageDir, '_old'), $post_value, false)) === true) {
                     return false;
                 }
             }

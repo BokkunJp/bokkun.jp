@@ -6,7 +6,7 @@ require_once dirname(__DIR__) . '/common/Component/Function.php';
 $title = '管理側コンテンツ一覧';
 
 // アクセス警告メール
-AlertAdmin('access', $title);
+// AlertAdmin('access', $title);
 
 ?>
 <html lang="ja">

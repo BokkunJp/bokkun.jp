@@ -45,6 +45,9 @@ define('ADD_DESIGN', 'require AddPath(__DIR__, "design.php", false);');
 // 公開側画像パス
 define('PUBLIC_IMAGE_DIR', AddPath(AddPath(DOCUMENT_ROOT, 'public'), AddPath('client', 'image'), false));
 
+// デフォルトの画像ページ
+define('DEFAULT_IMAGE', 'IMAGE');
+
 // デフォルトの可視フラグ
 define('DEFAULT_VIEW', VIEW);
 

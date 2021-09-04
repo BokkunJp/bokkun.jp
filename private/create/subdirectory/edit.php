@@ -100,21 +100,34 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
 }
 
 chdir($basePath);
+
+// 入力値のチェック
+if (!isset($select)) {
+    $select = null;
+}
+$validate = ValidateData(getcwd(), $select);
+if ($validate === null) {
+    $adminError->UserError('ページが選択されていません。');
+} else if ($validate === false) {
+    $adminError->UserError('ページの指定が不正です。');
+}
+
+// 削除不可判定
+$notList = GetNotDelFileList();
+foreach ($notList as $_nList) {
+    if ($_nList === $select) {
+        $notDelflg = true;
+        break;
+    }
+}
+
 foreach ($pathList as $_pathList) {
     if ($_pathList === 'php') {
-            // 入力値のチェック
-            if (!isset($select)) {
-                $select = null;
-            }
-            $validate = ValidateData(getcwd(), $select);
-            if ($validate === null) {
-                $adminError->UserError('ページが選択されていません。');
-            } else if ($validate === false) {
-                $adminError->UserError('ページの指定が不正です。');
-            }
         if (isset($delete)) {
             // 削除モード
-            DeleteData(AddPath(getcwd(), $select));
+            if (!isset($notDelflg)) {
+                DeleteData(AddPath(getcwd(), $select));
+            }
         } else if (isset($copy)) {
             // 複製モード
             CopyData(AddPath(getcwd(), $select), $title);
@@ -134,7 +147,9 @@ foreach ($pathList as $_pathList) {
         chdir("{$client}{$_pathList}");               // パスの移動
         if (isset($delete)) {
             // 削除モード
-            DeleteData(AddPath(getcwd(), $select));
+            if (!isset($notDelflg)) {
+                DeleteData(AddPath(getcwd(), $select));
+            }
         } else if (isset($copy)) {
             // 複製モード
             if (is_dir(AddPath(getcwd(), $select))) {
@@ -154,7 +169,11 @@ if (isset($edit)) {
 } else if (isset($copy)) {
     $use->Alert("{$select}ページを複製しました。");
 } else if (isset($delete)) {
-    $use->Alert("{$select}ページを削除しました。");
+    if (!isset($notDelflg)) {
+        $use->Alert("{$select}ページを削除しました。");
+    } else {
+        $use->Alert("{$select}は削除できません。");
+    }
 }
 
 class AdminError

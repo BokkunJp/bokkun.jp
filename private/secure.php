@@ -44,7 +44,7 @@ $mode = 'movePage';
 if (!empty($post)) {
     $adminAuth = ($post['id'] === 'admin' && password_verify($post['pass'], password_hash(LOGIN_PASSWORD, PASSWORD_DEFAULT)));
 } else {
-    $adminAuth = $guestAuth = null;
+    $adminAuth = null;
 }
 
 // アクセスしてきたページを保存
@@ -68,7 +68,7 @@ if ((!($adminAuth))) {
     if (!empty($post)) {
         echo '<p>IDまたはパスワードが違います。</p>';
         // ログイン警告メール (ログイン失敗時)
-        AlertAdmin('login', $adminSession['movePage']);
+        // AlertAdmin('login', $adminSession['movePage']);
     }
 
     exit;

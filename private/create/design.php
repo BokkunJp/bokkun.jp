@@ -19,9 +19,10 @@ if ($session->Judge('addition')) {
 }
 
 $dir = scandir('../../');
+$notList = array_flip(GetNotDelFileList());
 
 foreach ($dir as $_key => $_dir) {
-    if (preg_match("/public$|private$|common$|custom.*$|template.*$|\..*$/", $_dir)) {
+    if (preg_match("/public$|private$|common$|custom.*$|template.*$|\..*$/", $_dir) || isset($notList[$_dir])) {
         unset($dir[$_key]);
     }
 }

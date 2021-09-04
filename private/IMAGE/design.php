@@ -11,15 +11,6 @@ if (!isset($session)) {
     $session = new PrivateSetting\Session();
 }
 
-// 表示内容の決定
-
-// 表示内容をもとに、表示する対象の画面を決定
-if (!empty($session->Judge('image-view-dirctory'))) {
-    $imageType = $session->Read('image-view-dirctory');
-} else {
-    // 表示フラグをデフォルトに
-    // $imageType = DEFAULT_IMAGE;
-}
 // 表示フラグの更新
 $sessionReadFlg = (int)PrivateSetting\Setting::GetPost('image-view-require');
 
@@ -46,26 +37,28 @@ if (isset($updatePage) && is_numeric($updatePage)) {
 }
 
 // imageディレクトリ内のディレクトリリストを取得
-$imgDirList = [];
+$imgDirList = ['---'];
 foreach (scandir(PUBLIC_IMAGE_DIR) as $_list) {
     if (is_dir(AddPath(PUBLIC_IMAGE_DIR, $_list)) && FindFileName($_list)) {
         $imgDirList[] = $_list;
     }
 }
 
+// tokenリスト用の配列を作成
+$tokenList = [];
+
 ?>
 <form method='POST' action ='./'>
-対象のページを選択
-<select name="image-type" class="image-type">
-<?php
-    foreach ($imgDirList as $_list) {
-        echo "<option value=\"{$_list}\">". $_list. "</option>";
+    対象のページを選択
+    <select name="image-type" class="image-type">
+    <?php
+        foreach ($imgDirList as $_list) {
+            echo "<option value=\"{$_list}\">". $_list. "</option>";
+        }
 
-    }
-
-?>
-</select>
-  <!-- <input type='submit' value='設定する' /> -->
+    ?>
+    </select>
+    <input type='hidden' name='select-token' value="<?= $tokenList['select-token'] = MakeToken() ?>" />
 </form>
 <form method='POST' action='./'>
   公開設定
@@ -90,7 +83,7 @@ foreach (scandir(PUBLIC_IMAGE_DIR) as $_list) {
     </form>
   </div>
   <form enctype="multipart/form-data" action="./subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>" method='POST'>
-    <input type='hidden' name='token' value="<?= $token = MakeToken() ?>" />
+    <input type='hidden' name='upload-token' value="<?= $tokenList['upload-token'] = MakeToken() ?>" />
     <input type='file' name='all-files[]' multiple /> <button type='submit' class='fileButton'>送信</button>
     <span>
       <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
@@ -109,13 +102,15 @@ foreach (scandir(PUBLIC_IMAGE_DIR) as $_list) {
   ReadImage($readFlg);
   ?>
   <?php if ($readFlg === VIEW) :?>
-    <input type='hidden' name='token' value="<?= $token ?>" />
+    <input type='hidden' name='view-token' value="<?= $tokenList['view-token'] = MakeToken() ?>" />
     <p>
       <button type='submit' name='delete'>チェックした画像を削除する</button>
     </p>
   <?php endif;?>
 </form>
 <?php
-if (isset($token)) {
-    SetToken($token);
+foreach ($tokenList as $_key => $_token) {
+    if (isset($_token)) {
+        SetToken($_token, $_key);
+    }
 }

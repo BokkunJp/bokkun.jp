@@ -30,14 +30,15 @@ class CSV_Base {
     }
 
     protected function InputCommonValidate() {
+        $ret = true;
         if (!isset($this->tmp) || is_null($this->tmp)) {
-            return false;
+            $ret = false;
         }
 
         if (!is_array($this->tmp)) {
-            return false;
+            $ret = false;
         }
-        return true;
+        return $ret;
     }
 
     protected function SetCommons($data) {

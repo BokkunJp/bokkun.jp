@@ -151,6 +151,7 @@ function CheckSession($SessionName, $chkFlg)
 {
     $input = CommonSetting\Setting::GetPost($SessionName);
     $session = new CommonSetting\Session();
+    $ret = true;
 
     if ($chkFlg === true) {
         echo 'デバッグ用<br/>';
@@ -159,10 +160,10 @@ function CheckSession($SessionName, $chkFlg)
     }
 
     if (is_null($input) || $input === false || is_null($session->Read($SessionName)) || !hash_equals($session->Read($SessionName), $input)) {
-        return false;
+        $ret = false;
     }
 
-    return true;
+    return $ret;
 }
 
 /**

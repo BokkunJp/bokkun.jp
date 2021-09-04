@@ -14,15 +14,14 @@ function Main() {
    // 選択したページ数を判別し、問題なければページ遷移する。
     $( '.image-type' ).on( 'change', function ( e )
     {
-        alert( 'test' );
         var url = location.href;
         var selectValue = {
             "type": $( this ).val(),
-            'token': $( '.token' ).val()
+            'select-token': $( 'input[name="select-token"]' ).val()
         };
-        num = $( this ).val();
-        // 選択したバージョンを渡して、バージョン内のログ一覧を作成
-        AjaxMain( url, './', 'design.php', 'POST', selectValue, 'json');
+        var url = url.replace( /\?.*$/, "" );
+        // 選択した画像ページの種類とトークンを渡して、そのページにある画像群(とタイムスタンプの配列)を取得
+        AjaxMain( url, './subdirectory/ajax/', 'server.php', 'POST', selectValue, 'json');
     } );
 
    // ページ数に問題がある場合はエラーを出力し、送信を中止する。

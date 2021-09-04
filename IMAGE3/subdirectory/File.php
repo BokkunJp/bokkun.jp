@@ -7,7 +7,7 @@ require_once ('View.php');
 
 /**
  * FileExif
- * 画像タイプのExifを返す
+ * 画像のExifを返す
  *
  * @param  mixed $img
  *

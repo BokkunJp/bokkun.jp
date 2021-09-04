@@ -39,12 +39,14 @@ trait PrivateTrait
         $dirArray = scandir($dirPath);
         $filipDirArray = array_flip($dirArray);
 
+        $ret = true;
+
         // 指定した名称のディレクトリが存在しない
         if (!isset($filipDirArray[$select])) {
-            return false;
+            $ret = false;
         }
 
-        return true;
+        return $ret;
     }
 
     /**
@@ -161,5 +163,16 @@ trait PrivateTrait
         }
 
         return true;
+    }
+
+    /**
+     * GetNotDelFileList
+     * 削除不可ディレクトリリストを配列で取得する。
+     *
+     * @return array
+     */
+    private function GetNotDelFileList()
+    {
+        return ['IMAGE'];
     }
 }
