@@ -12,17 +12,19 @@ function Main() {
     // 選択した内容を調整
 
    // 選択したページ数を判別し、問題なければページ遷移する。
-    $( '.image-type' ).on( 'change', function ( e )
+    $( '.image-type' ).on( 'change', function ()
     {
-        var url = location.href;
-        var query = location.search;
-        var selectValue = {
-            "type": $( this ).val(),
-            'select-token': $( 'input[name="select-token"]' ).val()
-        };
-         var url = url.replace( /\?.*$/, "" );
-         // 選択した画像ページの種類とトークンを渡して、そのページにある画像群(とタイムスタンプの配列)を取得
-         AjaxMain( url, '/subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', ViewImage );
+        if ( $( this ).val() != '---' ) {
+            var url = location.href;
+            var query = location.search;
+            var selectValue = {
+                "type": $( this ).val(),
+                'select-token': $( 'input[name="select-token"]' ).val()
+            };
+            var url = url.replace( /\?.*$/, "" );
+            // 選択した画像ページの種類とトークンを渡して、そのページにある画像群(とタイムスタンプの配列)を取得
+            AjaxMain( url, '/subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', ViewImage );
+        }
     } );
 
    // ページ数に問題がある場合はエラーを出力し、送信を中止する。
