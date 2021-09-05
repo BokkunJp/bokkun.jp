@@ -16,17 +16,13 @@ function Main() {
     {
         var url = location.href;
         var query = location.search;
-        // if (query) {
-        //     alert( '2ページ目以降の画面では、画像切り替えはできません。' );
-        // } else {
-            var selectValue = {
-                "type": $( this ).val(),
-                'select-token': $( 'input[name="select-token"]' ).val()
-            };
-            var url = url.replace( /\?.*$/, "" );
-            // 選択した画像ページの種類とトークンを渡して、そのページにある画像群(とタイムスタンプの配列)を取得
-            AjaxMain( url, '/subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', ViewImage );
-        // }
+        var selectValue = {
+            "type": $( this ).val(),
+            'select-token': $( 'input[name="select-token"]' ).val()
+        };
+         var url = url.replace( /\?.*$/, "" );
+         // 選択した画像ページの種類とトークンを渡して、そのページにある画像群(とタイムスタンプの配列)を取得
+         AjaxMain( url, '/subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', ViewImage );
     } );
 
    // ページ数に問題がある場合はエラーを出力し、送信を中止する。
