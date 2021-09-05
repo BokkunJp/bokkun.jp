@@ -21,7 +21,12 @@ function Main() {
                 "type": $( this ).val(),
                 'select-token': $( 'input[name="select-token"]' ).val()
             };
+            console.log( url );
+
             var url = url.replace( /\?.*$/, "" );
+            var url = url.replace( /\#.*$/, "" );
+            console.log( url );
+            console.log( 'server.php' + query );
             // 選択した画像ページの種類とトークンを渡して、そのページにある画像群(とタイムスタンプの配列)を取得
             AjaxMain( url, '/subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', ViewImage );
         }
