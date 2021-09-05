@@ -44,7 +44,6 @@ function ViewImage($imageName, $imageUrl, $fileTime) {
  * @return void
  */
 function ViewList($imageName, $imageUrl) {
-
     // 現在選択している画像タイプを取得
     $imagePageName = GetImagePageName();
 

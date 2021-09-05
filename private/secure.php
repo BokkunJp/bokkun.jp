@@ -68,7 +68,7 @@ if ((!($adminAuth))) {
     if (!empty($post)) {
         echo '<p>IDまたはパスワードが違います。</p>';
         // ログイン警告メール (ログイン失敗時)
-        // AlertAdmin('login', $adminSession['movePage']);
+        AlertAdmin('login', $adminSession['movePage']);
     }
 
     exit;

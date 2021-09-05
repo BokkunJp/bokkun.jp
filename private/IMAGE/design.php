@@ -58,6 +58,7 @@ $tokenList = [];
 
     ?>
     </select>
+    ： <span class='view-image-type'><?=GetImagePageName()?></span>
     <input type='hidden' name='select-token' value="<?= $tokenList['select-token'] = MakeToken() ?>" />
 </form>
 <form method='POST' action='./'>
@@ -98,8 +99,7 @@ $tokenList = [];
 
 <form class='pageForm' action="./subdirectory/notAutoInclude/server.php?mode=del<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>
   <?php
-  var_dump($_POST);
-  ReadImage($readFlg);
+    ReadImage($readFlg);
   ?>
   <?php if ($readFlg === VIEW) :?>
     <input type='hidden' name='view-token' value="<?= $tokenList['view-token'] = MakeToken() ?>" />

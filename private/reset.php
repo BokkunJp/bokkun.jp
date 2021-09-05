@@ -5,7 +5,7 @@ require_once "common.php";
 
 $title = 'ログアウト';
 // アクセス警告メール
-// AlertAdmin('access', $title);
+AlertAdmin('access', $title);
 ?>
 <html lang="ja">
     <head>

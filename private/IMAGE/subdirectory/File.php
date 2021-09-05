@@ -1,5 +1,5 @@
 <?php
-use BasicTag\CustomTagCreate;
+use PrivateTag\CustomTagCreate;
 
 // require_once dirname(dirname(__DIR__)). '/common/Layout/init.php';
 require_once ('Page.php');
@@ -73,7 +73,8 @@ function CheckType(string $inputType, string $targetType = 'image') {
  *
  * @return void
  */
-function ImportImage() {
+function ImportImage()
+{
     $upFiles = PrivateSetting\Setting::GetFiles();
     $imageDir = PUBLIC_IMAGE_DIR;
 
@@ -136,7 +137,7 @@ function ImportImage() {
             continue;
         }
 
-        // 画像タイプの取得
+        // 画像ページタイプの取得
         $imagePageName = GetImagePageName();
 
         if (is_numeric($imgType)) {
@@ -159,7 +160,6 @@ function ImportImage() {
 
 
     return $result;
-
 }
 
 /**
@@ -168,7 +168,8 @@ function ImportImage() {
  *
  * @return void
  */
-function GetImagePageName() {
+function GetImagePageName()
+{
     // セッション開始
     if (!isset($session)) {
         $session = new PrivateSetting\Session();
@@ -181,7 +182,6 @@ if (empty($session->Judge('image-view-directory'))) {
     }
 
     return $imagePageName;
-
 }
 
 /**
@@ -190,8 +190,9 @@ if (empty($session->Judge('image-view-directory'))) {
  *
  * @return array
  */
-function LoadAllImageFile() {
-
+function LoadAllImageFile()
+{
+    // 現在選択している画像ページを取得
     $imagePageName = GetImagePageName();
 
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp'];
@@ -223,7 +224,8 @@ function LoadAllImageFile() {
  *
  * @return void
  */
-function TimeSort(&$data, $order = 'ASC') {
+function TimeSort(&$data, $order = 'ASC')
+{
 
     if (is_array($data) == false) {
         echo 'データは配列でなければいけません。';
@@ -261,13 +263,17 @@ function TimeSort(&$data, $order = 'ASC') {
  *
  * @return void
  */
-function ReadImage($readFlg = NOT_VIEW, $ajaxFlg = false) {
+function ReadImage($readFlg = NOT_VIEW, $ajaxFlg = false)
+{
 
-    // 現在選択している画像タイプを取得
+    // 現在選択している画像ページを取得
     $imagePageName = GetImagePageName();
 
     if ($readFlg === NOT_VIEW) {
-        echo '現在、画像の公開を停止しています。';
+        if ($ajaxFlg === false) {
+            Output('<p><a href="#update_page">一番下へ</a></p>');
+            echo '現在、画像の公開を停止しています。';
+        }
         return NOT_VIEW;
     } else {
         // アップロードされている画像データを読み込む
@@ -284,9 +290,10 @@ function ReadImage($readFlg = NOT_VIEW, $ajaxFlg = false) {
         TimeSort($sortAray);
 
         if ($ajaxFlg === true) {
-            return $sortAray;
+            return ShowImage($sortAray, IMAGE_URL, $ajaxFlg);
         } else {
             ShowImage($sortAray, IMAGE_URL);
+
         }
     }
 }
@@ -300,14 +307,22 @@ function ReadImage($readFlg = NOT_VIEW, $ajaxFlg = false) {
  *
  * @return void
  */
-function ShowImage($data, $imageUrl) {
+function ShowImage($data, $imageUrl, $ajaxFlg = false)
+{
 
     // 現在のページ番号の取得
     $page = GetPage();
 
     if ($page <= 0 || $page === false) {
-        ErrorSet('ページの指定が不正です。');
-        return false;
+        if ($ajaxFlg === false) {
+            Output('<p><a href="#update_page">一番下へ</a></p>');
+            Output("<div class='image-list'>");
+            ErrorSet('ページの指定が不正です。');
+            Output("</div>");
+            Output("<div class='image-pager'>");
+            Output("</div>");
+        }
+        return ['result' => false, 'view-image-type' => GetImagePageName()];
     } else {
         $start = ($page - 1) * GetCountPerPage();
     }
@@ -317,19 +332,49 @@ function ShowImage($data, $imageUrl) {
     }
 
     if ($start >= $end) {
-        ErrorSet('画像がありません。');
-
-        return false;
+        if ($ajaxFlg === false) {
+            Output('<p><a href="#update_page">一番下へ</a></p>');
+            Output("<div class='image-list'>");
+            ErrorSet('画像がありません。');
+            Output("</div>");
+            Output("<div class='image-pager'>");
+            Output("</div>");
+        }
+        return ['result' => false, 'view-image-type' => GetImagePageName()];
     }
 
-    Output('<p><a href="#update_page">一番下へ</a></p>');
+    if ($ajaxFlg === true) {
+        // 現在選択している画像ページを取得
+        $imagePageName = GetImagePageName();
+        $jsData = [];
 
-    for ($i = $start; $i < $end; $i++) {
-        $_file = $data[$i]['name'];
-        $_time = $data[$i]['time'];
-        ViewImage($_file, $imageUrl, $_time);
+        for ($i = $start; $i < $end; $i++) {
+            $jsData[$i]['name'] = $data[$i]['name'];
+            $jsData[$i]['time'] = date('Y/m/d H:i:s', $data[$i]['time']);
+        }
+
+        $jsData['view-image-type'] = $imagePageName;
+        $jsData['url'] = AddPath($imageUrl, $imagePageName, separator:'/');
+;
+        $jsData['pager'] = GetPagerForAjax($data);
+
+        return $jsData;
+    } else {
+        Output('<p><a href="#update_page">一番下へ</a></p>');
+
+        // jQueryで書き換えれるように要素を追加
+        Output("<div class='image-list'>");
+        for ($i = $start; $i < $end; $i++) {
+            $_file = $data[$i]['name'];
+            $_time = $data[$i]['time'];
+            ViewImage($_file, $imageUrl, $_time);
+        }
+        Output("</div>");
+
+        Output("<div class='image-pager'>");
+        ViewPager($data);
+        Output("</div>");
     }
-    ViewPager($data);
 }
 
 /**
@@ -340,7 +385,8 @@ function ShowImage($data, $imageUrl) {
  *
  * @return void
  */
-function ErrorSet($errMsg = ERROR_MESSAGE) {
+function ErrorSet($errMsg = ERROR_MESSAGE)
+{
     $prevLink = new CustomTagCreate();
     $prevLink->SetTag('div', $errMsg, 'warning', true);
     $prevLink->ExecTag(true);

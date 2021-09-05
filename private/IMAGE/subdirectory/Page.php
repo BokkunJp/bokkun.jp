@@ -90,6 +90,56 @@ function ViewPager($file) {
 }
 
 /**
+ * GetPagerForAjax
+ * ページャーのデータを取得する
+ *
+ * @param  mixed $file
+ *
+ * @return void
+ */
+function GetPagerForAjax($file)
+{
+    $htmlVal = '';
+    $nowPage = GetPage();
+    $pager = GetCountPerPage();
+    $minPage = MIN_PAGE_COUNT;
+    $maxPage = (int)ceil(count($file) / $pager);
+    if ($maxPage === 0) {
+        $maxPage = 1;
+    }
+
+    if ($nowPage === false || $nowPage > $maxPage) {
+        $page = 1;
+    } else {
+        $page = GetPage();
+    }
+
+    $pageHtml = new \PrivateTag\CustomTagCreate();
+
+    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= count($file); $_index += $pager, $_vindex++) {
+        $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
+        if ($pageValid === false) {
+            $pageHtml->SetTag('span', $_vindex . ' ', 'pager', true);
+            $htmlVal .= $pageHtml->ExecTag();
+        } elseif ($pageValid === true) {
+            $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
+            $htmlVal .= $pageHtml->ExecTag();
+        }
+
+        if ($pageValid === SPACE_ON && $_vindex !== $maxPage) {
+            $htmlVal .= '...';
+        } else {
+            $htmlVal .= ' ';
+        }
+    }
+    // 任意ページ番号入力フォーム
+    $htmlVal .= "<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ移動";
+
+    return $htmlVal;
+}
+
+
+/**
  * ValidateLoop
  * Pagenatorのページ数を表示するかを判定する
  *
@@ -125,7 +175,6 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
     return $valid;
 }
 
-function SetInputForm($minPage, $maxPage)
-{
+function SetInputForm($minPage, $maxPage) {
     print_r("<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ移動");
 }
