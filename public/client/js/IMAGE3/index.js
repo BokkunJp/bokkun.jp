@@ -14,8 +14,7 @@ function Main ()
     // ページ数に問題がある場合はエラーを出力し、送信を中止する。
     $( '.update_page' ).on( 'keypress', function ( e )
     {
-        var keycode = ( event.keyCode ? event.keyCode : event.which );
-        if ( keycode == '13' )
+        if ( e.key == 'Enter' )
         {
             var url = $( location ).attr( 'pathname' );
             var query = parseInt( $( '.update_page' ).val() );
