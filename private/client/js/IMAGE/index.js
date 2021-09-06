@@ -21,13 +21,11 @@ function Main() {
                 "type": $( this ).val(),
                 'select-token': $( 'input[name="select-token"]' ).val()
             };
-            console.log( url );
 
             var url = url.replace( /\?.*$/, "" );
-            var url = url.replace( /\#.*$/, "" );
-            console.log( url );
-            console.log( 'server.php' + query );
-            // 選択した画像ページの種類とトークンを渡して、そのページにある画像群(とタイムスタンプの配列)を取得
+            url = url.replace( /\#.*$/, "" );
+
+            // 選択した画像ページの種類とトークンを渡して、そのページにある画像群(とタイムスタンプから構成される配列)を取得
             AjaxMain( url, '/subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', ViewImage );
         }
     } );
@@ -61,13 +59,12 @@ function Main() {
 function ViewImage ( data )
 {
     $( '.view-image-type' ).html( data[ 'view-image-type' ] );
-    if (data['src-view']) {
+    if (data['src']) {
         htmlVal = '<div class="image - list"><br>\
-            <div class="warning" > 不正な操作を検知しました。再読み込みしてください。</div > <a href="./" class="page" target="_self">画像管理ページへ戻る</a></div >';
+            <div class="warning" > 不正な遷移です。もう一度操作してください。</div > <a href="./" class="page" target="_self">画像管理ページへ戻る</a></div >';
         $( '.image-list' ).html( htmlVal );
         $( '.image-pager' ).html( '' );
-    }
-    if (data['result'] == false) {
+    } else if (data['result'] == false) {
         htmlVal = '<div class="image - list"><br>\
             <div class="warning" > 画像がありません。</div > <a href="./" class="page" target="_self">画像管理ページへ戻る</a></div >';
         $( '.image-list' ).html( htmlVal );

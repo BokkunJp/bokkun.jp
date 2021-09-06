@@ -11,7 +11,7 @@ $checkToken = CheckToken('select-token');
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
 if ($checkToken === false) {
-    $data = ['src' => '', 'src-view' => '不正な操作を検知しました。再読み込みしてください。'];
+    $data = ['src' => true];
     $json = json_encode($data);
     echo $json;
     exit;
