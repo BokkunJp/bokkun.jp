@@ -4,7 +4,7 @@ namespace BasicTag;
 // クラス化
 class Base {
 
-    protected $authoritys;
+    protected $authorities;
 
     function __construct($init = true) {
         $this->Initialize($init);
@@ -16,17 +16,17 @@ class Base {
         } else {
             $initArray = [];
         }
-        unset($this->authoritys);
-        $this->authoritys = array();
+        unset($this->authorities);
+        $this->authorities = array();
         $this->AllowAuthoritys($initArray);
     }
 
-    protected function AllowAuthoritys($authoritys) {
-        if (!is_array($authoritys)) {
+    protected function AllowAuthoritys($authorities) {
+        if (!is_array($authorities)) {
             trigger_error("引数が不正です。", E_USER_ERROR);
         }
-        foreach ($authoritys as $value) {
-            $this->authoritys[] = $value;
+        foreach ($authorities as $value) {
+            $this->authorities[] = $value;
         }
     }
 
@@ -35,8 +35,8 @@ class Base {
     }
 
     protected function DenyAuthority($authority) {
-        $key = array_keys($this->authoritys, $authority);
-        $this->authoritys = array_splice($this->authoritys, $key, 1);
+        $key = array_keys($this->authorities, $authority);
+        $this->authorities = array_splice($this->authorities, $key, 1);
     }
 
     public function SetDefault() {
@@ -45,7 +45,7 @@ class Base {
 
     public function ViewAuthority($authorityName = null) {
         if (!isset($authorityName)) {
-            foreach ($this->authoritys as $value) {
+            foreach ($this->authorities as $value) {
                 var_dump("$value is true.");
             }
         } else {
@@ -56,7 +56,7 @@ class Base {
     // タグ名リスト生成
     public function CreateAuthorityList($notuseList) {
         $select = '<select>';
-        $authorityList = $this->authoritys;
+        $authorityList = $this->authorities;
         $notuse = array_search('script', $authorityList);
         if (isset($notuse)) {
             foreach ($notuseList as $notuse) {
@@ -90,7 +90,7 @@ class HTMLClass extends Base {
 
 
     // タグ名・内容・クラス名をセットする
-    public function SetTag($tagName = 'div', $contents = '', $className = '', $setClass = false, $tagOption = '') {
+    public function SetTag($tagName = 'div', $contents = '', $className = '', $tagOption = '') {
         $count = func_num_args();
         if ($count > 1) {
             $this->HTMLSet($tagName, $contents, $className);        // タグをHTML用のタグに置き換え
@@ -102,8 +102,7 @@ class HTMLClass extends Base {
             unset($tagName);
         }
 
-        $this->CreateTag($setClass, $tagOption);    // SetTagでセットした情報に沿ってHTMLを生成する
-        unset($setClass);
+        $this->CreateTag($tagOption);    // SetTagでセットした情報に沿ってHTMLを生成する
     }
 
     // HTMLの各要素をセットする
@@ -111,7 +110,7 @@ class HTMLClass extends Base {
         $this->tagName = $tagName;
 
         $tags = '';
-        foreach ($this->authoritys as $value) {
+        foreach ($this->authorities as $value) {
             $tags .= "<$value>";
         }
         if (is_string($contents)) {
@@ -128,31 +127,28 @@ class HTMLClass extends Base {
     }
 
     // タグ名などのメタデータに沿ってHTMLを生成する
-    protected function CreateTag($setClass = false, $tagOption = '') {
+    protected function CreateTag($tagOption = '') {
         // 開始タグと終了タグでタグ名が違うタグ(a hrefなど)のための特殊処理
         $tagAuth = $this->tagName;
-        foreach ($this->authoritys as $_authoritys) {
-            if (mb_strpos($_authoritys, ' ') !== false) {
-                if ($this->tagName === $_authoritys) {
+        foreach ($this->authorities as $_authorities) {
+            if (mb_strpos($_authorities, ' ') !== false) {
+                if ($this->tagName === $_authorities) {
                     $this->tagName .= '=' . $tagOption;
-                    $tagEnd = explode(' ', $_authoritys)[0];
+                    $tagEnd = explode(' ', $_authorities)[0];
                 }
             }
         }
 
-        if (array_search($tagAuth, $this->authoritys) === false) {
+        if (array_search($tagAuth, $this->authorities) === false) {
             trigger_error("タグ名が不正です。", E_USER_ERROR);
         }
 
-        if ($setClass === true) {
-            if (!isset($this->className)) {
-                $this->className = $this->tagName;
-            }
-            $class = " class='$this->className'";
+        if (!empty($this->className)) {
+            $class = "class='$this->className'";
         } else {
             $class = null;
         }
-        $this->tag = "<$this->tagName$class>$this->contents";
+        $this->tag = "<$this->tagName $class>$this->contents";
         // 開始タグと終了タグでタグ名が違う場合 (<a href>...</a>など)
         if (isset($tagEnd)) {
             $this->tagName = $tagEnd;
@@ -180,7 +176,7 @@ class HTMLClass extends Base {
     }
 
     // authoritry以外の内部変数を初期化する
-    function Clean($elm = null) {
+    public function Clean($elm = null) {
         // 初期化する変数の指定がある場合
         if (!is_null($elm)) {
             if (!is_array($elm)) {
@@ -197,7 +193,7 @@ class HTMLClass extends Base {
             // 初期化する変数の指定がない場合(authority以外の全変数初期化)
         } else {
             $elmList = get_object_vars($this);
-            unset($elmList['authoritys']);                  // authorityは除外
+            unset($elmList['authorities']);                  // authorityは除外
             foreach ($elmList as $_deleteList => $_value) {
                 $this->$_deleteList = null;
             }
@@ -213,8 +209,8 @@ class CustomTagCreate extends HTMLClass {
         parent::__construct($init, $initArray);
     }
 
-    protected function CreateClosedTag($tagName, $tagOption, $className, $setClass, $viewLink = false) {
-        parent::SetTag($tagName, null, $className, $setClass);
+    protected function CreateClosedTag($tagName, $tagOption, $className,  $viewLink = false) {
+        parent::SetTag($tagName, null, $className);
         $this->tag = substr_replace($this->tag, $tagOption . " />", strcspn($this->tag, '>', 0));
         return $this->ExecTag($viewLink);
     }
@@ -228,13 +224,13 @@ class CustomTagCreate extends HTMLClass {
     }
 
     private function CreateDiffTag($tagName, $link, $title = null, $class = '', $viewLink = false) {
-        $this->SetTag($tagName, $title, $class, true, $link);
+        $this->SetTag($tagName, $title, $class, $link);
         return $this->ExecTag($viewLink);
     }
 
     // img src
-    public function SetImage($link = '', $width = 400, $height = 400, $setClass = true, $class = '', $viewLink = false) {
-        return $this->CreateClosedTag("img", " src='$link' width=" . $width . "px height=" . $height . "px", $class, $setClass, $viewLink);
+    public function SetImage($link = '', $width = 400, $height = 400, $class = '', $viewLink = false) {
+        return $this->CreateClosedTag("img", " src='$link' width=" . $width . "px height=" . $height . "px", $class,  $viewLink);
     }
 
     // a href
@@ -316,7 +312,7 @@ function deb_dump($value, $htmlspecialcharFlg = true) {
         $value = htmlspecialchars($value);
     }
     $newSpan = new HTMLClass();
-    $newSpan->SetTag('span', $value, 'debug', true);
+    $newSpan->SetTag('span', $value, 'debug');
     $newSpan->ExecTag(true);
     echo '<br/>';
 }

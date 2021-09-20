@@ -215,7 +215,7 @@ function ShowImage($data, $imageUrl) {
  */
 function ErrorSet($errMsg = ERROR_MESSAGE) {
     $prevLink = new CustomTagCreate();
-    $prevLink->SetTag('div', $errMsg, 'warning', true);
+    $prevLink->SetTag('div', $errMsg, 'warning');
     $prevLink->ExecTag(true);
     $prevLink->SetHref("./", PUBLIC_PREVIOUS, 'page', true, '_self');
 

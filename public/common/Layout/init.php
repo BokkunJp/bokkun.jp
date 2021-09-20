@@ -16,7 +16,7 @@ if (isset($ua)) {
         default:
             break;
     }
-    
+
 }
 
 
@@ -53,7 +53,7 @@ $breadCrumbList = array_reverse($breadCrumbList);
 $breadCrumbList = $breadCrumbList;
 
 $arrow = new \PublicTag\HTMLClass(true);
-$arrow->SetTag('span', '->', 'arrow', true);
+$arrow->SetTag('span', '->', 'arrow');
 $arrow = $arrow->ExecTag();
 
 // 配列を順に出力する (パンくず出力用)

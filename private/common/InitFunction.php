@@ -210,5 +210,5 @@ function CopySubData($srcPath, $dstPath)
  */
 function GetNotDelFileList()
 {
-    return ['IMAGE'];
+    return NOT_DELETE_FILE_LIST;
 }

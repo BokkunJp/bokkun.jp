@@ -56,7 +56,7 @@ $breadCrumbList = $breadCrumbList_;
 unset($breadCrumbList_);
 
 $arrow = new \PublicTag\HTMLClass(true);
-$arrow->SetTag('span', '->', 'arrow', true);
+$arrow->SetTag('span', '->', 'arrow');
 $arrow = $arrow->ExecTag();
 
 // 配列を順に出力する (パンくず出力用)
