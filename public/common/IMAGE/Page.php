@@ -71,7 +71,7 @@ function ViewPager($file) {
     for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= count($file); $_index += $pager, $_vindex++) {
         $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
         if ($pageValid === false) {
-            $pageHtml->SetTag('span', $_vindex . ' ', 'pager', true);
+            $pageHtml->SetTag('span', $_vindex . ' ', 'pager');
             $pageHtml->ExecTag(true);
         } else if ($pageValid === true) {
             $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');

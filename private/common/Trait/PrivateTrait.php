@@ -173,6 +173,6 @@ trait PrivateTrait
      */
     private function GetNotDelFileList()
     {
-        return ['IMAGE'];
+        return NOT_DELETE_FILE_LIST;
     }
 }

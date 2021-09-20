@@ -51,5 +51,8 @@ define('DEFAULT_IMAGE', 'IMAGE');
 // デフォルトの可視フラグ
 define('DEFAULT_VIEW', VIEW);
 
+// 削除不可リスト
+define('NOT_DELETE_FILE_LIST', ['IMAGE']);
+
 // ログインパスワード
 define("LOGIN_PASSWORD", "bokkunAdmin777");

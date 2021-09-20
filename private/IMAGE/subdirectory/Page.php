@@ -108,12 +108,6 @@ function GetPagerForAjax($file)
         $maxPage = 1;
     }
 
-    if ($nowPage === false || $nowPage > $maxPage) {
-        $page = 1;
-    } else {
-        $page = GetPage();
-    }
-
     $pageHtml = new \PrivateTag\CustomTagCreate();
 
     for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= count($file); $_index += $pager, $_vindex++) {

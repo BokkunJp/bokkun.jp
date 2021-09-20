@@ -1,11 +1,5 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-//直接のページ遷移を阻止
-$request = isset($_SERVER['HTTP_X_REQUESTED_WITH']) ? strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) : '';
-if ($request === 'xmlhttprequest') {
-    var_dump($_POST);die;
-}
-
 // セッション開始
 if (!isset($session)) {
     $session = new PrivateSetting\Session();
