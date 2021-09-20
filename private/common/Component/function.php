@@ -1,23 +1,23 @@
 <?php
 // クラス化
 class Setting {
-    protected $authoritys;
-    
+    protected $authorities;
+
     function __construct() {
         $this->Initialize();
     }
 
     protected function Initialize() {
-        unset($this->authoritys);
-        $this->authoritys = array();
+        unset($this->authorities);
+        $this->authorities = array();
     }
-    
-    protected function DenyAuthoritys($authoritys) {
-        if (!is_array($authoritys)) {
+
+    protected function DenyAuthoritys($authorities) {
+        if (!is_array($authorities)) {
             trigger_error("引数が不正です。", E_USER_ERROR);
         }
-        foreach ($authoritys as $value) {
-            $this->authoritys[] = $value;
+        foreach ($authorities as $value) {
+            $this->authorities[] = $value;
         }
     }
 
@@ -26,35 +26,35 @@ class Setting {
     }
 
     protected function AllowAuthoritys($authority) {
-        $key = array_keys($this->authoritys, $authority);
-        $this->authoritys = array_splice($this->authoritys, $key, 1);
+        $key = array_keys($this->authorities, $authority);
+        $this->authorities = array_splice($this->authorities, $key, 1);
     }
-    
+
     protected function AllowAuthority($authority) {
-        $key = array_keys($this->authoritys, $authority);
-        $this->authoritys = array_splice($this->authoritys, $key, 1);
+        $key = array_keys($this->authorities, $authority);
+        $this->authorities = array_splice($this->authorities, $key, 1);
     }
-    
+
     public function SetDefault($authority) {
         $this->Initialize();
         $this->DenyAuthoritys($authority);
     }
-    
-    
+
+
     public function ViewAuthority($authorityName=null) {
         if (!isset($authorityName)) {
-            foreach ($this->authoritys as $value) {
+            foreach ($this->authorities as $value) {
                 var_dump("$value is true.");
             }
         } else {
             var_dump("$authorityName is true.");
         }
     }
-    
+
     // タグ名リスト生成
     public function CreateAuthorityList($notuseList) {
         $select = '<select>';
-        $authorityList = $this->authoritys;
+        $authorityList = $this->authorities;
         $notuse = array_search('script', $authorityList);
         if (isset($notuse)) {
             foreach ($notuseList as $notuse) {
@@ -68,9 +68,9 @@ class Setting {
             $select .= "<option>$value</option>";
         }
         $select .= '</select>';
-        
+
         return $select;
     }
-    
-    
+
+
 }
