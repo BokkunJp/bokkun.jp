@@ -172,7 +172,7 @@ if (isset($edit)) {
     if (!isset($notDelflg)) {
         $use->Alert("{$select}ページを削除しました。");
     } else {
-        $use->Alert("{$select}は削除できません。");
+        $use->Alert("{$select}ページは削除できません。");
     }
 }
 
