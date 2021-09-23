@@ -16,7 +16,7 @@ function Main ()
             return false;
         }
     } );
-    console.log( $( 'select[name="select"]' ) );
+
     $( 'select[name="select"]' ).on( 'change', function ()
     {
         var url = location.href;
