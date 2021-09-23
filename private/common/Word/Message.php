@@ -52,7 +52,7 @@ define('DEFAULT_IMAGE', 'IMAGE');
 define('DEFAULT_VIEW', VIEW);
 
 // 削除不可リスト
-define('NOT_DELETE_FILE_LIST', ['IMAGE']);
+define('NOT_DELETE_FILE_LIST', ['MAIL', 'IMAGE', 'CSV', 'QR', 'liDAR-WebGL', 'webGL']);
 
 // ログインパスワード
 define("LOGIN_PASSWORD", "bokkunAdmin777");

@@ -20,6 +20,7 @@ if ($checkToken === false) {
 foreach (NOT_DELETE_FILE_LIST as $_notDir) {
     if ($_notDir === $post['page']) {
         $data = true;
+        break;
     } else {
         $data = false;
     }
