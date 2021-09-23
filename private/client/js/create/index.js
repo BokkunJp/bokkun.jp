@@ -16,6 +16,36 @@ function Main ()
             return false;
         }
     } );
+    console.log( $( 'select[name="select"]' ) );
+    $( 'select[name="select"]' ).on( 'change', function ()
+    {
+        var url = location.href;
+        var query = location.search;
+        var value = {
+            "page": $( this ).val(),
+            'token': $( 'input[name="token"]' ).val()
+        };
+
+        var url = url.replace( /\?.*$/, "" );
+        url = url.replace( /\#.*$/, "" );
+
+        // 選択したページ名とトークンを渡して、そのページが削除不可かどうかの判定結果を取得
+        AjaxMain( url, '/subdirectory/ajax/', 'server.php' + query, 'POST', value, 'json', Result );
+    } );
+}
+
+function Result (data)
+{
+
+    if ( data )
+    {
+        // 削除不可のページの場合は削除ボタンを非活性に
+        $( 'button[name="delete"]' ).prop('disabled', true);
+    } else
+    {
+        // 削除可のページの場合は削除ボタンを活性に
+        $( 'button[name="delete"]' ).prop('disabled', false);
+    }
 }
 
 /*
