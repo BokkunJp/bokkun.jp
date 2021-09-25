@@ -17,12 +17,11 @@ if ($checkToken === false) {
 }
 
 // Post値の検証
+$data = false;
 foreach (NOT_DELETE_FILE_LIST as $_notDir) {
     if ($_notDir === $post['page']) {
         $data = true;
         break;
-    } else {
-        $data = false;
     }
 }
 
