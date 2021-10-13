@@ -22,15 +22,15 @@ function JudgeView($readFlg) {
  *
  * @return void
  */
-function ViewImage($imageName, $imageUrl, $fileTime) {
+function ViewImage($imageName, $imageUrl, $fileTime, $checked = false) {
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
 
-// 現在選択している画像タイプを取得
+    // 現在選択している画像タイプを取得
     $imagePageName = GetImagePageName();
 
     echo "<a href='$imageUrl/$imagePageName/$imageName' target='new'><img src='$imageUrl/$imagePageName/$imageName' title='$imageName' width=400px height=400px /></a>";
-    echo "<label><input type='checkbox' name='img_{$imageName}' value='$imageName' /><span>削除・コピーする</span></label> <br/>";
+    echo "<label><input type='checkbox' name='img_{$imageName}' value='$imageName' $checked /><span>削除・コピーする</span></label> <br/>";
     echo 'アップロード日時: ' . date('Y/m/d H:i:s', $fileTime) . '<br/><br/>';
 }
 
@@ -43,10 +43,10 @@ function ViewImage($imageName, $imageUrl, $fileTime) {
  *
  * @return void
  */
-function ViewList($imageName, $imageUrl) {
+function ViewList($imageName, $imageUrl, $checked = false) {
     // 現在選択している画像タイプを取得
     $imagePageName = GetImagePageName();
 
     echo "<div><a href='$imageUrl/$imagePageName/$imageName' target='new'>{$imageName}</a>";
-    echo "<label><input type='checkbox' name='$imageName' value='$imageName' /><span>削除・コピーする</span></label></div>";
+    echo "<label><input type='checkbox' name='img_{$imageName}' value='$imageName' $checked /><span>削除・コピーする</span></label></div>";
 }

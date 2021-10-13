@@ -69,29 +69,26 @@ if (!empty($mode) && $mode === 'edit') {
 
             // 対象ディレクトリがなし
             if (!empty($result['not-page'])) {
-                if (!empty($noticeWord)) {
-                    $noticeWord .= nl2br("\n");
-                }
-                $noticeWord .= "・". FILE_COPY_NOT_FAUND;
+                $noticeWord .= nl2br("\n"). "・". FILE_COPY_NOT_FAUND;
             }
 
             // 選択画像がなし
             if (!empty($result['no-select'])) {
-                if (!empty($noticeWord)) {
-                    $noticeWord .= nl2br("\n");
-                }
-                $noticeWord .= "・". FILE_COPY_EMPTY_LIST;
+                $noticeWord .= nl2br("\n"). "・". FILE_COPY_EMPTY_LIST;
             }
 
             // コピー処理エラー
             if (!empty($result['error']['count'])) {
-                if (!empty($noticeWord)) {
-                    $noticeWord .= nl2br("\n");
-                }
+                $noticeWord .= nl2br("\n");
                 define('FILE_ERR_CONST', "{$result['error']['count']}枚のファイル");
                 $noticeWord .= "・". FILE_ERR_CONST . FILE_FAIL_COPY;
             }
             $session->Write('notice', $noticeWord);
+
+            // チェックがある場合は、その状態をセッションへ保持
+            if (!empty($copyImgList)) {
+                $session->Write('checkImage', array_flip($copyImgList));
+            }
         }
         if (!empty($result['success']['count'])) {
             define('FILE_SUCCESS_CONST', "{$result['success']['count']}枚のファイル");

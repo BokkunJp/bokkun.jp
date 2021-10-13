@@ -363,13 +363,34 @@ function ShowImage($data, $imageUrl, $ajaxFlg = false)
     } else {
         Output('<p><a href="#update_page">一番下へ</a></p>');
 
+        // セッション開始
+        if (!isset($session)) {
+            $session = new PrivateSetting\Session();
+        }
+
         // jQueryで書き換えれるように要素を追加
         Output("<div class='image-list'>");
         for ($i = $start; $i < $end; $i++) {
             $_file = $data[$i]['name'];
             $_time = $data[$i]['time'];
-            ViewImage($_file, $imageUrl, $_time);
+
+            // コピーチェック用のセッションを使って、チェックの有無を判定
+            if ($session->Judge('checkImage') && isset($session->Read('checkImage')[$_file])) {
+                $checked = 'checked';
+            } else {
+                $checked = '';
+            }
+
+            // 画像を表示
+            ViewImage($_file, $imageUrl, $_time, $checked);
+            // ViewList($_file, $imageUrl, $checked);
         }
+
+        // コピーチェック用のセッションの削除
+        if ($session->Judge('checkImage')) {
+            $session->Delete('checkImage');
+        }
+
         Output("</div>");
 
         Output("<div class='image-pager'>");
