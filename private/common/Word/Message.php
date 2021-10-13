@@ -80,3 +80,8 @@ define('SUCCESS_COPY_IMAGE', "のコピーに成功しました。");
 define('FAIL_COPY_IMAGE_COUNT', 1);
 
 define('IMAGE_NAME_CHAR_SIZE', 8);
+
+define('IMAGE_COUNT_MAX', 50);
+define('IMAGE_COUNT_OVER', -1);
+
+define('IMAGE_COUNT_OVER_ERROR', (IMAGE_COUNT_MAX + 1)."枚以上の画像をアップロードすることはできません。処理を中断します。");

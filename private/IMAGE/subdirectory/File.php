@@ -42,7 +42,7 @@ function MoldFile($file, String $fileName)
 {
     $moldFiles = [];
 
-    // FILEが配列でない場合は中断
+    // ファイル変数が配列でない場合は中断
     if (!is_array($file)) {
         return false;
     }
@@ -100,8 +100,8 @@ function ImportImage($upFiles)
     $result['other']['count'] = 0;
 
     // ファイル数が規定の条件を超えた場合はアップロード中断
-    if (count($moldFiles) > FILE_COUNT_MAX) {
-        $result = FILE_COUNT_OVER;
+    if (count($moldFiles) > IMAGE_COUNT_MAX) {
+        $result = IMAGE_COUNT_OVER;
         return $result;
     }
 
@@ -488,7 +488,7 @@ function CopyImage($upFilesArray)
     }
 
     // ファイル数が規定の条件を超えたパターン
-    if (count($upFilesArray) > FILE_COUNT_MAX) {
+    if (count($upFilesArray) > IMAGE_COUNT_MAX) {
         $result['count-over']['count']  = FAIL_COPY_IMAGE_COUNT;
         return $result;
     }

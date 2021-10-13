@@ -34,13 +34,6 @@ define('SPACE_ON', 1);
 define('COUNT_START', 4);
 define('ERROR_MESSAGE', 'エラーが発生しました。');
 
-define('FILE_COUNT_MAX', 50);
-define('FILE_COUNT_OVER', -1);
-
-define('FILE_NONE', "ファイルが選択されていません。");
-
-define('FILE_COUNT_OVER_ERROR', (FILE_COUNT_MAX + 1)."枚以上の画像をアップロードすることはできません。処理を中断します。");
-
 // デバッグ表示エラー
 define(
     'DEBUG_MESSAGE_SOURCE',
