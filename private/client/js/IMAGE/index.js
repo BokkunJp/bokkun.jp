@@ -9,8 +9,6 @@
  */
 function Main() {
 
-    // 選択した内容を調整
-
    // 選択したページ数を判別し、問題なければページ遷移する。
     $( '.image-type' ).on( 'change', function ()
     {
@@ -54,6 +52,28 @@ function Main() {
             }
         }
     });
+
+    // 削除コピーボタンを押したときの処理
+    $( 'button[name="delete"]' ).on( 'click', function ()
+    {
+        if ( !confirm( '画像を削除しますか？' ) )
+        {
+            return false;
+        }
+    });
+
+    // 画像コピーボタンを押したときの処理
+    $( 'button[name="copy"]' ).on( 'click', function ()
+    {
+        var copy = prompt( '画像コピー先のページ名を入力してください。' );
+        while ( !copy )
+        {
+            alert( 'ページ名が入力されていません。' );
+            copy = prompt( 'コピー先のページを入力してください。' );
+        }
+        $( '.copy-image-name' ).val( copy );
+    } );
+
 }
 
 function ViewImage ( data )
@@ -79,7 +99,7 @@ function ViewImage ( data )
                 return false;
             }
 
-            htmlVal += "<a href='" + data[ 'url' ] + "/" + val[ 'name' ] + "' target='new'><img src='" + data[ 'url' ] + "/" + val[ 'name' ] + "' title='" + val[ 'name' ] + "' width=400px height=400px /></a><label><input type='checkbox' name='" + val[ 'name' ] + "' value='" + val[ 'name' ] + "' /><span>削除する</span></label> <br/>アップロード日時: " + val[ 'time' ] + "<br/>";
+            htmlVal += "<a href='" + data[ 'url' ] + val[ 'name' ] + "' target='new'><img src='" + data[ 'url' ] + val[ 'name' ] + "' title='" + val[ 'name' ] + "' width=400px height=400px /></a><label><input type='checkbox' name='" + "img_" + val[ 'name' ] + "' value='" + val[ 'name' ] + "' /><span>削除・コピーする</span></label> <br/>アップロード日時: " + val[ 'time' ] + "<br/>";
         } )
 
         $( '.image-list' ).html( htmlVal );

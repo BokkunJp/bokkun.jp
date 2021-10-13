@@ -25,7 +25,7 @@ class Setting extends \commonSetting\Setting {
         parent::__construct();
 
         // 基本設定
-        $this->private = AddPath('', 'private');
+        $this->private = AddPath('', 'private', separator:'/');
         $this->client = AddPath($this->private, 'client', true, '/');
 
 
@@ -36,7 +36,7 @@ class Setting extends \commonSetting\Setting {
         $this->csv = AddPath($this->client, 'csv', false, '/');
         $this->filepageImage = AddPath($this->public, 'image', false, '/');
     }
-    
+
     // URLのドメインを取得
     public static function GetDomain() {
         return parent::GetSERVER('HTTP_HOST');

@@ -23,7 +23,7 @@ define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 define('NOW_PAGE', basename(getcwd()));
 define('SECURITY_LENG', 32);
 
-// FILEページの文言
+// IMAGEページの文言
 define('VIEW', 1);
 define('NOT_VIEW', -1);
 
@@ -31,14 +31,16 @@ define('PAGER', 10);
 define('MAX_VIEW', 10);
 define('MIN_PAGE_COUNT', 1);
 define('SPACE_ON', 1);
-define('COUNT_START', 3);
+define('COUNT_START', 4);
 define('ERROR_MESSAGE', 'エラーが発生しました。');
 
 define('FILE_COUNT_MAX', 50);
 define('FILE_COUNT_OVER', -1);
 
 define('FILE_NONE', "ファイルが選択されていません。");
+
 define('FILE_COUNT_OVER_ERROR', (FILE_COUNT_MAX + 1)."枚以上の画像をアップロードすることはできません。処理を中断します。");
+
 // アップロード後の文言 (ファイル数の部分は処理時に定義)
 define('FILE_UPLOAD_FAIL', "のアップロードに失敗しました。");
 define('FILE_NO_MATCH_FAIL', "は、画像ファイルではないためアップロードできませんでした。");
@@ -47,6 +49,19 @@ define("FILE_OTHER_FAIL", "は、他の要因でファイルアップロード�
 
 define('FILE_UPLOAD_SUCCESS', "のアップロードに成功しました。");
 
+define('FILE_COPY_FAIL', "画像のコピーに失敗しました。");
+
+define('FILE_COPY_NOT_FAUND', "対象のディレクトリがありません。");
+
+define('FILE_COPY_EMPTY_LIST', "画像が選択されていません。");
+
+define('FILE_FAIL_COPY', "コピー処理に失敗しました。");
+
+define('FILE_COPY_SUCCESS', "のコピーに成功しました。");
+
+define('FILE_COPY_FAIL_COUNT', 1);
+
+define('IMAGE_NAME_CHAR_SIZE', 8);
 
 // デバッグ表示エラー
 define(

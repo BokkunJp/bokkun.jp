@@ -73,9 +73,8 @@ function CheckType(string $inputType, string $targetType = 'image') {
  *
  * @return void
  */
-function ImportImage()
+function ImportImage($upFiles)
 {
-    $upFiles = PrivateSetting\Setting::GetFiles();
     $imageDir = PUBLIC_IMAGE_DIR;
 
     // データ成型
@@ -133,6 +132,8 @@ function ImportImage()
                 case UPLOAD_ERR_EXTENSION:
                     $result['other']['count']++;
                 break;
+                default:
+                break;
             }
             continue;
         }
@@ -166,7 +167,7 @@ function ImportImage()
  * SetImageType
  * 画像ページの種類を取得する
  *
- * @return void
+ * @return string
  */
 function GetImagePageName()
 {
@@ -424,4 +425,74 @@ function DeleteImage() {
         }
     }
     return true;
+}
+
+/**
+ * CopyImage
+ *画像をコピーする
+ *
+ * @param  mixed $upFilesArray
+ *
+ * @return void|array
+ */
+function CopyImage($upFilesArray)
+{
+    $copyImageName = \PrivateSetting\Setting::GetPost('copy-image-name');
+
+    // コピー結果
+    $result = [];
+
+
+    $defaultValid = ValidateData(PUBLIC_IMAGE_DIR, $copyImageName);
+    if ($defaultValid === false) {
+        // // 指定した画像ページがないパターン
+        $result['not-page']['count'] = FILE_COPY_FAIL_COUNT;
+        return $result;
+    }
+
+    // コピー元のファイル名
+    $srcImageName = GetImagePageName();
+
+    // 成功パターン
+    $result['success'] = [];
+    $result['success']['count'] = 0;
+    // 失敗パターン
+    $result['error'] = [];
+    $result['error']['count'] = 0;
+
+    // 画像が選択されていないパターン
+    if (empty($upFilesArray)) {
+        $result['no-select']['count']  = FILE_COPY_FAIL_COUNT;
+        return $result;
+    }
+
+    // ファイル数が規定の条件を超えたパターン
+    if (count($upFilesArray) > FILE_COUNT_MAX) {
+        $result['count-over']['count']  = FILE_COPY_FAIL_COUNT;
+        return $result;
+    }
+
+    // ファイル先とファイル元が同じ名称のパターン
+    if ($srcImageName === $copyImageName) {
+        $copyFilesArray = $upFilesArray;
+        foreach ($copyFilesArray as $_key => $_file) {
+            $tmpFileName = explode('.', $_file);
+            $copyFilesArray[$_key] = $tmpFileName[0]. '_'. CreateRandom(IMAGE_NAME_CHAR_SIZE). '.'. $tmpFileName[1];
+        }
+    } else {
+        $copyFilesArray = $upFilesArray;
+    }
+    // 各ファイル名にディレクトリパスを付与
+    $srcImageName = AddPath(PUBLIC_IMAGE_DIR, $srcImageName);
+    $copyImageName = AddPath(PUBLIC_IMAGE_DIR, $copyImageName);
+
+    foreach ($upFilesArray as $_key => $_upFileName) {
+        if (copy(AddPath($srcImageName, $_upFileName, false), AddPath($copyImageName, $copyFilesArray[$_key], false))) {
+            $result['success']['count']++;
+        } else {
+            $result['error']['count']++;
+        }
+    }
+
+    return $result;
 }

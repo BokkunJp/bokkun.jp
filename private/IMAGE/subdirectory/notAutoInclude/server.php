@@ -15,7 +15,8 @@ if (!isset($session)) {
 }
 
 $mode = PrivateSetting\Setting::GetQuery('mode');
-if (!empty($mode) && $mode === 'del') {
+
+if (!empty($mode) && $mode === 'edit') {
     // view-tokenチェック
     $checkToken = CheckToken('view-token');
     // 不正tokenの場合は、エラーを出力して処理を中断。
@@ -27,18 +28,83 @@ if (!empty($mode) && $mode === 'del') {
     }
 
     $count = 0;
-    foreach (PrivateSetting\Setting::getPosts() as $post_key => $post_value) {
-        $count++;
-    }
-    if ($count > COUNT_START) {
-        DeleteImage();
+    $posts = PrivateSetting\Setting::getPosts();
+
+    if (isset($posts['delete'])) {
+        // 削除の場合
+        foreach (PrivateSetting\Setting::getPosts() as $post_key => $post_value) {
+            $count++;
+        }
+        if ($count > COUNT_START) {
+            DeleteImage();
+        } else {
+            $session->Write('notice', '削除対象が選択されていないか、画像がありません。', 'Delete');
+        }
+        if (!$session->Judge('notice')) {
+            $session->Write('success', ($count - COUNT_START) . '件の画像の削除に成功しました。', 'Delete');
+        }
+    } else if (isset($posts['copy'])) {
+        // コピーの場合
+        // 選択したファイルをリスト化
+        $copyImgList = [];
+        foreach ($posts as $_key => $_post) {
+            if (preg_match('/^img_(.*)$/', $_key)) {
+                $copyImgList[] = $_post;
+            }
+        }
+
+        $result = CopyImage($copyImgList);
+
+        $failCount = 0;
+        foreach ($result as $_key => $_r) {
+            if ($_key === "success" || !isset($_r['count']) || $_r['count'] === 0) {
+                continue;
+            }
+            $failCount += $_r['count'];
+        }
+
+        if (!empty($failCount)) {
+            // ファイルコピー失敗
+            $noticeWord = FILE_COPY_FAIL;
+
+            // 対象ディレクトリがなし
+            if (!empty($result['not-page'])) {
+                if (!empty($noticeWord)) {
+                    $noticeWord .= nl2br("\n");
+                }
+                $noticeWord .= "・". FILE_COPY_NOT_FAUND;
+            }
+
+            // 選択画像がなし
+            if (!empty($result['no-select'])) {
+                if (!empty($noticeWord)) {
+                    $noticeWord .= nl2br("\n");
+                }
+                $noticeWord .= "・". FILE_COPY_EMPTY_LIST;
+            }
+
+            // コピー処理エラー
+            if (!empty($result['error']['count'])) {
+                if (!empty($noticeWord)) {
+                    $noticeWord .= nl2br("\n");
+                }
+                define('FILE_ERR_CONST', "{$result['error']['count']}枚のファイル");
+                $noticeWord .= "・". FILE_ERR_CONST . FILE_FAIL_COPY;
+            }
+            $session->Write('notice', $noticeWord);
+        }
+        if (!empty($result['success']['count'])) {
+            define('FILE_SUCCESS_CONST', "{$result['success']['count']}枚のファイル");
+            $session->Write('success', FILE_SUCCESS_CONST . FILE_COPY_SUCCESS);
+        }
     } else {
-        $session->Write('notice', '削除対象が選択されていないか、画像がありません。', 'Delete');
+        // 削除・複製以外の場合(不正値)
+        $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $url = new PrivateSetting\Setting();
+        header('Location:' . $url->GetUrl($str));
+        exit;
     }
-    if (!$session->Judge('notice')) {
-        $session->Write('success', ($count - COUNT_START) . '件の画像の削除に成功しました。', 'Delete');
-    }
-    } else {
+} else {
     // upload-tokenチェック
     $checkToken = CheckToken('upload-token');
     // 不正tokenの場合は、エラーを出力して処理を中断。
@@ -49,7 +115,7 @@ if (!empty($mode) && $mode === 'del') {
         exit;
     }
 
-/** @var array ファイルアップロード結果
+    /** @var array ファイルアップロード結果
     */
     $result = ImportImage($files);
 

@@ -67,12 +67,8 @@ function FindFileName($str)
  *
  * @return bool
  */
-function ValidateData(String $dirPath, $select)
+function ValidateData(String $dirPath, String $select)
 {
-    // 名称が空
-    if (empty($select) || !is_string($select)) {
-        return null;
-    }
     $dirArray = scandir($dirPath);
     $filipDirArray = array_flip($dirArray);
 

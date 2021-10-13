@@ -91,7 +91,7 @@ $tokenList = [];
   </form>
 <?php endif;?>
 
-<form class='pageForm' action="./subdirectory/notAutoInclude/server.php?mode=del<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>
+<form class='pageForm' action="./subdirectory/notAutoInclude/server.php?mode=edit<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>
   <?php
     ReadImage($readFlg);
   ?>
@@ -99,6 +99,8 @@ $tokenList = [];
     <input type='hidden' name='view-token' value="<?= $tokenList['view-token'] = MakeToken() ?>" />
     <p>
       <button type='submit' name='delete'>チェックした画像を削除する</button>
+      <button type='submit' name='copy'>チェックした画像をコピーする</button>
+      <input type='hidden' class='copy-image-name' name='copy-image-name' />
     </p>
   <?php endif;?>
 </form>
