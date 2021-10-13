@@ -7,6 +7,8 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . DIRECTORY_SEPARATOR .
 require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/common/Setting.php';
 // 定数・固定文言など
 require_once AddPath(AddPath(dirname(dirname(dirname(dirname(__DIR__)))), "/common/Word", false), "Message.php", false);
+// タグ
+require_once AddPath(PRIVATE_COMPONENT_DIR, "Tag.php", false);
 // ヘッダーフッター
 require_once AddPath(AddPath(DOCUMENT_ROOT, "common"), "Config.php", false);
 // UA

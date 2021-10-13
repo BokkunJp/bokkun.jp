@@ -6,7 +6,7 @@ require_once dirname(__DIR__, 3) . DS . "common" . DS . "ajax-require.php";
 require_once AddPath(getcwd(), 'include.php', false);
 
 // tokenチェック
-$checkToken = CheckToken('token');
+$checkToken = CheckToken();
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
 if ($checkToken === false) {

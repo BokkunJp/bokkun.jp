@@ -3,7 +3,6 @@ require_once __DIR__ . '/component/require.php';
 require_once dirname(__DIR__) . '/File.php';
 $files = PrivateSetting\Setting::GetFiles();
 
-
 // ページ数取得
 $page = PrivateSetting\Setting::GetQuery('page');
 $str = 'private/IMAGE';
