@@ -56,3 +56,27 @@ define('NOT_DELETE_FILE_LIST', ['MAIL', 'IMAGE', 'CSV', 'QR', 'liDAR-WebGL', 'we
 
 // ログインパスワード
 define("LOGIN_PASSWORD", "bokkunAdmin777");
+
+// 画像アップロード要の文言 (ファイル数の部分は処理時に定義)
+define('FAIL_UPLOAD_IMAGE', "のアップロードに失敗しました。");
+
+define('NOT_MATCH_IMAGE', "は、画像ファイルではないためアップロードできませんでした。");
+
+define('EMPTY_IMAGE_SIZE', "は、画像のファイルサイズが0バイトのためアップロードできませんでした。");
+
+define('SUCCESS_UPLOAD_IMAGE', "のアップロードに成功しました。");
+
+// 画像コピー用の文言 (ファイル数の部分は処理時に定義)
+define('FAIL_COPY_IMAGE', "画像のコピーに失敗しました。");
+
+define('NOT_FAUND_COPY_DIRECTORY', "対象のディレクトリがありません。");
+
+define('NOT_SELECT_IMAGE', "画像が選択されていません。");
+
+define('FAIL_COPYING_IMAGE', "コピー処理に失敗しました。");
+
+define('SUCCESS_COPY_IMAGE', "のコピーに成功しました。");
+
+define('FAIL_COPY_IMAGE_COUNT', 1);
+
+define('IMAGE_NAME_CHAR_SIZE', 8);

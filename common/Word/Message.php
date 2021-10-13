@@ -41,28 +41,6 @@ define('FILE_NONE', "ファイルが選択されていません。");
 
 define('FILE_COUNT_OVER_ERROR', (FILE_COUNT_MAX + 1)."枚以上の画像をアップロードすることはできません。処理を中断します。");
 
-// アップロード後の文言 (ファイル数の部分は処理時に定義)
-define('FILE_UPLOAD_FAIL', "のアップロードに失敗しました。");
-define('FILE_NO_MATCH_FAIL', "は、画像ファイルではないためアップロードできませんでした。");
-define('FILE_SIZE_FAIL', "は、ファイルサイズが0バイトのためアップロードできませんでした。");
-define("FILE_OTHER_FAIL", "は、他の要因でファイルアップロードできませんでした。");
-
-define('FILE_UPLOAD_SUCCESS', "のアップロードに成功しました。");
-
-define('FILE_COPY_FAIL', "画像のコピーに失敗しました。");
-
-define('FILE_COPY_NOT_FAUND', "対象のディレクトリがありません。");
-
-define('FILE_COPY_EMPTY_LIST', "画像が選択されていません。");
-
-define('FILE_FAIL_COPY', "コピー処理に失敗しました。");
-
-define('FILE_COPY_SUCCESS', "のコピーに成功しました。");
-
-define('FILE_COPY_FAIL_COUNT', 1);
-
-define('IMAGE_NAME_CHAR_SIZE', 8);
-
 // デバッグ表示エラー
 define(
     'DEBUG_MESSAGE_SOURCE',

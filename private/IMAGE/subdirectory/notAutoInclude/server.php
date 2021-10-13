@@ -65,23 +65,23 @@ if (!empty($mode) && $mode === 'edit') {
 
         if (!empty($failCount)) {
             // ファイルコピー失敗
-            $noticeWord = FILE_COPY_FAIL;
+            $noticeWord = FAIL_COPY_IMAGE;
 
             // 対象ディレクトリがなし
             if (!empty($result['not-page'])) {
-                $noticeWord .= nl2br("\n"). "・". FILE_COPY_NOT_FAUND;
+                $noticeWord .= nl2br("\n"). "・". NOT_FAUND_COPY_DIRECTORY;
             }
 
             // 選択画像がなし
             if (!empty($result['no-select'])) {
-                $noticeWord .= nl2br("\n"). "・". FILE_COPY_EMPTY_LIST;
+                $noticeWord .= nl2br("\n"). "・". NOT_SELECT_IMAGE;
             }
 
             // コピー処理エラー
             if (!empty($result['error']['count'])) {
                 $noticeWord .= nl2br("\n");
                 define('FILE_ERR_CONST', "{$result['error']['count']}枚のファイル");
-                $noticeWord .= "・". FILE_ERR_CONST . FILE_FAIL_COPY;
+                $noticeWord .= "・". FILE_ERR_CONST . FAIL_COPYING_IMAGE;
             }
             $session->Write('notice', $noticeWord);
 
@@ -92,7 +92,7 @@ if (!empty($mode) && $mode === 'edit') {
         }
         if (!empty($result['success']['count'])) {
             define('FILE_SUCCESS_CONST', "{$result['success']['count']}枚のファイル");
-            $session->Write('success', FILE_SUCCESS_CONST . FILE_COPY_SUCCESS);
+            $session->Write('success', FILE_SUCCESS_CONST . SUCCESS_COPY_IMAGE);
         }
     } else {
         // 削除・複製以外の場合(不正値)
@@ -143,14 +143,14 @@ if (!empty($mode) && $mode === 'edit') {
         if (!empty($failCount)) {
             $noticeWord = "";
                 define('FILE_FAIL_CONST', "{$failCount}枚のファイル");
-                $noticeWord .= FILE_FAIL_CONST . FILE_UPLOAD_FAIL;
+                $noticeWord .= FILE_FAIL_CONST . FAIL_UPLOAD_IMAGE;
 
                 if (!empty($result['-1']['count'])) {
                 if (!empty($noticeWord)) {
                     $noticeWord .= nl2br("\n");
                 }
                 define('FILE_ERR_CONST', "{$result['-1']['count']}枚のファイル");
-                $noticeWord .= "・". FILE_ERR_CONST . FILE_NO_MATCH_FAIL;
+                $noticeWord .= "・". FILE_ERR_CONST . NOT_MATCH_IMAGE;
             }
 
             if (!empty($result['size']['count'])) {
@@ -158,7 +158,7 @@ if (!empty($mode) && $mode === 'edit') {
                     $noticeWord .= nl2br("\n");
                 }
                 define('FILE_SIZE_CONST', "{$result['size']['count']}枚のファイル");
-                $noticeWord .= "・". FILE_SIZE_CONST . FILE_SIZE_FAIL;
+                $noticeWord .= "・". FILE_SIZE_CONST . EMPTY_IMAGE_SIZE;
             }
 
             $session->Write('notice', $noticeWord);
@@ -166,7 +166,7 @@ if (!empty($mode) && $mode === 'edit') {
         }
         if (!empty($result['success']['count'])) {
             define('FILE_SUCCESS_CONST', "{$result['success']['count']}枚のファイル");
-            $session->Write('success', FILE_SUCCESS_CONST . FILE_UPLOAD_SUCCESS);
+            $session->Write('success', FILE_SUCCESS_CONST . SUCCESS_UPLOAD_IMAGE);
         }
     }
 }

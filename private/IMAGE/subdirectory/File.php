@@ -467,7 +467,7 @@ function CopyImage($upFilesArray)
     $defaultValid = ValidateData(PUBLIC_IMAGE_DIR, $copyImageName);
     if ($defaultValid === false) {
         // // 指定した画像ページがないパターン
-        $result['not-page']['count'] = FILE_COPY_FAIL_COUNT;
+        $result['not-page']['count'] = FAIL_COPY_IMAGE_COUNT;
         return $result;
     }
 
@@ -483,13 +483,13 @@ function CopyImage($upFilesArray)
 
     // 画像が選択されていないパターン
     if (empty($upFilesArray)) {
-        $result['no-select']['count']  = FILE_COPY_FAIL_COUNT;
+        $result['no-select']['count']  = FAIL_COPY_IMAGE_COUNT;
         return $result;
     }
 
     // ファイル数が規定の条件を超えたパターン
     if (count($upFilesArray) > FILE_COUNT_MAX) {
-        $result['count-over']['count']  = FILE_COPY_FAIL_COUNT;
+        $result['count-over']['count']  = FAIL_COPY_IMAGE_COUNT;
         return $result;
     }
 
