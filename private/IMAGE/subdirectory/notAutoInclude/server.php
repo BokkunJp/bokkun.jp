@@ -118,9 +118,9 @@ if (!empty($mode) && $mode === 'edit') {
     // ファイルがアップロードされなかった場合
     if (empty($result['success'])) {
         if (empty($result)) {
-            $session->Write('notice', FILE_NONE);
-        } else if ($result == FILE_COUNT_OVER) {
-            $session->Write('notice', FILE_COUNT_OVER_ERROR);
+            $session->Write('notice', NOT_SELECT_IMAGE);
+        } else if ($result == IMAGE_COUNT_OVER) {
+            $session->Write('notice', IMAGE_COUNT_OVER_ERROR);
         } else {
             // 1枚以上アップロードに成功したファイルがあった場合
             // 一度も発生しなかった結果パターンを除外
