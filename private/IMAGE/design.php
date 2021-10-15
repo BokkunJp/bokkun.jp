@@ -56,53 +56,52 @@ $tokenList = [];
     <input type='hidden' name='select-token' value="<?= $tokenList['select-token'] = MakeToken() ?>" />
 </form>
 <form method='POST' action='./'>
-  公開設定
-  公開<input type='radio' name='image-view-require' id='image-view' value="<?= VIEW ?>" />
-  非公開<input type='radio' name='image-view-require' id='image-not-view' value="<?= NOT_VIEW ?>" />
+    公開設定
+    公開<input type='radio' name='image-view-require' id='image-view' value="<?= VIEW ?>" />
+    非公開<input type='radio' name='image-view-require' id='image-not-view' value="<?= NOT_VIEW ?>" />
 
-  <input type='submit' value='設定する' />
+    <input type='submit' value='設定する' />
 </form>
 <?php if ($readFlg === VIEW) :?>
-  <div class='view-image'>
-    <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
-      <select name='image-value'>
-        <?php
-        for ($i = 1; $i <= MAX_VIEW; $i++) {
-          $_val = $i * PAGER;
-          echo "<option value={$_val}>" . $_val . "</option>";
-        }
-        ?>
-      </select>
-      <span><button value='editView'>表示枚数の変更</button></span>
-      <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
-    </form>
-  </div>
-  <form enctype="multipart/form-data" action="./subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>" method='POST'>
+    <div class='view-image'>
+        <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
+            <select name='image-value'>
+            <?php
+                for ($i = 1; $i <= MAX_VIEW; $i++) {
+                    $_val = $i * PAGER;
+                    echo "<option value={$_val}>" . $_val . "</option>";
+                }
+            ?>
+            </select>
+            <span><button value='editView'>表示枚数の変更</button></span>
+            <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
+        </form>
+    </div>
+<form enctype="multipart/form-data" action="./subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>" method='POST'>
     <input type='hidden' name='upload-token' value="<?= $tokenList['upload-token'] = MakeToken() ?>" />
     <input type='file' name='all-files[]' multiple /> <button type='submit' class='fileButton'>送信</button>
     <span>
-      <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
-      <div class='notice'><?= $session->OnlyView('notice'); ?></div>
-      <div class='warning'><?= $session->OnlyView('warning'); ?></div>
-      <div class='success'><?= $session->OnlyView('success'); ?></div>
-
-      <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
+        <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
+        <div class='notice'><?= $session->OnlyView('notice'); ?></div>
+        <div class='warning'><?= $session->OnlyView('warning'); ?></div>
+        <div class='success'><?= $session->OnlyView('success'); ?></div>
+        <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
     </span>
-  </form>
+</form>
 <?php endif;?>
 
 <form class='pageForm' action="./subdirectory/notAutoInclude/server.php?mode=edit<?= $page !== null ? "&page={$page}" : "" ?>" method='POST'>
-  <?php
-    ReadImage($readFlg);
-  ?>
-  <?php if ($readFlg === VIEW) :?>
-    <input type='hidden' name='view-token' value="<?= $tokenList['view-token'] = MakeToken() ?>" />
-    <p>
-      <button type='submit' name='delete'>チェックした画像を削除する</button>
-      <button type='submit' name='copy'>チェックした画像をコピーする</button>
-      <input type='hidden' class='copy-image-name' name='copy-image-name' />
-    </p>
-  <?php endif;?>
+    <?php
+        ReadImage($readFlg);
+    ?>
+    <?php if ($readFlg === VIEW) :?>
+        <input type='hidden' name='view-token' value="<?= $tokenList['view-token'] = MakeToken() ?>" />
+        <p>
+            <button type='submit' name='delete'>チェックした画像を削除する</button>
+            <button type='submit' name='copy'>チェックした画像をコピーする</button>
+            <input type='hidden' class='copy-image-name' name='copy-image-name' />
+        </p>
+    <?php endif;?>
 </form>
 <?php
 foreach ($tokenList as $_key => $_token) {

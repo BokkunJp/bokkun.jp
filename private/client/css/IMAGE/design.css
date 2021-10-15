@@ -9,6 +9,10 @@ body {
     }
 }
 
+.all-check-label {
+    user-select: none;
+}
+
 .success {
     font-size: small;
     font-style: italic;
