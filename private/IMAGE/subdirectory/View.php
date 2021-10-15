@@ -30,7 +30,7 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false) {
     $imagePageName = GetImagePageName();
 
     echo "<a href='$imageUrl/$imagePageName/$imageName' target='new'><img src='$imageUrl/$imagePageName/$imageName' title='$imageName' width=400px height=400px /></a>";
-    echo "<label><input type='checkbox' name='img_{$imageName}' value='$imageName' $checked /><span>削除・コピーする</span></label> <br/>";
+    echo "<label><input type='checkbox' class='image-check' name='img_{$imageName}' value='$imageName' $checked /><span>削除・コピーする</span></label> <br/>";
     echo 'アップロード日時: ' . date('Y/m/d H:i:s', $fileTime) . '<br/><br/>';
 }
 
@@ -48,5 +48,5 @@ function ViewList($imageName, $imageUrl, $checked = false) {
     $imagePageName = GetImagePageName();
 
     echo "<div><a href='$imageUrl/$imagePageName/$imageName' target='new'>{$imageName}</a>";
-    echo "<label><input type='checkbox' name='img_{$imageName}' value='$imageName' $checked /><span>削除・コピーする</span></label></div>";
+    echo "<label><input type='checkbox' class='image-check' name='img_{$imageName}' value='$imageName' $checked /><span>削除・コピーする</span></label></div>";
 }

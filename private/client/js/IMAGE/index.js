@@ -9,7 +9,7 @@
  */
 function Main() {
 
-   // 選択したページ数を判別し、問題なければページ遷移する。
+   // 選択したページ数を判別し、問題なければページ遷ar移する。
     $( '.image-type' ).on( 'change', function ()
     {
         if ( $( this ).val() != '---' ) {
@@ -27,6 +27,37 @@ function Main() {
             AjaxMain( url, '/subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', ViewImage );
         }
     } );
+
+    // 全体チェックのチェックボックスにチェックが入ったら、各画像のチェックボックスにチェックを入れる(または外す)
+    $( '.all-check-box' ).on( 'click', function ()
+    {
+        checkFlg = AllCheck( $( '.image-list' ).find( "input[type='checkbox']" ) );
+        if (!checkFlg)
+        {
+            $( '.all-check-label' ).children( 'span' ).html( 'すべてのチェックを外す' );
+            $( '.image-list' ).find( "input[type='checkbox']" ).prop( 'checked', true );
+        } else
+        {
+            $( '.all-check-label' ).children( 'span' ).html( 'すべてチェックする' );
+            $( '.image-list' ).find( "input[type='checkbox']" ).prop( 'checked', false );
+        }
+
+        allCehck = $( '.all-check-box' ).prop( "checked", false );
+    } );
+
+    function AllCheck ( elm )
+    {
+        ret = true;
+        $.each( elm, function ( index, val )
+        {
+            if ( val.checked == false )
+            {
+                ret = false;
+                return false;
+            }
+        } );
+        return ret;
+    }
 
    // ページ数に問題がある場合はエラーを出力し、送信を中止する。
     $( '.update_page' ).on( 'keypress', function ( e )
@@ -51,7 +82,21 @@ function Main() {
                 $('.pageForm').submit();
             }
         }
-    });
+    } );
+
+    // 画像横の各チェックボックスが押されたときの処理
+    $( '.image-check' ).on( 'click', function ()
+    {
+        checkFlg = AllCheck( $( '.image-list' ).find( "input[type='checkbox']" ) );
+        if ( !checkFlg )
+        {
+            $( '.all-check-label' ).children( 'span' ).html( 'すべてチェックする' );
+        } else
+        {
+            $( '.all-check-label' ).children( 'span' ).html( 'すべてのチェックを外す' );
+        }
+
+    } );
 
     // 削除コピーボタンを押したときの処理
     $( 'button[name="delete"]' ).on( 'click', function ()

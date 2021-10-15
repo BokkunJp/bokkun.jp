@@ -15,7 +15,7 @@ cake/webroot/.htaccess
 cake/vendor/
 public/client/csv/CSV/*
 public/client/csv/product01/*
-public/client/image/IMAGE/*
+public/client/image/*
 private/create/subdirectory/templates_c/*
 private/edit/subdirectory/templates_c/*
 private/log/error/subdirectory/templates_c/*

@@ -317,6 +317,7 @@ function ShowImage($data, $imageUrl, $ajaxFlg = false)
     if ($page <= 0 || $page === false) {
         if ($ajaxFlg === false) {
             Output('<p><a href="#update_page">一番下へ</a></p>');
+            Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>");
             Output("<div class='image-list'>");
             ErrorSet('ページの指定が不正です。');
             Output("</div>");
@@ -362,6 +363,7 @@ function ShowImage($data, $imageUrl, $ajaxFlg = false)
         return $jsData;
     } else {
         Output('<p><a href="#update_page">一番下へ</a></p>');
+        Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>");
 
         // セッション開始
         if (!isset($session)) {
