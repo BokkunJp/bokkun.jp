@@ -33,4 +33,3 @@ define('PUBLIC_COMPONENT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Component', false));
 define('PUBLIC_LAYOUT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Layout', false));
 // 画像閲覧ページ
 define('PUBLIC_PREVIOUS', '画像閲覧ページへ戻る');
-define('DEFAULT_VIEW', VIEW);

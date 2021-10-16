@@ -10,11 +10,6 @@ $page = PublicSetting\Setting::GetQuery('page');
 
 // 更新用ページに関する処理
 $updatePage = PublicSetting\Setting::GetPost('update_page');
-
-if (isset($updatePage) && is_numeric($updatePage)) {
-    echo "{$updatePage}ページに移動しました。";
-}
-
 ?>
 <div class='view-image'>
     <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
@@ -28,6 +23,11 @@ if (isset($updatePage) && is_numeric($updatePage)) {
         </select>
         <span><button value='editView'>表示枚数の変更</button></span>
         <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
+        <?php
+            if (isset($updatePage) && is_numeric($updatePage)) {
+                echo "<div>{$updatePage}ページに移動しました。</div>";
+            }
+        ?>
     </form>
 </div>
 
