@@ -2,8 +2,8 @@
 use BasicTag\CustomTagCreate;
 
 // require_once dirname(dirname(__DIR__)). '/common/Layout/init.php';
-require_once ('Page.php');
-require_once ('View.php');
+require_once('Page.php');
+require_once('View.php');
 
 /**
  * FileExif
@@ -67,7 +67,7 @@ function LoadAllImageFile() {
 
     $imageDirName = basename(getcwd());
 
-     $imgSrc = [];
+    $imgSrc = [];
     foreach ($imgArray as $_index) {
         $imgSrc[mb_strtolower($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . "/{$imageDirName}/", mb_strtolower($_index), true);
         $imgSrc[mb_strtoupper($_index)] = IncludeFiles(PUBLIC_IMAGE_DIR . "/{$imageDirName}/", mb_strtoupper($_index), true);
@@ -97,7 +97,6 @@ function LoadAllImageFile() {
  * @return void
  */
 function TimeSort(&$data, $order = 'ASC') {
-
     if (is_array($data) == false) {
         echo 'データは配列でなければいけません。';
         return -1;
@@ -135,30 +134,25 @@ function TimeSort(&$data, $order = 'ASC') {
  *
  * @return void
  */
-function ReadImage($read_flg = NOT_VIEW) {
-    if ($read_flg === NOT_VIEW) {
-        echo '現在、画像の公開を停止しています。';
-        return NOT_VIEW;
-    } else {
-        // アップロードされている画像データを読み込む
-        $fileList = LoadAllImageFile();
+function ReadImage() {
+    // アップロードされている画像データを読み込む
+    $fileList = LoadAllImageFile();
 
-        // ソート用にデータを調整
-        $sortAray = array();
-        $imageDirName = basename(getcwd());
-        foreach ($fileList as $index => $_file) {
-            $sortAray[$index]['name'] = $_file;
-            $sortAray[$index]['time'] = filemtime(PUBLIC_IMAGE_DIR . "/{$imageDirName}/" . $_file);
-        }
-
-        // 画像投稿日時の昇順にソート
-        TimeSort($sortAray);
-
-        // ソートした順に画像を表示
-        $imageUrl = IMAGE_URL;
-
-        ShowImage($sortAray, $imageUrl);
+    // ソート用にデータを調整
+    $sortAray = array();
+    $imageDirName = basename(getcwd());
+    foreach ($fileList as $index => $_file) {
+        $sortAray[$index]['name'] = $_file;
+        $sortAray[$index]['time'] = filemtime(PUBLIC_IMAGE_DIR . "/{$imageDirName}/" . $_file);
     }
+
+    // 画像投稿日時の昇順にソート
+    TimeSort($sortAray);
+
+    // ソートした順に画像を表示
+    $imageUrl = IMAGE_URL;
+
+    ShowImage($sortAray, $imageUrl);
 }
 
 /**
@@ -197,7 +191,6 @@ function ShowImage($data, $imageUrl) {
         $_file = $data[$i]['name'];
         $_time = $data[$i]['time'];
         ViewImage($_file, $imageUrl, $_time);
-
     }
     Output("</ul>", false, false);
     Output("</div>", false, false);
@@ -218,5 +211,4 @@ function ErrorSet($errMsg = ERROR_MESSAGE) {
     $prevLink->SetTag('div', $errMsg, 'warning', true);
     $prevLink->ExecTag(true);
     $prevLink->SetHref("./", PUBLIC_PREVIOUS, 'page', true, '_self');
-
 }

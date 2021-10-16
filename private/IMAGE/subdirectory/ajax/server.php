@@ -41,6 +41,6 @@ if (!empty($post['type'])) {
 }
 
 // 画像群を取得して、フロント処理側に返却
-$img = ReadImage(VIEW, true);
+$img = ReadImage(ajaxFlg:true);
 $json = json_encode($img);
 echo $json;

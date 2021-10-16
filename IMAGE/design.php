@@ -19,34 +19,29 @@ if (isset($updatePage) && is_numeric($updatePage)) {
 }
 
 ?>
-<?php if ($readFlg === VIEW) :?>
-  <div class='view-image'>
-    <form
+<div class='view-image'>
     <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
-      <select name='image-value'>
-        <?php
-        for ($i = 1; $i <= MAX_VIEW; $i++) {
-          $_val = $i * PAGER;
-          echo "<option value={$_val}>" . $_val . "</option>";
-        }
-        ?>
-      </select>
-      <span><button value='editView'>表示枚数の変更</button></span>
+        <select name='image-value'>
+            <?php
+            for ($i = 1; $i <= MAX_VIEW; $i++) {
+                $_val = $i * PAGER;
+                echo "<option value={$_val}>" . $_val . "</option>";
+            }
+            ?>
+        </select>
+        <span><button value='editView'>表示枚数の変更</button></span>
         <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
     </form>
-  </div>
-<?php endif;?>
+</div>
 
-  <form class='pageForm' method="POST">
-  <?php
-  ReadImage($readFlg);
-  ?>
-  <?php if ($readFlg === VIEW) :?>
+<form class='pageForm' method="POST">
+    <?php
+        ReadImage();
+    ?>
     <input type='hidden' name='token' value="<?= $token = MakeToken(); ?>" />
-  <?php endif;?>
 </form>
 
 <?php
 if (isset($token)) {
-  SetToken($token);
+    SetToken($token);
 }
