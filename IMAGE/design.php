@@ -6,16 +6,6 @@ require_once AddPath(AddPath(PUBLIC_COMMON_DIR, "IMAGE"), 'File.php', false);
 // セッション開始
 if (!isset($session)) {
     $session = new PublicSetting\Session();
-    // 表示フラグ
-    if (!empty($session->Judge('image-view-require'))) {
-        $readFlg = $session->Read('image-view-require');
-    } else {
-    // 表示フラグをデフォルトに
-    $readFlg = DEFAULT_VIEW;
-    }
-} else {
-    // 表示フラグをデフォルトに
-    $readFlg = DEFAULT_VIEW;
 }
 
 // ページ数取得
