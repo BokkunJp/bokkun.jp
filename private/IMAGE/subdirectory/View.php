@@ -3,19 +3,6 @@
  * ViewImage
  * 画像を表示する
  *
- * @param void
- *
- * @return void
- */
-function JudgeView($readFlg) {
-    $sess = new PrivateSetting\Session();
-    $sess->Read('read_flg');
-}
-
-/**
- * ViewImage
- * 画像を表示する
- *
  * @param  string $imageName
  * @param  string $imageUrl
  * @param  mixed $fileTime

@@ -264,19 +264,12 @@ function TimeSort(&$data, $order = 'ASC')
  *
  * @return void
  */
-function ReadImage($readFlg = NOT_VIEW, $ajaxFlg = false)
+function ReadImage($ajaxFlg = false)
 {
 
     // 現在選択している画像ページを取得
     $imagePageName = GetImagePageName();
 
-    if ($readFlg === NOT_VIEW) {
-        if ($ajaxFlg === false) {
-            Output('<p><a href="#update_page">一番下へ</a></p>');
-            echo '現在、画像の公開を停止しています。';
-        }
-        return NOT_VIEW;
-    } else {
         // アップロードされている画像データを読み込む
         $fileList = LoadAllImageFile();
 
@@ -296,7 +289,6 @@ function ReadImage($readFlg = NOT_VIEW, $ajaxFlg = false)
             ShowImage($sortAray, IMAGE_URL);
 
         }
-    }
 }
 
 /**
