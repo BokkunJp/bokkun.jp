@@ -41,7 +41,7 @@ $mode = 'movePage';
 
 </html>
 <?php
-if (!empty($post)) {
+if (!empty($post) && !empty($post['id']) && !empty($post['pass'])) {
     $adminAuth = ($post['id'] === 'admin' && password_verify($post['pass'], password_hash(LOGIN_PASSWORD, PASSWORD_DEFAULT)));
 } else {
     $adminAuth = null;
@@ -63,6 +63,10 @@ if ($moveURL[2] === 'secure.php' || $moveURL[2] === 'reset.php') {
 $movePage = implode('/', $moveURL);
 
 $session->WriteArray('admin', 'movePage', $url . $movePage);
+
+if (!isset($adminSession['movePage'])) {
+    $adminSession['movePage'] = $session->Read('admin')['movePage'];
+}
 
 if ((!($adminAuth))) {
     if (!empty($post)) {
