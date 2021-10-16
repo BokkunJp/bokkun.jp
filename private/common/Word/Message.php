@@ -48,9 +48,6 @@ define('PUBLIC_IMAGE_DIR', AddPath(AddPath(DOCUMENT_ROOT, 'public'), AddPath('cl
 // デフォルトの画像ページ
 define('DEFAULT_IMAGE', 'IMAGE');
 
-// デフォルトの可視フラグ
-define('DEFAULT_VIEW', VIEW);
-
 // 削除不可リスト
 define('NOT_DELETE_FILE_LIST', ['MAIL', 'IMAGE', 'CSV', 'QR', 'liDAR-WebGL', 'webGL']);
 

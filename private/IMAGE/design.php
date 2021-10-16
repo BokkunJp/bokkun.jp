@@ -5,14 +5,6 @@ if (!isset($session)) {
     $session = new PrivateSetting\Session();
 }
 
-// 表示フラグをもとに、表示・非表示の判定
-if (!empty($session->Judge('image-view-require'))) {
-    $readFlg = $session->Read('image-view-require');
-} else {
-    // 表示フラグをデフォルトに
-    $readFlg = DEFAULT_VIEW;
-}
-
 // ページ数取得
 $page = PrivateSetting\Setting::GetQuery('page');
 
