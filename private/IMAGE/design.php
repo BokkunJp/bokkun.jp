@@ -5,13 +5,6 @@ if (!isset($session)) {
     $session = new PrivateSetting\Session();
 }
 
-// 表示フラグの更新
-$sessionReadFlg = (int)PrivateSetting\Setting::GetPost('image-view-require');
-
-if (isset($sessionReadFlg) && $sessionReadFlg) {
-    $session->Write('image-view-require', $sessionReadFlg);
-}
-
 // 表示フラグをもとに、表示・非表示の判定
 if (!empty($session->Judge('image-view-require'))) {
     $readFlg = $session->Read('image-view-require');
@@ -54,13 +47,6 @@ $tokenList = [];
     </select>
     ： <span class='view-image-type'><?=GetImagePageName()?></span>
     <input type='hidden' name='select-token' value="<?= $tokenList['select-token'] = MakeToken() ?>" />
-</form>
-<form method='POST' action='./'>
-    公開設定
-    公開<input type='radio' name='image-view-require' id='image-view' value="<?= VIEW ?>" />
-    非公開<input type='radio' name='image-view-require' id='image-not-view' value="<?= NOT_VIEW ?>" />
-
-    <input type='submit' value='設定する' />
 </form>
 <?php if ($readFlg === VIEW) :?>
     <div class='view-image'>
