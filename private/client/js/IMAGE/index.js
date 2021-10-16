@@ -177,6 +177,34 @@ function ViewImage ( data )
         $( '.image-list' ).html( htmlVal );
         $( '.image-pager' ).html( data[ 'pager' ] );
     }
+
+    // 移動ボタンを押したときの処理
+    $( 'button[name="move"]' ).on( 'click', function ()
+    {
+        var url = $( location ).attr( 'pathname' );
+        var query = parseInt( $( '.update_page' ).val() );
+        var min = parseInt( $( '.update_page' ).attr( 'min' ) );
+        var max = parseInt( $( '.update_page' ).attr( 'max' ) );
+        var sendUrl = url + "?page=" + query;
+        if ( !$.isNumeric( query ) )
+        {
+            alert( 'ページの指定が不正です。' );
+            return false;
+        } else if ( query < min )
+        {
+            alert( min + 'ページ以上のページ番号を指定してください。' );
+            return false;
+        } else if ( query > max )
+        {
+            alert( max + 'ページ以下のページ番号を指定してください。' );
+            return false;
+        } else
+        {
+            $( '.pageForm' ).attr( 'action', sendUrl );
+            $( '.pageForm' ).submit();
+        }
+    } );
+
 }
 
 /*
