@@ -127,7 +127,7 @@ function GetPagerForAjax($file)
         }
     }
     // 任意ページ番号入力フォーム
-    $htmlVal .= "<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ移動";
+    $htmlVal .= "<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button>";
 
     return $htmlVal;
 }
@@ -170,5 +170,5 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
 }
 
 function SetInputForm($minPage, $maxPage) {
-    print_r("<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ移動");
+    print_r("<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button>");
 }
