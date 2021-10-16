@@ -11,10 +11,6 @@ $page = PrivateSetting\Setting::GetQuery('page');
 // 更新用ページに関する処理
 $updatePage = PrivateSetting\Setting::GetPost('update_page');
 
-if (isset($updatePage) && is_numeric($updatePage)) {
-    echo "{$updatePage}ページに移動しました。";
-}
-
 // imageディレクトリ内のディレクトリリストを取得
 $imgDirList = ['---'];
 foreach (scandir(PUBLIC_IMAGE_DIR) as $_list) {
@@ -62,6 +58,11 @@ $tokenList = [];
         <div class='notice'><?= $session->OnlyView('notice'); ?></div>
         <div class='warning'><?= $session->OnlyView('warning'); ?></div>
         <div class='success'><?= $session->OnlyView('success'); ?></div>
+        <?php
+            if (isset($updatePage) && is_numeric($updatePage)) {
+                echo "<div>{$updatePage}ページに移動しました。</div>";
+            }
+        ?>
         <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
     </span>
 </form>
