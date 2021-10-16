@@ -72,6 +72,13 @@ body {
     top: 0px;
 }
 
+.page-moved {
+    font-style: oblique;
+    color: rgb(185, 125, 125);
+    font-family: Times New Roman,
+        "ＭＳ Ｐゴシック";
+}
+
 .success {
     font-size: small;
     font-style: italic;

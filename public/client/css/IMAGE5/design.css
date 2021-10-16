@@ -59,9 +59,9 @@ body {
 
 .page-moved {
     font-style: oblique;
-    color: rgb(128, 0, 0);
+    color: rgb(0, 128, 107);
     font-family: Times New Roman,
-    "ＭＳ Ｐゴシック";
+        "ＭＳ Ｐゴシック";
 }
 
 .success {
