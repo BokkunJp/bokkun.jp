@@ -308,13 +308,11 @@ function ShowImage($data, $imageUrl, $ajaxFlg = false)
 
     if ($page <= 0 || $page === false) {
         if ($ajaxFlg === false) {
-            Output('<p><a href="#update_page">一番下へ</a></p>');
-            Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>");
-            Output("<div class='image-list'>");
+            Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+            Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
+            Output("<div class='image-list'>", indentFlg:false);
             ErrorSet('ページの指定が不正です。');
-            Output("</div>");
-            Output("<div class='image-pager'>");
-            Output("</div>");
+            Output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         return ['result' => false, 'view-image-type' => GetImagePageName()];
     } else {
@@ -327,12 +325,11 @@ function ShowImage($data, $imageUrl, $ajaxFlg = false)
 
     if ($start >= $end) {
         if ($ajaxFlg === false) {
-            Output('<p><a href="#update_page">一番下へ</a></p>');
-            Output("<div class='image-list'>");
+            Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+            Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
+            Output("<div class='image-list'>", indentFlg:false);
             ErrorSet('画像がありません。');
-            Output("</div>");
-            Output("<div class='image-pager'>");
-            Output("</div>");
+            Output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         return ['result' => false, 'view-image-type' => GetImagePageName()];
     }
@@ -354,8 +351,8 @@ function ShowImage($data, $imageUrl, $ajaxFlg = false)
 
         return $jsData;
     } else {
-        Output('<p><a href="#update_page">一番下へ</a></p>');
-        Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>");
+        Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+        Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
 
         // セッション開始
         if (!isset($session)) {
@@ -363,7 +360,7 @@ function ShowImage($data, $imageUrl, $ajaxFlg = false)
         }
 
         // jQueryで書き換えれるように要素を追加
-        Output("<div class='image-list'>");
+        Output("<div class='image-list'>", indentFlg:false);
         for ($i = $start; $i < $end; $i++) {
             $_file = $data[$i]['name'];
             $_time = $data[$i]['time'];
@@ -385,11 +382,11 @@ function ShowImage($data, $imageUrl, $ajaxFlg = false)
             $session->Delete('checkImage');
         }
 
-        Output("</div>");
+        Output("</div>", indentFlg:false);
 
-        Output("<div class='image-pager'>");
+        Output("<div class='image-pager'>", indentFlg:false);
         ViewPager($data);
-        Output("</div>");
+        Output("</div>", indentFlg:false);
     }
 }
 
