@@ -1,5 +1,5 @@
- // DOM読み込み
- $(function() {
+// 全体読み込み (画像まで読み込んでから実行)
+$(window).on('load', function() {
     Main(); // JQueryによるメイン処理
 });
 
@@ -9,15 +9,16 @@
  */
 function Main() {
 
-   // 選択したページ数を判別し、問題なければページ遷ar移する。
+   // 選択したページ数を判別し、問題なければページ遷移する。
     $( '.image-type' ).on( 'change', function ()
     {
-        if ( $( this ).val() != '---' ) {
+        if ( $( this ).val() != '---' )
+        {
             var url = location.href;
             var query = location.search;
             var selectValue = {
                 "type": $( this ).val(),
-                'select-token': $( 'input[name="select-token"]' ).val()
+                'select-token': $( 'input[name="select-token"]' ).val(),
             };
 
             var url = url.replace( /\?.*$/, "" );
@@ -125,7 +126,7 @@ function Main() {
         }
     } );
 
-    // 削除コピーボタンを押したときの処理
+    // 画像削除ボタンを押したときの処理
     $( 'button[name="delete"]' ).on( 'click', function ()
     {
         if ( !confirm( '画像を削除しますか？' ) )
@@ -150,6 +151,15 @@ function Main() {
 
 function ViewImage ( data )
 {
+    // チェックの保持
+    var checkFind = $( '.image-list' ).find( "input[type='checkbox']" );
+    var checkIndexList = [];
+
+    checkFind.each( function ( index, val )
+    {
+        checkIndexList[ index ] = $( val ).prop( 'checked' );
+    } );
+
     $( '.view-image-type' ).html( data[ 'view-image-type' ] );
     if (data['src']) {
         htmlVal = '<div class="image - list"><br>\
@@ -171,7 +181,14 @@ function ViewImage ( data )
                 return false;
             }
 
-            htmlVal += "<a href='" + data[ 'url' ] + val[ 'name' ] + "' target='new'><img src='" + data[ 'url' ] + val[ 'name' ] + "' title='" + val[ 'name' ] + "' width=400px height=400px /></a><label><input type='checkbox' name='" + "img_" + val[ 'name' ] + "' value='" + val[ 'name' ] + "' /><span>削除・コピーする</span></label> <br/>アップロード日時: " + val[ 'time' ] + "<br/>";
+            htmlVal += "<a href='" + data[ 'url' ] + val[ 'name' ] + "' target='new'><img src='" + data[ 'url' ] + val[ 'name' ] + "' title='" + val[ 'name' ] + "' width=400px height=400px /></a><label><input type='checkbox' name='" + "img_" + val[ 'name' ] + "' value='" + val[ 'name' ] + "'";
+
+            if ( checkIndexList[ index ] )
+            {
+                htmlVal += " checked";
+            }
+
+            htmlVal += " /><span>削除・コピーする</span></label> <br/>アップロード日時: " + val[ 'time' ] + "<br/>";
         } )
 
         $( '.image-list' ).html( htmlVal );
@@ -205,6 +222,18 @@ function ViewImage ( data )
         }
     } );
 
+
+    // 改めて全チェック・全チェック解除の判定を行う
+    $( '.all-check-label' ).children( 'span' ).html( 'すべてのチェックを外す' );
+
+    $.each( checkIndexList, function ( index, val )
+    {
+        if ( !val )
+        {
+            $( '.all-check-label' ).children( 'span' ).html( 'すべてチェックする' );
+            return false;
+        }
+    } );
 }
 
 /*
@@ -224,4 +253,8 @@ function ViewImage ( data )
 onload = function() {
 //    Main();     // メイン処理
 }
+ // DOM読み込み
+ $(function() {
+//    Main();     // メイン処理
+ }
  */
