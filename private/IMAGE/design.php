@@ -60,7 +60,7 @@ $tokenList = [];
         <div class='success'><?= $session->OnlyView('success'); ?></div>
         <?php
             if (isset($updatePage) && is_numeric($updatePage)) {
-                echo "<div>{$updatePage}ページに移動しました。</div>";
+                echo "<div class='page-moved'>{$updatePage}ページに移動しました。</div>";
             }
         ?>
         <!-- <input type='checkbox' name='deb_flg' value=1 /> デバッグモード -->
