@@ -154,21 +154,24 @@ function ViewImage ( data )
     // チェックの保持
     var checkFind = $( '.image-list' ).find( "input[type='checkbox']" );
     var checkIndexList = [];
-
+    var page = GetParam( 'page' );
     checkFind.each( function ( index, val )
     {
+        if ( page ) {
+            index += ( page - 1 ) * 10;
+        }
         checkIndexList[ index ] = $( val ).prop( 'checked' );
     } );
 
     $( '.view-image-type' ).html( data[ 'view-image-type' ] );
     if (data['src']) {
-        htmlVal = '<div class="image - list"><br>\
-            <div class="warning" > 不正な遷移です。もう一度操作してください。</div > <a href="./" class="page" target="_self">画像管理ページへ戻る</a></div >';
+        htmlVal = '<div class="image-list">\
+            <div class="warning">不正な遷移です。もう一度操作してください。</div><a href="./" class="page" target="_self">画像管理ページへ戻る</a></div>';
         $( '.image-list' ).html( htmlVal );
         $( '.image-pager' ).html( '' );
     } else if (data['result'] == false) {
-        htmlVal = '<div class="image - list"><br>\
-            <div class="warning" > 画像がありません。</div > <a href="./" class="page" target="_self">画像管理ページへ戻る</a></div >';
+        htmlVal = '<div class="image-list">\
+            <div class="warning">画像がありません。</div><a href="./" class="page" target="_self">画像管理ページへ戻る</a></div>';
         $( '.image-list' ).html( htmlVal );
         $( '.image-pager' ).html('');
     } else {
@@ -181,7 +184,7 @@ function ViewImage ( data )
                 return false;
             }
 
-            htmlVal += "<a href='" + data[ 'url' ] + val[ 'name' ] + "' target='new'><img src='" + data[ 'url' ] + val[ 'name' ] + "' title='" + val[ 'name' ] + "' width=400px height=400px /></a><label><input type='checkbox' name='" + "img_" + val[ 'name' ] + "' value='" + val[ 'name' ] + "'";
+            htmlVal += "<a href='" + data[ 'url' ] + val[ 'name' ] + "' target='new'><img src='" + data[ 'url' ] + val[ 'name' ] + "' title='" + val[ 'name' ] + "' width=400px height=400px /></a><label><input type='checkbox' class='image-check' name='" + "img_" + val[ 'name' ] + "' value='" + val[ 'name' ] + "'";
 
             if ( checkIndexList[ index ] )
             {
@@ -226,14 +229,53 @@ function ViewImage ( data )
     // 改めて全チェック・全チェック解除の判定を行う
     $( '.all-check-label' ).children( 'span' ).html( 'すべてのチェックを外す' );
 
+    var loop = false;
     $.each( checkIndexList, function ( index, val )
     {
+        if ( loop === false )
+        {
+            loop = true;
+        }
+
         if ( !val )
         {
             $( '.all-check-label' ).children( 'span' ).html( 'すべてチェックする' );
             return false;
         }
     } );
+
+    if ( loop === false )
+    {
+        $( '.all-check-label' ).children( 'span' ).html( 'すべてチェックする' );
+    }
+
+    function AllCheck ( elm )
+    {
+        ret = true;
+        $.each( elm, function ( index, val )
+        {
+            if ( val.checked == false )
+            {
+                ret = false;
+                return false;
+            }
+        } );
+        return ret;
+    }
+
+    // 画像横の各チェックボックスが押されたときの処理
+    $( '.image-check' ).on( 'click', function ()
+    {
+        checkFlg = AllCheck( $( '.image-list' ).find( "input[type='checkbox']" ) );
+        if ( !checkFlg )
+        {
+            $( '.all-check-label' ).children( 'span' ).html( 'すべてチェックする' );
+        } else
+        {
+            $( '.all-check-label' ).children( 'span' ).html( 'すべてのチェックを外す' );
+        }
+    } );
+
 }
 
 /*
