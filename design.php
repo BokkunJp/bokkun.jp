@@ -39,7 +39,7 @@ function SetToken() {
   </ul>
   <ol>
     <?php
-    $notList = ['.', '..', '.htaccess', 'client', 'common', 'template', 'template_base', 'custom', 'custom_base', 'public', 'laravel', 'cg', 'cake', 'private'];
+    $notList = ['.', '..', '.htaccess', 'client', 'common', 'template', 'template_base', 'custom', 'custom_base', 'public', 'cake', 'private', 'php.yml'];
     $dirList = scandir(__DIR__ . '/');
     $notList = AddList($notList, $dirList, '.', 1);
     $notList = AddList($notList, $dirList, '_', 1);
@@ -60,12 +60,11 @@ function SetToken() {
       '.', '..', 'cell', 'element', 'email', 'Error', 'layout',
       'Pages'
     ];
-    $dirList = scandir(dirname(__DIR__) . '/cake.bokkun.jp/Templates');
+    $dirList = scandir(dirname(__DIR__) . '/cake.bokkun.jp/templates');
     $notList = AddList($notList, $dirList, '_', 1);
-
     foreach ($dirList as $index => $_dir) {
       if (!in_array($_dir, $notList)) {
-        echo "<li><a href=\"../cake.bokkun.jp/{$_dir}/\" target=\"_blank\">$_dir</a></li>";
+        echo "<li><a href=\"https://cake.{$domain}/{$_dir}/\" target=\"_blank\">$_dir</a></li>";
       }
     }
     ?>
