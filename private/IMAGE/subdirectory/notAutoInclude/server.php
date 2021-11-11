@@ -160,6 +160,14 @@ if (!empty($mode) && $mode === 'edit') {
                 $noticeWord .= "・". FILE_SIZE_CONST . EMPTY_IMAGE_SIZE;
             }
 
+            if (!empty($result['illegal']['count'])) {
+                if (!empty($noticeWord)) {
+                    $noticeWord .= nl2br("\n");
+                }
+                define('FILE_ILLEGAL_CONST', "{$result['illegal']['count']}枚のファイル");
+                $noticeWord .= "・". FILE_ILLEGAL_CONST . ILLEGAL_UPLOAD_IMAGE;
+            }
+
             $session->Write('notice', $noticeWord);
 
         }

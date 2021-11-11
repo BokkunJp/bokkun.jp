@@ -59,6 +59,8 @@ define('FAIL_UPLOAD_IMAGE', "のアップロードに失敗しました。");
 
 define('NOT_MATCH_IMAGE', "は、画像ファイルではないためアップロードできませんでした。");
 
+define('ILLEGAL_UPLOAD_IMAGE', "は、不正な方法でのアップロードのため、アップロードを取り消しました。");
+
 define('EMPTY_IMAGE_SIZE', "は、画像のファイルサイズが0バイトのためアップロードできませんでした。");
 
 define('SUCCESS_UPLOAD_IMAGE', "のアップロードに成功しました。");

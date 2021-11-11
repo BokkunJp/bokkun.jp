@@ -91,10 +91,11 @@ function ImportImage($upFiles)
     // ファイルサイズが0バイトのパターン
     $result['size'] = [];
     $result['size']['count'] = 0;
+    // 不正アップロードされたパターン
+    $result['illegal'] = [];
+    $result['illegal']['count'] = 0;
     // ファイルがない
     // $result['no-file'] = [];
-    // tmpディレクトリがない
-    // $result['tmp'] = [];
     // ファイルアップロード失敗パターン
     $result['other'] = [];
     $result['other']['count'] = 0;
@@ -117,6 +118,12 @@ function ImportImage($upFiles)
         // アップロードされたファイルのTypeが画像用のものか調べる
         if (!CheckType($_files['type'])) {
             $result['-1']['count']++;
+            continue;
+        }
+
+        // 不正経路でのアップロードの場合はエラー
+        if (!is_uploaded_file($_files['tmp_name'])) {
+            $result['illegal']['count']++;
             continue;
         }
 
