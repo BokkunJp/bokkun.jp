@@ -9,7 +9,7 @@ class UA {
         $this->setAgent();
     }
     public function SetAgent() {
-        if (!isset($this->ua)) {
+        if (!isset($this->ua) && isset($_SERVER['HTTP_USER_AGENT'])) {
             $this->ua = $_SERVER['HTTP_USER_AGENT'];
         }
     }
