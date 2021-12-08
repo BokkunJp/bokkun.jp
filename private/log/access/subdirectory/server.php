@@ -14,55 +14,39 @@ $dirPath = AddPath($dirPath, 'log');
 
 $srcName = $set->GetPost('select_log');
 
-$accCode=null;
-if ($srcName === '---') {
-    $accCode=1;
-} else if ($srcName === false) {
-    $accCode = 2;
+$errCode=null;
+
+$result = ValidateData($dirPath, $srcName);
+
+
+ if ($srcName === '---') {
+    $errCode = 1;
+} else if ($result === false) {
+    $errCode = 2;
 }
 
-if ($srcName === false) {
-    switch ($srcName) {
-        case 1:
-            $contents = 'バージョンまたはファイルを選択してください。';
-            $data = ['log-view' => nl2br(htmlentities($contents))];
-            $jsonData = json_encode($data); // データをJSON形式にエンコードする
-            break;
-        case 2:
-            $contents = 'バージョンまたはファイルの選択が不正です。';
-            $data = ['log-view' => nl2br(htmlentities($contents))];
-            $jsonData = json_encode($data); // データをJSON形式にエンコードする
-            break;
-        default:
-            // 添え字がないので添え字を振り直し
-            $verObj = scandir($dirPath);
-            $verObj = array_values($verObj);
-            $jsonData = json_encode($verObj);
-        break;
+if (!$errCode) {
+     $srcFile = AddPath($dirPath, $srcName, false);
+    if (file_exists($srcFile)) {
+        $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
+    } else {
+        // ファイルの取得に失敗
+        $contents = 'ログファイルの取得に失敗しました。';
     }
-
-    echo $jsonData;
 } else {
-    $srcFile = AddPath($dirPath, $srcName, false);
-
-    switch ($accCode) {
+    // エラーパターン
+    switch ($errCode) {
         case 1:
-            $contents = 'バージョンまたはファイルを選択してください。';
+            $contents = 'ログファイルを選択してください。';
         break;
-            case 2:
-            $contents = 'バージョンまたはファイルの選択が不正です。';
-        break;
+        case 2:
+            $contents = 'ログファイルの選択が不正です。';
         default:
-            if (file_exists($srcFile)) {
-                $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
-            } else {
-                $contents = 'ファイルが存在しません。';
-            }
         break;
     }
-
-    $data = ['log-view'=> nl2br(htmlentities($contents))];
-    $json = json_encode($data); // データをJSON形式にエンコードする
-
-    echo $json; // 結果を出力
 }
+
+$data = ['log-view'=> nl2br(htmlentities($contents))];
+$json = json_encode($data); // データをJSON形式にエンコードする
+
+echo $json; // 結果を出力
