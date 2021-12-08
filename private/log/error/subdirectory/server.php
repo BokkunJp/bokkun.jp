@@ -18,35 +18,49 @@ $dirPath = rtrim(dirname(__DIR__, 6), "\\") . $errPath. $verPath;
 $srcName = $set->GetPost('select_log');
 
 $errCode=null;
-if ($verPath === '---') {
-    $errCode=1;
+if ($srcName === '') {
+    $errCode = 1;
 } else if ($srcName === null) {
     $errCode = 2;
 }
 
+// ディレクトリ名選択時
 if ($srcName === false) {
-    switch ($srcName) {
+    // 添え字がないので添え字を振り直し
+    if (is_dir($dirPath)) {
+        $verObj = scandir($dirPath);
+        $verObj = array_values($verObj);
+    } else {
+        if ($verPath === '---') {
+            $errCode = 1;
+        } else {
+            $errCode = 2;
+        }
+    }
+    switch ($errCode) {
         case 1:
             $contents = 'バージョンまたはファイルを選択してください。';
-            $data = ['log-view' => nl2br(htmlentities($contents))];
-            $jsonData = json_encode($data); // データをJSON形式にエンコードする
             break;
         case 2:
             $contents = 'バージョンまたはファイルの選択が不正です。';
-            $data = ['log-view' => nl2br(htmlentities($contents))];
-            $jsonData = json_encode($data); // データをJSON形式にエンコードする
             break;
         default:
-            // 添え字がないので添え字を振り直し
-            $verObj = scandir($dirPath);
-            $verObj = array_values($verObj);
-            $jsonData = json_encode($verObj);
-        break;
+            break;
     }
 
-    echo $jsonData;
+    if (!empty($errCode)) {
+        $verObj = ['log-view' => nl2br(htmlentities($contents))];
+
+    }
+
+    $jsonData = json_encode($verObj); // データをJSON形式にエンコードする
+
+// エラーファイル名選択時
 } else {
     $srcFile = AddPath($dirPath, $srcName, false);
+    if (!$errCode && !is_file($srcFile)) {
+        $errCode = 2;
+    }
 
     switch ($errCode) {
         case 1:
@@ -56,18 +70,12 @@ if ($srcName === false) {
             $contents = 'バージョンまたはファイルの選択が不正です。';
         break;
         default:
-            // ソースの読み込み
-            $verObj = scandir($dirPath);
-            if (file_exists($srcFile)) {
-                $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
-            } else {
-                $contents = 'ファイルが存在しません。';
-            }
+            $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
         break;
     }
 
     $data = ['log-view'=> nl2br(htmlentities($contents))];
-    $json = json_encode($data); // データをJSON形式にエンコードする
-
-    echo $json; // 結果を出力
+    $jsonData = json_encode($data); // データをJSON形式にエンコードする
 }
+
+echo $jsonData;
