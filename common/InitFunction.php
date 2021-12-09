@@ -192,7 +192,7 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
         $options = FILTER_NULL_ON_FAILURE;
     }
 
-    if (in_array($type, $checkTypes) || filter_has_var($type, $variable_name)) {
+    if (SearchData($type, $checkTypes) || filter_has_var($type, $variable_name)) {
         $ret = filter_input($type, $variable_name, $filter, $options);
     } else if ($type == INPUT_SERVER && isset($_SERVER[$variable_name])) {
         $ret = filter_var($_SERVER[$variable_name], $filter, $options);
@@ -330,3 +330,28 @@ function SetAllPlugin() {
 
     SetPlugin($addDir);
 }
+
+/**
+ * SearchData
+ * in_arrayの代替処理。
+ * (in_arrayは速度的に問題があるため、issetで対応する)
+ *
+ * @param  mixed $target
+ * @param array $arrayData
+ *
+ * @return bool
+ */
+function SearchData($target, array $arrayData)
+{
+    $filipData = array_flip($arrayData);
+
+    $ret = false;
+
+    // 指定した名称のディレクトリが存在するかどうか
+    if (isset($filipData[$target])) {
+        $ret = true;
+    }
+
+    return $ret;
+}
+

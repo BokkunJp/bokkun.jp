@@ -57,29 +57,21 @@ function FindFileName($str)
 
     return $ret;
 }
+
 /**
  * ValidateData
  * 対象のパスのディレクトリに、指定したファイルが存在するか調べる
- * (in_arrayは速度的に問題があるため、issetで対応する)
  *
  * @param  string $dirPath
  * @param string $select
  *
  * @return bool
  */
-function ValidateData(String $dirPath, String $select)
+function ValidateData(string $dirPath, string $select)
 {
     $dirArray = scandir($dirPath);
-    $filipDirArray = array_flip($dirArray);
 
-    $ret = true;
-
-    // 指定した名称のディレクトリが存在しない
-    if (!isset($filipDirArray[$select])) {
-        $ret = false;
-    }
-
-    return $ret;
+    return SearchData($select, $dirArray);
 }
 
 /**

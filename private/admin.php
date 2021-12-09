@@ -31,12 +31,12 @@ AlertAdmin('access', $title);
                 <?php
                 $notList = ['.', '..', 'Sample', 'Test', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'reset.php', 'secure.php'];
                 $dirList = scandir(__DIR__);
-                $titleList = ['create' => 'ページ調整', 'edit' => 'ソース調整','IMAGE' => '画像投稿', 'log' => 'ログ'];
+                $titleList = ['create' => 'ページ調整', 'edit' => 'ソース調整','IMAGE' => '画像投稿', 'log' => 'ログ', 'PHPINFO' => 'PHPINFO'];
                 $notList = AddList($notList, $dirList, '.', 1);
                 $notList = AddList($notList, $dirList, '_', 1);
 
                 foreach ($dirList as $index => $_dir) {
-                    if (!in_array($_dir, $notList)) {
+                    if (!SearchData($_dir, $notList)) {
                         echo "<li><a href=\"./$_dir/\" target=\"_new\">{$titleList[$_dir]}画面へ移動</a></li>";
                     }
                 }

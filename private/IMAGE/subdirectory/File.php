@@ -436,7 +436,7 @@ function DeleteImage() {
     foreach ($post as $post_key => $post_value) {
         if ($post_key !== 'token' && $post_key !== 'delete') {
             $count++;
-            if (in_array($post_value, $fileList)) {
+            if (SearchData($post_value, $fileList)) {
                 if (!rename(AddPath($baseImageDir, $post_value, false), AddPath(AddPath($baseImageDir, '_old'), $post_value, false)) === true) {
                     return false;
                 }

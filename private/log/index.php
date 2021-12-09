@@ -31,7 +31,7 @@ $title = 'ログ一覧';
                 $notList = AddList($notList, $dirList, '_', 1);
 
                 foreach ($dirList as $index => $_dir) {
-                    if (!in_array($_dir, $notList) && isset($titleList[$_dir])) {
+                    if (!SearchData($_dir, $notList) && isset($titleList[$_dir])) {
                         echo "<li><a href=\"./$_dir/\" target=\"_new\">{$titleList[$_dir]}ログを見る</a></li>";
                     }
                 }
