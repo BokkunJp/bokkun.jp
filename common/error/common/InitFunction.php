@@ -138,7 +138,7 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
         $options = FILTER_NULL_ON_FAILURE;
     }
 
-    if (in_array($type, $checkTypes) || filter_has_var($type, $variable_name)) {
+    if (SearchData($type, $checkTypes) || filter_has_var($type, $variable_name)) {
         return filter_input($type, $variable_name, $filter, $options);
     } else if ($type == INPUT_SERVER && isset($_SERVER[$variable_name])) {
         return filter_var($_SERVER[$variable_name], $filter, $options);

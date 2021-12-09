@@ -20,33 +20,21 @@ trait PrivateTrait
             return true;
         }
     }
+
     /**
      * DeleteData
      * 対象のパスのディレクトリに、指定したファイルが存在するか調べる
-     * (in_arrayは速度的に問題があるため、issetで対応する)
      *
      * @param  string $dirPath
      * @param string $select
      *
      * @return bool
      */
-    private function ValidateData(String $dirPath, $select)
+    public function ValidateData(string $dirPath, string $select)
     {
-        // 名称が空
-        if (empty($select) || !is_string($select)) {
-            return null;
-        }
         $dirArray = scandir($dirPath);
-        $filipDirArray = array_flip($dirArray);
 
-        $ret = true;
-
-        // 指定した名称のディレクトリが存在しない
-        if (!isset($filipDirArray[$select])) {
-            $ret = false;
-        }
-
-        return $ret;
+        return SearchData($select, $dirArray);
     }
 
     /**

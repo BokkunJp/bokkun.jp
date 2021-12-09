@@ -16,7 +16,7 @@ use \PrivateTag\CustomTagCreate as OriginTag;
 IncludeDirctories(PRIVATE_COMPONENT_DIR);
 // subdirectory内のphpファイルの読み込み (指定ディレクトリのみ)
 $subDirectryReadList = ['IMAGE'];
-if (in_array(basename(getcwd()), $subDirectryReadList)) {
+if (SearchData(basename(getcwd()), $subDirectryReadList)) {
     IncludeFiles(AddPath(getcwd(), 'subdirectory'));
 }
 // 必要なjsファイルの読み込み
