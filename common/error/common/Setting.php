@@ -1,7 +1,7 @@
 <?php
 // サーバの設定
 namespace ErrorSetting;
-require_once 'InitFunction.php';
+require_once '../../InitFunction.php';
 $http_flg = filter_input_fix(INPUT_SERVER, 'HTTPS');
 if (isset($http_flg)) {
     $http = '//';
