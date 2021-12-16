@@ -164,7 +164,7 @@ function ViewImage ( data )
     } );
 
     $( '.view-image-type' ).html( data[ 'view-image-type' ] );
-    if (data['src']) {
+    if (data['error']) {
         htmlVal = '<div class="image-list">\
             <div class="warning">不正な遷移です。もう一度操作してください。</div><a href="./" class="page" target="_self">画像管理ページへ戻る</a></div>';
         $( '.image-list' ).html( htmlVal );
@@ -184,14 +184,14 @@ function ViewImage ( data )
                 return false;
             }
 
-            htmlVal += "<a href='" + data[ 'url' ] + val[ 'name' ] + "' target='new'><img src='" + data[ 'url' ] + val[ 'name' ] + "' title='" + val[ 'name' ] + "' width=400px height=400px /></a><label><input type='checkbox' class='image-check' name='" + "img_" + val[ 'name' ] + "' value='" + val[ 'name' ] + "'";
+            htmlVal += "<div class='image-info'><span class='image-name'>画像名:" + val[ 'name' ] + "</span> <span class='image-size'>(" + val[ 'info' ][ 'size' ] + val[ 'info' ][ 'sizeUnit' ] + "B)</span></div>" + "<div class='image-info2'><a href='" + data[ 'url' ] + val[ 'name' ] + "' target='new'><img src='" + data[ 'url' ] + val[ 'name' ] + "' title='" + val[ 'name' ] + "' width=400px height=400px /></a><label><input type='checkbox' class='image-check' name='" + "img_" + val[ 'name' ] + "' value='" + val[ 'name' ] + "'";
 
             if ( checkIndexList[ index ] )
             {
                 htmlVal += " checked";
             }
 
-            htmlVal += " /><span>削除・コピーする</span></label> <br/>アップロード日時: " + val[ 'time' ] + "<br/>";
+            htmlVal += " /><span>削除・コピーする</span></label> <br/>アップロード日時: " + val[ 'time' ] + "</div><br/>";
         } )
 
         $( '.image-list' ).html( htmlVal );

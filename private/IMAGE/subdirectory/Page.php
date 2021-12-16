@@ -52,53 +52,7 @@ function GetPage() {
  *
  * @return void
  */
-function ViewPager($file) {
-    $nowPage = GetPage();
-    $pager = GetCountPerPage();
-    $minPage = MIN_PAGE_COUNT;
-    $maxPage = (int)ceil(count($file) / $pager);
-    if ($maxPage === 0) {
-        $maxPage = 1;
-    }
-
-    if ($nowPage === false || $nowPage > $maxPage) {
-        $page = 1;
-    } else {
-        $page = GetPage();
-    }
-
-    $pageHtml = new \PrivateTag\CustomTagCreate();
-
-    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= count($file); $_index += $pager, $_vindex++) {
-        $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
-        if ($pageValid === false) {
-            $pageHtml->SetTag('span', $_vindex . ' ', 'pager', true);
-            $pageHtml->ExecTag(true);
-        } else if ($pageValid === true) {
-            $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
-            $pageHtml->ExecTag(true);
-        }
-
-        if ($pageValid === SPACE_ON && $_vindex !== $maxPage) {
-            echo '...';
-        } else {
-            echo ' ';
-        }
-    }
-    // 任意ページ番号入力フォーム
-    SetInputForm($minPage, $maxPage);
-}
-
-/**
- * GetPagerForAjax
- * ページャーのデータを取得する
- *
- * @param  mixed $file
- *
- * @return void
- */
-function GetPagerForAjax($file)
-{
+function ViewPager($file, $ajaxFlg = false) {
     $htmlVal = '';
     $nowPage = GetPage();
     $pager = GetCountPerPage();
@@ -114,24 +68,41 @@ function GetPagerForAjax($file)
         $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
         if ($pageValid === false) {
             $pageHtml->SetTag('span', $_vindex . ' ', 'pager', true);
-            $htmlVal .= $pageHtml->ExecTag();
-        } elseif ($pageValid === true) {
+            if ($ajaxFlg) {
+                $htmlVal .= $pageHtml->ExecTag();
+            } else {
+                $pageHtml->ExecTag(true);
+            }
+        } else if ($pageValid === true) {
             $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
-            $htmlVal .= $pageHtml->ExecTag();
+            if ($ajaxFlg) {
+                $htmlVal .= $pageHtml->ExecTag();
+            } else {
+                $pageHtml->ExecTag(true);
+            }
         }
 
         if ($pageValid === SPACE_ON && $_vindex !== $maxPage) {
-            $htmlVal .= '...';
+            if ($ajaxFlg) {
+                $htmlVal .= '...';
+            } else {
+                echo '...';
+            }
         } else {
-            $htmlVal .= ' ';
+            if ($ajaxFlg) {
+                $htmlVal .= ' ';
+            } else {
+                echo ' ';
+            }
         }
     }
     // 任意ページ番号入力フォーム
-    $htmlVal .= "<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button>";
+    $htmlVal .= SetInputForm($minPage, $maxPage, $ajaxFlg);
 
-    return $htmlVal;
+    if ($ajaxFlg) {
+        return $htmlVal;
+    }
 }
-
 
 /**
  * ValidateLoop
@@ -169,6 +140,12 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
     return $valid;
 }
 
-function SetInputForm($minPage, $maxPage) {
-    print_r("<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button>");
+function SetInputForm($minPage, $maxPage, $ajaxFlg = false) {
+    $htmlVal = "<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button>";
+    if ($ajaxFlg) {
+        return $htmlVal;
+    } else {
+    print_r($htmlVal);
+    return true;
+    }
 }

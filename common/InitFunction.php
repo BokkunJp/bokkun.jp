@@ -355,3 +355,63 @@ function SearchData($target, array $arrayData)
     return $ret;
 }
 
+/**
+ * MoldImageConfig
+ * getimagesizeで取得した配列を整形する。
+ *
+ * @param  array|string $imageName 画像名(画像パス含む)
+ *
+ * @return array
+ */
+function MoldImageConfig($imageConfig) {
+    $ret = [];
+    if (!is_array($imageConfig)) {
+        $ret[] = [];
+    } else {
+        $params = ['width', 'height', 'type', 'html'];
+
+        foreach ($imageConfig as $_key => $_imageConfig) {
+            if (!empty($params[$_key]) && isset($params[$_key])) {
+                $ret[$params[$_key]] = $_imageConfig;
+            }
+        }
+    }
+
+    return $ret;
+}
+
+/**
+ * CalcImageSize
+ *画像のサイズを計算する
+ *
+ * @param string $imageName 画像名(画像パス含む)
+ *
+ * @return array
+ */
+function CalcImageSize($imageName) {
+    if (is_array($imageName)) {
+        $ret = false;
+    } else {
+        if (!file_exists($imageName) || !FileExif($imageName)) {
+            return false;
+        }
+
+        $imageConfig = getimagesize($imageName);
+        $imageSize = filesize($imageName);
+        $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
+
+        $imageSizeUnit = '';
+        foreach ($imageSizeUnitArray as $_imageSizeUnit) {
+            if ($imageSize >= IMAGE_MAX_VALUE) {
+                $imageSize = $imageSize / IMAGE_MAX_VALUE;
+                $imageSizeUnit = $_imageSizeUnit;
+            }
+        }
+
+        $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
+
+        $ret = array_merge(MoldImageConfig($imageConfig), $ret);
+    }
+
+    return $ret;
+}

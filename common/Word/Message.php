@@ -29,6 +29,7 @@ define('NOT_VIEW', -1);
 
 define('PAGER', 10);
 define('MAX_VIEW', 10);
+define('IMAGE_MAX_VALUE', 1024);
 define('MIN_PAGE_COUNT', 1);
 define('SPACE_ON', 1);
 define('COUNT_START', 4);
