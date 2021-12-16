@@ -171,7 +171,7 @@ function ImportImage($upFiles)
 }
 
 /**
- * SetImageType
+ * GetImagePageName
  * 画像ページの種類を取得する
  *
  * @return string
@@ -348,13 +348,17 @@ function ShowImage($data, $imageUrl, $ajaxFlg = false)
 
         for ($i = $start; $i < $end; $i++) {
             $jsData[$i]['name'] = $data[$i]['name'];
+            // 画像サイズの取得
+            $imageSize = AddPath(PUBLIC_IMAGE_DIR, $imagePageName, false);
+            $imageSize = AddPath($imageSize, $data[$i]['name'], false);
+            $jsData[$i]['info'] = CalcImageSize($imageSize);
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $data[$i]['time']);
         }
 
         $jsData['view-image-type'] = $imagePageName;
         $jsData['url'] = AddPath($imageUrl, $imagePageName, separator:'/');
 ;
-        $jsData['pager'] = GetPagerForAjax($data);
+        $jsData['pager'] = ViewPager($data, $ajaxFlg);
 
         return $jsData;
     } else {

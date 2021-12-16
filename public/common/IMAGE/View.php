@@ -16,8 +16,10 @@ function ViewImage($imageName, $imageUrl, $fileTime) {
 
     echo "<li>";
     echo "<a href='$imageUrl/{$imageDirName}/$imageName' target='new'><img src='$imageUrl/{$imageDirName}/$imageName' title='$imageName' width=400px height=400px /></a>";
-    echo "<p class='image-info'>画像名: {$imageName}<br/>";
-    echo "アップロード日時: " . date('Y/m/d H:i:s', $fileTime) . "</p>";
+    echo "<p class='image-info'>";
+    echo "画像名: {$imageName}<br/>";
+    echo "アップロード日時: " . date('Y/m/d H:i:s', $fileTime);
+    echo "</p>";
     echo "</li>";
 }
 
