@@ -25,7 +25,7 @@ if ($postValid === false) {
     // デフォルトのページ(IMAGE)もない場合はエラーを出力して処理を中断。
     $defaultValid = ValidateData(PUBLIC_IMAGE_DIR, DEFAULT_IMAGE);
     if ($defaultValid === false) {
-        $data = ['src' => '', 'src-view' => '必要なディレクトリがありません。'];
+        $data = ['error' => '', 'src-view' => '必要なディレクトリがありません。'];
         $json = json_encode($data);
         echo $json;
         exit;
