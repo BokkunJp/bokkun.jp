@@ -1,7 +1,12 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 SetPlugin('twig');
-$loader = new Twig_Loader_Filesystem('/');
-$twig = new Twig_Environment($loader);
-$template = $twig->loadTemplate('index.twig');
-$template->display(array('twig' => 'Twig 2'));
+$loader = new FilesystemLoader('/');
+$twig = new Environment($loader, [
+    'cache' => './template_cache',
+]);
+
+$twig->display('index.twig', array('twig' => 'Twig 3'));
