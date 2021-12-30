@@ -6,7 +6,7 @@ use Twig\Loader\FilesystemLoader;
 SetPlugin('twig');
 $loader = new FilesystemLoader('/');
 $twig = new Environment($loader, [
-    'cache' => './template_cache',
+    'cache' => './subdirectory/template_cache',
 ]);
 
 $twig->display('index.twig', array('twig' => 'Twig 3'));
