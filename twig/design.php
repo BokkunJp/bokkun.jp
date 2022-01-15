@@ -5,8 +5,15 @@ use Twig\Loader\FilesystemLoader;
 
 SetPlugin('twig');
 $loader = new FilesystemLoader('/');
+$autoLoadFlg = false;
+
+if (PublicSetting\Setting::GetServarName() !== 'bokkun.jp') {
+    $autoLoadFlg = true;
+}
 $twig = new Environment($loader, [
     'cache' => './subdirectory/template_cache',
+    'auto_reload' => $autoLoadFlg,
 ]);
 
-$twig->display('index.twig', array('twig' => 'Twig 3'));
+$twig->addGlobal('twig', 'Twig 3');
+$twig->display('index.twig');
