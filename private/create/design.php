@@ -5,16 +5,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-SetPlugin('smarty');
-$smarty = new Smarty();
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
-$smarty->template_dir = './subdirectory/templates/';
-$smarty->compile_dir  = './subdirectory/templates_c/';
-$smarty->config_dir   = './subdirectory/configs/';
-$smarty->cache_dir    = './subdirectory/cache/';
+SetPlugin('twig');
+$loader = new FilesystemLoader('/');
+$autoLoadFlg = false;
+
+if (PrivateSetting\Setting::GetServarName() !== 'bokkun.jp') {
+    $autoLoadFlg = true;
+}
+$twig = new Environment($loader, [
+    'cache' => './subdirectory/template_cache',
+    'auto_reload' => $autoLoadFlg,
+]);
+
+if (!isset($session)) {
+    $session = new PrivateSetting\Session();
+}
 
 if ($session->Judge('addition')) {
-    $smarty->assign('session', $session->Read('addition'));
+    $twig->addGlobal('session', $session->Read('addition'));
     $session->Delete('addition');
 }
 
@@ -35,7 +46,8 @@ if (!$session->Judge('token')) {
 
 $session->OnlyView('notice');
 
-$smarty->assign('base', 'subdirectory');
-$smarty->assign('token', $token);
-$smarty->assign('dir', $dir);
-$smarty->display('index.tpl');
+$twig->addGlobal('base', 'subdirectory');
+$twig->addGlobal('token', $token);
+$twig->addGlobal('dir', $dir);
+$twig->addGlobal('maxCount', count($dir));
+$twig->display('index.twig');
