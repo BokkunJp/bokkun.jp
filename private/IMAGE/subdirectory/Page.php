@@ -57,7 +57,7 @@ function ViewPager($file, $ajaxFlg = false) {
     $nowPage = GetPage();
     $pager = GetCountPerPage();
     $minPage = MIN_PAGE_COUNT;
-    $maxPage = gmp_strval(gmp_div(count($file), $pager, GMP_ROUND_PLUSINF));       // 最大ページ(画像数をページ数で割って丸める。精度の問題から除算にはGMPを使用)
+    $maxPage = ceil(bcdiv(count($file), $pager, COUNT_RECURSIVE));       // 最大ページ(画像数をページ数で割って丸める。精度の問題から除算にはBCMathライブラリのbcdivを使用)
 
     $pageHtml = new \PrivateTag\CustomTagCreate();
 
@@ -69,11 +69,13 @@ function ViewPager($file, $ajaxFlg = false) {
             $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
         }
 
-        // Ajaxか画面表示かで出力形式を変える
-        if ($ajaxFlg) {
-            $htmlVal .= $pageHtml->ExecTag();
-        } else {
-            $pageHtml->ExecTag(true);
+        // Ajaxか画面表示かで出力形式を変える (HTMLに情報をセットしたときのみ出力)
+        if (is_bool($pageValid)) {
+            if ($ajaxFlg) {
+                $htmlVal .= $pageHtml->ExecTag();
+            } else {
+                $pageHtml->ExecTag(true);
+            }
         }
 
         if ($pageValid === SPACE_ON && $_vindex !== $maxPage) {
