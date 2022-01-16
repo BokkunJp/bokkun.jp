@@ -32,29 +32,27 @@ set_error_handler(function ($error_no, $error_msg, $error_file, $error_line) {
 
 register_shutdown_function(function() {
     $error = error_get_last();
-    if ($error === null) {
-        return;
-    }
 
-    // fatal error の場合はすでに何らかの出力がされているはずなので、何もしない
+    // エラーが発生した際にはアラートを出す。(開発環境ではエラー内容も表示)
+    if (!empty($error)) {
+        if (php_sapi_name() !== 'cli') {
+            $cnf = new Header();
+            $errScript = new BasicTag\ScriptClass();
 
-    if (php_sapi_name() !== 'cli') {
-        $cnf = new Header();
-        $errScript = new BasicTag\ScriptClass();
-
-        $errScript->Alert("エラーが発生しました。");
-        if (strcmp($cnf->GetVersion(), '-local') === 0 || strcmp($cnf->GetVersion(), '-dev') === 0) {
-            $errMessage = str_replace('\\', '/', $error['message']);
-            $errMessage = str_replace(array("\r\n", "\r", "\n"), '\\n', $errMessage);
-            $errMessage = str_replace("'", "\'", $errMessage);
-            if (strcmp($cnf->GetVersion(), '-local') === 0) {
-                $errFile = str_replace('\\', '/', $error['file']);
-                $errFile = str_replace('\n', '\\n', $errFile);
-                $errScript->Alert($errMessage. "\\n\\n".
-                    "file: ". $errFile . "\\n".
-                    "line: ". $error['line']);
-            } else {
-                $errScript->Alert($errMessage);
+            $errScript->Alert("エラーが発生しました。");
+            if (strcmp($cnf->GetVersion(), '-local') === 0 || strcmp($cnf->GetVersion(), '-dev') === 0) {
+                $errMessage = str_replace('\\', '/', $error['message']);
+                $errMessage = str_replace(array("\r\n", "\r", "\n"), '\\n', $errMessage);
+                $errMessage = str_replace("'", "\'", $errMessage);
+                if (strcmp($cnf->GetVersion(), '-local') === 0) {
+                    $errFile = str_replace('\\', '/', $error['file']);
+                    $errFile = str_replace('\n', '\\n', $errFile);
+                    $errScript->Alert($errMessage. "\\n\\n".
+                        "file: ". $errFile . "\\n".
+                        "line: ". $error['line']);
+                } else {
+                    $errScript->Alert($errMessage);
+                }
             }
         }
     }
@@ -395,6 +393,39 @@ function CalcImageSize($imageName) {
         if (!file_exists($imageName) || !FileExif($imageName)) {
             return false;
         }
+
+        $imageConfig = getimagesize($imageName);
+        $imageSize = filesize($imageName);
+        $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
+
+        $imageSizeUnit = '';
+        foreach ($imageSizeUnitArray as $_imageSizeUnit) {
+            if ($imageSize >= IMAGE_MAX_VALUE) {
+                $imageSize = $imageSize / IMAGE_MAX_VALUE;
+                $imageSizeUnit = $_imageSizeUnit;
+            }
+        }
+
+        $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
+
+        $ret = array_merge(MoldImageConfig($imageConfig), $ret);
+    }
+
+    return $ret;
+}
+
+/**
+ * CalcImageSize
+ *画像のサイズを計算する
+ *
+ * @param string $imageName 画像名(画像パス含む)
+ *
+ * @return array
+ */
+function CalcAllImageSize($imagePath) {
+    if (!is_string($imagePath)) {
+        $ret = false;
+    } else {
 
         $imageConfig = getimagesize($imageName);
         $imageSize = filesize($imageName);
