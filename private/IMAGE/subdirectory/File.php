@@ -500,6 +500,10 @@ function CopyImage($upFilesArray)
         $copyFilesArray = $upFilesArray;
         foreach ($copyFilesArray as $_key => $_file) {
             $tmpFileName = explode('.', $_file);
+            if (count($tmpFileName) < 2) {
+                $result['error']['count']++;
+                return $result;
+            }
             $copyFilesArray[$_key] = $tmpFileName[0]. '_'. CreateRandom(IMAGE_NAME_CHAR_SIZE). '.'. $tmpFileName[1];
         }
     } else {
