@@ -57,7 +57,7 @@ function ViewPager($file, $ajaxFlg = false) {
     $nowPage = GetPage();
     $pager = GetCountPerPage();
     $minPage = MIN_PAGE_COUNT;
-    $maxPage = ceil(bcdiv(count($file), $pager, COUNT_RECURSIVE));       // 最大ページ(画像数をページ数で割って丸める。精度の問題から除算にはBCMathライブラリのbcdivを使用)
+    $maxPage = (int)ceil(bcdiv(count($file), $pager, COUNT_RECURSIVE));       // 最大ページ(画像数をページ数で割って丸める。精度の問題から除算にはBCMathライブラリのbcdivを使用)
 
     $pageHtml = new \PrivateTag\CustomTagCreate();
 
@@ -67,6 +67,14 @@ function ViewPager($file, $ajaxFlg = false) {
             $pageHtml->SetTag('span', $_vindex . ' ', 'pager', true);
         } else if ($pageValid === true) {
             $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
+        }
+
+        if ($pageValid === true && $_vindex !== $minPage && $_vindex !== $maxPage) {
+            if ($ajaxFlg) {
+                $htmlVal .= ' ';
+            } else {
+                echo ' ';
+            }
         }
 
         // Ajaxか画面表示かで出力形式を変える (HTMLに情報をセットしたときのみ出力)
@@ -84,7 +92,7 @@ function ViewPager($file, $ajaxFlg = false) {
             } else {
                 echo '...';
             }
-        } else {
+        } else if ($_vindex !== $maxPage) {
             if ($ajaxFlg) {
                 $htmlVal .= ' ';
             } else {
@@ -137,7 +145,7 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
 }
 
 function SetInputForm($minPage, $maxPage, $ajaxFlg = false) {
-    $htmlVal = "<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button>";
+    $htmlVal = "<span class='image-page-input'><input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button></span>";
     if ($ajaxFlg) {
         return $htmlVal;
     } else {

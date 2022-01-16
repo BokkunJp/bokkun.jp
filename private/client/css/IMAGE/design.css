@@ -20,6 +20,10 @@ body {
         "ＭＳ Ｐゴシック";
 }
 
+.image-page-input {
+    margin-left: 1vw;
+}
+
 .success {
     font-size: small;
     font-style: italic;
