@@ -46,10 +46,10 @@ if (!empty($mode) && $mode === 'edit') {
                 foreach ($errorResult as $_key => $_result) {
                     switch ($_result) {
                         case false:
-                            $noticeWord .= FAIL_REASON_SYSTEM;
+                            $noticeWord .= "・".FAIL_REASON_SYSTEM;
                             break;
                         case ILLEGAL_RESULT:
-                            $noticeWord .= FAIL_REASON_ILLEGAL;
+                            $noticeWord .= "・".FAIL_REASON_ILLEGAL;
                             break;
                         default:
                             break;
@@ -61,7 +61,7 @@ if (!empty($mode) && $mode === 'edit') {
             }
             // 削除成功した画像について
             if (isset($deleteResult['success'])) {
-                $noticeWord .= count($deleteResult['success']). SUCCESS_DELETE_IMAGE;
+                $noticeWord .= "・".count($deleteResult['success']). SUCCESS_DELETE_IMAGE;
                 $successResult = $deleteResult['success'];
                 $noticeWord .= nl2br("\n");
                 foreach ($successResult as $_key => $_result) {
@@ -107,7 +107,7 @@ if (!empty($mode) && $mode === 'edit') {
             if(!empty($result['illegal-value']['count'])) {
                 // 不正なファイル名が入力された
                 $noticeWord .= nl2br("\n");
-                $noticeWord .= "・". $result['illegal-value']['count']. FILE_ERR_CONST . ILLEGAL_IMAGE_NAME;
+                $noticeWord .= "・". $result['illegal-value']['count']. NUMBER_OF_IMAGE . ILLEGAL_IMAGE_NAME;
             } else if (!empty($result['error']['count'])) {
                 // その他コピー処理エラー
                 $noticeWord .= "・". $result['error']['count']. FAIL_COPYING_IMAGE;
@@ -120,8 +120,7 @@ if (!empty($mode) && $mode === 'edit') {
             }
         }
         if (!empty($result['success']['count'])) {
-            define('FILE_SUCCESS_CONST', "{$result['success']['count']}枚のファイル");
-            $session->Write('success', FILE_SUCCESS_CONST . SUCCESS_COPY_IMAGE);
+            $session->Write('success', $result['success']['count']. NUMBER_OF_IMAGE . SUCCESS_COPY_IMAGE);
         }
     } else {
         // 削除・複製以外の場合(不正値)
