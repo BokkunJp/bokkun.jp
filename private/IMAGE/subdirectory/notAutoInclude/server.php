@@ -35,12 +35,42 @@ if (!empty($mode) && $mode === 'edit') {
             $count++;
         }
         if ($count > COUNT_START) {
-            DeleteImage();
+            $deleteResult = DeleteImage();
+
+            $noticeWord = '';
+            // 削除失敗した画像について
+            if (isset($deleteResult['error'])) {
+                $noticeWord = count($deleteResult['error']). FAIL_DELETE_IMAGE;
+                $errorResult = $deleteResult['error'];
+                $noticeWord .= nl2br("\n");
+                foreach ($errorResult as $_key => $_result) {
+                    switch ($_result) {
+                        case false:
+                            $noticeWord .= FAIL_REASON_SYSTEM;
+                            break;
+                        case ILLEGAL_RESULT:
+                            $noticeWord .= FAIL_REASON_ILLEGAL;
+                            break;
+                        default:
+                            break;
+                    }
+                    $noticeWord .= $_key. FAIL_DELETE_IMAGE_DETAIL;
+                    $noticeWord .= nl2br("\n");
+                }
+                $session->Write('notice', $noticeWord, 'Delete');
+            }
+            // 削除成功した画像について
+            if (isset($deleteResult['success'])) {
+                $noticeWord .= count($deleteResult['success']). SUCCESS_DELETE_IMAGE;
+                $successResult = $deleteResult['success'];
+                $noticeWord .= nl2br("\n");
+                foreach ($successResult as $_key => $_result) {
+                    $noticeWord .= $_key. SUCCESS_DELETE_IMAGE_DETAIL;
+                }
+                $session->Write('success', $noticeWord, 'Delete');
+            }
         } else {
-            $session->Write('notice', '削除対象が選択されていないか、画像がありません。', 'Delete');
-        }
-        if (!$session->Judge('notice')) {
-            $session->Write('success', ($count - COUNT_START) . '件の画像の削除に成功しました。', 'Delete');
+            $session->Write('notice', NOT_FOUND_DLETE_IMAGE, 'Delete');
         }
     } else if (isset($posts['copy'])) {
         // コピーの場合
@@ -68,22 +98,22 @@ if (!empty($mode) && $mode === 'edit') {
 
             // 対象ディレクトリがなし
             if (!empty($result['not-page'])) {
-                $noticeWord .= nl2br("\n"). "・". NOT_FAUND_COPY_DIRECTORY;
-            }
-
-            // 選択画像がなし
-            if (!empty($result['no-select'])) {
+                $noticeWord .= nl2br("\n"). "・". NOT_FOUND_COPY_DIRECTORY;
+            } else if (!empty($result['no-select'])) {
+                // 選択画像がなし
                 $noticeWord .= nl2br("\n"). "・". NOT_SELECT_IMAGE;
-            }
-
-            // コピー処理エラー
-            if (!empty($result['error']['count'])) {
+            } else {
+            $noticeWord .= nl2br("\n");
+            if(!empty($result['illegal-value']['count'])) {
+                // 不正なファイル名が入力された
                 $noticeWord .= nl2br("\n");
-                define('FILE_ERR_CONST', "{$result['error']['count']}枚のファイル");
-                $noticeWord .= "・". FILE_ERR_CONST . FAIL_COPYING_IMAGE;
+                $noticeWord .= "・". $result['illegal-value']['count']. FILE_ERR_CONST . ILLEGAL_IMAGE_NAME;
+            } else if (!empty($result['error']['count'])) {
+                // その他コピー処理エラー
+                $noticeWord .= "・". $result['error']['count']. FAIL_COPYING_IMAGE;
             }
+        }
             $session->Write('notice', $noticeWord);
-
             // チェックがある場合は、その状態をセッションへ保持
             if (!empty($copyImgList)) {
                 $session->Write('checkImage', array_flip($copyImgList));
@@ -111,8 +141,6 @@ if (!empty($mode) && $mode === 'edit') {
         exit;
     }
 
-    /** @var array ファイルアップロード結果
-    */
     $result = ImportImage($files);
 
     // ファイルがアップロードされなかった場合
@@ -141,39 +169,31 @@ if (!empty($mode) && $mode === 'edit') {
 
         if (!empty($failCount)) {
             $noticeWord = "";
-                define('FILE_FAIL_CONST', "{$failCount}枚のファイル");
+                define('FILE_FAIL_CONST', "{$failCount}枚の画像ファイル");
                 $noticeWord .= FILE_FAIL_CONST . FAIL_UPLOAD_IMAGE;
 
-                if (!empty($result['-1']['count'])) {
                 if (!empty($noticeWord)) {
                     $noticeWord .= nl2br("\n");
                 }
-                define('FILE_ERR_CONST', "{$result['-1']['count']}枚のファイル");
-                $noticeWord .= "・". FILE_ERR_CONST . NOT_MATCH_IMAGE;
+
+                if (!empty($result['-1']['count'])) {
+                define('FILE_ERR_CONST', "{}枚の画像ファイル");
+                $noticeWord .= "・". $result['-1']['count']. NUMBER_OF_IMAGE. NOT_MATCH_IMAGE;
             }
 
             if (!empty($result['size']['count'])) {
-                if (!empty($noticeWord)) {
-                    $noticeWord .= nl2br("\n");
-                }
-                define('FILE_SIZE_CONST', "{$result['size']['count']}枚のファイル");
-                $noticeWord .= "・". FILE_SIZE_CONST . EMPTY_IMAGE_SIZE;
+                $noticeWord .= "・". $result['size']['count']. NUMBER_OF_IMAGE. EMPTY_IMAGE_SIZE;
             }
 
             if (!empty($result['illegal']['count'])) {
-                if (!empty($noticeWord)) {
-                    $noticeWord .= nl2br("\n");
-                }
-                define('FILE_ILLEGAL_CONST', "{$result['illegal']['count']}枚のファイル");
-                $noticeWord .= "・". FILE_ILLEGAL_CONST . ILLEGAL_UPLOAD_IMAGE;
+                $noticeWord .= "・". $result['illegal']['count'] . NUMBER_OF_IMAGE. ILLEGAL_UPLOAD_IMAGE;
             }
 
             $session->Write('notice', $noticeWord);
 
         }
         if (!empty($result['success']['count'])) {
-            define('FILE_SUCCESS_CONST', "{$result['success']['count']}枚のファイル");
-            $session->Write('success', FILE_SUCCESS_CONST . SUCCESS_UPLOAD_IMAGE);
+            $session->Write('success', $result['success']['count']. NUMBER_OF_IMAGE . SUCCESS_UPLOAD_IMAGE);
         }
     }
 }
