@@ -57,8 +57,8 @@ function MoldFile($file, String $fileName)
 }
 
 function CheckType(string $inputType, string $targetType = 'image') {
-    $ret = false;
-    if (preg_match("/^{$targetType}/", $inputType)) {
+    $ret = true;
+    if (!preg_match("/^{$targetType}/", $inputType)) {
         $ret = false;
     }
 
@@ -72,7 +72,7 @@ function CheckType(string $inputType, string $targetType = 'image') {
  *
  * @param  mixed $file
  *
- * @return void
+ * @return array
  */
 function ImportImage($upFiles)
 {
@@ -429,7 +429,6 @@ function DeleteImage() {
     $post = PrivateSetting\Setting::getPosts();
     $fileList = LoadAllImageFile();
     $imagePageName = GetImagePageName();
-    $count = 0;
 
     $baseImageDir = AddPath(PUBLIC_IMAGE_DIR, $imagePageName);
 
@@ -441,8 +440,7 @@ function DeleteImage() {
     $ret = [];
     // 指定されたファイルをすべて削除 (退避ディレクトリに追加)
     foreach ($post as $post_key => $post_value) {
-        if ($post_key !== 'token' && $post_key !== 'delete') {
-            $count++;
+        if (preg_match('/^img_(.*)$/', $post_key)) {
             if (SearchData($post_value, $fileList)) {
                 if (rename(AddPath($baseImageDir, $post_value, false), AddPath(AddPath($baseImageDir, '_old'), $post_value, false)) === true) {
                     $ret['success'][$post_key] = true;
@@ -450,7 +448,7 @@ function DeleteImage() {
                     $ret['error'][$post_key] = false;
                 }
             } else {
-                $ret['error'][$post_key] =ILLEGAL_RESULT;
+                $ret['error'][$post_key] = ILLEGAL_RESULT;
             }
         }
     }
