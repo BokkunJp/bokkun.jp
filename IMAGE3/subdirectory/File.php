@@ -64,7 +64,7 @@ function MoldFile($file, String $fileName)
  * @return array
  */
 function LoadAllImageFile() {
-    $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp'];
+    $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'];
 
     $imageDirName = basename(getcwd());
 
