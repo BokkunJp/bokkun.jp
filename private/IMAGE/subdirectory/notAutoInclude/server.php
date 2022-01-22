@@ -61,11 +61,11 @@ if (!empty($mode) && $mode === 'edit') {
             }
             // 削除成功した画像について
             if (isset($deleteResult['success'])) {
-                $noticeWord .= "・".count($deleteResult['success']). SUCCESS_DELETE_IMAGE;
+                $noticeWord .= count($deleteResult['success']). SUCCESS_DELETE_IMAGE;
                 $successResult = $deleteResult['success'];
                 $noticeWord .= nl2br("\n");
                 foreach ($successResult as $_key => $_result) {
-                    $noticeWord .= $_key. SUCCESS_DELETE_IMAGE_DETAIL;
+                    $noticeWord .= "・".$_key. SUCCESS_DELETE_IMAGE_DETAIL;
                 }
                 $session->Write('success', $noticeWord, 'Delete');
             }
