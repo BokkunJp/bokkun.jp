@@ -204,7 +204,7 @@ function LoadAllImageFile()
     // 現在選択している画像ページを取得
     $imagePageName = GetImagePageName();
 
-    $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp'];
+    $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'];
 
     $imgSrc = [];
     foreach ($imgArray as $_index) {

@@ -72,9 +72,6 @@ if (!empty($mode) && $mode === 'edit') {
         } else {
             $session->Write('notice', NOT_FOUND_DLETE_IMAGE, 'Delete');
         }
-        if (!$session->Judge('notice')) {
-            $session->Write('success', ($count - COUNT_START) . SUCCESS_DELETE_IMAGE, 'Delete');
-        }
     } else if (isset($posts['copy'])) {
         // コピーの場合
         // 選択したファイルをリスト化
@@ -115,8 +112,8 @@ if (!empty($mode) && $mode === 'edit') {
                 // その他コピー処理エラー
                 $noticeWord .= "・". $result['error']['count']. FAIL_COPYING_IMAGE;
             }
-            $session->Write('notice', $noticeWord);
         }
+            $session->Write('notice', $noticeWord);
             // チェックがある場合は、その状態をセッションへ保持
             if (!empty($copyImgList)) {
                 $session->Write('checkImage', array_flip($copyImgList));
