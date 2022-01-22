@@ -57,11 +57,12 @@ function MoldFile($file, String $fileName)
 }
 
 function CheckType(string $inputType, string $targetType = 'image') {
+    $ret = false;
     if (preg_match("/^{$targetType}/", $inputType)) {
-        return true;
+        $ret = false;
     }
 
-    return false;
+    return $ret;
 }
 
 
@@ -422,7 +423,7 @@ function ErrorSet($errMsg = ERROR_MESSAGE)
  * DeleteImage
  * 画像を一括削除する
  *
- * @return void
+ * @return array
  */
 function DeleteImage() {
     $post = PrivateSetting\Setting::getPosts();
@@ -436,18 +437,25 @@ function DeleteImage() {
     if (!is_dir(AddPath($baseImageDir, '_old'))) {
         mkdir(AddPath($baseImageDir, '_old'));
     }
+
+    $ret = [];
     // 指定されたファイルをすべて削除 (退避ディレクトリに追加)
     foreach ($post as $post_key => $post_value) {
         if ($post_key !== 'token' && $post_key !== 'delete') {
             $count++;
             if (SearchData($post_value, $fileList)) {
-                if (!rename(AddPath($baseImageDir, $post_value, false), AddPath(AddPath($baseImageDir, '_old'), $post_value, false)) === true) {
-                    return false;
+                if (rename(AddPath($baseImageDir, $post_value, false), AddPath(AddPath($baseImageDir, '_old'), $post_value, false)) === true) {
+                    $ret['success'][$post_key] = true;
+                } else {
+                    $ret['error'][$post_key] = false;
                 }
+            } else {
+                $ret['error'][$post_key] =ILLEGAL_RESULT;
             }
         }
     }
-    return true;
+
+    return $ret;
 }
 
 /**
@@ -466,14 +474,14 @@ function CopyImage($upFilesArray)
     $result = [];
 
 
-    $defaultValid = ValidateData(PUBLIC_IMAGE_DIR, $copyImageName);
-    if ($defaultValid === false) {
+    $directoryValid = ValidateData(PUBLIC_IMAGE_DIR, $copyImageName);
+    if ($directoryValid === false) {
         // // 指定した画像ページがないパターン
         $result['not-page']['count'] = FAIL_COPY_IMAGE_COUNT;
         return $result;
     }
 
-    // コピー元のファイル名
+    // コピー元のディレクトリ名
     $srcImageName = GetImagePageName();
 
     // 成功パターン
@@ -487,12 +495,21 @@ function CopyImage($upFilesArray)
     if (empty($upFilesArray)) {
         $result['no-select']['count']  = FAIL_COPY_IMAGE_COUNT;
         return $result;
-    }
-
-    // ファイル数が規定の条件を超えたパターン
-    if (count($upFilesArray) > IMAGE_COUNT_MAX) {
+    } else if (count($upFilesArray) > IMAGE_COUNT_MAX) {
+        // ファイル数が規定の条件を超えたパターン
         $result['count-over']['count']  = FAIL_COPY_IMAGE_COUNT;
         return $result;
+    } else {
+        // 不正なファイル名が混入しているパターン
+        $result['illegal-value']['count'] = 0;
+        foreach ($upFilesArray as $_key => $_file) {
+            $fileValid = ValidateData(AddPath(PUBLIC_IMAGE_DIR, $srcImageName), $_file);
+            if ($fileValid === false) {
+                $result['illegal-value']['count']++;
+                // 不正なファイル名を対象から外す
+                unset($upFilesArray[$_key]);
+            }
+        }
     }
 
     // ファイル先とファイル元が同じ名称のパターン
@@ -500,10 +517,6 @@ function CopyImage($upFilesArray)
         $copyFilesArray = $upFilesArray;
         foreach ($copyFilesArray as $_key => $_file) {
             $tmpFileName = explode('.', $_file);
-            if (count($tmpFileName) < 2) {
-                $result['error']['count']++;
-                return $result;
-            }
             $copyFilesArray[$_key] = $tmpFileName[0]. '_'. CreateRandom(IMAGE_NAME_CHAR_SIZE). '.'. $tmpFileName[1];
         }
     } else {

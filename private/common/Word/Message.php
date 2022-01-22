@@ -54,7 +54,7 @@ define('NOT_DELETE_FILE_LIST', ['MAIL', 'IMAGE', 'CSV', 'QR', 'liDAR-WebGL', 'we
 // ログインパスワード
 define("LOGIN_PASSWORD", "bokkunAdmin777");
 
-// 画像アップロード要の文言 (ファイル数の部分は処理時に定義)
+// 画像アップロード用の文言 (ファイル数の部分は処理時に定義)
 define('FAIL_UPLOAD_IMAGE', "のアップロードに失敗しました。");
 
 define('NOT_MATCH_IMAGE', "は、画像ファイルではないためアップロードできませんでした。");
@@ -65,16 +65,30 @@ define('EMPTY_IMAGE_SIZE', "は、画像のファイルサイズが0バイトの
 
 define('SUCCESS_UPLOAD_IMAGE', "のアップロードに成功しました。");
 
-// 画像コピー用の文言 (ファイル数の部分は処理時に定義)
+// 画像削除・コピー用の文言 (ファイル数の部分は処理時に定義)
+// 画像削除関連
+define('NOT_FOUND_DLETE_IMAGE', '削除対象が選択されていないか、画像がありません。');
+
+define('FAILE_DELETE_IMAGE', '件の画像の削除に失敗しました。');
+
+define('FAILE_DELETE_IMAGE_DETAIL', 'の画像を削除できませんでした。');
+
+define('SUCCESS_DELTE_IMAGE', '件の画像の削除に成功しました。');
+
+// 画像コピー関連
 define('FAIL_COPY_IMAGE', "画像のコピーに失敗しました。");
 
-define('NOT_FAUND_COPY_DIRECTORY', "対象のディレクトリがありません。");
+define('NOT_FOUND_COPY_DIRECTORY', "対象のディレクトリがありません。");
 
 define('NOT_SELECT_IMAGE', "画像が選択されていません。");
 
+define('ILLEGAL_RESULT', -1);
+
+define('ILLEGAL_IMAGE_NAME', "件の不正なファイル名が入力されました。");
+
 define('FAIL_COPYING_IMAGE', "コピー処理に失敗しました。");
 
-define('SUCCESS_COPY_IMAGE', "のコピーに成功しました。");
+define('SUCCESS_COPY_IMAGE', "件のコピーに成功しました。");
 
 define('FAIL_COPY_IMAGE_COUNT', 1);
 
