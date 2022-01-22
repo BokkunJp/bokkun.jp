@@ -92,11 +92,11 @@ define('NOT_SELECT_IMAGE', "画像が選択されていません。");
 
 define('ILLEGAL_RESULT', -1);
 
-define('ILLEGAL_IMAGE_NAME', "枚の不正なファイル名が入力されました。");
+define('ILLEGAL_IMAGE_NAME', "に不正なファイル名が入力されました。");
 
 define('FAIL_COPYING_IMAGE', "コピー処理に失敗しました。");
 
-define('SUCCESS_COPY_IMAGE', "枚のコピーに成功しました。");
+define('SUCCESS_COPY_IMAGE', "のコピーに成功しました。");
 
 define('FAIL_COPY_IMAGE_COUNT', 1);
 
