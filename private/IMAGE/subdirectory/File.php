@@ -434,6 +434,12 @@ function ShowImage($params, $data, $imageUrl, $ajaxFlg = false)
             // 画像を表示
             ViewImage($_file, $imageUrl, $_time, $checked);
             // ViewList($_file, $imageUrl, $checked);
+
+        // バッファ出力
+        if(ob_get_level() > 0) {
+            ob_flush();
+            flush();
+        }
         }
 
         // コピーチェック用のセッションの削除
