@@ -3,7 +3,7 @@
 /**
  * GetPage
  * ページ番号を取得する
- *
+ * @param void
  * @return void
  */
 function GetPage() {
@@ -22,7 +22,6 @@ function GetPage() {
  * (post値が確認できない場合はデフォルト値を取得する)
  *
  * @param  void
- *
  * @return int
  */function GetCountPerPage() {
     $session = new PrivateSetting\Session();
@@ -48,20 +47,20 @@ function GetPage() {
  * ViewPager
  * ページャーを表示する
  *
- * @param  mixed $file
- *
- * @return void
+ * @param  int $max
+ * @param boolean $ajaxFlg
+ * @return string
  */
-function ViewPager($file, $ajaxFlg = false) {
+function ViewPager($max, $ajaxFlg = false) {
     $htmlVal = '';
     $nowPage = GetPage();
     $pager = GetCountPerPage();
     $minPage = MIN_PAGE_COUNT;
-    $maxPage = (int)ceil(bcdiv(count($file), $pager, COUNT_RECURSIVE));       // 最大ページ(画像数をページ数で割って丸める。精度の問題から除算にはBCMathライブラリのbcdivを使用)
+    $maxPage = (int)ceil(bcdiv($max, $pager, COUNT_RECURSIVE));       // 最大ページ(画像数をページ数で割って丸める。精度の問題から除算にはBCMathライブラリのbcdivを使用)
 
     $pageHtml = new \PrivateTag\CustomTagCreate();
 
-    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= count($file); $_index += $pager, $_vindex++) {
+    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= $max; $_index += $pager, $_vindex++) {
         $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
         if ($pageValid === false) {
             $pageHtml->SetTag('span', $_vindex . ' ', 'pager', true);
@@ -144,6 +143,15 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
     return $valid;
 }
 
+/**
+ * SetInputForm
+ * ページ移動フォームの生成
+
+ * @param int $minPage
+ * @param int $maxPage
+ * @param boolean $ajaxFlg
+ * @return void
+ */
 function SetInputForm($minPage, $maxPage, $ajaxFlg = false) {
     $htmlVal = "<span class='image-page-input'><input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button></span>";
     if ($ajaxFlg) {

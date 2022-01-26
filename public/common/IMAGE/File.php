@@ -147,7 +147,7 @@ function ReadImage() {
     }
 
     // 画像投稿日時の昇順にソート
-    TimeSort($sortAray);
+    TimeSort($params,$sortAray);
 
     // ソートした順に画像を表示
     $imageUrl = IMAGE_URL;
@@ -164,7 +164,7 @@ function ReadImage() {
  *
  * @return void
  */
-function ShowImage($data, $imageUrl) {
+function ShowImage($params, $data, $imageUrl) {
     $page = GetPage();
     if ($page <= 0 || $page === false) {
         ErrorSet('ページの指定が不正です。');
@@ -195,7 +195,7 @@ function ShowImage($data, $imageUrl) {
     Output("</ul>", false, false);
     Output("</div>", false, false);
 
-    ViewPager($data);
+    ViewPager($params['max']);
 }
 
 /**
