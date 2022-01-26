@@ -4,7 +4,7 @@
  * GetPage
  * ページ番号を取得する
  * @param void
- * @return void
+ * @return int
  */
 function GetPage() {
     $page = PrivateSetting\Setting::GetQuery('page');
@@ -29,14 +29,14 @@ function GetPage() {
     if (isset($post) && is_numeric($post)) {
         $pager= (int) $post;
         // 上限設定
-        if ($pager> (PAGER * MAX_VIEW)) {
-            $pager= PAGER * MAX_VIEW;
+        if ($pager > (PAGER * MAX_VIEW)) {
+            $pager = PAGER * MAX_VIEW;
         }
         $session->Write('image-view', $pager);
     } else if ($session->Judge('image-view')) {
-        $pager= (int)$session->Read('image-view');
+        $pager = (int)$session->Read('image-view');
     } else {
-        $pager= PAGER;
+        $pager = PAGER;
     }
 
     return $pager;

@@ -314,7 +314,15 @@ function ValidParameter($data=[], $ajaxFlg=false) {
 
 }
 
-function MoldImage($params, $data, $ajaxFlg = false) {
+/**
+ * ChoiseImage
+ * 全画像データのうち、表示に必要なデータのみを抽出する
+ *
+ * @param array $params
+ * @param array $data
+ * @return void
+ */
+function ChoiseImage($params, $data) {
     // 結果用配列
     $cloneImg = [];
     for ($i = $params['start'];$i < $params['end']; $i++) {
@@ -359,7 +367,7 @@ function ReadImage($ajaxFlg = false)
     }
 
     // 画像データを整理
-    $sortAray = MoldImage($params, $sortAray, $ajaxFlg);
+    $sortAray = ChoiseImage($params, $sortAray, $ajaxFlg);
 
     if ($ajaxFlg === true) {
         return ShowImage($params, $sortAray, IMAGE_URL, $ajaxFlg);
