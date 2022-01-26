@@ -60,11 +60,11 @@ function SetToken() {
       '.', '..', 'cell', 'element', 'email', 'Error', 'layout',
       'Pages'
     ];
-    $dirList = scandir(dirname(__DIR__) . '/cake.bokkun.jp/templates');
+    $dirList = scandir(dirname(__DIR__) . '/www.bokkun.jp/templates');
     $notList = AddList($notList, $dirList, '_', 1);
     foreach ($dirList as $index => $_dir) {
       if (!SearchData($_dir, $notList)) {
-        echo "<li><a href=\"https://cake.{$domain}/{$_dir}/\" target=\"_blank\">$_dir</a></li>";
+        echo "<li><a href=\"https://www.{$domain}/{$_dir}/\" target=\"_blank\">$_dir</a></li>";
       }
     }
     ?>
