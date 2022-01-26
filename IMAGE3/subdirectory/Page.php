@@ -2,8 +2,8 @@
 
 /**
  * GetPage
- * 現在のページ番号を取得する
- *
+ * ページ番号を取得する
+ * @param void
  * @return int
  */
 function GetPage() {
@@ -22,7 +22,6 @@ function GetPage() {
  * (post値が確認できない場合はデフォルト値を取得する)
  *
  * @param  void
- *
  * @return int
  */function GetCountPerPage() {
     $session = new PublicSetting\Session();
@@ -48,42 +47,41 @@ function GetPage() {
  * ViewPager
  * ページャーを表示する
  *
- * @param  mixed $file
- *
- * @return void
+ * @param  int $max
+ * @return string
  */
-function ViewPager($file) {
+function ViewPager($max) {
+    $htmlVal = '';
     $nowPage = GetPage();
     $pager = GetCountPerPage();
     $minPage = MIN_PAGE_COUNT;
-    $maxPage = (int)ceil(count($file) / $pager);
-    if ($maxPage === 0) {
-        $maxPage = 1;
-    }
-    if ($nowPage === false || $nowPage > $maxPage) {
-        $page = 1;
-    } else {
-        $page = GetPage();
-    }
+    $maxPage = (int)ceil(bcdiv($max, $pager, COUNT_RECURSIVE));       // 最大ページ(画像数をページ数で割って丸める。精度の問題から除算にはBCMathライブラリのbcdivを使用)
 
     $pageHtml = new \PublicTag\CustomTagCreate();
 
-    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= count($file); $_index += $pager, $_vindex++) {
+    for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= $max; $_index += $pager, $_vindex++) {
         $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
         if ($pageValid === false) {
             $pageHtml->SetTag('span', $_vindex . ' ', 'pager', true);
-            $pageHtml->ExecTag(true);
         } else if ($pageValid === true) {
             $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
+        }
+
+        if ($pageValid === true && $_vindex !== $minPage && $_vindex !== $maxPage) {
+            echo ' ';
+        }
+
+        // Ajaxか画面表示かで出力形式を変える (HTMLに情報をセットしたときのみ出力)
+        if (is_bool($pageValid)) {
             $pageHtml->ExecTag(true);
         }
 
         if ($pageValid === SPACE_ON && $_vindex !== $maxPage) {
-            echo ' ... ';
+            echo '...';
         } else {
             echo ' ';
         }
-}
+    }
 
     // 任意ページ番号入力フォーム
     SetInputForm($minPage, $maxPage);
@@ -126,7 +124,14 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
     return $valid;
 }
 
-function SetInputForm($minPage, $maxPage)
-{
+/**
+ * SetInputForm
+ * ページ移動フォームの生成
+
+ * @param int $minPage
+ * @param int $maxPage
+ * @return void
+ */
+function SetInputForm($minPage, $maxPage) {
     Output("<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ移動");
 }
