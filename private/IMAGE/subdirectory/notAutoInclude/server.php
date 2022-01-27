@@ -46,10 +46,10 @@ if (!empty($mode) && $mode === 'edit') {
                 foreach ($errorResult as $_key => $_result) {
                     switch ($_result) {
                         case false:
-                            $noticeWord .= "・".FAIL_REASON_SYSTEM;
+                            $noticeWord .= FAIL_REASON_SYSTEM;
                             break;
                         case ILLEGAL_RESULT:
-                            $noticeWord .= "・".FAIL_REASON_ILLEGAL;
+                            $noticeWord .= FAIL_REASON_ILLEGAL;
                             break;
                         default:
                             break;
