@@ -401,7 +401,7 @@ function CalcImageSize($imageName) {
         $imageSizeUnit = '';
         foreach ($imageSizeUnitArray as $_imageSizeUnit) {
             if ($imageSize >= IMAGE_MAX_VALUE) {
-                $imageSize = $imageSize / IMAGE_MAX_VALUE;
+                $imageSize = bcdiv($imageSize, IMAGE_MAX_VALUE, 20);
                 $imageSizeUnit = $_imageSizeUnit;
             }
         }
@@ -422,11 +422,10 @@ function CalcImageSize($imageName) {
  *
  * @return array
  */
-function CalcAllImageSize($imagePath) {
-    if (!is_string($imagePath)) {
+function CalcAllImageSize($imageName) {
+    if (!is_string($imageName)) {
         $ret = false;
     } else {
-
         $imageConfig = getimagesize($imageName);
         $imageSize = filesize($imageName);
         $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];

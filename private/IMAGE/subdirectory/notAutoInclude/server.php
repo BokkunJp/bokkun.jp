@@ -168,15 +168,13 @@ if (!empty($mode) && $mode === 'edit') {
 
         if (!empty($failCount)) {
             $noticeWord = "";
-                define('FILE_FAIL_CONST', "{$failCount}枚の画像ファイル");
-                $noticeWord .= FILE_FAIL_CONST . FAIL_UPLOAD_IMAGE;
+                $noticeWord .= $failCount . NUMBER_OF_IMAGE . FAIL_UPLOAD_IMAGE;
 
                 if (!empty($noticeWord)) {
                     $noticeWord .= nl2br("\n");
                 }
 
                 if (!empty($result['-1']['count'])) {
-                define('FILE_ERR_CONST', "{}枚の画像ファイル");
                 $noticeWord .= "・". $result['-1']['count']. NUMBER_OF_IMAGE. NOT_MATCH_IMAGE;
             }
 
