@@ -66,6 +66,7 @@ if (!empty($mode) && $mode === 'edit') {
                 $noticeWord .= nl2br("\n");
                 foreach ($successResult as $_key => $_result) {
                     $noticeWord .= "・".$_key. SUCCESS_DELETE_IMAGE_DETAIL;
+                    $noticeWord .= nl2br("\n");
                 }
                 $session->Write('success', $noticeWord, 'Delete');
             }
