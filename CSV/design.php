@@ -1,7 +1,7 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-
 use BasicTag\ScriptClass;
+use PublicSetting\Setting as Setting;
 
 $posts = PublicSetting\Setting::GetPosts();
 $session = new PublicSetting\Session();
@@ -84,7 +84,7 @@ if (!is_dir($filePath)) {
 }
 
 $fileArray = IncludeFiles($filePath, 'csv', true);
-$base = new PublicSetting\Setting();
+$base = new Setting();
 
 // 次期改修
 //$downloadHtml = new CustomTagCreate();

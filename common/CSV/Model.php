@@ -1,4 +1,8 @@
 <?php
+namespace Common;
+
+use PublicSetting\Setting as Setting;
+
 define("FALSE_MESSAGE",  "の値が不正です。");
 define("NULL_MESSAGE",  "の値を入力してください。");
 IncludeDirctories();
@@ -27,11 +31,11 @@ class CSV extends CSV_Base {
      *
      * ファイル名をセット。
      *
-     * @return void
+     * @return bool
      */
     public function InputName() {
         // postの取得
-        $fileName = PublicSetting\Setting::GetPost('file-name');
+        $fileName = Setting::GetPost('file-name');
 
         // ファイル名のバリデート
         $nameValid = $this->ValidateName($fileName);
@@ -44,7 +48,10 @@ class CSV extends CSV_Base {
 
         if ($nameValid === EXTENSION_NONE_TRUE) {
             $this->fileName .= ".csv";
+            $nameValid = true;
         }
+
+        return $nameValid;
     }
 
     /**
@@ -57,7 +64,7 @@ class CSV extends CSV_Base {
     public function ReadData() {
         // postの取得
         $key = 'col-number';
-        $post = PublicSetting\Setting::GetPost($key);
+        $post = Setting::GetPost($key);
         $data = [$key => $post];
 
         $valid = $this->ValidateNumber($data);
@@ -68,7 +75,7 @@ class CSV extends CSV_Base {
             return $this->editFlg;
         }
 
-        $this->ReadFile($this->fileName, CSV);
+        $this->ReadFile($this->fileName, CSV_PATH);
 
     }
 
@@ -81,7 +88,7 @@ class CSV extends CSV_Base {
      */
     public function InputData() {
         // postの取得
-        $post = PublicSetting\Setting::GetPosts();
+        $post = Setting::GetPosts();
 
         // 入力値のバリデート
         $data = [
@@ -136,7 +143,7 @@ class CSV extends CSV_Base {
         } else {
             $validate = $this->CountValidate($data);
             if ($this->editFlg === true) {
-                $col = PublicSetting\Setting::GetPost('col-number');
+                $col = Setting::GetPost('col-number');
                 $this->EditData($col, $data);
             } else if ($this->editFlg === null && $validate === true) {
                 $this->AddData($data);
@@ -155,7 +162,7 @@ class CSV extends CSV_Base {
     public function SetCSV() {
         // データをCSVファイルに書き込み
         // 存在しない場合は、CSVファイルを作成
-        $this->MakeFile($this->fileName, CSV);
+        $this->MakeFile($this->fileName, CSV_PATH);
     }
 
     /**
@@ -167,8 +174,8 @@ class CSV extends CSV_Base {
      * @return array
      */
 
-    public function Output($option=null) {
-        if (!is_file(CSV. $this->fileName) || $this->ValidateName($this->fileName) === false) {
+    public function OutData($option=null) {
+        if (!is_file(CSV_PATH. $this->fileName) || $this->ValidateName($this->fileName) === false) {
             $ret = false;
         } else {
             $this->ReadFile($this->fileName);
