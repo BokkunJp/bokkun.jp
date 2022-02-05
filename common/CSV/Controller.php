@@ -1,6 +1,9 @@
 <?php
 IncludeDirctories();
 
+use Common\CSV;
+use PublicSetting\Session;
+
 function Main($inputFlg=false)
 {
     $tokenValid = CheckToken();
@@ -41,9 +44,9 @@ function Main($inputFlg=false)
         }
 
         // 出力用データ取得
-        $header = $csv->Output('header');
-        $row = $csv->Output('row');
-        $result = $csv->Output();
+        $header = $csv->OutData('header');
+        $row = $csv->OutData('row');
+        $result = $csv->OutData();
         if ($result === false) {
             echo "<div class='warning'>ご指定のファイルは存在しません。</div>";
         }
@@ -53,7 +56,7 @@ function Main($inputFlg=false)
         foreach ($row as $_r) {
             $body .= MoldData($_r). nl2br("\n");
         }
-        $session = new PublicSetting\Session();
+        $session = new Session();
         $session->WriteArray('csv', 'header', $header);
         $session->WriteArray('csv', 'row', $body);
     }

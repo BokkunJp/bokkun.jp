@@ -13,12 +13,14 @@ function Main($inputFlg=false)
     $csv = new CSV();
 
     if ($inputFlg === true) {
+
         $csv->SetHeader(['x', 'y', 'z']);
 
         // ファイル名を設定
         $valid = $csv->InputName();
         if ($valid === false) {
             echo "<div class='warning'>ファイル名を入力してください。</div>";
+            return $valid;
         }
 
         // CSVファイルを取得(編集の場合)
@@ -38,14 +40,16 @@ function Main($inputFlg=false)
         $valid = $csv->InputName();
         if ($valid === false) {
             echo "<div class='warning'>ファイル名を入力してください。</div>";
+            return $valid;
         }
 
         // 出力用データ取得
-        $header = $csv->Output('header');
-        $row = $csv->Output('row');
-        $result = $csv->Output();
+        $header = $csv->OutData('header');
+        $row = $csv->OutData('row');
+        $result = $csv->OutData();
         if ($result === false) {
             echo "<div class='warning'>ご指定のファイルは存在しません。</div>";
+            return $result;
         }
 
         $header = MoldData($header);
