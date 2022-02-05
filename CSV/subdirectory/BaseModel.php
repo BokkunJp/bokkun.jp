@@ -93,12 +93,12 @@ class CSV_Base {
     }
 
     /**
-     * OutData
+     * MoldCsv
      * CSVデータを配列用に成形
      *
      * @return boolean|array
      */
-   protected function OutData($option) {
+   protected function MoldCsv($option) {
         if (!isset($this->data) || !is_array($this->data)) {
             return false;
         }

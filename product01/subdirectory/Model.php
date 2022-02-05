@@ -174,13 +174,13 @@ class CSV extends CSV_Base {
      * @return array
      */
 
-    public function Output($option=null) {
+    public function OutData($option = null) {
         if (!is_file(CSV_PATH. $this->fileName) || $this->ValidateName($this->fileName) === false) {
             return false;
         }
 
         $this->ReadFile($this->fileName);
 
-        return $this->OutData($option);
+        return $this->MoldCsv($option);
     }
 }
