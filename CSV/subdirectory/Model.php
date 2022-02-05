@@ -164,7 +164,7 @@ class CSV extends CSV_Base {
     }
 
     /**
-     * Output
+     * OutData
      *
      *
      * 指定したCSVファイルを読み込み、配列用データに成形して返す。
@@ -172,12 +172,12 @@ class CSV extends CSV_Base {
      * @return array
      */
 
-    public function OutData($option=null) {
+    public function OutData($option = null) {
         if (!is_file(CSV_PATH. $this->fileName) || $this->ValidateName($this->fileName) === false) {
             $ret = false;
         } else {
             $this->ReadFile($this->fileName);
-            $ret = $this->OutData($option);
+            $ret = $this->MoldCsv($option);
         }
         return $ret;
     }
