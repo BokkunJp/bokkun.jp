@@ -1,5 +1,5 @@
 <?php
-define('CSV', AddPath(PUBLIC_CSV_DIR, '', false, '/') . AddPath(basename(getcwd()), '', false, '/'));
+define('CSV_PATH', AddPath(PUBLIC_CSV_DIR, '', false, '/') . AddPath(basename(getcwd()), '', false, '/'));
 define("EXTENSION_NONE_TRUE", 2);
 class CSV_Base {
 
@@ -71,7 +71,7 @@ class CSV_Base {
      * @param [String] $filePath
      * @return void
      */
-    protected function ReadFile($fileName, $filePath = CSV) {
+    protected function ReadFile($fileName, $filePath = CSV_PATH) {
         // ファイルパスにCSVファイルが存在しない場合は終了
         if (!file_exists(AddPath($filePath, $fileName, false))) {
             return false;
@@ -173,7 +173,7 @@ class CSV_Base {
      * @param string $filePath
      * @return void
      */
-    protected function MakeFile($fileName, $filePath = CSV) {
+    protected function MakeFile($fileName, $filePath = CSV_PATH) {
 
         // CSV保管用のディレクトリがない場合は作成
         if (!file_exists($filePath)) {

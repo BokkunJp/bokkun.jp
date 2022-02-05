@@ -48,9 +48,9 @@ function Main($inputFlg=false) {
         }
 
         // 出力用データ取得
-        $header = $csv->Output('header');
-        $row = $csv->Output('row');
-        $result = $csv->Output();
+        $header = $csv->OutData('header');
+        $row = $csv->OutData('row');
+        $result = $csv->OutData();
         if ($result === false) {
             echo "<div class='warning'>ご指定のファイルは存在しません。</div>";
             return false;
