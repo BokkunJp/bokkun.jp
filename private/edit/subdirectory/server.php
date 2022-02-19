@@ -47,8 +47,8 @@ if ($selectObj !== false) {
     } else {
         $contents = $viewContents = $selectObj;
     }
-} else if ($srcName !== false && $srcName !== '---') {
-// ディレクトリの選択
+} elseif ($srcName !== false && $srcName !== '---') {
+    // ディレクトリの選択
     $dataList = scandir($srcPath);
     $notList = [];
     foreach ($dataList as $_key => $_data) {
@@ -79,7 +79,6 @@ if ($saveObj !== false || $editObj !== false) {
 
 // ソースの保存
 if ($saveObj  !== false && $set->GetPost('directory') != '---') {
-
     if (file_exists($srcFile) && is_file($srcFile)) {
         $srcObj = $set->GetPost('input');
         file_put_contents($srcFile, $srcObj);

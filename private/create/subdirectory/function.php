@@ -1,17 +1,20 @@
 <!-- Server.phpのクラス化 -->
 <?php
-class Admin {
+class Admin
+{
     private $adminError;
     private $use;
     private $basePath;
     private $session;
     private $post;
 
-    public function __construct() {
+    public function __construct()
+    {
         require_once dirname(dirname(dirname(__DIR__))). '/private/common/Function/Tag.php';
         $this->Initialize();
     }
-    public function Initialize() {
+    public function Initialize()
+    {
         $this->adminError = new AdminError();
         $this->use = new UseClass();
 
@@ -27,7 +30,8 @@ class Admin {
             $judge[$$post_key] = $post_value;
         }
     }
-    public function DirCopy($pathName='', $fileName='', $modifer='') {
+    public function DirCopy($pathName='', $fileName='', $modifer='')
+    {
         copy("$baseFileName/$fileName.$_pathList", "$title/$fileName.$_pathList");            // フォルダ内のindex.php作成
         if ($_pathList === 'php') {
             var_dump("/$baseFileName/design.php");
@@ -40,22 +44,26 @@ class Admin {
         }
         $use->Alert('ページを作成しました。');
         session_destroy();
-        }
+    }
 }
 
-class AdminError {
+class AdminError
+{
     protected $use;
-    public function __construct() {
+    public function __construct()
+    {
         $this->use = new PrivateTag\UseClass();
     }
 
-    public function UserError($message) {
+    public function UserError($message)
+    {
         $this->use->Alert($message);
         $this->use->BackAdmin('create');
         exit;
     }
 
-    public function Maintenance() {
+    public function Maintenance()
+    {
         $this->UserError('メンテナンス中です。しばらくお待ちください。');
     }
 }

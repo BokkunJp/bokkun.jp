@@ -1,4 +1,5 @@
 <?php
-class wordDefine {
+class wordDefine
+{
     public $word;
 }

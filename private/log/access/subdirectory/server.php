@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-define ("DS", DIRECTORY_SEPARATOR);
+define("DS", DIRECTORY_SEPARATOR);
 require_once dirname(__DIR__, 3). DS. "common". DS . "ajax-require.php";
 use PrivateSetting\Setting;
 
@@ -20,13 +20,13 @@ $result = ValidateData($dirPath, $srcName);
 
 
  if ($srcName === '---') {
-    $errCode = 1;
-} else if ($result === false) {
-    $errCode = 2;
-}
+     $errCode = 1;
+ } elseif ($result === false) {
+     $errCode = 2;
+ }
 
 if (!$errCode) {
-     $srcFile = AddPath($dirPath, $srcName, false);
+    $srcFile = AddPath($dirPath, $srcName, false);
     if (file_exists($srcFile)) {
         $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
     } else {
@@ -41,6 +41,7 @@ if (!$errCode) {
         break;
         case 2:
             $contents = 'ログファイルの選択が不正です。';
+            // no break
         default:
         break;
     }

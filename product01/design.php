@@ -12,7 +12,7 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
     if (isset($posts['send'])) {
         $alert->Alert('CSVを作成します。');
         $inputFlg = true;
-    } else if (isset($posts['view'])) {
+    } elseif (isset($posts['view'])) {
         $inputFlg = false;
     }
 

@@ -9,7 +9,8 @@
  *
  * @return void
  */
-function ViewImage($imageName, $imageUrl, $fileTime, $checked = false) {
+function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
+{
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
 
@@ -36,7 +37,8 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false) {
  *
  * @return void
  */
-function ViewList($imageName, $imageUrl, $checked = false) {
+function ViewList($imageName, $imageUrl, $checked = false)
+{
     // 現在選択している画像タイプを取得
     $imagePageName = GetImagePageName();
 

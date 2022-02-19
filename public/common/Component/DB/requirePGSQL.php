@@ -1,7 +1,13 @@
 <?php
-class myPg {
-    private $tableName, $dbName, $dbUser, $pg_dsn, $pg_con;
-    public function __construct($dbName='bokkun', $dbPass = null, $tableName=null, $dbHost = 'localhost', $dbPort=5432) {
+class myPg
+{
+    private $tableName;
+    private $dbName;
+    private $dbUser;
+    private $pg_dsn;
+    private $pg_con;
+    public function __construct($dbName='bokkun', $dbPass = null, $tableName=null, $dbHost = 'localhost', $dbPort=5432)
+    {
         try {
             $this->dbName = $dbName;
             $this->pg_dsn = "dbname={$this->dbName} user={$this->dbName} host={$dbHost} port={$dbPort} password={$dbPass}";
@@ -15,11 +21,13 @@ class myPg {
         }
     }
 
-    public function SetTable($tableName) {
+    public function SetTable($tableName)
+    {
         $this->tableName = $tableName;
     }
 
-    private function SetPlaceholder(array $colArray) {
+    private function SetPlaceholder(array $colArray)
+    {
         $newArray = [];
 
         foreach ($colArray as $_key => $_val) {
@@ -29,7 +37,8 @@ class myPg {
         return $newArray;
     }
 
-    private function SQLExec($col, $val, $sql) {
+    private function SQLExec($col, $val, $sql)
+    {
         try {
             pg_query($this->pg_con, 'BEGIN;');                             // トランザクション開始
 
@@ -51,7 +60,6 @@ class myPg {
                     // $sth->bindValue($placeholder[$_key], $val[$_key]);
                 }
                 $sth->execute();
-                    
             }
             pg_query($this->pg_con, 'COMMIT;');                                      // コミット
         } catch (Exception $e) {
@@ -61,7 +69,8 @@ class myPg {
         }
     }
 
-    public function Insert($cols, $vals) {
+    public function Insert($cols, $vals)
+    {
         // カラムからプレースホルダを生成
         $placeholder = MoldData($this->SetPlaceholder($cols));
 
@@ -73,7 +82,7 @@ class myPg {
         $this->SQLExec($cols, $vals, $sql);
     }
 
-    function __destruct()
+    public function __destruct()
     {
         pg_close($this->pg_con);
     }

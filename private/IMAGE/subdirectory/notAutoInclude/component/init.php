@@ -4,7 +4,8 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))). '/common/Setting.php';
 require_once PUBLIC_COMMON_DIR. "/Include.php";
 
 // 文字列からディレクトリ部分の文字列を切り取る関数
-function StrExtraction($str, $target) {
+function StrExtraction($str, $target)
+{
     $count = strpos($str, $target);
     return mb_strcut($str, $count);
 }
@@ -45,7 +46,8 @@ $arrow->SetTag('span', '->', 'arrow', true);
 $arrow = $arrow->ExecTag();
 
 // 配列を順に出力する (パンくず出力用)
-function ViewArray($ary, $arow="\t") {
+function ViewArray($ary, $arow="\t")
+{
     foreach ($ary as $_elm => $_ary) {
         // 配列の末尾では間の文字(矢印)は消す
         if ($_elm === (count($ary) - 1)) {

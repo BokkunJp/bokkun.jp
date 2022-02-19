@@ -1,6 +1,7 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-class Qr {
+class Qr
+{
     use PublicTrait;
 }
 
