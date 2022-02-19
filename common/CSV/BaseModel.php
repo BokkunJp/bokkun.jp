@@ -1,4 +1,5 @@
 <?php
+
 namespace Common;
 
 define('CSV_PATH', AddPath(PUBLIC_CSV_DIR, '', false, '/') . AddPath(basename(getcwd()), '', false, '/'));

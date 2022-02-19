@@ -1,4 +1,5 @@
 <?php
+
 namespace CommonSetting;
 
 require_once 'InitFunction.php';

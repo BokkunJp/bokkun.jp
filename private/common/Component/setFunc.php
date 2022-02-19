@@ -1,5 +1,7 @@
 <?php
+
 // 関数フォルダ内にあるファイルをインポート
+
 namespace setFunc;
 
 require_once('UA.php');
@@ -7,7 +9,7 @@ require_once('UA.php');
 function Addition($class_name, $instance_name)
 {
     $newData = new $class_name();
-    
+
     // クラスのインスタンスの判定
     if (is_object($newData.$instance_name)) {
         return $newData;

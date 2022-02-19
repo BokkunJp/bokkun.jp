@@ -1,4 +1,5 @@
 <?php
+
 // クラス化
 class Setting
 {

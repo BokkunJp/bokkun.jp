@@ -1,4 +1,5 @@
 <?php
+
 IncludeFiles(AddPath(AddPath(PUBLIC_COMMON_DIR, 'Component'), 'DB'));
 
 

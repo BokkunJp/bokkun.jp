@@ -1,4 +1,5 @@
 <?php
+
 // CSRFクラス
 function CSRFErrorMessage()
 {

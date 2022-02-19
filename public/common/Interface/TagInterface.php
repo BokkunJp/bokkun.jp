@@ -1,4 +1,5 @@
 <?php
+
 namespace Tag;
 
 interface BaseInterface
