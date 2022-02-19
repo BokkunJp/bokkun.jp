@@ -2,15 +2,17 @@
 namespace BasicTag;
 
 // クラス化
-class Base {
-
+class Base
+{
     protected $authorities;
 
-    function __construct($init = true) {
+    public function __construct($init = true)
+    {
         $this->Initialize($init);
     }
 
-    protected function Initialize($init = false) {
+    protected function Initialize($init = false)
+    {
         if ($init === true) {
             $initArray = ['div', 'span', 'pre'];
         } else {
@@ -21,7 +23,8 @@ class Base {
         $this->AllowAuthoritys($initArray);
     }
 
-    protected function AllowAuthoritys($authorities) {
+    protected function AllowAuthoritys($authorities)
+    {
         if (!is_array($authorities)) {
             trigger_error("引数が不正です。", E_USER_ERROR);
         }
@@ -30,20 +33,24 @@ class Base {
         }
     }
 
-    protected function AllowAuthority($authority) {
+    protected function AllowAuthority($authority)
+    {
         $this->AllowAuthoritys([$authority]);
     }
 
-    protected function DenyAuthority($authority) {
+    protected function DenyAuthority($authority)
+    {
         $key = array_keys($this->authorities, $authority);
         $this->authorities = array_splice($this->authorities, $key, 1);
     }
 
-    public function SetDefault() {
+    public function SetDefault()
+    {
         $this->Initialize();
     }
 
-    public function ViewAuthority($authorityName = null) {
+    public function ViewAuthority($authorityName = null)
+    {
         if (!isset($authorityName)) {
             foreach ($this->authorities as $value) {
                 var_dump("$value is true.");
@@ -54,7 +61,8 @@ class Base {
     }
 
     // タグ名リスト生成
-    public function CreateAuthorityList($notuseList) {
+    public function CreateAuthorityList($notuseList)
+    {
         $select = '<select>';
         $authorityList = $this->authorities;
         $notuse = array_search('script', $authorityList);
@@ -76,21 +84,25 @@ class Base {
 
         return $select;
     }
-
 }
 
-class HTMLClass extends Base {
+class HTMLClass extends Base
+{
+    protected $tag;
+    protected $tagName;
+    protected $className;
+    protected $contents;
 
-    protected $tag, $tagName, $className, $contents;
-
-    function __construct($init=false, $allowTag=[]) {
+    public function __construct($init=false, $allowTag=[])
+    {
         parent::__construct($init);
         $this->AllowAuthoritys(array_merge($allowTag));
     }
 
 
     // タグ名・内容・クラス名をセットする
-    public function SetTag($tagName = 'div', $contents = '', $className = '', $tagOption = '') {
+    public function SetTag($tagName = 'div', $contents = '', $className = '', $tagOption = '')
+    {
         $count = func_num_args();
         if ($count > 1) {
             $this->HTMLSet($tagName, $contents, $className);        // タグをHTML用のタグに置き換え
@@ -106,7 +118,8 @@ class HTMLClass extends Base {
     }
 
     // HTMLの各要素をセットする
-    protected function HTMLSet($tagName, $contents, $className) {
+    protected function HTMLSet($tagName, $contents, $className)
+    {
         $this->tagName = $tagName;
 
         $tags = '';
@@ -121,13 +134,15 @@ class HTMLClass extends Base {
         $this->className = $className;
     }
 
-    protected function SetSpecailContents($contents) {
+    protected function SetSpecailContents($contents)
+    {
         $this->HTMLSet($this->tagName, $this->contens, $this->className);
         $this->contents = $contents;
     }
 
     // タグ名などのメタデータに沿ってHTMLを生成する
-    protected function CreateTag($tagOption = '') {
+    protected function CreateTag($tagOption = '')
+    {
         // 開始タグと終了タグでタグ名が違うタグ(a hrefなど)のための特殊処理
         $tagAuth = $this->tagName;
         foreach ($this->authorities as $_authorities) {
@@ -157,7 +172,8 @@ class HTMLClass extends Base {
         $this->tag .= "</$this->tagName>";
     }
 
-    protected function GetTag() {
+    protected function GetTag()
+    {
         if (!isset($this->tag)) {
             trigger_error("タグが存在しません。", E_USER_ERROR);
         }
@@ -165,7 +181,8 @@ class HTMLClass extends Base {
         return $this->tag;
     }
 
-    public function ExecTag($output = false, $spaceFlg = false) {
+    public function ExecTag($output = false, $spaceFlg = false)
+    {
         if ($output === true) {
             echo $this->GetTag();
             if ($spaceFlg === true) {
@@ -176,7 +193,8 @@ class HTMLClass extends Base {
     }
 
     // authoritry以外の内部変数を初期化する
-    public function Clean($elm = null) {
+    public function Clean($elm = null)
+    {
         // 初期化する変数の指定がある場合
         if (!is_null($elm)) {
             if (!is_array($elm)) {
@@ -199,42 +217,48 @@ class HTMLClass extends Base {
             }
         }
     }
-
 }
 
 // 特殊タグ用の処理
-class CustomTagCreate extends HTMLClass {
-
-    function __construct($init=true, $initArray=['a href', 'script src', 'img']) {
+class CustomTagCreate extends HTMLClass
+{
+    public function __construct($init=true, $initArray=['a href', 'script src', 'img'])
+    {
         parent::__construct($init, $initArray);
     }
 
-    protected function CreateClosedTag($tagName, $tagOption, $className,  $viewLink = false) {
+    protected function CreateClosedTag($tagName, $tagOption, $className, $viewLink = false)
+    {
         parent::SetTag($tagName, null, $className);
         $this->tag = substr_replace($this->tag, $tagOption . " />", strcspn($this->tag, '>', 0));
         return $this->ExecTag($viewLink);
     }
 
-    protected function GetTag() {
+    protected function GetTag()
+    {
         return parent::GetTag();
     }
 
-    public function ExecTag($view = false, $spaceFlg = false) {
+    public function ExecTag($view = false, $spaceFlg = false)
+    {
         return parent::ExecTag($view);
     }
 
-    private function CreateDiffTag($tagName, $link, $title = null, $class = '', $viewLink = false) {
+    private function CreateDiffTag($tagName, $link, $title = null, $class = '', $viewLink = false)
+    {
         $this->SetTag($tagName, $title, $class, $link);
         return $this->ExecTag($viewLink);
     }
 
     // img src
-    public function SetImage($link = '', $width = 400, $height = 400, $class = '', $viewLink = false) {
-        return $this->CreateClosedTag("img", " src='$link' width=" . $width . "px height=" . $height . "px", $class,  $viewLink);
+    public function SetImage($link = '', $width = 400, $height = 400, $class = '', $viewLink = false)
+    {
+        return $this->CreateClosedTag("img", " src='$link' width=" . $width . "px height=" . $height . "px", $class, $viewLink);
     }
 
     // a href
-    public function SetHref($link = '', $title = null, $class = 'test', $viewLink = false, $target = '_new') {
+    public function SetHref($link = '', $title = null, $class = 'test', $viewLink = false, $target = '_new')
+    {
         if (preg_match('/^_/', $target) === 0) {
             $target = '_' . $target;
         }
@@ -259,55 +283,59 @@ class CustomTagCreate extends HTMLClass {
     }
 
     // script src
-    public function ReadJS($link = 'aaa', $class = '', $viewLink = false) {
+    public function ReadJS($link = 'aaa', $class = '', $viewLink = false)
+    {
         return $this->CreateDiffTag("script src", $link, null, $class, $viewLink);
     }
-
 }
 
 // スクリプトタグの処理
-class ScriptClass extends HTMLClass {
-
+class ScriptClass extends HTMLClass
+{
     protected $script;
 
-    function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->AllowAuthority('script');
     }
 
     // Scriptタグ
-    public function Script($str) {
+    public function Script($str)
+    {
         $this->SetTag('script', $str);
     }
 
     // Alert関数
-    public function Alert($str, $abort = false) {
+    public function Alert($str, $abort = false)
+    {
         $this->Script("alert('$str');");
         $this->ExecTag(true);
         if ($abort === true) {
             exit;
         }
     }
-
 }
 
-class UseClass extends ScriptClass {
+class UseClass extends ScriptClass
+{
 
     // 指定したURLへ遷移
-    public function MovePage($url) {
+    public function MovePage($url)
+    {
         $this->Script("location.href='$url';");
         $this->ExecTag(true);
     }
 
-    public function Confirm() {
-
+    public function Confirm()
+    {
     }
-
 }
 
 // 共通処理
 // オリジナルダンプ
-function deb_dump($value, $htmlspecialcharFlg = true) {
+function deb_dump($value, $htmlspecialcharFlg = true)
+{
     if ($htmlspecialcharFlg === true) {
         $value = htmlspecialchars($value);
     }

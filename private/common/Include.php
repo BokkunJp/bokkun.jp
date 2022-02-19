@@ -12,6 +12,7 @@ $pwd = PRIVATE_COMPONENT_DIR . '/';
 IncludeFiles($pwd);
 
 use \PrivateTag\CustomTagCreate as OriginTag;
+
 //JSファイル
 IncludeDirctories(PRIVATE_COMPONENT_DIR);
 // subdirectory内のphpファイルの読み込み (指定ディレクトリのみ)
@@ -42,8 +43,8 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false, array $c
     // パスの指定がない場合は、カレントディレクトリ一覧を取得
     if (empty($pwd)) {
         $pwd = getcwd();
-        // パスの指定がある場合は、カレントディレクトリを(現在のものを保存したうえで)書き換える
-    } else if ($pwd != getcwd()) {
+    // パスの指定がある場合は、カレントディレクトリを(現在のものを保存したうえで)書き換える
+    } elseif ($pwd != getcwd()) {
         $localPath = getcwd();            // 現在のファイルパスを保管しておく
         chdir($pwd);                      // カレントディレクトリを指定のものに変更
     }
@@ -73,7 +74,7 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false, array $c
  *
  */
 
-function IncludeFiles($pwd, $extension = 'php', $ret = false, Array $classLoad=[])
+function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[])
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -127,9 +128,9 @@ function IncludeJSFiles($pwd, $className = '', $ret = true, $classLoad = false)
     $src = new OriginTag();
     $base = new PrivateSetting\Setting();
     $jsFiles = IncludeFiles(AddPath(PRIVATE_JS_DIR, $pwd), 'js', $ret);
-    if ($jsFiles === NULL) {
+    if ($jsFiles === null) {
         return null;
-    }else if (is_array($jsFiles)) {
+    } elseif (is_array($jsFiles)) {
         foreach ($jsFiles as $_jsFile) {
             $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $_jsFile, false), $className);
             $src->ExecTag(true);

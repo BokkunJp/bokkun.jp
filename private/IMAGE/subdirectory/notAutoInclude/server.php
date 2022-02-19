@@ -73,7 +73,7 @@ if (!empty($mode) && $mode === 'edit') {
         } else {
             $session->Write('notice', NOT_FOUND_DLETE_IMAGE, 'Delete');
         }
-    } else if (isset($posts['copy'])) {
+    } elseif (isset($posts['copy'])) {
         // コピーの場合
         // 選択したファイルをリスト化
         $copyImgList = [];
@@ -100,20 +100,20 @@ if (!empty($mode) && $mode === 'edit') {
             // 対象ディレクトリがなし
             if (!empty($result['not-page'])) {
                 $noticeWord .= nl2br("\n"). "・". NOT_FOUND_COPY_DIRECTORY;
-            } else if (!empty($result['no-select'])) {
+            } elseif (!empty($result['no-select'])) {
                 // 選択画像がなし
                 $noticeWord .= nl2br("\n"). "・". NOT_SELECT_IMAGE;
             } else {
-            $noticeWord .= nl2br("\n");
-            if(!empty($result['illegal-value']['count'])) {
-                // 不正なファイル名が入力された
                 $noticeWord .= nl2br("\n");
-                $noticeWord .= "・". $result['illegal-value']['count']. NUMBER_OF_IMAGE . ILLEGAL_IMAGE_NAME;
-            } else if (!empty($result['error']['count'])) {
-                // その他コピー処理エラー
-                $noticeWord .= "・". $result['error']['count']. FAIL_COPYING_IMAGE;
+                if (!empty($result['illegal-value']['count'])) {
+                    // 不正なファイル名が入力された
+                    $noticeWord .= nl2br("\n");
+                    $noticeWord .= "・". $result['illegal-value']['count']. NUMBER_OF_IMAGE . ILLEGAL_IMAGE_NAME;
+                } elseif (!empty($result['error']['count'])) {
+                    // その他コピー処理エラー
+                    $noticeWord .= "・". $result['error']['count']. FAIL_COPYING_IMAGE;
+                }
             }
-        }
             $session->Write('notice', $noticeWord);
             // チェックがある場合は、その状態をセッションへ保持
             if (!empty($copyImgList)) {
@@ -147,7 +147,7 @@ if (!empty($mode) && $mode === 'edit') {
     if (empty($result['success'])) {
         if (empty($result)) {
             $session->Write('notice', NOT_SELECT_IMAGE);
-        } else if ($result == IMAGE_COUNT_OVER) {
+        } elseif ($result == IMAGE_COUNT_OVER) {
             $session->Write('notice', IMAGE_COUNT_OVER_ERROR);
         } else {
             // 1枚以上アップロードに成功したファイルがあった場合
@@ -169,13 +169,13 @@ if (!empty($mode) && $mode === 'edit') {
 
         if (!empty($failCount)) {
             $noticeWord = "";
-                $noticeWord .= $failCount . NUMBER_OF_IMAGE . FAIL_UPLOAD_IMAGE;
+            $noticeWord .= $failCount . NUMBER_OF_IMAGE . FAIL_UPLOAD_IMAGE;
 
-                if (!empty($noticeWord)) {
-                    $noticeWord .= nl2br("\n");
-                }
+            if (!empty($noticeWord)) {
+                $noticeWord .= nl2br("\n");
+            }
 
-                if (!empty($result['-1']['count'])) {
+            if (!empty($result['-1']['count'])) {
                 $noticeWord .= "・". $result['-1']['count']. NUMBER_OF_IMAGE. NOT_MATCH_IMAGE;
             }
 
@@ -188,7 +188,6 @@ if (!empty($mode) && $mode === 'edit') {
             }
 
             $session->Write('notice', $noticeWord);
-
         }
         if (!empty($result['success']['count'])) {
             $session->Write('success', $result['success']['count']. NUMBER_OF_IMAGE . SUCCESS_UPLOAD_IMAGE);
@@ -200,4 +199,3 @@ $session->Write('token', sha1(session_id()));
 // $session->FinaryDestroy();
 $url = new PrivateSetting\Setting();
 header('Location:' . $url->GetUrl($str));
-?>

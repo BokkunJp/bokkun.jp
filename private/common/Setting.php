@@ -1,25 +1,34 @@
 <?php
 namespace PrivateSetting;
+
 require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
-function GetSelf_Admin() {
+function GetSelf_Admin()
+{
     return filter_input_fix(INPUT_SERVER, 'PHP_SELF');
 }
 
-function GetPrevPage_Admin() {
+function GetPrevPage_Admin()
+{
     return filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
 }
 
 
-function getURI_Admin() {
+function getURI_Admin()
+{
     return filter_input_fix(INPUT_SERVER, 'REQUEST_URI');
 }
 
-class Setting extends \commonSetting\Setting {
+class Setting extends \commonSetting\Setting
+{
+    protected $domain;
+    protected $url;
+    protected $public;
+    protected $client;
+    protected $css;
+    protected $js;
+    protected $image;
 
-    protected $domain, $url, $public;
-    protected $client, $css, $js, $image;
-
-    function __construct()
+    public function __construct()
     {
         // 基本設定(親クラスのコンストラクタにアクセス)
         parent::__construct();
@@ -38,12 +47,14 @@ class Setting extends \commonSetting\Setting {
     }
 
     // URLのドメインを取得
-    public static function GetDomain() {
+    public static function GetDomain()
+    {
         return parent::GetSERVER('HTTP_HOST');
     }
 
     // IPアドレスを取得
-    public static function GetHostIp($hostName = null) {
+    public static function GetHostIp($hostName = null)
+    {
         if (is_null($hostName)) {
             $ret = parent::GetSERVER('REMOTE_ADDR');
         } else {
@@ -53,18 +64,19 @@ class Setting extends \commonSetting\Setting {
     }
 
     // IPアドレスからホスト名を取得
-    public static function GetHostName($ipName = null) {
+    public static function GetHostName($ipName = null)
+    {
         if (is_null($ipName)) {
             $ipName = self::GetHostIp();
         }
 
         return gethostbyaddr($ipName);
     }
-
 }
 
-class Admin extends Setting {
-    function __construct()
+class Admin extends Setting
+{
+    public function __construct()
     {
     }
 
@@ -115,4 +127,3 @@ $client = $public . 'client/';
 $image = $client . 'image';
 
 define('IMAGE_URL', $image);
-

@@ -7,8 +7,8 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false)
     // パスの指定がない場合は、カレントディレクトリ一覧を取得
     if (empty($pwd)) {
         $pwd = getcwd();
-        // パスの指定がある場合は、カレントディレクトリを(現在のものを保存したうえで)書き換える
-    } else if ($pwd != getcwd()) {
+    // パスの指定がある場合は、カレントディレクトリを(現在のものを保存したうえで)書き換える
+    } elseif ($pwd != getcwd()) {
         $localPath = getcwd();            // 現在のファイルパスを保管しておく
         chdir($pwd);                      // カレントディレクトリを指定のものに変更
     }
@@ -38,7 +38,7 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false)
  *
  */
 
-function IncludeFiles($pwd, $extension = 'php', $ret = false, Array $classLoad=[])
+function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[])
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {

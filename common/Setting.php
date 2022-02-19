@@ -1,5 +1,6 @@
 <?php
 namespace CommonSetting;
+
 require_once 'InitFunction.php';
 
 $base = new Setting();
@@ -20,12 +21,18 @@ $COMMON_DIR = __DIR__;
 $FUNCTION_DIR = $COMMON_DIR . '/Function';
 
 // 設定関係のクラス化(実装中)
-class Setting {
+class Setting
+{
+    protected $domain;
+    protected $url;
+    protected $public;
+    protected $client;
+    protected $css;
+    protected $js;
+    protected $image;
 
-    protected $domain, $url, $public;
-    protected $client, $css, $js, $image;
-
-    function __construct() {
+    public function __construct()
+    {
         // 基本設定
         $this->InitSSL($this->url);
         $this->domain = $this->GetSERVER('SERVER_NAME');
@@ -34,7 +41,8 @@ class Setting {
         $this->client = AddPath($this->public, 'client', true, '/');
     }
 
-    private function InitSSL(&$http) {
+    private function InitSSL(&$http)
+    {
         $http_flg = $this->GetSERVER('HTTPS');
         if (isset($http_flg)) {
             $http = '//';
@@ -43,19 +51,23 @@ class Setting {
         }
     }
 
-    static protected function GetSERVER($elm) {
+    protected static function GetSERVER($elm)
+    {
         return Sanitize(filter_input_fix(INPUT_SERVER, $elm));
     }
 
-    static public function GetDocumentRoot() {
+    public static function GetDocumentRoot()
+    {
         return self::GetSERVER('DOCUMENT_ROOT');
     }
 
-    static public function GetServarName() {
+    public static function GetServarName()
+    {
         return self::GetSERVER('SERVER_NAME');
     }
 
-    static public function GetPropaty($elm) {
+    public static function GetPropaty($elm)
+    {
         if (property_exists('PublicSetting\Setting', $elm) !== false) {
             return $elm;
         } else {
@@ -63,57 +75,66 @@ class Setting {
         }
     }
 
-    static public function GetURI() {
+    public static function GetURI()
+    {
         return self::GetSERVER('REQUEST_URI');
     }
 
-    static public function GetScript() {
+    public static function GetScript()
+    {
         return self::GetSERVER('SCRIPT_NAME');
     }
 
     // 全Post値を取得
-    static public function GetPosts() {
+    public static function GetPosts()
+    {
         return Sanitize(filter_input_array(INPUT_POST));
     }
 
     // 配列形式のPost値を取得
-    static public function GetPostArray($var)
+    public static function GetPostArray($var)
     {
         return self::GetPost($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
     }
 
     // 指定した要素のPost値を取得
-    static public function GetPost($elm = '', $filter = FILTER_DEFAULT, $options = null) {
+    public static function GetPost($elm = '', $filter = FILTER_DEFAULT, $options = null)
+    {
         return Sanitize(filter_input_fix(INPUT_POST, $elm, $filter, $options));
     }
 
-    static public function GetRemoteADDR() {
+    public static function GetRemoteADDR()
+    {
         return self::GetSERVER('REMOTE_ADDR');
     }
 
     // すべてのGet値を取得
-    static public function GetRequest() {
+    public static function GetRequest()
+    {
         return Sanitize(filter_input_array(INPUT_GET));
     }
 
     // 指定した要素のGet値を取得
-    static public function GetQuery($elm = '',$filter = FILTER_DEFAULT, $options = null) {
+    public static function GetQuery($elm = '', $filter = FILTER_DEFAULT, $options = null)
+    {
         return Sanitize(filter_input_fix(INPUT_GET, $elm, $filter, $options));
     }
 
     // 配列形式のGet値を取得
-    static public function GetQueryArray($var)
+    public static function GetQueryArray($var)
     {
         return self::GetQuery($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
     }
 
     // FILEを取得
-    static public function GetFiles() {
+    public static function GetFiles()
+    {
         return $_FILES;
     }
 
     // 公開パスなどのURLを取得
-    public function GetUrl($query='', $type='url', $relativePath = false) {
+    public function GetUrl($query='', $type='url', $relativePath = false)
+    {
         if ($relativePath === false) {
             $url = $this->url;
         } else {
@@ -146,11 +167,10 @@ class Setting {
 // セッションクラス (ファイルを分離予定)
 class Session
 {
-
     private $init;
     private $session;
 
-    function __construct()
+    public function __construct()
     {
         $this->Read();
         $this->init = $this->session;
@@ -269,7 +289,7 @@ class Session
         $judge = $this->Judge($id);
         if ($judge === null) {
             var_dump($this->session);
-        } else if ($judge === true) {
+        } elseif ($judge === true) {
             print_r($this->session[$id]);
         }
     }
@@ -303,7 +323,7 @@ class Session
 class Cookie
 {
     private $cookie;
-    function __construct()
+    public function __construct()
     {
         $this->Init();
     }

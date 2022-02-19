@@ -1,18 +1,22 @@
 <?php
 // クラス化
-class Setting {
+class Setting
+{
     protected $authorities;
 
-    function __construct() {
+    public function __construct()
+    {
         $this->Initialize();
     }
 
-    protected function Initialize() {
+    protected function Initialize()
+    {
         unset($this->authorities);
         $this->authorities = array();
     }
 
-    protected function DenyAuthoritys($authorities) {
+    protected function DenyAuthoritys($authorities)
+    {
         if (!is_array($authorities)) {
             trigger_error("引数が不正です。", E_USER_ERROR);
         }
@@ -21,27 +25,32 @@ class Setting {
         }
     }
 
-    protected function DenyAuthority($authority) {
+    protected function DenyAuthority($authority)
+    {
         $this->DenyAuthoritys([$authority]);
     }
 
-    protected function AllowAuthoritys($authority) {
+    protected function AllowAuthoritys($authority)
+    {
         $key = array_keys($this->authorities, $authority);
         $this->authorities = array_splice($this->authorities, $key, 1);
     }
 
-    protected function AllowAuthority($authority) {
+    protected function AllowAuthority($authority)
+    {
         $key = array_keys($this->authorities, $authority);
         $this->authorities = array_splice($this->authorities, $key, 1);
     }
 
-    public function SetDefault($authority) {
+    public function SetDefault($authority)
+    {
         $this->Initialize();
         $this->DenyAuthoritys($authority);
     }
 
 
-    public function ViewAuthority($authorityName=null) {
+    public function ViewAuthority($authorityName=null)
+    {
         if (!isset($authorityName)) {
             foreach ($this->authorities as $value) {
                 var_dump("$value is true.");
@@ -52,7 +61,8 @@ class Setting {
     }
 
     // タグ名リスト生成
-    public function CreateAuthorityList($notuseList) {
+    public function CreateAuthorityList($notuseList)
+    {
         $select = '<select>';
         $authorityList = $this->authorities;
         $notuse = array_search('script', $authorityList);
@@ -71,6 +81,4 @@ class Setting {
 
         return $select;
     }
-
-
 }

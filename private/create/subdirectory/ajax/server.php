@@ -27,4 +27,3 @@ foreach (NOT_DELETE_FILE_LIST as $_notDir) {
 
 $json = json_encode($data);
 echo $json;
-

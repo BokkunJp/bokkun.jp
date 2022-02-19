@@ -1,11 +1,14 @@
 <?php
 
-class Config {
-    function __construct() {
+class Config
+{
+    public function __construct()
+    {
     }
 }
 
-class Header extends Config {
+class Header extends Config
+{
 
     // バージョン判定
     private function SetVersion()
@@ -29,10 +32,12 @@ class Header extends Config {
     }
 }
 
-class Footer extends Config {
+class Footer extends Config
+{
     private $start;
     private $end;
-    private function SetYear($arg) {
+    private function SetYear($arg)
+    {
         $time = new DateTime();
         $this->end = $time->format('Y');
         $this->start = '2016';

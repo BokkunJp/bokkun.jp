@@ -1,22 +1,23 @@
 <?php
-function AddList($list1, $list2, $extension=null, $headFlg=-1) {
-  if (!is_array($list2) || empty($extension)) {
-    return false;
-  }
+function AddList($list1, $list2, $extension=null, $headFlg=-1)
+{
+    if (!is_array($list2) || empty($extension)) {
+        return false;
+    }
 
-  if (!is_array($list1)) {
-    $list1 = array();
-  }
+    if (!is_array($list1)) {
+        $list1 = array();
+    }
 
-  $pullList = array();
+    $pullList = array();
 
-  // .の時は特別な判定
-  if ($extension == '.') {
-    $extension = "\.";
-  }
+    // .の時は特別な判定
+    if ($extension == '.') {
+        $extension = "\.";
+    }
 
-  foreach ($list2 as $index => $_dir) {
-    switch ($headFlg) {
+    foreach ($list2 as $index => $_dir) {
+        switch ($headFlg) {
         case 0:
         $judge = !preg_match("/^(?!$extension).*$/", $_dir);
           break;
@@ -30,10 +31,10 @@ function AddList($list1, $list2, $extension=null, $headFlg=-1) {
           $judge = true;
       }
 
-      if ($judge) {
-          $pullList[] = $_dir;
-      }
-  }
+        if ($judge) {
+            $pullList[] = $_dir;
+        }
+    }
 
-  return array_merge($list1, $pullList);
+    return array_merge($list1, $pullList);
 }

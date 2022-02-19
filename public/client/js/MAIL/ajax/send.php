@@ -1,9 +1,9 @@
-<?php 
+<?php
 $get = $_GET;
 $post = $_POST;
 
 if (empty($post)) {
-	return;
+    return;
 }
 header('Content-type: text/javascript; charset=utf-8');
 echo key($post);

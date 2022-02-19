@@ -52,7 +52,7 @@ trait PrivateTrait
             foreach (scandir($dirPath) as $_file) {
                 if (FindFileName($_file) && is_readable($_file)) {
                     unlink(AddPath($dirPath, $_file, false));
-                } else if ((FindFileName($_file) && !is_readable($_file))) {
+                } elseif ((FindFileName($_file) && !is_readable($_file))) {
                     if (file_exists(AddPath($dirPath, $_file))) {
                         DeleteData(AddPath($dirPath, $_file));
                     } else {

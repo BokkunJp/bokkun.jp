@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-define ("DS", DIRECTORY_SEPARATOR);
+define("DS", DIRECTORY_SEPARATOR);
 require_once dirname(__DIR__, 3). DS. "common". DS . "ajax-require.php";
 use PrivateSetting\Setting;
 
@@ -20,7 +20,7 @@ $srcName = $set->GetPost('select_log');
 $errCode=null;
 if ($srcName === '') {
     $errCode = 1;
-} else if ($srcName === null) {
+} elseif ($srcName === null) {
     $errCode = 2;
 }
 
@@ -50,7 +50,6 @@ if ($srcName === false) {
 
     if (!empty($errCode)) {
         $verObj = ['log-view' => nl2br(htmlentities($contents))];
-
     }
 
     $jsonData = json_encode($verObj); // データをJSON形式にエンコードする

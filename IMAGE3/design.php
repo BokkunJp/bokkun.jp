@@ -40,5 +40,5 @@ $updatePage = PublicSetting\Setting::GetPost('update_page');
 
 <?php
 if (isset($token)) {
-    SetToken($token);
-}
+        SetToken($token);
+    }

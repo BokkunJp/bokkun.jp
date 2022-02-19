@@ -6,11 +6,12 @@
  * @param void
  * @return int
  */
-function GetPage() {
+function GetPage()
+{
     $page = PrivateSetting\Setting::GetQuery('page');
     if ($page === false) {
         $page = 1;
-    } else if (!is_numeric($page)) {
+    } elseif (!is_numeric($page)) {
         return false;
     }
     return (int) $page;
@@ -23,7 +24,8 @@ function GetPage() {
  *
  * @param  void
  * @return int
- */function GetCountPerPage() {
+ */function GetCountPerPage()
+{
     $session = new PrivateSetting\Session();
     $post = PrivateSetting\Setting::GetPost('image-value');
     if (isset($post) && is_numeric($post)) {
@@ -33,14 +35,13 @@ function GetPage() {
             $pager = PAGER * MAX_VIEW;
         }
         $session->Write('image-view', $pager);
-    } else if ($session->Judge('image-view')) {
+    } elseif ($session->Judge('image-view')) {
         $pager = (int)$session->Read('image-view');
     } else {
         $pager = PAGER;
     }
 
     return $pager;
-
 }
 
 /**
@@ -51,7 +52,8 @@ function GetPage() {
  * @param boolean $ajaxFlg
  * @return string
  */
-function ViewPager($max, $ajaxFlg = false) {
+function ViewPager($max, $ajaxFlg = false)
+{
     $htmlVal = '';
     $nowPage = GetPage();
     $pager = GetCountPerPage();
@@ -64,7 +66,7 @@ function ViewPager($max, $ajaxFlg = false) {
         $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
         if ($pageValid === false) {
             $pageHtml->SetTag('span', $_vindex . ' ', 'pager', true);
-        } else if ($pageValid === true) {
+        } elseif ($pageValid === true) {
             $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
         }
 
@@ -91,7 +93,7 @@ function ViewPager($max, $ajaxFlg = false) {
             } else {
                 echo '...';
             }
-        } else if ($_vindex !== $maxPage) {
+        } elseif ($_vindex !== $maxPage) {
             if ($ajaxFlg) {
                 $htmlVal .= ' ';
             } else {
@@ -116,7 +118,8 @@ function ViewPager($max, $ajaxFlg = false) {
  * @param  int $maxPage
  * @return void
  */
-function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
+function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
+{
     switch ($currentPage) {
         case $minPage:
         case $maxPage:
@@ -124,6 +127,7 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
                 $valid = false;
                 break;
             }
+            // no break
         case $nowPage - 1:
         case $nowPage + 1:
             $valid = true;
@@ -152,12 +156,13 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage) {
  * @param boolean $ajaxFlg
  * @return void
  */
-function SetInputForm($minPage, $maxPage, $ajaxFlg = false) {
+function SetInputForm($minPage, $maxPage, $ajaxFlg = false)
+{
     $htmlVal = "<span class='image-page-input'><input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button></span>";
     if ($ajaxFlg) {
         return $htmlVal;
     } else {
-    print_r($htmlVal);
-    return true;
+        print_r($htmlVal);
+        return true;
     }
 }

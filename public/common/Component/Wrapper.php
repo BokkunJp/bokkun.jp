@@ -28,7 +28,7 @@ function wrap_array_combine(array $keys = [], array $values = [], $fill = false)
         foreach ($keys as $_key => $_val) {
             $values[$_key] = $_val;
         }
-    } else if (count($keys) < count($values)) {
+    } elseif (count($keys) < count($values)) {
     }
     var_dump($values);
 }

@@ -6,7 +6,11 @@
           <link rel="shortcut icon" href="<?=$base->GetURL('')?>common/error/client/image/5959715.png">
           <strong>
             <em>βοκκμη's homepage<?= $siteConfig['header']->GetVersion() ?></em> <br/>
-            <div align="center"><?php if (isset($title)){ echo $title; }else{ echo 'ぼっくんのホームページ';} ?></div>
+            <div align="center"><?php if (isset($title)) {
+    echo $title;
+} else {
+    echo 'ぼっくんのホームページ';
+} ?></div>
           </strong>
         </div>
     </div>

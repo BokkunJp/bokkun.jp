@@ -1,5 +1,5 @@
 <?php
-$commonInitFunctionPath = dirname (dirname (__DIR__));
+$commonInitFunctionPath = dirname(dirname(__DIR__));
 $commonInitFunctionPath = $commonInitFunctionPath . DIRECTORY_SEPARATOR . 'common';
 $commonInitFunctionPath = $commonInitFunctionPath . DIRECTORY_SEPARATOR . 'InitFunction.php';
 require_once $commonInitFunctionPath;
@@ -13,7 +13,8 @@ require_once $commonInitFunctionPath;
  *
  * @return string
  */
-function CreateRandom(int $length, string $type='security') {
+function CreateRandom(int $length, string $type='security')
+{
     switch ($type) {
         case 'security':
         $bytes = bin2hex(openssl_random_pseudo_bytes($length));

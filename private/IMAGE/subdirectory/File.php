@@ -2,8 +2,8 @@
 use PrivateTag\CustomTagCreate;
 
 // require_once dirname(dirname(__DIR__)). '/common/Layout/init.php';
-require_once ('Page.php');
-require_once ('View.php');
+require_once('Page.php');
+require_once('View.php');
 
 /**
  * FileExif
@@ -13,7 +13,8 @@ require_once ('View.php');
  *
  * @return void
  */
-function FileExif($img) {
+function FileExif($img)
+{
     // echo exif_imagetype($img). '<br />';
     // switch (exif_imagetype($img)) {
     //     case IMAGETYPE_JPEG:
@@ -56,7 +57,8 @@ function MoldFile($file, String $fileName)
     return $moldFiles;
 }
 
-function CheckType(string $inputType, string $targetType = 'image') {
+function CheckType(string $inputType, string $targetType = 'image')
+{
     $ret = true;
     if (!preg_match("/^{$targetType}/", $inputType)) {
         $ret = false;
@@ -184,7 +186,7 @@ function GetImagePageName()
         $session = new PrivateSetting\Session();
     }
 
-if (empty($session->Judge('image-view-directory'))) {
+    if (empty($session->Judge('image-view-directory'))) {
         $imagePageName = DEFAULT_IMAGE;
     } else {
         $imagePageName = $session->Read('image-view-directory');
@@ -208,8 +210,8 @@ function LoadAllImageFile()
 
     $imgSrc = [];
     foreach ($imgArray as $_index) {
-        $imgSrc[mb_strtolower($_index)] = IncludeFiles(AddPath(PUBLIC_IMAGE_DIR , $imagePageName), mb_strtolower($_index), true);
-        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(AddPath(PUBLIC_IMAGE_DIR , $imagePageName), mb_strtoupper($_index), true);
+        $imgSrc[mb_strtolower($_index)] = IncludeFiles(AddPath(PUBLIC_IMAGE_DIR, $imagePageName), mb_strtolower($_index), true);
+        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(AddPath(PUBLIC_IMAGE_DIR, $imagePageName), mb_strtoupper($_index), true);
     }
 
     $ret = [];
@@ -235,7 +237,6 @@ function LoadAllImageFile()
  */
 function TimeSort(&$data, $order = 'ASC')
 {
-
     if (is_array($data) == false) {
         echo 'データは配列でなければいけません。';
         return -1;
@@ -254,7 +255,7 @@ function TimeSort(&$data, $order = 'ASC')
     // 順番の指定
     if ($order === 'ASC') {
         $sort = SORT_ASC;
-    } else if ($order === 'DESC') {
+    } elseif ($order === 'DESC') {
         $sort = SORT_DESC;
     } else {
         echo '順序指定が不正です。';
@@ -272,7 +273,8 @@ function TimeSort(&$data, $order = 'ASC')
  * @param boolean $ajaxFlg
  * @return array
  */
-function ValidParameter($data=[], $ajaxFlg=false) {
+function ValidParameter($data=[], $ajaxFlg=false)
+{
     // 現在のページ番号の取得
     $page = GetPage();
 
@@ -311,7 +313,6 @@ function ValidParameter($data=[], $ajaxFlg=false) {
     }
 
     return $result;
-
 }
 
 /**
@@ -322,7 +323,8 @@ function ValidParameter($data=[], $ajaxFlg=false) {
  * @param array $data
  * @return void
  */
-function ChoiseImage($params, $data) {
+function ChoiseImage($params, $data)
+{
     // 結果用配列
     $cloneImg = [];
     for ($i = $params['start'];$i < $params['end']; $i++) {
@@ -330,7 +332,6 @@ function ChoiseImage($params, $data) {
     }
 
     return $cloneImg;
-
 }
 
 /**
@@ -354,7 +355,7 @@ function ReadImage($ajaxFlg = false)
     $sortAray = array();
     foreach ($fileList as $index => $_file) {
         $sortAray[$index]['name'] = $_file;
-        $sortAray[$index]['time'] = filemtime(AddPath(AddPath(PUBLIC_IMAGE_DIR , $imagePageName), $_file, false));
+        $sortAray[$index]['time'] = filemtime(AddPath(AddPath(PUBLIC_IMAGE_DIR, $imagePageName), $_file, false));
     }
 
     // 画像投稿日時の昇順にソート
@@ -374,7 +375,6 @@ function ReadImage($ajaxFlg = false)
     } else {
         ShowImage($params, $sortAray, IMAGE_URL);
     }
-
 }
 
 /**
@@ -405,7 +405,7 @@ function ShowImage($params, $data, $imageUrl, $ajaxFlg = false)
 
         $jsData['view-image-type'] = $imagePageName;
         $jsData['url'] = AddPath($imageUrl, $imagePageName, separator:'/');
-;
+        ;
         $jsData['pager'] = ViewPager($params['max'], $ajaxFlg);
 
         return $jsData;
@@ -435,11 +435,11 @@ function ShowImage($params, $data, $imageUrl, $ajaxFlg = false)
             ViewImage($_file, $imageUrl, $_time, $checked);
             // ViewList($_file, $imageUrl, $checked);
 
-        // バッファ出力
-        if(ob_get_level() > 0) {
-            ob_flush();
-            flush();
-        }
+            // バッファ出力
+            if (ob_get_level() > 0) {
+                ob_flush();
+                flush();
+            }
         }
 
         // コピーチェック用のセッションの削除
@@ -469,7 +469,6 @@ function ErrorSet($errMsg = ERROR_MESSAGE)
     $prevLink->SetTag('div', $errMsg, 'warning', true);
     $prevLink->ExecTag(true);
     $prevLink->SetHref("./", PRIVATE_PREVIOUS, 'page', true, '_self');
-
 }
 
 /**
@@ -478,7 +477,8 @@ function ErrorSet($errMsg = ERROR_MESSAGE)
  *
  * @return array
  */
-function DeleteImage() {
+function DeleteImage()
+{
     $post = PrivateSetting\Setting::getPosts();
     $fileList = LoadAllImageFile();
     $imagePageName = GetImagePageName();
@@ -546,7 +546,7 @@ function CopyImage($upFilesArray)
     if (empty($upFilesArray)) {
         $result['no-select']['count']  = FAIL_COPY_IMAGE_COUNT;
         return $result;
-    } else if (count($upFilesArray) > IMAGE_COUNT_MAX) {
+    } elseif (count($upFilesArray) > IMAGE_COUNT_MAX) {
         // ファイル数が規定の条件を超えたパターン
         $result['count-over']['count']  = FAIL_COPY_IMAGE_COUNT;
         return $result;

@@ -101,7 +101,7 @@ trait CommonTrait
      *
      * @return bool
      */
-    protected function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $options = NULL)
+    protected function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $options = null)
     {
         $checkTypes = [
             INPUT_GET,
@@ -109,7 +109,7 @@ trait CommonTrait
             INPUT_COOKIE
         ];
 
-        if ($options === NULL) {
+        if ($options === null) {
             // No idea if this should be here or not
             // Maybe someone could let me know if this should be removed?
             $options = FILTER_NULL_ON_FAILURE;
@@ -117,12 +117,12 @@ trait CommonTrait
 
         if (SearchData($type, $checkTypes) || filter_has_var($type, $variable_name)) {
             $ret = filter_input($type, $variable_name, $filter, $options);
-        } else if ($type == INPUT_SERVER && isset($_SERVER[$variable_name])) {
+        } elseif ($type == INPUT_SERVER && isset($_SERVER[$variable_name])) {
             $ret = filter_var($_SERVER[$variable_name], $filter, $options);
-        } else if ($type == INPUT_ENV && isset($_ENV[$variable_name])) {
+        } elseif ($type == INPUT_ENV && isset($_ENV[$variable_name])) {
             $ret = filter_var($_ENV[$variable_name], $filter, $options);
         } else {
-            $ret = NULL;
+            $ret = null;
         }
 
         return $ret;
@@ -142,7 +142,7 @@ trait CommonTrait
 
         if (is_array($data)) {
             $ret = implode($parameter, $data);
-        } else if (is_string($data)) {
+        } elseif (is_string($data)) {
             $ret = explode($parameter, $data);
         }
 
@@ -259,7 +259,8 @@ trait CommonTrait
         return $bytes;
     }
 
-    public function SetPlugin($name) {
+    public function SetPlugin($name)
+    {
         if (is_array($name)) {
             foreach ($name as $_dir) {
                 $targetName = SetPlugin($_dir);
@@ -271,7 +272,8 @@ trait CommonTrait
         }
     }
 
-    public function SetAllPlugin() {
+    public function SetAllPlugin()
+    {
         $addDir = scandir(PLUGIN_DIR);
 
         foreach ($addDir as $_key => $_dir) {
@@ -289,7 +291,8 @@ trait CommonTrait
      * @param [string] $qrCodeName
      * @return void
      */
-    public function MakeQrCode(int $size, string $contents, bool $outputFlg = false) {
+    public function MakeQrCode(int $size, string $contents, bool $outputFlg = false)
+    {
         $qrCode = new QrCode('qr-sample');
         $qrCode->setEncoding(new Encoding('UTF-8'));
         $qrCode->setErrorCorrectionLevel(new ErrorCorrectionLevelHigh());
@@ -304,7 +307,6 @@ trait CommonTrait
         } else {
             return $qrWriter->getDataUri();
         }
-
     }
 
     /**
@@ -330,6 +332,4 @@ trait CommonTrait
 
         return $ret;
     }
-
-
 }

@@ -9,7 +9,8 @@
  *
  * @return void
  */
-function _ViewImage($imageName, $imageUrl, $fileTime) {
+function _ViewImage($imageName, $imageUrl, $fileTime)
+{
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
     $imageDirName = basename(getcwd());
@@ -31,7 +32,8 @@ function _ViewImage($imageName, $imageUrl, $fileTime) {
  *
  * @return void
  */
-function ViewImage($imageName, $imageUrl, $fileTime) {
+function ViewImage($imageName, $imageUrl, $fileTime)
+{
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
     $imageDirName = basename(getcwd());
@@ -55,7 +57,8 @@ function ViewImage($imageName, $imageUrl, $fileTime) {
      *
      * @return void
      */
-function ViewList($imageName, $imageUrl) {
+function ViewList($imageName, $imageUrl)
+{
     $imageDirName = basename(getcwd());
     echo "<div><a href='$imageUrl/{$imageDirName}/$imageName' target='new'>{$imageName}</a>";
     echo "<label><input type='checkbox' name='$imageName' value='$imageName' /><span>削除する</span></label></div>";

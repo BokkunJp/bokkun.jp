@@ -130,7 +130,6 @@ class DB
 
     public function Select($id)
     {
-
         $this->sql = "Select * from {$this->tableName} where id= :id";
         $sth = $this->stmt->prepare($this->sql);
         $sth->execute(array(':id' => $id));
@@ -158,7 +157,6 @@ class DB
 
     public function SelectAll()
     {
-
         $this->sql = "select * from {$this->tableName} order by id";
         $sth = $this->SQLExec();
 
@@ -168,7 +166,6 @@ class DB
 
     public function SelectIDMin()
     {
-
         $this->sql = "select MIN(ID) from {$this->tableName}";
         $sth = $this->stmt->prepare($this->sql);
         $sth->execute();
@@ -180,7 +177,6 @@ class DB
 
     public function SelectIDMax()
     {
-
         $this->sql = "select MAX(ID) from {$this->tableName}";
         $sth = $this->SQLExec();
 
@@ -195,7 +191,6 @@ class DB
 
     public function SelectDataCount()
     {
-
         $this->sql = "select COUNT(*) from {$this->tableName}";
         $sth = $this->SQLExec();
 
@@ -231,7 +226,6 @@ class DB
 
     public function DeleteAll()
     {
-
         $this->sql  = "Delete From {$this->tableName}";
 
         $this->SQLExec();

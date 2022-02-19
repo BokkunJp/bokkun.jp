@@ -46,4 +46,3 @@ $smarty->assign('base', basename(__DIR__) . '/subdirectory');
 $smarty->assign('dir_path', $dirPath);
 $smarty->assign('dir', $dir);
 $smarty->display('index.tpl');
-

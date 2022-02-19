@@ -12,10 +12,10 @@ if (strpos(basename(getcwd()), 'private') === false) {
             <strong>
                 <em>βοκκμη's homepage<?= $siteConfig['header']->GetVersion() ?></em> <br />
                 <div align="center"><?php if (isset($title)) {
-                                        echo $title;
-                                    } else {
-                                        echo 'デフォルトタイトル';
-                                    } ?></div>
+    echo $title;
+} else {
+    echo 'デフォルトタイトル';
+} ?></div>
             </strong>
         </div>
     </div>

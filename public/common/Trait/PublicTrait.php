@@ -1,5 +1,6 @@
 <?php
 IncludeFiles(AddPath(COMMON_DIR, 'Trait'));
-trait PublicTrait {
+trait PublicTrait
+{
     use CommonTrait;
 }

@@ -104,7 +104,7 @@ if ((!($adminAuth))) {
         $script->Alert('認証に成功しました。自動で遷移します。');
         $script->MovePage($adminSession['movePage']);
 
-        // リンクから遷移
+    // リンクから遷移
     } else {
         echo "<p>認証に成功しました。<a href={$adminSession['movePage']}>リンク</a>から移動できます。<br/>
         </p>";
