@@ -1,4 +1,5 @@
 <?php
+
 namespace PublicTag;
 
 $commonPath = AddPath(DOCUMENT_ROOT, 'common');

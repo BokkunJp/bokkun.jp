@@ -1,4 +1,5 @@
 <?php
+
     $commonWordPath = dirname(
     dirname(dirname(__DIR__))
 );

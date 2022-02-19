@@ -1,4 +1,5 @@
 <?php
+
 function AddList($list1, $list2, $extension=null, $headFlg=-1)
 {
     if (!is_array($list2) || empty($extension)) {

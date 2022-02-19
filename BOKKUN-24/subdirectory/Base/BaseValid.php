@@ -1,4 +1,5 @@
 <?php
+
 class BaseVaild
 {
     private $data;

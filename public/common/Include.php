@@ -8,7 +8,7 @@
 $pwd = PUBLIC_COMPONENT_DIR . '/';
 IncludeFiles($pwd);
 
-use \PublicTag\CustomTagCreate as OriginTag;
+use PublicTag\CustomTagCreate as OriginTag;
 
 //JSファイル
 require_once PUBLIC_COMMON_DIR . "/Load/include.php";

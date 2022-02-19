@@ -1,4 +1,5 @@
 <?php
+
     $ret = array();
     $ret['headerTitle'] = $title;
     switch ($errCode) {

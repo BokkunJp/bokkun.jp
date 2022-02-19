@@ -1,4 +1,5 @@
 <?php
+
 namespace BasicTag;
 
 // クラス化
@@ -319,7 +320,6 @@ class ScriptClass extends HTMLClass
 
 class UseClass extends ScriptClass
 {
-
     // 指定したURLへ遷移
     public function MovePage($url)
     {

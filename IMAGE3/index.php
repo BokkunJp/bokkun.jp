@@ -1,4 +1,5 @@
 <?php
+
 // タイトル
 $title = 'Image-View';
 $homepageTitle = '画像閲覧ページ(新デザイン)';

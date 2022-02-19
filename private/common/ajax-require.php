@@ -1,4 +1,5 @@
 <?php
+
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 //直接のページ遷移を阻止

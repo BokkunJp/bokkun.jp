@@ -1,4 +1,5 @@
 <?php
+
 header("Content-Type: application/json; charset=UTF-8");
 
 define("DS", DIRECTORY_SEPARATOR);

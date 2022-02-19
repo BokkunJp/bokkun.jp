@@ -1,4 +1,5 @@
 <?php
+
 namespace Common;
 
 use PublicSetting\Setting as Setting;

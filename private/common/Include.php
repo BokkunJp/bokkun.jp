@@ -6,12 +6,12 @@
 
 use PrivateSetting\Setting;
 
-$base = new Setting;
+$base = new Setting();
 // 必要なファイルの一括読み込み
 $pwd = PRIVATE_COMPONENT_DIR . '/';
 IncludeFiles($pwd);
 
-use \PrivateTag\CustomTagCreate as OriginTag;
+use PrivateTag\CustomTagCreate as OriginTag;
 
 //JSファイル
 IncludeDirctories(PRIVATE_COMPONENT_DIR);

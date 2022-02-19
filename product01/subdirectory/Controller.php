@@ -1,4 +1,5 @@
 <?php
+
 IncludeDirctories();
 
 function Main($inputFlg=false)

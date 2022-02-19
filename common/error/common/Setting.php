@@ -1,5 +1,7 @@
 <?php
+
 // サーバの設定
+
 namespace ErrorSetting;
 
 require_once '../../InitFunction.php';
@@ -169,9 +171,9 @@ class Permmision
 {
     private $filePath;
     private $mode;
-    const WRITE = 02;
-    const READ = 04;
-    const EXECUTE = 01;
+    public const WRITE = 02;
+    public const READ = 04;
+    public const EXECUTE = 01;
 
     public function __construct()
     {

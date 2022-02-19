@@ -1,4 +1,5 @@
 <?php
+
 // セッションの設定
 $sess = new PublicSetting\Session();
 
@@ -41,7 +42,7 @@ while (1) {
 }
 
 // HTML出力用に調整
-use \PublicTag\CustomTagCreate as OriginTag;
+use PublicTag\CustomTagCreate as OriginTag;
 
 $create = new OriginTag();
 $breadCrumbList = array();

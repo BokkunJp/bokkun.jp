@@ -1,4 +1,5 @@
 <?php
+
 namespace PrivateSetting;
 
 require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
