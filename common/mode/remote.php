@@ -1,4 +1,5 @@
 <?php
+
 $pif = parse_ini_file('test.ini');
 // var_dump($pif);
 

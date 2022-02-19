@@ -1,4 +1,5 @@
 <?php
+
 namespace PrivateTag;
 
 require_once dirname(__DIR__). DIRECTORY_SEPARATOR. 'InitFunction.php';

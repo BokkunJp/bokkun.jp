@@ -1,6 +1,7 @@
 <?php
+
     require_once 'wordDefine.php';                            // 選択肢文言ファイルをインクルード
-    
+
     class Option
     {
         private $op1;

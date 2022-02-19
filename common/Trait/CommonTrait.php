@@ -1,4 +1,5 @@
 <?php
+
 SetPlugin('qr-code');
 
 use Endroid\QrCode\Encoding\Encoding;
@@ -8,7 +9,6 @@ use Endroid\QrCode\Writer\PngWriter;
 
 trait CommonTrait
 {
-
     // ヌルバイト対策 (POST, GET)
     protected function Sanitize($arr)
     {

@@ -2,8 +2,8 @@
 
 // PDOのサンプルコード
 /*
-   必要な引数：
-   dbuser, dbname, dbpass, host(任意、デフォルトはローカル), port(任意)
+    必要な引数：
+    dbuser, dbname, dbpass, host(任意、デフォルトはローカル), port(任意)
 */
 class DB
 {

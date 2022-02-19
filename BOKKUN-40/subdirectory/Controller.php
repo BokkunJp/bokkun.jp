@@ -1,4 +1,5 @@
 <?php
+
 $posts = PublicSetting\Setting::GetPosts();
 $tokenCheck = CheckToken('xml-token');
 if (!$tokenCheck) {

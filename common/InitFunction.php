@@ -1,4 +1,5 @@
 <?php
+
 // エラーログの設定(初期設定)
 $errLogArray = [];
 $errLogArray['errLogBasePath'] = AddPath(dirname(__DIR__, 3), AddPath("log", "error"), false);

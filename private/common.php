@@ -1,4 +1,5 @@
 <?php
+
 require_once AddPath(AddPath(__DIR__, 'common'), AddPath('Component', 'Mail.php', false), false);
 
 if (!isset($_SESSION)) {

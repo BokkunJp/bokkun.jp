@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/component/require.php';
 require_once dirname(__DIR__) . '/File.php';
 $files = PrivateSetting\Setting::GetFiles();

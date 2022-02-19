@@ -9,7 +9,6 @@ class Config
 
 class Header extends Config
 {
-
     // バージョン判定
     private function SetVersion()
     {

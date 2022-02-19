@@ -1,4 +1,5 @@
 <?php
+
 // 10進数の数値をn進数に変換する
 function Convert($decData, $n)
 {

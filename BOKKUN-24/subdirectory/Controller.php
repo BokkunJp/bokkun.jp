@@ -1,4 +1,5 @@
 <?php
+
 use BasicTag\ScriptClass as ScriptClass;
 
 require AddPath(__DIR__, 'Model.php', false);
