@@ -1,14 +1,17 @@
 <?php
 // サーバの設定
 namespace PublicSetting;
+
 require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
 
 // 設定関係のクラス (共通クラスを親クラスとする)
-class Setting extends \commonSetting\Setting {
+class Setting extends \commonSetting\Setting
+{
+    protected $public;
+    protected $client;
 
-    protected $public, $client;
-
-    function __construct() {
+    public function __construct()
+    {
         // 基本設定(親クラスのコンストラクタにアクセス)
         parent::__construct();
 
@@ -21,21 +24,23 @@ class Setting extends \commonSetting\Setting {
 }
 
 // パーミッション関係
-class Permmision {
-
+class Permmision
+{
     private $filePath;
     private $mode;
 
-    CONST WRITE = 02;
-    CONST READ = 04;
-    CONST EXECUTE = 01;
+    const WRITE = 02;
+    const READ = 04;
+    const EXECUTE = 01;
 
-    function __construct() {
+    public function __construct()
+    {
         $this->Initialize();
     }
 
     // パーミッション変数の初期化
-    private function Initialize($filePathInit = true, $modeInit = true) {
+    private function Initialize($filePathInit = true, $modeInit = true)
+    {
         if ($filePathInit === true) {
             $this->filePath = '';
         }
@@ -46,24 +51,24 @@ class Permmision {
     }
 
     // パーミッション変更
-    private function Convert($fileNamePath, $mode) {
+    private function Convert($fileNamePath, $mode)
+    {
         @chmod($fileNamePath, $mode);
     }
 
     // パーミッション許可
-    public function Allow($filePath, $orderName, $mode) {
+    public function Allow($filePath, $orderName, $mode)
+    {
         if ($orderName) {
-
         }
         // $this->WhoCheck();
         $this->Convert($filePath, $mode);
     }
 
     // パーミッション拒否
-    public function Deny($filePath, $orderName, $mode) {
-
+    public function Deny($filePath, $orderName, $mode)
+    {
     }
-
 }
 
 $commonPath = AddPath(dirname(dirname(__DIR__)), basename(__DIR__));
@@ -71,13 +76,13 @@ $commonPath = AddPath(dirname(dirname(__DIR__)), basename(__DIR__));
 require_once(AddPath($commonPath, 'Setting.php', false));
 
 // セッションクラス (公開側)
-class Session extends \CommonSetting\Session {
-
+class Session extends \CommonSetting\Session
+{
 }
 
 // クッキークラス (公開側)
-class Cookie extends \CommonSetting\Cookie {
-
+class Cookie extends \CommonSetting\Cookie
+{
 }
 
 // 設定のベースとなる変数
@@ -91,4 +96,3 @@ $image = $client . 'image';
 
 
 define('IMAGE_URL', $image);
-

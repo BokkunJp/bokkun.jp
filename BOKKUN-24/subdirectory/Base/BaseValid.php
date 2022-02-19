@@ -1,17 +1,18 @@
 <?php
-class BaseVaild {
+class BaseVaild
+{
     private $data;
-    function __construct()
+    public function __construct()
     {
     }
 
-    protected function Init($val) {
+    protected function Init($val)
+    {
         if ($val) {
-            
         }
     }
 
-    protected function Value($val) {
-
+    protected function Value($val)
+    {
     }
 }

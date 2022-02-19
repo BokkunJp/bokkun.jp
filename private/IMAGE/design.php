@@ -80,7 +80,7 @@ $tokenList = [];
 </form>
 <?php
 foreach ($tokenList as $_key => $_token) {
-    if (isset($_token)) {
-        SetToken($_token, $_key);
+        if (isset($_token)) {
+            SetToken($_token, $_key);
+        }
     }
-}

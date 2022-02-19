@@ -5,7 +5,7 @@ use BasicTag\ScriptClass;
 function SendMail($header, $response=false)
 {
     if (!isset($header)) {
-       return false;
+        return false;
     }
     list($to, $title, $body, $from_name, $from_address) = $header;
 
@@ -22,7 +22,7 @@ function SendMail($header, $response=false)
         $title = '';
     }
 
-        if (!isset($body) || empty($body)) {
+    if (!isset($body) || empty($body)) {
         $body = '';
     }
 
@@ -41,5 +41,4 @@ function SendMail($header, $response=false)
         $script = new ScriptClass();
         $script->Alert('メールの送信に失敗しました。');
     }
-
 }

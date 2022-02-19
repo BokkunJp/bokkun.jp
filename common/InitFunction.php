@@ -2,7 +2,7 @@
 // エラーログの設定(初期設定)
 $errLogArray = [];
 $errLogArray['errLogBasePath'] = AddPath(dirname(__DIR__, 3), AddPath("log", "error"), false);
-$errLogArray['errLogPath'] = AddPath($errLogArray['errLogBasePath'],  phpversion());
+$errLogArray['errLogPath'] = AddPath($errLogArray['errLogBasePath'], phpversion());
 if (!is_dir($errLogArray['errLogPath'])) {
     mkdir($errLogArray['errLogPath']);
     mkdir(AddPath($errLogArray['errLogPath'], '_old'));
@@ -30,7 +30,7 @@ set_error_handler(function ($error_no, $error_msg, $error_file, $error_line) {
 // });
 
 
-register_shutdown_function(function() {
+register_shutdown_function(function () {
     $error = error_get_last();
 
     // エラーが発生した際にはアラートを出す。(開発環境ではエラー内容も表示)
@@ -59,13 +59,15 @@ register_shutdown_function(function() {
 });
 
 
-function send_error_log($throwable) {
+function send_error_log($throwable)
+{
     // 何かエラーをどこかに渡すコードをここに。
     // この例ではテンポラリファイルディレクトリを取得してそこに php_error_log.txt という名前のファイルに追記していくような処理にした。
     file_put_contents(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'php_error_log.txt', $throwable->__toString(), FILE_APPEND | LOCK_EX);
 }
 // 既存のパスに新たな要素を追加する
-function AddPath($local, $addpath, $lastSeparator=true,  $separator=DIRECTORY_SEPARATOR) {
+function AddPath($local, $addpath, $lastSeparator=true, $separator=DIRECTORY_SEPARATOR)
+{
     if (mb_substr($local, -1) == $separator) {
         $first = '';
     } else {
@@ -85,12 +87,13 @@ function AddPath($local, $addpath, $lastSeparator=true,  $separator=DIRECTORY_SE
 }
 
 // ヌルバイト対策 (POST, GET)
-function Sanitize($arr) {
+function Sanitize($arr)
+{
     if (!is_string($arr)) {
         return $arr;
     }
 
-    if (is_array($arr) ){
+    if (is_array($arr)) {
         return array_map('Sanitize', $arr);
     }
     return str_replace("\0", "", $arr);     //ヌルバイトの除去
@@ -106,34 +109,34 @@ function Sanitize($arr) {
  */
 function CreateClient($target, $src = '')
 {
-  if (empty($src)) {
-    $srcPath = getcwd();
-  } else {
-    $srcPath = $src;
-  }
+    if (empty($src)) {
+        $srcPath = getcwd();
+    } else {
+        $srcPath = $src;
+    }
 
-  $clientPath = "";
-  $clientAry = [];
+    $clientPath = "";
+    $clientAry = [];
 
-  if ($srcPath !== dirname($srcPath)) {
-    while (1) {
-        $clientAry[] = basename($srcPath);
-        $srcPath = dirname($srcPath);
-        if (strcmp(basename($srcPath), $target)) {
-            break;
+    if ($srcPath !== dirname($srcPath)) {
+        while (1) {
+            $clientAry[] = basename($srcPath);
+            $srcPath = dirname($srcPath);
+            if (strcmp(basename($srcPath), $target)) {
+                break;
+            }
         }
-     }
-} else {
-    $clientAry[] = $target;
-}
+    } else {
+        $clientAry[] = $target;
+    }
 
-  $clientAry = array_reverse($clientAry);
+    $clientAry = array_reverse($clientAry);
 
-  foreach ($clientAry as $_client) {
-    $clientPath = AddPath($clientPath, $_client);
-  }
+    foreach ($clientAry as $_client) {
+        $clientPath = AddPath($clientPath, $_client);
+    }
 
-  return $clientPath;
+    return $clientPath;
 }
 /**
  * CheckToken
@@ -176,7 +179,7 @@ function CheckSession($SessionName, $chkFlg)
  *
  * @return bool
  */
-function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $options = NULL )
+function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $options = null)
 {
     $checkTypes =[
         INPUT_GET,
@@ -184,7 +187,7 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
         INPUT_COOKIE
     ];
 
-    if ($options === NULL) {
+    if ($options === null) {
         // No idea if this should be here or not
         // Maybe someone could let me know if this should be removed?
         $options = FILTER_NULL_ON_FAILURE;
@@ -192,12 +195,12 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
 
     if (SearchData($type, $checkTypes) || filter_has_var($type, $variable_name)) {
         $ret = filter_input($type, $variable_name, $filter, $options);
-    } else if ($type == INPUT_SERVER && isset($_SERVER[$variable_name])) {
+    } elseif ($type == INPUT_SERVER && isset($_SERVER[$variable_name])) {
         $ret = filter_var($_SERVER[$variable_name], $filter, $options);
-    } else if ($type == INPUT_ENV && isset($_ENV[$variable_name])) {
+    } elseif ($type == INPUT_ENV && isset($_ENV[$variable_name])) {
         $ret = filter_var($_ENV[$variable_name], $filter, $options);
     } else {
-        $ret = NULL;
+        $ret = null;
     }
 
     return $ret;
@@ -208,7 +211,8 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
  *
  *
  */
-function MoldData($data, $parameter = ',') {
+function MoldData($data, $parameter = ',')
+{
     $ret = false;
     if (is_null($data)) {
         return false;
@@ -216,7 +220,7 @@ function MoldData($data, $parameter = ',') {
 
     if (is_array($data)) {
         $ret = implode($parameter, $data);
-    } else if (is_string($data)) {
+    } elseif (is_string($data)) {
         $ret = explode($parameter, $data);
     }
 
@@ -281,7 +285,8 @@ function Output($expression, $formatFlg = false, $indentFlg = true, array $debug
     }
 }
 
-function DebugValidate(array $debug, array $debugTrace) {
+function DebugValidate(array $debug, array $debugTrace)
+{
     $validate = [];
 
     if (!isset($debug['layer']) || !isset($debug['mode'])) {
@@ -304,7 +309,8 @@ function DebugValidate(array $debug, array $debugTrace) {
     return $validate;
 }
 
-function SetPlugin($name) {
+function SetPlugin($name)
+{
     if (is_array($name)) {
         foreach ($name as $_dir) {
             SetPlugin($_dir);
@@ -317,7 +323,8 @@ function SetPlugin($name) {
     }
 }
 
-function SetAllPlugin() {
+function SetAllPlugin()
+{
     $addDir = scandir(PLUGIN_DIR);
 
     foreach ($addDir as $_key => $_dir) {
@@ -361,7 +368,8 @@ function SearchData($target, array $arrayData)
  *
  * @return array
  */
-function MoldImageConfig($imageConfig) {
+function MoldImageConfig($imageConfig)
+{
     $ret = [];
     if (!is_array($imageConfig)) {
         $ret[] = [];
@@ -386,7 +394,8 @@ function MoldImageConfig($imageConfig) {
  *
  * @return array
  */
-function CalcImageSize($imageName) {
+function CalcImageSize($imageName)
+{
     if (is_array($imageName)) {
         $ret = false;
     } else {
@@ -422,7 +431,8 @@ function CalcImageSize($imageName) {
  *
  * @return array
  */
-function CalcAllImageSize($imageName) {
+function CalcAllImageSize($imageName)
+{
     if (!is_string($imageName)) {
         $ret = false;
     } else {

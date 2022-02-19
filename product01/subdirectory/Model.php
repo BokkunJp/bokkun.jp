@@ -1,12 +1,14 @@
 <?php
 use PublicSetting\Setting as Setting;
 
-define("FALSE_MESSAGE",  "の値が不正です。");
-define("NULL_MESSAGE",  "の値を入力してください。");
+define("FALSE_MESSAGE", "の値が不正です。");
+define("NULL_MESSAGE", "の値を入力してください。");
 IncludeDirctories();
 
-class CSV extends CSV_Base {
-    private $fileName, $editFlg;
+class CSV extends CSV_Base
+{
+    private $fileName;
+    private $editFlg;
 
     /**
      * SetHeader
@@ -16,7 +18,8 @@ class CSV extends CSV_Base {
      * @param [type] $header
      * @return void
      */
-    public function SetHeader($header) {
+    public function SetHeader($header)
+    {
         $validate = $this->SetCommons($header);
         if ($validate === false) {
             $this->MakeData();
@@ -31,7 +34,8 @@ class CSV extends CSV_Base {
      *
      * @return bool
      */
-    public function InputName() {
+    public function InputName()
+    {
         // postの取得
         $fileName = Setting::GetPost('file-name');
 
@@ -59,7 +63,8 @@ class CSV extends CSV_Base {
      *
      * @return void
      */
-    public function ReadData() {
+    public function ReadData()
+    {
         // postの取得
         $key = 'col-number';
         $post = Setting::GetPost($key);
@@ -74,7 +79,6 @@ class CSV extends CSV_Base {
         }
 
         $this->ReadFile($this->fileName, CSV_PATH);
-
     }
 
     /**
@@ -84,7 +88,8 @@ class CSV extends CSV_Base {
      *
      * @return void
      */
-    public function InputData() {
+    public function InputData()
+    {
         // postの取得
         $post = Setting::GetPosts();
 
@@ -101,10 +106,9 @@ class CSV extends CSV_Base {
             if ($_val === false) {
                 $exitFlg = true;
                 $this->SetErrorMessage($_key, $_key. FALSE_MESSAGE);
-            } else if ($_val === null) {
+            } elseif ($_val === null) {
                 $exitFlg = true;
                 $this->SetErrorMessage($_key, $_key . NULL_MESSAGE);
-
             }
         }
         // 不正値が1つでもあれば中断
@@ -118,7 +122,8 @@ class CSV extends CSV_Base {
         return true;
     }
 
-    private function SetErrorMessage($key, $message = '') {
+    private function SetErrorMessage($key, $message = '')
+    {
         $elm = ["<div class='warning'>", "</div>"];
 
         if (!$message) {
@@ -136,7 +141,8 @@ class CSV extends CSV_Base {
      * @param [type] $data
      * @return void
      */
-    private function SetData($data) {
+    private function SetData($data)
+    {
         $validate = $this->SetCommons($data);
         if ($validate === false) {
             return -1;
@@ -145,7 +151,7 @@ class CSV extends CSV_Base {
             if ($this->editFlg === true) {
                 $col = Setting::GetPost('col-number');
                 $this->EditData($col, $data);
-            } else if ($this->editFlg === null && $validate === true) {
+            } elseif ($this->editFlg === null && $validate === true) {
                 $this->AddData($data);
             }
         }
@@ -159,7 +165,8 @@ class CSV extends CSV_Base {
      *
      * @return void
      */
-    public function SetCSV() {
+    public function SetCSV()
+    {
         // データをCSVファイルに書き込み
         // 存在しない場合は、CSVファイルを作成
         $this->MakeFile($this->fileName, CSV_PATH);
@@ -174,7 +181,8 @@ class CSV extends CSV_Base {
      * @return array
      */
 
-    public function OutData($option = null) {
+    public function OutData($option = null)
+    {
         if (!is_file(CSV_PATH. $this->fileName) || $this->ValidateName($this->fileName) === false) {
             return false;
         }

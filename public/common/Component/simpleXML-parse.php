@@ -1,8 +1,10 @@
 
 <?php
-class simplexml_parse {
+class simplexml_parse
+{
     private $xmlData;
-    function __construct($xmlData) {
+    public function __construct($xmlData)
+    {
         $this->xmlData = $xmlData;
     }
 
@@ -13,7 +15,8 @@ class simplexml_parse {
      * @param [simpleXMLElement] void
      * @return array
      */
-    public function GetAll() {
+    public function GetAll()
+    {
         $retArray = [];
         foreach ($this->xmlData->children() as $_key => $_val) {
             $retArray += $this->GetChildren($_key);
@@ -77,7 +80,6 @@ class simplexml_parse {
 
     private function GetElement($xmlData, $elmName)
     {
-
         if (!is_string($elmName)) {
             return false;
         }

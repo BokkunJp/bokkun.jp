@@ -1,7 +1,8 @@
 <?php
 IncludeDirctories();
 
-function Main($inputFlg=false) {
+function Main($inputFlg=false)
+{
     $tokenValid = CheckToken();
 
     if ($tokenValid === false) {
@@ -38,7 +39,6 @@ function Main($inputFlg=false) {
         if ($valid === true) {
             $csv->SetCSV();
         }
-
     } else {
         // ファイル名を設定
         $valid = $csv->InputName();
@@ -70,5 +70,3 @@ function Main($inputFlg=false) {
 // CSVオブジェクトを作成
 // CSVオブジェクトにデータを挿入
 // ファイルに書き出す ←ｲﾏｺｺ
-
-?>

@@ -13,7 +13,8 @@ require_once('View.php');
  *
  * @return void
  */
-function FileExif($img) {
+function FileExif($img)
+{
     // echo exif_imagetype($img). '<br />';
     // switch (exif_imagetype($img)) {
     //     case IMAGETYPE_JPEG:
@@ -62,7 +63,8 @@ function MoldFile($file, String $fileName)
  *
  * @return array
  */
-function LoadAllImageFile() {
+function LoadAllImageFile()
+{
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'];
 
     $imageDirName = basename(getcwd());
@@ -96,7 +98,8 @@ function LoadAllImageFile() {
  *
  * @return void
  */
-function TimeSort(&$data, $order = 'ASC') {
+function TimeSort(&$data, $order = 'ASC')
+{
     if (is_array($data) == false) {
         echo 'データは配列でなければいけません。';
         return -1;
@@ -116,7 +119,7 @@ function TimeSort(&$data, $order = 'ASC') {
     // 順番の指定
     if ($order === 'ASC') {
         $sort = SORT_ASC;
-    } else if ($order === 'DESC') {
+    } elseif ($order === 'DESC') {
         $sort = SORT_DESC;
     } else {
         echo '順序指定が不正です。';
@@ -134,7 +137,8 @@ function TimeSort(&$data, $order = 'ASC') {
  * @param boolean $ajaxFlg
  * @return array
  */
-function ValidParameter($data=[], $ajaxFlg=false) {
+function ValidParameter($data=[], $ajaxFlg=false)
+{
     // 現在のページ番号の取得
     $page = GetPage();
 
@@ -171,7 +175,6 @@ function ValidParameter($data=[], $ajaxFlg=false) {
     }
 
     return $result;
-
 }
 
 /**
@@ -182,7 +185,8 @@ function ValidParameter($data=[], $ajaxFlg=false) {
  * @param array $data
  * @return void
  */
-function ChoiseImage($params, $data) {
+function ChoiseImage($params, $data)
+{
     // 結果用配列
     $cloneImg = [];
     for ($i = $params['start'];$i < $params['end']; $i++) {
@@ -190,7 +194,6 @@ function ChoiseImage($params, $data) {
     }
 
     return $cloneImg;
-
 }
 
 /**
@@ -201,7 +204,8 @@ function ChoiseImage($params, $data) {
  *
  * @return void
  */
-function ReadImage() {
+function ReadImage()
+{
 
     // 現在のページを取得
     $imagePageName = basename(getcwd());
@@ -213,7 +217,7 @@ function ReadImage() {
     $sortAray = array();
     foreach ($fileList as $index => $_file) {
         $sortAray[$index]['name'] = $_file;
-        $sortAray[$index]['time'] = filemtime(AddPath(AddPath(PUBLIC_IMAGE_DIR , $imagePageName), $_file, false));
+        $sortAray[$index]['time'] = filemtime(AddPath(AddPath(PUBLIC_IMAGE_DIR, $imagePageName), $_file, false));
     }
 
     // 画像投稿日時の昇順にソート
@@ -266,7 +270,7 @@ function ShowImage($params, $data, $imageUrl)
         // ViewList($_file, $imageUrl, $checked);
 
         // バッファ出力
-        if(ob_get_level() > 0) {
+        if (ob_get_level() > 0) {
             ob_flush();
             flush();
         }
@@ -287,7 +291,8 @@ function ShowImage($params, $data, $imageUrl)
  *
  * @return void
  */
-function ErrorSet($errMsg = ERROR_MESSAGE) {
+function ErrorSet($errMsg = ERROR_MESSAGE)
+{
     $prevLink = new CustomTagCreate();
     $prevLink->SetTag('div', $errMsg, 'warning', true);
     $prevLink->ExecTag(true);

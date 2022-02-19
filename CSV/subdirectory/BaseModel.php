@@ -1,27 +1,33 @@
 <?php
 define('CSV_PATH', AddPath(PUBLIC_CSV_DIR, '', false, '/') . AddPath(basename(getcwd()), '', false, '/'));
 define("EXTENSION_NONE_TRUE", 2);
-class CSV_Base {
+class CSV_Base
+{
+    private $data;
+    private $tmp;
 
-    private $data, $tmp;
-
-    protected function MakeData() {
+    protected function MakeData()
+    {
         $this->data = [];
     }
 
-    protected function AddHeader($header) {
+    protected function AddHeader($header)
+    {
         $this->data[0] = $header;
     }
 
-    protected function GetHeader() {
+    protected function GetHeader()
+    {
         return $this->data[0];
     }
 
-    protected function AddData($inData) {
+    protected function AddData($inData)
+    {
         $this->data[] = $inData;
     }
 
-    protected function EditData($col, $inData) {
+    protected function EditData($col, $inData)
+    {
         if (is_numeric($col) && $col >= 1) {
             $this->data[$col] = $inData;
         } else {
@@ -29,7 +35,8 @@ class CSV_Base {
         }
     }
 
-    protected function InputCommonValidate() {
+    protected function InputCommonValidate()
+    {
         $ret = true;
         if (!isset($this->tmp) || is_null($this->tmp)) {
             $ret = false;
@@ -41,7 +48,8 @@ class CSV_Base {
         return $ret;
     }
 
-    protected function SetCommons($data) {
+    protected function SetCommons($data)
+    {
         $this->tmp = $data;
         $validate = $this->InputCommonValidate();
         $this->tmp = null;
@@ -49,11 +57,13 @@ class CSV_Base {
         return $validate;
     }
 
-    protected function CountValidate($data) {
+    protected function CountValidate($data)
+    {
         return count($this->GetHeader()) === count($data) ? true : false;
     }
 
-    public function ViewData($type = '') {
+    public function ViewData($type = '')
+    {
         if ($type === 'all') {
             print_r($this->data);
         } else {
@@ -72,7 +82,8 @@ class CSV_Base {
      * @param [String] $filePath
      * @return void
      */
-    protected function ReadFile($fileName, $filePath = CSV_PATH) {
+    protected function ReadFile($fileName, $filePath = CSV_PATH)
+    {
         // ファイルパスにCSVファイルが存在しない場合は終了
         if (!file_exists(AddPath($filePath, $fileName, false))) {
             return false;
@@ -98,7 +109,8 @@ class CSV_Base {
      *
      * @return boolean|array
      */
-   protected function MoldCsv($option) {
+    protected function MoldCsv($option)
+    {
         if (!isset($this->data) || !is_array($this->data)) {
             return false;
         }
@@ -108,7 +120,7 @@ class CSV_Base {
         $ret = null;
         if ($option === 'header') {
             $ret = $header;
-        } else if ($option === 'body' || $option === 'row') {
+        } elseif ($option === 'body' || $option === 'row') {
             $ret = $row;
         }
 
@@ -133,7 +145,8 @@ class CSV_Base {
      * @param string $extensiton
      * @return void
      */
-    protected function ValidateName($haystack, $extensiton = 'csv') {
+    protected function ValidateName($haystack, $extensiton = 'csv')
+    {
         $ret = true;
 
         // 行頭・行末の空白を取り除く
@@ -160,11 +173,10 @@ class CSV_Base {
         if (preg_match("/[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]$/", $haystack)) {
             if (!preg_match("/[a-zA-Z0-9-_-ぁ-んァ-ヶー一-龠]+\.{$extensiton}$/", $haystack)) {
                 $ret = EXTENSION_NONE_TRUE;
-        } else {
+            } else {
                 $ret = true;
-
+            }
         }
-    }
 
         return $ret;
     }
@@ -177,7 +189,8 @@ class CSV_Base {
      * @param string $filePath
      * @return void
      */
-    protected function MakeFile($fileName, $filePath = CSV_PATH) {
+    protected function MakeFile($fileName, $filePath = CSV_PATH)
+    {
 
         // CSV保管用のディレクトリがない場合は作成
         if (!file_exists($filePath)) {
@@ -211,7 +224,8 @@ class CSV_Base {
      * @param [type] $data
      * @return array|boolean
      */
-    protected function ValidateNumber($data) {
+    protected function ValidateNumber($data)
+    {
         if (is_array($data)) {
             $ret = [];
 
@@ -223,7 +237,7 @@ class CSV_Base {
 
             if ($data === '') {
                 $ret = null;
-            } else if (!is_numeric($data)) {
+            } elseif (!is_numeric($data)) {
                 $ret = false;
             }
         }

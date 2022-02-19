@@ -6,7 +6,7 @@ if ($request === 'xmlhttprequest') {
     header("Content-Type: application/json; charset=UTF-8");
     $data = "Ajax: ";
     require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . '/public/common' . DIRECTORY_SEPARATOR . 'InitFunction.php';
-    require_once dirname(__DIR__,2) . "/public/common/Setting.php";
+    require_once dirname(__DIR__, 2) . "/public/common/Setting.php";
     $posts = PublicSetting\Setting::GetPosts();
     foreach ($posts as $_key => $_post) {
         $data .= $_post;
@@ -22,10 +22,10 @@ if ($request === 'xmlhttprequest') {
     $session = new PublicSetting\Session();
     if (empty($posts)) {
         return -1;
-    } else if (empty($posts['data'])) {
+    } elseif (empty($posts['data'])) {
         $data = "<span class='warning'>PHP:データがありません。<span/>";
         $session->Write('output', $data);
-        return NULL;
+        return null;
     }
 
     foreach ($posts as $_key => $_post) {
@@ -34,5 +34,3 @@ if ($request === 'xmlhttprequest') {
         $data .= ',';
     }
 }
-
-

@@ -1,7 +1,7 @@
 <?php
 ini_set('error_reporting', E_ALL | ~E_STRICT);
-require_once (__DIR__. '/Setting.php');
-require_once (__DIR__. '/Component/UA.php');
+require_once(__DIR__. '/Setting.php');
+require_once(__DIR__. '/Component/UA.php');
 $agent = new UA\UA();
 
 define('Phone', 2);

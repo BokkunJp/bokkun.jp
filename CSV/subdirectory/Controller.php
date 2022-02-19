@@ -13,7 +13,6 @@ function Main($inputFlg=false)
     $csv = new CSV();
 
     if ($inputFlg === true) {
-
         $csv->SetHeader(['x', 'y', 'z']);
 
         // ファイル名を設定

@@ -1,6 +1,6 @@
     <?php
     if (!isset($siteConfig)) {
-    $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
+        $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
     }
      $year = $siteConfig['footer']->GetYear();
      ?>

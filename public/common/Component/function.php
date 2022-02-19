@@ -1,6 +1,7 @@
 <?php
 // 10進数の数値をn進数に変換する
-function Convert($decData, $n) {
+function Convert($decData, $n)
+{
     if (!isset($n)) {
         var_dump('null');
         return null;
@@ -12,7 +13,7 @@ function Convert($decData, $n) {
             $decData -= $n;
         } else {
             $octData += $decData;
-         break;
+            break;
         }
     }
     return $octData;

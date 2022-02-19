@@ -24,4 +24,3 @@ switch ($agent->DesignJudge()) {
     default:
         break;
 }
-

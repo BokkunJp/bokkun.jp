@@ -72,7 +72,7 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
                 $client .= "client/".
                 $_pathList. "/";
             }
-                foreach (scandir($client) as $file) {
+            foreach (scandir($client) as $file) {
                 if (mb_strpos($file, '.') !== 0) {
                     if (isset($edit) && !isset($delete)) {
                         if ($file === $title) {
@@ -85,10 +85,10 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
     }
     if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $title) === 0) {
         $adminError->UserError('タイトルに無効な文字が入力されています。');
-    } else if (strlen($title) > MAX_LENGTH) {
+    } elseif (strlen($title) > MAX_LENGTH) {
         $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
-} else if (empty($delete)) {
+} elseif (empty($delete)) {
     // その他（不正値）
     if (!isset($session['addition'])) {
         $session['addition'] = $post;
@@ -108,7 +108,7 @@ if (!isset($select)) {
 $validate = ValidateData(getcwd(), $select);
 if ($validate === null) {
     $adminError->UserError('ページが選択されていません。');
-} else if ($validate === false) {
+} elseif ($validate === false) {
     $adminError->UserError('ページの指定が不正です。');
 }
 
@@ -128,10 +128,10 @@ foreach ($pathList as $_pathList) {
             if (!isset($notDelflg)) {
                 DeleteData(AddPath(getcwd(), $select));
             }
-        } else if (isset($copy)) {
+        } elseif (isset($copy)) {
             // 複製モード
             CopyData(AddPath(getcwd(), $select), $title);
-        } else if (isset($edit)) {
+        } elseif (isset($edit)) {
             // 編集モード
         } else {
             // どちらでもない
@@ -150,12 +150,12 @@ foreach ($pathList as $_pathList) {
             if (!isset($notDelflg)) {
                 DeleteData(AddPath(getcwd(), $select));
             }
-        } else if (isset($copy)) {
+        } elseif (isset($copy)) {
             // 複製モード
             if (is_dir(AddPath(getcwd(), $select))) {
                 CopyData(AddPath(getcwd(), $select), $title);
             }
-        } else if (isset($edit)) {
+        } elseif (isset($edit)) {
             // 編集モード
         } else {
             // どちらでもない
@@ -166,9 +166,9 @@ foreach ($pathList as $_pathList) {
 
 if (isset($edit)) {
     $use->Alert("{$select}ページを編集しました。");
-} else if (isset($copy)) {
+} elseif (isset($copy)) {
     $use->Alert("{$select}ページを複製しました。");
-} else if (isset($delete)) {
+} elseif (isset($delete)) {
     if (!isset($notDelflg)) {
         $use->Alert("{$select}ページを削除しました。");
     } else {

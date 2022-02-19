@@ -1,6 +1,7 @@
 <?php
 // サーバの設定
 namespace ErrorSetting;
+
 require_once '../../InitFunction.php';
 $http_flg = filter_input_fix(INPUT_SERVER, 'HTTPS');
 if (isset($http_flg)) {
@@ -25,12 +26,18 @@ $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 // インスタンスの定義
 $base = new Setting();
 // 設定関係のクラス化(実装中)
-class Setting {
+class Setting
+{
+    private $domain;
+    private $url;
+    private $public;
+    private $client;
+    private $css;
+    private $js;
+    private $image;
 
-    private $domain, $url, $public;
-    private $client, $css, $js, $image;
-
-    function __construct() {
+    public function __construct()
+    {
         // 基本設定
         $this->InitSSL($this->url);
         $this->domain = $this->GetSERVER('SERVER_NAME');
@@ -46,7 +53,8 @@ class Setting {
         $this->csv = $this->client . 'csv';
     }
 
-    private function InitSSL(&$http) {
+    private function InitSSL(&$http)
+    {
         $http_flg = $this->GetSERVER('HTTPS');
         if (isset($http_flg)) {
             $http = '//';
@@ -55,15 +63,18 @@ class Setting {
         }
     }
 
-    static private function GetSERVER($elm) {
+    private static function GetSERVER($elm)
+    {
         return Sanitize(filter_input_fix(INPUT_SERVER, $elm));
     }
 
-    static public function GetServarName($elm) {
+    public static function GetServarName($elm)
+    {
         return self::GetSERVER($elm);
     }
 
-    static public function GetPropaty($elm) {
+    public static function GetPropaty($elm)
+    {
         if (property_exists('PublicSetting\Setting', $elm) !== false) {
             return self::$$elm;
         } else {
@@ -71,20 +82,24 @@ class Setting {
         }
     }
 
-    static public function GetURI() {
+    public static function GetURI()
+    {
         return self::GetSERVER('REQUEST_URI');
     }
 
-    static public function GetScript() {
+    public static function GetScript()
+    {
         return self::GetSERVER('SCRIPT_NAME');
     }
 
-    static public function GetPosts() {
+    public static function GetPosts()
+    {
         return Sanitize($_POST);
     }
 
     // 指定した要素のPost値を取得
-    static public function GetPost($elm = '') {
+    public static function GetPost($elm = '')
+    {
         $_post = Sanitize($_POST);
         if (key_exists($elm, $_post)) {
             return $_post[$elm];
@@ -93,17 +108,20 @@ class Setting {
         }
     }
 
-    static public function GetRemoteADDR() {
+    public static function GetRemoteADDR()
+    {
         return self::GetSERVER('REMOTE_ADDR');
     }
 
     // すべてのGet値を取得
-    static public function GetRequest() {
+    public static function GetRequest()
+    {
         return Sanitize($_GET);
     }
 
     // 指定した要素のGet値を取得
-    static public function GetQuery($elm = '') {
+    public static function GetQuery($elm = '')
+    {
         $_get = Sanitize($_GET);
         if (key_exists($elm, $_get)) {
             return $_get[$elm];
@@ -112,12 +130,14 @@ class Setting {
         }
     }
 
-    static public function GetFiles() {
+    public static function GetFiles()
+    {
         return $_FILES;
     }
 
     // 公開パスなどのURLを取得
-    public function GetUrl($query='', $type = 'url') {
+    public function GetUrl($query='', $type = 'url')
+    {
         switch ($type) {
             case 'client':
                 $url = $this->client;
@@ -143,22 +163,24 @@ class Setting {
         }
         return $url . '/' . $query;
     }
-
 }
 
-class Permmision {
+class Permmision
+{
     private $filePath;
     private $mode;
-    CONST WRITE = 02;
-    CONST READ = 04;
-    CONST EXECUTE = 01;
+    const WRITE = 02;
+    const READ = 04;
+    const EXECUTE = 01;
 
-    function __construct() {
+    public function __construct()
+    {
         $this->Initialize();
     }
 
     // パーミッション変数の初期化
-    private function Initialize($filePathInit=true, $modeInit=true) {
+    private function Initialize($filePathInit=true, $modeInit=true)
+    {
         if ($filePathInit === true) {
             $this->filePath = '';
         }
@@ -169,46 +191,49 @@ class Permmision {
     }
 
     // パーミッション変更
-    private function Convert($fileNamePath, $mode) {
+    private function Convert($fileNamePath, $mode)
+    {
         @chmod($fileNamePath, $mode);
     }
 
     // パーミッション許可
-    public function Allow($filePath, $orderName, $mode) {
+    public function Allow($filePath, $orderName, $mode)
+    {
         if ($orderName) {
-
         }
         // $this->WhoCheck();
-         $this->Convert($filePath, $mode);
-
-
-
-        }
+        $this->Convert($filePath, $mode);
+    }
 
     // パーミッション拒否
-    public function Deny($filePath, $orderName, $mode) {
-
+    public function Deny($filePath, $orderName, $mode)
+    {
     }
 }
 
-class Session {
+class Session
+{
     private $init;
     private $session;
-    function __construct() {
+    public function __construct()
+    {
         $this->Read();
         $this->init = $this->session;
     }
 
-    private function Write() {
+    private function Write()
+    {
         $_SESSION = $this->session;
     }
 
-    public function Add($sessionElm, $sessionVal) {
+    public function Add($sessionElm, $sessionVal)
+    {
         $this->session[$sessionElm] = $sessionVal;
         $this->Write();
     }
 
-    public function Read($sessionElm=null) {
+    public function Read($sessionElm=null)
+    {
         if (isset($_SESSION)) {
             $this->session = $_SESSION;
         } else {
@@ -217,12 +242,13 @@ class Session {
         }
         if (isset($sessionElm)) {
             return $this->session[$sessionElm];
-     } else {
-         return $this->session;
+        } else {
+            return $this->session;
         }
     }
 
-    public function Delete($sessionElm=null) {
+    public function Delete($sessionElm=null)
+    {
         if (!isset($_SESSION)) {
             trigger_error('Session is already deleted.', E_USER_ERROR);
             exit;
@@ -230,14 +256,15 @@ class Session {
         if (isset($sessionElm)) {
             unset($this->session[$sessionElm]);
             $this->Write();
-     } else {
-         unset($this->session);
-         $this->session = $this->init;
+        } else {
+            unset($this->session);
+            $this->session = $this->init;
         }
     }
 
     // セッション閲覧用
-    public function View($id=null) {
+    public function View($id=null)
+    {
         if (isset($id)) {
             if (isset($this->session[$id])) {
                 echo $this->session[$id];
@@ -251,7 +278,8 @@ class Session {
     }
 
     // セッションの完全な破棄
-    public function Destroy() {
+    public function Destroy()
+    {
         session_unset();
 
         // セッションを切断するにはセッションクッキーも削除する。

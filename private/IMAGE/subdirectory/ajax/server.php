@@ -36,7 +36,7 @@ if ($postValid === false) {
 // 表示内容をもとに、表示する対象の画面を決定
 if (!empty($post['type'])) {
     $session->Write('image-view-directory', $post['type']);
-} else if (empty($session->Judge('image-view-directory'))) {
+} elseif (empty($session->Judge('image-view-directory'))) {
     $session->Write('image-view-directory', DEFAULT_IMAGE);
 }
 

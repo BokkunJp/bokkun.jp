@@ -82,7 +82,7 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
 }
 if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $title) === 0) {
     $adminError->UserError('タイトルに無効な文字が入力されています。');
-} else if (strlen($title) > MAX_LENGTH) {
+} elseif (strlen($title) > MAX_LENGTH) {
     $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
 }
 
@@ -135,7 +135,7 @@ if ($type === "scratch") {
         $adminError->UserError('indexファイルのスクラッチ用の追記に失敗しました。');
     }
     fclose($fp);
-} else if ($type === "custom") {
+} elseif ($type === "custom") {
     // カスタム選択時には追加のディレクトリをコピー
     mkdir("$title/Layout");                               // Layoutディレクトリ作成
 

@@ -20,10 +20,11 @@ AlertAdmin('access', $title);
 
 //  exit;   // テスト中断
     CountReset();
-    function CountReset() {
-    echo "<div align='center'><strong>ログアウトしました。</strong></div>";
+    function CountReset()
+    {
+        echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 
-    session_destroy();
+        session_destroy();
     }
     ?>
     </div>

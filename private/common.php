@@ -3,7 +3,6 @@ require_once AddPath(AddPath(__DIR__, 'common'), AddPath('Component', 'Mail.php'
 
 if (!isset($_SESSION)) {
     session_start();
-
 }
 $session = new PrivateSetting\Session();
 $post = PrivateSetting\Setting::GetPosts();
@@ -41,13 +40,13 @@ function AlertAdmin(string $noticeType, $pageTitle)
         $body = "対象のドメイン: {$domain}
 
 IP {$ip} ({$host}) の方から、管理画面の{$pageTitle}へアクセスがありました。";
-    } else if ($noticeType === 'login') {
+    } elseif ($noticeType === 'login') {
         $title = "管理画面ログイン通知";
         $body = "対象のドメイン: {$domain}
 
 IP {$ip} ({$host})の方が、管理画面へログインを試みました。
 十分にご注意ください。";
-    } else if ($noticeType === 'login_success') {
+    } elseif ($noticeType === 'login_success') {
         $title = "管理画面ログイン通知";
         $body = "対象のドメイン: {$domain}
 
