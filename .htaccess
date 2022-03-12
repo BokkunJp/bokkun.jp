@@ -54,16 +54,23 @@ RewriteCond %{REQUEST_URI} !(^/private/reset.php$)
 RewriteCond %{REQUEST_URI} !(^/private.+/edit.php$)
 #公開側
 RewriteRule \.php - [F]
-#RewriteRule \.php - [R=403]
+#RewriteRule ^(.*)/private/index$ /private/$1/admin.php
+#RewriteRule ^(.*)\/private\/(.*)$ \/private\/$1\/$2
 
 RewriteCond %{REQUEST_URI} !(^/public/common)
 RewriteCond %{REQUEST_URI} !(^/public/client)
 RewriteRule ^public/(.*) $1 [R]
 
-#メンテナンス対象外ページを指定してメンテナンスをかけるときに使用
+##メンテナンス対象外ページを指定してメンテナンスをかけるときに使用
 #RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_URI} !(/IMAGE/)
-#RewriteCond %{REQUEST_URI} !(/private/admin.php)
+##トップページのみメンテナンス解除
+#RewriteCond %{REQUEST_URI} !(^/$)
+##管理側のadminページのメンテナンスを解除
+#RewriteCond %{REQUEST_URI} !(^/private/admin.php)
+##公開側のIMAGEページのみメンテナンス解除
+#RewriteCond %{REQUEST_URI} !(^/IMAGE/$)
+##管理側のIMAGEページ以下のメンテナンスを解除
+##RewriteCond %{REQUEST_URI} !(^/private/IMAGE)
 #
 ##メンテナンス
 #RewriteCond %{REQUEST_URI} !(/common/error/503/)
