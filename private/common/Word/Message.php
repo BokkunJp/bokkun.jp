@@ -1,12 +1,14 @@
 <?php
 
-    $commonWordPath = dirname(
+$commonWordPath = dirname(
     dirname(dirname(__DIR__))
 );
-    $commonWordPath = AddPath($commonWordPath, 'common');
-    $commonWordPath = AddPath($commonWordPath, 'Word');
-    $commonWordPath = AddPath($commonWordPath, 'Message.php', false);
-    require_once $commonWordPath;
+$commonWordPath = AddPath($commonWordPath, 'common');
+$commonWordPath = AddPath($commonWordPath, 'Word');
+$commonWordPath = AddPath($commonWordPath, 'Message.php', false);
+require_once $commonWordPath;
+require_once "Local.php"; // ローカル文言(都度手動で内容調整する文言)
+
 // CSRFクラス
 function PrivateCSRFErrorMessage()
 {

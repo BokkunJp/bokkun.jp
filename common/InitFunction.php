@@ -392,10 +392,11 @@ function MoldImageConfig($imageConfig)
  *画像のサイズを計算する
  *
  * @param string $imageName 画像名(画像パス含む)
+ * @param string $imageSizeViewValue 画像サイズの表示桁数
  *
  * @return array
  */
-function CalcImageSize($imageName)
+function CalcImageSize($imageName, $imageSizeViewValue)
 {
     if (is_array($imageName)) {
         $ret = false;
@@ -411,7 +412,7 @@ function CalcImageSize($imageName)
         $imageSizeUnit = '';
         foreach ($imageSizeUnitArray as $_imageSizeUnit) {
             if ($imageSize >= IMAGE_MAX_VALUE) {
-                $imageSize = bcdiv($imageSize, IMAGE_MAX_VALUE, 20);
+                $imageSize = bcdiv($imageSize, IMAGE_MAX_VALUE, $imageSizeViewValue);
                 $imageSizeUnit = $_imageSizeUnit;
             }
         }
