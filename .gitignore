@@ -1,18 +1,4 @@
-cake/.gitattributes
-cake/.gitignore
-cake/.htaccess
-cake/.php_cs.dist
-cake/.travis.yml
-cake/CHANGELOG
-cake/composer.json
-cake/composer.lock
-cake/drupal_test.sh
-cake/LICENSE
-cake/phpunit.xml.dist
-cake/README.md
-cake/README.rst
-cake/webroot/.htaccess
-cake/vendor/
+common/Word/Local.php
 public/client/csv/CSV/*
 public/client/csv/product01/*
 public/client/image/*
@@ -20,3 +6,6 @@ private/create/subdirectory/templates_c/*
 private/edit/subdirectory/templates_c/*
 private/log/error/subdirectory/templates_c/*
 private/log/access/subdirectory/templates_c/*
+private/common/Word/Local.php
+public/common/Word/Local.php
+common/Word/Local.php
