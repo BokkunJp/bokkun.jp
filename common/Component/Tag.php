@@ -42,7 +42,7 @@ class Base
     protected function DenyAuthority($authority)
     {
         $key = array_keys($this->authorities, $authority);
-        $this->authorities = array_splice($this->authorities, $key, 1);
+        $this->authorities = array_splice($this->authorities, $key[0], 1);
     }
 
     public function SetDefault()
