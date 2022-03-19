@@ -400,7 +400,7 @@ function ShowImage($params, $data, $imageUrl, $ajaxFlg = false)
             // 画像サイズの取得
             $imageSize = AddPath(PUBLIC_IMAGE_DIR, $imagePageName, false);
             $imageSize = AddPath($imageSize, $_data['name'], false);
-            $jsData[$i]['info'] = CalcImageSize($imageSize);
+            $jsData[$i]['info'] = CalcImageSize($imageSize, \Private\Local\Word::$max_size);
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
         }
 
