@@ -49,8 +49,7 @@ AlertAdmin('access', $title);
             </form>
         </div>
         <!-- conent end -->
-    </div>
-    <?php require_once './common/footer.php'; ?>
+        <?php require_once './common/footer.php'; ?>
     </div>
     <!-- continer end -->
 </body>
