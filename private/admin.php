@@ -14,9 +14,11 @@ AlertAdmin('access', $title);
 <head>
     <meta charset='utf-8' />
     <title>管理画面</title>
-    <link rel="shortcut icon" href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
+    <link rel="shortcut icon"
+        href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
     <link rel="stylesheet" type="text/css" href="./client/css/common.css">
-    <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css/design.css">
+    <link rel="stylesheet" type="text/css"
+        href="<?= $base->GetURL('', 'client') ?>css/design.css">
 </head>
 
 <body>
@@ -36,7 +38,7 @@ AlertAdmin('access', $title);
                 $notList = AddList($notList, $dirList, '_', 1);
 
                 foreach ($dirList as $index => $_dir) {
-                    if (!SearchData($_dir, $notList)) {
+                    if (!SearchData($_dir, $notList) && isset($titleList[$_dir])) {
                         echo "<li><a href=\"./$_dir/\" target=\"_new\">{$titleList[$_dir]}画面へ移動</a></li>";
                     }
                 }
