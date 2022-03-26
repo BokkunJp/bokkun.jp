@@ -9,7 +9,7 @@ function realTime(op = 'time', method) {
 	時刻の取得、連続描画
 	引数:
 		op: どのアニメーションメソッドを用いるかを決定する。
-		
+
 		method: アニメーションを行う対象のメソッドを決定する。
 */
 realTime.prototype.viewAnimation = function(method, cancel = null) {

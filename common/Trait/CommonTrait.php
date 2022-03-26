@@ -101,7 +101,7 @@ trait CommonTrait
      *
      * @return bool
      */
-    protected function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $options = null)
+    protected function filter_input_fix($type, $variable_name, int $filter = FILTER_DEFAULT, $options = null)
     {
         $checkTypes = [
             INPUT_GET,
@@ -133,7 +133,7 @@ trait CommonTrait
      *
      *
      */
-    public function MoldData($data, $parameter = ',')
+    public function MoldData($data, string $parameter = ',')
     {
         $ret = false;
         if (is_null($data)) {
@@ -157,7 +157,7 @@ trait CommonTrait
      * @param array $debug
      * @return void
      */
-    public function Output($expression, $formatFlg = false, $indentFlg = true, array $debug = [])
+    public function Output($expression, bool $formatFlg = false, bool $indentFlg = true, array $debug = [])
     {
         if ($formatFlg === true) {
             print_r("<pre>");
@@ -331,5 +331,36 @@ trait CommonTrait
         }
 
         return $ret;
+    }
+
+    /**
+     * EmptyValidate
+     *
+     * @param mixed $validate
+     * @param string|null $word
+     * @return boolean|null
+     */
+    public function EmptyValidate($validate, ?string $word = null): ?bool
+    {
+        $v = null;
+
+        switch ($word) {
+        case 'isset':
+            $v = isset($validate);
+            break;
+        case 'empty':
+            $v = empty($validate);
+            break;
+        case 'is_null':
+            $v = is_null($validate);
+            break;
+        case 'not':
+            $v = !$validate;
+            break;
+        default:
+            break;
+    }
+
+        return $v;
     }
 }

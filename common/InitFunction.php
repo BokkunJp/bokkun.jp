@@ -1,5 +1,12 @@
 <?php
 
+// セッションスタート
+if (!isset($_SESSION)) {
+    session_start();
+} else {
+    session_reset();
+}
+
 // エラーログの設定(初期設定)
 $errLogArray = [];
 $errLogArray['errLogBasePath'] = AddPath(dirname(__DIR__, 3), AddPath("log", "error"), false);
@@ -456,4 +463,35 @@ function CalcAllImageSize($imageName)
     }
 
     return $ret;
+}
+
+/**
+ * EmptyValidate
+ *
+ * @param mixed $validate
+ * @param string|null $word
+ * @return boolean|null
+ */
+function EmptyValidate($validate, ?string $word = null): ?bool
+{
+    $v = null;
+
+    switch ($word) {
+        case 'isset':
+            $v = isset($validate);
+            break;
+        case 'empty':
+            $v = empty($validate);
+            break;
+        case 'is_null':
+            $v = is_null($validate);
+            break;
+        case 'not':
+            $v = !$validate;
+            break;
+        default:
+            break;
+    }
+
+    return $v;
 }
