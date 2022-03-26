@@ -26,7 +26,7 @@ Shader.prototype.create = function (id) {
             console.error('Not shader.');
             return;
     }
-        
+
     context.shaderSource(this.shader, scriptElm.text);	// 生成されたシェーダへのソース割り当て
 
     console.log(this.shader);

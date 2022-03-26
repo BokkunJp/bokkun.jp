@@ -4,7 +4,7 @@ function ProgramObject(vs, fs) {
 }
 ProgramObject.prototype.create_program = function (vShader, fShader) {
 
-    this.programObject = context.createProgram();			// プログラムオブジェクトの生成	
+    this.programObject = context.createProgram();			// プログラムオブジェクトの生成
 
     context.attachShader(this.programObject, vShader);		// プログラムオブジェクトへシェーダ割り当て
     context.attachShader(this.programObject, fShader);

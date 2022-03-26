@@ -9,7 +9,7 @@ function realTime(op, method) {
     if (typeof method === 'undefined') {
         method = 'requestAnimationFrame';
     }
-    
+
     this.setAnimation(method);
 }
 
@@ -17,7 +17,7 @@ function realTime(op, method) {
 	時刻の取得、連続描画
 	引数:
 		op: どのアニメーションメソッドを用いるかを決定する。
-		
+
 		method: アニメーションを行う対象のメソッドを決定する。
 */
 realTime.prototype.viewAnimation = function(method, cancel) {
