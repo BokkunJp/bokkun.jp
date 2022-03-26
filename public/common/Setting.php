@@ -88,7 +88,7 @@ class Cookie extends \CommonSetting\Cookie
 }
 
 // 設定のベースとなる変数
-$domain = Setting::GetServarName();
+$domain = Setting::GetServerName();
 $url = $http . $domain;
 $public = $url . '/public/';
 

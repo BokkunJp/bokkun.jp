@@ -62,7 +62,7 @@ class Setting
         return self::GetSERVER('DOCUMENT_ROOT');
     }
 
-    public static function GetServarName()
+    public static function GetServerName()
     {
         return self::GetSERVER('SERVER_NAME');
     }

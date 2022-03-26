@@ -4,9 +4,16 @@
  */
 // 必要なファイルの読み込み
 require_once(__DIR__ . "/Function/UA.php");
-echo "<script src='//code.jquery.com/jquery-3.4.1.min.js'></script>";
-echo "<script src='//code.jquery.com/ui/1.12.0/jquery-ui.min.js' integrity='sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E='crossorigin='anonymous'></script>";
-echo "<script src='//jp.vuejs.org/js/vue.js'></script>";
+
+// jQuery, Vue.js
+echo "<script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous'></script>";
+echo "<script src='https://code.jquery.com/ui/1.13.1/jquery-ui.min.js' integrity='sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=' crossorigin='anonymous'></script>";
+
+if (ErrorSetting\Setting::GetServerName() === 'bokkun.jp.local') {
+    echo "<script src='//jp.vuejs.org/js/vue.js'></script>";
+} else {
+    echo "<script src='//jp.vuejs.org/js/vue.min.js'></script>";
+}
 
 
 /**

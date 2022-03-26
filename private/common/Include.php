@@ -15,6 +15,10 @@ use PrivateTag\CustomTagCreate as OriginTag;
 
 //JSファイル
 IncludeDirctories(PRIVATE_COMPONENT_DIR);
+
+//JQuery
+require_once PRIVATE_COMMON_DIR . "/Load/include.php";
+
 // subdirectory内のphpファイルの読み込み (指定ディレクトリのみ)
 $subDirectryReadList = ['IMAGE'];
 if (SearchData(basename(getcwd()), $subDirectryReadList)) {
