@@ -23,9 +23,9 @@ if ($session->Judge('addition')) {
 }
 
 $dirPath = rtrim(dirname(__DIR__, 5), "\\") . CreateClient('log', 'log');
-// print_r(PrivateSetting\Setting::GetServarName());
+// print_r(PrivateSetting\Setting::GetServerName());
 // ディレクトリを除外
-$domain = PrivateSetting\Setting::GetServarName();
+$domain = PrivateSetting\Setting::GetServerName();
 $dir = scandir($dirPath);
 foreach ($dir as $_key => $_val) {
     if (!preg_match("/^{$domain}/", $_val)) {

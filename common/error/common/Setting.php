@@ -70,9 +70,9 @@ class Setting
         return Sanitize(filter_input_fix(INPUT_SERVER, $elm));
     }
 
-    public static function GetServarName($elm)
+    public static function GetServerName()
     {
-        return self::GetSERVER($elm);
+        return self::GetSERVER('SERVER_NAME');
     }
 
     public static function GetPropaty($elm)
