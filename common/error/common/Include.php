@@ -4,8 +4,8 @@
  */
 // 必要なファイルの読み込み
 require_once(__DIR__ . "/Function/UA.php");
-echo "<script src='//code.jquery.com/jquery-3.4.1.min.js'></script>";
-echo "<script src='//code.jquery.com/ui/1.12.0/jquery-ui.min.js' integrity='sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E='crossorigin='anonymous'></script>";
+echo "<script src='//code.jquery.com/jquery-3.6.0.min.js'></script>";
+echo "<script src='//code.jquery.com/ui/1.13.0/jquery-ui.min.js' integrity='sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E='crossorigin='anonymous'></script>";
 echo "<script src='//jp.vuejs.org/js/vue.js'></script>";
 
 
