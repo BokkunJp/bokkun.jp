@@ -5,7 +5,6 @@ if (!isset($_SESSION)) {
     session_start();
 } else {
     session_reset();
-    session_regenerate_id();
 }
 
 // タイムゾーンの設定
