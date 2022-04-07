@@ -5,7 +5,11 @@ if (!isset($_SESSION)) {
     session_start();
 } else {
     session_reset();
+    session_regenerate_id();
 }
+
+// タイムゾーンの設定
+date_default_timezone_set('Asia/Tokyo');
 
 // エラーログの設定(初期設定)
 $errLogArray = [];
@@ -27,16 +31,6 @@ set_error_handler(function ($error_no, $error_msg, $error_file, $error_line) {
     }
     throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
 });
-
-// set_exception_handler(function($throwable) {
-//     $development = true;
-//     // 開発環境ならエラーログを標準出力出すようにしてしまったほうが使い勝手がよさそうです（なくてもいい）
-//     if (isset($development) && $development === true) {
-//         echo $throwable;
-//     }
-//     send_error_log($throwable);
-// });
-
 
 register_shutdown_function(function () {
     $error = error_get_last();
@@ -66,14 +60,18 @@ register_shutdown_function(function () {
     }
 });
 
-
-function send_error_log($throwable)
-{
-    // 何かエラーをどこかに渡すコードをここに。
-    // この例ではテンポラリファイルディレクトリを取得してそこに php_error_log.txt という名前のファイルに追記していくような処理にした。
-    file_put_contents(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'php_error_log.txt', $throwable->__toString(), FILE_APPEND | LOCK_EX);
-}
-// 既存のパスに新たな要素を追加する
+/**
+ * AddPath
+ *
+ * 既存のパスに新たな要素を追加する
+ *
+ * @param string $local
+ * @param string $addpath
+ * @param boolean $lastSeparator
+ * @param string $separator
+ *
+ * @return string
+ */
 function AddPath($local, $addpath, $lastSeparator=true, $separator=DIRECTORY_SEPARATOR)
 {
     if (mb_substr($local, -1) == $separator) {
@@ -94,8 +92,16 @@ function AddPath($local, $addpath, $lastSeparator=true, $separator=DIRECTORY_SEP
     return $local;
 }
 
-// ヌルバイト対策 (POST, GET)
-function Sanitize($arr)
+/**
+ * Sanitize
+ *
+ * ヌルバイト対策 (POST, GET)
+ *
+ * @param mixed $arr
+ *
+ * @return mixed
+ */
+function Sanitize($arr): mixed
 {
     if (!is_string($arr)) {
         return $arr;
@@ -115,7 +121,7 @@ function Sanitize($arr)
  *
  * @return bool
  */
-function CreateClient($target, $src = '')
+function CreateClient($target, $src = ''): string
 {
     if (empty($src)) {
         $srcPath = getcwd();
@@ -156,7 +162,7 @@ function CreateClient($target, $src = '')
  *
  * @return bool
  */
-function CheckSession($SessionName, $chkFlg)
+function CheckSession($SessionName, $chkFlg): bool
 {
     $input = CommonSetting\Setting::GetPost($SessionName);
     $session = new CommonSetting\Session();
@@ -185,9 +191,9 @@ function CheckSession($SessionName, $chkFlg)
  * @param  int $filter
  * @param  mixed|null $options
  *
- * @return bool
+ * @return mixed|null
  */
-function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $options = null)
+function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $options = null): mixed
 {
     $checkTypes =[
         INPUT_GET,
@@ -217,9 +223,12 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
 /**
  * MoldData
  *
+ * @param [mixed] $data
+ * @param string $parameter
  *
+ * @return mixed
  */
-function MoldData($data, $parameter = ',')
+function MoldData($data, $parameter = ','): mixed
 {
     $ret = false;
     if (is_null($data)) {
@@ -234,6 +243,7 @@ function MoldData($data, $parameter = ',')
 
     return $ret;
 }
+
 /**
  * Output
  *
@@ -241,6 +251,7 @@ function MoldData($data, $parameter = ',')
  * @param boolean $formatFlg
  * @param boolean $indentFlg
  * @param array $debug
+ *
  * @return void
  */
 function Output($expression, $formatFlg = false, $indentFlg = true, array $debug = [])
@@ -293,7 +304,15 @@ function Output($expression, $formatFlg = false, $indentFlg = true, array $debug
     }
 }
 
-function DebugValidate(array $debug, array $debugTrace)
+/**
+ * DebugValitate
+ *
+ * @param array $debug
+ * @param array $debugTrace
+ *
+ * @return array
+ */
+function DebugValidate(array $debug, array $debugTrace): array
 {
     $validate = [];
 
@@ -331,6 +350,11 @@ function SetPlugin($name)
     }
 }
 
+/**
+ * SetPlugin
+ *
+ * @return void
+ */
 function SetAllPlugin()
 {
     $addDir = scandir(PLUGIN_DIR);
@@ -346,6 +370,7 @@ function SetAllPlugin()
 
 /**
  * SearchData
+ *
  * in_arrayの代替処理。
  * (in_arrayは速度的に問題があるため、issetで対応する)
  *
@@ -354,7 +379,7 @@ function SetAllPlugin()
  *
  * @return bool
  */
-function SearchData($target, array $arrayData)
+function SearchData($target, array $arrayData): bool
 {
     $filipData = array_flip($arrayData);
 
@@ -370,13 +395,14 @@ function SearchData($target, array $arrayData)
 
 /**
  * MoldImageConfig
+ *
  * getimagesizeで取得した配列を整形する。
  *
  * @param  array|string $imageName 画像名(画像パス含む)
  *
  * @return array
  */
-function MoldImageConfig($imageConfig)
+function MoldImageConfig($imageConfig): array
 {
     $ret = [];
     if (!is_array($imageConfig)) {
@@ -403,7 +429,7 @@ function MoldImageConfig($imageConfig)
  *
  * @return array
  */
-function CalcImageSize($imageName, $imageSizeViewValue)
+function CalcImageSize($imageName, $imageSizeViewValue): array
 {
     if (is_array($imageName)) {
         $ret = false;
@@ -440,7 +466,7 @@ function CalcImageSize($imageName, $imageSizeViewValue)
  *
  * @return array
  */
-function CalcAllImageSize($imageName)
+function CalcAllImageSize($imageName): array
 {
     if (!is_string($imageName)) {
         $ret = false;

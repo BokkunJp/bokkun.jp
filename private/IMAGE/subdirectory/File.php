@@ -40,7 +40,7 @@ function FileExif($img)
  *
  * @return array
  */
-function MoldFile($file, String $fileName)
+function MoldFile($file, String $fileName): array
 {
     $moldFiles = [];
 
@@ -77,7 +77,7 @@ function CheckType(string $inputType, string $targetType = 'image')
  *
  * @return array
  */
-function ImportImage($upFiles)
+function ImportImage($upFiles): ?array
 {
     $imageDir = PUBLIC_IMAGE_DIR;
 
@@ -180,7 +180,7 @@ function ImportImage($upFiles)
  *
  * @return string
  */
-function GetImagePageName()
+function GetImagePageName(): string
 {
     // セッション開始
     if (!isset($session)) {
@@ -232,11 +232,11 @@ function LoadAllImageFile()
  * 配列を日時でソートする
  *
  * @param  mixed $data
- * @param  mixed $order
+ * @param  string $order
  *
  * @return void
  */
-function TimeSort(&$data, $order = 'ASC')
+function TimeSort(&$data, string $order = 'ASC')
 {
     if (is_array($data) == false) {
         echo 'データは配列でなければいけません。';
@@ -250,7 +250,7 @@ function TimeSort(&$data, $order = 'ASC')
             echo '必要な要素がありません。';
             return -1;
         }
-        $time[] = $_data['time'];  // 時刻データ配列を生成
+        $time[] = $_data['time'];  // 時刻データを生成
     }
 
     // 順番の指定
@@ -274,7 +274,7 @@ function TimeSort(&$data, $order = 'ASC')
  * @param boolean $ajaxFlg
  * @return array
  */
-function ValidParameter($data=[], $ajaxFlg=false)
+function ValidParameter(array $data=[], bool $ajaxFlg=false)
 {
     // 現在のページ番号の取得
     $page = GetPage();
@@ -324,7 +324,7 @@ function ValidParameter($data=[], $ajaxFlg=false)
  * @param array $data
  * @return void
  */
-function ChoiseImage($params, $data)
+function ChoiseImage(array $params, array $data): array
 {
     // 結果用配列
     $cloneImg = [];
@@ -386,9 +386,10 @@ function ReadImage($ajaxFlg = false)
  * @param array $data
  * @param string $imageUrl
  * @param boolean $ajaxFlg
- * @return void
+ *
+ * @return array|void
  */
-function ShowImage($params, $data, $imageUrl, $ajaxFlg = false)
+function ShowImage(array $params, array $data, string $imageUrl, bool $ajaxFlg = false): ?array
 {
     if ($ajaxFlg === true) {
         // 現在選択している画像ページを取得
@@ -454,17 +455,19 @@ function ShowImage($params, $data, $imageUrl, $ajaxFlg = false)
         ViewPager($params['max']);
         Output("</div>", indentFlg:false);
     }
+
+    return null;
 }
 
 /**
  * ErrorSet
  * エラー文を定義する
  *
- * @param  mixed $errMsg
+ * @param  string $errMsg
  *
  * @return void
  */
-function ErrorSet($errMsg = ERROR_MESSAGE)
+function ErrorSet(string $errMsg = ERROR_MESSAGE)
 {
     $prevLink = new CustomTagCreate();
     $prevLink->SetTag('div', $errMsg, 'warning', true);
@@ -478,7 +481,7 @@ function ErrorSet($errMsg = ERROR_MESSAGE)
  *
  * @return array
  */
-function DeleteImage()
+function DeleteImage(): array
 {
     $post = PrivateSetting\Setting::getPosts();
     $fileList = LoadAllImageFile();
@@ -514,11 +517,11 @@ function DeleteImage()
  * CopyImage
  *画像をコピーする
  *
- * @param  mixed $upFilesArray
+ * @param  array $upFilesArray
  *
- * @return void|array
+ * @return array
  */
-function CopyImage($upFilesArray)
+function CopyImage(array $upFilesArray): array
 {
     $copyImageName = \PrivateSetting\Setting::GetPost('copy-image-name');
 

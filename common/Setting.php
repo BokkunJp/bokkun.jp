@@ -42,6 +42,14 @@ class Setting
         $this->client = AddPath($this->public, 'client', true, '/');
     }
 
+    /**
+     * InitSSL
+     *
+     * HTTPSの有無を判定してセットする。
+     *
+     * @param [type] $http
+     * @return void
+     */
     private function InitSSL(&$http)
     {
         $http_flg = $this->GetSERVER('HTTPS');
@@ -52,22 +60,52 @@ class Setting
         }
     }
 
-    protected static function GetSERVER($elm)
+    /**
+     * GetSERVER
+     *
+     * $_SERVERの内容を安全に取得する。
+     *
+     * @param mixed $elm
+     * @return mixed
+     */
+    protected static function GetSERVER($elm): mixed
     {
         return Sanitize(filter_input_fix(INPUT_SERVER, $elm));
     }
 
-    public static function GetDocumentRoot()
+    /**
+     * GetDocumentRoot
+     *
+     * ドキュメントルートを取得する。
+     *
+     * @return string
+     */
+    public static function GetDocumentRoot(): string
     {
         return self::GetSERVER('DOCUMENT_ROOT');
     }
 
-    public static function GetServerName()
+    /**
+     * GetServerName
+     *
+     * ドメイン名を取得する。
+     *
+     * @return mixed
+     */
+    public static function GetServerName(): mixed
     {
         return self::GetSERVER('SERVER_NAME');
     }
 
-    public static function GetPropaty($elm)
+    /**
+     * GetPropaty
+     *
+     * プロパティ名を取得する。
+     *
+     * @param [type] $elm
+     * @return mixed|null
+     */
+    public static function GetPropaty($elm): ?string
     {
         if (property_exists('PublicSetting\Setting', $elm) !== false) {
             return $elm;
@@ -76,7 +114,14 @@ class Setting
         }
     }
 
-    public static function GetURI()
+    /**
+     * GetURI
+     *
+     * URIを取得。
+     *
+     * @return string
+     */
+    public static function GetURI(): string
     {
         return self::GetSERVER('REQUEST_URI');
     }
@@ -86,14 +131,27 @@ class Setting
         return self::GetSERVER('SCRIPT_NAME');
     }
 
-    // 全Post値を取得
-    public static function GetPosts()
+    /**
+     * GetPosts
+     *
+     * 全Post値を取得。
+     *
+     * @return array|string|null
+     */
+    public static function GetPosts(): mixed
     {
         return Sanitize(filter_input_array(INPUT_POST));
     }
 
-    // 配列形式のPost値を取得
-    public static function GetPostArray($var)
+
+    /**
+     * GetPostArray
+     *
+     * 配列形式のPost値を取得。
+     *
+     * @return array|string|null
+     */
+    public static function GetPostArray($var): ?array
     {
         return self::GetPost($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
     }
@@ -104,37 +162,82 @@ class Setting
         return Sanitize(filter_input_fix(INPUT_POST, $elm, $filter, $options));
     }
 
+    /**
+     * ドメインを取得。
+     *
+     * @return mixed
+     */
     public static function GetRemoteADDR()
     {
         return self::GetSERVER('REMOTE_ADDR');
     }
 
-    // すべてのGet値を取得
+    /**
+     * GetRequest
+     *
+     * すべてのGet値を取得
+     *
+     * @return mixed
+     */
     public static function GetRequest()
     {
         return Sanitize(filter_input_array(INPUT_GET));
     }
 
-    // 指定した要素のGet値を取得
+    /**
+     * GetQuery
+     *
+     * 指定した要素のGet値を取得
+     *
+     * @param string $elm
+     * @param [type] $filter
+     * @param [type] $options
+     *
+     * @return mixed
+     */
     public static function GetQuery($elm = '', $filter = FILTER_DEFAULT, $options = null)
     {
         return Sanitize(filter_input_fix(INPUT_GET, $elm, $filter, $options));
     }
 
-    // 配列形式のGet値を取得
-    public static function GetQueryArray($var)
+    /**
+     * GetQueryArray
+     *
+     * 配列形式のGet値を取得
+     *
+     * @param [type] $var
+     *
+     * @return array
+     */
+    public static function GetQueryArray($var): ?array
     {
         return self::GetQuery($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
     }
 
-    // FILEを取得
+    /**
+     * GetFiles
+     *
+     * FILEを取得
+     *
+     * @return void
+     */
     public static function GetFiles()
     {
         return $_FILES;
     }
 
-    // 公開パスなどのURLを取得
-    public function GetUrl($query='', $type='url', $relativePath = false)
+    /**
+     * GetUrl
+     *
+     * 公開パスなどのURLを取得
+     *
+     * @param string $query
+     * @param string $type
+     * @param boolean $relativePath
+     *
+     * @return string
+     */
+    public function GetUrl($query='', $type='url', $relativePath = false): string
     {
         if ($relativePath === false) {
             $url = $this->url;
@@ -188,7 +291,9 @@ class Session
     }
 
     /**
-     * セッションの追加 (プライベートクラス)
+     * Add
+     *
+     * セッションの追加
      *
      * @param [Strging] $sessionElm
      * @param [mixed] $sessionVal
@@ -203,12 +308,13 @@ class Session
     /**
      * セッションの書き込み
      *
-     * @param [String] $tag
-     * @param [String] $message
-     * @param [mixed] $handle
+     * @param string|int $tag
+     * @param mixed $message
+     * @param ?string $handle
+     *
      * @return void
      */
-    public function Write($tag, $message, $handle = null)
+    public function Write(string|int $tag, mixed $message, ?string $handle = null)
     {
         if (!empty($handle)) {
             $this->$handle();
@@ -217,14 +323,16 @@ class Session
     }
 
     /**
+     * WriteArray
+     *
      * セッション配列の更新
      *
-     * @param String $parentId
-     * @param String $childId
+     * @param string|int $parentId
+     * @param string|int $childId
      * @param mixed $data
      * @return void
      */
-    public function WriteArray($parentId, $childId, $data)
+    public function WriteArray(string|int $parentId, string|int $childId, mixed $data)
     {
         if ($this->Judge($parentId)) {
             $tmp = $this->Read($parentId);
@@ -236,7 +344,16 @@ class Session
         $this->Write($parentId, $tmp);
     }
 
-    public function Read($sessionElm = null)
+    /**
+     * Read
+     *
+     * セッションの読み込み
+     *
+     * @param string|int $sessionElm
+     *
+     * @return mixed
+     */
+    public function Read(string|int $sessionElm = null): mixed
     {
         if (!isset($_SESSION)) {
             $this->SessionStart();
@@ -254,7 +371,16 @@ class Session
         }
     }
 
-    public function Delete($sessionElm = null)
+    /**
+     * Delete
+     *
+     * セッションの削除
+     *
+     * @param string|int $sessionElm
+     *
+     * @return void
+     */
+    public function Delete(string|int $sessionElm = null)
     {
         if (!isset($_SESSION)) {
             trigger_error('Session is already deleted.', E_USER_ERROR);
@@ -269,8 +395,16 @@ class Session
         }
     }
 
-    // セッション判定用
-    public function Judge($id = null)
+    /**
+     * Judge
+     *
+     * セッション判定用
+     *
+     * @param string|int $id
+     *
+     * @return mixed
+     */
+    public function Judge(string|int $id = null): mixed
     {
         $ret = true;
         if (!isset($id)) {
@@ -284,8 +418,16 @@ class Session
         return $ret;
     }
 
-    // セッション閲覧用
-    public function View($id = null)
+    /**
+     * View
+     *
+     * セッション閲覧用
+     *
+     * @param ?mixed $id
+     *
+     * @return void
+     */
+    public function View(mixed $id = null)
     {
         $judge = $this->Judge($id);
         if ($judge === null) {
@@ -295,8 +437,15 @@ class Session
         }
     }
 
-    // セッション参照後、該当のセッションを削除する
-    public function OnlyView($tag)
+    /**
+     * OnlyView
+     *
+     * セッション参照後、該当のセッションを削除する
+     *
+     * @param string|int $tag
+     * @return void
+     */
+    public function OnlyView(string|int $tag)
     {
         if ($this->Judge($tag) === true) {
             $this->View($tag);
@@ -304,7 +453,13 @@ class Session
         }
     }
 
-    // セッションの完全な破棄
+    /**
+     * FinaryDestroy
+     *
+     * セッションの完全な破棄
+     *
+     * @return void
+     */
     public function FinaryDestroy()
     {
         session_unset();
@@ -329,6 +484,13 @@ class Cookie
         $this->Init();
     }
 
+    /**
+     * Init
+     *
+     * クッキーの初期設定
+     *
+     * @return void
+     */
     private function Init()
     {
         foreach ($_COOKIE as $_key => $_val) {
@@ -338,16 +500,37 @@ class Cookie
         $this->cookie = null;
     }
 
+    /**
+     * クッキーを取得
+     *
+     * @return void
+     */
     public function GetCookie()
     {
         $this->cookie = $_COOKIE;
     }
 
+    /**
+     * SetCookie
+     *
+     * クッキーのセット
+     *
+     * @param [type] $name
+     * @param [type] $val
+     * @return void
+     */
     public function SetCookie($name, $val = null)
     {
         setCookie($val, $name);
     }
 
+    /**
+     * ViewCookie
+     *
+     * クッキーを表示
+     *
+     * @return void
+     */
     public function ViewCookie()
     {
         print_r($this->cookie);

@@ -5,9 +5,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-if (!isset($_SESSION)) {
-    session_start();
-}
 define("DS", DIRECTORY_SEPARATOR);
 
 // 関数定義 (初期処理用)
@@ -232,5 +229,6 @@ class AdminError
 </script>
 
 <body>
-    <input type="hidden" name="title" value="<?php echo $title; ?>" />
+    <input type="hidden" name="title"
+        value="<?php echo $title; ?>" />
 </body>

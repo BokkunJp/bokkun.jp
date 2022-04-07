@@ -3,22 +3,6 @@
 namespace PrivateSetting;
 
 require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
-function GetSelf_Admin()
-{
-    return filter_input_fix(INPUT_SERVER, 'PHP_SELF');
-}
-
-function GetPrevPage_Admin()
-{
-    return filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
-}
-
-
-function getURI_Admin()
-{
-    return filter_input_fix(INPUT_SERVER, 'REQUEST_URI');
-}
-
 class Setting extends \commonSetting\Setting
 {
     protected $domain;
@@ -47,14 +31,32 @@ class Setting extends \commonSetting\Setting
         $this->filepageImage = AddPath($this->public, 'image', false, '/');
     }
 
-    // URLのドメインを取得
-    public static function GetDomain()
+    public static function GetSelf_Admin()
+    {
+        return 1;
+    }
+
+    /**
+     * GetDomain
+     *
+     * URLのドメインを取得
+     *
+     * @return mixed
+     */
+    public static function GetDomain(): string
     {
         return parent::GetSERVER('HTTP_HOST');
     }
 
-    // IPアドレスを取得
-    public static function GetHostIp($hostName = null)
+
+    /**
+     * GetHostIp
+     *
+     * IPアドレスを取得
+     *
+     * @return mixed
+     */
+    public static function GetHostIp($hostName = null): string
     {
         if (is_null($hostName)) {
             $ret = parent::GetSERVER('REMOTE_ADDR');
@@ -64,7 +66,13 @@ class Setting extends \commonSetting\Setting
         return $ret;
     }
 
-    // IPアドレスからホスト名を取得
+    /**
+     * GetHostName
+     *
+     * IPアドレスからホスト名を取得
+     *
+     * @return mixed
+     */
     public static function GetHostName($ipName = null)
     {
         if (is_null($ipName)) {
@@ -73,14 +81,12 @@ class Setting extends \commonSetting\Setting
 
         return gethostbyaddr($ipName);
     }
-}
 
-class Admin extends Setting
-{
-    public function __construct()
-    {
-    }
-
+    /**
+     * GetSelf
+     *
+     * @return mixed
+     */
     public static function GetSelf()
     {
         return parent::GetSERVER('PHP_SELF');
@@ -92,7 +98,7 @@ class Admin extends Setting
     }
 
 
-    public static function getURI()
+    public static function getURI(): string
     {
         return filter_input_fix(INPUT_SERVER, 'PHP_SELF');
     }
