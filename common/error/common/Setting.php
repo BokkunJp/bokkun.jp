@@ -187,4 +187,4 @@ class Session
 
 // インスタンスの定義
 $base = new Setting();
-require_once AddPath(__DIR__, 'include.php', false);
+require_once AddPath(__DIR__, 'Include.php', false);
