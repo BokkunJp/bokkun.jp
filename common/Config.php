@@ -9,8 +9,13 @@ class Config
 
 class Header extends Config
 {
-    // バージョン判定
-    private function SetVersion()
+    /**
+     * Serversion
+     * バージョン判定
+     *
+     * @return string
+     */
+    private function SetVersion(): string
     {
         switch ($_SERVER['SERVER_NAME']) {
             case 'bokkun.xyz':
@@ -35,7 +40,14 @@ class Footer extends Config
 {
     private $start;
     private $end;
-    private function SetYear($arg)
+
+    /**
+     * SetYear
+     *
+     * @param string $arg
+     * @return string|array
+     */
+    private function SetYear(string $arg): string|array
     {
         $time = new DateTime();
         $this->end = $time->format('Y');
@@ -53,7 +65,14 @@ class Footer extends Config
         }
         return $ret;
     }
-    public function GetYear($arg='')
+
+    /**
+     * GetYear
+     *
+     * @param string $arg
+     * @return string
+     */
+    public function GetYear(string $arg='')
     {
         return $this->SetYear($arg);
     }

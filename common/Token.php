@@ -7,7 +7,7 @@
  *
  * @return string
  */
-function MakeToken()
+function MakeToken(): string
 {
     $token = CreateRandom(SECURITY_LENG) . '-' . CreateRandom(SECURITY_LENG, "random_bytes");
 
@@ -44,7 +44,7 @@ function SetToken($token = null, $tokenName = 'token')
  *
  * @return bool
  */
-function CheckToken($tokenName = 'token')
+function CheckToken($tokenName = 'token'): bool
 {
     $post = PublicSetting\Setting::GetPosts();
     $session = new PublicSetting\Session();

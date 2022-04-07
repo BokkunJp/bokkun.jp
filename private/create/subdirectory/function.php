@@ -21,7 +21,6 @@ class Admin
         $this->adminPath = dirname(__DIR__);
         $this->basePath = dirname(dirname(dirname(__DIR__)));
 
-        session_start();
         $this->session = filter_input_array(INPUT_SESSION);
         $this->post = filter_input_array(INPUT_POST);
         $judge = array();

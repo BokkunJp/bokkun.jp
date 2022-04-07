@@ -4,9 +4,9 @@
  * GetPage
  * ページ番号を取得する
  * @param void
- * @return int
+ * @return int|bool
  */
-function GetPage()
+function GetPage(): int|bool
 {
     $page = PrivateSetting\Setting::GetQuery('page');
     if ($page === false) {

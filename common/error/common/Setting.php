@@ -4,7 +4,6 @@
 
 namespace ErrorSetting;
 
-require_once '../../InitFunction.php';
 $http_flg = filter_input_fix(INPUT_SERVER, 'HTTPS');
 if (isset($http_flg)) {
     $http = '//';
@@ -13,133 +12,24 @@ if (isset($http_flg)) {
 }
 
 // 定数などの定義
-define('DOCUMENT_ROOT', filter_input_fix(INPUT_SERVER, 'DOCUMENT_ROOT'));
-define('COMMON_DIR', __DIR__);
-define('PUBLIC_DIR', dirname(__DIR__));
-define('FUNCTION_DIR', COMMON_DIR. '/Function');
-define('LAYOUT_DIR', COMMON_DIR. '/Layout');
-define('ROOT', '/');
 $agent = filter_input_fix(INPUT_SERVER, 'HTTP_USER_AGENT');
 $referer = filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
 
-require_once AddPath(dirname(dirname(COMMON_DIR)), "Config.php", false);
+require_once AddPath(COMMON_DIR, "Config.php", false);
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 
-// インスタンスの定義
-$base = new Setting();
 // 設定関係のクラス化(実装中)
-class Setting
+class Setting extends \CommonSetting\Setting
 {
-    private $domain;
-    private $url;
-    private $public;
-    private $client;
-    private $css;
-    private $js;
-    private $image;
-
-    public function __construct()
-    {
-        // 基本設定
-        $this->InitSSL($this->url);
-        $this->domain = $this->GetSERVER('SERVER_NAME');
-        $this->url = $this->url . $this->domain;
-        $this->public = $this->url . '/public/';
-
-        // 公開パス関係
-        $this->error = AddPath($this->url, 'common/error');
-        $this->client = $this->public . 'client/';
-        $this->css = $this->client . 'css';
-        $this->js = $this->client . 'js';
-        $this->image = $this->client . 'image';
-        $this->csv = $this->client . 'csv';
-    }
-
-    private function InitSSL(&$http)
-    {
-        $http_flg = $this->GetSERVER('HTTPS');
-        if (isset($http_flg)) {
-            $http = '//';
-        } else {
-            $http = 'http://';
-        }
-    }
-
-    private static function GetSERVER($elm)
-    {
-        return Sanitize(filter_input_fix(INPUT_SERVER, $elm));
-    }
-
-    public static function GetServerName()
-    {
-        return self::GetSERVER('SERVER_NAME');
-    }
-
-    public static function GetPropaty($elm)
-    {
-        if (property_exists('PublicSetting\Setting', $elm) !== false) {
-            return self::$$elm;
-        } else {
-            return null;
-        }
-    }
-
-    public static function GetURI()
-    {
-        return self::GetSERVER('REQUEST_URI');
-    }
-
-    public static function GetScript()
-    {
-        return self::GetSERVER('SCRIPT_NAME');
-    }
-
-    public static function GetPosts()
-    {
-        return Sanitize($_POST);
-    }
-
-    // 指定した要素のPost値を取得
-    public static function GetPost($elm = '')
-    {
-        $_post = Sanitize($_POST);
-        if (key_exists($elm, $_post)) {
-            return $_post[$elm];
-        } else {
-            return null;
-        }
-    }
-
-    public static function GetRemoteADDR()
-    {
-        return self::GetSERVER('REMOTE_ADDR');
-    }
-
-    // すべてのGet値を取得
-    public static function GetRequest()
-    {
-        return Sanitize($_GET);
-    }
-
-    // 指定した要素のGet値を取得
-    public static function GetQuery($elm = '')
-    {
-        $_get = Sanitize($_GET);
-        if (key_exists($elm, $_get)) {
-            return $_get[$elm];
-        } else {
-            return null;
-        }
-    }
-
-    public static function GetFiles()
-    {
-        return $_FILES;
-    }
-
     // 公開パスなどのURLを取得
-    public function GetUrl($query='', $type = 'url')
+    public function GetUrl($query='', $type = 'url', $relativePath = false): string
     {
+        if ($relativePath === false) {
+            $url = $this->url;
+        } else {
+            $url = '';
+        }
+
         switch ($type) {
             case 'client':
                 $url = $this->client;
@@ -294,3 +184,7 @@ class Session
         session_destroy();
     }
 }
+
+// インスタンスの定義
+$base = new Setting();
+require_once AddPath(__DIR__, 'include.php', false);
