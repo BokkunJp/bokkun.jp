@@ -1,10 +1,17 @@
 <?php
 
-// 10進数の数値をn進数に変換する
-function Convert($decData, $n)
+/**
+ * Convert
+ *
+ * 10進数の数値をn進数に変換する
+ *
+ * @param int $decData
+ * @param int $n
+ * @return int
+ */
+function Convert(int $decData, int $n): int
 {
     if (!isset($n)) {
-        var_dump('null');
         return null;
     }
     $octData = 0;
@@ -23,14 +30,22 @@ function Convert($decData, $n)
 /**
  * CheckSpeed
  *
+ * スピードテスト用の関数
  *
- * @param [mixed] $func
- * @return void
+ * @param string $func
+ * @param mixed ...$parameter
+ *
+ * @return mixed
  */
-function CheckSpeed($func)
+function CheckSpeed(string $func, mixed ...$parameter): mixed
 {
-    $sTime = microtime(true);
-    $func();
-    $time = microtime(true) - $sTime;
-    echo sprintf("%.22f", $time) . nl2br("\n");
+    $sTime = hrtime(true);
+    if (isset($parameter)) {
+        $func($parameter);
+    } else {
+        $func();
+    }
+    $time = hrtime(true) - $sTime;
+
+    return $time;
 }
