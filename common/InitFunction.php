@@ -21,15 +21,22 @@ if (!is_dir($errLogArray['errLogPath'])) {
 ini_set("error_log", AddPath($errLogArray['errLogPath'], "php_error.log", false));
 unset($errLogArray);
 
-require_once AddPath('mode', 'remote.php', false);
+require_once AddPath('ini', 'ini.php', false);
 
 // エラーハンドラ設定
-set_error_handler(function ($error_no, $error_msg, $error_file, $error_line) {
-    if (error_reporting() === 0) {
-        return;
+set_error_handler(
+    function (
+        $error_no,
+        $error_msg,
+        $error_file,
+        $error_line
+    ) {
+        if (error_reporting() === 0) {
+            return;
+        }
+        throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
     }
-    throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
-});
+);
 
 register_shutdown_function(function () {
     $error = error_get_last();
@@ -71,8 +78,12 @@ register_shutdown_function(function () {
  *
  * @return string
  */
-function AddPath($local, $addpath, $lastSeparator=true, $separator=DIRECTORY_SEPARATOR)
-{
+function AddPath(
+    $local,
+    $addpath,
+    $lastSeparator = true,
+    $separator = DIRECTORY_SEPARATOR
+) {
     if (mb_substr($local, -1) == $separator) {
         $first = '';
     } else {
@@ -253,8 +264,12 @@ function MoldData($data, $parameter = ','): mixed
  *
  * @return void
  */
-function Output($expression, $formatFlg = false, $indentFlg = true, array $debug = [])
-{
+function Output(
+    $expression,
+    $formatFlg = false,
+    $indentFlg = true,
+    array $debug = []
+) {
     if ($formatFlg === true) {
         print_r("<pre>");
         print_r($expression);
@@ -266,8 +281,8 @@ function Output($expression, $formatFlg = false, $indentFlg = true, array $debug
         }
     }
 
-    $debugMessage = DEBUG_MESSAGE_SOURCE;
     if (!empty($debug)) {
+        $debugMessage = DEBUG_MESSAGE_SOURCE;
         $debugTrace = debug_backtrace();
         $debugValidate = DebugValidate($debug, $debugTrace);
         if (!empty($debugValidate)) {
