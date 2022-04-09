@@ -19,7 +19,7 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
 
     $imageSize = AddPath(PUBLIC_IMAGE_DIR, $imagePageName, false);
     $imageSize = AddPath($imageSize, $imageName, false);
-    $imageData = CalcImageSize($imageSize, \Private\Local\Word::$max_size);
+    $imageData = CalcImageSize($imageSize, GetIni('private', 'ImageMaxSize'));
 
     echo "<div class='image-info1'><span class='image-name'>画像名:{$imageName}</span> ";
     echo "<span class='image-size'>({$imageData['size']}{$imageData['sizeUnit']}B)</span></div>";
