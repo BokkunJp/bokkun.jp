@@ -389,8 +389,12 @@ function ReadImage($ajaxFlg = false)
  *
  * @return array|void
  */
-function ShowImage(array $params, array $data, string $imageUrl, bool $ajaxFlg = false): ?array
-{
+function ShowImage(
+    array $params,
+    array $data,
+    string $imageUrl,
+    bool $ajaxFlg = false
+): ?array {
     if ($ajaxFlg === true) {
         // 現在選択している画像ページを取得
         $imagePageName = GetImagePageName();
@@ -401,7 +405,7 @@ function ShowImage(array $params, array $data, string $imageUrl, bool $ajaxFlg =
             // 画像サイズの取得
             $imageSize = AddPath(PUBLIC_IMAGE_DIR, $imagePageName, false);
             $imageSize = AddPath($imageSize, $_data['name'], false);
-            $jsData[$i]['info'] = CalcImageSize($imageSize, \Private\Local\Word::$max_size);
+            $jsData[$i]['info'] = CalcImageSize($imageSize, GetIni('private', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
         }
 
