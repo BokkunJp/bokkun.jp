@@ -1,7 +1,5 @@
 <?php
 
-require_once "Local.php"; // ローカル文言(都度手動で内容調整する文言)
-
 // CSRFクラス
 function CSRFErrorMessage()
 {
