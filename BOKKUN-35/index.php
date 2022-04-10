@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 <?php
+
 $title = "BOKKUN-35";
 
 // レイアウト呼び出し

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 require_once dirname(__DIR__) . "/common/require.php";
 require_once dirname(__DIR__, 2) . '/common/Component/Function.php';
@@ -12,7 +11,8 @@ $title = 'ログ一覧';
     <title>管理画面</title>
 
     <link rel="stylesheet" type="text/css" href="../client/css/common.css">
-    <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('log') ?>design.css">
+    <link rel="stylesheet" type="text/css"
+        href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('log') ?>design.css">
 </head>
 
 <body>
