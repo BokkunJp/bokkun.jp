@@ -6,7 +6,7 @@ define("FALSE_MESSAGE", "の値が不正です。");
 define("NULL_MESSAGE", "の値を入力してください。");
 IncludeDirctories();
 
-class CSV extends CSV_Base
+class productCSV extends productCSV_Base
 {
     private $fileName;
     private $editFlg;

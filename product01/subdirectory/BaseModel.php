@@ -2,7 +2,7 @@
 
 define('CSV_PATH', AddPath(PUBLIC_CSV_DIR, '', false, '/') . AddPath(basename(getcwd()), '', false, '/'));
 define("EXTENSION_NONE_TRUE", 2);
-class CSV_Base
+class productCSV_Base
 {
     private $data;
     private $tmp;
