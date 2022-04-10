@@ -1,7 +1,15 @@
 <?php
-if (isset($_SESSION)) {
-    session_regenerate_id();
+
+// セッションスタート
+if (!isset($_SESSION)) {
+    session_start();
+} else {
+    session_reset();
 }
+
+?>
+<!DOCTYPE html>
+<?php
 
 require_once __DIR__ . '/require.php';
 
@@ -13,15 +21,18 @@ $img = "crown-vector.jpg";
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
-    <title><?php echo $title; ?></title>
+    <title><?php echo $title; ?>
+    </title>
     <base href="../" />
     <link rel="shortcut icon" href="/public/client/image/5959715.png">
     <?php require_once dirname(dirname(__DIR__)) . '/public/common/Layout/init.php'; ?>
-    <link rel="stylesheet" type="text/css" href="/public/client/css/<?php echo $homepageTitle; ?>/design.css">
+    <link rel="stylesheet" type="text/css"
+        href="/public/client/css/<?php echo $homepageTitle; ?>/design.css">
 </head>
 
 <body>
-    <link rel="stylesheet" type="text/css" href="<?php echo $public; ?>client/css/common/<?php echo $agentCode; ?>.css">
+    <link rel="stylesheet" type="text/css"
+        href="<?php echo $public; ?>client/css/common/<?php echo $agentCode; ?>.css">
     <div class="container">
         <?php require_once('header.php'); ?>
         <main class="contents">

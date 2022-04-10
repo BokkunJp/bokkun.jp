@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 <?php
+
 $title = '管理側 画像投稿';
 $homepageTitle = 'IMAGE';
 // レイアウト呼び出し

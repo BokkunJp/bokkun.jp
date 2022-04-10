@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 <?php
+
 $homepageTitle = '管理画面';
 $title = 'アクセスログ';
 $ary = [$homepageTitle, $title];

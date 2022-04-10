@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 define("DS", DIRECTORY_SEPARATOR);
 
@@ -225,5 +224,6 @@ class AdminError
 </script>
 
 <body>
-    <input type="hidden" name="title" value="<?php echo $title; ?>" />
+    <input type="hidden" name="title"
+        value="<?php echo $title; ?>" />
 </body>

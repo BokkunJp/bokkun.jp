@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 <?php
+
 // タイトル
 $title = 'Image-View';
 $homepageTitle = '画像閲覧ページ';
