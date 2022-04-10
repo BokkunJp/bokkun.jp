@@ -68,7 +68,7 @@ function FindFileName($str)
  *
  * @return bool
  */
-function ValidateData(string $dirPath, string $select)
+function ValidateData(string $dirPath, ?string $select)
 {
     $dirArray = scandir($dirPath);
 

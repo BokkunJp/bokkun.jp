@@ -1,12 +1,5 @@
 <?php
 
-// セッションスタート
-if (!isset($_SESSION)) {
-    session_start();
-} else {
-    session_reset();
-}
-
 // タイムゾーンの設定
 date_default_timezone_set('Asia/Tokyo');
 

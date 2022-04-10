@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,6 +16,8 @@ require_once dirname(__DIR__, 2) . DS . AddPath("common", "Component") . DS . "T
 require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
 // CSRF
 require_once PRIVATE_COMMON_DIR . "/Token.php";
+
+$sessClass =  new PrivateSetting\Session();
 
 define('MAX_LENGTH', 32);
 $adminError = new AdminError();
