@@ -11,7 +11,7 @@ function Main($inputFlg=false)
         return false;
     }
 
-    $csv = new CSV();
+    $csv = new productCSV();
 
     if ($inputFlg === true) {
         $csv->SetHeader(['x', 'y', 'z']);
