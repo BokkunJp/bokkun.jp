@@ -39,7 +39,6 @@ if (!empty($mode) && $mode === 'edit') {
             foreach ($posts as $_key => $_value) {
                 if (preg_match('/^img_(.*)$/', $_key)) {
                     $deleteImages[$_key] = $_value;
-                    $judge = ValidateDeleteImage($_value, $allImage);
                 }
             }
         }
@@ -54,18 +53,18 @@ if (!empty($mode) && $mode === 'edit') {
                 $errorResult = $deleteResult['error'];
                 $noticeWord .= nl2br("\n");
                 foreach ($errorResult as $_key => $_result) {
-                    $noticeWord .= "・".$_key. FAIL_DELETE_IMAGE_DETAIL;
+                    $noticeWord .= "・".$_result. FAIL_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
                 $session->Write('notice', $noticeWord, 'Delete');
             }
             // 削除成功した画像について
             if (isset($deleteResult['success'])) {
-                $noticeWord .= count($deleteResult['success']). SUCCESS_DELETE_IMAGE;
+                $noticeWord = count($deleteResult['success']). SUCCESS_DELETE_IMAGE;
                 $successResult = $deleteResult['success'];
                 $noticeWord .= nl2br("\n");
                 foreach ($successResult as $_key => $_result) {
-                    $noticeWord .= "・".$_key. SUCCESS_DELETE_IMAGE_DETAIL;
+                    $noticeWord .= "・".$_result. SUCCESS_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
                 $session->Write('success', $noticeWord, 'Delete');

@@ -532,12 +532,12 @@ function DeleteImages(array $deleteImages): array
         if (preg_match('/^img_(.*)$/', $_key)) {
             if (SearchData($_value, scandir($baseImageDir))) {
                 if (rename(AddPath($baseImageDir, $_value, false), AddPath(AddPath($baseImageDir, '_old'), $_value, false)) === true) {
-                    $ret['success'][$_key] = true;
+                    $ret['success'][$_key] = $_value;
                 } else {
-                    $ret['error'][$_key] = false;
+                    $ret['error'][$_key] = $_value;
                 }
             } else {
-                $ret['error'][$_key] = false;
+                $ret['error'][$_key] = $_value;
             }
         }
     }
