@@ -13,7 +13,7 @@ AlertAdmin('access', $title);
 
 <head>
     <meta charset='utf-8' />
-    <title>管理画面</title>
+    <title>管理側</title>
     <link rel="shortcut icon"
         href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
     <link rel="stylesheet" type="text/css" href="./client/css/common.css">

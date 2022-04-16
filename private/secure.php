@@ -25,7 +25,7 @@ $mode = 'movePage';
 
 <head>
     <meta charset="utf8" />
-    <title>管理者認証</title>
+    <title>管理側</title>
 
 </head>
 

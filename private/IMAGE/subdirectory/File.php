@@ -478,17 +478,45 @@ function ErrorSet(string $errMsg = ERROR_MESSAGE)
     $prevLink->ExecTag(true);
     $prevLink->SetHref("./", PRIVATE_PREVIOUS, 'page', true, '_self');
 }
+/**
+ * ValidateDeleteImage
+ *
+ * 削除するファイル群や削除対象のファイルが存在するかチェック
+ *
+ * @param array $listImages
+ * @param array|string $target
+ *
+ * @return boolean
+ */
+function ValidateDeleteImage(
+    array|string $target,
+    array $listImages = [],
+): bool {
+    $ret = false;
+
+    if (!is_array($target)) {
+        $ret = SearchData($target, $listImages);
+    } else {
+        foreach ($target as $_key => $_value) {
+            if (preg_match('/^img_(.*)$/', $_key)) {
+                $ret = true;
+            }
+        }
+    }
+
+    return $ret;
+}
 
 /**
  * DeleteImage
  * 画像を一括削除する
  *
+ * @param array
+ *
  * @return array
  */
-function DeleteImage(): array
+function DeleteImages(array $deleteImages): array
 {
-    $post = PrivateSetting\Setting::getPosts();
-    $fileList = LoadAllImageFile();
     $imagePageName = GetImagePageName();
 
     $baseImageDir = AddPath(PUBLIC_IMAGE_DIR, $imagePageName);
@@ -500,16 +528,16 @@ function DeleteImage(): array
 
     $ret = [];
     // 指定されたファイルをすべて削除 (退避ディレクトリに追加)
-    foreach ($post as $post_key => $post_value) {
-        if (preg_match('/^img_(.*)$/', $post_key)) {
-            if (SearchData($post_value, $fileList)) {
-                if (rename(AddPath($baseImageDir, $post_value, false), AddPath(AddPath($baseImageDir, '_old'), $post_value, false)) === true) {
-                    $ret['success'][$post_key] = true;
+    foreach ($deleteImages as $_key => $_value) {
+        if (preg_match('/^img_(.*)$/', $_key)) {
+            if (SearchData($_value, scandir($baseImageDir))) {
+                if (rename(AddPath($baseImageDir, $_value, false), AddPath(AddPath($baseImageDir, '_old'), $_value, false)) === true) {
+                    $ret['success'][$_key] = true;
                 } else {
-                    $ret['error'][$post_key] = false;
+                    $ret['error'][$_key] = false;
                 }
             } else {
-                $ret['error'][$post_key] = ILLEGAL_RESULT;
+                $ret['error'][$_key] = false;
             }
         }
     }
