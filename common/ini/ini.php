@@ -25,19 +25,20 @@ function GetIni(...$parameter): mixed
         }
     }
 
+    // パラメータの指定が不正の場合はいずれもfalse (パラメータ1がallの場合は除外)
     $ret = false;
-    if (empty($parameter) || (empty($ini[$parameter[0]]) && ($parameter[0] !== 'all'))) {
+    if (empty($parameter)) {
+        // パラーメータの指定無
         $ret = $ini;
+    } elseif (isset($ini[$parameter[0]]) && isset($parameter[1]) && isset($ini[$parameter[0]][$parameter[1]])) {
+        // パラメータ1, パラメータ2共に正しいパラメータで指定あり
+        $ret = $ini[$parameter[0]][$parameter[1]];
+    } elseif (isset($ini[$parameter[0]]) && !isset($parameter[1])) {
+        // パラメータ1のみ正しいパラメータで指定あり
+        $ret = $ini[$parameter[0]];
     } elseif ($parameter[0] === 'all') {
+        // パラメータ1がallで指定あり
         $ret = $iniAll;
-    } elseif (isset($ini[$parameter[0]]) && isset($parameter[1])) {
-        if (isset($ini[$parameter[0]][$parameter[1]])) {
-            $ret = $ini[$parameter[0]][$parameter[1]];
-        }
-    } else {
-        if (isset($ini[$parameter[0]])) {
-            $ret = $ini[$parameter[0]];
-        }
     }
 
     return $ret;
