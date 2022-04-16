@@ -50,13 +50,13 @@ class Setting
      * @param [type] $http
      * @return void
      */
-    private function InitSSL(&$http)
+    private function InitSSL(&$scheme)
     {
-        $http_flg = $this->GetSERVER('HTTPS');
-        if (isset($http_flg)) {
-            $http = '//';
+        $sslFlg = $this->GetSERVER('HTTPS');
+        if (isset($sslFlg)) {
+            $scheme = '//';
         } else {
-            $http = 'http://';
+            $scheme = 'http://';
         }
     }
 

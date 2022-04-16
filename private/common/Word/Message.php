@@ -79,8 +79,6 @@ define('FAIL_DELETE_IMAGE', '件の画像の削除に失敗しました。');
 
 define('FAIL_REASON_SYSTEM', '・処理中に問題が発生したため、');
 
-define('FAIL_REASON_ILLEGAL', '・処理中に画像が削除されたか、指定したファイル名が不正のため、');
-
 define('FAIL_DELETE_IMAGE_DETAIL', 'を削除できませんでした。');
 
 define('SUCCESS_DELETE_IMAGE', '枚の画像の削除に成功しました。');
@@ -93,8 +91,6 @@ define('FAIL_COPY_IMAGE', "画像のコピーに失敗しました。");
 define('NOT_FOUND_COPY_DIRECTORY', "対象のディレクトリがありません。");
 
 define('NOT_SELECT_IMAGE', "画像が選択されていません。");
-
-define('ILLEGAL_RESULT', -1);
 
 define('ILLEGAL_IMAGE_NAME', "に不正なファイル名が入力されました。");
 

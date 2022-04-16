@@ -403,7 +403,7 @@ function SearchData($target, array $arrayData): bool
 /**
  * MoldImageConfig
  *
- * getimagesizeで取得した配列を整形する。
+ * getImageSize関数で取得した配列を整形する。
  *
  * @param  array|string $imageName 画像名(画像パス含む)
  *
@@ -412,9 +412,7 @@ function SearchData($target, array $arrayData): bool
 function MoldImageConfig($imageConfig): array
 {
     $ret = [];
-    if (!is_array($imageConfig)) {
-        $ret[] = [];
-    } else {
+    if (is_array($imageConfig)) {
         $params = ['width', 'height', 'type', 'html'];
 
         foreach ($imageConfig as $_key => $_imageConfig) {
@@ -454,6 +452,8 @@ function CalcImageSize($imageName, $imageSizeViewValue): array
             if ($imageSize >= IMAGE_MAX_VALUE) {
                 $imageSize = bcdiv($imageSize, IMAGE_MAX_VALUE, $imageSizeViewValue);
                 $imageSizeUnit = $_imageSizeUnit;
+            } else {
+                break;
             }
         }
 
