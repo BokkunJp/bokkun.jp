@@ -25,6 +25,7 @@ function GetIni(...$parameter): mixed
         }
     }
 
+    $ret = false;
     if (empty($parameter) || (empty($ini[$parameter[0]]) && ($parameter[0] !== 'all'))) {
         $ret = $ini;
     } elseif ($parameter[0] === 'all') {
@@ -32,14 +33,10 @@ function GetIni(...$parameter): mixed
     } elseif (isset($ini[$parameter[0]]) && isset($parameter[1])) {
         if (isset($ini[$parameter[0]][$parameter[1]])) {
             $ret = $ini[$parameter[0]][$parameter[1]];
-        } else {
-            $ret = false;
         }
     } else {
         if (isset($ini[$parameter[0]])) {
             $ret = $ini[$parameter[0]];
-        } else {
-            $ret = false;
         }
     }
 

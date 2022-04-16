@@ -529,16 +529,13 @@ function DeleteImages(array $deleteImages): array
     $ret = [];
     // 指定されたファイルをすべて削除 (退避ディレクトリに追加)
     foreach ($deleteImages as $_key => $_value) {
-        if (preg_match('/^img_(.*)$/', $_key)) {
-            if (SearchData($_value, scandir($baseImageDir))) {
-                if (rename(AddPath($baseImageDir, $_value, false), AddPath(AddPath($baseImageDir, '_old'), $_value, false)) === true) {
-                    $ret['success'][$_key] = $_value;
-                } else {
-                    $ret['error'][$_key] = $_value;
-                }
-            } else {
-                $ret['error'][$_key] = $_value;
-            }
+        if ($_value !== false && preg_match('/^img_(.*)$/', $_key)
+        && SearchData($_value, scandir($baseImageDir))
+        && rename(AddPath($baseImageDir, $_value, false), AddPath(AddPath($baseImageDir, '_old'), $_value, false)) === true
+        ) {
+            $ret['success'][$_key] = $_value;
+        } else {
+            $ret['error'][$_key] = $_value;
         }
     }
 
