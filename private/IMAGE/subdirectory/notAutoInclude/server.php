@@ -27,16 +27,25 @@ if (!empty($mode) && $mode === 'edit') {
         exit;
     }
 
-    $count = 0;
     $posts = PrivateSetting\Setting::getPosts();
 
     if (isset($posts['delete'])) {
         // 削除の場合
-        foreach (PrivateSetting\Setting::getPosts() as $post_key => $post_value) {
-            $count++;
+        $deleteImages = [];
+        $allImage = LoadAllImageFile();
+
+        $judge = ValidateDeleteImage($posts);
+        if ($judge === true) {
+            foreach ($posts as $_key => $_value) {
+                if (preg_match('/^img_(.*)$/', $_key)) {
+                    $deleteImages[$_key] = $_value;
+                    $judge = ValidateDeleteImage($_value, $allImage);
+                }
+            }
         }
-        if ($count > COUNT_START) {
-            $deleteResult = DeleteImage();
+
+        if ($judge === true) {
+            $deleteResult = DeleteImages($deleteImages);
 
             $noticeWord = '';
             // 削除失敗した画像について
@@ -45,17 +54,7 @@ if (!empty($mode) && $mode === 'edit') {
                 $errorResult = $deleteResult['error'];
                 $noticeWord .= nl2br("\n");
                 foreach ($errorResult as $_key => $_result) {
-                    switch ($_result) {
-                        case false:
-                            $noticeWord .= FAIL_REASON_SYSTEM;
-                            break;
-                        case ILLEGAL_RESULT:
-                            $noticeWord .= FAIL_REASON_ILLEGAL;
-                            break;
-                        default:
-                            break;
-                    }
-                    $noticeWord .= $_key. FAIL_DELETE_IMAGE_DETAIL;
+                    $noticeWord .= "・".$_key. FAIL_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
                 $session->Write('notice', $noticeWord, 'Delete');
@@ -72,6 +71,7 @@ if (!empty($mode) && $mode === 'edit') {
                 $session->Write('success', $noticeWord, 'Delete');
             }
         } else {
+            // 削除対象が選択されていない場合
             $session->Write('notice', NOT_FOUND_DLETE_IMAGE, 'Delete');
         }
     } elseif (isset($posts['copy'])) {

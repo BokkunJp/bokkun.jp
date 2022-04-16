@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 require __DIR__. "/common/require.php";
 require_once "common.php";
@@ -6,28 +5,25 @@ require_once "common.php";
 $title = 'ログアウト';
 // アクセス警告メール
 AlertAdmin('access', $title);
+$reset = explode(basename(__FILE__), '.')[0];
 ?>
+<!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset='utf-8' />
-        <title><?=$title ?></title>
-        <link rel="stylesheet" type="text/css" href="./client/css/common.css">
-    </head>
-    <?php require_once "./common/header.php" ?>
-    <body>
+
+<head>
+    <meta charset='utf-8' />
+    <title>管理側</title>
+    <link rel="stylesheet" type="text/css" href="./client/css/common.css">
+    <link rel="stylesheet" type="text/css"
+        href="./client/css/<?=$reset ?>/design.css">
+</head>
+<?php require_once "./common/header.php" ?>
+
+<body>
     <div class="adminContents">
-    <?php
-
-//  exit;   // テスト中断
-    CountReset();
-    function CountReset()
-    {
-        echo "<div align='center'><strong>ログアウトしました。</strong></div>";
-
-        session_destroy();
-    }
-    ?>
+        <?= Logout() ?>
     </div>
     <?php require_once "./common/footer.php"; ?>
-    </body>
+</body>
+
 </html>
