@@ -31,29 +31,33 @@ if (!empty($mode) && $mode === 'edit') {
 
     if (isset($posts['delete'])) {
         // 削除の場合
-        $deleteImages = [];
+        $deleteImages = $imageNameArray = [];
         $allImage = LoadAllImageFile();
 
         $judge = ValidateDeleteImage($posts);
         if ($judge === true) {
             foreach ($posts as $_key => $_value) {
+                $imageNameArray[$_key] = $_value;
                 if (preg_match('/^img_(.*)$/', $_key)) {
-                    $deleteImages[$_key] = $_value;
+                    if (ValidateDeleteImage($_value, $allImage) === true) {
+                        $deleteImages[$_key] = $_value;
+                    } else {
+                        $deleteImages[$_key] = false;
+                        $deleteImageName[$_key] = $_value;
+                    }
                 }
             }
-        }
 
-        if ($judge === true) {
             $deleteResult = DeleteImages($deleteImages);
-
             $noticeWord = '';
+
             // 削除失敗した画像について
             if (isset($deleteResult['error'])) {
                 $noticeWord = count($deleteResult['error']). FAIL_DELETE_IMAGE;
                 $errorResult = $deleteResult['error'];
                 $noticeWord .= nl2br("\n");
                 foreach ($errorResult as $_key => $_result) {
-                    $noticeWord .= "・".$_result. FAIL_DELETE_IMAGE_DETAIL;
+                    $noticeWord .= "・". $imageNameArray[$_key]. FAIL_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
                 $session->Write('notice', $noticeWord, 'Delete');
@@ -64,7 +68,7 @@ if (!empty($mode) && $mode === 'edit') {
                 $successResult = $deleteResult['success'];
                 $noticeWord .= nl2br("\n");
                 foreach ($successResult as $_key => $_result) {
-                    $noticeWord .= "・".$_result. SUCCESS_DELETE_IMAGE_DETAIL;
+                    $noticeWord .= "・". $imageNameArray[$_key]. SUCCESS_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
                 $session->Write('success', $noticeWord, 'Delete');
