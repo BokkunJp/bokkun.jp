@@ -12,6 +12,9 @@ if (!isset($_SESSION)) {
 require_once __DIR__ . '/require.php';
 
 // アクセス警告メール
+if (!isset($title)) {
+    $title = '管理側';
+}
 AlertAdmin('access', $title);
 
 $img = "crown-vector.jpg";
