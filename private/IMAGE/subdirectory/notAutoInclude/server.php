@@ -51,17 +51,6 @@ if (!empty($mode) && $mode === 'edit') {
             $deleteResult = DeleteImages($deleteImages);
             $noticeWord = '';
 
-            // 削除失敗した画像について
-            if (isset($deleteResult['error'])) {
-                $noticeWord = count($deleteResult['error']). FAIL_DELETE_IMAGE;
-                $errorResult = $deleteResult['error'];
-                $noticeWord .= nl2br("\n");
-                foreach ($errorResult as $_key => $_result) {
-                    $noticeWord .= "・". $imageNameArray[$_key]. FAIL_DELETE_IMAGE_DETAIL;
-                    $noticeWord .= nl2br("\n");
-                }
-                $session->Write('notice', $noticeWord, 'Delete');
-            }
             // 削除成功した画像について
             if (isset($deleteResult['success'])) {
                 $noticeWord = count($deleteResult['success']). SUCCESS_DELETE_IMAGE;
@@ -72,6 +61,18 @@ if (!empty($mode) && $mode === 'edit') {
                     $noticeWord .= nl2br("\n");
                 }
                 $session->Write('success', $noticeWord, 'Delete');
+            }
+
+            // 削除失敗した画像について
+            if (isset($deleteResult['error'])) {
+                $noticeWord = count($deleteResult['error']). FAIL_DELETE_IMAGE;
+                $errorResult = $deleteResult['error'];
+                $noticeWord .= nl2br("\n");
+                foreach ($errorResult as $_key => $_result) {
+                    $noticeWord .= "・". $imageNameArray[$_key]. FAIL_DELETE_IMAGE_DETAIL;
+                    $noticeWord .= nl2br("\n");
+                }
+                $session->Write('notice', $noticeWord, 'Delete');
             }
         } else {
             // 削除対象が選択されていない場合
