@@ -1,7 +1,7 @@
 <?php
 
 ini_set('error_reporting', E_ALL | ~E_STRICT);
-require_once dirname(dirname(dirname(dirname(__DIR__)))). '/common/Setting.php';
+require_once dirname(dirname(dirname(__DIR__, 2))). '/common/Setting.php';
 require_once PUBLIC_COMMON_DIR. "/Include.php";
 
 // 文字列からディレクトリ部分の文字列を切り取る関数

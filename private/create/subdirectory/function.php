@@ -10,7 +10,7 @@ class Admin
 
     public function __construct()
     {
-        require_once dirname(dirname(dirname(__DIR__))). '/private/common/Function/Tag.php';
+        require_once dirname(dirname(__DIR__, 2)). '/private/common/Function/Tag.php';
         $this->Initialize();
     }
     public function Initialize()
@@ -19,7 +19,7 @@ class Admin
         $this->use = new UseClass();
 
         $this->adminPath = dirname(__DIR__);
-        $this->basePath = dirname(dirname(dirname(__DIR__)));
+        $this->basePath = dirname(dirname(__DIR__, 2));
 
         $this->session = filter_input_array(INPUT_SESSION);
         $this->post = filter_input_array(INPUT_POST);

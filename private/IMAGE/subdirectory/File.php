@@ -1,53 +1,23 @@
 <?php
 
+use phpDocumentor\Reflection\PseudoTypes\False_;
 use PrivateTag\CustomTagCreate;
 
-// require_once dirname(dirname(__DIR__)). '/common/Layout/init.php';
 require_once('Page.php');
 require_once('View.php');
-
-/**
- * FileExif
- * 画像タイプのExifを返す
- *
- * @param  mixed $img
- *
- * @return void
- */
-function FileExif($img)
-{
-    // echo exif_imagetype($img). '<br />';
-    // switch (exif_imagetype($img)) {
-    //     case IMAGETYPE_JPEG:
-    //     break;
-    //     case IMAGETYPE_GIF:
-    //     break;
-    //     case IMAGETYPE_PNG:
-    //     break;
-    //     default:
-    //     break;
-    // }
-
-    return exif_imagetype($img);
-}
 
 /**
  * ImportImage
  * ファイルデータを成型する
  *
- * @param  mixed $file
+ * @param  array $file
  * @param  string $fileName
  *
  * @return array
  */
-function MoldFile($file, String $fileName): array
+function MoldFile(array $file, String $fileName): array
 {
     $moldFiles = [];
-
-    // ファイル変数が配列でない場合は中断
-    if (!is_array($file)) {
-        return false;
-    }
 
     foreach ($file[$fileName] as $_key => $_files) {
         foreach ($_files as $__key => $__val) {
@@ -119,8 +89,8 @@ function ImportImage($upFiles): ?array
             $result['size']['count']++;
             continue;
         }
-        // アップロードされたファイルのTypeが画像用のものか調べる
-        if (!CheckType($_files['type'])) {
+        // アップロードされたファイルのTypeが画像または動画用のものか調べる
+        if (!CheckType($_files['type']) && !CheckType($_files['type'], 'video')) {
             $result['-1']['count']++;
             continue;
         }
@@ -132,7 +102,7 @@ function ImportImage($upFiles): ?array
         }
 
         if (!empty($_files) && $_files['error'] === UPLOAD_ERR_OK) {
-            $imgType = FileExif($_files['tmp_name']);
+            $imgType = exif_imagetype($_files['tmp_name']);
         } else {
             switch ($_files['error']) {
                 case UPLOAD_ERR_INI_SIZE:
@@ -207,7 +177,7 @@ function LoadAllImageFile()
     // 現在選択している画像ページを取得
     $imagePageName = GetImagePageName();
 
-    $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'];
+    $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'mp4'];
 
     $imgSrc = [];
     foreach ($imgArray as $_index) {
@@ -402,11 +372,15 @@ function ShowImage(
 
         foreach ($data as $i => $_data) {
             $jsData[$i]['name'] = $_data['name'];
-            // 画像サイズの取得
-            $imageSize = AddPath(PUBLIC_IMAGE_DIR, $imagePageName, false);
-            $imageSize = AddPath($imageSize, $_data['name'], false);
-            $jsData[$i]['info'] = CalcImageSize($imageSize, GetIni('private', 'ImageMaxSize'));
+            // 画像データの取得
+            $imagePath = AddPath(PUBLIC_IMAGE_DIR, $imagePageName, false);
+            $imagePath = AddPath($imagePath, $_data['name'], false);
+            $jsData[$i]['info'] = CalcImageSize($imagePath, (int)GetIni('private', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
+            // 画像データが取得できなかった場合は、配列の該当データの削除
+            if ($jsData[$i]['info'] === false) {
+                unset($jsData[$i]);
+            }
         }
 
         $jsData['view-image-type'] = $imagePageName;
