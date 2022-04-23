@@ -1,33 +1,17 @@
 <?php
-
-// セッションスタート
-if (!isset($_SESSION)) {
-    session_start();
-} else {
-    session_reset();
-}
-
-?>
-<!DOCTYPE html>
-<?php
-
-require_once __DIR__ . '/require.php';
-
-$title = "カスタムテンプレート";
 $img = "crown-vector.jpg";
 ?>
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
-    <title><?php echo $title; ?>
-    </title>
-    <base href="../" />
-    <link rel="shortcut icon" href="/public/client/image/5959715.png">
-    <?php require_once dirname(__DIR__, 2) . '/public/common/Layout/init.php'; ?>
+    <title>管理側</title>
+    <link rel="shortcut icon"
+        href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
     <link rel="stylesheet" type="text/css"
-        href="/public/client/css/<?php echo $homepageTitle; ?>/design.css">
+        href="<?= $base->GetURL('', 'client') ?>css/design.css">
 </head>
 
 <body>

@@ -250,7 +250,7 @@ function MoldData($data, $parameter = ','): mixed
 /**
  * Output
  *
- * @param [mixed] $expression
+ * @param mixed $expression
  * @param boolean $formatFlg
  * @param boolean $indentFlg
  * @param array $debug
@@ -343,7 +343,15 @@ function DebugValidate(array $debug, array $debugTrace): array
     return $validate;
 }
 
-function SetPlugin($name)
+/**
+ * SetPlugin
+ *
+ * 指定したプラグインを読み込む。
+ *
+ * @param string $name
+ * @return void
+ */
+function SetPlugin(string $name)
 {
     if (is_array($name)) {
         foreach ($name as $_dir) {
@@ -430,37 +438,29 @@ function MoldImageConfig($imageConfig): array
  *画像のサイズを計算する
  *
  * @param string $imageName 画像名(画像パス含む)
- * @param string $imageSizeViewValue 画像サイズの表示桁数
+ * @param string|int $imageSizeViewValue 画像サイズの表示桁数
  *
- * @return array
+ * @return array|bool
  */
-function CalcImageSize($imageName, $imageSizeViewValue): array
+function CalcImageSize(string $imageName, string|int $imageSizeViewValue): array|bool
 {
-    if (is_array($imageName)) {
-        $ret = false;
-    } else {
-        if (!file_exists($imageName) || !FileExif($imageName)) {
-            return false;
-        }
-
-        $imageConfig = getimagesize($imageName);
-        $imageSize = filesize($imageName);
-        $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
-
-        $imageSizeUnit = '';
-        foreach ($imageSizeUnitArray as $_imageSizeUnit) {
-            if ($imageSize >= IMAGE_MAX_VALUE) {
-                $imageSize = bcdiv($imageSize, IMAGE_MAX_VALUE, $imageSizeViewValue);
-                $imageSizeUnit = $_imageSizeUnit;
-            } else {
-                break;
-            }
-        }
-
-        $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
-
-        $ret = array_merge(MoldImageConfig($imageConfig), $ret);
+    if (!file_exists($imageName) || !exif_imagetype($imageName)) {
+        return false;
     }
+    $imageConfig = getimagesize($imageName);
+    $imageSize = filesize($imageName);
+    $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
+    $imageSizeUnit = '';
+    foreach ($imageSizeUnitArray as $_imageSizeUnit) {
+        if ($imageSize >= IMAGE_MAX_VALUE) {
+            $imageSize = bcdiv($imageSize, IMAGE_MAX_VALUE, $imageSizeViewValue);
+            $imageSizeUnit = $_imageSizeUnit;
+        } else {
+            break;
+        }
+    }
+    $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
+    $ret = array_merge(MoldImageConfig($imageConfig), $ret);
 
     return $ret;
 }
@@ -527,4 +527,23 @@ function EmptyValidate($validate, ?string $word = null): ?bool
     }
 
     return $v;
+}
+
+/**
+ * CheckMemory
+ *
+ * メモリを可視化する
+ *
+ * @return void
+ */
+function CheckMemory()
+{
+    static $initialMemoryUse = null;
+
+    if ( $initialMemoryUse === null )
+    {
+        $initialMemoryUse = memory_get_usage();
+    }
+
+    Output(number_format(memory_get_usage() - $initialMemoryUse), formatFlg:true);
 }

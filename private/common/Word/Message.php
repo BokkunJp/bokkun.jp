@@ -1,7 +1,7 @@
 <?php
 
 $commonWordPath = dirname(
-    dirname(dirname(__DIR__))
+    dirname(__DIR__, 2)
 );
 $commonWordPath = AddPath($commonWordPath, 'common');
 $commonWordPath = AddPath($commonWordPath, 'Word');
@@ -59,7 +59,7 @@ define('NOT_DELETE_FILE_LIST', ['MAIL', 'IMAGE', 'CSV', 'QR', 'liDAR-WebGL', 'we
 define("LOGIN_PASSWORD", "bokkunAdmin777");
 
 // 画像アップロード・削除・コピー共通
-define('NUMBER_OF_IMAGE', '枚の画像ファイル');
+define('NUMBER_OF_FILE', '枚のファイル');
 // 画像アップロード用の文言 (ファイル数の部分は処理時に定義)
 define('FAIL_UPLOAD_IMAGE', "のアップロードに失敗しました。");
 

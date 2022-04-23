@@ -1,6 +1,6 @@
 <?php
 
-$commonWordPath = dirname(dirname(dirname(__DIR__)));
+$commonWordPath = dirname(dirname(__DIR__, 2));
 $commonWordPath = AddPath($commonWordPath, 'common');
 $commonWordPath = AddPath($commonWordPath, 'Word');
 $commonWordPath = AddPath($commonWordPath, 'Message.php', false);

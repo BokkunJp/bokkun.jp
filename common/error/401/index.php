@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 
 // 初期設定を記述

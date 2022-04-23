@@ -272,6 +272,13 @@ trait CommonTrait
         }
     }
 
+    /**
+     * SetAllPlugin
+     *
+     * プラグインを一括で読み込む
+     *
+     * @return void
+     */
     public function SetAllPlugin()
     {
         $addDir = scandir(PLUGIN_DIR);
@@ -362,5 +369,24 @@ trait CommonTrait
     }
 
         return $v;
+    }
+
+    /**
+     * CheckMemory
+     *
+     * メモリを可視化する
+     *
+     * @return void
+     */
+    function CheckMemory()
+    {
+        static $initialMemoryUse = null;
+
+        if ( $initialMemoryUse === null )
+        {
+            $initialMemoryUse = memory_get_usage();
+        }
+
+        Output(number_format(memory_get_usage() - $initialMemoryUse), formatFlg:true);
     }
 }

@@ -3,26 +3,22 @@
 // セッションスタート
 if (!isset($_SESSION)) {
     session_start();
-} else {
-    session_reset();
 }
 
-require_once __DIR__ . '/require.php';
-
-$title = "カスタムテンプレート";
 $img = "crown-vector.jpg";
+$title = '認証';
 ?>
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
-    <title><?php echo $title; ?>
-    </title>
-    <base href="../" />
-    <link rel="shortcut icon" href="/public/client/image/5959715.png">
-    <?php require_once dirname(__DIR__, 2) . '/public/common/Layout/init.php'; ?>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow">
+    <title>管理側</title>
+    <link rel="shortcut icon"
+        href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
     <link rel="stylesheet" type="text/css"
-        href="/public/client/css/<?php echo $homepageTitle; ?>/design.css">
+        href="<?= $base->GetURL('', 'client') ?>css/design.css">
 </head>
 
 <body>
@@ -31,7 +27,7 @@ $img = "crown-vector.jpg";
     <div class="container">
         <?php require_once('header.php'); ?>
         <main class="contents">
-            <?php require_once('design.php'); ?>
+            <?php require_once(PRIVATE_DIR . '/secure/design.php'); ?>
         </main>
         <?php require_once('footer.php'); ?>
     </div>

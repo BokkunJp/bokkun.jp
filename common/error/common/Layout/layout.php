@@ -1,4 +1,12 @@
 <?php
+
+// セッションスタート
+if (!isset($_SESSION)) {
+    session_start();
+} else {
+    session_reset();
+}
+
 require_once __DIR__. '/init.php';
 
 if (is_array($title)) {
@@ -10,7 +18,6 @@ if (is_array($title)) {
 $img = "crown-vector.jpg";
 ?>
 <html lang="ja">
-
 <head>
     <title><?php echo $headerTitle; ?>
     </title>
