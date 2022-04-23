@@ -8,4 +8,4 @@ $title = 'ログアウト';
 AlertAdmin('access', $title);
 $reset = explode(basename(__FILE__), '.')[0];
 
-require_once AddPath(AddPath(__DIR__, 'layout'), 'layout.php', false);
+require_once AddPath(AddPath(__DIR__, 'Layout'), 'layout.php', false);
