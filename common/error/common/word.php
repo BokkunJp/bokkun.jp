@@ -2,7 +2,7 @@
 
 
 $commonWordPath = dirname(
-    dirname(dirname(__DIR__))
+    dirname(__DIR__, 2)
 );
 $commonWordPath = AddPath($commonWordPath, 'common');
 $commonWordPath = AddPath($commonWordPath, 'Word');

@@ -2,34 +2,9 @@
 
 use BasicTag\CustomTagCreate;
 
-// require_once dirname(dirname(__DIR__)). '/common/Layout/init.php';
+// require_once dirname(__DIR__, 2). '/common/Layout/init.php';
 require_once('Page.php');
 require_once('View.php');
-
-/**
- * FileExif
- * 画像タイプのExifを返す
- *
- * @param  mixed $img
- *
- * @return void
- */
-function FileExif($img)
-{
-    // echo exif_imagetype($img). '<br />';
-    // switch (exif_imagetype($img)) {
-    //     case IMAGETYPE_JPEG:
-    //     break;
-    //     case IMAGETYPE_GIF:
-    //     break;
-    //     case IMAGETYPE_PNG:
-    //     break;
-    //     default:
-    //     break;
-    // }
-
-    return exif_imagetype($img);
-}
 
 /**
  * ImportImage

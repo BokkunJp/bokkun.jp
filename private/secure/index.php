@@ -1,8 +1,10 @@
 <?php
 
+require_once __DIR__ . '/Layout/require.php';
+require_once __DIR__ . '/Layout/init.php';
+
 use PrivateTag\UseClass;
 
-require_once __DIR__ . '/common/require.php';
 if (empty($session)) {
     $session = new PrivateSetting\Session();
 }
@@ -19,28 +21,7 @@ if (!isset($adminURL) || empty($adminURL) && $session->Read('admin')['send'] !==
 }
 $mode = 'movePage';
 ?>
-<!DOCTYPE html>
 
-<html lang="ja">
-
-<head>
-    <meta charset="utf8" />
-    <title>管理側</title>
-
-</head>
-
-<body>
-    ご訪問ありがとうございます。<br />
-    管理ページに進まれる場合はID・パスワードを入力してください。<br />
-    詳細はサイト管理人にお問い合わせください(トップページのtwitter参照)。<br />
-    <form method='POST' action='<?php echo $private; ?>secure.php'>
-        <p>ID <input type='text' name='id' class='id' maxLength='20' /></p>
-        <p>PASS <input type='password' name='pass' class='pass' maxLength='20' /></p>
-        <button type='submit' class='send'>送信</button>
-    </form>
-</body>
-
-</html>
 <?php
 if (!empty($post) && !empty($post['id']) && !empty($post['pass'])) {
     $adminAuth = ($post['id'] === 'admin' && password_verify($post['pass'], password_hash(LOGIN_PASSWORD, PASSWORD_DEFAULT)));
@@ -57,7 +38,7 @@ if (isset($moveURL[3])) {
     unset($moveURL[3]);
 }
 
-if ($moveURL[2] === 'secure.php' || $moveURL[2] === 'reset.php') {
+if ($moveURL[2] === 'secure' || $moveURL[2] === 'logout') {
     $moveURL[2] = 'admin.php';
 }
 
@@ -71,12 +52,10 @@ if (!isset($adminSession['movePage'])) {
 
 if ((!($adminAuth))) {
     if (!empty($post)) {
-        echo '<p>IDまたはパスワードが違います。</p>';
+        $session->Write('password-Error', '<p>IDまたはパスワードが違います。</p>');
         // ログイン警告メール (ログイン失敗時)
         AlertAdmin('login', $adminSession['movePage']);
     }
-
-    exit;
 } else {
     // ログイン警告メール (ログイン成功時)
     AlertAdmin('login_success', '');
@@ -102,12 +81,15 @@ if ((!($adminAuth))) {
     if ($mode === 'movePage') {
         // ページ遷移
         $script = new UseClass();
-        $script->Alert('認証に成功しました。自動で遷移します。');
+        $script->Alert("認証に成功しました。自動で遷移します。");
         $script->MovePage($adminSession['movePage']);
 
     // リンクから遷移
     } else {
-        echo "<p>認証に成功しました。<a href={$adminSession['movePage']}>リンク</a>から移動できます。<br/>
-        </p>";
+        $session->Write('password-Success', "<p>認証に成功しました。<a href={$adminSession['movePage']}>リンク</a>から移動できます。<br/>
+        </p>");
     }
 }
+
+require_once __DIR__ . '/Layout/layout.php';
+die;

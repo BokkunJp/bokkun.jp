@@ -32,7 +32,7 @@ if ($checkToken === false) {
 }
 
 $adminPath = dirname(__DIR__);
-$basePath = dirname(dirname(dirname(__DIR__)));
+$basePath = dirname(dirname(__DIR__, 2));
 
 $session = $_SESSION;
 $post = $_POST;

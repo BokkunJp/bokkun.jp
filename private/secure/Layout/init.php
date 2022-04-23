@@ -2,11 +2,8 @@
 
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 require_once dirname(__DIR__, 2) . '/common/Setting.php';
-require_once PUBLIC_COMMON_DIR . "/Include.php";
+require_once PRIVATE_COMMON_DIR . "/Include.php";
 
-// UA判定処理
-define('Phone', 2);
-define('PC', 1);
 switch ($ua->DesignJudge()) {
     case PC:
         $agentCode = 'PC';
@@ -47,7 +44,7 @@ while (1) {
 }
 
 // HTML出力用に調整
-$create = new \PublicTag\CustomTagCreate();
+$create = new \PrivateTag\CustomTagCreate();
 $breadCrumbList_ = array();
 foreach ($breadCrumbList as $bread) {
     $breadCrumbList_[] = $create->SetHref($http . $bread['path'], $bread['title'], 'breadCrumbList');
@@ -56,7 +53,7 @@ $breadCrumbList_ = array_reverse($breadCrumbList_);
 $breadCrumbList = $breadCrumbList_;
 unset($breadCrumbList_);
 
-$arrow = new \PublicTag\HTMLClass(true);
+$arrow = new \PrivateTag\HTMLClass(true);
 $arrow->SetTag('span', '->', 'arrow', true);
 $arrow = $arrow->ExecTag();
 

@@ -31,7 +31,7 @@ AlertAdmin('access', $title);
             <h2>管理メニュー</h2>
             <form>
                 <?php
-                $notList = ['.', '..', 'Sample', 'Test', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'reset.php', 'secure.php'];
+                $notList = ['.', '..', 'Sample', 'Test', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'secure', 'logout'];
                 $dirList = scandir(__DIR__);
                 $titleList = ['create' => 'ページ調整', 'edit' => 'ソース調整','IMAGE' => '画像投稿', 'log' => 'ログ'];
                 $notList = AddList($notList, $dirList, '.', 1);
@@ -44,7 +44,7 @@ AlertAdmin('access', $title);
                 }
                 ?>
             </form>
-            <form method="POST" action="./reset.php">
+            <form method="POST" action="./logout">
                 <button type='submit'>ログアウト</button>
             </form>
         </div>

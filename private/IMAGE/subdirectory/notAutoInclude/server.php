@@ -113,7 +113,7 @@ if (!empty($mode) && $mode === 'edit') {
                 if (!empty($result['illegal-value']['count'])) {
                     // 不正なファイル名が入力された
                     $noticeWord .= nl2br("\n");
-                    $noticeWord .= "・". $result['illegal-value']['count']. NUMBER_OF_IMAGE . ILLEGAL_IMAGE_NAME;
+                    $noticeWord .= "・". $result['illegal-value']['count']. NUMBER_OF_FILE . ILLEGAL_IMAGE_NAME;
                 } elseif (!empty($result['error']['count'])) {
                     // その他コピー処理エラー
                     $noticeWord .= "・". $result['error']['count']. FAIL_COPYING_IMAGE;
@@ -126,7 +126,7 @@ if (!empty($mode) && $mode === 'edit') {
             }
         }
         if (!empty($result['success']['count'])) {
-            $session->Write('success', $result['success']['count']. NUMBER_OF_IMAGE . SUCCESS_COPY_IMAGE);
+            $session->Write('success', $result['success']['count']. NUMBER_OF_FILE . SUCCESS_COPY_IMAGE);
         }
     } else {
         // 削除・複製以外の場合(不正値)
@@ -174,28 +174,28 @@ if (!empty($mode) && $mode === 'edit') {
 
         if (!empty($failCount)) {
             $noticeWord = "";
-            $noticeWord .= $failCount . NUMBER_OF_IMAGE . FAIL_UPLOAD_IMAGE;
+            $noticeWord .= $failCount . NUMBER_OF_FILE . FAIL_UPLOAD_IMAGE;
 
             if (!empty($noticeWord)) {
                 $noticeWord .= nl2br("\n");
             }
 
             if (!empty($result['-1']['count'])) {
-                $noticeWord .= "・". $result['-1']['count']. NUMBER_OF_IMAGE. NOT_MATCH_IMAGE;
+                $noticeWord .= "・". $result['-1']['count']. NUMBER_OF_FILE. NOT_MATCH_IMAGE;
             }
 
             if (!empty($result['size']['count'])) {
-                $noticeWord .= "・". $result['size']['count']. NUMBER_OF_IMAGE. EMPTY_IMAGE_SIZE;
+                $noticeWord .= "・". $result['size']['count']. NUMBER_OF_FILE. EMPTY_IMAGE_SIZE;
             }
 
             if (!empty($result['illegal']['count'])) {
-                $noticeWord .= "・". $result['illegal']['count'] . NUMBER_OF_IMAGE. ILLEGAL_UPLOAD_IMAGE;
+                $noticeWord .= "・". $result['illegal']['count'] . NUMBER_OF_FILE. ILLEGAL_UPLOAD_IMAGE;
             }
 
             $session->Write('notice', $noticeWord);
         }
         if (!empty($result['success']['count'])) {
-            $session->Write('success', $result['success']['count']. NUMBER_OF_IMAGE . SUCCESS_UPLOAD_IMAGE);
+            $session->Write('success', $result['success']['count']. NUMBER_OF_FILE . SUCCESS_UPLOAD_IMAGE);
         }
     }
 }

@@ -3,11 +3,11 @@
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 // 関数定義 (初期処理用)
-require_once dirname(dirname(dirname(dirname(__DIR__)))) . DIRECTORY_SEPARATOR . '/common/InitFunction.php';
+require_once dirname(dirname(dirname(__DIR__, 2))) . DIRECTORY_SEPARATOR . '/common/InitFunction.php';
 // 設定
-require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/common/Setting.php';
+require_once dirname(dirname(dirname(__DIR__, 2))) . '/common/Setting.php';
 // 定数・固定文言など
-require_once AddPath(AddPath(dirname(dirname(dirname(dirname(__DIR__)))), "/common/Word", false), "Message.php", false);
+require_once AddPath(AddPath(dirname(dirname(dirname(__DIR__, 2))), "/common/Word", false), "Message.php", false);
 // タグ
 require_once AddPath(PRIVATE_COMPONENT_DIR, "Tag.php", false);
 // ヘッダーフッター
