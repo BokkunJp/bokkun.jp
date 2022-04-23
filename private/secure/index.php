@@ -39,7 +39,7 @@ if (isset($moveURL[3])) {
 }
 
 if ($moveURL[2] === 'secure' || $moveURL[2] === 'logout') {
-    $moveURL[2] = 'admin.php';
+    $moveURL[2] = '';
 }
 
 $movePage = implode('/', $moveURL);
