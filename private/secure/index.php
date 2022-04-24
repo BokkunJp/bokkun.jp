@@ -14,7 +14,7 @@ if (!$session->Judge('admin')) {
 }
 if (!isset($adminURL) || empty($adminURL) && $session->Read('admin')['send'] !== true) {
     require_once AddPath(PRIVATE_DIR, 'common.php', false);
-    $adminURL = explode('/', PrivateSetting\Setting::GetSelf());
+    $adminURL = explode('/', PrivateSetting\Setting::getURI());
     $session->WriteArray('admin', 'adminURL', $adminURL);
 } else {
     $adminURL = $session->Read('admin')['adminURL'];
@@ -33,13 +33,8 @@ if (!empty($post) && !empty($post['id']) && !empty($post['pass'])) {
 $adminSession = $session->Read("admin");
 $moveURL = $adminSession['adminURL'];
 
-// 特定のページの際の処理
-if (isset($moveURL[3])) {
-    unset($moveURL[3]);
-}
-
 if ($moveURL[2] === 'secure' || $moveURL[2] === 'logout') {
-    $moveURL[2] = '';
+    unset($moveURL[2]);
 }
 
 $movePage = implode('/', $moveURL);

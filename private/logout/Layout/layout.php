@@ -1,7 +1,6 @@
 <?php
 $img = "crown-vector.jpg";
 ?>
-<!DOCTYPE html>
 <html lang="ja">
 
 <head>
