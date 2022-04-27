@@ -1,4 +1,5 @@
 <?php
+
 $img = "crown-vector.jpg";
 ?>
 <html lang="ja">

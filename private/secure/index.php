@@ -59,10 +59,6 @@ if ((!($adminAuth))) {
     print_r("<script src='{$url}/private/client/js/common/jquery-3.1.1.min.js'></script>
     <script src='{$url}/private/client/js/secure.js'></script>");
 
-    if (!$session->Judge('id')) {
-        $session->Write('id', $post['id']);
-    }
-
     if (!$session->Judge('old_id')) {
         $session->Write('old_id', $session->Read('id'));
     }
