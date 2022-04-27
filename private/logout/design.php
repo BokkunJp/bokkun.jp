@@ -1,5 +1,5 @@
 <div class="adminContents">
     <div class="adminContents">
-    <?= Logout() ?>
-</div>
+        <?= Logout() ?>
+    </div>
 </div>

@@ -1,5 +1,13 @@
 <?php
 
+// セッションスタート
+if (!isset($_SESSION)) {
+    session_start();
+}
+?>
+
+<!DOCTYPE html>
+<?php
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 // 関数定義 (初期処理用)

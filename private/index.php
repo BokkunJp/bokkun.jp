@@ -1,4 +1,14 @@
 <?php
+
+if (!isset($_SESSION)) {
+    session_start();
+} else {
+    session_reset();
+}
+
+?>
+<!DOCTYPE html>
+<?php
 require_once __DIR__ . "/common/require.php";
 require_once dirname(__DIR__) . '/common/Component/Function.php';
 
@@ -6,10 +16,8 @@ $title = '管理側コンテンツ一覧';
 
 // アクセス警告メール
 AlertAdmin('access', $title);
-
 ?>
-<!DOCTYPE html>
-<html lang="ja">
+<!DOCTYPE <html lang="ja">
 
 <head>
     <meta charset='utf-8' />

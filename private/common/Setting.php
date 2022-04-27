@@ -100,7 +100,7 @@ class Setting extends \commonSetting\Setting
 
     public static function getURI(): string
     {
-        return filter_input_fix(INPUT_SERVER, 'PHP_SELF');
+        return self::GetSERVER('REQUEST_URI');
     }
 }
 
