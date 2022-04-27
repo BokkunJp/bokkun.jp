@@ -1,14 +1,8 @@
 <?php
 
-// セッションスタート
-if (!isset($_SESSION)) {
-    session_start();
-}
-
 $img = "crown-vector.jpg";
 $title = '認証';
 ?>
-<!DOCTYPE html>
 <html lang="ja">
 
 <head>
