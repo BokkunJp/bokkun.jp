@@ -335,7 +335,7 @@ function ReadImage($ajaxFlg = false)
     // ページ関連で必要なデータの検証
     $params = ValidParameter($sortAray, $ajaxFlg);
     if (isset($params['result']) && $params['result'] === false) {
-        return ['result' => false];
+        return ['result' => false, 'view-image-type' => $imagePageName];
     }
 
     // 画像データを整理
