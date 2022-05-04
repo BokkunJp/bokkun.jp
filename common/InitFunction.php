@@ -100,11 +100,11 @@ function AddPath(
  *
  * ヌルバイト対策 (POST, GET)
  *
- * @param mixed $arr
+ * @param mixed  $arr
  *
  * @return mixed
  */
-function Sanitize($arr): mixed
+function Sanitize(mixed $arr = ''): mixed
 {
     if (!is_string($arr)) {
         return $arr;
@@ -120,11 +120,12 @@ function Sanitize($arr): mixed
  * CreateClient
  * 所定のディレクトリまでのディレクトリ群を走査し、パスを生成する。
  *
- * @param  string $target
+ * @param string $target
+ * @param string $src
  *
  * @return bool
  */
-function CreateClient($target, $src = ''): string
+function CreateClient(string $target, string $src = ''): string
 {
     if (empty($src)) {
         $srcPath = getcwd();
@@ -165,7 +166,7 @@ function CreateClient($target, $src = ''): string
  *
  * @return bool
  */
-function CheckSession($SessionName, $chkFlg): bool
+function CheckSession(string $SessionName, bool $chkFlg): bool
 {
     $input = CommonSetting\Setting::GetPost($SessionName);
     $session = new CommonSetting\Session();
@@ -226,12 +227,15 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
 /**
  * MoldData
  *
- * @param [mixed] $data
+ * データ調整。
+ * (配列⇔特定のセパレータで区切られた文字列の相互変換)
+ *
+ * @param mixed $data
  * @param string $parameter
  *
  * @return mixed
  */
-function MoldData($data, $parameter = ','): mixed
+function MoldData(mixed $data, string $parameter = ','): mixed
 {
     $ret = false;
     if (is_null($data)) {
@@ -250,22 +254,30 @@ function MoldData($data, $parameter = ','): mixed
 /**
  * Output
  *
+ * 出力用の関数。
+ *
  * @param mixed $expression
  * @param boolean $formatFlg
  * @param boolean $indentFlg
+ * @param boolean $dumpFlg
  * @param array $debug
  *
  * @return void
  */
 function Output(
-    $expression,
-    $formatFlg = false,
-    $indentFlg = true,
+    mixed $expression,
+    bool $formatFlg = false,
+    bool $indentFlg = true,
+    bool $dumpFlg = false,
     array $debug = []
-) {
+): int {
     if ($formatFlg === true) {
         print_r("<pre>");
-        print_r($expression);
+        if ($dumpFlg === true) {
+            var_dump($expression);
+        } else {
+            print_r($expression);
+        }
         print_r("</pre>");
     } else {
         print_r($expression);
@@ -309,10 +321,14 @@ function Output(
             }
         }
     }
+
+    return FINISH;
 }
 
 /**
  * DebugValitate
+ *
+ * デバッグ出力時のバリデーション。
  *
  * @param array $debug
  * @param array $debugTrace
@@ -349,38 +365,32 @@ function DebugValidate(array $debug, array $debugTrace): array
  * 指定したプラグインを読み込む。
  *
  * @param string $name
- * @return void
- */
-function SetPlugin(string $name)
-{
-    if (is_array($name)) {
-        foreach ($name as $_dir) {
-            SetPlugin($_dir);
-        }
-        return FINISH;
-    }
-
-    if (is_dir(AddPath(PLUGIN_DIR, $name))) {
-        IncludeDirctories(AddPath(PLUGIN_DIR, $name));
-    }
-}
-
-/**
- * SetPlugin
  *
  * @return void
  */
-function SetAllPlugin()
+    function SetPlugin(string $name): void
+    {
+        if (is_dir(AddPath(PLUGIN_DIR, $name))) {
+            IncludeDirctories(AddPath(PLUGIN_DIR, $name));
+        }
+    }
+
+/**
+ * SetAllPlugin
+ *
+ * プラグインを一括で読み込む。
+ *
+ * @return void
+ */
+function SetAllPlugin(): void
 {
     $addDir = scandir(PLUGIN_DIR);
 
     foreach ($addDir as $_key => $_dir) {
-        if (strpos($_dir, '.') !== false || strpos($_dir, '..')  !== false) {
-            unset($addDir[$_key]);
+        if (!(strpos($_dir, '.') || strpos($_dir, '..'))) {
+            SetPlugin($_dir);
         }
     }
-
-    SetPlugin($addDir);
 }
 
 /**
@@ -413,7 +423,7 @@ function SearchData($target, array $arrayData): bool
  *
  * getImageSize関数で取得した配列を整形する。
  *
- * @param  array|string $imageName 画像名(画像パス含む)
+ * @param  array|string $imageConfig 画像名(画像パス含む)
  *
  * @return array
  */
@@ -440,9 +450,9 @@ function MoldImageConfig($imageConfig): array
  * @param string $imageName 画像名(画像パス含む)
  * @param string|int $imageSizeViewValue 画像サイズの表示桁数
  *
- * @return array|bool
+ * @return array|false
  */
-function CalcImageSize(string $imageName, string|int $imageSizeViewValue): array|bool
+function CalcImageSize(string $imageName, string|int $imageSizeViewValue): array|false
 {
     if (!file_exists($imageName) || !exif_imagetype($imageName)) {
         return false;
@@ -466,14 +476,14 @@ function CalcImageSize(string $imageName, string|int $imageSizeViewValue): array
 }
 
 /**
- * CalcImageSize
- *画像のサイズを計算する
+ * CalcAllImageSize
+ * 全ての画像のサイズを計算する
  *
  * @param string $imageName 画像名(画像パス含む)
  *
- * @return array
+ * @return array|false
  */
-function CalcAllImageSize($imageName): array
+function CalcAllImageSize(string $imageName): array|false
 {
     if (!is_string($imageName)) {
         $ret = false;
@@ -505,7 +515,7 @@ function CalcAllImageSize($imageName): array
  * @param string|null $word
  * @return boolean|null
  */
-function EmptyValidate($validate, ?string $word = null): ?bool
+function EmptyValidate(mixed $validate, ?string $word = null): ?bool
 {
     $v = null;
 
@@ -536,12 +546,11 @@ function EmptyValidate($validate, ?string $word = null): ?bool
  *
  * @return void
  */
-function CheckMemory()
+function CheckMemory(): void
 {
     static $initialMemoryUse = null;
 
-    if ( $initialMemoryUse === null )
-    {
+    if ($initialMemoryUse === null) {
         $initialMemoryUse = memory_get_usage();
     }
 

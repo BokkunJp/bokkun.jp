@@ -26,6 +26,8 @@ AlertAdmin('access', $title);
         href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
     <link rel="stylesheet" type="text/css" href="./client/css/common.css">
     <link rel="stylesheet" type="text/css"
+        href="./client/css/common/<?php echo $agentCode; ?>.css">
+    <link rel="stylesheet" type="text/css"
         href="<?= $base->GetURL('', 'client') ?>css/design.css">
 </head>
 

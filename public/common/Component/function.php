@@ -5,9 +5,10 @@
  *
  * 10進数の数値をn進数に変換する
  *
- * @param int $decData
- * @param int $n
- * @return int
+ * @param integer $decData
+ * @param integer $n
+ *
+ * @return integer
  */
 function Convert(int $decData, int $n): int
 {

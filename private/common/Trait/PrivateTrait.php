@@ -12,9 +12,9 @@ trait PrivateTrait
      *
      * @param  string $str
      *
-     * @return bool|string
+     * @return bool
      */
-    private function FindFileName($str)
+    private function FindFileName(string $str): bool
     {
         if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
             return false;
@@ -33,7 +33,7 @@ trait PrivateTrait
      *
      * @return bool
      */
-    public function ValidateData(string $dirPath, string $select)
+    public function ValidateData(string $dirPath, string $select): bool
     {
         $dirArray = scandir($dirPath);
 
@@ -49,7 +49,7 @@ trait PrivateTrait
      *
      * @return bool
      */
-    private function DeleteData($dirPath)
+    private function DeleteData(string $dirPath): bool
     {
         if (is_dir($dirPath)) {
             foreach (scandir($dirPath) as $_file) {
@@ -79,10 +79,11 @@ trait PrivateTrait
      *
      * @param  string $srcPath
      * @param  string $copyName
+     * @param  bool $dpAuthFlg
      *
      * @return bool
      */
-    private function CopyData($srcPath, $copyName, $dpAuthFlg = true)
+    private function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bool
     {
         $dstPath = AddPath(dirname($srcPath), $copyName);
 
@@ -128,7 +129,7 @@ trait PrivateTrait
      *
      * @return bool
      */
-    private function CopySubData($srcPath, $dstPath)
+    private function CopySubData(string $srcPath, string $dstPath): bool
     {
         // 主階層のディレクトリがコピー先にない場合は作成
         if (!is_dir($dstPath)) {
@@ -160,7 +161,7 @@ trait PrivateTrait
      *
      * @return array
      */
-    private function GetNotDelFileList()
+    private function GetNotDelFileList(): array
     {
         return NOT_DELETE_FILE_LIST;
     }
@@ -172,7 +173,7 @@ trait PrivateTrait
      *
      * @return void
      */
-    public function Logout()
+    public function Logout(): void
     {
         echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 

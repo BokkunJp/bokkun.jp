@@ -2,11 +2,14 @@
 
 /**
  * GetPage
- * ページ番号を取得する
+ *
+ * ページ番号を取得する。
+ *
  * @param void
- * @return int|bool
+ *
+ * @return integer|false
  */
-function GetPage(): int|bool
+function GetPage(): int|false
 {
     $page = PrivateSetting\Setting::GetQuery('page');
     if ($page === false) {
@@ -19,12 +22,15 @@ function GetPage(): int|bool
 
 /**
  * GetCountPerPage
- * ページ当たりの画像数を取得する
+ *
+ * ページ当たりの画像数を取得する。
  * (post値が確認できない場合はデフォルト値を取得する)
  *
  * @param  void
- * @return int
- */function GetCountPerPage()
+ *
+ * @return integer
+ */
+function GetCountPerPage()
 {
     $session = new PrivateSetting\Session();
     $post = PrivateSetting\Setting::GetPost('image-value');
@@ -46,11 +52,13 @@ function GetPage(): int|bool
 
 /**
  * ViewPager
- * ページャーを表示する
+ *
+ * ページャーを表示する。
  *
  * @param  int $max
  * @param boolean $ajaxFlg
- * @return string
+ *
+ *  @return string
  */
 function ViewPager($max, $ajaxFlg = false)
 {
@@ -111,11 +119,13 @@ function ViewPager($max, $ajaxFlg = false)
 
 /**
  * ValidateLoop
- * Pagenatorのページ数を表示するかを判定する
  *
- * @param  int $nowPage
- * @param  int $minPage
- * @param  int $maxPage
+ * Pagenatorのページ数を表示するかを判定する。
+ *
+ * @param integer $nowPage
+ * @param integer $minPage
+ * @param integer $maxPage
+ *
  * @return void
  */
 function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
@@ -151,8 +161,8 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
  * SetInputForm
  * ページ移動フォームの生成
 
- * @param int $minPage
- * @param int $maxPage
+ * @param integer $minPage
+ * @param integer $maxPage
  * @param boolean $ajaxFlg
  * @return void
  */

@@ -9,8 +9,16 @@ use Endroid\QrCode\Writer\PngWriter;
 
 trait CommonTrait
 {
-    // ヌルバイト対策 (POST, GET)
-    protected function Sanitize($arr)
+    /**
+     * Sanitize
+     *
+     * ヌルバイト対策 (POST, GET)
+     *
+     * @param mixed $arr
+     *
+     * @return mixed
+     */
+    protected function Sanitize(mixed $arr): mixed
     {
         if (!is_string($arr)) {
             return $arr;
@@ -24,13 +32,15 @@ trait CommonTrait
 
     /**
      * CreateClient
+     *
      * 所定のディレクトリまでのディレクトリ群を走査し、パスを生成する。
      *
-     * @param  string $target
+     * @param string $target
+     * @param string $src
      *
-     * @return bool
+     * @return string
      */
-    public function CreateClient($target, $src = '')
+    public function CreateClient($target, $src = ''): string
     {
         if (empty($src)) {
             $srcPath = getcwd();
@@ -63,6 +73,7 @@ trait CommonTrait
     }
     /**
      * CheckToken
+     *
      * Post値とセッション値のチェック
      *
      *
@@ -71,7 +82,7 @@ trait CommonTrait
      *
      * @return bool
      */
-    public function CheckSession($SessionName, $chkFlg)
+    public function CheckSession(string $SessionName, bool $chkFlg): bool
     {
         $input = CommonSetting\Setting::GetPost($SessionName);
         $session = new CommonSetting\Session();
@@ -91,6 +102,7 @@ trait CommonTrait
 
     /**
      * filter_input_fix
+     *
      * $_SERVER, $_ENVのための、filter_input代替処理。
      *
      *
@@ -131,9 +143,15 @@ trait CommonTrait
     /**
      * MoldData
      *
+     * データ調整。
+     * (配列⇔特定のセパレータで区切られた文字列の相互変換)
      *
+     * @param mixed $data
+     * @param string $parameter
+     *
+     * @return mixed
      */
-    public function MoldData($data, string $parameter = ',')
+    public function MoldData(mixed $data, string $parameter = ','): mixed
     {
         $ret = false;
         if (is_null($data)) {
@@ -148,20 +166,34 @@ trait CommonTrait
 
         return $ret;
     }
+
     /**
      * Output
      *
-     * @param [mixed] $expression
+     * 出力用のメソッド。
+     *
+     * @param mixed $expression
      * @param boolean $formatFlg
      * @param boolean $indentFlg
+     * @param boolean $dumpFlg
      * @param array $debug
+     *
      * @return void
      */
-    public function Output($expression, bool $formatFlg = false, bool $indentFlg = true, array $debug = [])
-    {
+    public function Output(
+        mixed $expression,
+        bool $formatFlg = false,
+        bool $indentFlg = true,
+        bool $dumpFlg = false,
+        array $debug = []
+    ): int {
         if ($formatFlg === true) {
             print_r("<pre>");
-            print_r($expression);
+            if ($dumpFlg === true) {
+                var_dump($expression);
+            } else {
+                print_r($expression);
+            }
             print_r("</pre>");
         } else {
             print_r($expression);
@@ -170,8 +202,8 @@ trait CommonTrait
             }
         }
 
-        $debugMessage = DEBUG_MESSAGE_SOURCE;
         if (!empty($debug)) {
+            $debugMessage = DEBUG_MESSAGE_SOURCE;
             $debugTrace = debug_backtrace();
             $debugValidate = $this->DebugValidate($debug, $debugTrace);
             if (!empty($debugValidate)) {
@@ -205,9 +237,21 @@ trait CommonTrait
                 }
             }
         }
+
+        return FINISH;
     }
 
-    private function DebugValidate(array $debug, array $debugTrace)
+    /**
+     * DebugValitate
+     *
+     * デバッグ出力時のバリデーション。
+     *
+     * @param array $debug
+     * @param array $debugTrace
+     *
+     * @return array
+     */
+    private function DebugValidate(array $debug, array $debugTrace): array
     {
         $validate = [];
 
@@ -231,7 +275,17 @@ trait CommonTrait
         return $validate;
     }
 
-    public function CreateRandom(int $length, string $type = 'security')
+    /**
+     * CreateRandom
+     *
+     * 指定した桁数x2の乱数の生成。
+     *
+     * @param integer $length
+     * @param string $type
+     *
+     * @return string
+     */
+    public function CreateRandom(int $length, string $type = 'security'): string
     {
         switch ($type) {
             case 'security':
@@ -244,10 +298,10 @@ trait CommonTrait
                 $bytes = md5($this->CreateRandom($length, 'mt_rand'));
                 break;
             case 'uniq':
-                $bytes = uniqid($this->CreateRandom($length, 'mt_rand'));
+                $bytes = (string)uniqid($this->CreateRandom($length, 'mt_rand'));
                 break;
             case 'mt_rand':
-                $bytes = mt_rand(0, $length);
+                $bytes = (string)mt_rand(0, $length);
                 break;
             case 'random_bytes':
                 $bytes = bin2hex(random_bytes($length));
@@ -259,11 +313,21 @@ trait CommonTrait
         return $bytes;
     }
 
-    public function SetPlugin($name)
+
+    /**
+     * SetPlugin
+     *
+     * 指定したプラグインを読み込む。
+     *
+     * @param array|string $name
+     *
+     * @return integer
+     */
+    public function SetPlugin(array|string $name): void
     {
         if (is_array($name)) {
             foreach ($name as $_dir) {
-                $targetName = SetPlugin($_dir);
+                $this->SetPlugin($_dir);
             }
         }
 
@@ -279,23 +343,27 @@ trait CommonTrait
      *
      * @return void
      */
-    public function SetAllPlugin()
+    public function SetAllPlugin(): void
     {
         $addDir = scandir(PLUGIN_DIR);
 
+
         foreach ($addDir as $_key => $_dir) {
-            if (strpos($_dir, '.') !== false || strpos($_dir, '..')  !== false) {
-                unset($addDir[$_key]);
+            if (!(strpos($_dir, '.') || strpos($_dir, '..'))) {
+                $this->SetPlugin($_dir);
             }
         }
-
-        SetPlugin($addDir);
     }
 
     /**
      * MakeQrCode
      *
-     * @param [string] $qrCodeName
+     * QRコードを生成する。
+     *
+     * @param integer $size
+     * @param string $contents
+     * @param boolean $outputFlg
+     *
      * @return void
      */
     public function MakeQrCode(int $size, string $contents, bool $outputFlg = false)
@@ -311,6 +379,7 @@ trait CommonTrait
 
         if ($outputFlg === true) {
             $this->Output("<img src=\"". $qrWriter->getDataUri(). "\"></img>");
+            return null;
         } else {
             return $qrWriter->getDataUri();
         }
@@ -326,7 +395,7 @@ trait CommonTrait
      *
      * @return bool
      */
-    public function SearchData($target, array $arrayData)
+    public function SearchData($target, array $arrayData): bool
     {
         $filipData = array_flip($arrayData);
 
@@ -341,13 +410,105 @@ trait CommonTrait
     }
 
     /**
+     * MoldImageConfig
+     *
+     * getImageSize関数で取得した配列を整形する。
+     *
+     * @param  array|string $imageName 画像名(画像パス含む)
+     *
+     * @return array
+     */
+    public function MoldImageConfig($imageConfig): array
+    {
+        $ret = [];
+        if (is_array($imageConfig)) {
+            $params = ['width', 'height', 'type', 'html'];
+
+            foreach ($imageConfig as $_key => $_imageConfig) {
+                if (!empty($params[$_key]) && isset($params[$_key])) {
+                    $ret[$params[$_key]] = $_imageConfig;
+                }
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     * CalcImageSize
+     *
+     *画像のサイズを計算する。
+    *
+    * @param string $imageName 画像名(画像パス含む)
+    * @param string|int $imageSizeViewValue 画像サイズの表示桁数
+    *
+    * @return array|false
+    */
+    public function CalcImageSize(string $imageName, string|int $imageSizeViewValue): array|false
+    {
+        if (!file_exists($imageName) || !exif_imagetype($imageName)) {
+            return false;
+        }
+        $imageConfig = getimagesize($imageName);
+        $imageSize = filesize($imageName);
+        $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
+        $imageSizeUnit = '';
+        foreach ($imageSizeUnitArray as $_imageSizeUnit) {
+            if ($imageSize >= IMAGE_MAX_VALUE) {
+                $imageSize = bcdiv($imageSize, IMAGE_MAX_VALUE, $imageSizeViewValue);
+                $imageSizeUnit = $_imageSizeUnit;
+            } else {
+                break;
+            }
+        }
+        $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
+        $ret = array_merge(MoldImageConfig($imageConfig), $ret);
+
+        return $ret;
+    }
+
+    /**
+     * CalcAllImageSize
+     *
+     * 全ての画像のサイズを計算する
+    *
+    * @param string $imageName 画像名(画像パス含む)
+    *
+    * @return array|false
+    */
+    public function CalcAllImageSize(string $imageName): array|false
+    {
+        if (!is_string($imageName)) {
+            $ret = false;
+        } else {
+            $imageConfig = getimagesize($imageName);
+            $imageSize = filesize($imageName);
+            $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
+
+            $imageSizeUnit = '';
+            foreach ($imageSizeUnitArray as $_imageSizeUnit) {
+                if ($imageSize >= IMAGE_MAX_VALUE) {
+                    $imageSize = $imageSize / IMAGE_MAX_VALUE;
+                    $imageSizeUnit = $_imageSizeUnit;
+                }
+            }
+
+            $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
+
+            $ret = array_merge(MoldImageConfig($imageConfig), $ret);
+        }
+
+        return $ret;
+    }
+
+    /**
      * EmptyValidate
      *
      * @param mixed $validate
      * @param string|null $word
      * @return boolean|null
      */
-    public function EmptyValidate($validate, ?string $word = null): ?bool
+    public function EmptyValidate(mixed $validate, ?string $word = null): ?bool
     {
         $v = null;
 
@@ -378,12 +539,11 @@ trait CommonTrait
      *
      * @return void
      */
-    function CheckMemory()
+    public function CheckMemory(): void
     {
         static $initialMemoryUse = null;
 
-        if ( $initialMemoryUse === null )
-        {
+        if ($initialMemoryUse === null) {
             $initialMemoryUse = memory_get_usage();
         }
 
