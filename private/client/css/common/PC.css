@@ -1,0 +1,88 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+
+
+/*
+    Created on : 2016/07/18, 1:18:39
+    Update on : 2017/07/09, 16:20
+    Author     : T
+
+
+*/
+
+html {
+    height: 100%;
+    font-family: 'Meiryo UI,ヒラギノ角ゴ';
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+
+.container {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+header {
+    position: relative;
+    background-image: url("../../image/gold03.jpg");
+    width: 100%;
+    height: auto;
+    background-size: 10px 150%;
+}
+
+.top-image {
+    width: 40px;
+    height: 40px;
+}
+
+.contents {
+    padding-bottom: 9vh;
+    margin-bottom: 0;
+}
+
+.date,
+.time {
+    color: #111111;
+    font-family: 'Mv Boli';
+}
+
+.footer {
+    position: absolute;
+    color: #FFFF00;
+    font-family: 'arial black';
+    background-image: url("../../image/metal01-768x576.jpg");
+    background-size: 10px 150%;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer_char {
+    font-size: 50%;
+}
+
+.debug,
+.debug>* {
+    color: #000000;
+    background-color: #E7E18F;
+    font-style: italic;
+    font-size: 80%;
+    display: inline-block;
+    word-break : break-all;
+    word-wrap: break-word;
+    overflow-wrap : break-word;
+}
+
+.warning {
+    color: #FF0000;
+}

@@ -2,9 +2,12 @@
 
 /**
  * GetPage
- * ページ番号を取得する
+ *
+ * ページ番号を取得する。
+ *
  * @param void
- * @return int
+ *
+ * @return integer
  */
 function GetPage()
 {
@@ -19,12 +22,15 @@ function GetPage()
 
 /**
  * GetCountPerPage
- * ページ当たりの画像数を取得する
+ *
+ * ページ当たりの画像数を取得する。
  * (post値が確認できない場合はデフォルト値を取得する)
  *
  * @param  void
- * @return int
- */function GetCountPerPage()
+ *
+ * @return integer
+ */
+function GetCountPerPage(): int
 {
     $session = new PublicSetting\Session();
     $post = PublicSetting\Setting::GetPost('image-value');
@@ -46,12 +52,13 @@ function GetPage()
 
 /**
  * ViewPager
- * ページャーを表示する
+ *
+ * ページャーを表示する。
  *
  * @param  int $max
- * @return string
+ * @return void
  */
-function ViewPager($max)
+function ViewPager($max): void
 {
     $htmlVal = '';
     $nowPage = GetPage();
@@ -92,11 +99,13 @@ function ViewPager($max)
 
 /**
  * ValidateLoop
- * Pagenatorのページ数を表示するかを判定する
+ *
+ * Pagenatorのページ数を表示するかを判定する。
  *
  * @param  int $nowPage
  * @param  int $minPage
  * @param  int $maxPage
+ *
  * @return void
  */
 function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
@@ -130,10 +139,12 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
 
 /**
  * SetInputForm
- * ページ移動フォームの生成
+ *
+ * ページ移動フォームを生成する。
 
- * @param int $minPage
- * @param int $maxPage
+ * @param integer $minPage
+ * @param integer $maxPage
+ *
  * @return void
  */
 function SetInputForm($minPage, $maxPage)

@@ -31,6 +31,9 @@ $img = "crown-vector.jpg";
     <link rel="stylesheet" type="text/css"
         href="<?= $base->GetURL('', 'client') ?>css/common.css">
 
+    <link rel="stylesheet" type="text/css"
+        href="/private/client/css/common/<?php echo $agentCode; ?>.css">
+
     <!-- ログファイル以外を含めて正常に動作(ログファイル以外は最初でループが止まる) -->
     <link rel="stylesheet" type="text/css"
         href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('log') ?>design.css">

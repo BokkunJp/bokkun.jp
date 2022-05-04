@@ -7,12 +7,21 @@ class Base
 {
     protected $authorities;
 
-    public function __construct($init = true)
+    public function __construct(bool $init = true)
     {
         $this->Initialize($init);
     }
 
-    protected function Initialize($init = false)
+    /**
+     * Initialize
+     *
+     * 初期処理。
+     *
+     * @param boolean $init
+     *
+     * @return void
+     */
+    protected function Initialize(bool $init = false): void
     {
         if ($init === true) {
             $initArray = ['div', 'span', 'pre'];
@@ -24,33 +33,67 @@ class Base
         $this->AllowAuthoritys($initArray);
     }
 
-    protected function AllowAuthoritys($authorities)
+    /**
+     * AllowAuthoritys
+     *
+     * @param array $authorities
+     *
+     * @return void
+     */
+    protected function AllowAuthoritys(array $authorities): void
     {
-        if (!is_array($authorities)) {
-            trigger_error("引数が不正です。", E_USER_ERROR);
-        }
         foreach ($authorities as $value) {
             $this->authorities[] = $value;
         }
     }
 
-    protected function AllowAuthority($authority)
+    /**
+     * AllowAuthority
+     *
+     * @param string $authority
+     *
+     * @return void
+     */
+    protected function AllowAuthority(string $authority): void
     {
         $this->AllowAuthoritys([$authority]);
     }
 
-    protected function DenyAuthority($authority)
+    /**
+     * DenyAuthority
+     *
+     * @param string $authority
+     *
+     * @return void
+     */
+    protected function DenyAuthority(string $authority): void
     {
         $key = array_keys($this->authorities, $authority);
         $this->authorities = array_splice($this->authorities, $key[0], 1);
     }
 
-    public function SetDefault()
+    /**
+     * SetDefault
+     *
+     * 権限を再初期化する。
+     *
+     * @return void
+     */
+    public function SetDefault(): void
     {
         $this->Initialize();
     }
 
-    public function ViewAuthority($authorityName = null)
+    /**
+     * ViewAuthority
+     *
+     * 権限を表示する。
+     *
+     * @param ?string $authorityName
+     *
+     * @return void
+     */
+    public function ViewAuthority(?string $authorityName = null): void
     {
         if (!isset($authorityName)) {
             foreach ($this->authorities as $value) {
@@ -61,8 +104,16 @@ class Base
         }
     }
 
-    // タグ名リスト生成
-    public function CreateAuthorityList($notuseList)
+    /**
+     * CreateAuthorityList
+     *
+     * タグ名リスト生成
+     *
+     * @param array $notuseList
+     *
+     * @return string
+     */
+    public function CreateAuthorityList(array $notuseList): string
     {
         $select = '<select>';
         $authorityList = $this->authorities;
@@ -76,9 +127,6 @@ class Base
             }
         }
         foreach ($authorityList as $value) {
-            if (mb_strpos($value, 'a href') !== false) {
-//                $value = 'a';
-            }
             $select .= "<option>$value</option>";
         }
         $select .= '</select>';
@@ -94,16 +142,31 @@ class HTMLClass extends Base
     protected $className;
     protected $contents;
 
-    public function __construct($init=false, $allowTag=[])
+    public function __construct(bool $init = false, array $allowTag = [])
     {
         parent::__construct($init);
         $this->AllowAuthoritys(array_merge($allowTag));
     }
 
 
-    // タグ名・内容・クラス名をセットする
-    public function SetTag($tagName = 'div', $contents = '', $className = '', $tagOption = '')
-    {
+    /**
+     * SetTag
+     *
+     * タグ名・内容・クラス名をセットする
+     *
+     * @param string $tagName
+     * @param string|null $contents
+     * @param string $className
+     * @param string $tagOption
+     *
+     * @return void
+     */
+    public function SetTag(
+        string $tagName = 'div',
+        ?string $contents = '',
+        string $className = '',
+        string $tagOption = ''
+    ) {
         $count = func_num_args();
         if ($count > 1) {
             $this->HTMLSet($tagName, $contents, $className);        // タグをHTML用のタグに置き換え
@@ -119,7 +182,7 @@ class HTMLClass extends Base
     }
 
     // HTMLの各要素をセットする
-    protected function HTMLSet($tagName, $contents, $className)
+    protected function HTMLSet(string $tagName, ?string $contents, string $className): void
     {
         $this->tagName = $tagName;
 
@@ -135,14 +198,20 @@ class HTMLClass extends Base
         $this->className = $className;
     }
 
-    protected function SetSpecailContents($contents)
+    /**
+     * SetSpecailContents
+     *
+     * @param ?string $contents
+     * @return void
+     */
+    protected function SetSpecailContents(?string $contents): void
     {
         $this->HTMLSet($this->tagName, $this->contens, $this->className);
         $this->contents = $contents;
     }
 
     // タグ名などのメタデータに沿ってHTMLを生成する
-    protected function CreateTag($tagOption = '')
+    protected function CreateTag(?string $tagOption = ''): void
     {
         // 開始タグと終了タグでタグ名が違うタグ(a hrefなど)のための特殊処理
         $tagAuth = $this->tagName;
@@ -173,28 +242,58 @@ class HTMLClass extends Base
         $this->tag .= "</$this->tagName>";
     }
 
-    protected function GetTag()
+    /**
+     * GetTag
+     *
+     * タグを取得する。
+     *
+     * @return string
+     */
+    protected function GetTag(): string
     {
         if (!isset($this->tag)) {
-            trigger_error("タグが存在しません。", E_USER_ERROR);
+            user_error("タグが存在しません。");
         }
 
         return $this->tag;
     }
 
-    public function ExecTag($output = false, $spaceFlg = false)
-    {
+    /**
+     * ExecTag
+     *
+     * タグを取得して表示する。
+     *
+     * @param boolean $output
+     * @param boolean $formatFlg
+     * @param boolean $indentFlg
+     * @param boolean $dumpFlg
+     * @param array $debug
+     *
+     * @return string
+     */
+    public function ExecTag(
+        $output = false,
+        $formatFlg = false,
+        $indentFlg = false,
+        $dumpFlg = false,
+        array $debug = []
+    ): string {
         if ($output === true) {
-            echo $this->GetTag();
-            if ($spaceFlg === true) {
-                echo nl2br("\n");
-            }
+            Output($this->GetTag(), $formatFlg, $indentFlg, $dumpFlg, $debug);
         }
         return $this->GetTag();
     }
 
-    // authoritry以外の内部変数を初期化する
-    public function Clean($elm = null)
+    /**
+     * Clean
+     *
+     * authoritry以外の内部変数を初期化する
+     *
+     * @param mixed $elm
+     *
+     * @return void
+     */
+    public function Clean(mixed $elm = null)
     {
         // 初期化する変数の指定がある場合
         if (!is_null($elm)) {
@@ -223,43 +322,103 @@ class HTMLClass extends Base
 // 特殊タグ用の処理
 class CustomTagCreate extends HTMLClass
 {
-    public function __construct($init=true, $initArray=['a href', 'script src', 'img'])
-    {
+    public function __construct(
+        bool $init = true,
+        array $initArray=['a href', 'script src', 'img']
+    ) {
         parent::__construct($init, $initArray);
     }
 
-    protected function CreateClosedTag($tagName, $tagOption, $className, $viewLink = false)
-    {
+    /**
+     * CreateClosedTag
+     *
+     * 閉じタグがないタグを作成する。
+     *
+     * @param string $tagName
+     * @param string $tagOption
+     * @param string $className
+     * @param boolean $viewLink
+     *
+     * @return ?string
+     */
+    protected function CreateClosedTag(
+        string $tagName,
+        string $tagOption,
+        string $className,
+        bool $viewLink = false
+    ): ?string {
         parent::SetTag($tagName, null, $className);
         $this->tag = substr_replace($this->tag, $tagOption . " />", strcspn($this->tag, '>', 0));
         return $this->ExecTag($viewLink);
     }
 
-    protected function GetTag()
-    {
-        return parent::GetTag();
-    }
-
-    public function ExecTag($view = false, $spaceFlg = false)
-    {
-        return parent::ExecTag($view);
-    }
-
-    private function CreateDiffTag($tagName, $link, $title = null, $class = '', $viewLink = false)
-    {
+    /**
+     * CreateDiffTag
+     *
+     * aタグ、imgタグやscriptタグなどのタグ内でオプションを設定する必要があるタグの生成。
+     *
+     * @param string $tagName
+     * @param string $link
+     * @param ?string $title
+     * @param ?string $class
+     * @param boolean $viewLink
+     *
+     * @return void
+     */
+    private function CreateDiffTag(
+        string $tagName,
+        string $link,
+        ?string $title = null,
+        ?string $class = '',
+        bool $viewLink = false
+    ) {
         $this->SetTag($tagName, $title, $class, $link);
         return $this->ExecTag($viewLink);
     }
 
-    // img src
-    public function SetImage($link = '', $width = 400, $height = 400, $class = '', $viewLink = false)
-    {
+    /**
+     * SetImage
+     *
+     * imgタグをセット。
+     *
+     * @param string $link
+     * @param integer $width
+     * @param integer $height
+     * @param ?string $class
+     *
+     * @param boolean $viewLink
+     * @return void
+     */
+    public function SetImage(
+        string $link = '',
+        int $width = 400,
+        int $height = 400,
+        ?string $class = '',
+        bool$viewLink = false
+    ) {
         return $this->CreateClosedTag("img", " src='$link' width=" . $width . "px height=" . $height . "px", $class, $viewLink);
     }
 
-    // a href
-    public function SetHref($link = '', $title = null, $class = 'test', $viewLink = false, $target = '_new')
-    {
+    /**
+     * SetHref
+     *
+     * aタグをセット。
+     *
+     * @param string $link
+     * @param ?string $title
+     * @param ?string $class
+     * @param boolean $viewLink
+     * @param ?string $target
+     *
+     * @return void
+     */
+    public function SetHref(
+        string $link = '',
+        ?string $title = null,
+        ?string $class = 'test',
+        bool $viewLink = false,
+        ?string $target = '_new'
+    ) {
         if (preg_match('/^_/', $target) === 0) {
             $target = '_' . $target;
         }
@@ -284,7 +443,7 @@ class CustomTagCreate extends HTMLClass
     }
 
     // script src
-    public function ReadJS($link = 'aaa', $class = '', $viewLink = false)
+    public function ReadJS(string $link = 'link', ?string $class = '', bool $viewLink = false)
     {
         return $this->CreateDiffTag("script src", $link, null, $class, $viewLink);
     }
@@ -301,14 +460,22 @@ class ScriptClass extends HTMLClass
         $this->AllowAuthority('script');
     }
 
-    // Scriptタグ
-    public function Script($str)
+    /**
+     * Script
+     *
+     * scriptタグのセット。
+     *
+     * @param string $str
+     *
+     * @return void
+     */
+    public function Script(string $str): void
     {
         $this->SetTag('script', $str);
     }
 
     // Alert関数
-    public function Alert($str, $abort = false)
+    public function Alert(string $str, bool $abort = false): void
     {
         $this->Script("alert('$str');");
         $this->ExecTag(true);
@@ -320,8 +487,16 @@ class ScriptClass extends HTMLClass
 
 class UseClass extends ScriptClass
 {
-    // 指定したURLへ遷移
-    public function MovePage($url)
+    /**
+     * MovePage
+     *
+     * 指定したURLへ遷移。
+     *
+     * @param string $url
+     *
+     * @return void
+     */
+    public function MovePage(string $url): void
     {
         $this->Script("location.href='$url';");
         $this->ExecTag(true);
@@ -332,9 +507,17 @@ class UseClass extends ScriptClass
     }
 }
 
-// 共通処理
-// オリジナルダンプ
-function deb_dump($value, $htmlspecialcharFlg = true)
+/**
+ * deb_dump
+ *
+ * オリジナルダンプ。
+ *
+ * @param mixed $value
+ * @param boolean $htmlspecialcharFlg
+ *
+ * @return void
+ */
+function deb_dump(mixed $value, bool $htmlspecialcharFlg = true): void
 {
     if ($htmlspecialcharFlg === true) {
         $value = htmlspecialchars($value);
