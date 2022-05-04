@@ -14,7 +14,7 @@ require_once $commonInitFunctionPath;
  *
  * @return string
  */
-function CreateRandom(int $length, string $type='security')
+function CreateRandom(int $length, string $type='security'): string
 {
     switch ($type) {
         case 'security':
@@ -30,7 +30,7 @@ function CreateRandom(int $length, string $type='security')
         $bytes = uniqid(CreateRandom($length, 'mt_rand'));
         break;
         case 'mt_rand':
-        $bytes = mt_rand(0, $length);
+        $bytes = (string)mt_rand(0, $length);
         break;
         case 'random_bytes':
         $bytes = bin2hex(random_bytes($length));
