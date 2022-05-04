@@ -4,7 +4,7 @@
  * GetPage
  * ページ番号を取得する
  * @param void
- * @return int
+ * @return integer
  */
 function GetPage()
 {
@@ -23,7 +23,7 @@ function GetPage()
  * (post値が確認できない場合はデフォルト値を取得する)
  *
  * @param  void
- * @return int
+ * @return integer
  */function GetCountPerPage()
 {
     $session = new PublicSetting\Session();
@@ -132,8 +132,8 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
  * SetInputForm
  * ページ移動フォームの生成
 
- * @param int $minPage
- * @param int $maxPage
+ * @param integer $minPage
+ * @param integer $maxPage
  * @return void
  */
 function SetInputForm($minPage, $maxPage)

@@ -31,11 +31,6 @@ class Setting extends \commonSetting\Setting
         $this->filepageImage = AddPath($this->public, 'image', false, '/');
     }
 
-    public static function GetSelf_Admin()
-    {
-        return 1;
-    }
-
     /**
      * GetDomain
      *
@@ -73,7 +68,7 @@ class Setting extends \commonSetting\Setting
      *
      * @return mixed
      */
-    public static function GetHostName($ipName = null)
+    public static function GetHostName($ipName = null): mixed
     {
         if (is_null($ipName)) {
             $ipName = self::GetHostIp();
@@ -87,12 +82,12 @@ class Setting extends \commonSetting\Setting
      *
      * @return mixed
      */
-    public static function GetSelf()
+    public static function GetSelf(): mixed
     {
         return parent::GetSERVER('PHP_SELF');
     }
 
-    public static function GetPrevPage()
+    public static function GetPrevPage(): mixed
     {
         return parent::GetSERVER('HTTP_REFERER');
     }

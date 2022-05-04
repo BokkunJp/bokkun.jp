@@ -31,7 +31,7 @@ if ($fooTime > $barTime) {
 /**
  * Input
  *
- * @param int $max
+ * @param integer $max
 
  * @return array
  */

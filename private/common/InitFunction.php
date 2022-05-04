@@ -4,6 +4,7 @@ $commonInitFunctionPath = dirname(__DIR__, 2);
 $commonInitFunctionPath = $commonInitFunctionPath. DIRECTORY_SEPARATOR. 'common';
 $commonInitFunctionPath = $commonInitFunctionPath. DIRECTORY_SEPARATOR. 'InitFunction.php';
 require_once $commonInitFunctionPath;
+
 /**
  * CreateRandom
  *
@@ -14,7 +15,7 @@ require_once $commonInitFunctionPath;
  *
  * @return string
  */
-function CreateRandom(int $length, string $type = 'security')
+function CreateRandom(int $length, string $type = 'security'): string
 {
     switch ($type) {
         case 'security':
@@ -30,7 +31,7 @@ function CreateRandom(int $length, string $type = 'security')
             $bytes = uniqid(CreateRandom($length, 'mt_rand'));
             break;
         case 'mt_rand':
-            $bytes = mt_rand(0, $length);
+            $bytes = (string)mt_rand(0, $length);
             break;
         case 'random_bytes':
             $bytes = bin2hex(random_bytes($length));
@@ -49,9 +50,9 @@ function CreateRandom(int $length, string $type = 'security')
  *
  * @param  string $str
  *
- * @return bool|string
+ * @return bool
  */
-function FindFileName($str)
+function FindFileName(string $str): bool
 {
     $ret = true;
     if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
@@ -71,7 +72,7 @@ function FindFileName($str)
  *
  * @return bool
  */
-function ValidateData(string $dirPath, ?string $select)
+function ValidateData(string $dirPath, ?string $select): bool
 {
     $dirArray = scandir($dirPath);
 
@@ -88,7 +89,7 @@ function ValidateData(string $dirPath, ?string $select)
  *
  * @return bool
  */
-function DeleteData($dirPath)
+function DeleteData(string $dirPath): bool
 {
     if (is_dir($dirPath)) {
         foreach (scandir($dirPath) as $_file) {
@@ -118,10 +119,11 @@ function DeleteData($dirPath)
  *
  * @param  string $srcPath
  * @param  string $copyName
+ * @param  bool $dpAuthFlg
  *
  * @return bool
  */
-function CopyData($srcPath, $copyName, $dpAuthFlg=true)
+function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bool
 {
     $dstPath = AddPath(dirname($srcPath), $copyName);
 
@@ -167,7 +169,7 @@ function CopyData($srcPath, $copyName, $dpAuthFlg=true)
  *
  * @return bool
  */
-function CopySubData($srcPath, $dstPath)
+function CopySubData(string $srcPath, string $dstPath): bool
 {
     // 主階層のディレクトリがコピー先にない場合は作成
     if (!is_dir($dstPath)) {
@@ -199,7 +201,7 @@ function CopySubData($srcPath, $dstPath)
  *
  * @return array
  */
-function GetNotDelFileList()
+function GetNotDelFileList(): array
 {
     return NOT_DELETE_FILE_LIST;
 }
@@ -211,7 +213,7 @@ function GetNotDelFileList()
  *
  * @return void
  */
-function Logout()
+function Logout(): void
 {
     echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 

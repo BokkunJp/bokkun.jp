@@ -15,6 +15,13 @@ function Main ()
     tinyMCE.init( {
         selector: 'textarea',
         language: 'ja',
+        forced_root_block: '_',
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste'
+        ],
+        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
     });
     // 選択したディレクトリ名からファイル・サブディレクトリ一覧を出力する
     $( 'select[name="select"]' ).on( 'change', function ( e )
@@ -54,7 +61,7 @@ function Main ()
             "file": $( 'select[name="select_file"]' ).val(),
             "token": $( '.token' ).val()
         };
-        AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json' );
+        AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json', SetFiled );
     } );
 
     // ソースの中身を更新する
@@ -62,13 +69,34 @@ function Main ()
     {
         if ( confirm( '本当に更新しますか？' ) )
         {
+            console.log(tinyMCE.activeEditor.getContent());
+            var unescapeHtml = function(target) {
+                if (typeof target !== 'string') return target;
+
+                var patterns = {
+                    '<br />'   : '\n',
+                    '&lt;'   : '<',
+                    '&gt;'   : '>',
+                    '&amp;'  : '&',
+                    '&quot;' : '"',
+                    '&#x27;' : '\'',
+                    '&#x60;' : '`'
+                };
+
+                return target.replace(/&(lt|gt|amp|quot|#x27|#x60);/g, function(match) {
+                    return patterns[match];
+                });
+            };
+            var output = unescapeHtml(tinyMCE.activeEditor.getContent());
+            console.log(output);
+
             var url = location.href;
             var saveObj = {
                 "edit": $( '.edit' ).val(),
                 "directory": $( 'select[name="select"]' ).val(),
                 "subdirectory": $( 'select[name="select_directory"]' ).val(),
                 "file": $( 'select[name="select_file"]' ).val(),
-                "input": $( '.result-src' ).val(),
+                "input": output,
                 "save": 'true',
                 'token': $( '.token' ).val()
             };
@@ -110,6 +138,13 @@ function ReadFileList ( ver )
     } );
 }
 
+/**
+ * SetFileList
+ *
+ * セレクトボックスにディレクトリ・ファイル名をセットする。
+ *
+ * @param {array} dir
+ */
 function SetFileList ( dir )
 {
     select = $( 'select[name="select_file"]' );
@@ -142,9 +177,25 @@ function SetFileList ( dir )
     }
 }
 
-/* テキストエリアの幅を自動で調整
- *  引数：
- *  戻り値：
+/**
+ * SetField
+ *
+ * ウィジウィグの入力欄に値をセットする。
+ *
+ * @param {object} data
+ */
+function SetFiled(data)
+{
+    if ($.inArray('src-view', data)) {
+        tinyMCE.activeEditor.setContent(data['src-view']);
+    }
+    $('.result-src-view').html(data['src-view']);
+}
+
+/**
+ *  テキストエリアの幅を自動で調整
+ *
+ * @param {object} argObj
  */
 function AutoSetTextArea ( argObj )
 {

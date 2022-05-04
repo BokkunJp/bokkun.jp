@@ -2,44 +2,55 @@
 
 namespace UA;
 
-define('PC_design', 1);
-define('SP_design', 2);
-
 class UA
 {
     protected $ua;
+
     public function __construct()
     {
         $this->setAgent();
     }
-    public function setAgent()
+
+    /**
+     * setAgent
+     *
+     * エージェント情報をセットする。
+     *
+     * @return void
+     */
+    public function setAgent(): void
     {
         if (!isset($this->ua) && isset($_SERVER['HTTP_USER_AGENT'])) {
             $this->ua = $_SERVER['HTTP_USER_AGENT'];
         }
     }
 
-    public function getAgent()
+    /**
+     * GetAgent
+     *
+     * エージェント情報を取得する。
+     *
+     * @return string
+     */
+    public function getAgent(): string
     {
         return $this->ua;
     }
 
-    public static function getConst()
+    /**
+     * DesignJudge
+     *
+     * デバイスを判定する。
+     * (1→iPhone, 2→Android)
+     *
+     * @return integer
+     */
+    public function DesignJudge(): int
     {
-        return [[1 => 'PC_design'], [2 => 'SP_design']];
-    }
-
-    // device = 2 → スマホ
-    // device = 1 → PC
-    public function DesignJudge($device=null)
-    {
-        if ($this->judge('iPhone') || $this->judge('Android')) {
-            return SP_design;
+        if ($this->judge('iPhone')|| $this->judge('Android')) {
+            return 2;
         } else {
-            return PC_design;
-        }
-        if (isset($device)) {
-            return $device;
+            return 1;
         }
     }
 
