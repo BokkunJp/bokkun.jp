@@ -163,10 +163,17 @@ function ViewImage ( data )
         checkIndexList[ index ] = $( val ).prop( 'checked' );
     } );
 
+    console.log(data);
+
     $( '.view-image-type' ).html( data[ 'view-image-type' ] );
+    if (data['select-notice']) {
+        $('.select-notice').html('不正な内容が選択されました。');
+    } else {
+        $('.select-notice').html('');
+    }
     if (data['error']) {
         htmlVal = '<div class="image-list">\
-            <div class="warning">不正な遷移です。もう一度操作してください。</div><a href="./" class="page" target="_self">画像管理ページへ戻る</a></div>';
+            <div class="warning">' + data['error-view'] + '</div><a href="./" class="page" target="_self">画像管理ページへ戻る</a></div>';
         $( '.image-list' ).html( htmlVal );
         $( '.image-pager' ).html( '' );
     } else if (data['result'] == false) {
