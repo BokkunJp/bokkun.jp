@@ -30,6 +30,7 @@ body {
     color: green;
 }
 
+.select-notice,
 .notice,
 .warning,
 .fail {

@@ -12,7 +12,7 @@ $checkToken = CheckToken('select-token');
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
 if ($checkToken === false) {
-    $data = ['src' => true];
+    $data = ['error' => true, 'error-view' => '不正な遷移です。リロードしてください。'];
     $json = json_encode($data);
     echo $json;
     exit;
@@ -27,15 +27,6 @@ if (!isset($post['type'])) {
 
 // 不正なPostが入った場合は、セッションに保存した情報かデフォルトページを参照する
 if ($postValid === false) {
-    // デフォルトのページ(IMAGE)もない場合はエラーを出力して処理を中断。
-    $defaultValid = ValidateData(PUBLIC_IMAGE_DIR, DEFAULT_IMAGE);
-    if ($defaultValid === false) {
-        $data = ['error' => '', 'src-view' => '必要なディレクトリがありません。'];
-        $json = json_encode($data);
-        echo $json;
-        exit;
-    }
-
     if ($session->Judge('image-view-directory')) {
         // セッションに情報が保存されている場合はその情報を参照する
         $post['type'] = $session->Read('image-view-directory');
@@ -50,5 +41,11 @@ $session->Write('image-view-directory', $post['type']);
 
 // 画像群を取得して、フロント処理側に返却
 $img = ReadImage(ajaxFlg:true);
+
+// 不正postの場合はエラー表示用のフラグを立てる
+if (!$postValid) {
+    $img['select-notice'] = true;
+}
+
 $json = json_encode($img);
 echo $json;
