@@ -163,8 +163,6 @@ function ViewImage ( data )
         checkIndexList[ index ] = $( val ).prop( 'checked' );
     } );
 
-    console.log(data);
-
     $( '.view-image-type' ).html( data[ 'view-image-type' ] );
     if (data['select-notice']) {
         $('.select-notice').html('不正な内容が選択されました。');
