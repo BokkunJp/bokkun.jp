@@ -14,6 +14,7 @@ require_once PRIVATE_COMMON_DIR . "/Token.php";
 
 define("MAX_LENGTH", 32);
 
+$session =  new PrivateSetting\Session();
 $adminError = new AdminError();
 $use = new \PrivateTag\UseClass();
 
@@ -34,13 +35,19 @@ if ($checkToken === false) {
 $adminPath = dirname(__DIR__);
 $basePath = dirname(dirname(__DIR__, 2));
 
-$session = $_SESSION;
-$post = $_POST;
+$post = PrivateSetting\Setting::GetPosts();
 $judge = array();
 foreach ($post as $post_key => $post_value) {
     $$post_key = $post_value;
     $judge[$$post_key] = $post_value;
 }
+
+// 内容をセッションに保存し、不要なデータを破棄
+if (!$session->JudgeArray('admin', 'addition')) {
+    $session->WriteArray('admin', 'addition', $post);
+}
+unset($session);
+unset($post);
 
 $pathList = ['php'];
 $subPathList = scandir(AddPath(AddPath($basePath, 'public'), 'client'));
@@ -53,13 +60,7 @@ $pathList = array_merge($pathList, $subPathList);
 
 if ((isset($edit) || isset($copy)) && empty($delete)) {
     // 編集モード
-    if (empty($title)) {
-        if (!isset($session['addition'])) {
-            $session['addition'] = $post;
-            $_SESSION = $session;
-        }
-        unset($session);
-        unset($post);
+    if (empty($copy_title)) {
         $adminError->UserError('未記入の項目があります。');
     } else {
         // ファイル存在チェック
@@ -74,7 +75,7 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
             foreach (scandir($client) as $file) {
                 if (mb_strpos($file, '.') !== 0) {
                     if (isset($edit) && !isset($delete)) {
-                        if ($file === $title) {
+                        if ($file === $copy_title) {
                             $adminError->UserError("ご指定のタイトルのファイルは既に存在します。ページの編集を中止します。");
                         }
                     }
@@ -82,9 +83,9 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
             }
         }
     }
-    if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $title) === 0) {
+    if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $copy_title) === 0) {
         $adminError->UserError('タイトルに無効な文字が入力されています。');
-    } elseif (strlen($title) > MAX_LENGTH) {
+    } elseif (strlen($copy_title) > MAX_LENGTH) {
         $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
 } elseif (empty($delete)) {
@@ -129,7 +130,7 @@ foreach ($pathList as $_pathList) {
             }
         } elseif (isset($copy)) {
             // 複製モード
-            CopyData(AddPath(getcwd(), $select), $title);
+            CopyData(AddPath(getcwd(), $select), $copy_title);
         } elseif (isset($edit)) {
             // 編集モード
         } else {
@@ -152,7 +153,7 @@ foreach ($pathList as $_pathList) {
         } elseif (isset($copy)) {
             // 複製モード
             if (is_dir(AddPath(getcwd(), $select))) {
-                CopyData(AddPath(getcwd(), $select), $title);
+                CopyData(AddPath(getcwd(), $select), $copy_title);
             }
         } elseif (isset($edit)) {
             // 編集モード
@@ -225,5 +226,5 @@ class AdminError
 
 <body>
     <input type="hidden" name="title"
-        value="<?php echo $title; ?>" />
+        value="<?php echo $copy_title; ?>" />
 </body>

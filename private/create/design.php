@@ -13,9 +13,11 @@ $smarty->compile_dir  = './subdirectory/templates_c/';
 $smarty->config_dir   = './subdirectory/configs/';
 $smarty->cache_dir    = './subdirectory/cache/';
 
-if ($session->Judge('addition')) {
-    $smarty->assign('session', $session->Read('addition'));
-    $session->Delete('addition');
+if ($session->JudgeArray('admin', 'addition')) {
+    $smarty->assign('admin_addition', $session->ReadArray('admin', 'addition'));
+    $session->DeleteArray('admin', 'addition');
+} else {
+    $smarty->assign('admin_addition', '');
 }
 
 $dir = scandir('../../');

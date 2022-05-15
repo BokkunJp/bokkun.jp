@@ -268,9 +268,16 @@ class Setting
     }
 }
 
+
+$traitPath = AddPath(__DIR__, 'Trait', false);
+
+require_once(AddPath($traitPath, 'SessionTrait.php', false));
+
 // セッションクラス (ファイルを分離予定)
 class Session
 {
+    use \SessionTrait;
+
     private $init;
     private $session;
 
@@ -299,7 +306,7 @@ class Session
      * @param [mixed] $sessionVal
      * @return void
      */
-    private function Add($sessionElm, $sessionVal)
+    private function Add(string|int $sessionElm, mixed $sessionVal): void
     {
         $this->session[$sessionElm] = $sessionVal;
         $_SESSION[$sessionElm] = $this->session[$sessionElm];
@@ -314,7 +321,7 @@ class Session
      *
      * @return void
      */
-    public function Write(string|int $tag, mixed $message, ?string $handle = null)
+    public function Write(string|int $tag, mixed $message, ?string $handle = null): void
     {
         if (!empty($handle)) {
             $this->$handle();
@@ -330,18 +337,27 @@ class Session
      * @param string|int $parentId
      * @param string|int $childId
      * @param mixed $data
+     *
      * @return void
      */
-    public function WriteArray(string|int $parentId, string|int $childId, mixed $data)
+    public function WriteArray(string|int $parentId, string|int $childId, mixed $data): void
     {
-        if ($this->Judge($parentId)) {
-            $tmp = $this->Read($parentId);
-        } else {
-            $tmp = [];
+        $ret = null;
+
+        $writeProccess = function ($childData) {
+            if ($childData) {
+                return $childData;
+            }
+        };
+
+        $ret = $this->CommonProcessArray($parentId, $childId, $writeProccess);
+
+        if (empty($ret)) {
+            $ret = [];
         }
 
-        $tmp[$childId] = $data;
-        $this->Write($parentId, $tmp);
+        $ret[$childId] = $data;
+        $this->Write($parentId, $ret);
     }
 
     /**
