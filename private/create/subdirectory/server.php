@@ -17,7 +17,7 @@ require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Wor
 // CSRF
 require_once PRIVATE_COMMON_DIR . "/Token.php";
 
-$sessClass =  new PrivateSetting\Session();
+$session =  new PrivateSetting\Session();
 
 define('MAX_LENGTH', 32);
 $adminError = new AdminError();
@@ -26,15 +26,13 @@ $use = new PrivateTag\UseClass();
 $adminPath = dirname(__DIR__);
 $samplePath = dirname($adminPath) . DIRECTORY_SEPARATOR . 'Sample';
 $basePath = DOCUMENT_ROOT;
-$session = $_SESSION;
 
 // tokenチェック
 $checkToken = CheckToken();
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
 if ($checkToken === false) {
-    $sessClass =  new PrivateSetting\Session();
-    $sessClass->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
+    $session->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new PrivateSetting\Setting();
     $backUrl = CreateClient('private', dirname(__DIR__));
     $backUrl = ltrim($backUrl, DS);
@@ -42,46 +40,55 @@ if ($checkToken === false) {
     exit;
 }
 
-
-$post = $_POST;
+$post = PrivateSetting\Setting::GetPosts();
 $judge = array();
 foreach ($post as $post_key => $post_value) {
     $$post_key = $post_value;
     $judge[$$post_key] = $post_value;
 }
+
+// 内容をセッションに保存し、不要なデータを破棄
+if (!$session->JudgeArray('admin', 'addition')) {
+    $session->WriteArray('admin', 'addition', $post);
+}
+unset($session);
+unset($post);
+
+
 if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
-    if (!isset($session['addition'])) {
-        $session['addition'] = $post;
-        $_SESSION = $session;
-    }
-    unset($session);
-    unset($post);
     $adminError->UserError('未記入の項目があります。');
 } else {
+    // 文字チェック
+    if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $title) === 0 ||!FindFileName($title) === 0) {
+        $adminError->UserError('タイトルに無効な文字が入力されています。');
+    } elseif (strlen($title) > MAX_LENGTH) {
+        $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
+    }
+
     $pathList = ['php', 'js', 'css', 'image'];
     // ファイル存在チェック
-    foreach ($pathList as $_pathList) {
+    foreach ($pathList as $_path) {
         $client = $basePath . '/public/';
-        if ($_pathList === 'php') {
+        if ($_path === 'php') {
             $client = $basePath;
         } else {
             $client .= "client/".
-            $_pathList. "/";
+            $_path. "/";
         }
-        foreach (scandir($client) as $file) {
-            if (mb_strpos($file, '.') !== 0) {
-                if (strtolower($file) === strtolower($title)) {
-                    $adminError->UserError("ご指定のタイトルの" . $_pathList . "ファイルが存在します。ページの作成を中止します。");
-                    // $adminError->UserError("ご指定のページは既に作成済みです。");
-                }
-            }
+
+        // 大文字・小文字関係なく、同一ページが存在するかチェック
+        $result = ValidateData($client, strtolower($title));
+
+        if (!$result) {
+            $result = ValidateData($client, strtoupper($title));
+        }
+
+        // 存在する場合は中断
+        if ($result) {
+            $adminError->UserError("{$title}ページの" . $_path . "ファイルが存在します。");
+            // $adminError->UserError("ご指定のページは既に作成済みです。");
         }
     }
-}
-if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $title) === 0) {
-    $adminError->UserError('タイトルに無効な文字が入力されています。');
-} elseif (strlen($title) > MAX_LENGTH) {
-    $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
 }
 
 $baseFileName = $samplePath;
@@ -157,28 +164,28 @@ unset($pathList[0]);
 
 // js/css/imageフォルダの作成
 chdir("public/");
-foreach ($pathList as $_pathList) {
-    if ($_pathList === 'js') {
+foreach ($pathList as $_path) {
+    if ($_path === 'js') {
         $client = "client/";
     } else {
         $client = "../";
     }
-    chdir($client. $_pathList);               // パスの移動
+    chdir($client. $_path);               // パスの移動
 
     if (!is_dir($title)) {
         mkdir($title);
     }
 
-    switch ($_pathList) {
+    switch ($_path) {
         case 'image':
             break;
         case 'css':
             $fileName = 'design';
-            copy("$samplePath/client/$_pathList/$fileName.$_pathList", "$title/$fileName.$_pathList");            // それぞれのフォルダに必要なファイルの作成
+            copy("$samplePath/client/$_path/$fileName.$_path", "$title/$fileName.$_path");            // それぞれのフォルダに必要なファイルの作成
             break;
         case 'js':
             $fileName = 'index';
-            copy("$samplePath/client/$_pathList/$fileName.$_pathList", "$title/$fileName.$_pathList");            // それぞれのフォルダに必要なファイルの作成
+            copy("$samplePath/client/$_path/$fileName.$_path", "$title/$fileName.$_path");            // それぞれのフォルダに必要なファイルの作成
             break;
         default:
             break;
