@@ -9,14 +9,14 @@ trait SessionTrait
      *
      * @param string|integer $parentId
      * @param string|integer $childId
-     * @param \Closure $callBack
+     * @param ?callable $callBack
      *
-     * @return void|mixed
+     * @return mixed
      */
-    public function CommonProcessArray(string|int $parentId, string|int $childId, \Closure $callBack)
+    public function CommonProcessArray(string|int $parentId, string|int $childId, ?callable $callBack): mixed
     {
         $data = null;
-        if ($this->Judge($parentId)) {
+        if ($this->Judge($parentId) && is_callable($callBack)) {
             $tmp = $this->Read($parentId);
             $data = $callBack($tmp);
         }
