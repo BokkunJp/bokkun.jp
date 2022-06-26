@@ -121,9 +121,15 @@ class Setting extends \commonSetting\Setting
      *
      * AjaxかどうかをHTTP_X_REQESTED_WITHで判断する。
      *
+<<<<<<< HEAD
      * @return string|null
      */
     public static function JudgeAjax(): string|null
+=======
+     * @return string
+     */
+    public static function JudgeAjax(): string
+>>>>>>> 84df06ab... BOKKUN-75 ページ当たりの画像データ数を動的に変更できるようにする
     {
         return self::GetSERVER('HTTP_X_REQUESTED_WITH');
     }

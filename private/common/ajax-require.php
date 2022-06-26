@@ -5,6 +5,7 @@ ini_set('error_reporting', E_ALL | ~E_STRICT);
 // 関数定義 (初期処理用)
 require __DIR__ . DIRECTORY_SEPARATOR . 'InitFunction.php';
 // 設定
+<<<<<<< HEAD
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Setting.php";
 
 // 設定変数を管理側用に上書き
@@ -46,8 +47,22 @@ if (is_null($request)) {
     $homepageTitle = 'Forbidden';
     $contents = 'アクセスが許可されていません。';
     require_once 'layout.php';
+=======
+require_once dirname(__DIR__) . "/common/Setting.php";
+// 定数・固定文言など
+require_once dirname(__DIR__) . "/common/Word/Message.php";
+require_once dirname(__DIR__) . "/common/Component/Tag.php";
+
+//直接のページ遷移を阻止
+$request = PrivateSetting\Setting::JudgeAjax();
+if (is_null($request)) {
+    http_response_code(403);
+    $homepageTitle = 'Forbidden';
+    $contents = 'アクセスが許可されていません。';
+    require_once 'Layout/layout.php';
+>>>>>>> 84df06ab... BOKKUN-75 ページ当たりの画像データ数を動的に変更できるようにする
     exit;
 }
 
 // CSRF
-require_once PRIVATE_COMMON_DIR . "/Token.php";
+require_once COMMON_DIR . "/Token.php";
