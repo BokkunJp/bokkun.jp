@@ -131,10 +131,8 @@ function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bo
         // コピー元にファイルがある場合は、ファイルを走査してコピー
         if (!is_dir($dstPath)) {
             mkdir($dstPath);
-        } else {
-            if ($dpAuthFlg === false) {
-                return -1;
-            }
+        } elseif ($dpAuthFlg === false) {
+            return -1;
         }
 
         foreach (scandir($srcPath) as $_file) {
@@ -220,4 +218,5 @@ function Logout(): void
     // セッションの破棄
     $session = new PrivateSetting\Session();
     $session->FinaryDestroy();
+    unset($session);
 }

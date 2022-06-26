@@ -23,6 +23,18 @@ class Setting extends \commonSetting\Setting
         $this->image = AddPath($this->client, 'image', false, '/');
         $this->csv = AddPath($this->client, 'csv', false, '/');
     }
+
+    /**
+     * Judge
+     *
+     * AjaxかどうかをHTTP_X_REQESTED_WITHで判断する。
+     *
+     * @return ?string
+     */
+    public static function JudgeAjax(): ?string
+    {
+        return self::GetSERVER('HTTP_X_REQUESTED_WITH');
+    }
 }
 
 // パーミッション関係

@@ -11,7 +11,7 @@ require_once dirname(__DIR__) . "/common/Word/Message.php";
 require_once dirname(__DIR__) . "/common/Component/Tag.php";
 
 //直接のページ遷移を阻止
-$request = PrivateSetting\Setting::JudgeAjax();
+$request = PublicSetting\Setting::JudgeAjax();
 if (is_null($request)) {
     http_response_code(403);
     $homepageTitle = 'Forbidden';

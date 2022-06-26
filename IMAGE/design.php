@@ -15,17 +15,11 @@ $page = PublicSetting\Setting::GetQuery('page');
 $updatePage = PublicSetting\Setting::GetPost('update_page');
 ?>
 <div class='view-image'>
-    <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
-        <select name='image-value'>
-            <?php
-            for ($i = 1; $i <= MAX_VIEW; $i++) {
-                $_val = $i * PAGER;
-                echo "<option value={$_val}>" . $_val . "</option>";
-            }
-            ?>
-        </select>
-        <span><button value='editView'>表示枚数の変更</button></span>
-        <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
+    <form method='POST'
+        action='./<?= $page != null ? "?page={$page}" : "" ?>'>
+        <span class='notice-image-range'></span>
+        <input type='range' name="image-range" class="image-range" min=<?=MAX_VIEW ?> max=<?= MAX_VIEW * PAGER ?> value=<?= GetCountPerPage(); ?> step=<?= PAGER ?> />
+        <span>現在の表示枚数:<span class='page-value'><?= GetCountPerPage(); ?></span>枚</span>
         <?php
             if (isset($updatePage) && is_numeric($updatePage)) {
                 echo "<div class='page-moved'>{$updatePage}ページに移動しました。</div>";
@@ -39,7 +33,8 @@ $updatePage = PublicSetting\Setting::GetPost('update_page');
     <?php
         ReadImage();
     ?>
-    <input type='hidden' name='token' value="<?= $token = MakeToken(); ?>" />
+    <input type='hidden' name='token'
+        value="<?= $token = MakeToken(); ?>" />
 </form>
 
 <?php

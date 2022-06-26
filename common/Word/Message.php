@@ -18,7 +18,12 @@ function CSRFErrorMessage()
 }
 
 // 共通部分
-define('DOCUMENT_ROOT', filter_input_fix(INPUT_SERVER, 'DOCUMENT_ROOT'));
+$root = filter_input_fix(INPUT_SERVER, 'DOCUMENT_ROOT');
+if (!preg_match('/^(.*)\.(.*)/', basename(dirname(__DIR__, 2)))) {
+    $root .= '/'. basename(dirname(__DIR__, 2));
+}
+define('DOCUMENT_ROOT', $root);
+
 define('COMMON_DIR', dirname(__DIR__));
 define('NL', nl2br(PHP_EOL));
 define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
