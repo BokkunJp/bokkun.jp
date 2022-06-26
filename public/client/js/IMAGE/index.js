@@ -61,13 +61,16 @@ function ViewImage ( data )
     }
 
     if (data['error']) {
+        console.log('error');
         htmlVal = '<div class="image-box">\
             <div class="warning">' + data['error-view'] + '</div><a href="./" class="page" target="_self">画像閲覧ページへ戻る</a></div>';
         $( '.image-box' ).html( htmlVal );
         $( '.image-pager' ).html( '' );
     } else if (data['result'] == false) {
+        alert('現在の枚数表示では、そのページには画像はありません。');
+
         htmlVal = '<div class="image-box">\
-            <div class="warning">画像がありません。</div><a href="./" class="page" target="_self">画像閲覧ページへ戻る</a></div>';
+            <div class="warning">現在の枚数表示では、そのページには画像はありません。</div><a href="./" class="page" target="_self">画像閲覧ページへ戻る</a></div>';
         $( '.image-box' ).html( htmlVal );
         $( '.image-pager' ).html('');
     } else {

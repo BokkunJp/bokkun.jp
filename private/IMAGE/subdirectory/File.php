@@ -273,7 +273,7 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
             Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
             Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
             Output("<div class='image-list'>", indentFlg:false);
-            ErrorSet('画像がありません。');
+            ErrorSet('現在の枚数表示では、そのページには画像はありません。');
             Output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         $result = ['result' => false, 'view-image-type' => GetImagePageName()];
