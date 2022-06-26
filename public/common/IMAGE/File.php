@@ -117,7 +117,7 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
     if ($page <= 0 || $page === false) {
         if ($ajaxFlg === false) {
             Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-            Output("<div class='image-list'>", indentFlg:false);
+            Output("<div class='image-box'>", indentFlg:false);
             ErrorSet('ページの指定が不正です。');
             Output("</div><div class='image-pager'></div>", indentFlg:false);
         }
@@ -133,7 +133,7 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
     if ($start >= $end) {
         if ($ajaxFlg === false) {
             Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-            Output("<div class='image-list'>", indentFlg:false);
+            Output("<div class='image-box'>", indentFlg:false);
             ErrorSet('画像がありません。');
             Output("</div><div class='image-pager'></div>", indentFlg:false);
         }
