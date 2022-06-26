@@ -60,15 +60,17 @@ function ViewImage ( data )
         $('.select-notice').html('');
     }
 
+    console.log(data);
+
     if (data['error']) {
         htmlVal = '<div class="image-box">\
             <div class="warning">' + data['error-view'] + '</div><a href="./" class="page" target="_self">画像閲覧ページへ戻る</a></div>';
-        $( '.image-list' ).html( htmlVal );
+        $( '.image-box' ).html( htmlVal );
         $( '.image-pager' ).html( '' );
     } else if (data['result'] == false) {
         htmlVal = '<div class="image-box">\
             <div class="warning">画像がありません。</div><a href="./" class="page" target="_self">画像閲覧ページへ戻る</a></div>';
-        $( '.image-list' ).html( htmlVal );
+        $( '.image-box' ).html( htmlVal );
         $( '.image-pager' ).html('');
     } else {
         htmlVal = '<ul>';
