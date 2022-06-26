@@ -73,7 +73,7 @@ define('SUCCESS_UPLOAD_IMAGE', "のアップロードに成功しました。");
 
 // 画像削除・コピー用の文言
 // 画像削除関連
-define('NOT_FOUND_DLETE_IMAGE', '削除対象が選択されていないか、画像がありません。');
+define('NOT_FOUND_DLETE_IMAGE', '削除対象が選択されていないか、現在の枚数表示では、そのページには画像はありません。');
 
 define('FAIL_DELETE_IMAGE', '件の画像の削除に失敗しました。');
 

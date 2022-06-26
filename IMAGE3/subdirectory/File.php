@@ -140,7 +140,7 @@ function ValidParameter($data=[], $ajaxFlg=false)
         if ($ajaxFlg === false) {
             Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
             Output("<div class='image-list'>", indentFlg:false);
-            ErrorSet('画像がありません。');
+            ErrorSet('現在の枚数表示では、そのページには画像はありません。');
             Output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         $result = ['result' => false, 'view-image-type' => basename(getcwd())];
