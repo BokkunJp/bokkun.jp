@@ -24,8 +24,13 @@ $img = "crown-vector.jpg";
     </title>
     <link rel="shortcut icon"
         href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
+    <?php if (!isset($contents)) : ?>
     <link rel="stylesheet" type="text/css"
         href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('') ?>design.css">
+    <?php else : ?>
+    <link rel="stylesheet" type="text/css"
+        href="<?= $base->GetURL('', 'client') ?>css/common/ajax.css">
+    <?php endif; ?>
 </head>
 
 <body>
@@ -34,7 +39,13 @@ $img = "crown-vector.jpg";
     <div class="container">
         <?php require_once('header.php'); ?>
         <main class="contents">
-            <?php require_once(getcwd() . '/design.php'); ?>
+            <?php
+                if (!isset($contents)) {
+                    require_once(getcwd() . '/design.php');
+                } elseif ($contents) {
+                    Output($contents);
+                }
+            ?>
         </main>
         <?php require_once('footer.php'); ?>
     </div>

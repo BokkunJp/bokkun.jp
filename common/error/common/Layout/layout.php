@@ -18,20 +18,21 @@ if (is_array($title)) {
 $img = "crown-vector.jpg";
 ?>
 <html lang="ja">
+
 <head>
     <title><?php echo $headerTitle; ?>
     </title>
     <base href="../" />
     <link rel="shortcut icon"
-        href="<?=$base->GetURL('')?>/common/error/client/image/5959715.png">
+        href="<?=$base->GetURL('')?>common/error/client/image/5959715.png">
     <link rel="stylesheet" type="text/css"
-        href="<?=$base->GetURL('')?>/common/error/client/css/common/<?php echo $agentCode; ?>.css">
+        href="<?=$base->GetURL('')?>common/error/client/css/common/<?php echo $agentCode; ?>.css">
     <link rel="stylesheet" type="text/css"
-        href="<?=$base->GetURL('')?>/common/error/client/css/common.css">
+        href="<?=$base->GetURL('')?>common/error/client/css/common.css">
     <link rel="stylesheet" type="text/css"
-        href="<?=$base->GetURL('')?>/common/error/client/css/<?php echo $errCode; ?>/design.css">
+        href="<?=$base->GetURL('')?>common/error/client/css/<?php echo $errCode; ?>/design.css">
     <script
-        src="<?=$base->GetURL('')?>/common/error/client/js/common/time/realtime.js">
+        src="<?=$base->GetURL('')?>common/error/client/js/common/time/realtime.js">
     </script>
     <script
         src="<?=$base->GetURL('')?>/common/error/client/js/common/time/time.js">

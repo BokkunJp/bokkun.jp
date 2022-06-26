@@ -82,6 +82,8 @@ class Setting extends \commonSetting\Setting
     /**
      * GetSelf
      *
+     * PHP_SELFを取得する。
+     *
      * @return mixed
      */
     public static function GetSelf(): mixed
@@ -89,15 +91,41 @@ class Setting extends \commonSetting\Setting
         return parent::GetSERVER('PHP_SELF');
     }
 
+    /**
+     * GetPrevPage
+     *
+     * リファラを取得する。
+     *
+     * @return mixed
+     */
     public static function GetPrevPage(): mixed
     {
         return parent::GetSERVER('HTTP_REFERER');
     }
 
 
-    public static function getURI(): string
+    /**
+     * getRUI
+     *
+     * URIを取得する。
+     *
+     * @return string
+     */
+    public static function GetURI(): string
     {
         return self::GetSERVER('REQUEST_URI');
+    }
+
+    /**
+     * Judge
+     *
+     * AjaxかどうかをHTTP_X_REQESTED_WITHで判断する。
+     *
+     * @return string
+     */
+    public static function JudgeAjax(): string
+    {
+        return self::GetSERVER('HTTP_X_REQUESTED_WITH');
     }
 }
 
