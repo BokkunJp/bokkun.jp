@@ -7,6 +7,12 @@ require_once dirname(__DIR__, 3) . DS . "common" . DS . "ajax-require.php";
 require_once AddPath(getcwd(), 'include.php', false);
 IncludeFiles(AddPath(dirname(__DIR__), ''));
 
+// Postセット
+$post = PrivateSetting\Setting::GetPosts();
+
+// セッションセット
+$session = new PrivateSetting\Session();
+
 // tokenチェック
 $checkToken = CheckToken('select-token');
 
