@@ -3,13 +3,13 @@
  * ViewImage
  * 画像を表示する
  *
- * @param  mixed $imageName
- * @param  mixed $imageUrl
+ * @param  string $imageName
+ * @param  string $imageUrl
  * @param  mixed $fileTime
  *
  * @return void
  */
-function ViewImage($imageName, $imageUrl, $fileTime)
+function ViewImage($imageName, $imageUrl, $fileTime): void
 {
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
@@ -28,14 +28,13 @@ function ViewImage($imageName, $imageUrl, $fileTime)
      * ViewList
      * 画像をリスト表示する
      *
-     * @param  mixed $imageName
-     * @param  mixed $imageUrl
+     * @param  string $imageName
+     * @param  string $imageUrl
      *
      * @return void
      */
-function ViewList($imageName, $imageUrl)
+function ViewList($imageName, $imageUrl): void
 {
     $imageDirName = basename(getcwd());
     echo "<div><a href='$imageUrl/{$imageDirName}/$imageName' target='new'>{$imageName}</a>";
-    echo "<label><input type='checkbox' name='$imageName' value='$imageName' /><span>削除する</span></label></div>";
 }

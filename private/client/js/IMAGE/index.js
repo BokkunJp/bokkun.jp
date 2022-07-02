@@ -176,7 +176,7 @@ function ViewImage ( data )
         $( '.image-pager' ).html( '' );
     } else if (data['result'] == false) {
         htmlVal = '<div class="image-list">\
-            <div class="warning">画像がありません。</div><a href="./" class="page" target="_self">画像管理ページへ戻る</a></div>';
+            <div class="warning">現在の枚数表示では、そのページには画像はありません。</div><a href="./" class="page" target="_self">画像管理ページへ戻る</a></div>';
         $( '.image-list' ).html( htmlVal );
         $( '.image-pager' ).html('');
     } else {

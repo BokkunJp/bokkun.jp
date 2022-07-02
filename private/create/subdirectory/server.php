@@ -83,10 +83,9 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
             $result = ValidateData($client, strtoupper($title));
         }
 
-        // 存在する場合は中断
+        // 存在する場合は上書き
         if ($result) {
-            $adminError->UserError("{$title}ページの" . $_path . "ファイルが存在します。");
-            // $adminError->UserError("ご指定のページは既に作成済みです。");
+            $use->Alert("指定されたページには{$_path}ファイルが存在します。既存の内容は上書きされます。");
         }
     }
 }
