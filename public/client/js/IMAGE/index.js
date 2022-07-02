@@ -73,7 +73,10 @@ function ViewImage ( data )
             <div class="warning">現在の枚数表示では、そのページには画像はありません。</div><a href="./" class="page" target="_self">画像閲覧ページへ戻る</a></div>';
         $( '.image-box' ).html( htmlVal );
         $( '.image-pager' ).html('');
-    } else {
+    }  else {
+        if ($('.page-value').html() > (Object.keys(data).length - 3)) {
+            alert('ページ当たりの画像の枚数が、現在の表示枚数より' + ($('.page-value').html() - (Object.keys(data).length - 3)) + '枚少ないです。');
+        }
         htmlVal = '<ul>';
         $.each( data, function ( index, val )
         {
