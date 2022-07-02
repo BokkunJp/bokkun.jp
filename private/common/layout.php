@@ -9,12 +9,18 @@ if (!isset($_SESSION)) {
 ?>
 <!DOCTYPE html>
 <?php
-require_once __DIR__ . '/require.php';
+if (!isset($ajaxFlg)) {
+    require_once __DIR__ . '/require.php';
+}
 
-// アクセス警告メール
-if (!isset($title)) {
+// タイトル・ヘッダータイトル設定
+if (isset($homepageTitle)) {
+    $title = $homepageTitle;
+} elseif (!isset($title)) {
     $title = '管理側';
 }
+
+// アクセス警告メール
 AlertAdmin('access', $title);
 
 $img = "crown-vector.jpg";
@@ -25,7 +31,8 @@ $img = "crown-vector.jpg";
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
-    <title>管理側</title>
+    <title><?= $title ?>
+    </title>
     <link rel="shortcut icon"
         href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
     <link rel="stylesheet" type="text/css"
@@ -43,7 +50,13 @@ $img = "crown-vector.jpg";
     <div class='container'>
         <?php require_once('header.php'); ?>
         <main class="contents">
-            <?php require_once(getcwd() . '/design.php'); ?>
+            <?php
+                if (!isset($contents)) {
+                    require_once(getcwd() . '/design.php');
+                } elseif ($contents) {
+                    Output($contents);
+                }
+            ?>
         </main>
         <?php require_once('footer.php'); ?>
     </div>

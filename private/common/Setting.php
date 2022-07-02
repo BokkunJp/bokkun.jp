@@ -121,9 +121,9 @@ class Setting extends \commonSetting\Setting
      *
      * AjaxかどうかをHTTP_X_REQESTED_WITHで判断する。
      *
-     * @return string
+     * @return string|null
      */
-    public static function JudgeAjax(): string
+    public static function JudgeAjax(): string|null
     {
         return self::GetSERVER('HTTP_X_REQUESTED_WITH');
     }
