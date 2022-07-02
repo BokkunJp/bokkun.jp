@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+
+
+/*
+    Created on : 2016/07/18, 1:18:39
+    Update on : 2017/04/17, 23:13
+    Author     : T
+
+
+*/
+
+html {
+    height: 100%;
+    font-family: 'Meiryo UI,ヒラギノ角ゴ';
+}
+
+body {
+    background-color: #133233;
+    color: #FFFFAA;
+}
+
+.header {
+    /* position: fixed; */
+    color: red;
+}
+
+.date,
+.time {
+    color: red;
+    font-family: 'Mv Boli';
+}
+
+.footer {
+    position: fixed;
+    color: #FFFF00;
+    font-family: 'arial black';
+    background-size: 10px 150%;
+    width: 100%;
+    z-index: 1;
+    bottom: 0;
+}
+
+.footer_char {
+    font-size: 50%;
+}
