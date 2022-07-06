@@ -59,7 +59,6 @@ function ViewImage ( data )
     } else {
         $('.select-notice').html('');
     }
-<<<<<<< HEAD
 
     if (data['error']) {
         console.log('error');
@@ -73,17 +72,6 @@ function ViewImage ( data )
         htmlVal = '<div class="image-box">\
             <div class="warning">現在の枚数表示では、そのページには画像はありません。</div><a href="./" class="page" target="_self">画像閲覧ページへ戻る</a></div>';
         $( '.image-box' ).html( htmlVal );
-=======
-    if (data['error']) {
-        htmlVal = '<div class="image-list">\
-            <div class="warning">' + data['error-view'] + '</div><a href="./" class="page" target="_self">画像閲覧ページへ戻る</a></div>';
-        $( '.image-list' ).html( htmlVal );
-        $( '.image-pager' ).html( '' );
-    } else if (data['result'] == false) {
-        htmlVal = '<div class="image-list">\
-            <div class="warning">画像がありません。</div><a href="./" class="page" target="_self">画像閲覧ページへ戻る</a></div>';
-        $( '.image-list' ).html( htmlVal );
->>>>>>> 84df06ab... BOKKUN-75 ページ当たりの画像データ数を動的に変更できるようにする
         $( '.image-pager' ).html('');
     } else {
         htmlVal = '<ul>';
