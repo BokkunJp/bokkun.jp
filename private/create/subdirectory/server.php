@@ -84,7 +84,7 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
         }
 
         // commonの名称は作成不可
-        if ($title === 'common') {
+        if ($title === 'common' || $title === 'public') {
             $adminError->UserError('その名称のページは作成できません。');
         }
 
