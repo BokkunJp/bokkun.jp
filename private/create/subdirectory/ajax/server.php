@@ -6,6 +6,9 @@ define("DS", DIRECTORY_SEPARATOR);
 require_once dirname(__DIR__, 3) . DS . "common" . DS . "ajax-require.php";
 require_once AddPath(getcwd(), 'include.php', false);
 
+// Post値取得
+$post = PrivateSetting\Setting::GetPosts();
+
 // tokenチェック
 $checkToken = CheckToken();
 

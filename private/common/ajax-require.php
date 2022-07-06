@@ -50,4 +50,4 @@ if (is_null($request)) {
 }
 
 // CSRF
-require_once COMMON_DIR . "/Token.php";
+require_once PRIVATE_COMMON_DIR . "/Token.php";
