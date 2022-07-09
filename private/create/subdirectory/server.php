@@ -83,6 +83,11 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
             $result = ValidateData($client, strtoupper($title));
         }
 
+        // commonの名称は作成不可
+        if ($title === 'common' || $title === 'public') {
+            $adminError->UserError('その名称のページは作成できません。');
+        }
+
         // 存在する場合は上書き
         if ($result) {
             $use->Alert("指定されたページには{$_path}ファイルが存在します。既存の内容は上書きされます。");
@@ -156,7 +161,9 @@ if (!empty($templateExtenion)) {
         mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
     }
 } else {
-    mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
+    if (!file_exists("$title/subdirectory")) {
+        mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
+    }
 }
 
 unset($pathList[0]);
