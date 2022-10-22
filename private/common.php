@@ -27,7 +27,7 @@ if ($secure !== true) {
  *
  * @return void
  */
-function AlertAdmin(string $noticeType, $pageTitle)
+function AlertAdmin(string $noticeType, $pageTitle):void
 {
     $domain = PrivateSetting\Setting::GetDomain();
     $ip = PrivateSetting\Setting::GetHostIp();
