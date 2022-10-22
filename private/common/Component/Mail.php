@@ -42,7 +42,7 @@ function SendMail($header, $response=false)
     } else {
         $ret = false;
         $script = new ScriptClass();
-        $script->Alert('メールの送信に失敗しました。');
+        // $script->Alert('メールの送信に失敗しました。');
     }
 
     if ($response === true) {
