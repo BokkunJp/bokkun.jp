@@ -25,9 +25,9 @@ if ($secure !== true) {
  * @param  string $noticeType
  * access or login
  *
- * @return boolean|void
+ * @return void
  */
-function AlertAdmin(string $noticeType, $pageTitle)
+function AlertAdmin(string $noticeType, $pageTitle):void
 {
     $domain = PrivateSetting\Setting::GetDomain();
     $ip = PrivateSetting\Setting::GetHostIp();
@@ -51,8 +51,10 @@ IP {$ip} ({$host})の方が、管理画面へログインを試みました。
 IP {$ip} ({$host})の方が、管理画面へログインされました。
 意図したものでない場合は、早急にパスワードを変更ください。";
     } else {
-        return false;
+        $noticeType = 'no_send';
     }
 
-    SendMail(['secure@bokkun.jp', $title, $body, 'サイト管理者', 'notice@bokkun.jp']);
+    if ($noticeType === 'no_send') {
+        SendMail(['secure@bokkun.jp', $title, $body, 'サイト管理者', 'notice@bokkun.jp']);
+    }
 }
