@@ -1,8 +1,19 @@
-# # .htaccessでRewriteを有効化する
+# .htaccessでRewriteを有効化する
 RewriteEngine On
 RewriteBase /
 
+# #階層単位のベーシック認証(普段はコメントアウト)
+# <If "%{REQUEST_URI} =~ /\x2Fadmin\x2F.*/">
+    # <RequireAny>
+        # AuthType Basic
+        # AuthName "Please enter your ID and password"
+        # AuthUserFile "/public_html/bokkun.jp/.htpasswd"
+        # Require valid-user
+    # </RequireAny>
+# </If>
+
 # #エラー関連
+# 400系
 ErrorDocument 400 /common/error/400/
 ErrorDocument 401 /common/error/401/
 ErrorDocument 403 /common/error/403/
@@ -13,11 +24,20 @@ ErrorDocument 408 /common/error/408/
 ErrorDocument 410 /common/error/410/
 ErrorDocument 421 /common/error/421/
 ErrorDocument 423 /common/error/423/
+# 500系
 ErrorDocument 500 /common/error/500/
 ErrorDocument 502 /common/error/502/
 ErrorDocument 503 /common/error/503/
-ErrorDocument 507 /common/error/507/
-ErrorDocument 510 /common/error/510/
+<If "%{HTTP_HOST} != 'bokkun.jp'">
+    ErrorDocument 501 /common/error/501/
+    ErrorDocument 504 /common/error/504/
+    ErrorDocument 505 /common/error/505/
+    ErrorDocument 506 /common/error/506/
+    ErrorDocument 507 /common/error/507/
+    ErrorDocument 508 /common/error/508/
+    ErrorDocument 510 /common/error/510/
+    ErrorDocument 511 /common/error/511/
+</If>
 
 # #セキュリティ対策
 # #XSS
