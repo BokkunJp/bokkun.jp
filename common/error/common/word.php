@@ -15,7 +15,7 @@ define('PUBLIC_DIR', AddPath(DOCUMENT_ROOT, 'public'));
 define('FUNCTION_DIR', COMMON_DIR. '/Function');
 define('LAYOUT_DIR', COMMON_DIR. '/Layout');
 
-// エラーは配列
+// エラー配列
 $ret = array();
 
 $ret['headerTitle'] = $title;
@@ -37,7 +37,7 @@ switch ($errCode) {
         $ret['message'] = 'アクセスが許可されていません。';
         break;
     case '404':
-        $ret['title'] = 'NotFound';
+        $ret['title'] = 'Not Found';
         $ret['message'] = 'ページが見つかりません。';
         break;
     case '405':
@@ -68,17 +68,45 @@ switch ($errCode) {
         $ret['title'] = 'InternalServerError';
         $ret['message'] = 'サーバ内部でエラーが発生しました。管理者までご連絡お願いします。';
         break;
+    case '501':
+        $ret['title'] = 'Not Implemented';
+        $ret['message'] = '必要な機能をサポートしておりません。管理者までご連絡お願いします。';
+        break;
     case '502':
-        $ret['title'] = 'Gateway Timeout';
+        $ret['title'] = 'Bad Gateway';
         $ret['message'] = '不正なゲートウェイです。管理者までご連絡お願いします。';
         break;
     case '503':
         $ret['title'] = 'Service Unavailable';
         $ret['message'] = 'メンテナンス中により、本サイトはご利用いただけません。しばらくお待ちください。';
         break;
+    case '504':
+        $ret['title'] = 'Gateway Timeout';
+        $ret['message'] = 'ゲートウェイがタイムアウトしました。管理者までご連絡お願いします。';
+        break;
+    case '505':
+        $ret['title'] = 'HTTP Version Not Supported';
+        $ret['message'] = 'サポートされていないHTTPバージョンです。管理者までご連絡お願いします。';
+        break;
+    case '506':
+        $ret['title'] = 'Variant Also Negotiates';
+        $ret['message'] = '適切なネゴシエーションエンドポイントではありません。管理者までご連絡お願いします。';
+        break;
     case '507':
         $ret['title'] = 'Insufficient Storage';
+        $ret['message'] = 'リクエストを処理するための容量が足りません。管理者までご連絡お願いします。';
+        break;
+    case '508':
+        $ret['title'] = 'Loop Detected';
         $ret['message'] = 'リクエストを処理できませんでした。管理者までご連絡お願いします。';
+        break;
+    case '510':
+        $ret['title'] = 'Not Extended';
+        $ret['message'] = 'リクエストを処理できませんでした。管理者までご連絡お願いします。';
+        break;
+    case '511':
+        $ret['title'] = 'Network Authentication Required';
+        $ret['message'] = '本ページアクセスするには、ネットワーク認証が必要です。管理者までご連絡お願いします。';
         break;
     default:
         $errCode = 'default';

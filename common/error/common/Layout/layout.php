@@ -35,7 +35,7 @@ $img = "crown-vector.jpg";
         src="<?=$base->GetURL('')?>common/error/client/js/common/time/realtime.js">
     </script>
     <script
-        src="<?=$base->GetURL('')?>/common/error/client/js/common/time/time.js">
+        src="<?=$base->GetURL('')?>common/error/client/js/common/time/time.js">
     </script>
 </head>
 
