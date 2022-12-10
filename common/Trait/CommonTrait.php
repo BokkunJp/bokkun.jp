@@ -9,6 +9,7 @@ use Endroid\QrCode\Writer\PngWriter;
 
 trait CommonTrait
 {
+    private const FINISH = 1;
     /**
      * Sanitize
      *
@@ -238,7 +239,7 @@ trait CommonTrait
             }
         }
 
-        return FINISH;
+        return self::FINISH;
     }
 
     /**
