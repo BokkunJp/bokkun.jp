@@ -31,6 +31,7 @@ class Setting
     protected $css;
     protected $js;
     protected $image;
+    protected $csv;
 
     public function __construct()
     {
