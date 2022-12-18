@@ -23,7 +23,7 @@ AlertAdmin('access', $title);
     <meta charset='utf-8' />
     <title>管理側</title>
     <link rel="shortcut icon"
-        href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
+        href="<?= $base->GetURL('', 'client') ?>image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css" href="./client/css/common.css">
     <link rel="stylesheet" type="text/css"
         href="./client/css/common/<?php echo $agentCode; ?>.css">
