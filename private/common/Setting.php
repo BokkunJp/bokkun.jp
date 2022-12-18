@@ -15,6 +15,7 @@ class Setting extends \commonSetting\Setting
     protected $css;
     protected $js;
     protected $image;
+    protected $csv;
     protected $filepageImage;
 
     public function __construct()
