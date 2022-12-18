@@ -3,7 +3,7 @@
     <?php $img="0113.png"; ?>
         <div>
         <a href="<?=$base->GetURL()?>"><img class='top-image' src="<?=$base->GetURL('')?>common/error/client/image/<?=$img?>"></a>
-          <link rel="shortcut icon" href="<?=$base->GetURL('')?>common/error/client/image/5959715.png">
+          <link rel="shortcut icon" href="<?=$base->GetURL('')?>common/error/client/image/IMG_7592.PNG">
           <strong>
             <em>βοκκμη's homepage<?= $siteConfig['header']->GetVersion() ?></em> <br/>
             <div align="center"><?php if (isset($title)) {

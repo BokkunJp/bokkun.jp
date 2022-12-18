@@ -10,7 +10,7 @@ $title = '認証';
     <meta name="robots" content="noindex,nofollow">
     <title>管理側</title>
     <link rel="shortcut icon"
-        href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
+        href="<?= $base->GetURL('', 'client') ?>image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css"
         href="<?= $base->GetURL('', 'client') ?>css/design.css">
 </head>
