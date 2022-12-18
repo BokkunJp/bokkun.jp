@@ -7,6 +7,7 @@ use SessionTrait;
 require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
 class Setting extends \commonSetting\Setting
 {
+    protected $private;
     protected $domain;
     protected $url;
     protected $public;
@@ -14,6 +15,7 @@ class Setting extends \commonSetting\Setting
     protected $css;
     protected $js;
     protected $image;
+    protected $filepageImage;
 
     public function __construct()
     {
