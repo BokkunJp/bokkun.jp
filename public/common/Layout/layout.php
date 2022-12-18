@@ -23,7 +23,7 @@ $img = "crown-vector.jpg";
     <title><?php echo $title; ?>
     </title>
     <link rel="shortcut icon"
-        href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
+        href="<?= $base->GetURL('', 'client') ?>image/IMG_7592.PNG">
     <?php if (!isset($contents)) : ?>
     <link rel="stylesheet" type="text/css"
         href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('') ?>design.css">

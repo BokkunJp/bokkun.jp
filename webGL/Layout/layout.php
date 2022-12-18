@@ -24,7 +24,7 @@ $img = "crown-vector.jpg";
     </title>
     <base href="../" />
     <link rel="shortcut icon"
-        href="<?php echo $public; ?>client/image/5959715.png">
+        href="<?php echo $public; ?>client/image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css"
         href="<?php echo $public; ?>client/css/webGL/design.css">
     <?php require_once __DIR__ . '/init.php'; ?>

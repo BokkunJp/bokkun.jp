@@ -24,7 +24,7 @@ $img = "crown-vector.jpg";
     </title>
     <base href="../" />
     <link rel="shortcut icon"
-        href="<?=$base->GetURL('')?>common/error/client/image/5959715.png">
+        href="<?=$base->GetURL('')?>common/error/client/image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css"
         href="<?=$base->GetURL('')?>common/error/client/css/common/<?php echo $agentCode; ?>.css">
     <link rel="stylesheet" type="text/css"

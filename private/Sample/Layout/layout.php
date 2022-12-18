@@ -18,7 +18,7 @@ $img = "crown-vector.jpg";
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
     <title><?php echo $title; ?></title>
-    <link rel="shortcut icon" href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
+    <link rel="shortcut icon" href="<?= $base->GetURL('', 'client') ?>image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('') ?>design.css">
 </head>
 <body>

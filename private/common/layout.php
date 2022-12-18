@@ -34,7 +34,7 @@ $img = "crown-vector.jpg";
     <title><?= $title ?>
     </title>
     <link rel="shortcut icon"
-        href="<?= $base->GetURL('', 'client') ?>image/5959715.png">
+        href="<?= $base->GetURL('', 'client') ?>image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css"
         href="<?= $base->GetURL('', 'client') ?>css/common.css">
 
