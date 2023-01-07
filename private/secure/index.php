@@ -45,8 +45,20 @@ if (!isset($adminSession['movePage'])) {
     $adminSession['movePage'] = $session->Read('admin')['movePage'];
 }
 
+$tokenError = false;
 if ((!($adminAuth))) {
-    if (!empty($post)) {
+    // CSRFチェック
+    if (isset($post['private-login-token'])) {
+        unset($post['private-login-token']);
+        if (!CheckToken('private-login-token')) {
+            $tokenError = true;
+            $session->Write('token-Error', '<p>不正な遷移です。もう一度操作してください。</p>');
+        }
+
+    }
+
+    // 入力値チェック
+    if ($tokenError === false && !empty($post)) {
         $session->Write('password-Error', '<p>IDまたはパスワードが違います。</p>');
         // ログイン警告メール (ログイン失敗時)
         AlertAdmin('login', $adminSession['movePage']);
