@@ -19,11 +19,21 @@ if (!isset($adminURL) || empty($adminURL) && $session->Read('admin')['send'] !==
 } else {
     $adminURL = $session->Read('admin')['adminURL'];
 }
-$mode = 'movePage';
-?>
 
-<?php
-if (!empty($post) && !empty($post['id']) && !empty($post['pass'])) {
+// ログイン成功時には自動遷移させる
+$mode = 'movePage';
+
+$tokenError = false;
+// CSRFチェック
+if (isset($post['private-login-token'])) {
+    unset($post['private-login-token']);
+    if (!CheckToken('private-login-token')) {
+        $tokenError = true;
+        $session->Write('token-Error', '<p>不正な遷移です。もう一度操作してください。</p>');
+    }
+}
+
+if (!$tokenError && !empty($post) && !empty($post['id']) && !empty($post['pass'])) {
     $adminAuth = ($post['id'] === 'admin' && password_verify($post['pass'], password_hash(LOGIN_PASSWORD, PASSWORD_DEFAULT)));
 } else {
     $adminAuth = null;
@@ -46,7 +56,8 @@ if (!isset($adminSession['movePage'])) {
 }
 
 if ((!($adminAuth))) {
-    if (!empty($post)) {
+    // 入力値チェック
+    if ($tokenError === false && !empty($post)) {
         $session->Write('password-Error', '<p>IDまたはパスワードが違います。</p>');
         // ログイン警告メール (ログイン失敗時)
         AlertAdmin('login', $adminSession['movePage']);
@@ -77,8 +88,7 @@ if ((!($adminAuth))) {
 
     // リンクから遷移
     } else {
-        $session->Write('password-Success', "<p>認証に成功しました。<a href={$adminSession['movePage']}>リンク</a>から移動できます。<br/>
-        </p>");
+        $session->Write('password-Success', "<p>認証に成功しました。<a href={$adminSession['movePage']}>リンク</a>から移動できます。<br/></p>");
     }
 }
 
