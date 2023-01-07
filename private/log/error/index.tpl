@@ -15,6 +15,6 @@
     <button type='button' name="edit" value="select">ログを選択する</button>
   <div class='result'>
     <p><h3>選択したエラーログの内容</h3></p>
-    <p><span class='result-log-view'></span></p>
+    <pre class='log'><span class='result-log-view'></span></pre>
   </div>
 </form>

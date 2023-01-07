@@ -9,6 +9,10 @@ body {
     }
 }
 
+.log {
+    white-space: pre-wrap;
+}
+
 .success {
     font-size: small;
     font-style: italic;
