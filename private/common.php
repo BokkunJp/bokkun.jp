@@ -4,10 +4,8 @@ require_once AddPath(AddPath(__DIR__, 'common'), AddPath('Component', 'Mail.php'
 
 $session = new PrivateSetting\Session();
 $post = PrivateSetting\Setting::GetPosts();
+$secure = null;
 
-if (!isset($secure)) {
-    $secure = null;
-}
 if (isset($session->Read('admin')['secure'])) {
     $secure = $session->Read('admin')['secure'];
 }
