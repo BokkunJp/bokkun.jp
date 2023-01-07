@@ -9,6 +9,12 @@ body {
     }
 }
 
+.result-log-view {
+    width: 100%;
+    display: inline-block;
+    word-break: break-all;
+}
+
 .log {
     white-space: pre-wrap;
 }
