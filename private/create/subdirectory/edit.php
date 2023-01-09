@@ -179,12 +179,26 @@ if (isset($edit)) {
 class AdminError
 {
     protected $use;
-    public function __construct()
+    public function __construct(?\PrivateTag\UseClass $use = null)
     {
-        $this->use = new \PrivateTag\UseClass();
+        if (is_null($use)) {
+            $this->use = $use;
+        } else {
+            $this->use = new \PrivateTag\UseClass();
+        }
     }
 
-    public function UserError($message, $exit_flg=true)
+    /**
+     * UserError
+     *
+     * エラー文言を設定
+     *
+     * @param string $message
+     * @param boolean $exit_flg
+     *
+     * @return void
+     */
+    public function UserError(string $message, bool $exit_flg = true)
     {
         $this->use->Alert($message);
         $this->use->BackAdmin('create');
@@ -193,15 +207,41 @@ class AdminError
         }
     }
 
-    public function Alert($message)
+    /**
+     * Alert
+     *
+     * アラート出力
+     *
+     * @param string $message
+     *
+     * @return void
+     */
+    public function Alert(string $message)
     {
         $this->use->Alert($message);
     }
 
-    public function Confirm($message)
+    /**
+     * Confirm
+     *
+     * コンフォーム出力
+     *
+     * @param string $message
+     *
+     * @return void
+     */
+    public function Confirm(string $message)
     {
         $this->use->Confirm($message);
     }
+
+    /**
+     * Maintenance
+     *
+     * メンテナンス表示
+     *
+     * @return void
+     */
     public function Maintenance()
     {
         $this->UserError('メンテナンス中です。しばらくお待ちください。');
@@ -213,7 +253,7 @@ class AdminError
     <base href="../" />
 </head>
 <script>
-    onload = function() {
+    onload =  function () {
         title = document.getElementsByName('title')[0].value;
         if (title) {
             title = location.protocol + '//' + location.host + '/' + title;
