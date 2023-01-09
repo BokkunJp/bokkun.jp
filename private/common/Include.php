@@ -136,12 +136,12 @@ function IncludeJSFiles($pwd, $className = '', $ret = true, $classLoad = false)
         return null;
     } elseif (is_array($jsFiles)) {
         foreach ($jsFiles as $_jsFile) {
-            $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $_jsFile, false), $className);
+            $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd, lastSeparator:false, separator:'/'), $_jsFile, false), $className);
             $src->ExecTag(true);
         }
     } else {
         $jsFile = $jsFiles;
-        $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $jsFile, false), $className);
+        $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd, lastSeparator:false, separator:'/'), $jsFile, false), $className);
         $src->ExecTag(true);
     }
 }
