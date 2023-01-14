@@ -146,7 +146,9 @@ if ($type === "scratch") {
     fclose($fp);
 } elseif ($type === "custom") {
     // カスタム選択時には追加のディレクトリをコピー
-    mkdir("$title/Layout");                               // Layoutディレクトリ作成
+    if (!file_exists("$title/Layout")) {
+        mkdir("$title/Layout");                               // Layoutディレクトリ作成
+    }
 
     foreach (scandir(AddPath($samplePath, 'Layout')) as $_file) {
         if (!is_dir($_file)) {
@@ -231,7 +233,7 @@ class AdminError
     <base href="../" />
 </head>
 <script>
-    onload = function() {
+    onload =  function () {
         title = document.getElementsByName('title')[0].value;
         if (title) {
             title = location.protocol + '//' + location.host + '/' + title;
