@@ -1,5 +1,5 @@
 <?php
-namespace Common\Token;
+namespace Common;
 
 require_once AddPath(AddPath(COMMON_DIR, 'Trait'), 'CommonTrait.php', false);
 
