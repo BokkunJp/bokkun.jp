@@ -72,34 +72,6 @@ trait CommonTrait
 
         return $clientPath;
     }
-    /**
-     * CheckToken
-     *
-     * Post値とセッション値のチェック
-     *
-     *
-     * @param  string $tokenName
-     * @param  boolean $chkFlg
-     *
-     * @return bool
-     */
-    public function CheckSession(string $SessionName, bool $chkFlg): bool
-    {
-        $input = CommonSetting\Setting::GetPost($SessionName);
-        $session = new CommonSetting\Session();
-
-        if ($chkFlg === true) {
-            echo 'デバッグ用<br/>';
-            echo 'post: ' . $input . '<br/>';
-            echo 'session: ' . $session->Read($SessionName) . '<br/><br/>';
-        }
-
-        if (is_null($input) || $input === false || is_null($session->Read($SessionName)) || !hash_equals($session->Read($SessionName), $input)) {
-            return false;
-        }
-
-        return true;
-    }
 
     /**
      * filter_input_fix

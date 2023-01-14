@@ -1,3 +1,6 @@
+<?php
+$token = new Private\Token('private-login-token', true);
+?>
 管理ページに進まれる場合はID・パスワードを入力してください。<br />
 詳細はサイト管理人にお問い合わせください。<br/>
 <span class='login-notice'>※フッターにあるtwitterリンクからリプライができます。</span><br />
@@ -10,7 +13,5 @@
     <button type='submit' class='send'>送信</button>
     <div class='notice'><?= $session->OnlyView('password-Error'); ?></div>
     <div class='warning'><?= $session->OnlyView('password-Success'); ?></div>
-    <input type='hidden' name='private-login-token' value="<?=$token=MakeToken();?>">
+    <?php $token->UpdateToken(); ?>
 </form>
-<?php
-SetToken($token, 'private-login-token');
