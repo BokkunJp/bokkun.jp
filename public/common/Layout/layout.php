@@ -41,7 +41,12 @@ $img = "crown-vector.jpg";
         <main class="contents">
             <?php
                 if (!isset($contents)) {
-                    require_once(getcwd() . '/design.php');
+                    if (file_exists(getcwd(). '/design.php')) {
+                        $contentsPath = getcwd();
+                    }else {
+                        $contentsPath = dirname(getcwd());
+                    }
+                    require_once($contentsPath . '/design.php');
                 } elseif ($contents) {
                     Output($contents);
                 }
