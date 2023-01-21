@@ -19,8 +19,10 @@ foreach (scandir(PUBLIC_IMAGE_DIR) as $_list) {
     }
 }
 
-// tokenリスト用の配列を作成
-$tokenList = [];
+// tokenクラスをセット
+$selectToken = new Private\Token('select-token', $session, true);
+$uploadToken = new Private\Token('upload-token', $session, true);
+$viewToken = new Private\Token('view-token', $session, true);
 
 ?>
 <form method='POST' action='./'>
@@ -34,8 +36,7 @@ $tokenList = [];
     ?>
     </select>
     ： <span class='view-image-type'><?=GetImagePageName()?></span>
-    <input type='hidden' name='select-token'
-        value="<?= $tokenList['select-token'] = MakeToken() ?>" />
+    <?php $selectToken->UpdateToken(); ?>
 </form>
 <div class='select-notice'></div>
 <div class='view-image'>
@@ -56,8 +57,7 @@ $tokenList = [];
 <form enctype="multipart/form-data"
     action="./subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>"
     method='POST'>
-    <input type='hidden' name='upload-token'
-        value="<?= $tokenList['upload-token'] = MakeToken() ?>" />
+    <?php $uploadToken->UpdateToken(); ?>
     <input type='file' name='all-files[]' multiple /> <button type='submit' class='fileButton'>送信</button>
     <span>
         <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
@@ -82,17 +82,10 @@ $tokenList = [];
     <?php
         ReadImage();
     ?>
-    <input type='hidden' name='view-token'
-        value="<?= $tokenList['view-token'] = MakeToken() ?>" />
+    <?php $viewToken->UpdateToken(); ?>
     <p>
         <button type='submit' name='delete'>チェックした画像を削除する</button>
         <button type='submit' name='copy'>チェックした画像をコピーする</button>
         <input type='hidden' class='copy-image-name' name='copy-image-name' />
     </p>
 </form>
-<?php
-foreach ($tokenList as $_key => $_token) {
-        if (isset($_token)) {
-            SetToken($_token, $_key);
-        }
-    }
