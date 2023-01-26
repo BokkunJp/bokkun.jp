@@ -13,5 +13,5 @@ $token = new Private\Token('private-login-token', $session, true);
     <button type='submit' class='send'>送信</button>
     <div class='notice'><?= $session->OnlyView('password-Error'); ?></div>
     <div class='warning'><?= $session->OnlyView('password-Success'); ?></div>
-    <?php $token->UpdateToken(); ?>
+    <?php $token->SetToken(); ?>
 </form>

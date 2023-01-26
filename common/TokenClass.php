@@ -7,7 +7,7 @@ use commonSetting\Setting;
 
 /////////////// CSRF対策 ////////////////////////
 /**
- * Tokenを走査するためのクラス
+ * Tokenを操作するためのクラス
  */
 class Token {
 
@@ -22,7 +22,7 @@ class Token {
      * Token関連のセッション操作を行う
      *
      * @param string $tokenName                トークン名
-     * @param \CommonSetting\Session $session 捜査対象のセッション
+     * @param \CommonSetting\Session $session 操作対象のセッション
      * @param boolean $checkSetting           トークンを設置するかどうか
      */
     function __construct(string $tokenName, \CommonSetting\Session $session, bool $checkSetting = false)
@@ -38,7 +38,7 @@ class Token {
      *
      * @return string
      */
-    private function SetToken(): void
+    public function SetToken(): void
     {
         $this->tokenValue = $this->CreateRandom(SECURITY_LENG) . '-' . $this->CreateRandom(SECURITY_LENG, "random_bytes");
 
@@ -60,7 +60,7 @@ class Token {
      *
      * @return bool
      */
-    private function CheckToken(): bool
+    public function CheckToken(): bool
     {
         if (is_null($this->posts[$this->tokenName])
             || $this->posts[$this->tokenName] === false
@@ -76,36 +76,6 @@ class Token {
     public function GetTokenTag()
     {
         echo "<input type='hidden' name={$this->tokenName} value='{$this->tokenValue}' />";
-    }
-
-    /**
-     * トークンを設定・更新する。
-     * (csrfTagがtrueの場合はトークンタグも設置する)
-     *
-     * @return bool
-     */
-    public function UpdateToken(): bool
-    {
-
-        if (!isset($this->posts[$this->tokenName])) {
-            // 新規にTokenを生成してセット
-            $this->SetToken();
-
-            $checkToken = true;
-        } else {
-            $checkToken = $this->CheckToken();
-
-            // Token更新
-            $this->SetToken();
-            unset($this->posts[$this->tokenName]);
-        }
-
-
-        if (!$checkToken) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

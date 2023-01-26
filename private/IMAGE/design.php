@@ -36,7 +36,7 @@ $viewToken = new Private\Token('view-token', $session, true);
     ?>
     </select>
     ： <span class='view-image-type'><?=GetImagePageName()?></span>
-    <?php $selectToken->UpdateToken(); ?>
+    <?php $selectToken->SetToken(); ?>
 </form>
 <div class='select-notice'></div>
 <div class='view-image'>
@@ -57,7 +57,7 @@ $viewToken = new Private\Token('view-token', $session, true);
 <form enctype="multipart/form-data"
     action="./subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>"
     method='POST'>
-    <?php $uploadToken->UpdateToken(); ?>
+    <?php $uploadToken->SetToken(); ?>
     <input type='file' name='all-files[]' multiple /> <button type='submit' class='fileButton'>送信</button>
     <span>
         <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
@@ -82,7 +82,7 @@ $viewToken = new Private\Token('view-token', $session, true);
     <?php
         ReadImage();
     ?>
-    <?php $viewToken->UpdateToken(); ?>
+    <?php $viewToken->SetToken(); ?>
     <p>
         <button type='submit' name='delete'>チェックした画像を削除する</button>
         <button type='submit' name='copy'>チェックした画像をコピーする</button>
