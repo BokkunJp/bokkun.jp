@@ -10,6 +10,7 @@ $posts = PublicSetting\Setting::getPosts();
 
 // セッションセット
 $session = new PublicSetting\Session();
+
 // Tokenクラスをセット
 $publicMailToken = new Public\Token('public-mail-token', $session, true);
 
