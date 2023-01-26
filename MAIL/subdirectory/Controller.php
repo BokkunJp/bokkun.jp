@@ -8,12 +8,15 @@ require_once PUBLIC_COMMON_DIR . '/Token.php';
 $script = new ScriptClass();
 $posts = PublicSetting\Setting::getPosts();
 
+// セッションセット
+$session = new PublicSetting\Session();
+// Tokenクラスをセット
+$publicMailToken = new Public\Token('public-mail-token', $session, true);
+
 $valid = true;
 
 if (isset($posts) && !empty($posts)) {
-    $token = CheckToken();
-
-    if ($token === false) {
+    if ($publicMailToken->CheckToken() === false) {
         $script->Alert("不正な値が送信されました。");
     } else {
         $session = $_SESSION;
