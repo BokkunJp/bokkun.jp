@@ -181,7 +181,7 @@ class AdminError
     protected $use;
     public function __construct(?\PrivateTag\UseClass $use = null)
     {
-        if (is_null($use)) {
+        if (!is_null($use)) {
             $this->use = $use;
         } else {
             $this->use = new \PrivateTag\UseClass();

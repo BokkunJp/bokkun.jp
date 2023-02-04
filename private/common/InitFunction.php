@@ -99,7 +99,10 @@ function DeleteData(string $dirPath): bool
                 if (file_exists(AddPath($dirPath, $_file))) {
                     DeleteData(AddPath($dirPath, $_file));
                 } else {
-                    unlink(AddPath($dirPath, $_file, false));
+                    $_filePath = AddPath($dirPath, $_file, false);
+                    if (is_file($_filePath)) {
+                        unlink($_filePath);
+                    }
                 }
             }
         }
