@@ -11,5 +11,5 @@ $publicMailToken = new Public\Token('public-mail-token', $session, true);
     <input type='textbox' name='title' />
     <br />
     <textarea name='body'></textarea>
-    <button type='send' name='send'>送信する</button>
+    <button type='send' name='send' value=1>送信する</button>
 </form>

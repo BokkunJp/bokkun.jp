@@ -62,7 +62,8 @@ class Token {
      */
     public function CheckToken(): bool
     {
-        if (is_null($this->posts[$this->tokenName])
+        if (!isset($this->posts[$this->tokenName])
+            || is_null($this->posts[$this->tokenName])
             || $this->posts[$this->tokenName] === false
             || is_null($this->session->Read($this->tokenName))
             || !hash_equals($this->session->Read($this->tokenName), $this->posts[$this->tokenName])
