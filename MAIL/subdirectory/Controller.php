@@ -52,9 +52,7 @@ if (isset($posts) && !empty($posts) && $nulFlg === false) {
         }
     }
 } else {
-    $session->WriteArray('mail', 'error-message', '送信内容に不備があります。');
-    var_dump($session->Read());
-    $session->OnlyView("mail");
+    // $session->WriteArray('mail', 'error-message', '送信内容に不備があります。');
 }
 
 /**
