@@ -286,25 +286,45 @@ trait CommonTrait
         return $bytes;
     }
 
+    /**
+     * SetComposerPlugin
+     *
+     * Composerを使ったプラグインを読み込む。
+     * (通常のプラグインと違い、全ディレクトリではなく/vendor/autoLoader.phpを読み込む)
+     *
+     * @param string $name
+     * @return void
+     */
+    protected function SetComposerPlugin($name) {
+        $pluginDir = AddPath(PLUGIN_DIR, $name);
+        $autoLoader = AddPath("vendor", "autoload.php",false);
+        $requireFile = AddPath($pluginDir, $autoLoader, false);
+
+        if (is_dir($pluginDir) && is_file($requireFile)) {
+            require_once $requireFile;
+        }
+    }
 
     /**
      * SetPlugin
      *
      * 指定したプラグインを読み込む。
      *
-     * @param array|string $name
+     * @param string $name
      *
-     * @return integer
+     * @return void
      */
-    public function SetPlugin(array|string $name): void
+    public function SetPlugin(string $name): void
     {
-        if (is_array($name)) {
-            foreach ($name as $_dir) {
-                $this->SetPlugin($_dir);
-            }
-        }
+        $pluginDir = AddPath(PLUGIN_DIR, $name);
+        $vendorDir = AddPath($pluginDir, "vendor");
+        $composerJson = AddPath($pluginDir, "composer.json", false);
+        $composerLock = AddPath($pluginDir, "composer.lock", false);
 
-        if (is_dir(AddPath(PLUGIN_DIR, $name))) {
+        // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
+        if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
+            $this->SetComposerPlugin($name);
+        } elseif (is_dir(AddPath(PLUGIN_DIR, $name))) {
             IncludeDirctories(AddPath(PLUGIN_DIR, $name));
         }
     }

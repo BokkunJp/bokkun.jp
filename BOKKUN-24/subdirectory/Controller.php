@@ -2,14 +2,21 @@
 
 use BasicTag\ScriptClass as ScriptClass;
 
-require AddPath(__DIR__, 'Model.php', false);
+require_once AddPath(__DIR__, 'Model.php', false);
 
 $posts = PublicSetting\Setting::GetPosts();
 
-if (isset($posts['token'])) {
-    $tokenName = 'token';
-} elseif (isset($posts['searchToken'])) {
-    $tokenName = 'searchToken';
+SetPlugin('tst');
+
+if (!class_exists('Public\Token')) {
+    require_once AddPath(PUBLIC_COMMON_DIR, 'TokenClass.php', false);
+    new Public\Token('test', new PublicSetting\Session());
+}
+
+if (isset($posts['db-input-token'])) {
+    $tokenName = 'db-input-token';
+} elseif (isset($posts['db-search-token'])) {
+    $tokenName = 'db-search-token';
 }
 
 if (!empty($posts)) {
@@ -20,8 +27,9 @@ function Main($postData, $tokenName)
 {
     $script = new ScriptClass();
     $sess = new PublicSetting\Session();
-    $token = CheckToken($tokenName);
-    if ($token === false) {
+    $token = new \Public\Token($tokenName, $sess, true);
+    $token->CheckToken();
+    if ($token->CheckToken()) {
         // $script->Alert("不正な操作を検知しました。");
         return false;
     }

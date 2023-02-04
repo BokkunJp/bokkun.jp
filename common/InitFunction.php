@@ -31,33 +31,33 @@ set_error_handler(
     }
 );
 
-register_shutdown_function(function () {
-    $error = error_get_last();
+// register_shutdown_function(function () {
+//     $error = error_get_last();
 
-    // エラーが発生した際にはアラートを出す。(開発環境ではエラー内容も表示)
-    if (!empty($error)) {
-        if (php_sapi_name() !== 'cli') {
-            $cnf = new Header();
-            $errScript = new BasicTag\ScriptClass();
+//     // エラーが発生した際にはアラートを出す。(開発環境ではエラー内容も表示)
+//     if (!empty($error)) {
+//         if (php_sapi_name() !== 'cli') {
+//             $cnf = new Header();
+//             $errScript = new BasicTag\ScriptClass();
 
-            $errScript->Alert("エラーが発生しました。");
-            if (strcmp($cnf->GetVersion(), '-local') === 0 || strcmp($cnf->GetVersion(), '-dev') === 0) {
-                $errMessage = str_replace('\\', '/', $error['message']);
-                $errMessage = str_replace(array("\r\n", "\r", "\n"), '\\n', $errMessage);
-                $errMessage = str_replace("'", "\'", $errMessage);
-                if (strcmp($cnf->GetVersion(), '-local') === 0) {
-                    $errFile = str_replace('\\', '/', $error['file']);
-                    $errFile = str_replace('\n', '\\n', $errFile);
-                    $errScript->Alert($errMessage. "\\n\\n".
-                        "file: ". $errFile . "\\n".
-                        "line: ". $error['line']);
-                } else {
-                    $errScript->Alert($errMessage);
-                }
-            }
-        }
-    }
-});
+//             $errScript->Alert("エラーが発生しました。");
+//             if (strcmp($cnf->GetVersion(), '-local') === 0 || strcmp($cnf->GetVersion(), '-dev') === 0) {
+//                 $errMessage = str_replace('\\', '/', $error['message']);
+//                 $errMessage = str_replace(array("\r\n", "\r", "\n"), '\\n', $errMessage);
+//                 $errMessage = str_replace("'", "\'", $errMessage);
+//                 if (strcmp($cnf->GetVersion(), '-local') === 0) {
+//                     $errFile = str_replace('\\', '/', $error['file']);
+//                     $errFile = str_replace('\n', '\\n', $errFile);
+//                     $errScript->Alert($errMessage. "\\n\\n".
+//                         "file: ". $errFile . "\\n".
+//                         "line: ". $error['line']);
+//                 } else {
+//                     $errScript->Alert($errMessage);
+//                 }
+//             }
+//         }
+//     }
+// });
 
 /**
  * AddPath
@@ -360,6 +360,25 @@ function DebugValidate(array $debug, array $debugTrace): array
 }
 
 /**
+ * SetComposerPlugin
+ *
+ * Composerを使ったプラグインを読み込む。
+ * (通常のプラグインと違い、全ディレクトリではなく/vendor/autoLoader.phpを読み込む)
+ *
+ * @param string $name
+ * @return void
+ */
+function SetComposerPlugin(string $name) {
+    $pluginDir = AddPath(PLUGIN_DIR, $name);
+    $autoLoader = AddPath("vendor", "autoload.php",false);
+    $requireFile = AddPath($pluginDir, $autoLoader, false);
+
+    if (is_dir($pluginDir) && is_file($requireFile)) {
+        require_once $requireFile;
+    }
+}
+
+/**
  * SetPlugin
  *
  * 指定したプラグインを読み込む。
@@ -368,12 +387,20 @@ function DebugValidate(array $debug, array $debugTrace): array
  *
  * @return void
  */
-    function SetPlugin(string $name): void
-    {
-        if (is_dir(AddPath(PLUGIN_DIR, $name))) {
-            IncludeDirctories(AddPath(PLUGIN_DIR, $name));
-        }
+function SetPlugin(string $name): void
+{
+    $pluginDir = AddPath(PLUGIN_DIR, $name);
+    $vendorDir = AddPath($pluginDir, "vendor");
+    $composerJson = AddPath($pluginDir, "composer.json", false);
+    $composerLock = AddPath($pluginDir, "composer.lock", false);
+
+    // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
+    if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
+        SetComposerPlugin($name);
+    } elseif (is_dir(AddPath(PLUGIN_DIR, $name))) {
+        IncludeDirctories(AddPath(PLUGIN_DIR, $name));
     }
+}
 
 /**
  * SetAllPlugin

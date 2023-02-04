@@ -13,6 +13,9 @@ $page = PublicSetting\Setting::GetQuery('page');
 
 // 更新用ページに関する処理
 $updatePage = PublicSetting\Setting::GetPost('update_page');
+
+// Tokenクラスをセット
+$publicImageToken = new Public\Token('public-image-token', $session, true);
 ?>
 <div class='view-image'>
     <form method='POST'
@@ -32,12 +35,7 @@ $updatePage = PublicSetting\Setting::GetPost('update_page');
 <form class='pageForm' method="POST">
     <?php
         ReadImage();
-    ?>
-    <input type='hidden' name='token'
-        value="<?= $token = MakeToken(); ?>" />
-</form>
+        $publicImageToken->SetToken();
 
-<?php
-if (isset($token)) {
-        SetToken($token);
-    }
+    ?>
+</form>

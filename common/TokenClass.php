@@ -1,23 +1,34 @@
 <?php
-namespace Common\Token;
+namespace Common;
 
 require_once AddPath(AddPath(COMMON_DIR, 'Trait'), 'CommonTrait.php', false);
 
-use CommonSetting\Session;
 use commonSetting\Setting;
 
 /////////////// CSRF対策 ////////////////////////
-class Token extends Session {
+/**
+ * Tokenを操作するためのクラス
+ */
+class Token {
 
     private string $tokenName, $tokenValue;
     private bool $checkSetting;
+    private ?\CommonSetting\Session $session;
     private ?array $posts;
 
     use \CommonTrait;
 
-    function __construct(string $tokenName, bool $checkSetting = false)
+    /**
+     * Token関連のセッション操作を行う
+     *
+     * @param string $tokenName                トークン名
+     * @param \CommonSetting\Session $session 操作対象のセッション
+     * @param boolean $checkSetting           トークンを設置するかどうか
+     */
+    function __construct(string $tokenName, \CommonSetting\Session $session, bool $checkSetting = false)
     {
         $this->tokenName = $tokenName;
+        $this->session = $session;
         $this->posts = Setting::GetPosts();
         $this->checkSetting = $checkSetting;
     }
@@ -27,7 +38,7 @@ class Token extends Session {
      *
      * @return string
      */
-    private function SetToken(): void
+    public function SetToken(): void
     {
         $this->tokenValue = $this->CreateRandom(SECURITY_LENG) . '-' . $this->CreateRandom(SECURITY_LENG, "random_bytes");
 
@@ -35,7 +46,7 @@ class Token extends Session {
             $this->GetTokenTag();
         }
 
-        $this->Write($this->tokenName, $this->tokenValue);
+        $this->session->Write($this->tokenName, $this->tokenValue);
     }
 
     /**
@@ -49,12 +60,13 @@ class Token extends Session {
      *
      * @return bool
      */
-    private function CheckToken(): bool
+    public function CheckToken(): bool
     {
-        if (is_null($this->posts[$this->tokenName])
+        if (!isset($this->posts[$this->tokenName])
+            || is_null($this->posts[$this->tokenName])
             || $this->posts[$this->tokenName] === false
-            || is_null($this->Read($this->tokenName))
-            || !hash_equals($this->Read($this->tokenName), $this->posts[$this->tokenName])
+            || is_null($this->session->Read($this->tokenName))
+            || !hash_equals($this->session->Read($this->tokenName), $this->posts[$this->tokenName])
         ) {
             return false;
         }
@@ -68,39 +80,6 @@ class Token extends Session {
     }
 
     /**
-     * トークンチェック後、トークンを更新する。
-     * (csrfTagがtrueの場合はトークンタグも設置する)
-     *
-     * @param string $tokenName トークン名
-     * @param string $newToken 新規トークン (nullの場合は関数内で生成して設置)
-     *
-     * @return bool トークンチェック結果
-     */
-    public function UpdateToken(): bool
-    {
-
-        if (!isset($this->posts[$this->tokenName])) {
-            // 新規にTokenを生成してセット
-            $this->SetToken();
-
-            $checkToken = true;
-        } else {
-            $checkToken = $this->CheckToken();
-
-            // Token更新
-            $this->SetToken();
-            unset($this->posts[$this->tokenName]);
-        }
-
-
-        if (!$checkToken) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * DebugToken
      * デバッグ用
      *
@@ -109,6 +88,6 @@ class Token extends Session {
     public function DebugToken()
     {
             echo 'post: ' . $this->posts[$this->tokenName] . '<br/>';
-            echo 'session: ' . $this->Read($this->tokenName) . '<br/><br/>';
+            echo 'session: ' . $$this->session->Read($this->tokenName) . '<br/><br/>';
     }
 }

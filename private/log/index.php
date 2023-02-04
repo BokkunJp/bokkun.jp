@@ -1,15 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
 <?php
 require_once dirname(__DIR__) . "/common/require.php";
 require_once dirname(__DIR__, 2) . '/common/Component/Function.php';
 $title = 'ログ一覧';
 ?>
-<!DOCTYPE html>
-<html lang="ja">
 
 <head>
     <meta charset='utf-8' />
     <title>管理画面</title>
 
+    <link rel="shortcut icon"
+        href="<?= $base->GetURL('', 'client') ?>image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css" href="../client/css/common.css">
     <link rel="stylesheet" type="text/css"
         href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('log') ?>design.css">
@@ -38,7 +40,7 @@ $title = 'ログ一覧';
                 ?>
             </form>
         </div>
-        <!-- conent end -->
+        <!-- content end -->
     </div>
     <?php require_once dirname(__DIR__) . '/common/footer.php'; ?>
     </div>

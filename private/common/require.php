@@ -15,6 +15,7 @@ $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 // UA
 require_once PRIVATE_COMPONENT_DIR . '/UA.php';
 // CSRF
+require_once PRIVATE_COMMON_DIR . "/TokenClass.php";
 require_once PRIVATE_COMMON_DIR . "/Token.php";
 
 // UA判定処理
