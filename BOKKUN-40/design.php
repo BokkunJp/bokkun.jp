@@ -1,5 +1,5 @@
 <?php
-$session = new PublicSetting\Session();
+$session = new public\Session();
 ?>
 <form enctype="multipart/form-data" method='POST'>
     XMLファイルのアップロード：<input type='file' class='xml' name='xml' />

@@ -4,13 +4,13 @@ use BasicTag\ScriptClass as ScriptClass;
 
 require_once AddPath(__DIR__, 'Model.php', false);
 
-$posts = PublicSetting\Setting::GetPosts();
+$posts = public\Setting::GetPosts();
 
 SetPlugin('tst');
 
 if (!class_exists('Public\Token')) {
     require_once AddPath(PUBLIC_COMMON_DIR, 'TokenClass.php', false);
-    new Public\Token('test', new PublicSetting\Session());
+    new Public\Token('test', new public\Session());
 }
 
 if (isset($posts['db-input-token'])) {
@@ -26,7 +26,7 @@ if (!empty($posts)) {
 function Main($postData, $tokenName)
 {
     $script = new ScriptClass();
-    $sess = new PublicSetting\Session();
+    $sess = new public\Session();
     $token = new \Public\Token($tokenName, $sess, true);
     $token->CheckToken();
     if ($token->CheckToken()) {

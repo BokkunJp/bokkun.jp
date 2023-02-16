@@ -1,14 +1,16 @@
 
 <?php
-/*
- *      対象ディレクトリ内のファイルを一括で読み込む
- *      (対象ディレクトリ内にはファイルのみがある前提)
- *      引数：
- *          $pwd:ディレクトリまでのパス
- *          $extension:拡張子
+/**
+ *    対象ディレクトリ内のファイルを一括で読み込む
+ *    (対象ディレクトリ内にはファイルのみがある前提)
  *
+ * @param string $pwd                   ディレクトリまでのパス
+ * @param string $extension             拡張子
+ * @param boolean $ret                  結果格納用
+ * @param array $classLoad              クラス読み込み用配列
+ *
+ * @return null|string|array
  */
-
 function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[])
 {
     // ディレクトリと拡張子の存在チェック

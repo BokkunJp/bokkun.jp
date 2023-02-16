@@ -6,15 +6,16 @@ ini_set('error_reporting', E_ALL | ~E_STRICT);
 require __DIR__ . DIRECTORY_SEPARATOR . 'InitFunction.php';
 // 設定
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Setting.php";
+require_once __DIR__ . DIRECTORY_SEPARATOR . "Session.php";
 
 // 設定変数を管理側用に上書き
-$base = new PrivateSetting\Setting();
+$base = new private\Setting();
 // 定数・固定文言など
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Word/Message.php";
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Component/Tag.php";
 
 //直接のページ遷移を阻止
-$request = PrivateSetting\Setting::JudgeAjax();
+$request = private\Setting::JudgeAjax();
 
 if (is_null($request)) {
     header("Content-Type: text/html; charset=UTF-8");

@@ -2,8 +2,8 @@
 
 IncludeDirctories();
 
-use Common\CSV;
-use PublicSetting\Session;
+use common\CSV;
+use public\Session;
 
 function Main($inputFlg=false)
 {

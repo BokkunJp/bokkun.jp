@@ -6,7 +6,7 @@ require_once __DIR__ . '/Layout/init.php';
 use PrivateTag\UseClass;
 
 if (empty($session)) {
-    $session = new PrivateSetting\Session();
+    $session = new private\Session();
 }
 
 if (!$session->Judge('admin')) {

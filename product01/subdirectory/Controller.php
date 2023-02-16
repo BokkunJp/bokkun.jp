@@ -62,7 +62,7 @@ function Main($inputFlg=false)
         foreach ($row as $_r) {
             $body .= MoldData($_r). nl2br("\n");
         }
-        $session = new PublicSetting\Session();
+        $session = new public\Session();
         $session->WriteArray('csv', 'header', $header);
         $session->WriteArray('csv', 'row', $body);
     }

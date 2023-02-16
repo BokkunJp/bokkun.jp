@@ -2,7 +2,7 @@
 
 // サーバの設定
 
-namespace PublicSetting;
+namespace public;
 
 require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
 
@@ -88,16 +88,6 @@ class Permmision
 $commonPath = AddPath(dirname(__DIR__, 2), basename(__DIR__));
 
 require_once(AddPath($commonPath, 'Setting.php', false));
-
-// セッションクラス (公開側)
-class Session extends \CommonSetting\Session
-{
-}
-
-// クッキークラス (公開側)
-class Cookie extends \CommonSetting\Cookie
-{
-}
 
 // 設定のベースとなる変数
 $domain = Setting::GetServerName();

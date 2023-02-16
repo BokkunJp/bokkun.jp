@@ -5,7 +5,7 @@ define("DS", DIRECTORY_SEPARATOR);
 
 require_once dirname(__DIR__, 2) . DS . "common" . DS . "ajax-require.php";
 
-use PrivateSetting\Setting;
+use private\Setting;
 
 // tokenチェック
 $checkToken = CheckToken();

@@ -1,5 +1,5 @@
 <?php
-namespace Common;
+namespace common;
 
 require_once AddPath(AddPath(COMMON_DIR, 'Trait'), 'CommonTrait.php', false);
 
@@ -13,7 +13,7 @@ class Token {
 
     private string $tokenName, $tokenValue;
     private bool $checkSetting;
-    private ?\CommonSetting\Session $session;
+    private ?\common\Session $session;
     private ?array $posts;
 
     use \CommonTrait;
@@ -21,11 +21,11 @@ class Token {
     /**
      * Token関連のセッション操作を行う
      *
-     * @param string $tokenName                トークン名
-     * @param \CommonSetting\Session $session 操作対象のセッション
+     * @param string $tokenName               トークン名
+     * @param \common\Session $session        操作対象のセッション
      * @param boolean $checkSetting           トークンを設置するかどうか
      */
-    function __construct(string $tokenName, \CommonSetting\Session $session, bool $checkSetting = false)
+    function __construct(string $tokenName, \common\Session $session, bool $checkSetting = false)
     {
         $this->tokenName = $tokenName;
         $this->session = $session;
@@ -88,6 +88,6 @@ class Token {
     public function DebugToken()
     {
             echo 'post: ' . $this->posts[$this->tokenName] . '<br/>';
-            echo 'session: ' . $$this->session->Read($this->tokenName) . '<br/><br/>';
+            echo 'session: ' . $this->session->Read($this->tokenName) . '<br/><br/>';
     }
 }

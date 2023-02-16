@@ -22,7 +22,7 @@ require_once PUBLIC_COMMON_DIR . "/Token.php";
 // }
 
 // 共通処理に必要なグローバル変数
-$base = new PublicSetting\Setting();
+$base = new public\Setting();
 $ua = new UA\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 if (!isset($title)) {

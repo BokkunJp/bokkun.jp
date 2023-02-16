@@ -1,10 +1,10 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
 use BasicTag\ScriptClass;
-use PublicSetting\Setting as Setting;
+use public\Setting as Setting;
 
-$posts = PublicSetting\Setting::GetPosts();
-$session = new PublicSetting\Session();
+$posts = public\Setting::GetPosts();
+$session = new public\Session();
 
 if (isset($posts['csv']) && $posts['csv'] === 'make') {
     $alert = new ScriptClass();

@@ -2,7 +2,7 @@
 
 namespace Common;
 
-use PublicSetting\Setting as Setting;
+use public\Setting as Setting;
 
 define("FALSE_MESSAGE", "の値が不正です。");
 define("NULL_MESSAGE", "の値を入力してください。");

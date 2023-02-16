@@ -10,6 +10,7 @@ define("DS", DIRECTORY_SEPARATOR);
 require dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
 // 設定
 require_once dirname(__DIR__, 2) . DS . "common" . DS . "Setting.php";
+require_once dirname(__DIR__, 2) . DS . "common" . DS . "Session.php";
 // タグ
 require_once dirname(__DIR__, 2) . DS . AddPath("common", "Component") . DS . "Tag.php";
 // 定数・固定文言など
@@ -17,7 +18,7 @@ require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Wor
 // CSRF
 require_once PRIVATE_COMMON_DIR . "/Token.php";
 
-$session =  new PrivateSetting\Session();
+$session =  new private\Session();
 
 define('MAX_LENGTH', 32);
 $adminError = new AdminError();
@@ -33,14 +34,14 @@ $checkToken = CheckToken();
 // 不正tokenの場合は、エラーを出力して処理を中断。
 if ($checkToken === false) {
     $session->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
-    $url = new PrivateSetting\Setting();
+    $url = new private\Setting();
     $backUrl = CreateClient('private', dirname(__DIR__));
     $backUrl = ltrim($backUrl, DS);
     header('Location:' . $url->GetUrl($backUrl));
     exit;
 }
 
-$post = PrivateSetting\Setting::GetPosts();
+$post = private\Setting::GetPosts();
 $judge = array();
 foreach ($post as $post_key => $post_value) {
     $$post_key = $post_value;

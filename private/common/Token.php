@@ -25,7 +25,7 @@ function MakeToken()
  */
 function SetToken($token = null, $tokenName = 'token')
 {
-    $session = new PrivateSetting\Session();
+    $session = new private\Session();
 
     if (!isset($token)) {
         $token = MakeToken();

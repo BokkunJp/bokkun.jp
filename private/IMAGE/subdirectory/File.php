@@ -43,11 +43,11 @@ function CheckType(string $inputType, string $targetType = 'image')
  * ImportImage
  * 画像をアップロードする
  *
- * @param  mixed $file
+ * @param  array $file
  *
  * @return array
  */
-function ImportImage($upFiles): ?array
+function ImportImage(array $upFiles): ?array
 {
     $imageDir = PUBLIC_IMAGE_DIR;
 
@@ -154,7 +154,7 @@ function GetImagePageName(): string
 {
     // セッション開始
     if (!isset($session)) {
-        $session = new PrivateSetting\Session();
+        $session = new private\Session();
     }
 
     if (empty($session->Judge('image-view-directory'))) {
@@ -209,7 +209,7 @@ function LoadAllImageFile()
 function TimeSort(&$data, string $order = 'ASC')
 {
     if (is_array($data) == false) {
-        echo 'データは配列でなければいけません。';
+        throw new Exception('データは配列でなければいけません。');
         return -1;
     }
 
@@ -395,7 +395,7 @@ function ShowImage(
 
         // セッション開始
         if (!isset($session)) {
-            $session = new PrivateSetting\Session();
+            $session = new private\Session();
         }
 
         // jQueryで書き換えれるように要素を追加
@@ -526,7 +526,7 @@ function DeleteImages(array $deleteImages): array
  */
 function CopyImage(array $upFilesArray): array
 {
-    $copyImageName = \PrivateSetting\Setting::GetPost('copy-image-name');
+    $copyImageName = \private\Setting::GetPost('copy-image-name');
 
     // コピー結果
     $result = [];

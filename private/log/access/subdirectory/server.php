@@ -4,7 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 define("DS", DIRECTORY_SEPARATOR);
 require_once dirname(__DIR__, 3). DS. "common". DS . "ajax-require.php";
-use PrivateSetting\Setting;
+use private\Setting;
 
 $set = new Setting();
 

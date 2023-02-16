@@ -25,7 +25,7 @@ function MakeToken(): string
  */
 function SetToken($token = null, $tokenName = 'token')
 {
-    $session = new PublicSetting\Session();
+    $session = new public\Session();
 
     if (!isset($token)) {
         $token = MakeToken();
@@ -46,8 +46,8 @@ function SetToken($token = null, $tokenName = 'token')
  */
 function CheckToken($tokenName = 'token'): bool
 {
-    $post = PublicSetting\Setting::GetPosts();
-    $session = new PublicSetting\Session();
+    $post = public\Setting::GetPosts();
+    $session = new public\Session();
 
     // $post['deb_flg'] = 1;
     if (isset($post['deb_flg'])) {

@@ -8,10 +8,10 @@ require_once AddPath(getcwd(), 'include.php', false);
 IncludeFiles(AddPath(dirname(__DIR__), ''));
 
 // Postセット
-$post = PrivateSetting\Setting::GetPosts();
+$post = private\Setting::GetPosts();
 
 // セッションセット
-$session = new PrivateSetting\Session();
+$session = new private\Session();
 
 // tokenチェック
 $checkToken = CheckToken('select-token');

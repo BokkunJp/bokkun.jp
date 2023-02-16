@@ -72,10 +72,10 @@ set_error_handler(
  * @return string
  */
 function AddPath(
-    $local,
-    $addpath,
-    $lastSeparator = true,
-    $separator = DIRECTORY_SEPARATOR
+    string $local,
+    string $addpath,
+    bool $lastSeparator = true,
+    string $separator = DIRECTORY_SEPARATOR
 ) {
     if (mb_substr($local, -1) == $separator) {
         $first = '';
@@ -169,7 +169,7 @@ function CreateClient(string $target, string $src = ''): string
 function CheckSession(string $SessionName, bool $chkFlg): bool
 {
     $input = CommonSetting\Setting::GetPost($SessionName);
-    $session = new CommonSetting\Session();
+    $session = new common\Session();
     $ret = true;
 
     if ($chkFlg === true) {

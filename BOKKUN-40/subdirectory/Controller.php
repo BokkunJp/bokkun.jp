@@ -1,11 +1,11 @@
 <?php
 
-$posts = PublicSetting\Setting::GetPosts();
+$posts = public\Setting::GetPosts();
 $tokenCheck = CheckToken('xml-token');
 if (!$tokenCheck) {
     return -1;
 }
-$file = PublicSetting\Setting::GetFiles();
+$file = public\Setting::GetFiles();
 if ($file['xml']['error'] || $file['xml']['type'] !== "application/octet-stream") {
     return -1;
 }

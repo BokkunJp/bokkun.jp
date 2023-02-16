@@ -14,7 +14,7 @@ require_once PRIVATE_COMMON_DIR . "/Token.php";
 
 define("MAX_LENGTH", 32);
 
-$session =  new PrivateSetting\Session();
+$session =  new private\Session();
 $adminError = new AdminError();
 $use = new \PrivateTag\UseClass();
 
@@ -23,9 +23,9 @@ $checkToken = CheckToken();
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
 if ($checkToken === false) {
-    $sessClass =  new PrivateSetting\Session();
+    $sessClass =  new private\Session();
     $sessClass->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
-    $url = new PrivateSetting\Setting();
+    $url = new private\Setting();
     $backUrl = CreateClient('private', dirname(__DIR__));
     $backUrl = ltrim($backUrl, DS);
     header('Location:' . $url->GetUrl($backUrl));
@@ -35,7 +35,7 @@ if ($checkToken === false) {
 $adminPath = dirname(__DIR__);
 $basePath = dirname(dirname(__DIR__, 2));
 
-$post = PrivateSetting\Setting::GetPosts();
+$post = private\Setting::GetPosts();
 $judge = array();
 foreach ($post as $post_key => $post_value) {
     $$post_key = $post_value;

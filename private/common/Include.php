@@ -4,7 +4,7 @@
  * Subdirectoryディレクトリ以下のPHPファイルを一括で読み込む。
  */
 
-use PrivateSetting\Setting;
+use private\Setting;
 
 $base = new Setting();
 // 必要なファイルの一括読み込み
@@ -33,15 +33,18 @@ IncludeJSFiles(basename($jsTitle));
 // traitファイルの読み込み
 IncludeFiles(AddPath(PRIVATE_COMMON_DIR, 'Trait'));
 
-/*
- *      対象ディレクトリ内のファイルをディレクトリごと一括で読み込む
- *      (ディレクトリが複数あった場合、ディレクトリ毎それぞれのファイルを読み込む)
- *      引数：
- *          $pwd:ディレクトリまでのパス
- *          $extension:拡張子
+/**
+ * IncludeDirctories
  *
+ * 対象ディレクトリ内のファイルをディレクトリごと一括で読み込む
+ *
+ * @param string $pwd                   ディレクトリまでのパス
+ * @param string $extension             拡張子
+ * @param boolean $ret                  結果格納用
+ * @param array $classLoad              クラス読み込み用配列
+ *
+ * @return null|string|array
  */
-
 function IncludeDirctories($pwd = '', $extension = 'php', $ret = false, array $classLoad=[])
 {
     // パスの指定がない場合は、カレントディレクトリ一覧を取得
@@ -69,15 +72,17 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false, array $c
     }
 }
 
-/*
- *      対象ディレクトリ内のファイルを一括で読み込む
- *      (対象ディレクトリ内にはファイルのみがある前提)
- *      引数：
- *          $pwd:ディレクトリまでのパス
- *          $extension:拡張子
+/**
+ *    対象ディレクトリ内のファイルを一括で読み込む
+ *    (対象ディレクトリ内にはファイルのみがある前提)
  *
+ * @param string $pwd                   ディレクトリまでのパス
+ * @param string $extension             拡張子
+ * @param boolean $ret                  結果格納用
+ * @param array $classLoad              クラス読み込み用配列
+ *
+ * @return null|array
  */
-
 function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[])
 {
     // ディレクトリと拡張子の存在チェック
@@ -103,6 +108,7 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
         // 指定した拡張子のファイルのみ許可
         if (strpos($_dirList, $extension) != false) {
             if ($ret === true) {
+            // 出力ありの場合は、ファイルリストを配列に追加
                 $retList[] = $_dirList;
             } else {
                 require_once $pwd . $_dirList;
@@ -110,38 +116,28 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
         }
     }
 
-    // 出力ありの場合は、ファイルリストを出力して終了
-    if ($ret === true) {
-        if (empty($retList)) {
-            $retList = [];
-        }
-        return $retList;
-    }
+    return $retList;
 }
 
-/*
- *      対象ディレクトリ内のJSファイルを一括で読み込み、HTMLのscriptタグとして出力する
- *      引数：
- *          $pwd:ディレクトリまでのパス
- *          (JSファイルが所定の場所に置いてあることを前提とする)
- *          $extension:拡張子
+/**
+ * 対象ディレクトリ内のJSファイルを一括で読み込む
  *
+ * @param string $pwd                   ディレクトリまでのパス(JSファイルが所定の場所に置いてあることを前提とする)
+ * @param string $extension             拡張子
+ * @param boolean $ret                  結果格納用
+ * @param array $classLoad              クラス読み込み用配列
+ *
+ * @return void
  */
-function IncludeJSFiles($pwd, $className = '', $ret = true, $classLoad = false)
+function IncludeJSFiles($pwd, $className = '', $ret = true, $classLoad = false): void
 {
     $src = new OriginTag();
-    $base = new PrivateSetting\Setting();
+    $base = new private\Setting();
     $jsFiles = IncludeFiles(AddPath(PRIVATE_JS_DIR, $pwd), 'js', $ret);
-    if ($jsFiles === null) {
-        return null;
-    } elseif (is_array($jsFiles)) {
+    if (is_array($jsFiles)) {
         foreach ($jsFiles as $_jsFile) {
             $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd, lastSeparator:false, separator:'/'), $_jsFile, false), $className);
             $src->ExecTag(true);
         }
-    } else {
-        $jsFile = $jsFiles;
-        $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd, lastSeparator:false, separator:'/'), $jsFile, false), $className);
-        $src->ExecTag(true);
     }
 }

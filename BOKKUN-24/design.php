@@ -1,6 +1,6 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-$session = new PublicSetting\Session();
+$session = new public\Session();
 $dbInputToken = new Public\Token('db-input-token', $session, true);
 $dbSearchToken = new Public\Token('db-search-token', $session, true);
 ?>
