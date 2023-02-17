@@ -168,7 +168,7 @@ function CreateClient(string $target, string $src = ''): string
  */
 function CheckSession(string $SessionName, bool $chkFlg): bool
 {
-    $input = CommonSetting\Setting::GetPost($SessionName);
+    $input = common\Setting::GetPost($SessionName);
     $session = new common\Session();
     $ret = true;
 

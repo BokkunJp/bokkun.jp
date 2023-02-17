@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonSetting;
+namespace common;
 
 require_once 'InitFunction.php';
 require_once 'Session.php';
@@ -25,14 +25,15 @@ $FUNCTION_DIR = $COMMON_DIR . '/Function';
 // 設定関係のクラス
 class Setting
 {
-    protected $domain;
-    protected $url;
-    protected $public;
-    protected $client;
     protected $css;
-    protected $js;
-    protected $image;
     protected $csv;
+    protected $client;
+    protected $domain;
+    protected $error;
+    protected $image;
+    protected $js;
+    protected $public;
+    protected $url;
 
     public function __construct()
     {

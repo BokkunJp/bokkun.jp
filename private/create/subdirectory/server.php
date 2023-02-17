@@ -5,27 +5,27 @@
  * and open the template in the editor.
  */
 define("DS", DIRECTORY_SEPARATOR);
+define('MAX_LENGTH', 32);
 
 // 関数定義 (初期処理用)
 require dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
-// 設定
-require_once dirname(__DIR__, 2) . DS . "common" . DS . "Setting.php";
-require_once dirname(__DIR__, 2) . DS . "common" . DS . "Session.php";
-// タグ
-require_once dirname(__DIR__, 2) . DS . AddPath("common", "Component") . DS . "Tag.php";
 // 定数・固定文言など
 require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
+// 設定
+require_once AddPath(PRIVATE_COMMON_DIR, "Setting.php", false);
+// セッション
+require_once AddPath(PRIVATE_COMMON_DIR, "Session.php", false);
 // CSRF
-require_once PRIVATE_COMMON_DIR . "/Token.php";
+require_once AddPath(PRIVATE_COMMON_DIR, "Token.php", false);
+// タグ
+require_once AddPath(PRIVATE_COMPONENT_DIR, "Tag.php", false);
 
 $session =  new private\Session();
-
-define('MAX_LENGTH', 32);
 $adminError = new AdminError();
 $use = new PrivateTag\UseClass();
 
 $adminPath = dirname(__DIR__);
-$samplePath = dirname($adminPath) . DIRECTORY_SEPARATOR . 'Sample';
+$samplePath = AddPath(dirname($adminPath), 'Sample');
 $basePath = DOCUMENT_ROOT;
 
 // tokenチェック

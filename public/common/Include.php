@@ -73,9 +73,9 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false, array $c
  * @param boolean [$ret:出力フラグ]
  * @param string [$classLoad:クラスが定義されたファイル名の配列]
  *
- * @return null|array
+ * @return null|bool|array
  */
-function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[]): null|array
+function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad = []): null|bool|array
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -129,8 +129,8 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
 function IncludeJSFiles($pwd, $className = '', $ret = true, $classLoad = false): void
 {
     $src = new OriginTag();
-    $base = new private\Setting();
-    $jsFiles = IncludeFiles(AddPath(PRIVATE_JS_DIR, $pwd), 'js', $ret);
+    $base = new public\Setting();
+    $jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, $pwd), 'js', $ret);
     if (is_array($jsFiles)) {
         foreach ($jsFiles as $_jsFile) {
             $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd, lastSeparator:false, separator:'/'), $_jsFile, false), $className);

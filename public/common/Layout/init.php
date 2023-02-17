@@ -1,5 +1,4 @@
 <?php
-
 // セッションの設定
 $sess = new public\Session();
 

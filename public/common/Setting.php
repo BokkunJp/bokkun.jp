@@ -7,7 +7,7 @@ namespace public;
 require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
 
 // 設定関係のクラス (共通クラスを親クラスとする)
-class Setting extends \commonSetting\Setting
+class Setting extends \common\Setting
 {
     protected $public;
     protected $client;

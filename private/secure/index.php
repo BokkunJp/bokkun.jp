@@ -14,7 +14,7 @@ if (!$session->Judge('admin')) {
 }
 if (!isset($adminURL) || empty($adminURL) && $session->Read('admin')['send'] !== true) {
     require_once AddPath(PRIVATE_DIR, 'common.php', false);
-    $adminURL = explode('/', PrivateSetting\Setting::getURI());
+    $adminURL = explode('/', private\Setting::getURI());
     $session->WriteArray('admin', 'adminURL', $adminURL);
 } else {
     $adminURL = $session->Read('admin')['adminURL'];

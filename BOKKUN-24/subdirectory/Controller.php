@@ -9,7 +9,7 @@ $posts = public\Setting::GetPosts();
 SetPlugin('tst');
 
 if (!class_exists('Public\Token')) {
-    require_once AddPath(PUBLIC_COMMON_DIR, 'TokenClass.php', false);
+    require_once AddPath(PUBLIC_COMMON_DIR, 'Token.php', false);
     new Public\Token('test', new public\Session());
 }
 

@@ -5,6 +5,8 @@ define("DS", DIRECTORY_SEPARATOR);
 require dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
 // 設定
 require_once dirname(__DIR__, 2) . DS . "common" . DS . "Setting.php";
+// セッション
+require_once dirname(__DIR__, 2) . DS . "common" . DS  . "Session.php";
 // タグ
 require_once dirname(__DIR__, 2) . DS . AddPath("common", "Component") . DS . "Tag.php";
 // 定数・固定文言など
@@ -103,7 +105,7 @@ chdir($basePath);
 
 // 入力値のチェック
 if (!isset($select)) {
-    $select = null;
+    $select = '';
 }
 $validate = ValidateData(getcwd(), $select);
 if ($validate === null) {
@@ -152,7 +154,7 @@ foreach ($pathList as $_pathList) {
             }
         } elseif (isset($copy)) {
             // 複製モード
-            if (is_dir(AddPath(getcwd(), $select))) {
+            if (empty($select) && is_dir(AddPath(getcwd(), $select))) {
                 CopyData(AddPath(getcwd(), $select), $copy_title);
             }
         } elseif (isset($edit)) {

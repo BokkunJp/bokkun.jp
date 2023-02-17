@@ -2,10 +2,8 @@
 
 namespace private;
 
-use SessionTrait;
-
 require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
-class Setting extends \commonSetting\Setting
+class Setting extends \common\Setting
 {
     protected $private;
     protected $domain;

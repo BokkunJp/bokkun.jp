@@ -16,7 +16,7 @@ require_once AddPath(AddPath(DOCUMENT_ROOT, "common"), "Config.php", false);
 require_once PUBLIC_COMPONENT_DIR . '/UA.php';
 // CSRF対策
 require_once PUBLIC_COMMON_DIR . "/Token.php";
-require_once PUBLIC_COMMON_DIR . "/TokenClass.php";
+require_once PUBLIC_COMMON_DIR . "/Token.php";
 
 // カスタムファイル
 

@@ -1,63 +1,93 @@
 <?php
+namespace common;
+
+require_once AddPath(AddPath(COMMON_DIR, 'Trait'), 'CommonTrait.php', false);
+
+use common\Setting;
 
 /////////////// CSRF対策 ////////////////////////
 /**
- * MakeToken
- * トークン作成
- *
- * @return string
+ * Tokenを操作するためのクラス
  */
-function MakeToken(): string
-{
-    $token = CreateRandom(SECURITY_LENG) . '-' . CreateRandom(SECURITY_LENG, "random_bytes");
+class Token {
 
-    return $token;
-}
+    private string $tokenName, $tokenValue;
+    private bool $checkSetting;
+    private ?\common\Session $session;
+    private ?array $posts;
 
+    use \CommonTrait;
 
-/**
- * SetToken
- * トークンセット
- *
- * @param  mixed $token
- *
- * @return void
- */
-function SetToken($token = null, $tokenName = 'token')
-{
-    $session = new public\Session();
-
-    if (!isset($token)) {
-        $token = MakeToken();
+    /**
+     * Token関連のセッション操作を行う
+     *
+     * @param string $tokenName               トークン名
+     * @param \common\Session $session        操作対象のセッション
+     * @param boolean $checkSetting           トークンを設置するかどうか
+     */
+    function __construct(string $tokenName, \common\Session $session, bool $checkSetting = false)
+    {
+        $this->tokenName = $tokenName;
+        $this->session = $session;
+        $this->posts = Setting::GetPosts();
+        $this->checkSetting = $checkSetting;
     }
-    $session->Write($tokenName, $token);
-}
+    /**
+     * MakeToken
+     * トークン作成
+     *
+     * @return string
+     */
+    public function SetToken(): void
+    {
+        $this->tokenValue = $this->CreateRandom(SECURITY_LENG) . '-' . $this->CreateRandom(SECURITY_LENG, "random_bytes");
 
-/**
- * CheckToken
- * トークンチェック
- *
- * @param  mixed $tokenName
- * @param  mixed $errMessage
- * @param  mixed $pageMessage
- * @param  mixed $finishFlg
- *
- * @return bool
- */
-function CheckToken($tokenName = 'token'): bool
-{
-    $post = public\Setting::GetPosts();
-    $session = new public\Session();
+        if ($this->checkSetting) {
+            $this->GetTokenTag();
+        }
 
-    // $post['deb_flg'] = 1;
-    if (isset($post['deb_flg'])) {
-        echo 'デバッグ用<br/>';
-        echo 'post: ' . $post[$tokenName] . '<br/>';
-        echo 'session: ' . $session->Read($tokenName) . '<br/><br/>';
-    }
-    if (!isset($post[$tokenName]) || $post[$tokenName] !== $session->Read($tokenName)) {
-        return false;
+        $this->session->Write($this->tokenName, $this->tokenValue);
     }
 
-    return true;
+    /**
+     * CheckToken
+     *
+     * Post値とセッション値のチェック
+     *
+     *
+     * @param  string $tokenName
+     * @param  boolean $chkFlg
+     *
+     * @return bool
+     */
+    public function CheckToken(): bool
+    {
+        if (!isset($this->posts[$this->tokenName])
+            || is_null($this->posts[$this->tokenName])
+            || $this->posts[$this->tokenName] === false
+            || is_null($this->session->Read($this->tokenName))
+            || !hash_equals($this->session->Read($this->tokenName), $this->posts[$this->tokenName])
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function GetTokenTag()
+    {
+        echo "<input type='hidden' name={$this->tokenName} value='{$this->tokenValue}' />";
+    }
+
+    /**
+     * DebugToken
+     * デバッグ用
+     *
+     * @return void
+     */
+    public function DebugToken()
+    {
+            echo 'post: ' . $this->posts[$this->tokenName] . '<br/>';
+            echo 'session: ' . $this->session->Read($this->tokenName) . '<br/><br/>';
+    }
 }
