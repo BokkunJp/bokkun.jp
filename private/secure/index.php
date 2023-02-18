@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/Layout/require.php';
-require_once __DIR__ . '/Layout/init.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'require.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'init.php';
 
 use PrivateTag\UseClass;
 
