@@ -1,19 +1,15 @@
 <?php
 
 header("Content-Type: application/json; charset=UTF-8");
-define("DS", DIRECTORY_SEPARATOR);
 
-require_once dirname(__DIR__, 3) . DS . "common" . DS . "ajax-require.php";
-require_once AddPath(getcwd(), 'include.php', false);
+require_once dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . "common" . DIRECTORY_SEPARATOR . "ajax-require.php";
 
 // Post値取得
-$post = PrivateSetting\Setting::GetPosts();
-
+$post = \private\Setting::GetPosts();
 // tokenチェック
-$checkToken = CheckToken();
-
-// 不正tokenの場合は、エラーを出力して処理を中断。
-if ($checkToken === false) {
+$session = new \private\Session();
+$createToken = new \private\Token('edit-token', $session);
+if ($createToken->CheckToken() === false) {
     $data = ['src' => true];
     $json = json_encode($data);
     echo $json;

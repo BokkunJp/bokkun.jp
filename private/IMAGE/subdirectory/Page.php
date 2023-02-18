@@ -11,7 +11,7 @@
  */
 function GetPage(): int|false
 {
-    $page = PrivateSetting\Setting::GetQuery('page');
+    $page = private\Setting::GetQuery('page');
     if ($page === false) {
         $page = 1;
     } elseif (!is_numeric($page)) {
@@ -32,8 +32,8 @@ function GetPage(): int|false
  */
 function GetCountPerPage()
 {
-    $session = new PrivateSetting\Session();
-    $post = PrivateSetting\Setting::GetPost('image-value');
+    $session = new private\Session();
+    $post = private\Setting::GetPost('image-value');
     if (isset($post) && is_numeric($post)) {
         $pager= (int) $post;
         // 上限設定

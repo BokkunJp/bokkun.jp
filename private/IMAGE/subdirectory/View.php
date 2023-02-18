@@ -17,9 +17,15 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
     // 現在選択している画像タイプを取得
     $imagePageName = GetImagePageName();
 
+    // iniの内容を取得してセッションに保存
+    $session = new private\Session();
+    if (empty($session->Read('imageMaxSize-ini'))) {
+        $session->Write("imageMaxSize-ini", (int)GetIni('private', 'ImageMaxSize'));
+    }
+
     $imagePath = AddPath(PUBLIC_IMAGE_DIR, $imagePageName, false);
     $imagePath = AddPath($imagePath, $imageName, false);
-    $imageData = CalcImageSize($imagePath, (int)GetIni('private', 'ImageMaxSize'));
+    $imageData = CalcImageSize($imagePath, $session->Read('imageMaxSize-ini'));
 
     // 画像データが存在する場合は出力
     if ($imageData) {

@@ -12,18 +12,18 @@ if (!isset($_SESSION)) {
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 // 関数定義 (初期処理用)
 require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'InitFunction.php';
-// 設定
-require_once dirname(__DIR__, 2) . "/common/Setting.php";
-require_once dirname(__DIR__, 2) . "/common.php";
 // 定数・固定文言など
-require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
-// ヘッダー・フッター
-require_once AddPath(COMMON_DIR, "Config.php", false);
-$siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
-// UA
-require_once PRIVATE_COMPONENT_DIR . '/UA.php';
+require_once AddPath(AddPath(AddPath(dirname(__DIR__), "common", false), "Word", false), "Message.php", false);
+// 設定
+require_once AddPath(PRIVATE_COMMON_DIR, "Setting.php", false);
+// セッション
+require_once AddPath(PRIVATE_COMMON_DIR, "Session.php", false);
 // CSRF
-require_once PRIVATE_COMMON_DIR . "/Token.php";
+require_once AddPath(PRIVATE_COMMON_DIR, "Token.php", false);
+// 必要なメソッドの読み込み
+require_once AddPath(PRIVATE_COMMON_DIR, "Include.php", false);
+// タグ
+require_once AddPath(PRIVATE_COMPONENT_DIR, "Tag.php", false);
 
 // UA判定処理
 $ua = new UA\UA();
@@ -39,5 +39,3 @@ switch ($ua->DesignJudge()) {
     default:
         break;
 }
-
-require_once PRIVATE_COMMON_DIR . "/Include.php";

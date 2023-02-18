@@ -2,14 +2,15 @@
 
 IncludeDirctories();
 
-use Common\CSV;
-use PublicSetting\Session;
+use common\CSV;
+use public\Session;
 
-function Main($inputFlg=false)
+function Main(string $tokenName, bool $inputFlg = false)
 {
-    $tokenValid = CheckToken();
+    $session = new \Common\Session();
+    $csvToken = new \Common\Token($tokenName, $session);
 
-    if ($tokenValid === false) {
+    if ($csvToken->CheckToken() === false) {
         echo "<div class='warning'>不正な遷移です。</div>";
         return false;
     }

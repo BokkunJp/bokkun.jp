@@ -73,9 +73,9 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false, array $c
  * @param boolean [$ret:出力フラグ]
  * @param string [$classLoad:クラスが定義されたファイル名の配列]
  *
- * @return void
+ * @return null|bool|array
  */
-function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[])
+function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad = []): null|bool|array
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -105,6 +105,7 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
         // 指定した拡張子のファイルのみ許可
         if (strpos($_dirList, $extension) != false) {
             if ($ret === true) {
+            // 出力ありの場合は、ファイルリストを配列に追加
                 $retList[] = $_dirList;
             } else {
                 require_once $pwd . $_dirList;
@@ -112,40 +113,28 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
         }
     }
 
-    // 出力ありの場合は、ファイルリストを出力して終了
-    if ($ret === true) {
-        if (empty($retList)) {
-            $retList = [];
-        }
-        return $retList;
-    }
+    return $retList;
 }
 
 /**
- *  IncludeJSFiles
- *      対象ディレクトリ内のJSファイルを一括で読み込み、HTMLのscriptタグとして出力する
- *      引数：
- * @param string $pwd:ディレクトリまでのパス
- *          (JSファイルが所定の場所に置いてあることを前提とする)
- * @param string  $className:クラス名
- * @param boolean [$ret:出力フラグ]
+ * 対象ディレクトリ内のJSファイルを一括で読み込む
  *
+ * @param string $pwd                   ディレクトリまでのパス(JSファイルが所定の場所に置いてあることを前提とする)
+ * @param string $extension             拡張子
+ * @param boolean $ret                  結果格納用
+ * @param array $classLoad              クラス読み込み用配列
+ *
+ * @return void
  */
-function IncludeJSFiles($pwd, $className='', $ret = true)
+function IncludeJSFiles($pwd, $className = '', $ret = true, $classLoad = false): void
 {
     $src = new OriginTag();
-    $base = new PublicSetting\Setting();
+    $base = new public\Setting();
     $jsFiles = IncludeFiles(AddPath(PUBLIC_JS_DIR, $pwd), 'js', $ret);
-    if ($jsFiles === null) {
-        return null;
-    } elseif (is_array($jsFiles)) {
+    if (is_array($jsFiles)) {
         foreach ($jsFiles as $_jsFile) {
-            $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $_jsFile, false), $className);
+            $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd, lastSeparator:false, separator:'/'), $_jsFile, false), $className);
             $src->ExecTag(true);
         }
-    } else {
-        $jsFile = $jsFiles;
-        $src->ReadJS(AddPath(AddPath($base->GetUrl('', 'js'), $pwd), $jsFile, false), $className);
-        $src->ExecTag(true);
     }
 }

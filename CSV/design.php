@@ -1,10 +1,14 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
 use BasicTag\ScriptClass;
-use PublicSetting\Setting as Setting;
+use public\Setting as Setting;
 
-$posts = PublicSetting\Setting::GetPosts();
-$session = new PublicSetting\Session();
+if (!class_exists('Public\Token')) {
+    require_once AddPath(PUBLIC_COMMON_DIR, 'Token.php', false);
+}
+
+$posts = public\Setting::GetPosts();
+$csvToken = new Public\Token('csv-token', $session, true);
 
 if (isset($posts['csv']) && $posts['csv'] === 'make') {
     $alert = new ScriptClass();
@@ -59,7 +63,7 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
         </tbody>
     </table>
     <input type='hidden' name='csv' value="make" />
-    <input type='hidden' name='token' value="<?= $token = MakeToken() ?>" />
+    <?php $csvToken->SetToken(); ?>
     <button type='submit' name='send' value='true'>データを送信</button>
     <button type='submit' name='view' value='true'>データを表示</button>
 </form>
@@ -98,4 +102,3 @@ foreach ($fileArray as $_value) {
 echo "</p>";
 
 $session->Delete('csv');
-SetToken($token);

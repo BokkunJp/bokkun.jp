@@ -8,7 +8,7 @@ require_once $commonWordPath;
 // CSRFクラス
 function Public_CSRFErrorMessage()
 {
-    $addr = PublicSetting\Setting::GetRemoteADDR();
+    $addr = public\Setting::GetRemoteADDR();
     $errMessage = "<p><strong>". gethostbyaddr($addr). "(". $addr. ")". "様のアクセスは禁止されています。</strong></p><p>以下の要因が考えられます。</p>";
     $errList = ["指定回数以上アクセスした。", "直接アクセスした。", "不正アクセスした。"];
     $errMessage .='<ul>';
@@ -35,3 +35,5 @@ define('PUBLIC_COMPONENT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Component', false));
 define('PUBLIC_LAYOUT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Layout', false));
 // 画像閲覧ページ
 define('PUBLIC_PREVIOUS', '画像閲覧ページへ戻る');
+// メール送信ページ
+define("DENY_SEND_DATE", 1);

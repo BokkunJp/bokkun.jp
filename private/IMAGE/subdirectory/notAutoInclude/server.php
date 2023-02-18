@@ -2,32 +2,29 @@
 
 require_once __DIR__ . '/component/require.php';
 require_once dirname(__DIR__) . '/File.php';
-$files = PrivateSetting\Setting::GetFiles();
+$files = private\Setting::GetFiles();
 
 // ページ数取得
-$page = PrivateSetting\Setting::GetQuery('page');
+$page = private\Setting::GetQuery('page');
 $str = 'private/IMAGE';
 $str .= !empty($page) ? "?page={$page}" : "";
 
 // セッション開始
-if (!isset($session)) {
-    $session = new PrivateSetting\Session();
-}
+$session = new private\Session();
 
-$mode = PrivateSetting\Setting::GetQuery('mode');
+$mode = private\Setting::GetQuery('mode');
 
 if (!empty($mode) && $mode === 'edit') {
     // view-tokenチェック
-    $checkToken = CheckToken('view-token');
-    // 不正tokenの場合は、エラーを出力して処理を中断。
-    if ($checkToken === false) {
+    $viewToken = new private\Token('view-token', $session);
+    if ($viewToken->CheckToken() === false) {
         $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
-        $url = new PrivateSetting\Setting();
+        $url = new private\Setting();
         header('Location:' . $url->GetUrl($str));
         exit;
     }
 
-    $posts = PrivateSetting\Setting::getPosts();
+    $posts = private\Setting::getPosts();
 
     if (isset($posts['delete'])) {
         // 削除の場合
@@ -131,17 +128,16 @@ if (!empty($mode) && $mode === 'edit') {
     } else {
         // 削除・複製以外の場合(不正値)
         $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
-        $url = new PrivateSetting\Setting();
+        $url = new private\Setting();
         header('Location:' . $url->GetUrl($str));
         exit;
     }
 } else {
     // upload-tokenチェック
-    $checkToken = CheckToken('upload-token');
-    // 不正tokenの場合は、エラーを出力して処理を中断。
-    if ($checkToken === false) {
+    $uploadToken = new private\Token('upload-token', $session);
+    if ($uploadToken->CheckToken() === false) {
         $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
-        $url = new PrivateSetting\Setting();
+        $url = new private\Setting();
         header('Location:' . $url->GetUrl($str));
         exit;
     }
@@ -202,5 +198,5 @@ if (!empty($mode) && $mode === 'edit') {
 @session_regenerate_id();
 $session->Write('token', sha1(session_id()));
 // $session->FinaryDestroy();
-$url = new PrivateSetting\Setting();
+$url = new private\Setting();
 header('Location:' . $url->GetUrl($str));

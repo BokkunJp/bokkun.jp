@@ -8,16 +8,15 @@ require_once AddPath(getcwd(), 'include.php', false);
 IncludeFiles(AddPath(dirname(__DIR__), ''));
 
 // Postセット
-$post = PrivateSetting\Setting::GetPosts();
+$post = private\Setting::GetPosts();
 
 // セッションセット
-$session = new PrivateSetting\Session();
+$session = new private\Session();
 
 // tokenチェック
-$checkToken = CheckToken('select-token');
-
+$selectToken = new private\Token('select-token', $session, true);
 // 不正tokenの場合は、エラーを出力して処理を中断。
-if ($checkToken === false) {
+if ($selectToken->CheckToken() === false) {
     $data = ['error' => true, 'error-view' => '不正な遷移です。リロードしてください。'];
     $json = json_encode($data);
     echo $json;

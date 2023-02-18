@@ -1,15 +1,13 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
 // セッション開始
-if (!isset($session)) {
-    $session = new PrivateSetting\Session();
-}
+$session = new private\Session();
 
 // ページ数取得
-$page = PrivateSetting\Setting::GetQuery('page');
+$page = private\Setting::GetQuery('page');
 
 // 更新用ページに関する処理
-$updatePage = PrivateSetting\Setting::GetPost('update_page');
+$updatePage = private\Setting::GetPost('update_page');
 
 // imageディレクトリ内のディレクトリリストを取得
 $imgDirList = ['---'];
@@ -20,9 +18,9 @@ foreach (scandir(PUBLIC_IMAGE_DIR) as $_list) {
 }
 
 // tokenクラスをセット
-$selectToken = new Private\Token('select-token', $session, true);
-$uploadToken = new Private\Token('upload-token', $session, true);
-$viewToken = new Private\Token('view-token', $session, true);
+$selectToken = new private\Token('select-token', $session, true);
+$uploadToken = new private\Token('upload-token', $session, true);
+$viewToken = new private\Token('view-token', $session, true);
 
 ?>
 <form method='POST' action='./'>

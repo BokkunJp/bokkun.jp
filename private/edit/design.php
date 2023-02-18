@@ -21,12 +21,9 @@ if ($session->Judge('addition')) {
 
 $dir = ["---" => "---"];
 
-if (!$session->Judge('token')) {
-    $token = MakeToken();
-    SetToken($token);
-} else {
-    $token = $session->Read('token');
-}
+$editSrcToken = new private\Token('edit-src-token', $session);
+$editSrcToken->SetToken();
+
 
 $dir = array_merge($dir, scandir('../../'));
 
@@ -35,8 +32,7 @@ foreach ($dir as $_key => $_dir) {
         unset($dir[$_key]);
     }
 }
-
 $smarty->assign('base', basename(__DIR__). '/subdirectory');
-$smarty->assign('token', $token);
+$smarty->assign('editSrcToken', $editSrcToken);
 $smarty->assign('dir', $dir);
 $smarty->display('index.tpl');

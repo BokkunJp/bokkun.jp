@@ -1,5 +1,5 @@
 <?php
-$session = new PublicSetting\Session();
+$session = new public\Session();
 ?>
 <form method='POST'>
     <input type='text' name='data' />

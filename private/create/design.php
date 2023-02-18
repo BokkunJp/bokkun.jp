@@ -28,16 +28,16 @@ foreach ($dir as $_key => $_dir) {
     }
 }
 
-if (!$session->Judge('token')) {
-    $token = MakeToken();
-    SetToken($token);
-} else {
-    $token = $session->Read('token');
-}
-
 $session->OnlyView('notice');
 
+$createToken = new private\Token('create-token', $session);
+$createToken->SetToken();
+
+$editToken= new private\Token('edit-token', $session);
+$editToken->SetToken();
+
 $smarty->assign('base', 'subdirectory');
-$smarty->assign('token', $token);
+$smarty->assign('createToken', $createToken);
+$smarty->assign('editToken', $editToken);
 $smarty->assign('dir', $dir);
 $smarty->display('index.tpl');

@@ -225,7 +225,7 @@ function ShowImage($params, $data, $imageUrl)
 {
     // セッション開始
     if (!isset($session)) {
-        $session = new PublicSetting\Session();
+        $session = new public\Session();
     }
 
     // jQueryで書き換えれるように要素を追加
