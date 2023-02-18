@@ -4,9 +4,10 @@ IncludeDirctories();
 
 function Main($inputFlg=false)
 {
-    $tokenValid = CheckToken();
+    $session = new \public\Session();
+    $csvToken = new \public\Token('csv-token', $session);
 
-    if ($tokenValid === false) {
+    if ($csvToken->CheckToken() === false) {
         echo "<div class='warning'>不正な遷移です。</div>";
         return false;
     }
@@ -57,7 +58,7 @@ function Main($inputFlg=false)
         foreach ($row as $_r) {
             $body .= MoldData($_r). nl2br("\n");
         }
-        $session = new PublicSetting\Session();
+        $session = new public\Session();
         $session->WriteArray('csv', 'header', $header);
         $session->WriteArray('csv', 'row', $body);
     }

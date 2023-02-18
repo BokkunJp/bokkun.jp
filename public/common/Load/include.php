@@ -8,7 +8,7 @@ if (isset($ua)) {
             echo "<script src='//docs.opencv.org/5.x/opencv.js'></script>";
         }
 
-        if (PublicSetting\Setting::GetServerName() === 'bokkun.jp.local') {
+        if (public\Setting::GetServerName() === 'bokkun.jp.local') {
             echo "<script src='//jp.vuejs.org/js/vue.js'></script>";
         } else {
             echo "<script src='//jp.vuejs.org/js/vue.min.js'></script>";
@@ -21,7 +21,7 @@ if (isset($ua)) {
             echo "<script src='//docs.opencv.org/5.x/opencv.js'></script>";
         }
 
-        if (PublicSetting\Setting::GetServerName() === 'bokkun.jp.local') {
+        if (public\Setting::GetServerName() === 'bokkun.jp.local') {
             echo "<script src='//jp.vuejs.org/js/vue.js'></script>";
         } else {
             echo "<script src='//jp.vuejs.org/js/vue.min.js'></script>";

@@ -219,7 +219,7 @@ function Logout(): void
     echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 
     // セッションの破棄
-    $session = new PrivateSetting\Session();
+    $session = new private\Session();
     $session->FinaryDestroy();
     unset($session);
 }

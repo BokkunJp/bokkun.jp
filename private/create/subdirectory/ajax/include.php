@@ -1,15 +1,16 @@
 
 <?php
-/*
- *      対象ディレクトリ内のファイルを一括で読み込む
- *      (対象ディレクトリ内にはファイルのみがある前提)
- *      引数：
- *          $pwd:ディレクトリまでのパス
- *          $extension:拡張子
+/**
+ * 対象ディレクトリ内のJSファイルを一括で読み込み、HTMLのscriptタグとして出力する
  *
+ * @param string $pwd                   ディレクトリまでのパス(JSファイルが所定の場所に置いてあることを前提とする)
+ * @param string $extension             拡張子
+ * @param boolean $ret                  結果格納用
+ * @param array $classLoad              クラス読み込み用配列
+ *
+ * @return null|string|array
  */
-
-function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[])
+function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[]): null|string|array
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -46,6 +47,7 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
         if (empty($retList)) {
             $retList = [];
         }
-        return $retList;
     }
+
+    return $retList;
 }

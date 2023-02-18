@@ -11,7 +11,7 @@
   <p>タイトル</p>
      <input type='textbox' name='title' {if isset($admin_addition.title) } {if !empty($admin_addition.title)}value={$admin_addition.title}{/if}{/if} />
 <button type='submit' id='create'>ページの新規作成</button>
-  <input type='hidden' name='token' value={$token} />
+{$createToken->GetTokenTag()}
 </form>
 <br />
 <form action='./{$base}/edit.php' method='POST'>
@@ -31,5 +31,5 @@
 {if !empty($admin_addition.copy_title)}value={$admin_addition.copy_title}{/if}{/if} />
     <button type='submit' name="copy"" value="copy">複製する</button>
     {* <button type='submit' name="edit" value="edit">編集する</button> *}
-  <input type='hidden' name='token' value={$token} />
+    {$editToken->GetTokenTag()}
 </form>

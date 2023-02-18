@@ -6,6 +6,8 @@ ini_set('error_reporting', E_ALL | ~E_STRICT);
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'InitFunction.php';
 // 設定
 require_once dirname(__DIR__) . '/Setting.php';
+// セッション
+require_once dirname(__DIR__) . '/Session.php';
 // 定数・固定文言など
 require_once AddPath(AddPath(dirname(__DIR__), "Word", false), "Message.php", false);
 // ヘッダーフッター
@@ -14,7 +16,7 @@ require_once AddPath(AddPath(DOCUMENT_ROOT, "common"), "Config.php", false);
 require_once PUBLIC_COMPONENT_DIR . '/UA.php';
 // CSRF対策
 require_once PUBLIC_COMMON_DIR . "/Token.php";
-require_once PUBLIC_COMMON_DIR . "/TokenClass.php";
+require_once PUBLIC_COMMON_DIR . "/Token.php";
 
 // カスタムファイル
 
@@ -23,7 +25,7 @@ require_once PUBLIC_COMMON_DIR . "/TokenClass.php";
 // }
 
 // 共通処理に必要なグローバル変数
-$base = new PublicSetting\Setting();
+$base = new public\Setting();
 $ua = new UA\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 if (!isset($title)) {

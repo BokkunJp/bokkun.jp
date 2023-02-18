@@ -3,8 +3,8 @@
 
 use BasicTag\ScriptClass;
 
-$posts = PublicSetting\Setting::GetPosts();
-$session = new PublicSetting\Session();
+$posts = public\Setting::GetPosts();
+$session = new public\Session();
 
 if (isset($posts['csv']) && $posts['csv'] === 'make') {
     $alert = new ScriptClass();
@@ -86,7 +86,7 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
     }
 
     $fileArray = IncludeFiles($filePath, 'csv', true);
-    $base = new PublicSetting\Setting();
+    $base = new public\Setting();
 
     // 次期改修
     //$downloadHtml = new CustomTagCreate();

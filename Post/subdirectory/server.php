@@ -8,7 +8,7 @@ if ($request === 'xmlhttprequest') {
     $data = "Ajax: ";
     require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . '/public/common' . DIRECTORY_SEPARATOR . 'InitFunction.php';
     require_once dirname(__DIR__, 2) . "/public/common/Setting.php";
-    $posts = PublicSetting\Setting::GetPosts();
+    $posts = public\Setting::GetPosts();
     foreach ($posts as $_key => $_post) {
         $data .= $_post;
         $data .= ',';
@@ -19,8 +19,8 @@ if ($request === 'xmlhttprequest') {
     echo $jsonData;
 } else {
     $data = "PHP: ";
-    $posts = PublicSetting\Setting::GetPosts();
-    $session = new PublicSetting\Session();
+    $posts = public\Setting::GetPosts();
+    $session = new public\Session();
     if (empty($posts)) {
         return -1;
     } elseif (empty($posts['data'])) {

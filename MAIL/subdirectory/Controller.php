@@ -5,10 +5,10 @@ require_once 'Model.php';
 require_once PUBLIC_COMMON_DIR . '/Token.php';
 
 $script = new ScriptClass();
-$posts = PublicSetting\Setting::getPosts();
+$posts = public\Setting::getPosts();
 
 // セッションセット
-$session = new PublicSetting\Session();
+$session = new public\Session();
 
 $postData = $posts;
 $nulFlg = false;
@@ -34,10 +34,10 @@ if (isset($posts) && !empty($posts) && $nulFlg === false) {
         if (isset($mailSession['send_date'])) {
             $script->Alert("本日はもうメール送信できません。");
 
-            // 日付が変わるか、メールを送信してから24時間経ったら、再送信可能とする
+            // 日付が変わるかメールを送信してから1日経ったら、再送信可能とする
             $sendDateInterval = $mailSession['send_date']->diff(new DateTime());
-            if (DateDiff($mailSession['send_date'], new DateTime())->format('%d') >= 1
-                || (new DateTime())->diff($mailSession['send_date'])
+            if (DateDiff($mailSession['send_date'], new DateTime())->format('%d') >= DENY_SEND_DATE
+                || (new DateTime())->diff($mailSession['send_date'])->format('%d') >= DENY_SEND_DATE
             ) {
                 $session->Delete("send_date");
             }

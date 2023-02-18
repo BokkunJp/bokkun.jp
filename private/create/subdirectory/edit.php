@@ -1,31 +1,32 @@
 <?php
 define("DS", DIRECTORY_SEPARATOR);
+define("MAX_LENGTH", 32);
 
 // 関数定義 (初期処理用)
 require dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
-// 設定
-require_once dirname(__DIR__, 2) . DS . "common" . DS . "Setting.php";
-// タグ
-require_once dirname(__DIR__, 2) . DS . AddPath("common", "Component") . DS . "Tag.php";
 // 定数・固定文言など
 require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
+// 設定
+require_once AddPath(PRIVATE_COMMON_DIR, "Setting.php", false);
+// セッション
+require_once AddPath(PRIVATE_COMMON_DIR, "Session.php", false);
 // CSRF
-require_once PRIVATE_COMMON_DIR . "/Token.php";
+require_once AddPath(PRIVATE_COMMON_DIR, "Token.php", false);
+// タグ
+require_once AddPath(PRIVATE_COMPONENT_DIR, "Tag.php", false);
 
-define("MAX_LENGTH", 32);
-
-$session =  new PrivateSetting\Session();
+$session =  new \private\Session();
 $adminError = new AdminError();
 $use = new \PrivateTag\UseClass();
 
 // tokenチェック
-$checkToken = CheckToken();
+$editToken = new \private\Token("edit-token", $session);
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
-if ($checkToken === false) {
-    $sessClass =  new PrivateSetting\Session();
+if ($editToken->CheckToken() === false) {
+    $sessClass =  new private\Session();
     $sessClass->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
-    $url = new PrivateSetting\Setting();
+    $url = new private\Setting();
     $backUrl = CreateClient('private', dirname(__DIR__));
     $backUrl = ltrim($backUrl, DS);
     header('Location:' . $url->GetUrl($backUrl));
@@ -35,7 +36,7 @@ if ($checkToken === false) {
 $adminPath = dirname(__DIR__);
 $basePath = dirname(dirname(__DIR__, 2));
 
-$post = PrivateSetting\Setting::GetPosts();
+$post = private\Setting::GetPosts();
 $judge = array();
 foreach ($post as $post_key => $post_value) {
     $$post_key = $post_value;
@@ -103,7 +104,7 @@ chdir($basePath);
 
 // 入力値のチェック
 if (!isset($select)) {
-    $select = null;
+    $select = '';
 }
 $validate = ValidateData(getcwd(), $select);
 if ($validate === null) {
@@ -152,7 +153,7 @@ foreach ($pathList as $_pathList) {
             }
         } elseif (isset($copy)) {
             // 複製モード
-            if (is_dir(AddPath(getcwd(), $select))) {
+            if (empty($select) && is_dir(AddPath(getcwd(), $select))) {
                 CopyData(AddPath(getcwd(), $select), $copy_title);
             }
         } elseif (isset($edit)) {

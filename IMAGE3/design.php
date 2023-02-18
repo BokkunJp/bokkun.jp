@@ -2,14 +2,14 @@
 <?php
 // セッション開始
 if (!isset($session)) {
-    $session = new PublicSetting\Session();
+    $session = new public\Session();
 }
 
 // ページ数取得
-$page = PublicSetting\Setting::GetQuery('page');
+$page = public\Setting::GetQuery('page');
 
 // 更新用ページに関する処理
-$updatePage = PublicSetting\Setting::GetPost('update_page');
+$updatePage = public\Setting::GetPost('update_page');
 
 // Tokenクラスをセット
 $publicImageToken = new Public\Token('public-image-token', $session, true);

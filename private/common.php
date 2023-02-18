@@ -2,8 +2,8 @@
 
 require_once AddPath(AddPath(__DIR__, 'common'), AddPath('Component', 'Mail.php', false), false);
 
-$session = new PrivateSetting\Session();
-$post = PrivateSetting\Setting::GetPosts();
+$session = new private\Session();
+$post = private\Setting::GetPosts();
 $secure = null;
 
 if (isset($session->Read('admin')['secure'])) {
@@ -12,6 +12,7 @@ if (isset($session->Read('admin')['secure'])) {
 if (isset($session->Read('admin')['page'])) {
     $secure = $session->Read('admin')['page'];
 }
+// $secure = false;
 if ($secure !== true) {
     require_once __DIR__. '/secure/index.php';
 }
@@ -27,9 +28,9 @@ if ($secure !== true) {
  */
 function AlertAdmin(string $noticeType, $pageTitle):void
 {
-    $domain = PrivateSetting\Setting::GetDomain();
-    $ip = PrivateSetting\Setting::GetHostIp();
-    $host = PrivateSetting\Setting::GetHostName();
+    $domain = private\Setting::GetDomain();
+    $ip = private\Setting::GetHostIp();
+    $host = private\Setting::GetHostName();
 
     if ($noticeType === 'access') {
         $title = "管理画面アクセス通知";

@@ -18,8 +18,8 @@ $referer = filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
 require_once AddPath(COMMON_DIR, "Config.php", false);
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 
-// 設定関係のクラス化(実装中)
-class Setting extends \CommonSetting\Setting
+// 設定関係のクラス
+class Setting extends \common\Setting
 {
     // 公開パスなどのURLを取得
     public function GetUrl($query='', $type = 'url', $relativePath = false): string

@@ -72,10 +72,10 @@ set_error_handler(
  * @return string
  */
 function AddPath(
-    $local,
-    $addpath,
-    $lastSeparator = true,
-    $separator = DIRECTORY_SEPARATOR
+    string $local,
+    string $addpath,
+    bool $lastSeparator = true,
+    string $separator = DIRECTORY_SEPARATOR
 ) {
     if (mb_substr($local, -1) == $separator) {
         $first = '';
@@ -156,35 +156,6 @@ function CreateClient(string $target, string $src = ''): string
 
     return $clientPath;
 }
-/**
- * CheckToken
- * Post値とセッション値のチェック
- *
- *
- * @param  string $tokenName
- * @param  boolean $chkFlg
- *
- * @return bool
- */
-function CheckSession(string $SessionName, bool $chkFlg): bool
-{
-    $input = CommonSetting\Setting::GetPost($SessionName);
-    $session = new CommonSetting\Session();
-    $ret = true;
-
-    if ($chkFlg === true) {
-        echo 'デバッグ用<br/>';
-        echo 'post: ' . $input . '<br/>';
-        echo 'session: ' . $session->Read($SessionName) . '<br/><br/>';
-    }
-
-    if (is_null($input) || $input === false || is_null($session->Read($SessionName)) || !hash_equals($session->Read($SessionName), $input)) {
-        $ret = false;
-    }
-
-    return $ret;
-}
-
 /**
  * filter_input_fix
  * $_SERVER, $_ENVのための、filter_input代替処理。
