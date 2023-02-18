@@ -1,9 +1,8 @@
 <?php
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL | ~E_STRICT);
-define("DS", DS);
 // 関数定義 (初期処理用)
-require __DIR__ . DS . 'InitFunction.php';
+require __DIR__ . DIRECTORY_SEPARATOR . 'InitFunction.php';
 // 設定
 require_once AddPath(__DIR__, "Setting.php", false);
 // セッション

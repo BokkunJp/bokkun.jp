@@ -157,35 +157,6 @@ function CreateClient(string $target, string $src = ''): string
     return $clientPath;
 }
 /**
- * CheckToken
- * Post値とセッション値のチェック
- *
- *
- * @param  string $tokenName
- * @param  boolean $chkFlg
- *
- * @return bool
- */
-function CheckSession(string $SessionName, bool $chkFlg): bool
-{
-    $input = common\Setting::GetPost($SessionName);
-    $session = new common\Session();
-    $ret = true;
-
-    if ($chkFlg === true) {
-        echo 'デバッグ用<br/>';
-        echo 'post: ' . $input . '<br/>';
-        echo 'session: ' . $session->Read($SessionName) . '<br/><br/>';
-    }
-
-    if (is_null($input) || $input === false || is_null($session->Read($SessionName)) || !hash_equals($session->Read($SessionName), $input)) {
-        $ret = false;
-    }
-
-    return $ret;
-}
-
-/**
  * filter_input_fix
  * $_SERVER, $_ENVのための、filter_input代替処理。
  *

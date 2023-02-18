@@ -5,20 +5,17 @@ define("DS", DIRECTORY_SEPARATOR);
 
 require_once dirname(__DIR__, 2) . DS . "common" . DS . "ajax-require.php";
 
-use private\Setting;
-
 // tokenチェック
-$checkToken = CheckToken();
-
-// 不正tokenの場合は、エラーを出力して処理を中断。
-if ($checkToken === false) {
+$session = new \private\Session();
+$editSrcToken = new \private\Token('edit-src-token', $session);
+if ($editSrcToken->CheckToken() === false) {
     $data = ['src' => '', 'src-view' => '不正な操作を検知しました。再読み込みしてください。'];
     $json = json_encode($data);
     echo $json;
     exit;
 }
 
-$set = new Setting();
+$set = new \private\Setting();
 
 $saveObj = $set->GetPost('save');
 $editObj = $set->GetPost('edit');

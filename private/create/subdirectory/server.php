@@ -29,10 +29,8 @@ $samplePath = AddPath(dirname($adminPath), 'Sample');
 $basePath = DOCUMENT_ROOT;
 
 // tokenチェック
-$checkToken = CheckToken();
-
-// 不正tokenの場合は、エラーを出力して処理を中断。
-if ($checkToken === false) {
+$createToken = new private\Token('create-token', $session);
+if ($createToken->CheckToken() === false) {
     $session->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new private\Setting();
     $backUrl = CreateClient('private', dirname(__DIR__));

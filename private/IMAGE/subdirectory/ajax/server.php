@@ -14,10 +14,9 @@ $post = private\Setting::GetPosts();
 $session = new private\Session();
 
 // tokenチェック
-$checkToken = CheckToken('select-token');
-
+$selectToken = new private\Token('select-token', $session, true);
 // 不正tokenの場合は、エラーを出力して処理を中断。
-if ($checkToken === false) {
+if ($selectToken->CheckToken() === false) {
     $data = ['error' => true, 'error-view' => '不正な遷移です。リロードしてください。'];
     $json = json_encode($data);
     echo $json;

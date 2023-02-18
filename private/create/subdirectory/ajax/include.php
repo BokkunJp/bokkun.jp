@@ -10,7 +10,7 @@
  *
  * @return null|string|array
  */
-function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[])
+function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[]): null|string|array
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -47,6 +47,7 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
         if (empty($retList)) {
             $retList = [];
         }
-        return $retList;
     }
+
+    return $retList;
 }

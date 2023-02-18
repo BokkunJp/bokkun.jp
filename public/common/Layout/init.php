@@ -1,6 +1,6 @@
 <?php
 // セッションの設定
-$sess = new public\Session();
+$session = new public\Session();
 
 // UA判定処理
 if (isset($ua)) {

@@ -16,9 +16,8 @@ $mode = private\Setting::GetQuery('mode');
 
 if (!empty($mode) && $mode === 'edit') {
     // view-tokenチェック
-    $checkToken = CheckToken('view-token');
-    // 不正tokenの場合は、エラーを出力して処理を中断。
-    if ($checkToken === false) {
+    $viewToken = new private\Token('view-token', $session);
+    if ($viewToken->CheckToken() === false) {
         $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new private\Setting();
         header('Location:' . $url->GetUrl($str));
@@ -135,9 +134,8 @@ if (!empty($mode) && $mode === 'edit') {
     }
 } else {
     // upload-tokenチェック
-    $checkToken = CheckToken('upload-token');
-    // 不正tokenの場合は、エラーを出力して処理を中断。
-    if ($checkToken === false) {
+    $uploadToken = new private\Token('upload-token', $session);
+    if ($uploadToken->CheckToken() === false) {
         $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new private\Setting();
         header('Location:' . $url->GetUrl($str));

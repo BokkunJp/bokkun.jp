@@ -4,19 +4,16 @@ use BasicTag\ScriptClass as ScriptClass;
 
 require_once AddPath(__DIR__, 'Model.php', false);
 
-$posts = public\Setting::GetPosts();
-
-SetPlugin('tst');
-
-if (!class_exists('Public\Token')) {
-    require_once AddPath(PUBLIC_COMMON_DIR, 'Token.php', false);
-    new Public\Token('test', new public\Session());
-}
+$posts = \public\Setting::GetPosts();
 
 if (isset($posts['db-input-token'])) {
     $tokenName = 'db-input-token';
 } elseif (isset($posts['db-search-token'])) {
     $tokenName = 'db-search-token';
+}
+
+if (!class_exists('Public\Token')) {
+    require_once AddPath(PUBLIC_COMMON_DIR, 'Token.php', false);
 }
 
 if (!empty($posts)) {
@@ -26,8 +23,8 @@ if (!empty($posts)) {
 function Main($postData, $tokenName)
 {
     $script = new ScriptClass();
-    $sess = new public\Session();
-    $token = new \Public\Token($tokenName, $sess, true);
+    $session = new public\Session();
+    $token = new \Public\Token($tokenName, $session, true);
     $token->CheckToken();
     if ($token->CheckToken()) {
         // $script->Alert("不正な操作を検知しました。");
@@ -40,9 +37,9 @@ function Main($postData, $tokenName)
         if (!isset($postData['delete-num']) && !isset($postData['delete-all'])) {
             $ret = InputData($postData['edit-contents']);
             if ($ret) {
-                $sess->Write('db-exec', 'コンテンツを保存しました。');
+                $session->Write('db-exec', 'コンテンツを保存しました。');
             } else {
-                $sess->Write('db-error', 'コンテンツの保存に失敗しました。');
+                $session->Write('db-error', 'コンテンツの保存に失敗しました。');
             }
         } elseif (isset($postData['delete-all'])) {
             InitializeTable();
@@ -53,7 +50,7 @@ function Main($postData, $tokenName)
                 DeleteTable($edit_id);
                 $script->Alert("{$edit_id}のデータを削除しました。");
             } else {
-                $sess->Write('db-error', '番号の指定が不正です。');
+                $session->Write('db-error', '番号の指定が不正です。');
             }
         }
     } elseif ($tokenName === 'searchToken') {

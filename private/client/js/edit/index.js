@@ -1,8 +1,8 @@
 // DOM読み込み
-$( function ()
+$(function ()
 {
     Main(); // JQueryによるメイン処理
-} );
+});
 
 /* JQueryによる処理の流れ
  *  引数：
@@ -12,7 +12,7 @@ function Main ()
 {
     var num;
 
-    tinyMCE.init( {
+    tinyMCE.init({
         selector: 'textarea',
         language: 'ja',
         forced_root_block: '_',
@@ -24,50 +24,50 @@ function Main ()
         toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
     });
     // 選択したディレクトリ名からファイル・サブディレクトリ一覧を出力する
-    $( 'select[name="select"]' ).on( 'change', function ( e )
+    $('select[name="select"]').on('change', function (e)
     {
         var url = location.href;
         var selectVersion = {
-            "dir_name": $( this ).val(),
-            'token': $( '.token' ).val()
+            "dir_name": $(this).val(),
+            'edit-src-token': $('input[name="edit-src-token"]').val()
         };
-        num = $( this ).val();
+        num = $(this).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
-        AjaxMain( url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList );
-    } );
+        AjaxMain(url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList);
+    });
 
     // ファイル名またはディレクトリ名からファイルリストを生成する
-    $( 'select[name="select_directory"]' ).on( 'change', function ( e )
+    $('select[name="select_directory"]').on('change', function (e)
     {
         var url = location.href;
         var selectDirectory = {
-            "select_directory": $( this ).val(),
-            "dir_name": $( 'select[name="select"]' ).val(),
-            "token": $( '.token' ).val()
+            "select_directory": $(this).val(),
+            "dir_name": $('select[name="select"]').val(),
+            'edit-src-token': $('input[name="edit-src-token"]').val()
         };
-        num = $( this ).val();
+        num = $(this).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
-        AjaxMain( url, null, 'server.php', 'POST', selectDirectory, 'json', SetFileList);
-    } );
+        AjaxMain(url, null, 'server.php', 'POST', selectDirectory, 'json', SetFileList);
+    });
 
     // 選択したソースを読み込む
-    $( 'button[name="edit"]' ).on( 'click', function ( e )
+    $('button[name="edit"]').on('click', function (e)
     {
         var url = location.href;
         var selectObj = {
             "edit": $('.edit').val(),
-            "directory": $( 'select[name="select"]' ).val(),
-            "subdirectory": $( 'select[name="select_directory"]' ).val(),
-            "file": $( 'select[name="select_file"]' ).val(),
-            "token": $( '.token' ).val()
+            "directory": $('select[name="select"]').val(),
+            "subdirectory": $('select[name="select_directory"]').val(),
+            "file": $('select[name="select_file"]').val(),
+            'edit-src-token': $('input[name="edit-src-token"]').val()
         };
-        AjaxMain( url, null, 'server.php', 'POST', selectObj, 'json', SetFiled );
-    } );
+        AjaxMain(url, null, 'server.php', 'POST', selectObj, 'json', SetFiled);
+    });
 
     // ソースの中身を更新する
-    $( 'button[name="save"]' ).on( 'click', function ( e )
+    $('button[name="save"]').on('click', function (e)
     {
-        if ( confirm( '本当に更新しますか？' ) )
+        if (confirm('本当に更新しますか？'))
         {
             console.log(tinyMCE.activeEditor.getContent());
             var unescapeHtml = function(target) {
@@ -92,50 +92,50 @@ function Main ()
 
             var url = location.href;
             var saveObj = {
-                "edit": $( '.edit' ).val(),
-                "directory": $( 'select[name="select"]' ).val(),
-                "subdirectory": $( 'select[name="select_directory"]' ).val(),
-                "file": $( 'select[name="select_file"]' ).val(),
+                "edit": $('.edit').val(),
+                "directory": $('select[name="select"]').val(),
+                "subdirectory": $('select[name="select_directory"]').val(),
+                "file": $('select[name="select_file"]').val(),
                 "input": output,
                 "save": 'true',
-                'token': $( '.token' ).val()
+                'edit-src-token': $('input[name="edit-src-token"]').val()
             };
-            // console.log(  );
-            AjaxMain( url, null, 'server.php', 'POST', saveObj, 'json' );
+            // console.log();
+            AjaxMain(url, null, 'server.php', 'POST', saveObj, 'json');
 
-            // $( '.result-src' ).val();
-            alert( '更新しました。' );
+            // $('.result-src').val();
+            alert('更新しました。');
 
         } else
         {
-            alert( '更新を中止しました。' );
+            alert('更新を中止しました。');
         }
-    } );
+    });
 
 }
 
-function ReadFileList ( ver )
+function ReadFileList (ver)
 {
-    select = $( 'select[name="select_directory"]' );
+    select = $('select[name="select_directory"]');
 
     // オプションの初期化
     select.children().remove();
-    option = $( '<option>' )
-        .val( null )
-        .text( '---' )
-        .prop( 'selected', 'select' );
-    select.append( option );
+    option = $('<option>')
+        .val(null)
+        .text('---')
+        .prop('selected', 'select');
+    select.append(option);
 
-    $.each( ver, function ( index, value )
+    $.each(ver, function (index, value)
     {
-        if ( value !== '.' && value !== '..' && value !== '_old' )
+        if (value !== '.' && value !== '..' && value !== '_old')
         {
-            option = $( '<option>' )
-                .val( value )
-                .text( value )
-            select.append( option );
+            option = $('<option>')
+                .val(value)
+                .text(value)
+            select.append(option);
         }
-    } );
+    });
 }
 
 /**
@@ -145,31 +145,31 @@ function ReadFileList ( ver )
  *
  * @param {array} dir
  */
-function SetFileList ( dir )
+function SetFileList (dir)
 {
-    select = $( 'select[name="select_file"]' );
+    select = $('select[name="select_file"]');
 
     // オプションの初期化
     select.children().remove();
-    option = $( '<option>' )
-        .val( null )
-        .text( '---' )
-        .prop( 'selected', 'select' );
-    select.append( option );
+    option = $('<option>')
+        .val(null)
+        .text('---')
+        .prop('selected', 'select');
+    select.append(option);
 
-    if ( $.isArray( dir ) )
+    if ($.isArray(dir))
     {
 
-        $.each( dir, function ( index, value )
+        $.each(dir, function (index, value)
         {
-            if ( value !== '.' && value !== '..' && value !== '_old' && value !== 'notAutoInclude' )
+            if (value !== '.' && value !== '..' && value !== '_old' && value !== 'notAutoInclude')
             {
-                option = $( '<option>' )
-                    .val( value )
-                    .text( value )
-                select.append( option );
+                option = $('<option>')
+                    .val(value)
+                    .text(value)
+                select.append(option);
             }
-        } );
+        });
     } else
     {
         // 選択肢を削除
@@ -197,17 +197,17 @@ function SetFiled(data)
  *
  * @param {object} argObj
  */
-function AutoSetTextArea ( argObj )
+function AutoSetTextArea (argObj)
 {
     // 一旦テキストエリアを小さくしてスクロールバー（縦の長さを取得）
     argObj.style.height = "10px";
-    var wSclollHeight = parseInt( argObj.scrollHeight );
+    var wSclollHeight = parseInt(argObj.scrollHeight);
     // 1行の長さを取得する
-    var wLineH = parseInt( argObj.style.lineHeight.replace( /px/, '' ) );
+    var wLineH = parseInt(argObj.style.lineHeight.replace(/px/, ''));
     // 最低2行の表示エリアにする
-    if ( wSclollHeight < ( wLineH * 2 ) )
+    if (wSclollHeight < (wLineH * 2))
     {
-        wSclollHeight = ( wLineH * 2 );
+        wSclollHeight = (wLineH * 2);
     }
     // テキストエリアの高さを設定する
     argObj.style.height = wSclollHeight + "px";

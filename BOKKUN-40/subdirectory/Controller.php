@@ -1,12 +1,14 @@
 <?php
-
 $posts = public\Setting::GetPosts();
-$tokenCheck = CheckToken('xml-token');
-if (!$tokenCheck) {
-    return -1;
+$session = new public\Session();
+$token = new \Public\Token('xml-token', $session, true);
+$token->CheckToken();
+if ($token->CheckToken()) {
+    // $script->Alert("不正な操作を検知しました。");
+    return false;
 }
 $file = public\Setting::GetFiles();
-if ($file['xml']['error'] || $file['xml']['type'] !== "application/octet-stream") {
+if (!isset($file['xml']) || $file['xml']['error'] || $file['xml']['type'] !== "application/octet-stream") {
     return -1;
 }
 

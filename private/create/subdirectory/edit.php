@@ -1,30 +1,29 @@
 <?php
 define("DS", DIRECTORY_SEPARATOR);
+define("MAX_LENGTH", 32);
 
 // 関数定義 (初期処理用)
 require dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
-// 設定
-require_once dirname(__DIR__, 2) . DS . "common" . DS . "Setting.php";
-// セッション
-require_once dirname(__DIR__, 2) . DS . "common" . DS  . "Session.php";
-// タグ
-require_once dirname(__DIR__, 2) . DS . AddPath("common", "Component") . DS . "Tag.php";
 // 定数・固定文言など
 require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
+// 設定
+require_once AddPath(PRIVATE_COMMON_DIR, "Setting.php", false);
+// セッション
+require_once AddPath(PRIVATE_COMMON_DIR, "Session.php", false);
 // CSRF
-require_once PRIVATE_COMMON_DIR . "/Token.php";
+require_once AddPath(PRIVATE_COMMON_DIR, "Token.php", false);
+// タグ
+require_once AddPath(PRIVATE_COMPONENT_DIR, "Tag.php", false);
 
-define("MAX_LENGTH", 32);
-
-$session =  new private\Session();
+$session =  new \private\Session();
 $adminError = new AdminError();
 $use = new \PrivateTag\UseClass();
 
 // tokenチェック
-$checkToken = CheckToken();
+$editToken = new \private\Token("edit-token", $session);
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
-if ($checkToken === false) {
+if ($editToken->CheckToken() === false) {
     $sessClass =  new private\Session();
     $sessClass->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new private\Setting();

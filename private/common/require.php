@@ -6,16 +6,18 @@ define('DS', DIRECTORY_SEPARATOR);
 require dirname(__DIR__) . DS . 'common' . DS . 'InitFunction.php';
 // 定数・固定文言など
 require_once AddPath(AddPath(AddPath(dirname(__DIR__), "common", false), "Word", false), "Message.php", false);
+// ヘッダー・フッター
+require_once AddPath(COMMON_DIR, "Config.php", false);
 // 設定
 require_once AddPath(PRIVATE_COMMON_DIR, "Setting.php", false);
 // セッション
 require_once AddPath(PRIVATE_COMMON_DIR, "Session.php", false);
 // CSRF
 require_once AddPath(PRIVATE_COMMON_DIR, "Token.php", false);
+// ファイル読み込み
+require_once AddPath(PRIVATE_COMMON_DIR, "Include.php", false);
 // 管理側共通処理
 require_once AddPath(PRIVATE_DIR, "common.php", false);
-// ヘッダー・フッター
-require_once AddPath(COMMON_DIR, "Config.php", false);
 // サイト設定(ヘッダー・フッター)
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 // UA
@@ -35,5 +37,3 @@ switch ($ua->DesignJudge()) {
     default:
         break;
 }
-
-require_once PRIVATE_COMMON_DIR . "/Include.php";

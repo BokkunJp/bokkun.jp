@@ -10,7 +10,7 @@ echo "<script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha25
 echo "<script src='https://code.jquery.com/ui/1.13.1/jquery-ui.min.js' integrity='sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=' crossorigin='anonymous'></script>";
 
 if (ErrorSetting\Setting::GetServerName() === 'bokkun.jp.local') {
-    echo "<script src='//jp.vuejs.org/js/vue.js'></script>";
+    echo "<script src='//unpkg.com/vue@3.2.47/dist/vue.global.js'></script>";
 } else {
     echo "<script src='//jp.vuejs.org/js/vue.min.js'></script>";
 }
