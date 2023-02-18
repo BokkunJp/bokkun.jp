@@ -156,15 +156,12 @@ if ($type === "scratch") {
     }
 }
 
+// テンプレートを指定した場合は、テンプレートエンジン用のindexファイル作成
 if (!empty($templateExtenion)) {
-    copy("$baseFileName/$fileName.$templateExtenion", "$title/$fileName.$templateExtenion");  // テンプレートエンジン用のindexファイル作成
-    if ($templateExtenion !== 'tpl') {
-        mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
-    }
-} else {
-    if (!file_exists("$title/subdirectory")) {
-        mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
-    }
+    copy("$baseFileName/$fileName.$templateExtenion", "$title/$fileName.$templateExtenion");
+} elseif (!file_exists("$title/subdirectory")) {
+    // テンプレートの未設定かつ初期作成時、subdirectoryディレクトリ作成
+    mkdir("$title/subdirectory");
 }
 
 unset($pathList[0]);
