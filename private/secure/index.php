@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/Layout/require.php';
-require_once __DIR__ . '/Layout/init.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'require.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'init.php';
 
 use PrivateTag\UseClass;
 
@@ -27,7 +27,8 @@ $tokenError = false;
 // CSRFチェック
 if (isset($post['private-login-token'])) {
     unset($post['private-login-token']);
-    if (!CheckToken('private-login-token')) {
+    $privateLoginToken = new private\Token("private-login-token", $session);
+    if (!$privateLoginToken->CheckToken()) {
         $tokenError = true;
         $session->Write('token-Error', '<p>不正な遷移です。もう一度操作してください。</p>');
     }
