@@ -67,6 +67,7 @@ RewriteCond %{REQUEST_URI} !(/index.php$)
 RewriteCond %{REQUEST_URI} !(/subdirectory.*/index.php$)
 RewriteCond %{REQUEST_URI} !(/subdirectory.*/design.php$)
 RewriteCond %{REQUEST_URI} !(/subdirectory.*/server.php$)
+RewriteCond %{REQUEST_URI} !(/phpPgAdmin/)
 # #管理側
 RewriteCond %{REQUEST_URI} !(^/private/admin.php$)
 RewriteCond %{REQUEST_URI} !(^/private/secure.php$)

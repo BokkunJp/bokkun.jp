@@ -11,7 +11,7 @@ use common\Setting;
  */
 class Token {
 
-    private string $tokenName, $tokenValue;
+    private string $tokenName, $tokenValue, $tokenPost;
     private bool $checkSetting;
     private ?\common\Session $session;
     private ?array $posts;
@@ -29,17 +29,19 @@ class Token {
     {
         $this->tokenName = $tokenName;
         $this->session = $session;
-        $this->posts = Setting::GetPosts();
+        $this->tokenValue = (string)$session->Read($tokenName);
+        $this->tokenPost = Setting::GetPost($this->tokenName);
         $this->checkSetting = $checkSetting;
     }
     /**
      * MakeToken
-     * トークン作成
+     * トークンの生成・上書き
      *
      * @return string
      */
     public function SetToken(): void
     {
+        // トークンを設定(上書き)
         $this->tokenValue = $this->CreateRandom(SECURITY_LENG) . '-' . $this->CreateRandom(SECURITY_LENG, "random_bytes");
 
         if ($this->checkSetting) {
@@ -52,7 +54,7 @@ class Token {
     /**
      * CheckToken
      *
-     * Post値とセッション値のチェック
+     * Post値とトークンのチェック
      *
      *
      * @param  string $tokenName
@@ -62,11 +64,11 @@ class Token {
      */
     public function CheckToken(): bool
     {
-        if (!isset($this->posts[$this->tokenName])
-            || is_null($this->posts[$this->tokenName])
-            || $this->posts[$this->tokenName] === false
+        if (!isset($this->tokenPost)
+            || is_null($this->tokenPost)
+            || $this->tokenPost === false
             || is_null($this->session->Read($this->tokenName))
-            || !hash_equals($this->session->Read($this->tokenName), $this->posts[$this->tokenName])
+            || !hash_equals($this->session->Read($this->tokenName), $this->tokenPost)
         ) {
             return false;
         }
@@ -74,9 +76,24 @@ class Token {
         return true;
     }
 
-    public function GetTokenTag()
+    /**
+     * GetTokenTag
+     *
+     * トークンのHMTL要素の取得または出力
+     *
+     * @param boolean $getFlg
+     * @return null|string
+     */
+    public function GetTokenTag(bool $getFlg = false): ?string
     {
+        if ($getFlg === false) {
         echo "<input type='hidden' name={$this->tokenName} value='{$this->tokenValue}' />";
+        $result = null;
+        } else {
+            $result = "<input type='hidden' name={$this->tokenName} value='{$this->tokenValue}' />";
+        }
+
+        return $result;
     }
 
     /**
@@ -85,9 +102,9 @@ class Token {
      *
      * @return void
      */
-    public function DebugToken()
+    public function DebugToken(): void
     {
-            echo 'post: ' . $this->posts[$this->tokenName] . '<br/>';
+            echo 'post: ' . $this->tokenPost . '<br/>';
             echo 'session: ' . $this->session->Read($this->tokenName) . '<br/><br/>';
     }
 }
