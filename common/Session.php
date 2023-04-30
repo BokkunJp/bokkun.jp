@@ -2,8 +2,9 @@
 namespace Common;
 
 // Trait読み込み
-$traitPath = AddPath(__DIR__, 'Trait', false);
-require_once(AddPath($traitPath, 'SessionTrait.php', false));
+$sessionTraitPath = new \Path(__DIR__);
+$sessionTraitPath->AddArray(['Trait', 'SessionTrait.php']);
+require_once $sessionTraitPath->Get();
 
 // セッションクラス (新)
 class Session
@@ -22,6 +23,13 @@ class Session
     private function SessionStart()
     {
         if (!isset($_SESSION) || session_status() === PHP_SESSION_DISABLED) {
+            if (PHP_OS === 'WINNT') {
+                $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
+                if (!is_dir($sessionDir)) {
+                    mkdir($sessionDir, 0755);
+                }
+                session_save_path($sessionDir);
+            }
             session_start();
         } else {
             // セッションが定義されている場合は更新

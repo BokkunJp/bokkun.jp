@@ -82,6 +82,9 @@ RewriteCond %{REQUEST_URI} !(^/public/common)
 RewriteCond %{REQUEST_URI} !(^/public/client)
 RewriteRule ^public/(.*) $1 [R]
 
+# Pythonファイル(.py)をCGIとして動作するようにする。
+AddHandler cgi-script .py
+
 # #メンテナンス対象外ページを指定してメンテナンスをかけるときに使用
 # RewriteCond %{REQUEST_FILENAME} !-f
 # #トップページのみメンテナンス解除
