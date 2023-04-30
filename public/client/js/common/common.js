@@ -1,4 +1,5 @@
-if (document.domain == 'bokkun.jp.project')
+var uri = new URL(window.location.href);
+if (URL.host == 'bokkun.jp.local')
 {
-    Vue.config.devtools = true;
+    // Vue.jsの調整分
 }
