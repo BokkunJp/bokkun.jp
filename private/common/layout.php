@@ -2,6 +2,13 @@
 
 // セッションスタート
 if (!isset($_SESSION)) {
+    if (PHP_OS === 'WINNT') {
+        $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
+        if (!is_dir($sessionDir)) {
+            mkdir($sessionDir, 0755);
+        }
+        session_save_path($sessionDir);
+    }
     session_start();
 } else {
     session_reset();
@@ -34,16 +41,16 @@ $img = "crown-vector.jpg";
     <title><?= $title ?>
     </title>
     <link rel="shortcut icon"
-        href="<?= $base->GetURL('', 'client') ?>image/IMG_7592.PNG">
+        href="<?= $base->GetUrl('', 'client') ?>/image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->GetURL('', 'client') ?>css/common.css">
+        href="<?= $base->GetUrl('', 'client') ?>/css/common.css">
 
     <link rel="stylesheet" type="text/css"
         href="/private/client/css/common/<?php echo $agentCode; ?>.css">
 
     <!-- ログファイル以外を含めて正常に動作(ログファイル以外は最初でループが止まる) -->
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->GetURL('', 'client') ?>css<?= CreateClient('log') ?>design.css">
+        href="<?= $base->GetUrl('', 'client') ?>/css<?= CreateClient('log') ?>/design.css">
 </head>
 
 <body>
