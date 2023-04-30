@@ -9,7 +9,8 @@ if (!isset($_SESSION)) {
         }
         session_save_path($sessionDir);
     }
-    session_start();} else {
+    session_start();
+} else {
     session_reset();
 }
 

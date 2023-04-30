@@ -1,35 +1,56 @@
 <?php
 
+// セッションスタート
+if (!isset($_SESSION)) {
+    if (PHP_OS === 'WINNT') {
+        $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
+        if (!is_dir($sessionDir)) {
+            mkdir($sessionDir, 0755);
+        }
+        session_save_path($sessionDir);
+    }
+    session_start();
+}
+?>
+
+<!DOCTYPE html>
+<?php
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 // 関数定義 (初期処理用)
-require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'common/InitFunction.php';
-// 定数・固定文言など
-require_once AddPath(AddPath(dirname(__DIR__, 2), AddPath(AddPath("public", "common"), "Word"), false), "Message.php", false);
+require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'InitFunction.php';
 // 設定
-require_once AddPath(PUBLIC_COMMON_DIR, "Setting.php", false);
-// CSRF対策
-require_once AddPath(PUBLIC_COMMON_DIR, "Token.php", false);
-// ファイル読み込み処理
-require_once AddPath(PUBLIC_COMMON_DIR, "Include.php", false);
-// UA
-require_once AddPath(PUBLIC_COMPONENT_DIR, "UA.php", false);
-// ヘッダーフッター
-require_once AddPath(AddPath(DOCUMENT_ROOT, "common"), "Config.php", false);
-
-// カスタムファイル
-
-// if (fileExists()) {
-
-// }
-
-// 共通処理に必要なグローバル変数
-$base = new public\Setting();
-$ua = new UA\UA();
+require_once dirname(__DIR__, 2) . "/public/common/Setting.php";
+// 定数・固定文言など
+$commonWordPath = new \Path(dirname(__DIR__, 2));
+$commonWordPath->AddArray(["public", "common", "Word", "Message.php"]);
+require_once $commonWordPath->Get();
+// ヘッダー・フッター
+$configPath = new \Path(dirname(__DIR__, 2));
+$configPath->SetPathEnd();
+$configPath->AddArray(["common", "Config.php"]);
+require_once $configPath->Get();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
-if (!isset($title)) {
-    $title = basename(getcwd());
+// UA
+require_once PUBLIC_COMPONENT_DIR . '/UA.php';
+// Session
+require_once PUBLIC_COMMON_DIR . "/Session.php";
+// CSRF
+require_once PUBLIC_COMMON_DIR . "/Token.php";
+
+// UA判定処理
+$ua = new Public\UA();
+define('Phone', 2);
+define('PC', 1);
+switch ($ua->DesignJudge()) {
+    case PC:
+        $agentCode = 'PC';
+        break;
+    case Phone:
+        $agentCode = 'SMP';
+        break;
+    default:
+        break;
 }
-if (!isset($homepageTitle)) {
-    $homepageTitle = htmlspecialchars($title);
-}
+
+require_once PUBLIC_COMMON_DIR . "/Include.php";
