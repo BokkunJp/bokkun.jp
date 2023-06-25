@@ -45,7 +45,7 @@ $publicPath->SetAll([
     "PUBLIC_LAYOUT_DIR" => COMMON_DIR,
 ]);
 $publicPath->ResetKey("PUBLIC_COMPONENT_DIR");
-$publicPath->MethodPath("Add", "component");
+$publicPath->MethodPath("Add", "Component");
 define('PUBLIC_COMPONENT_DIR', $publicPath->Get());
 
 $publicPath->ResetKey("PUBLIC_LAYOUT_DIR");
