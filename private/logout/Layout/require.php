@@ -19,23 +19,64 @@ if (!isset($_SESSION)) {
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'InitFunction.php';
+
+// パスの初期セット
+$privatepathList = new PathApplication('word', dirname(__DIR__, 2));
+
+// それぞれの変数セット
+$privatepathList->SetAll(
+    [
+        'setting' => '',
+        'include' => '',
+        'session' => '',
+        'token' => '',
+        'common' => '',
+        'ua' => '',
+        'config' => dirname(__DIR__, 2),
+    ]
+);
+
+// パスの追加
+// ヘッダー・フッター
+$privatepathList->ResetKey('config');
+$privatepathList->MethodPath('AddArray', [dirname(__DIR__, 3), 'common', 'Config.php'], true);
+
 // 定数・固定文言など
-require_once \Path::AddPathStatic(\Path::AddPathStatic(\Path::AddPathStatic(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
+$privatepathList->ResetKey('word');
+$privatepathList->MethodPath('AddArray', ['common', 'Word', 'Message.php']);
+
+// // 管理側共通(ログイン認証など)
+$privatepathList->ResetKey('common');
+$privatepathList->MethodPath('AddArray', ['common.php']);
+
 // 設定
-require_once \Path::AddPathStatic(PRIVATE_COMMON_DIR, "Setting.php", false);
+$privatepathList->ResetKey('setting');
+$privatepathList->MethodPath('AddArray', ['common', 'Setting.php']);
+
 // セッション
-require_once \Path::AddPathStatic(PRIVATE_COMMON_DIR, "Session.php", false);
-// 管理側共通機能
-require_once \Path::AddPathStatic(PRIVATE_DIR, "common.php", false);
-// CSRF
-require_once \Path::AddPathStatic(PRIVATE_COMMON_DIR, "Token.php", false);
-// 必要なメソッドの読み込み
-require_once \Path::AddPathStatic(PRIVATE_COMMON_DIR, "Include.php", false);
-// タグ
-require_once \Path::AddPathStatic(PRIVATE_COMPONENT_DIR, "Tag.php", false);
+$privatepathList->ResetKey('session');
+$privatepathList->MethodPath('AddArray', ['common', 'Session.php']);
+
+// トークン
+$privatepathList->ResetKey('token');
+$privatepathList->MethodPath('AddArray', ['common', 'Token.php']);
+
+// ファイル読み込み
+$privatepathList->ResetKey('include');
+$privatepathList->MethodPath('AddArray', ['common', 'Include.php']);
+
+// UA
+$privatepathList->ResetKey('ua');
+$privatepathList->MethodPath('AddArray', ['common', 'Component', 'UA.php']);
+
+// パスの出力
+$privatepathList->All();
+foreach ($privatepathList->Get() as $path) {
+    require_once $path;
+}
 
 // UA判定処理
-$ua = new UA\UA();
+$ua = new private\UA();
 define('Phone', 2);
 define('PC', 1);
 switch ($ua->DesignJudge()) {

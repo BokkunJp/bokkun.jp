@@ -1,6 +1,6 @@
 <?php
 
-namespace UA;
+namespace private;
 
 class UA
 {
