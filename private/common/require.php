@@ -52,7 +52,7 @@ $privatepathList->MethodPath('AddArray', ['common', 'Include.php']);
 
 // UA
 $privatepathList->ResetKey('ua');
-$privatepathList->MethodPath('AddArray', ['common', 'Component', 'ua.php']);
+$privatepathList->MethodPath('AddArray', ['common', 'Component', 'UA.php']);
 
 // パスの出力
 $privatepathList->All();
@@ -61,7 +61,7 @@ foreach ($privatepathList->Get() as $path) {
 }
 
 // UA判定処理
-$ua = new UA\UA();
+$ua = new private\UA();
 define('Phone', 2);
 define('PC', 1);
 switch ($ua->DesignJudge()) {

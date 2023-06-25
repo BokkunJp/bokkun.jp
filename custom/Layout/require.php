@@ -53,7 +53,7 @@ $privatepathList->MethodPath('AddArray', ['public', 'common', 'Token.php']);
 
 // UA
 $privatepathList->ResetKey('ua');
-$privatepathList->MethodPath('AddArray', ['public', 'common', 'Component', 'ua.php']);
+$privatepathList->MethodPath('AddArray', ['public', 'common', 'Component', 'UA.php']);
 
 // パスの出力
 $privatepathList->All();

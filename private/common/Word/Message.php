@@ -60,7 +60,7 @@ $privateMessage->MethodPath('AddArray', ['image']);
 define('PRIVATE_IMAGE_DIR', $privateMessage->Get());
 
 $privateMessage->ResetKey('priavate_component_dir');
-$privateMessage->MethodPath('AddArray', ['component']);
+$privateMessage->MethodPath('AddArray', ['Component']);
 define('PRIVATE_COMPONENT_DIR', $privateMessage->Get());
 
 
@@ -68,14 +68,10 @@ $privateMessage->ResetKey('priavate_layout_dir');
 $privateMessage->MethodPath('AddArray', ['layout']);
 define('PRIVATE_LAYOUT_DIR', $privateMessage->Get());
 
-// define('PRIVATE_CSV_DIR', \Path::AddPathStatic(PRIVATE_CLIENT_DIR, 'csv', false));
-// define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
-// define('NOW_PAGE', basename(getcwd()));
-// define('SECURITY_LENG', 32);
 define('PRIVATE_PREVIOUS', '画像管理ページへ戻る');
 
 // 管理側の追加ソース
-define('ADD_DESIGN', 'require_once\Path::AddPathStatic(__DIR__, "design.php", false);');
+define('ADD_DESIGN', 'require_once __DIR__ . DIRECTORY_SEPARATOR . "design.php", false);');
 
 // 公開側画像パス
 $publicImageWord = new Path(DOCUMENT_ROOT);

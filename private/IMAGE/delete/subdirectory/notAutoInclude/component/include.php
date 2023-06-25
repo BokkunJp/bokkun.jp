@@ -15,8 +15,10 @@ function IncludeDirectories($pwd = '', $extension = 'php', $ret = false)
 
     $dirList = scandir($pwd);           // ファイルリスト取得
     foreach ($dirList as $_dirList) {
+        $pwdPath = new \Path($pwd);
+        $pwdPath->SetPathEnd();
         if (is_dir($_dirList) && !is_numeric(strpos($_dirList, '.'))) {
-            IncludeFiles(\Path::AddPathStatic($pwd, $_dirList), $extension, false);
+            IncludeFiles($pwdPath->Add($_dirList, false), $extension, false);
         }
     }
     if (isset($localPath)) {
@@ -51,7 +53,9 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
     if (!empty($classLoad)) {
         return spl_autoload_register(function () use ($pwd, $classLoad) {
             while ($name = current($classLoad)) {
-                require_once \Path::AddPathStatic($pwd, "{$name}.php", false);
+                $pwdPath = new \Path($pwd);
+                $pwdPath->SetPathEnd();
+                require_once $pwdpath->Add("{$name}.php", false);
                 next($classLoad);
             }
         });

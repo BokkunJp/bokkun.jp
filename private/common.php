@@ -15,6 +15,7 @@ if (isset($session->Read('admin')['secure'])) {
 if (isset($session->Read('admin')['page'])) {
     $secure = $session->Read('admin')['page'];
 }
+
 // $secure = false;
 if ($secure !== true) {
     require_once __DIR__. '/secure/index.php';

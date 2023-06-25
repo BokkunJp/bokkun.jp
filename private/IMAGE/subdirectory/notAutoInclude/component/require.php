@@ -52,31 +52,25 @@ $privatepathList->MethodPath('AddArray', ['common', 'Session.php']);
 $privatepathList->ResetKey('token');
 $privatepathList->MethodPath('AddArray', ['common', 'Token.php']);
 
-Debug($privatepathList->Get());
 // ファイル読み込み
 $privatepathList->ResetKey('include');
 $privatepathList->MethodPath('Reset');
-$privatepathList->MethodPath('AddArray', [__DIR__, 'Include.php'], true);
+$privatepathList->MethodPath('AddArray', [__DIR__, 'include.php'], true);
 
 // UA
 $privatepathList->ResetKey('ua');
 $privatepathList->MethodPath('Reset');
-$privatepathList->MethodPath('AddArray', ['common', 'Component', 'ua.php']);
+$privatepathList->MethodPath('AddArray', ['common', 'Component', 'UA.php']);
 
 // パスの出力
 $privatepathList->All();
 
 foreach ($privatepathList->Get() as $path) {
-    if ($path === 'E:\bokkun\public_html\bokkun.jp\private\E:\bokkun\public_html\bokkun.jp\private\IMAGE\subdirectory\notAutoInclude\component\Include.php') {
-        Debug($path);
-        Debug(is_file($path));
-        Debug(is_dir(dirname($path)));
-        die;
-    }
+    Debug($path);
     require_once $path;
 }
 
 // 共通処理に必要なグローバル変数
 $base = new private\Setting();
-$ua = new UA\UA();
+$ua = new private\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
