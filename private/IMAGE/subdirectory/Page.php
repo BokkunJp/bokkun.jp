@@ -30,7 +30,7 @@ function GetPage(): int|false
  *
  * @return integer
  */
-function GetCountPerPage()
+function GetCountPerPage(): int
 {
     $session = new private\Session();
     $post = private\Setting::GetPost('image-value');
@@ -60,7 +60,7 @@ function GetCountPerPage()
  *
  *  @return string
  */
-function ViewPager($max, $ajaxFlg = false)
+function ViewPager($max, $ajaxFlg = false): ?string
 {
     $htmlVal = '';
     $nowPage = GetPage();
@@ -114,6 +114,8 @@ function ViewPager($max, $ajaxFlg = false)
 
     if ($ajaxFlg) {
         return $htmlVal;
+    } else {
+        return null;
     }
 }
 
@@ -126,9 +128,9 @@ function ViewPager($max, $ajaxFlg = false)
  * @param integer $minPage
  * @param integer $maxPage
  *
- * @return void
+ * @return null|integer|bool
  */
-function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
+function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage): null|int|bool
 {
     switch ($currentPage) {
         case $minPage:
@@ -164,9 +166,9 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
  * @param integer $minPage
  * @param integer $maxPage
  * @param boolean $ajaxFlg
- * @return void
+ * @return string|bool
  */
-function SetInputForm($minPage, $maxPage, $ajaxFlg = false)
+function SetInputForm($minPage, $maxPage, $ajaxFlg = false): string|bool
 {
     $htmlVal = "<span class='image-page-input'><input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button></span>";
     if ($ajaxFlg) {

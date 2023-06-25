@@ -3,14 +3,16 @@
 namespace PrivateTag;
 
 require_once dirname(__DIR__). DIRECTORY_SEPARATOR. 'InitFunction.php';
-$wordPath = AddPath(dirname(__DIR__), 'Word');
-$wordPath = AddPath($wordPath, 'Message.php', false);
-require_once $wordPath;
 
-$commonPath = AddPath(DOCUMENT_ROOT, 'common');
-$commonPath = AddPath($commonPath, 'Component');
-$commonPath = AddPath($commonPath, 'Tag.php', false);
-require_once $commonPath;
+$wordPath = new \Path(dirname(__DIR__));
+$wordPath->AddArray(['Word', 'Message.php']);
+require_once $wordPath->Get();
+
+$tagPath = new \Path(COMPONENT_DIR);
+$tagPath->SetPathEnd();
+$tagPath->Add('Tag.php');
+require_once $tagPath->Get();
+
 class Base extends \BasicTag\Base
 {
 }

@@ -1,10 +1,8 @@
 <?php
 
-$commonWordPath = dirname(dirname(__DIR__, 2));
-$commonWordPath = AddPath($commonWordPath, 'common');
-$commonWordPath = AddPath($commonWordPath, 'Word');
-$commonWordPath = AddPath($commonWordPath, 'Message.php', false);
-require_once $commonWordPath;
+$commonWordPath = new \Path(dirname(__DIR__, 3));
+$commonWordPath->AddArray(["common", "Word", "Message.php"]);
+require_once $commonWordPath->Get();
 // CSRFクラス
 function Public_CSRFErrorMessage()
 {
@@ -23,16 +21,64 @@ function Public_CSRFErrorMessage()
 }
 
 // 共通部分
-define('PUBLIC_DIR', AddPath(DOCUMENT_ROOT, 'public', false));
-define('PUBLIC_COMMON_DIR', AddPath(PUBLIC_DIR, 'common', false));
-define('PUBLIC_CLIENT_DIR', AddPath(PUBLIC_DIR, 'client', false));
-define('PUBLIC_CSS_DIR', AddPath(PUBLIC_CLIENT_DIR, 'css', false));
-define('PUBLIC_JS_DIR', AddPath(PUBLIC_CLIENT_DIR, 'js', false));
-define('PUBLIC_IMAGE_DIR', AddPath(PUBLIC_CLIENT_DIR, 'image', false));
-define('PUBLIC_3D_DIR', AddPath(PUBLIC_CLIENT_DIR, '3d', false));
-define('PUBLIC_CSV_DIR', AddPath(PUBLIC_CLIENT_DIR, 'csv', false));
-define('PUBLIC_COMPONENT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Component', false));
-define('PUBLIC_LAYOUT_DIR', AddPath(PUBLIC_COMMON_DIR, 'Layout', false));
+$publicPath = new \Path(DOCUMENT_ROOT, '/');
+$publicPath->Add('public');
+define('PUBLIC_DIR', $publicPath->Get());
+
+$publicPath = new \PathApplication("PUBLIC_COMMON_DIR", PUBLIC_DIR);
+$publicPath->MethodPath("EditSepartor", "/");
+$publicPath->SetAll([
+    "PUBLIC_CLIENT_DIR" => '',
+]);
+$publicPath->ResetKey("PUBLIC_CLIENT_DIR");
+$publicPath->MethodPath("Add", "client");
+define('PUBLIC_CLIENT_DIR', $publicPath->Get());
+
+$publicPath->ResetKey("PUBLIC_COMMON_DIR");
+$publicPath->MethodPath("Add", "common");
+define('PUBLIC_COMMON_DIR', $publicPath->Get());
+
+$publicPath = new \PathApplication("PUBLIC_COMPONENT_DIR", PUBLIC_COMMON_DIR);
+$publicPath->SetAll([
+    "PUBLIC_LAYOUT_DIR" => COMMON_DIR,
+]);
+$publicPath->ResetKey("PUBLIC_COMPONENT_DIR");
+$publicPath->MethodPath("Add", "component");
+define('PUBLIC_COMPONENT_DIR', $publicPath->Get());
+
+$publicPath->ResetKey("PUBLIC_LAYOUT_DIR");
+$publicPath->MethodPath("Add", "layout");
+define('PUBLIC_LAYOUT_DIR', $publicPath->Get());
+
+$publicPath = new \PathApplication("PUBLIC_CSS_DIR", PUBLIC_CLIENT_DIR);
+$publicPath->SetAll([
+    "PUBLIC_CSS_DIR" => '',
+    "PUBLIC_JS_DIR" => '',
+    "PUBLIC_IMAGE_DIR" => '',
+    "PUBLIC_3D_DIR" => '',
+    "PUBLIC_CSV_DIR" => '',
+]);
+$publicPath->ResetKey("PUBLIC_CSS_DIR");
+$publicPath->MethodPath("Add", "css");
+define('PUBLIC_CSS_DIR', $publicPath->Get());
+
+$publicPath->ResetKey("PUBLIC_JS_DIR");
+$publicPath->MethodPath("Add", "js");
+define('PUBLIC_JS_DIR', $publicPath->Get());
+
+$publicPath->ResetKey("PUBLIC_IMAGE_DIR");
+$publicPath->MethodPath("Add", "image");
+define('PUBLIC_IMAGE_DIR', $publicPath->Get());
+
+$publicPath->ResetKey("PUBLIC_3D_DIR");
+$publicPath->MethodPath("Add", "3d");
+define('PUBLIC_3D_DIR', $publicPath->Get());
+
+$publicPath->ResetKey("PUBLIC_CSV_DIR");
+$publicPath->MethodPath("Add", "csv");
+$publicPath->MethodPath("Add", "csv");
+define('PUBLIC_CSV_DIR', $publicPath->Get());
+
 // 画像閲覧ページ
 define('PUBLIC_PREVIOUS', '画像閲覧ページへ戻る');
 // メール送信ページ

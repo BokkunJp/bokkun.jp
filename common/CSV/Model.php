@@ -1,14 +1,12 @@
 <?php
 
-namespace Common;
-
 use public\Setting as Setting;
 
 define("FALSE_MESSAGE", "の値が不正です。");
 define("NULL_MESSAGE", "の値を入力してください。");
-IncludeDirctories();
+// IncludeDirctories();
 
-class CSV extends CSV_Base
+class CSV1 extends CSV1_Base
 {
     private $fileName;
     private $editFlg;

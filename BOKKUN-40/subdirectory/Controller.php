@@ -2,8 +2,8 @@
 $posts = public\Setting::GetPosts();
 $session = new public\Session();
 $token = new \Public\Token('xml-token', $session, true);
-$token->CheckToken();
-if ($token->CheckToken()) {
+$token->Check();
+if ($token->Check()) {
     // $script->Alert("不正な操作を検知しました。");
     return false;
 }

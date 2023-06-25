@@ -78,7 +78,9 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
     </div>
 
     <?php
-    $filePath = AddPath(PUBLIC_CSV_DIR, basename(__DIR__));
+    $filePath = new \Path(PUBLIC_CSS_DIR);
+    $filePath->Add(basename(__DIR__));
+    $filePath = $filePath->Get();
 
     // ディレクトリが存在しない場合は作成
     if (!is_dir($filePath)) {
@@ -94,7 +96,9 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
     //$downloadHtml->ExecTag(true);
 
     foreach ($fileArray as $_value) {
-        $_filePath = AddPath($base->GetUrl(basename(__DIR__), 'csv'), $_value, false);
+        $_filePath = new \Path($base->GetUrl(basename(__DIR__)));
+        $_filePath->Add('csv');
+        $_filePath = $_filePath->Get();
         echo "<a href=\"{$_filePath}\" download>{$_value}ダウンロード</a><br/>";
     }
     ?>
@@ -148,4 +152,4 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
         </contents>
     </div>
     <?php
-    SetToken($token);
+    Set($token);

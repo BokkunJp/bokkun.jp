@@ -2,10 +2,9 @@
 
 namespace PublicTag;
 
-$commonPath = AddPath(DOCUMENT_ROOT, 'common');
-$commonPath = AddPath($commonPath, 'Component');
-$commonPath = AddPath($commonPath, 'Tag.php', false);
-require_once $commonPath;
+$commonPath = new \Path(DOCUMENT_ROOT);
+$commonPath->AddArray(["common", "Component", "Tag.php"]);
+require_once $commonPath->Get();
 class Base extends \BasicTag\Base
 {
 }

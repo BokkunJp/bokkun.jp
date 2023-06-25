@@ -4,8 +4,12 @@ header("Content-Type: application/json; charset=UTF-8");
 define("DS", DIRECTORY_SEPARATOR);
 
 require_once dirname(__DIR__, 3) . DS . "common" . DS . "ajax-require.php";
-require_once AddPath(getcwd(), 'include.php', false);
-IncludeFiles(AddPath(dirname(__DIR__), ''));
+$includePath = new \Path(getcwd());
+$includePath->SetPathEnd();
+$includePath->Add('include.php');
+require_once $includePath->Get();
+IncludeFilesForImage(__DIR__. '/');
+IncludeFilesForImage(dirname(__DIR__). '/');
 
 // Postセット
 $post = private\Setting::GetPosts();
@@ -16,7 +20,7 @@ $session = new private\Session();
 // tokenチェック
 $selectToken = new private\Token('select-token', $session, true);
 // 不正tokenの場合は、エラーを出力して処理を中断。
-if ($selectToken->CheckToken() === false) {
+if ($selectToken->Check() === false) {
     $data = ['error' => true, 'error-view' => '不正な遷移です。リロードしてください。'];
     $json = json_encode($data);
     echo $json;
@@ -43,6 +47,7 @@ if ($postValid === false) {
 
 // セッションの内容を更新
 $session->Write('image-view-directory', $post['type']);
+$session->Write('delete-image-view-directory', $post['type']);
 
 // 画像群を取得して、フロント処理側に返却
 $img = ReadImage(ajaxFlg:true);

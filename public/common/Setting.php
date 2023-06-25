@@ -4,24 +4,40 @@
 
 namespace public;
 
-require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
+$commonSettingPath = new \Path(dirname(__DIR__, 2));
+$commonSettingPath->AddArray(['common', 'Setting.php']);
+$commonPath = $commonSettingPath->Get();
+require_once $commonPath;
 
 // 設定関係のクラス (共通クラスを親クラスとする)
 class Setting extends \common\Setting
 {
-    protected $public;
-    protected $client;
-
     public function __construct()
     {
         // 基本設定(親クラスのコンストラクタにアクセス)
         parent::__construct();
 
         // 公開パス関係
-        $this->css = AddPath($this->client, 'css', false, '/');
-        $this->js = AddPath($this->client, 'js', false, '/');
-        $this->image = AddPath($this->client, 'image', false, '/');
-        $this->csv = AddPath($this->client, 'csv', false, '/');
+        $client = new \PathApplication("css", $this->client);
+        $client->SetAll([
+            'js' => '',
+            'image' => '',
+            'csv' => ''
+        ]);
+
+        $client->MethodPath("ResetKey", "/");
+        $client->ResetKey('css');
+        $client->MethodPath("Add", "css");
+        $this->css = $client->Get();
+        $client->ResetKey('js');
+        $client->MethodPath("Add", "js");
+        $this->js = $client->Get();
+        $client->ResetKey('image');
+        $client->MethodPath("Add", "image");
+        $this->image = $client->Get();
+        $client->ResetKey('csv');
+        $client->MethodPath("Add", "csv");
+        $this->csv = $client->Get();
     }
 
     /**
@@ -84,10 +100,6 @@ class Permmision
     {
     }
 }
-
-$commonPath = AddPath(dirname(__DIR__, 2), basename(__DIR__));
-
-require_once(AddPath($commonPath, 'Setting.php', false));
 
 // 設定のベースとなる変数
 $domain = Setting::GetServerName();

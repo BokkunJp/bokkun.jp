@@ -31,10 +31,10 @@ foreach ($dir as $_key => $_dir) {
 $session->OnlyView('notice');
 
 $createToken = new private\Token('create-token', $session);
-$createToken->SetToken();
+$createToken->Set();
 
 $editToken= new private\Token('edit-token', $session);
-$editToken->SetToken();
+$editToken->Set();
 
 $smarty->assign('base', 'subdirectory');
 $smarty->assign('createToken', $createToken);

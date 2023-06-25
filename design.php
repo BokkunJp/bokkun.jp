@@ -11,7 +11,7 @@
     </ul>
     <ol>
         <?php
-    $notList = ['.', '..', '.htaccess', 'client', 'common', 'template', 'template_base', 'custom', 'custom_base', 'public', 'cake', 'private', 'php.yml'];
+    $notList = ['.', '..', '.htaccess', 'client', 'common', 'template', 'template_base', 'custom', 'custom_base', 'public', 'cake', 'private', 'API', 'php.yml'];
     $dirList = scandir(__DIR__ . '/');
     $notList = AddList($notList, $dirList, '.', 1);
     $notList = AddList($notList, $dirList, '_', 1);

@@ -1,6 +1,5 @@
 <?php
 
-use phpDocumentor\Reflection\PseudoTypes\False_;
 use PrivateTag\CustomTagCreate;
 
 require_once('Page.php');
@@ -124,10 +123,16 @@ function ImportImage(array $upFiles): ?array
 
         if (is_numeric($imgType)) {
             // 画像保管用のディレクトリがない場合は作成
-            if (!file_exists(AddPath($imageDir, $imagePageName))) {
-                mkdir(AddPath($imageDir, $imagePageName));
+            $imageDir = new \Path($imageDir);
+            $imageDir->Add($imagePageName);
+            $imageDir = $imageDir->Get();
+            if (!file_exists($imageDir)) {
+                mkdir($imageDir);
             }
-            if (move_uploaded_file($_files['tmp_name'], AddPath(AddPath($imageDir, $imagePageName), $_files['name'], false))) {
+            $file = new \Path($imageDir);
+            $file->SetPathEnd();
+            $file->Add($_files['name']);
+            if (move_uploaded_file($_files['tmp_name'], $file->Get())) {
                 // $result['success'][$_files['name']] = true;
                 $result['success']['count']++;
             } else {
@@ -180,9 +185,11 @@ function LoadAllImageFile()
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'mp4'];
 
     $imgSrc = [];
+    $imgPath = new \Path(PUBLIC_IMAGE_DIR);
+    $imgPath->Add($imagePageName);
     foreach ($imgArray as $_index) {
-        $imgSrc[mb_strtolower($_index)] = IncludeFiles(AddPath(PUBLIC_IMAGE_DIR, $imagePageName), mb_strtolower($_index), true);
-        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(AddPath(PUBLIC_IMAGE_DIR, $imagePageName), mb_strtoupper($_index), true);
+        $imgSrc[mb_strtolower($_index)] = IncludeFiles($imgPath->Get(), mb_strtolower($_index), true);
+        $imgSrc[mb_strtoupper($_index)] = IncludeFiles($imgPath->Get(), mb_strtoupper($_index), true);
     }
 
     $ret = [];
@@ -287,14 +294,14 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
 }
 
 /**
- * ChoiseImage
+ * ChoiceImage
  * 全画像データのうち、表示に必要なデータのみを抽出する
  *
  * @param array $params
  * @param array $data
  * @return void
  */
-function ChoiseImage(array $params, array $data): array
+function ChoiceImage(array $params, array $data): array
 {
     // 結果用配列
     $cloneImg = [];
@@ -324,9 +331,14 @@ function ReadImage($ajaxFlg = false)
 
     // ソート用にデータを調整
     $sortAray = array();
+    $imgPath = new \Path(PUBLIC_IMAGE_DIR);
+    $imgPath->Add($imagePageName);
     foreach ($fileList as $index => $_file) {
         $sortAray[$index]['name'] = $_file;
-        $sortAray[$index]['time'] = filemtime(AddPath(AddPath(PUBLIC_IMAGE_DIR, $imagePageName), $_file, false));
+        $filePath = new \Path($imgPath->Get());
+        $filePath->SetPathEnd();
+        $filePath->Add($_file);
+        $sortAray[$index]['time'] = filemtime($filePath->Get());
     }
 
     // 画像投稿日時の昇順にソート
@@ -339,7 +351,7 @@ function ReadImage($ajaxFlg = false)
     }
 
     // 画像データを整理
-    $sortAray = ChoiseImage($params, $sortAray, $ajaxFlg);
+    $sortAray = ChoiceImage($params, $sortAray, $ajaxFlg);
 
     if ($ajaxFlg === true) {
         return ShowImage($params, $sortAray, IMAGE_URL, $ajaxFlg);
@@ -373,8 +385,11 @@ function ShowImage(
         foreach ($data as $i => $_data) {
             $jsData[$i]['name'] = $_data['name'];
             // 画像データの取得
-            $imagePath = AddPath(PUBLIC_IMAGE_DIR, $imagePageName, false);
-            $imagePath = AddPath($imagePath, $_data['name'], false);
+            $imagePath = new \Path(PUBLIC_IMAGE_DIR);
+            $imagePath->Add($imagePageName);
+            $imagePath->SetPathEnd();
+            $imagePath->Add($_data['name']);
+            $imagePath = $imagePath->Get();
             $jsData[$i]['info'] = CalcImageSize($imagePath, (int)GetIni('private', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
             // 画像データが取得できなかった場合は、配列の該当データの削除
@@ -384,7 +399,9 @@ function ShowImage(
         }
 
         $jsData['view-image-type'] = $imagePageName;
-        $jsData['url'] = AddPath($imageUrl, $imagePageName, separator:'/');
+        $imageUrl = new \Path($imageUrl, '/');
+        $imageUrl->Add($imagePageName);
+        $jsData['url'] = $imageUrl->Get();
         ;
         $jsData['pager'] = ViewPager($params['max'], $ajaxFlg);
 
@@ -493,19 +510,29 @@ function DeleteImages(array $deleteImages): array
 {
     $imagePageName = GetImagePageName();
 
-    $baseImageDir = AddPath(PUBLIC_IMAGE_DIR, $imagePageName);
+    $baseImageDir = new \Path(PUBLIC_IMAGE_DIR);
+    $baseImageDir->Add($imagePageName);
 
-    // _oldディレクトリがない場合はディレクトリを生成
-    if (!is_dir(AddPath($baseImageDir, '_old'))) {
-        mkdir(AddPath($baseImageDir, '_old'));
+    $oldImageDir = new \Path($baseImageDir->Get());
+    $oldImageDir->Add('_oldImage');
+
+    // _oldImageディレクトリがない場合はディレクトリを生成
+    if (!is_dir($oldImageDir->Get())) {
+        mkdir($oldImageDir->Get());
     }
 
     $ret = [];
     // 指定されたファイルをすべて削除 (退避ディレクトリに追加)
     foreach ($deleteImages as $_key => $_value) {
+        $file = new \Path($baseImageDir->Get());
+        $file->SetPathEnd();
+        $file->Add($_value);
+        $oldFile = new \Path($oldImageDir->Get());
+        $oldFile->SetPathEnd();
+        $oldFile->Add($_value);
         if ($_value !== false && preg_match('/^img_(.*)$/', $_key)
-        && SearchData($_value, scandir($baseImageDir))
-        && rename(AddPath($baseImageDir, $_value, false), AddPath(AddPath($baseImageDir, '_old'), $_value, false)) === true
+        && SearchData($_value, scandir($baseImageDir->Get()))
+        && rename($file->Get(), $oldFile->Get()) === true
         ) {
             $ret['success'][$_key] = $_value;
         } else {
@@ -561,7 +588,9 @@ function CopyImage(array $upFilesArray): array
         // 不正なファイル名が混入しているパターン
         $result['illegal-value']['count'] = 0;
         foreach ($upFilesArray as $_key => $_file) {
-            $fileValid = ValidateData(AddPath(PUBLIC_IMAGE_DIR, $srcImageName), $_file);
+            $srcImagePath = new \Path(PUBLIC_IMAGE_DIR);
+            $srcImagePath->Add($srcImageName);
+            $fileValid = ValidateData($srcImagePath->Get(), $_file);
             if ($fileValid === false) {
                 $result['illegal-value']['count']++;
                 // 不正なファイル名を対象から外す
@@ -581,11 +610,22 @@ function CopyImage(array $upFilesArray): array
         $copyFilesArray = $upFilesArray;
     }
     // 各ファイル名にディレクトリパスを付与
-    $srcImageName = AddPath(PUBLIC_IMAGE_DIR, $srcImageName);
-    $copyImageName = AddPath(PUBLIC_IMAGE_DIR, $copyImageName);
+    $srcImagePath = new \Path(PUBLIC_IMAGE_DIR);
+    $srcImagePath->Add($srcImageName);
+    $srcImageName = $srcImagePath->Get();
+    $srcImagePath = new \Path(PUBLIC_IMAGE_DIR);
+    $srcImagePath->Add($copyImageName);
+    $copyImageName = $srcImagePath->Get();
 
     foreach ($upFilesArray as $_key => $_upFileName) {
-        if (copy(AddPath($srcImageName, $_upFileName, false), AddPath($copyImageName, $copyFilesArray[$_key], false))) {
+        $upFilePath = new \Path($srcImageName);
+        $upFilePath->SetPathEnd();
+        $upFilePath->Add($_upFileName);
+
+        $copyFilePath = new \Path($copyImageName);
+        $copyFilePath->SetPathEnd();
+        $copyFilePath->Add($copyFilesArray[$_key]);
+        if (copy($upFilePath->Get(), $copyFilePath->Get())) {
             $result['success']['count']++;
         } else {
             $result['error']['count']++;

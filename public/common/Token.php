@@ -1,7 +1,10 @@
 <?php
 namespace Public;
 
-require_once AddPath(COMMON_DIR, basename(__FILE__), false);
+$commonTokenPath = new \Path(COMMON_DIR);
+$commonTokenPath->SetPathEnd();
+$commonTokenPath->Add(basename(__FILE__));
+require_once $commonTokenPath->Get();
 class Token extends \common\Token {
 
 }

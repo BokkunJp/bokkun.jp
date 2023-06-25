@@ -1,6 +1,7 @@
 <?php
-
-IncludeFiles(AddPath(AddPath(PUBLIC_COMMON_DIR, 'Component'), 'DB'));
+$dbPath = new \Path(PUBLIC_COMPONENT_DIR);
+$dbPath->Add("DB");
+IncludeFiles($dbPath->Get());
 
 
 /**

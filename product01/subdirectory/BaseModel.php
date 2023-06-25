@@ -1,6 +1,6 @@
 <?php
 
-define('CSV_PATH', AddPath(PUBLIC_CSV_DIR, '', false, '/') . AddPath(basename(getcwd()), '', false, '/'));
+define('CSV_PATH', \Path::AddPathStatic(PUBLIC_CSV_DIR, '', false, '/') . \Path::AddPathStatic(basename(getcwd()), '', false, '/'));
 define("EXTENSION_NONE_TRUE", 2);
 class productCSV_Base
 {
@@ -85,12 +85,12 @@ class productCSV_Base
     protected function ReadFile($fileName, $filePath = CSV_PATH)
     {
         // ファイルパスにCSVファイルが存在しない場合は終了
-        if (!file_exists(AddPath($filePath, $fileName, false))) {
+        if (!file_exists(\Path::AddPathStatic($filePath, $fileName, false))) {
             return false;
         }
 
         $this->data = null; // データリセット
-        $fileHandler = fopen(AddPath($filePath, $fileName, false), "r");
+        $fileHandler = fopen(\Path::AddPathStatic($filePath, $fileName, false), "r");
         if ($fileHandler) {
             while ($_data = fgetcsv($fileHandler)) {
                 if ($_data === false) {
@@ -195,7 +195,7 @@ class productCSV_Base
         }
 
 
-        $fileHandler = @fopen(AddPath($filePath, $fileName, false), "w");
+        $fileHandler = @fopen(\Path::AddPathStatic($filePath, $fileName, false), "w");
 
         // ファイルの読み込みに失敗した場合は中断
         if ($fileHandler === false) {

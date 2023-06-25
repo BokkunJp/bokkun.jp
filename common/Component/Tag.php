@@ -206,7 +206,7 @@ class HTMLClass extends Base
      */
     protected function SetSpecailContents(?string $contents): void
     {
-        $this->HTMLSet($this->tagName, $this->contens, $this->className);
+        $this->HTMLSet($this->tagName, $this->contents, $this->className);
         $this->contents = $contents;
     }
 

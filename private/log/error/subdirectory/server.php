@@ -56,7 +56,10 @@ if ($srcName === false) {
 
 // エラーファイル名選択時
 } else {
-    $srcFile = AddPath($dirPath, $srcName, false);
+    $srcPath = new \Path($dirPath);
+    $srcPath->SetPathEnd();
+    $srcPath->Add($srcName);
+    $srcFile = $srcPath->Get();
     if (!$errCode && !is_file($srcFile)) {
         $errCode = 2;
     }

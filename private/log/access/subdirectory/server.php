@@ -10,7 +10,10 @@ $set = new private\Setting();
 
 // ログパスをセット
 $dirPath = rtrim(dirname(__DIR__, 6), "\\");
-$dirPath = AddPath($dirPath, 'log');
+$dirPath = new \Path($dirPath);
+$dirPath->SetPathEnd();
+$dirPath->Add('log');
+$dirPath = $dirPath->Get();
 
 $srcName = $set->GetPost('select_log');
 
@@ -26,7 +29,10 @@ $result = ValidateData($dirPath, $srcName);
  }
 
 if (!$errCode) {
-    $srcFile = AddPath($dirPath, $srcName, false);
+    $srcPath = new \Path($dirPath);
+    $srcPath->SetPathEnd();
+    $srcPath->Add($srcName);
+    $srcFile = $srcPath->Get();
     if (file_exists($srcFile)) {
         $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
     } else {

@@ -2,19 +2,25 @@
 
 namespace private;
 
-require_once AddPath(dirname(__DIR__, 2), AddPath('common', 'Setting.php', false), false);
+if (!class_exists("Path")) {
+    require_once dirname(__DIR__, 2). "/common/Initialize/Path.php";
+}
+
+$sesttingPath = new \Path(dirname(__DIR__, 2));
+$sesttingPath->AddArray(['common', 'Setting.php']);
+require_once $sesttingPath->Get();
 class Setting extends \common\Setting
 {
-    protected $private;
-    protected $domain;
-    protected $url;
-    protected $public;
-    protected $client;
-    protected $css;
-    protected $js;
-    protected $image;
-    protected $csv;
-    protected $filepageImage;
+    protected \Path|string $private;
+    protected string $domain;
+    protected ?string $url;
+    protected string $public;
+    protected \Path|string $client;
+    protected string $css;
+    protected string $js;
+    protected string $image;
+    protected string $csv;
+    protected string $filepageImage;
 
     public function __construct()
     {
@@ -22,16 +28,42 @@ class Setting extends \common\Setting
         parent::__construct();
 
         // 基本設定
-        $this->private = AddPath('', 'private', separator:'/');
-        $this->client = AddPath($this->private, 'client', true, '/');
-
+        $this->private = new \Path('', '/');
+        $this->private->Add('private');
+        $this->client = new \Path($this->private->Get(), '/');
+        $this->private = $this->private->Get();
+        $this->client->Add('client');
+        $this->client = $this->client->Get();
 
         // 公開パス関係
-        $this->css = AddPath($this->client, 'css', false, '/');
-        $this->js = AddPath($this->client, 'js', false, '/');
-        $this->image = AddPath($this->client, 'image', false, '/');
-        $this->csv = AddPath($this->client, 'csv', false, '/');
-        $this->filepageImage = AddPath($this->public, 'image', false, '/');
+        $publicPath = new \PathApplication('css', $this->client, '/');
+        $publicPath->SetAll([
+            'js' => '',
+            'image' => '',
+            'csv' => '',
+            'filepageImage' => $this->public
+        ]);
+        $publicPath->ResetKey('css');
+        $publicPath->MethodPath('Add', 'css');
+        $this->css = $publicPath->Get();
+
+
+        $publicPath->ResetKey('js');
+        $publicPath->MethodPath('Add', 'js');
+        $this->js = $publicPath->Get();
+
+
+        $publicPath->ResetKey('image');
+        $publicPath->MethodPath('Add', 'image');
+        $this->image = $publicPath->Get();
+
+        $publicPath->ResetKey('csv');
+        $publicPath->MethodPath('Add', 'csv');
+        $this->csv = $publicPath->Get();
+
+        $publicPath->ResetKey('filepageImage');
+        $publicPath->MethodPath('Add', 'image');
+        $this->image = $publicPath->Get();
     }
 
     /**
@@ -130,13 +162,16 @@ class Setting extends \common\Setting
     }
 }
 
-$commonPath = AddPath(dirname(__DIR__, 2), basename(__DIR__));
+$commonPath = new \Path(dirname(__DIR__, 2));
+$commonPath->Add('common');
+$settingPath = new \Path($commonPath->Get());
+$settingPath->SetPathEnd();
+$settingPath->Add('Setting.php');
+require_once $settingPath->Get();
 
-require_once(AddPath($commonPath, 'Setting.php', false));
-
-$traitPath = AddPath($commonPath, 'Trait', false);
-
-require_once(AddPath($traitPath, 'SessionTrait.php', false));
+$traitPath = new \Path($commonPath->Get());
+$traitPath->AddArray(['Trait', 'SessionTrait.php']);
+require_once $traitPath->Get();
 
 $domain = filter_input_fix(INPUT_SERVER, 'SERVER_NAME');
 

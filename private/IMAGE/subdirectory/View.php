@@ -9,7 +9,7 @@
  *
  * @return void
  */
-function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
+function ViewImage($imageName, $imageUrl, $fileTime, $checked = false): void
 {
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
@@ -23,9 +23,9 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
         $session->Write("imageMaxSize-ini", (int)GetIni('private', 'ImageMaxSize'));
     }
 
-    $imagePath = AddPath(PUBLIC_IMAGE_DIR, $imagePageName, false);
-    $imagePath = AddPath($imagePath, $imageName, false);
-    $imageData = CalcImageSize($imagePath, $session->Read('imageMaxSize-ini'));
+    $imagePath = new \Path(PUBLIC_IMAGE_DIR);
+    $imagePath->AddArray([$imagePageName, $imageName]);
+    $imageData = CalcImageSize($imagePath->Get(), $session->Read('imageMaxSize-ini'));
 
     // 画像データが存在する場合は出力
     if ($imageData) {
@@ -46,7 +46,7 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
  *
  * @return void
  */
-function ViewList($imageName, $imageUrl, $checked = false)
+function ViewList($imageName, $imageUrl, $checked = false): void
 {
     // 現在選択している画像タイプを取得
     $imagePageName = GetImagePageName();

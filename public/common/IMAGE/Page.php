@@ -165,9 +165,9 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
  * @param integer $minPage
  * @param integer $maxPage
  * @param boolean $ajaxFlg
- * @return void
+ * @return string|bool
  */
-function SetInputForm($minPage, $maxPage, $ajaxFlg = false)
+function SetInputForm(int $minPage, int $maxPage, bool $ajaxFlg = false): string|bool
 {
     $htmlVal = "<span class='image-page-input'><input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button></span>";
     if ($ajaxFlg) {

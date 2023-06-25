@@ -9,7 +9,7 @@ $post = \private\Setting::GetPosts();
 // tokenチェック
 $session = new \private\Session();
 $createToken = new \private\Token('edit-token', $session);
-if ($createToken->CheckToken() === false) {
+if ($createToken->Check() === false) {
     $data = ['src' => true];
     $json = json_encode($data);
     echo $json;

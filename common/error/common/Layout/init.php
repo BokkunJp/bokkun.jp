@@ -14,12 +14,30 @@ if (empty($title)) {
     $title .= '-';
 }
 
+$initPathList = new \PathApplication('word', dirname(__DIR__));
+$initPathList->SetAll([
+    'setting' => dirname(__DIR__, 3),
+    'error_setting' => dirname(__DIR__),
+    'error_include' => ''
+]);
+$initPathList->ResetKey('word');
+$initPathList->MethodPath('SetPathEnd');
+$initPathList->MethodPath('Add', 'word.php');
+$initPathList->ResetKey('setting');
+$initPathList->MethodPath('SetPathEnd');
+$initPathList->MethodPath('Add', 'Setting.php');
+$initPathList->ResetKey('error_setting');
+$initPathList->MethodPath('SetPathEnd');
+$initPathList->MethodPath('Add', 'Setting.php');
+$initPathList->ResetKey('error_include');
+$initPathList->MethodPath('SetPathEnd');
+$initPathList->MethodPath('Add', 'Include.php');
 
-require_once AddPath(dirname(__DIR__), 'word.php', false);
-require_once AddPath(COMMON_DIR, 'Setting.php', false);
-require_once AddPath(ERROR_COMMON_DIR, 'Setting.php', false);
-require_once AddPath(ERROR_COMMON_DIR, "Include.php", false);
+$initPathList->All();
 
+foreach ($initPathList->Get() as $path) {
+    require_once $path;
+}
 // UA判定処理 (内容はベースと同様)
 $agent = new UA\UA();
 define('Phone', 2);

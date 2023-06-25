@@ -1,6 +1,19 @@
 <?php
 
 if (!isset($_SESSION)) {
+    if (PHP_OS === 'WINNT') {
+        $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/";
+        if (!is_dir($sessionDir)) {
+            mkdir($sessionDir, 0755);
+            $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
+            if (!is_dir($sessionDir)) {
+                mkdir($sessionDir, 0755);
+            } else {
+                $sessionDir .= '/session/';
+            }
+        }
+        session_save_path($sessionDir);
+    }
     session_start();
 } else {
     session_reset();
@@ -23,12 +36,12 @@ AlertAdmin('access', $title);
     <meta charset='utf-8' />
     <title>管理側</title>
     <link rel="shortcut icon"
-        href="<?= $base->GetURL('', 'client') ?>image/IMG_7592.PNG">
+        href="<?= $base->GetURL('', 'client') ?>/image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css" href="./client/css/common.css">
     <link rel="stylesheet" type="text/css"
         href="./client/css/common/<?php echo $agentCode; ?>.css">
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->GetURL('', 'client') ?>css/design.css">
+        href="<?= $base->GetURL('', 'client') ?>/css/design.css">
 </head>
 
 <body>

@@ -21,7 +21,7 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
     if (!empty($classLoad)) {
         return spl_autoload_register(function () use ($pwd, $classLoad) {
             while ($name = current($classLoad)) {
-                require_once AddPath($pwd, "{$name}.php", false);
+                require_once \Path::AddPathStatic($pwd, "{$name}.php", false);
                 next($classLoad);
             }
         });

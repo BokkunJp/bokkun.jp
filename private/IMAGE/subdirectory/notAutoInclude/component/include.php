@@ -2,7 +2,7 @@
 /*
  * Subdirectoryディレクトリ以下のPHPファイルを一括で読み込む。
  */
-function IncludeDirctories($pwd = '', $extension = 'php', $ret = false)
+function IncludeDirectories($pwd = '', $extension = 'php', $ret = false)
 {
     // パスの指定がない場合は、カレントディレクトリ一覧を取得
     if (empty($pwd)) {
@@ -16,7 +16,9 @@ function IncludeDirctories($pwd = '', $extension = 'php', $ret = false)
     $dirList = scandir($pwd);           // ファイルリスト取得
     foreach ($dirList as $_dirList) {
         if (is_dir($_dirList) && !is_numeric(strpos($_dirList, '.'))) {
-            IncludeFiles(AddPath($pwd, $_dirList), $extension, false);
+            $path = new \Path($pwd);
+            $path->Add($_dirList);
+            IncludeFiles($path->Get(), $extension, false);
         }
     }
     if (isset($localPath)) {
@@ -51,7 +53,9 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
     if (!empty($classLoad)) {
         return spl_autoload_register(function () use ($pwd, $classLoad) {
             while ($name = current($classLoad)) {
-                require_once AddPath($pwd, "{$name}.php", false);
+                $path = new Path($pwd);
+                $path->Add("{$name}.php");
+                require_once $path->Get();
                 next($classLoad);
             }
         });

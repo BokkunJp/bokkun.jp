@@ -6,32 +6,77 @@ define("DS", DIRECTORY_SEPARATOR);
 
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__, 4) . DS . 'common' . DS.'InitFunction.php';
-// 設定
-// require_once dirname(__DIR__, 4) . DS . 'common' . DS .  'Setting.php';
-require_once AddPath(dirname(__DIR__, 4) ,  AddPath('common',  'Setting.php', false), false);
+
+
+// パスの定義
+$privatepathList = new PathApplication('word', dirname(__DIR__, 4));
+
+// それぞれの変数セット
+$privatepathList->SetAll([
+    'setting' => '',
+    'include' => '',
+    'session' => '',
+    'token' => '',
+    'common' => '',
+    'tag' => '',
+    'ua' => '',
+    'config' => dirname(__DIR__, 5),
+]);
+
+// パスの追加
+// ヘッダー・フッター
+$privatepathList->ResetKey('config');
+$privatepathList->MethodPath('AddArray', ['common', 'Config.php']);
+
 // 定数・固定文言など
-require_once AddPath(AddPath(dirname(__DIR__, 4), AddPath('common', 'Word'), false), "Message.php", false);
-// セッション
-require_once AddPath(PRIVATE_COMMON_DIR, 'Session.php', false);
-// CSRF対策
-require_once AddPath(PRIVATE_COMMON_DIR, "Token.php", false);
+$privatepathList->ResetKey('word');
+$privatepathList->MethodPath('AddArray', ['common', 'Word', 'Message.php']);
+
+// 管理側共通(ログイン認証など)
+$privatepathList->ResetKey('common');
+$privatepathList->MethodPath('AddArray', ['common.php']);
+
+// 設定
+$privatepathList->ResetKey('setting');
+$privatepathList->MethodPath('AddArray', ['common', 'Setting.php']);
+
 // タグ
-require_once AddPath(PRIVATE_COMPONENT_DIR, "Tag.php", false);
+$privatepathList->ResetKey('tag');
+$privatepathList->MethodPath('AddArray', ['common', 'Component', 'Tag.php']);
+
+// セッション
+$privatepathList->ResetKey('session');
+$privatepathList->MethodPath('AddArray', ['common', 'Session.php']);
+
+// トークン
+$privatepathList->ResetKey('token');
+$privatepathList->MethodPath('AddArray', ['common', 'Token.php']);
+
+Debug($privatepathList->Get());
+// ファイル読み込み
+$privatepathList->ResetKey('include');
+$privatepathList->MethodPath('Reset');
+$privatepathList->MethodPath('AddArray', [__DIR__, 'Include.php'], true);
+
 // UA
-require_once AddPath(PRIVATE_COMPONENT_DIR, 'UA.php', false);
-// ヘッダーフッター
-require_once AddPath(AddPath(DOCUMENT_ROOT, "common"), "Config.php", false);
+$privatepathList->ResetKey('ua');
+$privatepathList->MethodPath('Reset');
+$privatepathList->MethodPath('AddArray', ['common', 'Component', 'ua.php']);
 
-// カスタムファイル
+// パスの出力
+$privatepathList->All();
 
-// if (fileExists()) {
-
-// }
+foreach ($privatepathList->Get() as $path) {
+    if ($path === 'E:\bokkun\public_html\bokkun.jp\private\E:\bokkun\public_html\bokkun.jp\private\IMAGE\subdirectory\notAutoInclude\component\Include.php') {
+        Debug($path);
+        Debug(is_file($path));
+        Debug(is_dir(dirname($path)));
+        die;
+    }
+    require_once $path;
+}
 
 // 共通処理に必要なグローバル変数
 $base = new private\Setting();
 $ua = new UA\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
-
-// ファイル読み込み処理
-require_once AddPath(__DIR__, "include.php", false);

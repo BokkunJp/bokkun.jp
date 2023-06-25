@@ -1,6 +1,8 @@
 <?php
 
-IncludeFiles(AddPath(COMMON_DIR, 'Trait'));
+$traitPath = new \Path(COMMON_DIR);
+$traitPath->Add('Trait');
+IncludeFiles($traitPath->Get());
 
 trait PrivateTrait
 {
@@ -49,27 +51,10 @@ trait PrivateTrait
      *
      * @return bool
      */
-    private function DeleteData(string $dirPath): bool
+    private function DeleteData(string $select): bool
     {
-        if (is_dir($dirPath)) {
-            foreach (scandir($dirPath) as $_file) {
-                if (FindFileName($_file) && is_readable($_file)) {
-                    unlink(AddPath($dirPath, $_file, false));
-                } elseif ((FindFileName($_file) && !is_readable($_file))) {
-                    if (file_exists(AddPath($dirPath, $_file))) {
-                        DeleteData(AddPath($dirPath, $_file));
-                    } else {
-                        unlink(AddPath($dirPath, $_file, false));
-                    }
-                }
-            }
-
-            rmdir($dirPath);
-        } else {
-            return false;
-        }
-
-        return true;
+        $dirPath = \Path::AddPathStatic(getcwd(), $select, false);
+        return system("rm -rf $dirPath");
     }
 
     /**
@@ -85,7 +70,7 @@ trait PrivateTrait
      */
     private function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bool
     {
-        $dstPath = AddPath(dirname($srcPath), $copyName);
+        $dstPath = \Path::AddPathStatic(dirname($srcPath), $copyName);
 
         if (is_dir($srcPath)) {
             // コピー元にファイルがある場合は、ファイルを走査してコピー
@@ -99,14 +84,14 @@ trait PrivateTrait
 
             foreach (scandir($srcPath) as $_file) {
                 if ((FindFileName($_file))) {
-                    if (is_readable(AddPath($srcPath, $_file, false))) {
-                        copy(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+                    if (is_readable(\Path::AddPathStatic($srcPath, $_file, false))) {
+                        copy(\Path::AddPathStatic($srcPath, $_file, false), \Path::AddPathStatic($dstPath, $_file, false));
                     } else {
-                        if (is_dir(AddPath($srcPath, $_file, false))) {
-                            if (!is_dir(AddPath($dstPath, $_file, false))) {
-                                mkdir(AddPath($dstPath, $_file, false));
+                        if (is_dir(\Path::AddPathStatic($srcPath, $_file, false))) {
+                            if (!is_dir(\Path::AddPathStatic($dstPath, $_file, false))) {
+                                mkdir(\Path::AddPathStatic($dstPath, $_file, false));
                             }
-                            CopySubData(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+                            CopySubData(\Path::AddPathStatic($srcPath, $_file, false), \Path::AddPathStatic($dstPath, $_file, false));
                         }
                     }
                 }
@@ -138,15 +123,15 @@ trait PrivateTrait
 
         foreach (scandir($srcPath) as $_file) {
             if ((FindFileName($_file))) {
-                if (is_readable(AddPath($srcPath, $_file, false))) {
-                    copy(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+                if (is_readable(\Path::AddPathStatic($srcPath, $_file, false))) {
+                    copy(\Path::AddPathStatic($srcPath, $_file, false), \Path::AddPathStatic($dstPath, $_file, false));
                 } else {
-                    if (is_dir(AddPath($dstPath, $_file, false))) {
-                        if (!is_dir(AddPath($dstPath, $_file, false))) {
-                            mkdir(AddPath($dstPath, $_file, false));
+                    if (is_dir(\Path::AddPathStatic($dstPath, $_file, false))) {
+                        if (!is_dir(\Path::AddPathStatic($dstPath, $_file, false))) {
+                            mkdir(\Path::AddPathStatic($dstPath, $_file, false));
                         }
                     }
-                    CopySubData(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+                    CopySubData(\Path::AddPathStatic($srcPath, $_file, false), \Path::AddPathStatic($dstPath, $_file, false));
                 }
             }
         }

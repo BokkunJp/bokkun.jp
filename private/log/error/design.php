@@ -14,7 +14,8 @@ $smarty->config_dir   = './subdirectory/configs/';
 $smarty->cache_dir    = './subdirectory/cache/';
 
 // jsファイル読み込み
-$jsTitle = CreateClient('log');
+$jsTitle = CreateClient('log', separator:'/');
+$jsTitle = trim($jsTitle, '/');
 IncludeJSFiles($jsTitle);
 
 if ($session->Judge('addition')) {

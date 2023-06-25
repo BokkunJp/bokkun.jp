@@ -1,10 +1,11 @@
 <?php
 
-require dirname(__DIR__, 3). "/public/common/ajax-require.php";
-require 'include.php';
+require_once dirname(__DIR__, 3). "/public/common/ajax-require.php";
+require_once'include.php';
 
-
-IncludeFiles(AddPath(PUBLIC_COMMON_DIR, 'IMAGE'));
+$imagePath = new \Path(PUBLIC_COMMON_DIR);
+$imagePath->Add('IMAGE');
+IncludeFiles($imagePath->Get());
 
 chdir(dirname(getcwd(), 2));
 
