@@ -1,6 +1,9 @@
 <?php
 
-require_once AddPath(AddPath(__DIR__, 'common'), AddPath('Component', 'Mail.php', false), false);
+$mailPath = new \Path(PRIVATE_COMPONENT_DIR);
+$mailPath->SetPathEnd();
+$mailPath->Add('Mail.php');
+require_once $mailPath->Get();
 
 $session = new private\Session();
 $post = private\Setting::GetPosts();
@@ -12,6 +15,7 @@ if (isset($session->Read('admin')['secure'])) {
 if (isset($session->Read('admin')['page'])) {
     $secure = $session->Read('admin')['page'];
 }
+
 // $secure = false;
 if ($secure !== true) {
     require_once __DIR__. '/secure/index.php';

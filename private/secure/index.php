@@ -13,7 +13,10 @@ if (!$session->Judge('admin')) {
     $session->Write('admin', []);
 }
 if (!isset($adminURL) || empty($adminURL) && $session->Read('admin')['send'] !== true) {
-    require_once AddPath(PRIVATE_DIR, 'common.php', false);
+    $commonPath = new Path(PRIVATE_DIR);
+    $commonPath->SetPathEnd();
+    $commonPath->Add('common.php');
+    require_once $commonPath->Get();
     $adminURL = explode('/', private\Setting::getURI());
     $session->WriteArray('admin', 'adminURL', $adminURL);
 } else {
@@ -28,7 +31,7 @@ $tokenError = false;
 if (isset($post['private-login-token'])) {
     unset($post['private-login-token']);
     $privateLoginToken = new private\Token("private-login-token", $session);
-    if (!$privateLoginToken->CheckToken()) {
+    if (!$privateLoginToken->Check()) {
         $tokenError = true;
         $session->Write('token-Error', '<p>不正な遷移です。もう一度操作してください。</p>');
     }

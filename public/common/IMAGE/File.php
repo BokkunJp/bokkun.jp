@@ -43,9 +43,11 @@ function LoadAllImageFile()
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'mp4'];
 
     $imgSrc = [];
+    $imagePageNamePath = new \Path(PUBLIC_IMAGE_DIR);
+    $imagePageNamePath->Add($imagePageName);
     foreach ($imgArray as $_index) {
-        $imgSrc[mb_strtolower($_index)] = IncludeFiles(AddPath(PUBLIC_IMAGE_DIR, $imagePageName), mb_strtolower($_index), true);
-        $imgSrc[mb_strtoupper($_index)] = IncludeFiles(AddPath(PUBLIC_IMAGE_DIR, $imagePageName), mb_strtoupper($_index), true);
+        $imgSrc[mb_strtolower($_index)] = IncludeFiles($imagePageNamePath->Get(), mb_strtolower($_index), true);
+        $imgSrc[mb_strtoupper($_index)] = IncludeFiles($imagePageNamePath->Get(), mb_strtoupper($_index), true);
     }
 
     $ret = [];
@@ -148,14 +150,14 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
 }
 
 /**
- * ChoiseImage
+ * ChoiceImage
  * 全画像データのうち、表示に必要なデータのみを抽出する
  *
  * @param array $params
  * @param array $data
- * @return void
+ * @return array
  */
-function ChoiseImage(array $params, array $data): array
+function ChoiceImage(array $params, array $data): array
 {
     // 結果用配列
     $cloneImg = [];
@@ -187,7 +189,10 @@ function ReadImage($ajaxFlg = false)
     $sortAray = array();
     foreach ($fileList as $index => $_file) {
         $sortAray[$index]['name'] = $_file;
-        $sortAray[$index]['time'] = filemtime(AddPath(AddPath(PUBLIC_IMAGE_DIR, $imagePageName), $_file, false));
+
+        $imagePath = new \Path(PUBLIC_IMAGE_DIR);
+        $imagePath->AddArray([$imagePageName, $_file]);
+        $sortAray[$index]['time'] = filemtime($imagePath->Get());
     }
 
     // 画像投稿日時の昇順にソート
@@ -200,7 +205,7 @@ function ReadImage($ajaxFlg = false)
     }
 
     // 画像データを整理
-    $sortAray = ChoiseImage($params, $sortAray, $ajaxFlg);
+    $sortAray = ChoiceImage($params, $sortAray, $ajaxFlg);
 
     if ($ajaxFlg === true) {
         return ShowImage($params, $sortAray, IMAGE_URL, $ajaxFlg);
@@ -234,9 +239,10 @@ function ShowImage(
         foreach ($data as $i => $_data) {
             $jsData[$i]['name'] = $_data['name'];
             // 画像データの取得
-            $imagePath = AddPath(PUBLIC_IMAGE_DIR, $imagePageName, false);
-            $imagePath = AddPath($imagePath, $_data['name'], false);
-            $jsData[$i]['info'] = CalcImageSize($imagePath, (int)GetIni('Public', 'ImageMaxSize'));
+            $imagePath = new \Path(PUBLIC_IMAGE_DIR);
+            $imagePath->AddArray([$imagePageName, $_data['name']]);
+
+            $jsData[$i]['info'] = CalcImageSize($imagePath->Get(), (int)GetIni('Public', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
             // 画像データが取得できなかった場合は、配列の該当データの削除
             if ($jsData[$i]['info'] === false) {
@@ -245,7 +251,9 @@ function ShowImage(
         }
 
         $jsData['view-image-type'] = $imagePageName;
-        $jsData['url'] = AddPath($imageUrl, $imagePageName, separator:'/');
+        $jsUrl = new \Path($imageUrl, '/');
+        $jsUrl->Add($imagePageName);
+        $jsData['url'] = $jsUrl->Get();
         ;
         $jsData['pager'] = ViewPager($params['max'], $ajaxFlg);
 

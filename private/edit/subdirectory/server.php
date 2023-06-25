@@ -8,7 +8,7 @@ require_once dirname(__DIR__, 2) . DS . "common" . DS . "ajax-require.php";
 // tokenチェック
 $session = new \private\Session();
 $editSrcToken = new \private\Token('edit-src-token', $session);
-if ($editSrcToken->CheckToken() === false) {
+if ($editSrcToken->Check() === false) {
     $data = ['src' => '', 'src-view' => '不正な操作を検知しました。再読み込みしてください。'];
     $json = json_encode($data);
     echo $json;
@@ -24,12 +24,14 @@ $selectObj = $set->GetPost('select_directory');
 
 
 // パスをセット
-$srcPath = AddPath(dirname(__DIR__, 3), $srcName, false);
+$srcPath = new \Path(dirname(__DIR__, 3));
+$srcPath = $srcPath->Add($srcName, false);
 
 
 // 第2ディレクトリの選択
 if ($selectObj !== false) {
-    $srcPath = AddPath($srcPath, $selectObj, false);
+    $srcPath = new \Path($srcPath);
+    $srcPath = $srcPath->Add($srcPath->Get(), $selectObj, false);
     if (is_dir($srcPath)) {
         $dataList = scandir($srcPath);
         $notList = ['templates_c'];
@@ -66,10 +68,13 @@ $data = $contents;
 
 // ソースの保存・書き込み共通処理
 if ($saveObj !== false || $editObj !== false) {
-    $selectSrc = AddPath($srcPath, AddPath($set->GetPost('directory'), $set->GetPost('subdirectory'), false), false);
+    $selectSrc = new \Path($srcPath);
+    $selectSrc->Add($set->GetPost('directory'));
+    $selectSrc = $selectSrc->Get();
 
     if (is_dir($selectSrc)) {
-        $srcFile = AddPath($selectSrc, $set->GetPost('file'), false);
+        $srcFile = new \Path($selectSrc);
+        $srcFile = $srcFile->Add($selectSrc, $set->GetPost('file'), false);
     } else {
         $srcFile = $selectSrc;
     }

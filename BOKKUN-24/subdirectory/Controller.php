@@ -2,7 +2,10 @@
 
 use BasicTag\ScriptClass as ScriptClass;
 
-require_once AddPath(__DIR__, 'Model.php', false);
+$modelPath = new \Path(__DIR__);
+$modelPath->SetPathEnd();
+$modelPath->Add('Model.php');
+require_once $modelPath->Get();
 
 $posts = \public\Setting::GetPosts();
 
@@ -13,7 +16,10 @@ if (isset($posts['db-input-token'])) {
 }
 
 if (!class_exists('Public\Token')) {
-    require_once AddPath(PUBLIC_COMMON_DIR, 'Token.php', false);
+    $tokenPath = new \Path(PUBLIC_COMMON_DIR);
+    $tokenPath->SetPathEnd();
+    $tokenPath->Add('Token.php');
+    require_once $tokenPath->Get();
 }
 
 if (!empty($posts)) {
@@ -25,8 +31,8 @@ function Main($postData, $tokenName)
     $script = new ScriptClass();
     $session = new public\Session();
     $token = new \Public\Token($tokenName, $session, true);
-    $token->CheckToken();
-    if ($token->CheckToken()) {
+    $token->Check();
+    if ($token->Check()) {
         // $script->Alert("不正な操作を検知しました。");
         return false;
     }

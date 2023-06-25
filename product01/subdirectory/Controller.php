@@ -4,7 +4,7 @@ IncludeDirctories();
 
 function Main($inputFlg=false)
 {
-    $tokenValid = CheckToken();
+    $tokenValid = Check();
 
     if ($tokenValid === false) {
         echo "<div class='warning'>不正な遷移です。</div>";

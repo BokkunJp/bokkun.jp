@@ -22,7 +22,7 @@ if ($session->Judge('addition')) {
 $dir = ["---" => "---"];
 
 $editSrcToken = new private\Token('edit-src-token', $session);
-$editSrcToken->SetToken();
+$editSrcToken->Set();
 
 
 $dir = array_merge($dir, scandir('../../'));

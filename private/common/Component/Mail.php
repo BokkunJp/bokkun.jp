@@ -1,6 +1,9 @@
 <?php
 
-require_once AddPath(__DIR__, 'Tag.php', false);
+$mailPath = new \Path(PRIVATE_COMPONENT_DIR);
+$mailPath->SetPathEnd();
+$mailPath->Add('Tag.php');
+require_once $mailPath->Get();
 
 use PrivateTag\ScriptClass;
 

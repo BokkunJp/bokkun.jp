@@ -3,18 +3,27 @@
 // タイムゾーンの設定
 date_default_timezone_set('Asia/Tokyo');
 
-// エラーログの設定(初期設定)
-$errLogArray = [];
-$errLogArray['errLogBasePath'] = AddPath(dirname(__DIR__, 3), AddPath("log", "error"), false);
-$errLogArray['errLogPath'] = AddPath($errLogArray['errLogBasePath'], phpversion());
-if (!is_dir($errLogArray['errLogPath'])) {
-    mkdir($errLogArray['errLogPath']);
-    mkdir(AddPath($errLogArray['errLogPath'], '_old'));
-}
-ini_set("error_log", AddPath($errLogArray['errLogPath'], "php_error.log", false));
-unset($errLogArray);
+require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "Path.php";
+require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "PathApplication.php";
 
-require_once AddPath('ini', 'ini.php', false);
+// エラーログの設定(初期設定)
+$errorLogPath = new \Path("");
+$errorLogPath->AddArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
+$errLogArray = [];
+if (!is_dir($errorLogPath->Get())) {
+    mkdir($errorLogPath->Get());
+    $errorLogOldPath = clone $errorLogPath;
+    $errorLogOldPath->Add("_old");
+    mkdir($errorLogOldPath->Get());
+}
+$errorLogPath->SetPathEnd();
+$errorLogPath->Add("php_error.log");
+ini_set("error_log", $errorLogPath->Get());
+
+$iniPath =new \Path("ini");
+$iniPath->SetPathEnd();
+$iniPath->Add("ini.php");
+require_once $iniPath->Get();
 
 // エラーハンドラ設定
 set_error_handler(
@@ -60,42 +69,6 @@ set_error_handler(
 // });
 
 /**
- * AddPath
- *
- * 既存のパスに新たな要素を追加する
- *
- * @param string $local
- * @param string $addpath
- * @param boolean $lastSeparator
- * @param string $separator
- *
- * @return string
- */
-function AddPath(
-    string $local,
-    string $addpath,
-    bool $lastSeparator = true,
-    string $separator = DIRECTORY_SEPARATOR
-) {
-    if (mb_substr($local, -1) == $separator) {
-        $first = '';
-    } else {
-        $first = $separator;
-    }
-    if ($lastSeparator == true) {
-        $last = $separator;
-    } else {
-        $last = '';
-    }
-
-    $local .= $first. $addpath. $last;    // パス追加 + パス結合
-
-    $local = htmlspecialchars($local);    // XSS対策
-
-    return $local;
-}
-
-/**
  * Sanitize
  *
  * ヌルバイト対策 (POST, GET)
@@ -122,10 +95,11 @@ function Sanitize(mixed $arr = ''): mixed
  *
  * @param string $target
  * @param string $src
+ * @@param string $separator
  *
  * @return bool
  */
-function CreateClient(string $target, string $src = ''): string
+function CreateClient(string $target, string $src = '', string $separator = DIRECTORY_SEPARATOR): string
 {
     if (empty($src)) {
         $srcPath = getcwd();
@@ -150,11 +124,12 @@ function CreateClient(string $target, string $src = ''): string
 
     $clientAry = array_reverse($clientAry);
 
+    $clientPath = new \Path($clientPath, $separator);
     foreach ($clientAry as $_client) {
-        $clientPath = AddPath($clientPath, $_client);
+        $clientPath->Add($_client);
     }
 
-    return $clientPath;
+    return $clientPath->Get();
 }
 /**
  * filter_input_fix
@@ -293,7 +268,7 @@ function Output(
         }
     }
 
-    return FINISH;
+    return true;
 }
 
 /**
@@ -330,6 +305,23 @@ function DebugValidate(array $debug, array $debugTrace): array
     return $validate;
 }
 
+    /**
+     * Output
+     *
+     * デバッグ用のメソッド。
+     * (Outputのデバッグ設定用のラッパー)
+     *
+     * @param mixed $expression
+     *
+     * @return void
+     */
+    function Debug(mixed $expression): void
+    {
+        Output($expression, true, true, true);
+    }
+
+
+
 /**
  * SetComposerPlugin
  *
@@ -340,9 +332,19 @@ function DebugValidate(array $debug, array $debugTrace): array
  * @return void
  */
 function SetComposerPlugin(string $name) {
-    $pluginDir = AddPath(PLUGIN_DIR, $name);
-    $autoLoader = AddPath("vendor", "autoload.php",false);
-    $requireFile = AddPath($pluginDir, $autoLoader, false);
+    $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
+    $allPluginPath->SetAll([
+        'vendorDir' => $allPluginPath->Get(),
+        'requireFile' => $allPluginPath->Get(),
+    ]);
+
+    $allPluginPath->ResetKey('vendorDir');
+    $allPluginPath->MethodPath('Add', $name);
+    $pluginDir = $allPluginPath->Get();
+
+    $allPluginPath->ResetKey('requireFile');
+    $allPluginPath->MethodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
+    $requireFile = $allPluginPath->Get();
 
     if (is_dir($pluginDir) && is_file($requireFile)) {
         require_once $requireFile;
@@ -360,16 +362,36 @@ function SetComposerPlugin(string $name) {
  */
 function SetPlugin(string $name): void
 {
-    $pluginDir = AddPath(PLUGIN_DIR, $name);
-    $vendorDir = AddPath($pluginDir, "vendor");
-    $composerJson = AddPath($pluginDir, "composer.json", false);
-    $composerLock = AddPath($pluginDir, "composer.lock", false);
+    $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
+    $allPluginPath->SetAll([
+        'vendorDir' => $allPluginPath->Get(),
+        'composerJson' => $allPluginPath->Get(),
+        'composerLock' => $allPluginPath->Get(),
+    ]);
+
+    $allPluginPath->ResetKey('vendorDir');
+    $allPluginPath->MethodPath('Add', $name);
+    $pluginDir = $allPluginPath->Get();
+
+    $allPluginPath->ResetKey('vendorDir');
+    $allPluginPath->MethodPath('Add', "vendor");
+    $vendorDir = $allPluginPath->Get();
+
+    $allPluginPath->ResetKey('composerJson');
+    $allPluginPath->MethodPath('SetPathEnd');
+    $allPluginPath->MethodPath('Add', "composer.json");
+    $composerJson = $allPluginPath->Get();
+
+    $allPluginPath->ResetKey('composerLock');
+    $allPluginPath->MethodPath('SetPathEnd');
+    $allPluginPath->MethodPath('Add', "composer.lock");
+    $composerLock = $allPluginPath->Get();
 
     // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
     if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
         SetComposerPlugin($name);
-    } elseif (is_dir(AddPath(PLUGIN_DIR, $name))) {
-        IncludeDirctories(AddPath(PLUGIN_DIR, $name));
+    } elseif (is_dir($pluginDir)) {
+        IncludeDirectories($pluginDir);
     }
 }
 

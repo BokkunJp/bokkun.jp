@@ -46,17 +46,30 @@ function CreateRandom(int $length, string $type = 'security'): string
 /**
  * FindFileName
  *
- * 親ディレクトリ・カレントディレクトリ以外のファイルを検索する
+ * ファイル形式かチェックする
  *
  * @param  string $str
+ * @param bool $existFlg
  *
  * @return bool
  */
-function FindFileName(string $str): bool
+function FindFileName(string $str, bool $rootOnly = true, bool $existFlg = false): bool
 {
     $ret = true;
     if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
         $ret = false;
+    }
+
+    if (!$rootOnly) {
+        if (!preg_match("/(.*)\.(.*)/", $str)) {
+            $ret = false;
+        }
+
+        if ($existFlg) {
+            if (!is_file($str)) {
+                $ret = false;
+            }
+        }
     }
 
     return $ret;
@@ -85,34 +98,28 @@ function ValidateData(string $dirPath, ?string $select): bool
  * 対象のパスのディレクトリとファイルを削除する
  * (ディレクトリ内にディレクトリがある場合、そのディレクトリも削除対象となる)
  *
- * @param  string $dirPath
+ * @param string $path 対象データまでのパス
+ * @param  string $select 対象データ名
  *
  * @return bool
  */
-function DeleteData(string $dirPath): bool
+function DeleteData(string $path, string $select): bool
 {
-    if (is_dir($dirPath)) {
-        foreach (scandir($dirPath) as $_file) {
-            if (FindFileName($_file) && is_file($_file)) {
-                unlink(AddPath($dirPath, $_file, false));
-            } elseif ((FindFileName($_file) && !is_file($_file))) {
-                if (file_exists(AddPath($dirPath, $_file))) {
-                    DeleteData(AddPath($dirPath, $_file));
-                } else {
-                    $_filePath = AddPath($dirPath, $_file, false);
-                    if (is_file($_filePath)) {
-                        unlink($_filePath);
-                    }
-                }
-            }
-        }
-
-        rmdir($dirPath);
-    } else {
-        return false;
+    $delPath = new \Path($path);
+    $delPath->Add($select);
+    if (!is_dir($delPath->Get())) {
+        $delPath = new \Path($path);
+        $delPath->SetPathEnd();
+        $delPath->Add($select);
     }
 
-    return true;
+    if (PHP_OS === 'WIN32' || PHP_OS === 'WINNT') {
+        $commandResult = system("rd /s /q {$delPath->Get()}");
+    } else {
+        $commandResult = system("rm -rf {$delPath->Get()}");
+    }
+
+    return $commandResult;
 }
 
 /**
@@ -128,26 +135,39 @@ function DeleteData(string $dirPath): bool
  */
 function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bool
 {
-    $dstPath = AddPath(dirname($srcPath), $copyName);
+    $dstPath = new \Path(dirname($srcPath));
+    $dstPath->Add($copyName);
 
     if (is_dir($srcPath)) {
         // コピー元にファイルがある場合は、ファイルを走査してコピー
-        if (!is_dir($dstPath)) {
-            mkdir($dstPath);
+        if (!is_dir($dstPath->Get())) {
+            mkdir($dstPath->Get());
         } elseif ($dpAuthFlg === false) {
             return -1;
         }
 
         foreach (scandir($srcPath) as $_file) {
             if ((FindFileName($_file))) {
-                if (is_file(AddPath($srcPath, $_file, false))) {
-                    copy(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+                $filePath = new \Path($srcPath);
+                $filePath->SetPathEnd();
+                $filePath->Add($_file);
+                if (is_file($filePath->Get())) {
+                    $dstPath->SetPathEnd();
+                    $dstPath->Add($_file);
+                    copy($filePath->Get(), $dstPath->Get());
+                    $dstPath = new \Path(dirname($dstPath->Get()));
                 } else {
-                    if (is_dir(AddPath($srcPath, $_file, false))) {
-                        if (!is_dir(AddPath($dstPath, $_file, false))) {
-                            mkdir(AddPath($dstPath, $_file, false));
+                    if (is_dir($filePath->Get())) {
+                        if (is_file($dstPath->Get())) {
+                            $dstPath = new \Path(dirname($dstPath->Get()));
                         }
-                        CopySubData(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+                        $dstPath = new \Path($dstPath->Get());
+                        $dstPath->SetPathEnd();
+                        $dstPath->Add($_file);
+                        if (!is_dir($dstPath->Get())) {
+                            mkdir($dstPath->Get());
+                        }
+                        CopySubData($filePath->Get(), $dstPath->Get());
                     }
                 }
             }
@@ -178,16 +198,23 @@ function CopySubData(string $srcPath, string $dstPath): bool
     }
 
     foreach (scandir($srcPath) as $_file) {
+        $dstFilePath = new \Path($dstPath);
+        $dstFilePath->SetPathEnd();
+        $dstFilePath->Add($_file);
+
         if ((FindFileName($_file))) {
-            if (is_file(AddPath($srcPath, $_file, false))) {
-                copy(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+            $filePath = new \Path($srcPath);
+            $filePath->SetPathEnd();
+            $filePath->Add($_file);
+            if (is_file($filePath->Get())) {
+                copy($filePath->Get(), $dstFilePath->Get());
             } else {
-                if (is_dir(AddPath($dstPath, $_file, false))) {
-                    if (!is_dir(AddPath($dstPath, $_file, false))) {
-                        mkdir(AddPath($dstPath, $_file, false));
+                if (is_dir($dstFilePath->Get())) {
+                    if (!is_dir($dstFilePath->Get())) {
+                        mkdir($dstFilePath->Get());
                     }
                 }
-                CopySubData(AddPath($srcPath, $_file, false), AddPath($dstPath, $_file, false));
+                CopySubData($filePath->Get(), $dstFilePath->Get());
             }
         }
     }

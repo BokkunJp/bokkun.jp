@@ -2,11 +2,14 @@
 
 /**
  * GetPage
- * ページ番号を取得する
+ *
+ * ページ番号を取得する。
+ *
  * @param void
- * @return integer
+ *
+ * @return integer|false
  */
-function GetPage()
+function GetPage(): int|false
 {
     $page = public\Setting::GetQuery('page');
     if ($page === false) {
@@ -19,17 +22,20 @@ function GetPage()
 
 /**
  * GetCountPerPage
- * ページ当たりの画像数を取得する
+ *
+ * ページ当たりの画像数を取得する。
  * (post値が確認できない場合はデフォルト値を取得する)
  *
  * @param  void
+ *
  * @return integer
- */function GetCountPerPage()
+ */
+function GetCountPerPage()
 {
     $session = new public\Session();
     $post = public\Setting::GetPost('image-value');
     if (isset($post) && is_numeric($post)) {
-        $pager = (int) $post;
+        $pager= (int) $post;
         // 上限設定
         if ($pager > (PAGER * MAX_VIEW)) {
             $pager = PAGER * MAX_VIEW;
@@ -46,12 +52,15 @@ function GetPage()
 
 /**
  * ViewPager
- * ページャーを表示する
+ *
+ * ページャーを表示する。
  *
  * @param  int $max
- * @return string
+ * @param boolean $ajaxFlg
+ *
+ *  @return string
  */
-function ViewPager($max)
+function ViewPager($max, $ajaxFlg = false)
 {
     $htmlVal = '';
     $nowPage = GetPage();
@@ -70,33 +79,53 @@ function ViewPager($max)
         }
 
         if ($pageValid === true && $_vindex !== $minPage && $_vindex !== $maxPage) {
-            echo ' ';
+            if ($ajaxFlg) {
+                $htmlVal .= ' ';
+            } else {
+                echo ' ';
+            }
         }
 
         // Ajaxか画面表示かで出力形式を変える (HTMLに情報をセットしたときのみ出力)
         if (is_bool($pageValid)) {
-            $pageHtml->ExecTag(true);
+            if ($ajaxFlg) {
+                $htmlVal .= $pageHtml->ExecTag();
+            } else {
+                $pageHtml->ExecTag(true);
+            }
         }
 
         if ($pageValid === SPACE_ON && $_vindex !== $maxPage) {
-            echo '...';
-        } else {
-            echo ' ';
+            if ($ajaxFlg) {
+                $htmlVal .= '...';
+            } else {
+                echo '...';
+            }
+        } elseif ($_vindex !== $maxPage) {
+            if ($ajaxFlg) {
+                $htmlVal .= ' ';
+            } else {
+                echo ' ';
+            }
         }
     }
-
     // 任意ページ番号入力フォーム
-    SetInputForm($minPage, $maxPage);
-}
+    $htmlVal .= SetInputForm($minPage, $maxPage, $ajaxFlg);
 
+    if ($ajaxFlg) {
+        return $htmlVal;
+    }
+}
 
 /**
  * ValidateLoop
- * Pagenatorのページ数を表示するかを判定する
  *
- * @param  int $nowPage
- * @param  int $minPage
- * @param  int $maxPage
+ * Pagenatorのページ数を表示するかを判定する。
+ *
+ * @param integer $nowPage
+ * @param integer $minPage
+ * @param integer $maxPage
+ *
  * @return void
  */
 function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
@@ -130,13 +159,21 @@ function ValidateLoop($currentPage, $nowPage, $minPage, $maxPage)
 
 /**
  * SetInputForm
- * ページ移動フォームの生成
+ *
+ * ページ移動フォームの生成。
 
  * @param integer $minPage
  * @param integer $maxPage
- * @return void
+ * @param boolean $ajaxFlg
+ * @return string|bool
  */
-function SetInputForm($minPage, $maxPage)
+function SetInputForm(int $minPage, int $maxPage, bool $ajaxFlg = false): string|bool
 {
-    Output("<input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ移動");
+    $htmlVal = "<span class='image-page-input'><input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button></span>";
+    if ($ajaxFlg) {
+        return $htmlVal;
+    } else {
+        print_r($htmlVal);
+        return true;
+    }
 }

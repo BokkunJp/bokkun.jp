@@ -1,7 +1,9 @@
 <?php
 namespace common;
 
-require_once AddPath(AddPath(COMMON_DIR, 'Trait'), 'CommonTrait.php', false);
+$tokenPath = new \Path(COMMON_DIR);
+$tokenPath->AddArray(['Trait', 'CommonTrait.php']);
+require_once $tokenPath->Get();
 
 use common\Setting;
 
@@ -34,35 +36,33 @@ class Token {
         $this->checkSetting = $checkSetting;
     }
     /**
-     * MakeToken
+     * Set
      * トークンの生成・上書き
      *
      * @return string
      */
-    public function SetToken(): void
+    public function Set(): void
     {
         // トークンを設定(上書き)
         $this->tokenValue = $this->CreateRandom(SECURITY_LENG) . '-' . $this->CreateRandom(SECURITY_LENG, "random_bytes");
 
         if ($this->checkSetting) {
-            $this->GetTokenTag();
+            $this->GetTag();
         }
 
         $this->session->Write($this->tokenName, $this->tokenValue);
     }
 
     /**
-     * CheckToken
+     * Check
      *
      * Post値とトークンのチェック
-     *
-     *
      * @param  string $tokenName
      * @param  boolean $chkFlg
      *
      * @return bool
      */
-    public function CheckToken(): bool
+    public function Check(): bool
     {
         if (!isset($this->tokenPost)
             || is_null($this->tokenPost)
@@ -77,14 +77,14 @@ class Token {
     }
 
     /**
-     * GetTokenTag
+     * GetTag
      *
-     * トークンのHMTL要素の取得または出力
-     *
+     * トークンのHTML要素の取得または出力
      * @param boolean $getFlg
+     *
      * @return null|string
      */
-    public function GetTokenTag(bool $getFlg = false): ?string
+    public function GetTag(bool $getFlg = false): ?string
     {
         if ($getFlg === false) {
         echo "<input type='hidden' name={$this->tokenName} value='{$this->tokenValue}' />";

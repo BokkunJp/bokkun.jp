@@ -3,9 +3,15 @@
 // セッションスタート
 if (!isset($_SESSION)) {
     if (PHP_OS === 'WINNT') {
-        $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
+        $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/";
         if (!is_dir($sessionDir)) {
             mkdir($sessionDir, 0755);
+            $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
+            if (!is_dir($sessionDir)) {
+                mkdir($sessionDir, 0755);
+            } else {
+                $sessionDir .= '/session/';
+            }
         }
         session_save_path($sessionDir);
     }
@@ -38,7 +44,7 @@ require_once PRIVATE_COMMON_DIR . "/Token.php";
 require_once PRIVATE_COMMON_DIR . "/Token.php";
 
 // UA判定処理
-$ua = new UA\UA();
+$ua = new private\UA();
 define('Phone', 2);
 define('PC', 1);
 switch ($ua->DesignJudge()) {

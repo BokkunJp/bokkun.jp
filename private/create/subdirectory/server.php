@@ -7,30 +7,93 @@
 define("DS", DIRECTORY_SEPARATOR);
 define('MAX_LENGTH', 32);
 
+/* 定義・呼び出し処理 */
 // 関数定義 (初期処理用)
-require dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
+require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
+
+// パスの初期セット
+$privatepathList = new PathApplication('word', dirname(__DIR__, 2));
+
+// それぞれの変数セット
+$privatepathList->SetAll(
+    [
+        'setting' => '',
+        'include' => '',
+        'session' => '',
+        'token' => '',
+        'common' => '',
+        'ua' => '',
+        'config' => dirname(__DIR__, 3),
+    ]
+);
+
+// パスの追加
+// ヘッダー・フッター
+$privatepathList->ResetKey('config');
+$privatepathList->MethodPath('AddArray', ['common', 'Config.php']);
+
 // 定数・固定文言など
-require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
+$privatepathList->ResetKey('word');
+$privatepathList->MethodPath('AddArray', ['common', 'Word', 'Message.php']);
+
+// 管理側共通(ログイン認証など)
+$privatepathList->ResetKey('common');
+$privatepathList->MethodPath('AddArray', ['common.php']);
+
 // 設定
-require_once AddPath(PRIVATE_COMMON_DIR, "Setting.php", false);
+$privatepathList->ResetKey('setting');
+$privatepathList->MethodPath('AddArray', ['common', 'Setting.php']);
+
 // セッション
-require_once AddPath(PRIVATE_COMMON_DIR, "Session.php", false);
-// CSRF
-require_once AddPath(PRIVATE_COMMON_DIR, "Token.php", false);
-// タグ
-require_once AddPath(PRIVATE_COMPONENT_DIR, "Tag.php", false);
+$privatepathList->ResetKey('session');
+$privatepathList->MethodPath('AddArray', ['common', 'Session.php']);
+
+// トークン
+$privatepathList->ResetKey('token');
+$privatepathList->MethodPath('AddArray', ['common', 'Token.php']);
+
+// ファイル読み込み
+$privatepathList->ResetKey('include');
+$privatepathList->MethodPath('AddArray', ['common', 'Include.php']);
+
+// UA
+$privatepathList->ResetKey('ua');
+$privatepathList->MethodPath('AddArray', ['common', 'Component', 'UA.php']);
+
+// パスの出力
+$privatepathList->All();
+foreach ($privatepathList->Get() as $path) {
+    require_once $path;
+}
+
+// UA判定処理
+$ua = new UA\UA();
+define('Phone', 2);
+define('PC', 1);
+switch ($ua->DesignJudge()) {
+    case PC:
+        $agentCode = 'PC';
+        break;
+    case Phone:
+        $agentCode = 'SMP';
+        break;
+    default:
+        break;
+}
 
 $session =  new private\Session();
 $adminError = new AdminError();
 $use = new PrivateTag\UseClass();
 
 $adminPath = dirname(__DIR__);
-$samplePath = AddPath(dirname($adminPath), 'Sample');
+$samplePath = new \Path(dirname($adminPath));
+$samplePath->Add('Sample');
+$samplePath = $samplePath->Get();
 $basePath = DOCUMENT_ROOT;
 
 // tokenチェック
 $createToken = new private\Token('create-token', $session);
-if ($createToken->CheckToken() === false) {
+if ($createToken->Check() === false) {
     $session->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new private\Setting();
     $backUrl = CreateClient('private', dirname(__DIR__));
@@ -149,11 +212,16 @@ if ($type === "scratch") {
         mkdir("$title/Layout");                               // Layoutディレクトリ作成
     }
 
-    foreach (scandir(AddPath($samplePath, 'Layout')) as $_file) {
+    $oldSamplePath = new \Path($samplePath);
+    $samplePath = new \Path($samplePath);
+    $samplePath->Add("Layout");
+    $samplePath = $samplePath->Get();
+    foreach (scandir($samplePath) as $_file) {
         if (!is_dir($_file)) {
             copy("$baseFileName/Layout/{$_file}", "$title/Layout/{$_file}");
         }
     }
+    $samplePath = $oldSamplePath->Get();
 }
 
 // テンプレートを指定した場合は、テンプレートエンジン用のindexファイル作成

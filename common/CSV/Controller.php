@@ -1,21 +1,18 @@
 <?php
 
-IncludeDirctories();
+// IncludeDirctories();
 
-use common\CSV;
-use public\Session;
-
-function Main(string $tokenName, bool $inputFlg = false)
+function Main($inputFlg=false)
 {
-    $session = new \Common\Session();
-    $csvToken = new \Common\Token($tokenName, $session);
+    $session = new \public\Session();
+    $csvToken = new \public\Token('csv-token', $session);
 
-    if ($csvToken->CheckToken() === false) {
+    if ($csvToken->Check() === false) {
         echo "<div class='warning'>不正な遷移です。</div>";
         return false;
     }
 
-    $csv = new CSV();
+    $csv = new CSV1();
 
     if ($inputFlg === true) {
         $csv->SetHeader(['x', 'y', 'z']);
@@ -24,6 +21,7 @@ function Main(string $tokenName, bool $inputFlg = false)
         $valid = $csv->InputName();
         if ($valid === false) {
             echo "<div class='warning'>ファイル名を入力してください。</div>";
+            return $valid;
         }
 
         // CSVファイルを取得(編集の場合)
@@ -43,6 +41,7 @@ function Main(string $tokenName, bool $inputFlg = false)
         $valid = $csv->InputName();
         if ($valid === false) {
             echo "<div class='warning'>ファイル名を入力してください。</div>";
+            return $valid;
         }
 
         // 出力用データ取得
@@ -51,6 +50,7 @@ function Main(string $tokenName, bool $inputFlg = false)
         $result = $csv->OutData();
         if ($result === false) {
             echo "<div class='warning'>ご指定のファイルは存在しません。</div>";
+            return $result;
         }
 
         $header = MoldData($header);
@@ -58,7 +58,7 @@ function Main(string $tokenName, bool $inputFlg = false)
         foreach ($row as $_r) {
             $body .= MoldData($_r). nl2br("\n");
         }
-        $session = new Session();
+        $session = new public\Session();
         $session->WriteArray('csv', 'header', $header);
         $session->WriteArray('csv', 'row', $body);
     }

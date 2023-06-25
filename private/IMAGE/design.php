@@ -12,7 +12,9 @@ $updatePage = private\Setting::GetPost('update_page');
 // imageディレクトリ内のディレクトリリストを取得
 $imgDirList = ['---'];
 foreach (scandir(PUBLIC_IMAGE_DIR) as $_list) {
-    if (is_dir(AddPath(PUBLIC_IMAGE_DIR, $_list)) && FindFileName($_list)) {
+    $imagDirPath = new \Path(PUBLIC_IMAGE_DIR);
+    $imagDirPath->Add($_list);
+    if (is_dir($imagDirPath->Get()) && FindFileName($_list)) {
         $imgDirList[] = $_list;
     }
 }
@@ -34,7 +36,7 @@ $viewToken = new private\Token('view-token', $session, true);
     ?>
     </select>
     ： <span class='view-image-type'><?=GetImagePageName()?></span>
-    <?php $selectToken->SetToken(); ?>
+    <?php $selectToken->Set(); ?>
 </form>
 <div class='select-notice'></div>
 <div class='view-image'>
@@ -55,7 +57,7 @@ $viewToken = new private\Token('view-token', $session, true);
 <form enctype="multipart/form-data"
     action="./subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>"
     method='POST'>
-    <?php $uploadToken->SetToken(); ?>
+    <?php $uploadToken->Set(); ?>
     <input type='file' name='all-files[]' multiple /> <button type='submit' class='fileButton'>送信</button>
     <span>
         <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
@@ -80,10 +82,11 @@ $viewToken = new private\Token('view-token', $session, true);
     <?php
         ReadImage();
     ?>
-    <?php $viewToken->SetToken(); ?>
+    <?php $viewToken->Set(); ?>
     <p>
         <button type='submit' name='delete'>チェックした画像を削除する</button>
         <button type='submit' name='copy'>チェックした画像をコピーする</button>
         <input type='hidden' class='copy-image-name' name='copy-image-name' />
     </p>
+    <a href='./delete'>削除したデータ</a>
 </form>

@@ -7,6 +7,7 @@
 */
 class DB
 {
+    protected $sql;
     protected $dsn;
     protected $user;
     protected $hash;
@@ -27,7 +28,7 @@ class DB
             // print_r('データベースの接続に成功しました。<br/>');
             return true;
         } catch (PDOException $e) {
-            print_r('ERROR!! ' . $e->getMessage());
+            print_r("データベースの接続に失敗しました。");
             return false;
         }
     }

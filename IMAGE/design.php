@@ -1,7 +1,9 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
 // 画像表示関係のメソッドを読み込み
-require_once AddPath(AddPath(PUBLIC_COMMON_DIR, "IMAGE"), 'File.php', false);
+$filePath = new \Path(PUBLIC_COMMON_DIR);
+$filePath->AddArray(["IMAGE", "File.php"]);
+require_once $filePath->Get();
 
 // セッション開始
 if (!isset($session)) {
@@ -35,7 +37,7 @@ $publicImageToken = new Public\Token('public-image-token', $session, true);
 <form class='pageForm' method="POST">
     <?php
         ReadImage();
-        $publicImageToken->SetToken();
+        $publicImageToken->Set();
 
     ?>
 </form>

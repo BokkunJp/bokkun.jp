@@ -8,4 +8,9 @@ $title = 'ログアウト';
 AlertAdmin('access', $title);
 $reset = explode(basename(__FILE__), '.')[0];
 
-require_once AddPath(AddPath(__DIR__, 'Layout'), 'layout.php', false);
+$logoutPath = new \Path(__DIR__);
+$logoutPath->Add("layout");
+$logoutPath->SetPathEnd();
+$logoutPath->Add("layout.php");
+require_once$logoutPath->Get();
+
