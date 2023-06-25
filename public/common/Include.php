@@ -5,6 +5,10 @@
  */
 
 // 必要なファイルの一括読み込み
+$commonDir = new Path(COMMON_DIR);
+$commonDir->SetPathEnd();
+$commonDir->Add('Include.php');
+require_once $commonDir->Get();
 $pwd = PUBLIC_COMPONENT_DIR . '/';
 IncludeFiles($pwd);
 

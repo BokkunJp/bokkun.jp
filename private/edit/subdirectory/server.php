@@ -22,16 +22,19 @@ $editObj = $set->GetPost('edit');
 $srcName = $set->GetPost('dir_name');
 $selectObj = $set->GetPost('select_directory');
 
+$sets = $set->getPosts();
 
 // パスをセット
 $srcPath = new \Path(dirname(__DIR__, 3));
-$srcPath = $srcPath->Add($srcName, false);
+if ($srcName !== false) {
+    $srcPath = $srcPath->Add($srcName, false);
+}
 
 
 // 第2ディレクトリの選択
 if ($selectObj !== false) {
     $srcPath = new \Path($srcPath);
-    $srcPath = $srcPath->Add($srcPath->Get(), $selectObj, false);
+    $srcPath = $srcPath->Add($selectObj, false);
     if (is_dir($srcPath)) {
         $dataList = scandir($srcPath);
         $notList = ['templates_c'];
@@ -70,11 +73,14 @@ $data = $contents;
 if ($saveObj !== false || $editObj !== false) {
     $selectSrc = new \Path($srcPath);
     $selectSrc->Add($set->GetPost('directory'));
+    $selectSrc->SetPathEnd();
+    $selectSrc->Add($set->GetPost('subdirectory'));
     $selectSrc = $selectSrc->Get();
 
     if (is_dir($selectSrc)) {
         $srcFile = new \Path($selectSrc);
-        $srcFile = $srcFile->Add($selectSrc, $set->GetPost('file'), false);
+        $srcFile->SetPathEnd();
+        $srcFile = $srcFile->Add($set->GetPost('file'), false);
     } else {
         $srcFile = $selectSrc;
     }
