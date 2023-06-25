@@ -22,6 +22,7 @@ function Public_CSRFErrorMessage()
 
 // 共通部分
 $publicPath = new \Path(DOCUMENT_ROOT, '/');
+$publicPath->SetPathEnd();
 $publicPath->Add('public');
 define('PUBLIC_DIR', $publicPath->Get());
 
@@ -35,6 +36,7 @@ $publicPath->MethodPath("Add", "client");
 define('PUBLIC_CLIENT_DIR', $publicPath->Get());
 
 $publicPath->ResetKey("PUBLIC_COMMON_DIR");
+$publicPath->MethodPath("SetEndPath");
 $publicPath->MethodPath("Add", "common");
 define('PUBLIC_COMMON_DIR', $publicPath->Get());
 
@@ -43,7 +45,7 @@ $publicPath->SetAll([
     "PUBLIC_LAYOUT_DIR" => COMMON_DIR,
 ]);
 $publicPath->ResetKey("PUBLIC_COMPONENT_DIR");
-$publicPath->MethodPath("Add", "component");
+$publicPath->MethodPath("Add", "Component");
 define('PUBLIC_COMPONENT_DIR', $publicPath->Get());
 
 $publicPath->ResetKey("PUBLIC_LAYOUT_DIR");

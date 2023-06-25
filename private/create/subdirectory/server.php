@@ -67,7 +67,7 @@ foreach ($privatepathList->Get() as $path) {
 }
 
 // UA判定処理
-$ua = new UA\UA();
+$ua = new private\UA();
 define('Phone', 2);
 define('PC', 1);
 switch ($ua->DesignJudge()) {
