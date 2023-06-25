@@ -4,27 +4,61 @@ ini_set('error_reporting', E_ALL | ~E_STRICT);
 define("DS", DIRECTORY_SEPARATOR);
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__, 2) . DS . 'public' . DS .'common' . DS . 'InitFunction.php';
+// パスの定義
+$publicPathList = new PathApplication('word', dirname(__DIR__, 2));
+
+// それぞれの変数セット
+$publicPathList->SetAll([
+    'setting' => '',
+    'tag' => '',
+    'config' => '',
+    'ua' => '',
+    'include' => '',
+    'session' => '',
+    'token' => '',
+]);
+
+// パスの追加
+// ヘッダー・フッター
+$publicPathList->ResetKey('config');
+$publicPathList->MethodPath('AddArray', ['common', 'Config.php']);
+
 // 定数・固定文言など
-$wordPath = new \Path(dirname(__DIR__));
-$configPath = new \Path(dirname(__DIR__, 3));
-$configPath->SetPathEnd();
-$configPath->AddArray(["common", "Config.php"]);
-$wordPath->AddArray(["Word", "Message.php"]);
-require_once $wordPath->Get();
-// ヘッダーフッター
-require_once $configPath->Get();
-// UA
-require_once PUBLIC_COMPONENT_DIR . 'UA.php';
+$publicPathList->ResetKey('word');
+$publicPathList->MethodPath('AddArray', ['public', 'common', 'Word', 'Message.php']);
+
 // 設定
-$settingPath = new \Path(PUBLIC_COMMON_DIR);
-$tokenPath = new \Path($settingPath->Get());
-$settingPath->SetPathEnd();
-$settingPath->Add("Settng.php");
-require_once $settingPath->Get();
-// CSRF対策
-$tokenPath->SetPathEnd();
-$tokenPath->Add("Token.php");
-require_once $tokenPath->Get();
+$publicPathList->ResetKey('setting');
+$publicPathList->MethodPath('AddArray', ['public', 'common', 'Setting.php']);
+
+// タグ
+$publicPathList->ResetKey('tag');
+$publicPathList->MethodPath('AddArray', ['public', 'common', 'Component', 'Tag.php']);
+
+// セッション
+$publicPathList->ResetKey('session');
+$publicPathList->MethodPath('AddArray', ['public', 'common', 'Session.php']);
+
+// トークン
+$publicPathList->ResetKey('token');
+$publicPathList->MethodPath('AddArray', ['public', 'common', 'Token.php']);
+
+// ファイル読み込み
+$publicPathList->ResetKey('include');
+$publicPathList->MethodPath('AddArray', ['public', 'common', 'Include.php']);
+
+// UA
+$publicPathList->ResetKey('ua');
+$publicPathList->MethodPath('AddArray', ['public', 'common', 'Component', 'UA.php']);
+
+// パスの出力
+$publicPathList->All();
+foreach ($publicPathList->Get() as $key => $path) {
+    require_once $path;
+    if ($key === 'ua') {
+    $ua = new Public\UA();
+    }
+}
 
 // カスタムファイル
 
@@ -36,7 +70,7 @@ require_once $tokenPath->Get();
 $base = new public\Setting();
 
 // UA設定
-$ua = new UA\UA();
+$ua = new Public\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 $homepageTitle = basename(getcwd());
 $title = htmlspecialchars($homepageTitle);

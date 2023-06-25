@@ -74,11 +74,11 @@ function IncludeDirectories($pwd = '', $extension = 'php', $ret = false, array $
         $pwd = getcwd();
     // パスの指定がある場合は、カレントディレクトリを(現在のものを保存したうえで)書き換える
     } elseif ($pwd != getcwd()) {
-        $localPath = getcwd();            // 現在のファイルパスを保管しておく
+        $localPath = getcwd();                      // 現在のファイルパスを保管しておく
         chdir($pwd);                      // カレントディレクトリを指定のものに変更
     }
 
-    $dirList = scandir($pwd);           // ファイルリスト取得
+    $dirList = scandir($pwd);              // ファイルリスト取得
     if (is_array($dirList)) {
         foreach ($dirList as $_dirList) {
             if (is_dir($_dirList) && !is_numeric(strpos($_dirList, '.'))) {

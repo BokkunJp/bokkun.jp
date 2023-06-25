@@ -1,12 +1,13 @@
 <?php
 
-IncludeDirctories();
+// IncludeDirctories();
 
 function Main($inputFlg=false)
 {
-    $tokenValid = Check();
+    $session = new \public\Session();
+    $csvToken = new \public\Token('product01-csv-token', $session);
 
-    if ($tokenValid === false) {
+    if ($csvToken->Check() === false) {
         echo "<div class='warning'>不正な遷移です。</div>";
         return false;
     }
