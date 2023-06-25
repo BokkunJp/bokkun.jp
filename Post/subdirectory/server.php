@@ -6,7 +6,7 @@ $request = isset($_SERVER['HTTP_X_REQUESTED_WITH']) ? strtolower($_SERVER['HTTP_
 if ($request === 'xmlhttprequest') {
     header("Content-Type: application/json; charset=UTF-8");
     $data = "Ajax: ";
-    require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . '/public/common' . DIRECTORY_SEPARATOR . 'InitFunction.php';
+    require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . '/public/common' . DIRECTORY_SEPARATOR . 'InitFunction.php';
     require_once dirname(__DIR__, 2) . "/public/common/Setting.php";
     $posts = public\Setting::GetPosts();
     foreach ($posts as $_key => $_post) {

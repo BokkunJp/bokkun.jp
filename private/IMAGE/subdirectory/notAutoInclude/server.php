@@ -17,7 +17,7 @@ $mode = private\Setting::GetQuery('mode');
 if (!empty($mode) && $mode === 'edit') {
     // view-tokenチェック
     $viewToken = new private\Token('view-token', $session);
-    if ($viewToken->CheckToken() === false) {
+    if ($viewToken->Check() === false) {
         $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new private\Setting();
         header('Location:' . $url->GetUrl($str));
@@ -101,7 +101,7 @@ if (!empty($mode) && $mode === 'edit') {
 
             // 対象ディレクトリがなし
             if (!empty($result['not-page'])) {
-                $noticeWord .= nl2br("\n"). "・". NOT_FOUND_COPY_DIRECTORY;
+                $noticeWord .= nl2br("\n"). "・". NOT_FOUND_DIRECTORY;
             } elseif (!empty($result['no-select'])) {
                 // 選択画像がなし
                 $noticeWord .= nl2br("\n"). "・". NOT_SELECT_IMAGE;
@@ -135,7 +135,7 @@ if (!empty($mode) && $mode === 'edit') {
 } else {
     // upload-tokenチェック
     $uploadToken = new private\Token('upload-token', $session);
-    if ($uploadToken->CheckToken() === false) {
+    if ($uploadToken->Check() === false) {
         $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new private\Setting();
         header('Location:' . $url->GetUrl($str));

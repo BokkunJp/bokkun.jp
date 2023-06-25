@@ -10,7 +10,7 @@ $dbSearchToken = new Public\Token('db-search-token', $session, true);
     <div class='warning'><?= $session->OnlyView('db-error'); ?></div>
     番号：<input type='text' name='edit-id' /> <br />
     コンテンツ：<input type='text' name='edit-contents' />
-    <?php $dbInputToken->SetToken(); ?><br />
+    <?php $dbInputToken->Set(); ?><br />
     <button>送信する</button>
     <button name='delete-num' value='On'>指定した番号のデータを削除する</button>
     <button name='delete-all' value='On'>すべてのデータを削除する</button>
@@ -20,7 +20,7 @@ $dbSearchToken = new Public\Token('db-search-token', $session, true);
     <h2>検索フォーム</h2>
     番号：<input type='text' name='search-id' /> <br />
     コンテンツ：<input type='text' name='search-contents' />
-    <?php $dbSearchToken->SetToken(); ?><br />
+    <?php $dbSearchToken->Set(); ?><br />
     <button>検索する</button>
 </form>
 

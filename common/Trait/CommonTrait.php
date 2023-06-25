@@ -67,7 +67,9 @@ trait CommonTrait
         $clientAry = array_reverse($clientAry);
 
         foreach ($clientAry as $_client) {
-            $clientPath = AddPath($clientPath, $_client);
+            $client = new Path($clientPath);
+            $client->Add($_client);
+            $clientPath = $client->Get();
         }
 
         return $clientPath;
@@ -287,6 +289,22 @@ trait CommonTrait
     }
 
     /**
+     * Output
+     *
+     * デバッグ用のメソッド。
+     * (Outputのデバッグ設定用のラッパー)
+     *
+     * @param mixed $expression
+     *
+     * @return void
+     */
+    function Debug(mixed $expression): void
+    {
+        Output($expression, true, true, true);
+    }
+
+
+    /**
      * SetComposerPlugin
      *
      * Composerを使ったプラグインを読み込む。
@@ -296,9 +314,19 @@ trait CommonTrait
      * @return void
      */
     protected function SetComposerPlugin($name) {
-        $pluginDir = AddPath(PLUGIN_DIR, $name);
-        $autoLoader = AddPath("vendor", "autoload.php",false);
-        $requireFile = AddPath($pluginDir, $autoLoader, false);
+        $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
+        $allPluginPath->SetAll([
+            'vendorDir' => $allPluginPath->Get(),
+            'requireFile' => $allPluginPath->Get(),
+        ]);
+
+        $allPluginPath->ResetKey('vendorDir');
+        $allPluginPath->MethodPath('Add', $name);
+        $pluginDir = $allPluginPath->Get();
+
+        $allPluginPath->ResetKey('requireFile');
+        $allPluginPath->MethodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
+        $requireFile = $allPluginPath->Get();
 
         if (is_dir($pluginDir) && is_file($requireFile)) {
             require_once $requireFile;
@@ -316,16 +344,36 @@ trait CommonTrait
      */
     public function SetPlugin(string $name): void
     {
-        $pluginDir = AddPath(PLUGIN_DIR, $name);
-        $vendorDir = AddPath($pluginDir, "vendor");
-        $composerJson = AddPath($pluginDir, "composer.json", false);
-        $composerLock = AddPath($pluginDir, "composer.lock", false);
+        $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
+        $allPluginPath->SetAll([
+            'vendorDir' => $allPluginPath->Get(),
+            'composerJson' => $allPluginPath->Get(),
+            'composerLock' => $allPluginPath->Get(),
+        ]);
+
+        $allPluginPath->ResetKey('vendorDir');
+        $allPluginPath->MethodPath('Add', $name);
+        $pluginDir = $allPluginPath->Get();
+
+        $allPluginPath->ResetKey('vendorDir');
+        $allPluginPath->MethodPath('Add', "vendor");
+        $vendorDir = $allPluginPath->Get();
+
+        $allPluginPath->ResetKey('composerJson');
+        $allPluginPath->MethodPath('SetPathEnd');
+        $allPluginPath->MethodPath('Add', "composer.json");
+        $composerJson = $allPluginPath->Get();
+
+        $allPluginPath->ResetKey('composerLock');
+        $allPluginPath->MethodPath('SetPathEnd');
+        $allPluginPath->MethodPath('Add', "composer.lock");
+        $composerLock = $allPluginPath->Get();
 
         // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
         if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
-            $this->SetComposerPlugin($name);
-        } elseif (is_dir(AddPath(PLUGIN_DIR, $name))) {
-            IncludeDirctories(AddPath(PLUGIN_DIR, $name));
+            SetComposerPlugin($name);
+        } elseif (is_dir($pluginDir)) {
+            IncludeDirectories($pluginDir);
         }
     }
 

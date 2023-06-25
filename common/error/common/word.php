@@ -1,17 +1,13 @@
 <?php
-
-
-$commonWordPath = dirname(
-    dirname(__DIR__, 2)
-);
-$commonWordPath = AddPath($commonWordPath, 'common');
-$commonWordPath = AddPath($commonWordPath, 'Word');
-$commonWordPath = AddPath($commonWordPath, 'Message.php', false);
-require_once $commonWordPath;
+$commonWordPath = new \Path(dirname(__DIR__, 3));
+$commonWordPath->AddArray(['common', 'Word', 'Message.php']);
+require_once $commonWordPath->Get();
 
 // 定数などの定義
 define('ERROR_COMMON_DIR', __DIR__);
-define('PUBLIC_DIR', AddPath(DOCUMENT_ROOT, 'public'));
+$publicPath = new \Path(DOCUMENT_ROOT);
+$publicPath->Add('public');
+define('PUBLIC_DIR', $publicPath->Get());
 define('FUNCTION_DIR', COMMON_DIR. '/Function');
 define('LAYOUT_DIR', COMMON_DIR. '/Layout');
 

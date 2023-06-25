@@ -3,17 +3,47 @@ define("DS", DIRECTORY_SEPARATOR);
 define("MAX_LENGTH", 32);
 
 // 関数定義 (初期処理用)
-require dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
+require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
+
+// パスの初期セット
+$privatepathList = new PathApplication('word', dirname(__DIR__, 2));
+
+// それぞれの変数セット
+$privatepathList->SetAll(
+    [
+        'setting' => '',
+        'include' => '',
+        'session' => '',
+        'token' => '',
+    ]
+);
+
+// パスの追加
 // 定数・固定文言など
-require_once AddPath(AddPath(AddPath(dirname(__DIR__, 2), "common", false), "Word", false), "Message.php", false);
+$privatepathList->ResetKey('word');
+$privatepathList->MethodPath('AddArray', ['common', 'Word', 'Message.php']);
+
 // 設定
-require_once AddPath(PRIVATE_COMMON_DIR, "Setting.php", false);
+$privatepathList->ResetKey('setting');
+$privatepathList->MethodPath('AddArray', ['common', 'Setting.php']);
+
 // セッション
-require_once AddPath(PRIVATE_COMMON_DIR, "Session.php", false);
-// CSRF
-require_once AddPath(PRIVATE_COMMON_DIR, "Token.php", false);
-// タグ
-require_once AddPath(PRIVATE_COMPONENT_DIR, "Tag.php", false);
+$privatepathList->ResetKey('session');
+$privatepathList->MethodPath('AddArray', ['common', 'Session.php']);
+
+// トークン
+$privatepathList->ResetKey('token');
+$privatepathList->MethodPath('AddArray', ['common', 'Token.php']);
+
+// ファイル読み込み
+$privatepathList->ResetKey('include');
+$privatepathList->MethodPath('AddArray', ['common', 'Include.php']);
+
+// パスの出力
+$privatepathList->All();
+foreach ($privatepathList->Get() as $path) {
+    require_once $path;
+}
 
 $session =  new \private\Session();
 $adminError = new AdminError();
@@ -23,7 +53,7 @@ $use = new \PrivateTag\UseClass();
 $editToken = new \private\Token("edit-token", $session);
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
-if ($editToken->CheckToken() === false) {
+if ($editToken->Check() === false) {
     $sessClass =  new private\Session();
     $sessClass->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new private\Setting();
@@ -34,9 +64,9 @@ if ($editToken->CheckToken() === false) {
 }
 
 $adminPath = dirname(__DIR__);
-$basePath = dirname(dirname(__DIR__, 2));
+$basePath = dirname(__DIR__, 3);
 
-$post = private\Setting::GetPosts();
+$post = (array)private\Setting::GetPosts();
 $judge = array();
 foreach ($post as $post_key => $post_value) {
     $$post_key = $post_value;
@@ -51,7 +81,11 @@ unset($session);
 unset($post);
 
 $pathList = ['php'];
-$subPathList = scandir(AddPath(AddPath($basePath, 'public'), 'client'));
+$clientPath = new \Path($basePath);
+$clientPath->Add('public');
+$clientPath->Add('client');
+$clientPath = $clientPath->Get();
+$subPathList = scandir($clientPath);
 foreach ($subPathList as $_key => $_val) {
     if (!FindFileName($_val)) {
         unset($subPathList[$_key]);
@@ -127,11 +161,13 @@ foreach ($pathList as $_pathList) {
         if (isset($delete)) {
             // 削除モード
             if (!isset($notDelflg)) {
-                DeleteData(AddPath(getcwd(), $select));
+                DeleteData($basePath, $select);
             }
         } elseif (isset($copy)) {
             // 複製モード
-            CopyData(AddPath(getcwd(), $select), $copy_title);
+            $copyPath = new \Path($basePath);
+            $copyPath->Add($select);
+            CopyData($copyPath->Get(), $copy_title);
         } elseif (isset($edit)) {
             // 編集モード
         } else {
@@ -139,9 +175,11 @@ foreach ($pathList as $_pathList) {
             $adminError->UserError("不正な遷移です。");
         }
     } else {
+        $cwd = new \Path(getcwd());
+        $cwd->Add($select);
         if (!strpos(getcwd(), 'client')) {
             $client = "public/client/";
-            $adminPath .= '/' . $client;
+            $adminPath = dirname($adminPath). '/Sample/' . $client;
         } else {
             $client = "../";
         }
@@ -149,12 +187,12 @@ foreach ($pathList as $_pathList) {
         if (isset($delete)) {
             // 削除モード
             if (!isset($notDelflg)) {
-                DeleteData(AddPath(getcwd(), $select));
+                DeleteData(getcwd(), $cwd->Get());
             }
         } elseif (isset($copy)) {
             // 複製モード
-            if (empty($select) && is_dir(AddPath(getcwd(), $select))) {
-                CopyData(AddPath(getcwd(), $select), $copy_title);
+            if (!empty($select) && is_dir($cwd->Get())) {
+                CopyData($cwd->Get(), $copy_title);
             }
         } elseif (isset($edit)) {
             // 編集モード
@@ -162,6 +200,7 @@ foreach ($pathList as $_pathList) {
             // どちらでもない
             $adminError->UserError("不正な遷移です。");
         }
+        $cwd = new \Path(dirname($cwd->Get()));
     }
 }
 

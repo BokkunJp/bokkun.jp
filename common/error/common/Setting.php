@@ -15,7 +15,10 @@ if (isset($http_flg)) {
 $agent = filter_input_fix(INPUT_SERVER, 'HTTP_USER_AGENT');
 $referer = filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
 
-require_once AddPath(COMMON_DIR, "Config.php", false);
+$configPath = new \Path(COMMON_DIR);
+$configPath->SetPathEnd();
+$configPath->Add('Config.php');
+require_once $configPath->Get();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 
 // 設定関係のクラス
@@ -187,4 +190,7 @@ class Session
 
 // インスタンスの定義
 $base = new Setting();
-require_once AddPath(__DIR__, 'Include.php', false);
+$includePath = new \Path(__DIR__);
+$includePath->SetPathEnd();
+$includePath->Add('Include.php');
+require_once $includePath->Get();

@@ -23,13 +23,19 @@ class Session
     private function SessionStart()
     {
         if (!isset($_SESSION) || session_status() === PHP_SESSION_DISABLED) {
-            if (PHP_OS === 'WINNT') {
-                $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
-                if (!is_dir($sessionDir)) {
-                    mkdir($sessionDir, 0755);
-                }
-                session_save_path($sessionDir);
+    if (PHP_OS === 'WINNT') {
+        $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/";
+        if (!is_dir($sessionDir)) {
+            mkdir($sessionDir, 0755);
+            $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
+            if (!is_dir($sessionDir)) {
+                mkdir($sessionDir, 0755);
+            } else {
+                $sessionDir .= '/session/';
             }
+        }
+        session_save_path($sessionDir);
+    }
             session_start();
         } else {
             // セッションが定義されている場合は更新
@@ -225,67 +231,5 @@ class Session
 
         // 最終的に、セッションを破壊する
         session_destroy();
-    }
-}
-
-// Cookieクラス
-class Cookie
-{
-    private $cookie;
-    public function __construct()
-    {
-        $this->Init();
-    }
-
-    /**
-     * Init
-     *
-     * クッキーの初期設定
-     *
-     * @return void
-     */
-    private function Init()
-    {
-        foreach ($_COOKIE as $_key => $_val) {
-            setcookie($_key, "", time() - 100);
-        }
-        unset($_COOKIE);
-        $this->cookie = null;
-    }
-
-    /**
-     * クッキーを取得
-     *
-     * @return void
-     */
-    public function GetCookie()
-    {
-        $this->cookie = $_COOKIE;
-    }
-
-    /**
-     * SetCookie
-     *
-     * クッキーのセット
-     *
-     * @param [type] $name
-     * @param [type] $val
-     * @return void
-     */
-    public function SetCookie($name, $val = null)
-    {
-        setCookie($val, $name);
-    }
-
-    /**
-     * ViewCookie
-     *
-     * クッキーを表示
-     *
-     * @return void
-     */
-    public function ViewCookie()
-    {
-        print_r($this->cookie);
     }
 }

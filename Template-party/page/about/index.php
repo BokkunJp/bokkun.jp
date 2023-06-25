@@ -24,24 +24,24 @@ $dirName = basename($dirPath);
 $pageName = basename($pagePath);
 
 // phpのディレクトリ指定
-$phpPath = AddPath($dirName, $pageName, false);
+$phpPath = \Path::AddPathStatic($dirName, $pageName, false);
 
 // cssのディレクトリ指定
-if (is_dir(AddPath(AddPath(PUBLIC_CSS_DIR, $dirName), $pageName))) {
-    $cssPath = AddPath($dirName, $pageName, false);
+if (is_dir(\Path::AddPathStatic(\Path::AddPathStatic(PUBLIC_CSS_DIR, $dirName), $pageName))) {
+    $cssPath = \Path::AddPathStatic($dirName, $pageName, false);
 } else {
     $cssPath = $dirName;
 }
 
 // jsのディレクトリ指定
-if (is_dir(AddPath(AddPath(PUBLIC_JS_DIR, $dirName), $pageName))) {
-    $jsPath = AddPath($dirName, $pageName, false);
+if (is_dir(\Path::AddPathStatic(\Path::AddPathStatic(PUBLIC_JS_DIR, $dirName), $pageName))) {
+    $jsPath = \Path::AddPathStatic($dirName, $pageName, false);
 } else {
     $jsPath = $dirName;
 }
 // imageのディレクトリ指定
-if (is_dir(AddPath(AddPath(PUBLIC_IMAGE_DIR, $dirName), $pageName))) {
-    $imagePath = AddPath($dirName, $pageName, false);
+if (is_dir(\Path::AddPathStatic(\Path::AddPathStatic(PUBLIC_IMAGE_DIR, $dirName), $pageName))) {
+    $imagePath = \Path::AddPathStatic($dirName, $pageName, false);
 } else {
     $imagePath = $dirName;
 }

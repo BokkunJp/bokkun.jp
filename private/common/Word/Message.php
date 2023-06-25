@@ -1,12 +1,11 @@
 <?php
+// $privateDirPath = new \Path(dirname(__DIR__));
 
-$commonWordPath = dirname(
-    dirname(__DIR__, 2)
-);
-$commonWordPath = AddPath($commonWordPath, 'common');
-$commonWordPath = AddPath($commonWordPath, 'Word');
-$commonWordPath = AddPath($commonWordPath, 'Message.php', false);
-require_once $commonWordPath;
+$commonPath = new \Path(dirname(__DIR__, 3));
+
+$commonWordPath = new \Path($commonPath->get());
+$commonWordPath->AddArray(["common", "Word", "Message.php"]);
+require_once $commonWordPath->Get();
 
 // CSRFクラス
 function PrivateCSRFErrorMessage()
@@ -27,27 +26,61 @@ function PrivateCSRFErrorMessage()
 
 // 共通部分
 // define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
-// define('PLUGIN_DIR', AddPath(dirname(dirname(DOCUMENT_ROOT)), 'Plugin', false));
+define('PRIVATE_DIR', dirname(__DIR__, 2));
 define('PRIVATE_COMMON_DIR', dirname(__DIR__));
-define('PRIVATE_DIR', AddPath(DOCUMENT_ROOT, 'private', false));
-define('PRIVATE_CLIENT_DIR', AddPath(PRIVATE_DIR, 'client', false));
-define('PRIVATE_CSS_DIR', AddPath(PRIVATE_CLIENT_DIR, 'css', false));
-define('PRIVATE_JS_DIR', AddPath(PRIVATE_CLIENT_DIR, 'js', false));
-define('PRIVATE_IMAGE_DIR', AddPath(PRIVATE_CLIENT_DIR, 'image', false));
 
-// define('PRIVATE_CSV_DIR', AddPath(PRIVATE_CLIENT_DIR, 'csv', false));
-define('PRIVATE_COMPONENT_DIR', AddPath(PRIVATE_COMMON_DIR, 'Component', false));
-define('PRIVATE_LAYOUT_DIR', AddPath(PRIVATE_COMMON_DIR, 'Layout', false));
+// パス
+// 初期設定部分
+$privateCleintDirWord = new Path(PRIVATE_DIR);
+$privateCleintDirWord->Add('client');
+define('PRIVATE_CLIENT_DIR', $privateCleintDirWord->Get());
+
+$privateMessage = new PathApplication('private_dir', dirname(DOCUMENT_ROOT));
+$privateMessage->SetAll(
+    [
+        'private_css_dir' => PRIVATE_CLIENT_DIR,
+        'private_js_dir' => '',
+        'private_image_dir' => '',
+        'priavate_component_dir' => PRIVATE_COMMON_DIR,
+        'priavate_layout_dir' => '',
+    ],
+);
+
+// 追加
+$privateMessage->ResetKey('private_css_dir');
+$privateMessage->MethodPath('AddArray', ['css']);
+define('PRIVATE_CSS_DIR', $privateMessage->Get());
+
+$privateMessage->ResetKey('private_js_dir');
+$privateMessage->MethodPath('AddArray', ['js']);
+define('PRIVATE_JS_DIR', $privateMessage->Get());
+
+$privateMessage->ResetKey('private_image_dir');
+$privateMessage->MethodPath('AddArray', ['image']);
+define('PRIVATE_IMAGE_DIR', $privateMessage->Get());
+
+$privateMessage->ResetKey('priavate_component_dir');
+$privateMessage->MethodPath('AddArray', ['component']);
+define('PRIVATE_COMPONENT_DIR', $privateMessage->Get());
+
+
+$privateMessage->ResetKey('priavate_layout_dir');
+$privateMessage->MethodPath('AddArray', ['layout']);
+define('PRIVATE_LAYOUT_DIR', $privateMessage->Get());
+
+// define('PRIVATE_CSV_DIR', \Path::AddPathStatic(PRIVATE_CLIENT_DIR, 'csv', false));
 // define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 // define('NOW_PAGE', basename(getcwd()));
 // define('SECURITY_LENG', 32);
 define('PRIVATE_PREVIOUS', '画像管理ページへ戻る');
 
 // 管理側の追加ソース
-define('ADD_DESIGN', 'require AddPath(__DIR__, "design.php", false);');
+define('ADD_DESIGN', 'require_once\Path::AddPathStatic(__DIR__, "design.php", false);');
 
 // 公開側画像パス
-define('PUBLIC_IMAGE_DIR', AddPath(AddPath(DOCUMENT_ROOT, 'public'), AddPath('client', 'image'), false));
+$publicImageWord = new Path(DOCUMENT_ROOT);
+$publicImageWord->AddArray(['public', 'client', 'image']);
+define('PUBLIC_IMAGE_DIR', $publicImageWord->Get());
 
 // デフォルトの画像ページ
 define('DEFAULT_IMAGE', 'IMAGE');
@@ -85,10 +118,10 @@ define('SUCCESS_DELETE_IMAGE', '枚の画像の削除に成功しました。');
 
 define('SUCCESS_DELETE_IMAGE_DETAIL', 'を削除しました。');
 
+define('NOT_FOUND_DIRECTORY', "対象のページがありません。");
+
 // 画像コピー関連
 define('FAIL_COPY_IMAGE', "画像のコピーに失敗しました。");
-
-define('NOT_FOUND_COPY_DIRECTORY', "対象のディレクトリがありません。");
 
 define('NOT_SELECT_IMAGE', "画像が選択されていません。");
 
@@ -98,7 +131,32 @@ define('FAIL_COPYING_IMAGE', "コピー処理に失敗しました。");
 
 define('SUCCESS_COPY_IMAGE', "のコピーに成功しました。");
 
+// 画像復元・完全削除用の文言
+// 画像完全削除関連
+define('NOT_FOUND_PERMANENT_DLETE_OR_RESTORE_IMAGE', '対象が選択されていないか、現在の枚数表示では、そのページには画像はありません。');
+
+define('FAIL_PERMANENT_DELETE_IMAGE', '件の画像の削除に失敗しました。');
+
+define('FAIL_PERMANENT_REASON_SYSTEM', '・処理中に問題が発生したため、');
+
+define('FAIL_PERMANENT_DELETE_IMAGE_DETAIL', 'を削除できませんでした。');
+
+define('SUCCESS_PERMANENT_DELETE_IMAGE', '枚の画像の削除に成功しました。');
+
+define('SUCCESS_PERMANENT_DELETE_IMAGE_DETAIL', 'を削除しました。');
+
+// 画像復元関連
+define('FAIL_RESTORE', "画像の復元に失敗しました。");
+
+define('ILLEGAL_RESTORE_IMAGE_NAME', "に不正なファイル名が入力されました。");
+
+define('FAIL_RESTORE_IMAGE', "の復元に失敗しました。");
+
+define('SUCCESS_RESTORE_IMAGE', "の復元に成功しました。");
+
 define('FAIL_COPY_IMAGE_COUNT', 1);
+
+define('FAIL_RESTORE_IMAGE_COUNT', 1);
 
 define('IMAGE_NAME_CHAR_SIZE', 8);
 

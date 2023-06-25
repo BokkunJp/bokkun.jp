@@ -2,17 +2,28 @@
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 // 関数定義 (初期処理用)
-require __DIR__ . DIRECTORY_SEPARATOR . 'InitFunction.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'InitFunction.php';
 // 設定
-require_once AddPath(__DIR__, "Setting.php", false);
+require_once __DIR__. "/Setting.php";
 // セッション
-require_once AddPath(__DIR__, "Session.php", false);
-
+$sessionPath = new \Path(__DIR__);
+$sessionPath->SetPathEnd();
+$sessionPath->Add('Session.php');
+require_once $sessionPath->Get();
 // 設定変数を管理側用に上書き
 $base = new private\Setting();
 // 定数・固定文言など
-require_once AddPath(__DIR__, AddPath("Word", "Message.php", false), false);
-require_once AddPath(PRIVATE_COMPONENT_DIR,  "Tag.php", false);
+$commonWordPath = new \Path(dirname(__DIR__, 2));
+$commonWordPath->AddArray(["common", "Word", "Message.php"]);
+$privateCommonWordPath = new \Path(__DIR__);
+$privateCommonWordPath->AddArray(["Word", "Message.php"]);
+require_once $privateCommonWordPath->Get();
+
+// タグ
+$tagPath = new \Path(PRIVATE_COMPONENT_DIR);
+$tagPath->SetPathEnd();
+$tagPath->Add("Tag.php");
+require_once $tagPath->Get();
 
 //直接のページ遷移を阻止
 $request = private\Setting::JudgeAjax();
@@ -50,5 +61,11 @@ if (is_null($request)) {
     exit;
 }
 
+// タグ
+$tagPath = new \Path(PRIVATE_COMMON_DIR);
+$tagPath->SetPathEnd();
+$tagPath->Add("ajax-include.php");
+require_once $tagPath->Get();
+
 // CSRF
-require_once AddPath(PRIVATE_COMMON_DIR, "Token.php", false);
+require_once PRIVATE_COMMON_DIR . "/Token.php";

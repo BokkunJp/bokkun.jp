@@ -1,13 +1,9 @@
 <?php
 
-function AddList($list1, $list2, $extension=null, $headFlg=-1)
+function AddList(array $list1, array $list2 = [], ?string $extension = null, int $headFlg = -1):array|false
 {
-    if (!is_array($list2) || empty($extension)) {
+    if (is_null($extension)) {
         return false;
-    }
-
-    if (!is_array($list1)) {
-        $list1 = array();
     }
 
     $pullList = array();

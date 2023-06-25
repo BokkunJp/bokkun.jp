@@ -26,7 +26,7 @@ if (is_array($posts)) {
 $publicMailToken = new Public\Token('public-mail-token', $session, true);
 
 if (isset($posts) && !empty($posts) && $nulFlg === false) {
-    if ($publicMailToken->CheckToken() === false) {
+    if ($publicMailToken->Check() === false) {
         $script->Alert("不正な値が送信されました。");
     } else {
         $mailSession = $session->Read("mail");

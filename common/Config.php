@@ -24,6 +24,9 @@ class Header extends Config
             case 'bokkun.jp':
             $ret = '';
             break;
+            case 'bokkun.info':
+            $ret = '-v2';
+            break;
             default:
             $ret = '-local';
             break;

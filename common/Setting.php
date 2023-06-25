@@ -1,5 +1,4 @@
 <?php
-
 namespace common;
 
 require_once 'InitFunction.php';
@@ -7,7 +6,10 @@ require_once 'Session.php';
 
 $base = new Setting();
 
-require_once AddPath(__DIR__, "Config.php", false);
+$configPath = new \Path(__DIR__);
+$configPath->SetPathEnd();
+$configPath->Add('Config.php');
+require_once $configPath->Get();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 
 if (isset($_SERVER['HTTPS'])) {
@@ -25,15 +27,15 @@ $FUNCTION_DIR = $COMMON_DIR . '/Function';
 // 設定関係のクラス
 class Setting
 {
-    protected $css;
-    protected $csv;
-    protected $client;
-    protected $domain;
-    protected $error;
-    protected $image;
-    protected $js;
-    protected $public;
-    protected $url;
+    protected string $css;
+    protected string $csv;
+    protected \Path|string $client;
+    protected string $domain;
+    protected string $error;
+    protected string $image;
+    protected string $js;
+    protected string $public;
+    protected ?string $url;
 
     public function __construct()
     {
@@ -41,8 +43,13 @@ class Setting
         $this->InitSSL($this->url);
         $this->domain = $this->GetSERVER('SERVER_NAME');
         $this->url = $this->url . $this->domain;
-        $this->public = AddPath('', 'public', true, '/');
-        $this->client = AddPath($this->public, 'client', true, '/');
+        $public = new \Path('', '/');
+        $public->Add('public');
+        $this->public = $public->Get();
+
+        $client = new \Path($public->Get(), '/');
+        $client->Add('client');
+        $this->client = $client->Get();
     }
 
     /**
@@ -267,6 +274,10 @@ class Setting
             default:
                 break;
         }
-        return AddPath($url, $query, false, '/');
+
+        $urlPath = new \Path($url, '/');
+        $urlPath->SetPathEnd();
+        $urlPath->Add($query);
+        return rtrim($urlPath->Get(), '/');
     }
 }

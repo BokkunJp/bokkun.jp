@@ -25,6 +25,7 @@ if (!preg_match('/^(.*)\.(.*)/', basename(dirname(__DIR__, 2)))) {
 define('DOCUMENT_ROOT', $root);
 
 define('COMMON_DIR', dirname(__DIR__));
+define('COMPONENT_DIR', dirname(__DIR__). DIRECTORY_SEPARATOR. "Component");
 define('NL', nl2br(PHP_EOL));
 define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 define('NOW_PAGE', basename(getcwd()));
@@ -53,7 +54,9 @@ define(
 );
 
 // プラグインパス
-define("PLUGIN_DIR", AddPath(dirname(DOCUMENT_ROOT, 2), "Plugin"));
+$pluginWord = new Path(dirname(DOCUMENT_ROOT, 2));
+$pluginWord->Add('Plugin');
+define("PLUGIN_DIR", $pluginWord->Get());
 
 // FINISHフラグ
 define("FINISH", 1);

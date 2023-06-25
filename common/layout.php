@@ -17,11 +17,16 @@ switch ($statusCode) {
     default:
         break;
 }
+
+$css = new \Path($base->GetUrl('', 'client', false), '/');
+$design = new \Path($css->Get(), '/');
+$css->AddArray(['css', 'common', "{$agentCode}.css"]);
+$design->AddArray(['css', "design.css"]);
 ?>
 <link rel="stylesheet" type="text/css"
-    href="<?=AddPath($base->GetURL('', 'client', false), AddPath(AddPath('css', 'common', false, '/'), $agentCode. ".css", false, '/'), false, '/') ?>">
+    href="<?=$css->Get() ?>">
 <link rel="stylesheet" type="text/css"
-    href="<?=AddPath($base->GetURL('', 'client', false), 'css', true, '/')?>design.css">
+    href="<?=$design->Get()?>">
 <div class="container">
     <?php require_once('header.php'); ?>
     <main class="contents">

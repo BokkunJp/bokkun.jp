@@ -1,6 +1,7 @@
 <?php
-
-IncludeFiles(AddPath(__DIR__, "Base"), 'php', false, ['BaseValid']);
+$basePath = new \Path(__DIR__);
+$basePath->Add("Base");
+IncludeFiles($basePath->Get(), 'php', false, ['BaseValid']);
 class Valid extends BaseVaild
 {
 }

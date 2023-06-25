@@ -2,6 +2,7 @@
 
 class myPg
 {
+    private $sql;
     private $tableName;
     private $dbName;
     private $dbUser;

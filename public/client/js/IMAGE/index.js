@@ -38,7 +38,7 @@
         var url = location.href;
         var query = location.search;
         var selectValue = {
-            'select-token': $( 'input[name="token"]' ).val(),
+            'delete-select-token': $( 'input[name="token"]' ).val(),
             'image-value': $(this).val(),
         };
 

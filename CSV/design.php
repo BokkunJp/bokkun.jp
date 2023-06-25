@@ -4,7 +4,10 @@ use BasicTag\ScriptClass;
 use public\Setting as Setting;
 
 if (!class_exists('Public\Token')) {
-    require_once AddPath(PUBLIC_COMMON_DIR, 'Token.php', false);
+    $tokenPath = new \Path(PUBLIC_COMMON_DIR);
+    $tokenPath->SetPathEnd();
+    $tokenPath->Add('Token.php');
+    require_once $tokenPath->Get();
 }
 
 $posts = public\Setting::GetPosts();
@@ -63,7 +66,7 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
         </tbody>
     </table>
     <input type='hidden' name='csv' value="make" />
-    <?php $csvToken->SetToken(); ?>
+    <?php $csvToken->Set(); ?>
     <button type='submit' name='send' value='true'>データを送信</button>
     <button type='submit' name='view' value='true'>データを表示</button>
 </form>
@@ -81,7 +84,9 @@ if (empty($csvData)) {
 </div>
 
 <?php
-$filePath = AddPath(PUBLIC_CSV_DIR, basename(__DIR__));
+$filePath = new \Path(PUBLIC_CSV_DIR);
+$filePath->Add(basename(__DIR__));
+$filePath = $filePath->Get();
 // ディレクトリが存在しない場合は作成
 if (!is_dir($filePath)) {
     mkdir($filePath, 0775, true);
@@ -96,8 +101,9 @@ $base = new Setting();
 //$downloadHtml->ExecTag(true);
 echo "<p>";
 foreach ($fileArray as $_value) {
-    $_filePath = AddPath($base->GetUrl(basename(__DIR__), 'csv'), $_value, false);
-    echo "<a href=\"{$_filePath}\" download>{$_value}ダウンロード</a> <br/>";
+    $filePath = new \Path($base->GetUrl(basename(__DIR__), 'csv'));
+    $filePath->Add($_value);
+    echo "<a href=\"{$filePath->Get()}\" download>{$_value}ダウンロード</a> <br/>";
 }
 echo "</p>";
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace UA;
+namespace Public;
 
 define('PC_design', 1);
 define('SP_design', 2);

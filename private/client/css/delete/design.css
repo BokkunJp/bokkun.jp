@@ -1,0 +1,41 @@
+body {
+    background-color: #E6D6AE;
+    color: #FFFFAA;
+}
+
+@media only screen and (max-width: 750px) {
+    .fileButton {
+        font-size: 2vh;
+    }
+}
+
+.all-check-label {
+    user-select: none;
+}
+
+.page-moved {
+    font-style: oblique;
+    color: silver;
+    font-family: Times New Roman,
+        "ＭＳ Ｐゴシック";
+}
+
+.image-page-input {
+    margin-left: 1vw;
+}
+
+.success {
+    font-size: small;
+    font-style: italic;
+    color: green;
+}
+
+.select-notice,
+.notice,
+.warning,
+.fail {
+    font-size: small;
+    color: red;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}

@@ -37,10 +37,6 @@ $startDir = ["---" => "---"];
 $dir = array_merge($startDir, $dir);
 
 $accessLogAry = [];
-foreach ($dir as $_dir) {
-    $fileFullPath = AddPath($dirPath, $_dir, false);
-}
-
 
 $smarty->assign('base', basename(__DIR__) . '/subdirectory');
 $smarty->assign('dir_path', $dirPath);

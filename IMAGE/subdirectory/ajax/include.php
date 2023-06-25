@@ -22,7 +22,10 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
     if (!empty($classLoad)) {
         return spl_autoload_register(function () use ($pwd, $classLoad) {
             while ($name = current($classLoad)) {
-                require_once AddPath($pwd, "{$name}.php", false);
+                $imagePath = new \Path($pwd, '/');
+                $imagePath->SetPathEnd();
+                $imagePath->Add("{$name}.php");
+                require_once $imagePath->Get();
                 next($classLoad);
             }
         });

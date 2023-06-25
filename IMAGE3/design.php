@@ -37,7 +37,7 @@ $publicImageToken = new Public\Token('public-image-token', $session, true);
     <form class='pageForm' method="POST">
     <?php
     ReadImage();
-    $publicImageToken->SetToken();
+    $publicImageToken->Set();
 
     ?>
     <input type='hidden' name='token' value="<?= $token = MakeToken(); ?>" />
