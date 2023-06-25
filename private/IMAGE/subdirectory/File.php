@@ -48,8 +48,6 @@ function CheckType(string $inputType, string $targetType = 'image')
  */
 function ImportImage(array $upFiles): ?array
 {
-    $imageDir = PUBLIC_IMAGE_DIR;
-
     // データ成型
     $moldFiles = MoldFile($upFiles, 'all-files');
 
@@ -123,7 +121,7 @@ function ImportImage(array $upFiles): ?array
 
         if (is_numeric($imgType)) {
             // 画像保管用のディレクトリがない場合は作成
-            $imageDir = new \Path($imageDir);
+            $imageDir = new \Path(PUBLIC_IMAGE_DIR);
             $imageDir->Add($imagePageName);
             $imageDir = $imageDir->Get();
             if (!file_exists($imageDir)) {
