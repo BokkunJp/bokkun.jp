@@ -1,11 +1,14 @@
 <?php
+
 trait Component
 {
     public $data;
-    public function Getter() {
+    public function Getter()
+    {
         return $this->data;
     }
-    public function Setter($data) {
+    public function Setter($data)
+    {
         $this->data = $data;
     }
 }
