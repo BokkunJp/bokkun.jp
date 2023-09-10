@@ -175,7 +175,7 @@ foreach ($pathList as $_pathList) {
             $adminError->UserError("不正な遷移です。");
         }
     } else {
-        $cwd = new \Path(getcwd());
+        $cwd = new \Path('');
         $cwd->Add($select);
         if (!strpos(getcwd(), 'client')) {
             $client = "public/client/";
