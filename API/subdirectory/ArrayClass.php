@@ -1,9 +1,10 @@
 <?php
+
 class ArrayClass
 {
     private array $data;
 
-    function __construct(array $data)
+    public function __construct(array $data)
     {
         $this->data = $data;
     }
@@ -28,7 +29,8 @@ class ArrayClass
         return $ret;
     }
 
-    public function push($data) {
+    public function push($data)
+    {
         $this->data[] = $data;
     }
     public function pull()
@@ -55,4 +57,3 @@ class ArrayClass
         Debug($this->data);
     }
 }
-

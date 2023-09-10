@@ -145,7 +145,7 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
             $result = ValidateData($client, strtoupper($title));
         }
 
-        // commonの名称は作成不可
+        // common・publicの名称は作成不可
         if ($title === 'common' || $title === 'public') {
             $adminError->UserError('その名称のページは作成できません。');
         }
@@ -212,16 +212,16 @@ if ($type === "scratch") {
         mkdir("$title/Layout");                               // Layoutディレクトリ作成
     }
 
-    $oldSamplePath = new \Path($samplePath);
-    $samplePath = new \Path($samplePath);
-    $samplePath->Add("Layout");
-    $samplePath = $samplePath->Get();
-    foreach (scandir($samplePath) as $_file) {
+    $bufferSamplePath = new \Path($samplePath);
+    $samplePathClass = new \Path($samplePath);
+    $samplePathClass->Add("Layout");
+    $samplePathClass = $samplePathClass->Get();
+    foreach (scandir($samplePathClass) as $_file) {
         if (!is_dir($_file)) {
             copy("$baseFileName/Layout/{$_file}", "$title/Layout/{$_file}");
         }
     }
-    $samplePath = $oldSamplePath->Get();
+    $samplePath = $bufferSamplePath->Get();
 }
 
 // テンプレートを指定した場合は、テンプレートエンジン用のindexファイル作成

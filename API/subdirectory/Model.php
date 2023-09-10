@@ -1,8 +1,14 @@
 <?php
-class API {
-    private string $secretKey, $secretCode, $accessToken, $url = 'https://bokkun.jp/', $type = 'text/plain';
+
+class API
+{
+    private string $secretKey;
+    private string $secretCode;
+    private string $accessToken;
+    private string $url = 'https://bokkun.jp/';
+    private string $type = 'text/plain';
     private array $data;
-    function __construct($secretKey, $secretCode)
+    public function __construct($secretKey, $secretCode)
     {
         $this->secretKey = $secretKey;       // シークレットキー
         $this->secretCode = $secretCode;    // シークレットコード

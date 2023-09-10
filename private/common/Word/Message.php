@@ -71,7 +71,7 @@ define('PRIVATE_LAYOUT_DIR', $privateMessage->Get());
 define('PRIVATE_PREVIOUS', '画像管理ページへ戻る');
 
 // 管理側の追加ソース
-define('ADD_DESIGN', 'require_once __DIR__ . DIRECTORY_SEPARATOR . "design.php", false);');
+define('ADD_DESIGN', 'require_once __DIR__ . DIRECTORY_SEPARATOR . "design.php";');
 
 // 公開側画像パス
 $publicImageWord = new Path(DOCUMENT_ROOT);

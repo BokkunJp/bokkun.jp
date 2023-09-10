@@ -1,5 +1,6 @@
 <?php
-class ObjectClass {
+class ObjectClass
+{
     private stdClass $data;
 
     function __construct(array $data)
