@@ -12,7 +12,7 @@ function Main()
 {
 
     var vue = new VueClass();
-    vue.SetData('#test', 'Default');
+    vue.setData('#test', 'Default');
     vue.Exec();
 
 
@@ -35,7 +35,7 @@ class VueClass
         this.el = null;
         this.data = null;
     }
-    SetData(el, data)
+    setData(el, data)
     {
         this.SetElement(el);
         this.SetMessage(data);

@@ -57,7 +57,7 @@ if ($editToken->Check() === false) {
     $sessClass =  new private\Session();
     $sessClass->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new private\Setting();
-    $backUrl = CreateClient('private', dirname(__DIR__));
+    $backUrl = createClient('private', dirname(__DIR__));
     $backUrl = ltrim($backUrl, DS);
     header('Location:' . $url->GetUrl($backUrl));
     exit;

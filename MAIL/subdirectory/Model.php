@@ -2,7 +2,7 @@
 
 use BasicTag\ScriptClass;
 
-function SendMail($header, $response=false)
+function sendMail($header, $response=false)
 {
     if (!isset($header)) {
         return false;

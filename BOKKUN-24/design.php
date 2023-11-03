@@ -24,6 +24,6 @@ $dbSearchToken = new Public\Token('db-search-token', $session, true);
     <button>検索する</button>
 </form>
 
-<form method='POST' action='./' name='Output'>
+<form method='POST' action='./' name='output'>
     <h2>出力フォーム</h2>
 </form>

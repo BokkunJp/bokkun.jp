@@ -258,11 +258,11 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
     $result = null;
     if ($page <= 0 || $page === false) {
         if ($ajaxFlg === false) {
-            Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-            Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
-            Output("<div class='image-list'>", indentFlg:false);
+            output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+            output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
+            output("<div class='image-list'>", indentFlg:false);
             ErrorSet('ページの指定が不正です。');
-            Output("</div><div class='image-pager'></div>", indentFlg:false);
+            output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         return ['result' => false, 'view-image-type' => GetImagePageName()];
     } else {
@@ -275,11 +275,11 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
 
     if ($start >= $end) {
         if ($ajaxFlg === false) {
-            Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-            Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
-            Output("<div class='image-list'>", indentFlg:false);
+            output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+            output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
+            output("<div class='image-list'>", indentFlg:false);
             ErrorSet('現在の枚数表示では、そのページには画像はありません。');
-            Output("</div><div class='image-pager'></div>", indentFlg:false);
+            output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         $result = ['result' => false, 'view-image-type' => GetImagePageName()];
     }
@@ -388,7 +388,7 @@ function ShowImage(
             $imagePath->SetPathEnd();
             $imagePath->Add($_data['name']);
             $imagePath = $imagePath->Get();
-            $jsData[$i]['info'] = CalcImageSize($imagePath, (int)GetIni('private', 'ImageMaxSize'));
+            $jsData[$i]['info'] = calcImageSize($imagePath, (int)GetIni('private', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
             // 画像データが取得できなかった場合は、配列の該当データの削除
             if ($jsData[$i]['info'] === false) {
@@ -405,8 +405,8 @@ function ShowImage(
 
         return $jsData;
     } else {
-        Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-        Output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
+        output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+        output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
 
         // セッション開始
         if (!isset($session)) {
@@ -414,7 +414,7 @@ function ShowImage(
         }
 
         // jQueryで書き換えれるように要素を追加
-        Output("<div class='image-list'>", indentFlg:false);
+        output("<div class='image-list'>", indentFlg:false);
         foreach ($data as $i => $_data) {
             $_file = $_data['name'];
             $_time = $_data['time'];
@@ -442,11 +442,11 @@ function ShowImage(
             $session->Delete('checkImage');
         }
 
-        Output("</div>", indentFlg:false);
+        output("</div>", indentFlg:false);
 
-        Output("<div class='image-pager'>", indentFlg:false);
+        output("<div class='image-pager'>", indentFlg:false);
         ViewPager($params['max']);
-        Output("</div>", indentFlg:false);
+        output("</div>", indentFlg:false);
     }
 
     return null;
@@ -484,7 +484,7 @@ function ValidateDeleteImage(
     $ret = false;
 
     if (!is_array($target)) {
-        $ret = SearchData($target, $listImages);
+        $ret = searchData($target, $listImages);
     } else {
         foreach ($target as $_key => $_value) {
             if (preg_match('/^img_(.*)$/', $_key)) {
@@ -529,7 +529,7 @@ function DeleteImages(array $deleteImages): array
         $oldFile->SetPathEnd();
         $oldFile->Add($_value);
         if ($_value !== false && preg_match('/^img_(.*)$/', $_key)
-        && SearchData($_value, scandir($baseImageDir->Get()))
+        && searchData($_value, scandir($baseImageDir->Get()))
         && rename($file->Get(), $oldFile->Get()) === true
         ) {
             $ret['success'][$_key] = $_value;
@@ -602,7 +602,7 @@ function CopyImage(array $upFilesArray): array
         $copyFilesArray = $upFilesArray;
         foreach ($copyFilesArray as $_key => $_file) {
             $tmpFileName = explode('.', $_file);
-            $copyFilesArray[$_key] = $tmpFileName[0]. '_'. CreateRandom(IMAGE_NAME_CHAR_SIZE). '.'. $tmpFileName[1];
+            $copyFilesArray[$_key] = $tmpFileName[0]. '_'. createRandom(IMAGE_NAME_CHAR_SIZE). '.'. $tmpFileName[1];
         }
     } else {
         $copyFilesArray = $upFilesArray;

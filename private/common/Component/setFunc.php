@@ -25,7 +25,7 @@ function GetData($class_name, $data)
 }
 
 // 関数にデータをセットする
-function SetData($func_name, $data)
+function setData($func_name, $data)
 {
 }
 

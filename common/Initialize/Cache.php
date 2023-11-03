@@ -44,7 +44,7 @@ class Cache {
 
     public function Save(): void
     {
-        $this->session->WriteArray('cache', $this->id, $$this->cache);
+        $this->session->WriteArray('cache', $this->id, $this->cache);
     }
 
     public function Load(): mixed

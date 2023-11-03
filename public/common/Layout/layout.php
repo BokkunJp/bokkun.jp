@@ -38,7 +38,7 @@ $img = "crown-vector.jpg";
         href="<?= $base->GetUrl('', 'client') ?>/image/IMG_7592.PNG">
     <?php if (!isset($contents)) : ?>
         <link rel="stylesheet" type="text/css"
-            href="<?= $base->GetUrl('', 'client') ?>/css<?= CreateClient('') ?>design.css">
+            href="<?= $base->GetUrl('', 'client') ?>/css<?= createClient('') ?>design.css">
         <?php else : ?>
         <link rel="stylesheet" type="text/css"
             href="<?= $base->GetUrl('', 'client') ?>/css/common/ajax.css">
@@ -60,7 +60,7 @@ $img = "crown-vector.jpg";
                     }
                     require_once($contentsPath . '/design.php');
                 } elseif ($contents) {
-                    Output($contents);
+                    output($contents);
                 }
             ?>
         </main>

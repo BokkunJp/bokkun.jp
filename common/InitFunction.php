@@ -69,7 +69,7 @@ set_error_handler(
 // });
 
 /**
- * Sanitize
+ * sanitize
  *
  * ヌルバイト対策 (POST, GET)
  *
@@ -77,20 +77,20 @@ set_error_handler(
  *
  * @return mixed
  */
-function Sanitize(mixed $arr = ''): mixed
+function sanitize(mixed $arr = ''): mixed
 {
     if (!is_string($arr)) {
         return $arr;
     }
 
     if (is_array($arr)) {
-        return array_map('Sanitize', $arr);
+        return array_map('sanitize', $arr);
     }
     return str_replace("\0", "", $arr);     //ヌルバイトの除去
 }
 
 /**
- * CreateClient
+ * createClient
  * 所定のディレクトリまでのディレクトリ群を走査し、パスを生成する。
  *
  * @param string $target
@@ -99,7 +99,7 @@ function Sanitize(mixed $arr = ''): mixed
  *
  * @return bool
  */
-function CreateClient(string $target, string $src = '', string $separator = DIRECTORY_SEPARATOR): string
+function createClient(string $target, string $src = '', string $separator = DIRECTORY_SEPARATOR): string
 {
     if (empty($src)) {
         $srcPath = getcwd();
@@ -157,7 +157,7 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
         $options = FILTER_NULL_ON_FAILURE;
     }
 
-    if (SearchData($type, $checkTypes) || filter_has_var($type, $variable_name)) {
+    if (searchData($type, $checkTypes) || filter_has_var($type, $variable_name)) {
         $ret = filter_input($type, $variable_name, $filter, $options);
     } elseif ($type == INPUT_SERVER && isset($_SERVER[$variable_name])) {
         $ret = filter_var($_SERVER[$variable_name], $filter, $options);
@@ -171,7 +171,7 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
 }
 
 /**
- * MoldData
+ * moldData
  *
  * データ調整。
  * (配列⇔特定のセパレータで区切られた文字列の相互変換)
@@ -181,7 +181,7 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
  *
  * @return mixed
  */
-function MoldData(mixed $data, string $parameter = ','): mixed
+function moldData(mixed $data, string $parameter = ','): mixed
 {
     $ret = false;
     if (is_null($data)) {
@@ -198,7 +198,7 @@ function MoldData(mixed $data, string $parameter = ','): mixed
 }
 
 /**
- * Output
+ * output
  *
  * 出力用の関数。
  *
@@ -210,7 +210,7 @@ function MoldData(mixed $data, string $parameter = ','): mixed
  *
  * @return void
  */
-function Output(
+function output(
     mixed $expression,
     bool $formatFlg = false,
     bool $indentFlg = true,
@@ -235,7 +235,7 @@ function Output(
     if (!empty($debug)) {
         $debugMessage = DEBUG_MESSAGE_SOURCE;
         $debugTrace = debug_backtrace();
-        $debugValidate = DebugValidate($debug, $debugTrace);
+        $debugValidate = debugValidate($debug, $debugTrace);
         if (!empty($debugValidate)) {
             $errScript = new BasicTag\ScriptClass();
             foreach ($debugValidate as $_DEBUG_KEY) {
@@ -281,7 +281,7 @@ function Output(
  *
  * @return array
  */
-function DebugValidate(array $debug, array $debugTrace): array
+function debugValidate(array $debug, array $debugTrace): array
 {
     $validate = [];
 
@@ -306,10 +306,10 @@ function DebugValidate(array $debug, array $debugTrace): array
 }
 
     /**
-     * Output
+     * output
      *
      * デバッグ用のメソッド。
-     * (Outputのデバッグ設定用のラッパー)
+     * (outputのデバッグ設定用のラッパー)
      *
      * @param mixed $expression
      *
@@ -317,13 +317,13 @@ function DebugValidate(array $debug, array $debugTrace): array
      */
     function Debug(mixed $expression): void
     {
-        Output($expression, true, true, true);
+        output($expression, true, true, true);
     }
 
 
 
 /**
- * SetComposerPlugin
+ * setComposerPlugin
  *
  * Composerを使ったプラグインを読み込む。
  * (通常のプラグインと違い、全ディレクトリではなく/vendor/autoLoader.phpを読み込む)
@@ -331,7 +331,7 @@ function DebugValidate(array $debug, array $debugTrace): array
  * @param string $name
  * @return void
  */
-function SetComposerPlugin(string $name) {
+function setComposerPlugin(string $name) {
     $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
     $allPluginPath->SetAll([
         'vendorDir' => $allPluginPath->Get(),
@@ -352,7 +352,7 @@ function SetComposerPlugin(string $name) {
 }
 
 /**
- * SetPlugin
+ * setPlugin
  *
  * 指定したプラグインを読み込む。
  *
@@ -360,7 +360,7 @@ function SetComposerPlugin(string $name) {
  *
  * @return void
  */
-function SetPlugin(string $name): void
+function setPlugin(string $name): void
 {
     $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
     $allPluginPath->SetAll([
@@ -389,32 +389,32 @@ function SetPlugin(string $name): void
 
     // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
     if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
-        SetComposerPlugin($name);
+        setComposerPlugin($name);
     } elseif (is_dir($pluginDir)) {
         IncludeDirectories($pluginDir);
     }
 }
 
 /**
- * SetAllPlugin
+ * setAllPlugin
  *
  * プラグインを一括で読み込む。
  *
  * @return void
  */
-function SetAllPlugin(): void
+function setAllPlugin(): void
 {
     $addDir = scandir(PLUGIN_DIR);
 
     foreach ($addDir as $_key => $_dir) {
         if (!(strpos($_dir, '.') || strpos($_dir, '..'))) {
-            SetPlugin($_dir);
+            setPlugin($_dir);
         }
     }
 }
 
 /**
- * SearchData
+ * searchData
  *
  * in_arrayの代替処理。
  * (in_arrayは速度的に問題があるため、issetで対応する)
@@ -424,7 +424,7 @@ function SetAllPlugin(): void
  *
  * @return bool
  */
-function SearchData($target, array $arrayData): bool
+function searchData($target, array $arrayData): bool
 {
     $filipData = array_flip($arrayData);
 
@@ -464,7 +464,7 @@ function MoldImageConfig($imageConfig): array
 }
 
 /**
- * CalcImageSize
+ * calcImageSize
  *画像のサイズを計算する
  *
  * @param string $imageName 画像名(画像パス含む)
@@ -472,7 +472,7 @@ function MoldImageConfig($imageConfig): array
  *
  * @return array|false
  */
-function CalcImageSize(string $imageName, string|int $imageSizeViewValue): array|false
+function calcImageSize(string $imageName, string|int $imageSizeViewValue): array|false
 {
     if (!file_exists($imageName) || !exif_imagetype($imageName)) {
         return false;
@@ -496,46 +496,13 @@ function CalcImageSize(string $imageName, string|int $imageSizeViewValue): array
 }
 
 /**
- * CalcAllImageSize
- * 全ての画像のサイズを計算する
- *
- * @param string $imageName 画像名(画像パス含む)
- *
- * @return array|false
- */
-function CalcAllImageSize(string $imageName): array|false
-{
-    if (!is_string($imageName)) {
-        $ret = false;
-    } else {
-        $imageConfig = getimagesize($imageName);
-        $imageSize = filesize($imageName);
-        $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
-
-        $imageSizeUnit = '';
-        foreach ($imageSizeUnitArray as $_imageSizeUnit) {
-            if ($imageSize >= IMAGE_MAX_VALUE) {
-                $imageSize = $imageSize / IMAGE_MAX_VALUE;
-                $imageSizeUnit = $_imageSizeUnit;
-            }
-        }
-
-        $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
-
-        $ret = array_merge(MoldImageConfig($imageConfig), $ret);
-    }
-
-    return $ret;
-}
-
-/**
- * EmptyValidate
+ * emptyValidate
  *
  * @param mixed $validate
  * @param string|null $word
  * @return boolean|null
  */
-function EmptyValidate(mixed $validate, ?string $word = null): ?bool
+function emptyValidate(mixed $validate, ?string $word = null): ?bool
 {
     $v = null;
 
@@ -560,13 +527,13 @@ function EmptyValidate(mixed $validate, ?string $word = null): ?bool
 }
 
 /**
- * CheckMemory
+ * checkMemory
  *
  * メモリを可視化する
  *
  * @return void
  */
-function CheckMemory(): void
+function checkMemory(): void
 {
     static $initialMemoryUse = null;
 
@@ -574,5 +541,5 @@ function CheckMemory(): void
         $initialMemoryUse = memory_get_usage();
     }
 
-    Output(number_format(memory_get_usage() - $initialMemoryUse), formatFlg:true);
+    output(number_format(memory_get_usage() - $initialMemoryUse), formatFlg:true);
 }

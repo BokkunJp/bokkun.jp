@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-SetPlugin('smarty');
+setPlugin('smarty');
 $smarty = new Smarty();
 
 $smarty->template_dir = './subdirectory/templates/';
@@ -14,7 +14,7 @@ $smarty->config_dir   = './subdirectory/configs/';
 $smarty->cache_dir    = './subdirectory/cache/';
 
 // jsファイル読み込み
-$jsTitle = CreateClient('log');
+$jsTitle = createClient('log');
 IncludeJSFiles($jsTitle);
 
 if ($session->Judge('addition')) {
@@ -22,7 +22,7 @@ if ($session->Judge('addition')) {
     $session->Delete('addition');
 }
 
-$dirPath = rtrim(dirname(__DIR__, 5), "\\") . CreateClient('log', 'log');
+$dirPath = rtrim(dirname(__DIR__, 5), "\\") . createClient('log', 'log');
 // print_r(private\Setting::GetServerName());
 // ディレクトリを除外
 $domain = private\Setting::GetServerName();

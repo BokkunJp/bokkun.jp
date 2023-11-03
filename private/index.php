@@ -61,7 +61,7 @@ AlertAdmin('access', $title);
                 $notList = AddList($notList, $dirList, '_', 1);
 
                 foreach ($dirList as $index => $_dir) {
-                    if (!SearchData($_dir, $notList) && isset($titleList[$_dir])) {
+                    if (!searchData($_dir, $notList) && isset($titleList[$_dir])) {
                         echo "<li><a href=\"./$_dir/\" target=\"_new\">{$titleList[$_dir]}画面へ移動</a></li>";
                     }
                 }

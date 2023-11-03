@@ -32,7 +32,7 @@ $img = "crown-vector.jpg";
     <meta name="robots" content="noindex,nofollow">
     <title><?php echo $title; ?></title>
     <link rel="shortcut icon" href="<?= $base->GetUrl('', 'client') ?>/image/IMG_7592.PNG">
-    <link rel="stylesheet" type="text/css" href="<?= $base->GetUrl('', 'client') ?>css<?= CreateClient('') ?>/design.css">
+    <link rel="stylesheet" type="text/css" href="<?= $base->GetUrl('', 'client') ?>css<?= createClient('') ?>/design.css">
 </head>
 <body>
     <link rel="stylesheet" type="text/css" href="<?php echo $public; ?>client/css/common/<?php echo $agentCode; ?>.css">

@@ -4,7 +4,7 @@ $session = new public\Session();
 // Tokenクラスをセット
 $publicMailToken = new Public\Token('public-mail-token', $session, true);
 
-//SendMail(['bokkun.moeanimecharacter.byt@gmail.com', 'テスト送信', 'ウェザサイトからの送信です。', 'From: private.mail@bokkun.jp' . "\r\n"]);
+//sendMail(['bokkun.moeanimecharacter.byt@gmail.com', 'テスト送信', 'ウェザサイトからの送信です。', 'From: private.mail@bokkun.jp' . "\r\n"]);
 ?>
 <form enctype="multipart/form-data" action="./" method='POST'>
     <?php $publicMailToken->Set(); ?>

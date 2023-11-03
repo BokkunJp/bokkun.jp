@@ -17,7 +17,7 @@ if ($createToken->Check() === false) {
 }
 
 // Post値の検証
-$data = SearchData($post['page'], NOT_DELETE_FILE_LIST);
+$data = searchData($post['page'], NOT_DELETE_FILE_LIST);
 
 $json = json_encode($data);
 echo $json;

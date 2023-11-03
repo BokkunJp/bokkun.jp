@@ -2,10 +2,10 @@
 <?php
 // 関数呼び出し
 require_once dirname(__DIR__) . '/public/common/Layout/scratch.php';
-// $api = ModelTest();
-// $api->SetUrl('aaa', 'hoge');
-// Output($api, true, true);
-// $api->SendData();
+// $api = modelTest();
+// $api->setUrl('aaa', 'hoge');
+// output($api, true, true);
+// $api->sendData();
 
 
 $ary = ["hoge" => 1,"fuga" => 2,3];

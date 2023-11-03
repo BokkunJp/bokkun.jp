@@ -118,10 +118,10 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
     $result = null;
     if ($page <= 0 || $page === false) {
         if ($ajaxFlg === false) {
-            Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-            Output("<div class='image-box'>", indentFlg:false);
+            output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+            output("<div class='image-box'>", indentFlg:false);
             ErrorSet('ページの指定が不正です。');
-            Output("</div><div class='image-pager'></div>", indentFlg:false);
+            output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         return ['result' => false, 'view-image-type' => basename(getcwd())];
     } else {
@@ -134,10 +134,10 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
 
     if ($start >= $end) {
         if ($ajaxFlg === false) {
-            Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-            Output("<div class='image-box'>", indentFlg:false);
+            output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+            output("<div class='image-box'>", indentFlg:false);
             ErrorSet('現在の枚数表示では、そのページには画像はありません。');
-            Output("</div><div class='image-pager'></div>", indentFlg:false);
+            output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         $result = ['result' => false, 'view-image-type' => basename(getcwd())];
     }
@@ -242,7 +242,7 @@ function ShowImage(
             $imagePath = new \Path(PUBLIC_IMAGE_DIR);
             $imagePath->AddArray([$imagePageName, $_data['name']]);
 
-            $jsData[$i]['info'] = CalcImageSize($imagePath->Get(), (int)GetIni('Public', 'ImageMaxSize'));
+            $jsData[$i]['info'] = calcImageSize($imagePath->Get(), (int)GetIni('Public', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
             // 画像データが取得できなかった場合は、配列の該当データの削除
             if ($jsData[$i]['info'] === false) {
@@ -260,10 +260,10 @@ function ShowImage(
         return $jsData;
     } else {
         // jQueryで書き換えれるように要素を追加
-        Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-        Output("<div class='image-box'  ontouchstart=''>", indentFlg:false);
+        output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+        output("<div class='image-box'  ontouchstart=''>", indentFlg:false);
 
-        Output("<ul>", indentFlg:false);
+        output("<ul>", indentFlg:false);
         foreach ($data as $i => $_data) {
             $_file = $_data['name'];
             $_time = $_data['time'];
@@ -279,12 +279,12 @@ function ShowImage(
             }
         }
 
-        Output("</ul>", indentFlg:false);
-        Output("</div>", indentFlg:false);
+        output("</ul>", indentFlg:false);
+        output("</div>", indentFlg:false);
 
-        Output("<div class='image-pager'>", indentFlg:false);
+        output("<div class='image-pager'>", indentFlg:false);
         ViewPager($params['max']);
-        Output("</div>", indentFlg:false);
+        output("</div>", indentFlg:false);
     }
 
     return null;

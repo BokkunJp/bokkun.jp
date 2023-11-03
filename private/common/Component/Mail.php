@@ -7,7 +7,7 @@ require_once $mailPath->Get();
 
 use PrivateTag\ScriptClass;
 
-function SendMail($header, $response=false)
+function sendMail($header, $response=false)
 {
     if (!isset($header)) {
         return false;

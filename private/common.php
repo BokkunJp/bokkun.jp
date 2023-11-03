@@ -58,6 +58,6 @@ IP {$ip} ({$host})の方が、管理画面へログインされました。
     }
 
     if ($noticeType === 'no_send') {
-        SendMail(['secure@bokkun.jp', $title, $body, 'サイト管理者', 'notice@bokkun.jp']);
+        sendMail(['secure@bokkun.jp', $title, $body, 'サイト管理者', 'notice@bokkun.jp']);
     }
 }

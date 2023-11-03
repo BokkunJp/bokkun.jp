@@ -44,7 +44,7 @@ class Token {
     public function Set(): void
     {
         // トークンを設定(上書き)
-        $this->tokenValue = $this->CreateRandom(SECURITY_LENG) . '-' . $this->CreateRandom(SECURITY_LENG, "random_bytes");
+        $this->tokenValue = $this->createRandom(SECURITY_LENG) . '-' . $this->createRandom(SECURITY_LENG, "random_bytes");
 
         if ($this->checkSetting) {
             $this->GetTag();

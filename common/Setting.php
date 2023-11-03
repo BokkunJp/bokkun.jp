@@ -80,7 +80,7 @@ class Setting
      */
     protected static function GetSERVER($elm): mixed
     {
-        return Sanitize(filter_input_fix(INPUT_SERVER, $elm));
+        return sanitize(filter_input_fix(INPUT_SERVER, $elm));
     }
 
     /**
@@ -150,7 +150,7 @@ class Setting
      */
     public static function GetPosts(): mixed
     {
-        return Sanitize(filter_input_array(INPUT_POST));
+        return sanitize(filter_input_array(INPUT_POST));
     }
 
 
@@ -169,7 +169,7 @@ class Setting
     // 指定した要素のPost値を取得
     public static function GetPost($elm = '', $filter = FILTER_DEFAULT, $options = null)
     {
-        return Sanitize(filter_input_fix(INPUT_POST, $elm, $filter, $options));
+        return sanitize(filter_input_fix(INPUT_POST, $elm, $filter, $options));
     }
 
     /**
@@ -191,7 +191,7 @@ class Setting
      */
     public static function GetRequest()
     {
-        return Sanitize(filter_input_array(INPUT_GET));
+        return sanitize(filter_input_array(INPUT_GET));
     }
 
     /**
@@ -207,7 +207,7 @@ class Setting
      */
     public static function GetQuery($elm = '', $filter = FILTER_DEFAULT, $options = null)
     {
-        return Sanitize(filter_input_fix(INPUT_GET, $elm, $filter, $options));
+        return sanitize(filter_input_fix(INPUT_GET, $elm, $filter, $options));
     }
 
     /**

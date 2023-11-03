@@ -56,7 +56,7 @@ $img = "crown-vector.jpg";
 
     <!-- ログファイル以外を含めて正常に動作(ログファイル以外は最初でループが止まる) -->
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->GetUrl('', 'client') ?>/css<?= CreateClient('log') ?>/design.css">
+        href="<?= $base->GetUrl('', 'client') ?>/css<?= createClient('log') ?>/design.css">
 </head>
 
 <body>
@@ -67,7 +67,7 @@ $img = "crown-vector.jpg";
                 if (!isset($contents)) {
                     require_once(getcwd() . '/design.php');
                 } elseif ($contents) {
-                    Output($contents);
+                    output($contents);
                 }
             ?>
         </main>

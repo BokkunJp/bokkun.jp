@@ -118,7 +118,7 @@ class productCSV extends productCSV_Base
         }
 
         // データセット
-        $this->SetData($data);
+        $this->setData($data);
 
         return true;
     }
@@ -142,7 +142,7 @@ class productCSV extends productCSV_Base
      * @param [type] $data
      * @return void
      */
-    private function SetData($data)
+    private function setData($data)
     {
         $validate = $this->SetCommons($data);
         if ($validate === false) {
@@ -174,7 +174,7 @@ class productCSV extends productCSV_Base
     }
 
     /**
-     * Output
+     * output
      *
      *
      * 指定したCSVファイルを読み込み、配列用データに成形して返す。

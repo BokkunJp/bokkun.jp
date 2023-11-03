@@ -6,7 +6,7 @@ $commonInitFunctionPath = $commonInitFunctionPath. DIRECTORY_SEPARATOR. 'InitFun
 require_once $commonInitFunctionPath;
 
 /**
- * CreateRandom
+ * createRandom
  *
  * 指定した長さ x2の乱数を生成
  *
@@ -15,20 +15,20 @@ require_once $commonInitFunctionPath;
  *
  * @return string
  */
-function CreateRandom(int $length, string $type = 'security'): string
+function createRandom(int $length, string $type = 'security'): string
 {
     switch ($type) {
         case 'security':
             $bytes = bin2hex(openssl_random_pseudo_bytes($length));
             break;
         case 'sha1':
-            $bytes = sha1(CreateRandom($length, 'mt_rand'));
+            $bytes = sha1(createRandom($length, 'mt_rand'));
             break;
         case 'md5':
-            $bytes = md5(CreateRandom($length, 'mt_rand'));
+            $bytes = md5(createRandom($length, 'mt_rand'));
             break;
         case 'uniq':
-            $bytes = uniqid(CreateRandom($length, 'mt_rand'));
+            $bytes = uniqid(createRandom($length, 'mt_rand'));
             break;
         case 'mt_rand':
             $bytes = (string)mt_rand(0, $length);
@@ -37,7 +37,7 @@ function CreateRandom(int $length, string $type = 'security'): string
             $bytes = bin2hex(random_bytes($length));
             break;
         default:
-            $bytes = CreateRandom($length);
+            $bytes = createRandom($length);
             break;
     }
     return $bytes;
@@ -89,7 +89,7 @@ function ValidateData(string $dirPath, ?string $select): bool
 {
     $dirArray = scandir($dirPath);
 
-    return SearchData($select, $dirArray);
+    return searchData($select, $dirArray);
 }
 
 /**

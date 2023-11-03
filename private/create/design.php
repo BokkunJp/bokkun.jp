@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-SetPlugin('smarty');
+setPlugin('smarty');
 $smarty = new Smarty();
 
 $smarty->template_dir = './subdirectory/templates/';

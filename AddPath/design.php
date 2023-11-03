@@ -1,15 +1,15 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-Output("======================================================");
+output("======================================================");
 $pathTest = new Path(new Path('test'));
-Output("======================================================");
-Output($pathTest->Add('test2', false));
+output("======================================================");
+output($pathTest->Add('test2', false));
 $pathTest->Add('test2');
 $pathTest->Add('test2');
 $pathTest->AfterMarshal();
 // $pathTest->Add('test3');
 $pathTest->AfterMarshal();
-Output("======================================================");
+output("======================================================");
 
 $test1 = 'aaa';
 $test2 = null;
@@ -40,9 +40,9 @@ function Comp(
     int|string $data,
 ): void {
     if (gettype($data) === 'integer') {
-        Output($data * $data);
+        output($data * $data);
     } else {
-        Output($data);
+        output($data);
     }
 }
 

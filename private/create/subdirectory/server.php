@@ -96,7 +96,7 @@ $createToken = new private\Token('create-token', $session);
 if ($createToken->Check() === false) {
     $session->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new private\Setting();
-    $backUrl = CreateClient('private', dirname(__DIR__));
+    $backUrl = createClient('private', dirname(__DIR__));
     $backUrl = ltrim($backUrl, DS);
     header('Location:' . $url->GetUrl($backUrl));
     exit;

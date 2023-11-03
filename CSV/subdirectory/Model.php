@@ -115,7 +115,7 @@ class CSV1 extends CSV1_Base
         // 不正値が1つでもあればデータはセットしない
         if (!$exitFlg) {
             // データセット
-            $this->SetData($data);
+            $this->setData($data);
         } else {
             return false;
         }
@@ -140,7 +140,7 @@ class CSV1 extends CSV1_Base
      * @param [type] $data
      * @return void
      */
-    private function SetData($data)
+    private function setData($data)
     {
         $validate = $this->SetCommons($data);
         if ($validate === false) {

@@ -23,7 +23,7 @@ require_once PRIVATE_COMMON_DIR . "/Load/include.php";
 
 // subdirectory内のphpファイルの読み込み (指定ディレクトリのみ)
 $subDirectryReadList = ['IMAGE', 'delete'];
-if (SearchData(basename(getcwd()), $subDirectryReadList)) {
+if (searchData(basename(getcwd()), $subDirectryReadList)) {
     $subdirectoryPath = new \Path(getcwd());
     $subdirectoryPath->Add('subdirectory');
     IncludeFiles($subdirectoryPath->Get());
@@ -34,7 +34,7 @@ IncludeJSFiles('common');
 $timePath = new \Path('common', '/');
 $timePath->Add('time');
 IncludeJSFiles(rtrim($timePath->Get(), '/'));
-$jsTitle = CreateClient('private');
+$jsTitle = createClient('private');
 IncludeJSFiles(basename($jsTitle));
 
 // traitファイルの読み込み

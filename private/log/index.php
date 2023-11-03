@@ -14,7 +14,7 @@ $title = 'ログ一覧';
         href="<?= $base->GetURL('', 'client') ?>/image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css" href="../client/css/common.css">
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->GetURL('', 'client') ?>/css<?= CreateClient('log') ?>/design.css">
+        href="<?= $base->GetURL('', 'client') ?>/css<?= createClient('log') ?>/design.css">
 </head>
 
 <body>
@@ -33,7 +33,7 @@ $title = 'ログ一覧';
                 $notList = AddList($notList, $dirList, '_', 1);
 
                 foreach ($dirList as $index => $_dir) {
-                    if (!SearchData($_dir, $notList) && isset($titleList[$_dir])) {
+                    if (!searchData($_dir, $notList) && isset($titleList[$_dir])) {
                         echo "<li><a href=\"./$_dir/\" target=\"_new\">{$titleList[$_dir]}ログを見る</a></li>";
                     }
                 }

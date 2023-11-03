@@ -68,7 +68,7 @@ class DB
             $this->stmt->beginTransaction();                             // トランザクション開始
 
             // カラム文字列からカラム配列を生成
-            $colArray = MoldData($colString);
+            $colArray = moldData($colString);
 
             // SQL文をプリペア
             $sth = $this->stmt->prepare($this->sql);
@@ -101,10 +101,10 @@ class DB
     {
 
         // カラム群からそれぞれのカラムのプレースホルダを生成し、それを文字列に成型
-        $placeholder = MoldData($this->SetPlaceholder($cols));
+        $placeholder = moldData($this->SetPlaceholder($cols));
 
         // カラムを文字列に成型
-        $cols = MoldData($cols);
+        $cols = moldData($cols);
 
         // 実行するSQL
         $this->sql  = "Insert into {$this->tableName}({$cols}) values({$placeholder})";
@@ -117,10 +117,10 @@ class DB
     {
 
         // カラムからプレースホルダを生成
-        $placeholder = MoldData($this->SetPlaceholder($cols));
+        $placeholder = moldData($this->SetPlaceholder($cols));
 
         // カラムを成型
-        $cols = MoldData($cols);
+        $cols = moldData($cols);
 
         // 実行するSQL
         $this->sql  = "Update {$this->tableName} set {$cols}=:col, updatetime=NOW(), updateday=NOW() where id= :id";
@@ -144,10 +144,10 @@ class DB
     {
 
         // カラム群からそれぞれのカラムのプレースホルダを生成し、それを文字列に成型
-        $placeholder = MoldData($this->SetPlaceholder($cols));
+        $placeholder = moldData($this->SetPlaceholder($cols));
 
         // カラムを文字列に成型
-        $cols = MoldData($cols);
+        $cols = moldData($cols);
 
         // 実行するSQL
         $this->sql  = "Select {$cols}=:col From {$this->tableName}";
@@ -212,10 +212,10 @@ class DB
     {
 
         // where句生成
-        $where = MoldData($this->SetPlaceholder($cols, true));
+        $where = moldData($this->SetPlaceholder($cols, true));
 
         // カラムを成型
-        $cols = MoldData($cols);
+        $cols = moldData($cols);
 
 
         // 実行するSQL

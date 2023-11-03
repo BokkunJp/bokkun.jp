@@ -279,7 +279,7 @@ class HTMLClass extends Base
         array $debug = []
     ): string {
         if ($output === true) {
-            Output($this->GetTag(), $formatFlg, $indentFlg, $dumpFlg, $debug);
+            output($this->GetTag(), $formatFlg, $indentFlg, $dumpFlg, $debug);
         }
         return $this->GetTag();
     }

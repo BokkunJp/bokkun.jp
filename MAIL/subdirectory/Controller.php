@@ -44,7 +44,7 @@ if (isset($posts) && !empty($posts) && $nulFlg === false) {
 
             return;
         } else {
-            SendMail(['private.mail@bokkun.jp', $posts['title'], $posts['body'], 'βοκκμη', 'from.mail@bokkun.jp']);
+            sendMail(['private.mail@bokkun.jp', $posts['title'], $posts['body'], 'βοκκμη', 'from.mail@bokkun.jp']);
             $script->Alert("メールを送信しました。");
 
             // 送信日時をセット

@@ -27,7 +27,7 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
 
     $imagePath = new \Path(PUBLIC_IMAGE_DIR);
     $imagePath->AddArray([$imagePageName, '_oldImage', $imageName]);
-    $imageData = CalcImageSize($imagePath->Get(), $session->Read('deleteImageMaxSize-ini'));
+    $imageData = calcImageSize($imagePath->Get(), $session->Read('deleteImageMaxSize-ini'));
     // 画像データが存在する場合は出力
 
     if ($imageData) {
