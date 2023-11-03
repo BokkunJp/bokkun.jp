@@ -43,11 +43,11 @@ class Setting
         $this->initSsl($this->url);
         $this->domain = $this->getServer('SERVER_NAME');
         $this->url = $this->url . $this->domain;
-        $public = new \Path('', '/');
+        $public = new \Path('');
         $public->add('public');
         $this->public = $public->get();
 
-        $client = new \Path($public->get(), '/');
+        $client = new \Path($public->get());
         $client->add('client');
         $this->client = $client->get();
     }
@@ -275,9 +275,9 @@ class Setting
                 break;
         }
 
-        $urlPath = new \Path($url, '/');
+        $urlPath = new \Path($url);
         $urlPath->setPathEnd();
         $urlPath->add($query);
-        return rtrim($urlPath->get(), '/');
+        return rtrim($urlPath->get());
     }
 }

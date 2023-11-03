@@ -3,7 +3,7 @@
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'require.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'init.php';
 
-use Private\Tag\UseClass;
+use Private\Important\UseClass;
 
 if (empty($session)) {
     $session = new Private\Important\Session();

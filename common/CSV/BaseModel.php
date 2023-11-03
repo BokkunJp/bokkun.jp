@@ -1,8 +1,9 @@
 <?php
 
-$csvPath = new \Path(PUBLIC_CSV_DIR, '/');
-$cwdPath = new \Path(getcwd(), '/');
-define('CSV_PATH', $csvPath->get() . $cwdPath->get());
+$csvPath = new \Path(PUBLIC_CSV_DIR);
+$cwdPath = new \Path(getcwd());
+$csvPath->add(basename($cwdPath->get()));
+define('CSV_PATH', $csvPath->get());
 define("EXTENSION_NONE_TRUE", 2);
 class CSV1_Base
 {

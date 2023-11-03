@@ -47,10 +47,10 @@ foreach ($privatepathList->get() as $path) {
 
 $session =  new \Private\Important\Session();
 $adminError = new AdminError();
-$use = new \Private\Tag\UseClass();
+$use = new \Private\Important\UseClass();
 
 // tokenチェック
-$editToken = new \Private\Token\Token("edit-token", $session);
+$editToken = new \Private\Important\Token("edit-token", $session);
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
 if ($editToken->check() === false) {
@@ -219,12 +219,12 @@ if (isset($edit)) {
 class AdminError
 {
     protected $use;
-    public function __construct(?\Private\Tag\UseClass $use = null)
+    public function __construct(?\Private\Important\UseClass $use = null)
     {
         if (!is_null($use)) {
             $this->use = $use;
         } else {
-            $this->use = new \Private\Tag\UseClass();
+            $this->use = new \Private\Important\UseClass();
         }
     }
 

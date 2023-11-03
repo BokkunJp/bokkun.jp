@@ -68,7 +68,7 @@ function viewPager(int $max, bool $ajaxFlg = false)
     $minPage = MIN_PAGE_COUNT;
     $maxPage = (int)ceil(bcdiv($max, $pager, COUNT_RECURSIVE));       // 最大ページ(画像数をページ数で割って丸める。精度の問題から除算にはBCMathライブラリのbcdivを使用)
 
-    $pageHtml = new \Private\Tag\CustomTagCreate();
+    $pageHtml = new \Private\Important\CustomTagCreate();
 
     for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= $max; $_index += $pager, $_vindex++) {
         $pageValid = validateLoop($_vindex, $nowPage, $minPage, $maxPage);

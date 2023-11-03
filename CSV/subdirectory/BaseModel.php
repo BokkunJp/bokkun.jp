@@ -1,8 +1,9 @@
 <?php
 
-$csvPath = new \Path(PUBLIC_CSV_DIR, '/');
-$cwdPath = new \Path(getcwd(), '/');
-define('CSV_PATH', $csvPath->get() . $cwdPath->get());
+$csvPath = new \Path(PUBLIC_CSV_DIR);
+$cwdPath = new \Path(getcwd());
+$csvPath->add(basename($cwdPath->get()));
+define('CSV_PATH', $csvPath->get());
 define("EXTENSION_NONE_TRUE", 2);
 class CSV1_Base
 {
@@ -88,7 +89,8 @@ class CSV1_Base
     protected function readFile($fileName, $filePath = CSV_PATH)
     {
         // ファイルパスにCSVファイルが存在しない場合は終了
-        $filePath = new \Path($filePath, '/');
+        $filePath = new \Path($filePath);
+        $filePath->setPathEnd();
         $filePath->add($fileName);
         if (!file_exists($filePath->get())) {
             return false;
@@ -203,6 +205,7 @@ class CSV1_Base
         }
 
         $filePath = new \Path($filePath, '/');
+        $filePath->setPathEnd();
         $filePath->add($fileName);
         $fileHandler = @fopen($filePath->get(), "w");
 

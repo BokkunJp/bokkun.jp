@@ -78,7 +78,6 @@ define('PUBLIC_3D_DIR', $publicPath->get());
 
 $publicPath->resetKey("PUBLIC_CSV_DIR");
 $publicPath->methodPath("Add", "csv");
-$publicPath->methodPath("Add", "csv");
 define('PUBLIC_CSV_DIR', $publicPath->get());
 
 // 画像閲覧ページ

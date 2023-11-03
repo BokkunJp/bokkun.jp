@@ -30,10 +30,10 @@ foreach ($dir as $_key => $_dir) {
 
 $session->onlyView('notice');
 
-$createToken = new Private\Token\Token('create-token', $session);
+$createToken = new Private\Important\Token('create-token', $session);
 $createToken->set();
 
-$editToken= new Private\Token\Token('edit-token', $session);
+$editToken= new Private\Important\Token('edit-token', $session);
 $editToken->set();
 
 $smarty->assign('base', 'subdirectory');

@@ -1,7 +1,7 @@
 <?php
 $csvPath = new \Path(PUBLIC_CSV_DIR);
-$csvPath->setPathEnd();
-$csvPath->add(basename(getcwd()));
+$cwdPath = new \Path(getcwd());
+$csvPath->add(basename($cwdPath->get()));
 define('CSV_PATH', $csvPath->get());
 define("EXTENSION_NONE_TRUE", 2);
 class productCSV_Base

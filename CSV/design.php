@@ -102,6 +102,7 @@ $base = new Setting();
 echo "<p>";
 foreach ($fileArray as $_value) {
     $filePath = new \Path($base->getUrl(basename(__DIR__), 'csv'));
+    $filePath->setPathEnd();
     $filePath->add($_value);
     echo "<a href=\"{$filePath->get()}\" download>{$_value}ダウンロード</a> <br/>";
 }

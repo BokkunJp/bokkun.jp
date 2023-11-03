@@ -1,6 +1,6 @@
 function PostData(data)
 {
-    if (!data) {
+    if (!data)    {
         Response("<span class='warning'>Ajax:データがありません</span>", 'html');
     } else
     {
@@ -11,7 +11,7 @@ function PostData(data)
 
 function Response(jsonData, type)
 {
-    if (type === 'html') {
+    if (type === 'html')    {
         $('.jsForm').html(jsonData);
     } else
     {

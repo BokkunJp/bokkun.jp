@@ -67,7 +67,7 @@ foreach ($privatepathList->get() as $path) {
 }
 
 // UA判定処理
-$ua = new Private\Ua\UA();
+$ua = new Private\Important\UA();
 define('Phone', 2);
 define('PC', 1);
 switch ($ua->judgeDevice()) {
@@ -83,7 +83,7 @@ switch ($ua->judgeDevice()) {
 
 $session =  new Private\Important\Session();
 $adminError = new AdminError();
-$use = new Private\Tag\UseClass();
+$use = new Private\Important\UseClass();
 
 $adminPath = dirname(__DIR__);
 $samplePath = new \Path(dirname($adminPath));
@@ -92,7 +92,7 @@ $samplePath = $samplePath->get();
 $basePath = DOCUMENT_ROOT;
 
 // tokenチェック
-$createToken = new Private\Token\Token('create-token', $session);
+$createToken = new Private\Important\Token('create-token', $session);
 if ($createToken->check() === false) {
     $session->write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new Private\Important\Setting();
@@ -276,7 +276,7 @@ class AdminError
     protected $use;
     public function __construct()
     {
-        $this->use = new Private\Tag\UseClass();
+        $this->use = new Private\Important\UseClass();
     }
 
     public function UserError($message)
@@ -309,6 +309,5 @@ class AdminError
 </script>
 
 <body>
-    <input type="hidden" name="title"
-        value="<?php echo $title; ?>" />
+    <input type="hidden" name="title" value="<?php echo $title; ?>" />
 </body>

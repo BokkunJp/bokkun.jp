@@ -51,7 +51,7 @@ class AdminError
     protected $use;
     public function __construct()
     {
-        $this->use = new Private\Tag\UseClass();
+        $this->use = new Private\Important\UseClass();
     }
 
     public function UserError($message)

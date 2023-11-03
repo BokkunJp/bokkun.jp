@@ -61,7 +61,7 @@ function main()
             "file": $('select[name="select_file"]').val(),
             'edit-src-token': $('input[name="edit-src-token"]').val()
         };
-        ajaxMain(url, null, 'server.php', 'POST', selectObj, 'json', SetFiled);
+        ajaxMain(url, null, 'server.php', 'POST', selectObj, 'json', setFiled);
     });
 
     // ソースの中身を更新する
@@ -154,7 +154,7 @@ function SetFileList(dir)
         .prop('selected', 'select');
     select.append(option);
 
-    if ($.isArray(dir)) {
+    if ($.isArray(dir))    {
 
         $.each(dir, function (index, value)
  {
@@ -200,7 +200,7 @@ function autoSetTextArea(argObj)
     // 1行の長さを取得する
     var wLineH = parseInt(argObj.style.lineHeight.replace(/px/, ''));
     // 最低2行の表示エリアにする
-    if (wSclollHeight < (wLineH * 2)) {
+    if (wSclollHeight < (wLineH * 2))    {
         wSclollHeight = (wLineH * 2);
     }
     // テキストエリアの高さを設定する

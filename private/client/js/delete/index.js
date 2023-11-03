@@ -230,7 +230,7 @@ function ViewImage(data)
         }
     });
 
-    if (loop === false) {
+    if (loop === false)    {
         $('.all-check-label').children('span').html('すべてチェックする');
     }
 
