@@ -4,13 +4,13 @@
 $commonPath = new \Path(dirname(__DIR__, 3));
 
 $commonWordPath = new \Path($commonPath->get());
-$commonWordPath->AddArray(["common", "Word", "Message.php"]);
-require_once $commonWordPath->Get();
+$commonWordPath->addArray(["common", "Word", "Message.php"]);
+require_once $commonWordPath->get();
 
 // CSRFクラス
 function PrivateCSRFErrorMessage()
 {
-    $addr = public\Setting::GetRemoteADDR();
+    $addr = Public\Important\Setting::getRemoteAddr();
     $errMessage = "<p><strong>". gethostbyaddr($addr). "(". $addr. ")". "様のアクセスは禁止されています。</strong></p><p>以下の要因が考えられます。</p>";
     $errList = ["指定回数以上アクセスした。", "直接アクセスした。", "不正アクセスした。"];
     $errMessage .='<ul>';
@@ -32,11 +32,11 @@ define('PRIVATE_COMMON_DIR', dirname(__DIR__));
 // パス
 // 初期設定部分
 $privateCleintDirWord = new Path(PRIVATE_DIR);
-$privateCleintDirWord->Add('client');
-define('PRIVATE_CLIENT_DIR', $privateCleintDirWord->Get());
+$privateCleintDirWord->add('client');
+define('PRIVATE_CLIENT_DIR', $privateCleintDirWord->get());
 
 $privateMessage = new PathApplication('private_dir', dirname(DOCUMENT_ROOT));
-$privateMessage->SetAll(
+$privateMessage->setAll(
     [
         'private_css_dir' => PRIVATE_CLIENT_DIR,
         'private_js_dir' => '',
@@ -47,26 +47,26 @@ $privateMessage->SetAll(
 );
 
 // 追加
-$privateMessage->ResetKey('private_css_dir');
-$privateMessage->MethodPath('AddArray', ['css']);
-define('PRIVATE_CSS_DIR', $privateMessage->Get());
+$privateMessage->resetKey('private_css_dir');
+$privateMessage->methodPath('AddArray', ['css']);
+define('PRIVATE_CSS_DIR', $privateMessage->get());
 
-$privateMessage->ResetKey('private_js_dir');
-$privateMessage->MethodPath('AddArray', ['js']);
-define('PRIVATE_JS_DIR', $privateMessage->Get());
+$privateMessage->resetKey('private_js_dir');
+$privateMessage->methodPath('AddArray', ['js']);
+define('PRIVATE_JS_DIR', $privateMessage->get());
 
-$privateMessage->ResetKey('private_image_dir');
-$privateMessage->MethodPath('AddArray', ['image']);
-define('PRIVATE_IMAGE_DIR', $privateMessage->Get());
+$privateMessage->resetKey('private_image_dir');
+$privateMessage->methodPath('AddArray', ['image']);
+define('PRIVATE_IMAGE_DIR', $privateMessage->get());
 
-$privateMessage->ResetKey('priavate_component_dir');
-$privateMessage->MethodPath('AddArray', ['Component']);
-define('PRIVATE_COMPONENT_DIR', $privateMessage->Get());
+$privateMessage->resetKey('priavate_component_dir');
+$privateMessage->methodPath('AddArray', ['Component']);
+define('PRIVATE_COMPONENT_DIR', $privateMessage->get());
 
 
-$privateMessage->ResetKey('priavate_layout_dir');
-$privateMessage->MethodPath('AddArray', ['layout']);
-define('PRIVATE_LAYOUT_DIR', $privateMessage->Get());
+$privateMessage->resetKey('priavate_layout_dir');
+$privateMessage->methodPath('AddArray', ['layout']);
+define('PRIVATE_LAYOUT_DIR', $privateMessage->get());
 
 define('PRIVATE_PREVIOUS', '画像管理ページへ戻る');
 
@@ -75,8 +75,8 @@ define('ADD_DESIGN', 'require_once __DIR__ . DIRECTORY_SEPARATOR . "design.php";
 
 // 公開側画像パス
 $publicImageWord = new Path(DOCUMENT_ROOT);
-$publicImageWord->AddArray(['public', 'client', 'image']);
-define('PUBLIC_IMAGE_DIR', $publicImageWord->Get());
+$publicImageWord->addArray(['public', 'client', 'image']);
+define('PUBLIC_IMAGE_DIR', $publicImageWord->get());
 
 // デフォルトの画像ページ
 define('DEFAULT_IMAGE', 'IMAGE');

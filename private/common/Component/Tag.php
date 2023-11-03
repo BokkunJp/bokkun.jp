@@ -1,37 +1,37 @@
 <?php
 
-namespace PrivateTag;
+namespace Private\Important;
 
 require_once dirname(__DIR__). DIRECTORY_SEPARATOR. 'InitFunction.php';
 
 $wordPath = new \Path(dirname(__DIR__));
-$wordPath->AddArray(['Word', 'Message.php']);
-require_once $wordPath->Get();
+$wordPath->addArray(['Word', 'Message.php']);
+require_once $wordPath->get();
 
 $tagPath = new \Path(COMPONENT_DIR);
-$tagPath->SetPathEnd();
-$tagPath->Add('Tag.php');
-require_once $tagPath->Get();
+$tagPath->setPathEnd();
+$tagPath->add('Tag.php');
+require_once $tagPath->get();
 
-class Base extends \BasicTag\Base
-{
-}
-
-class HTMLClass extends \BasicTag\HTMLClass
-{
-}
-class CustomTagCreate extends \BasicTag\CustomTagCreate
+class Tag extends \Basic\Important\Tag
 {
 }
 
-class ScriptClass extends \BasicTag\ScriptClass
+class HTMLClass extends \Basic\Important\HTMLClass
 {
 }
-class UseClass extends \BasicTag\UseClass
+class CustomTagCreate extends \Basic\Important\CustomTagCreate
+{
+}
+
+class ScriptClass extends \Basic\Important\ScriptClass
+{
+}
+class UseClass extends \Basic\Important\UseClass
 {
     // メインページへ遷移
     public function BackAdmin($query = '')
     {
-        $this->MovePage('/private/' . $query);
+        $this->movePage('/private/' . $query);
     }
 }

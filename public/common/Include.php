@@ -6,34 +6,34 @@
 
 // 必要なファイルの一括読み込み
 $commonDir = new Path(COMMON_DIR);
-$commonDir->SetPathEnd();
-$commonDir->Add('Include.php');
-require_once $commonDir->Get();
+$commonDir->setPathEnd();
+$commonDir->add('Include.php');
+require_once $commonDir->get();
 $pwd = PUBLIC_COMPONENT_DIR . '/';
-IncludeFiles($pwd);
+includeFiles($pwd);
 
-use PublicTag\CustomTagCreate as OriginTag;
+use Public\Important\CustomTagCreate as OriginTag;
 
 //JSファイル
 require_once PUBLIC_COMMON_DIR . "/Load/include.php";
 // subdirectory内のphpファイルの読み込み
 $directoryPath = new \Path(getcwd());
-$directoryPath->Add('subdirectory');
-IncludeFiles($directoryPath->Get());
-IncludeDirectories(PUBLIC_COMPONENT_DIR);
+$directoryPath->add('subdirectory');
+includeFiles($directoryPath->get());
+includeDirectories(PUBLIC_COMPONENT_DIR);
 
 // 必要なjsファイルの読み込み
-IncludeJSFiles('common');
+includeJsFiles('common');
 $timePath = new \Path('common');
-$timePath->Add('time');
-IncludeJSFiles($timePath->Get());
+$timePath->add('time');
+includeJsFiles($timePath->get());
 $jsTitle = basename(getcwd());
-IncludeJSFiles($jsTitle);
+includeJsFiles($jsTitle);
 
 // traitファイルの読み込み
 $traitPath = new \Path(PUBLIC_COMMON_DIR);
-$traitPath->Add('Trait');
-IncludeFiles($traitPath->Get());
+$traitPath->add('Trait');
+includeFiles($traitPath->get());
 
 /**
  * 対象ディレクトリ内のJSファイルを一括で読み込む
@@ -45,19 +45,19 @@ IncludeFiles($traitPath->Get());
  *
  * @return void
  */
-function IncludeJSFiles($pwd, $className = '', $ret = true, $classLoad = false): void
+function includeJsFiles($pwd, $className = '', $ret = true, $classLoad = false): void
 {
     $src = new OriginTag();
-    $base = new public\Setting();
+    $base = new \Public\Important\Setting();
     $jsPath = PUBLIC_JS_DIR. $pwd;
 
-    $jsFiles = IncludeFiles($jsPath, 'js', $ret);
+    $jsFiles = includeFiles($jsPath, 'js', $ret);
     if (is_array($jsFiles)) {
         foreach ($jsFiles as $_jsFile) {
-            $dirPath = new \Path($base->GetUrl('', 'js'), '/');
-            $dirPath->AddArray([$pwd, $_jsFile]);
-            $src->ReadJS($dirPath->Get(), $className);
-            $src->ExecTag(true);
+            $dirPath = new \Path($base->getUrl('', 'js'), '/');
+            $dirPath->addArray([$pwd, $_jsFile]);
+            $src->readJs($dirPath->get(), $className);
+            $src->execTag(true);
         }
     }
 }

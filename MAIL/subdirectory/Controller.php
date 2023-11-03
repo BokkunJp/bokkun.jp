@@ -1,14 +1,14 @@
 <?php
-use BasicTag\ScriptClass as ScriptClass;
+use Public\Important\ScriptClass as ScriptClass;
 
 require_once 'Model.php';
 require_once PUBLIC_COMMON_DIR . '/Token.php';
 
 $script = new ScriptClass();
-$posts = public\Setting::getPosts();
+$posts = Public\Important\Setting::getPosts();
 
 // セッションセット
-$session = new public\Session();
+$session = new Public\Important\Session();
 
 $postData = $posts;
 $nulFlg = false;
@@ -23,36 +23,36 @@ if (is_array($posts)) {
 }
 
 // Tokenクラスをセット
-$publicMailToken = new Public\Token('public-mail-token', $session, true);
+$publicMailToken = new Public\Important\Token('public-mail-token', $session, true);
 
 if (isset($posts) && !empty($posts) && $nulFlg === false) {
-    if ($publicMailToken->Check() === false) {
-        $script->Alert("不正な値が送信されました。");
+    if ($publicMailToken->check() === false) {
+        $script->alert("不正な値が送信されました。");
     } else {
-        $mailSession = $session->Read("mail");
+        $mailSession = $session->read("mail");
 
         if (isset($mailSession['send_date'])) {
-            $script->Alert("本日はもうメール送信できません。");
+            $script->alert("本日はもうメール送信できません。");
 
             // 日付が変わるかメールを送信してから1日経ったら、再送信可能とする
             $sendDateInterval = $mailSession['send_date']->diff(new DateTime());
             if (DateDiff($mailSession['send_date'], new DateTime())->format('%d') >= DENY_SEND_DATE
                 || (new DateTime())->diff($mailSession['send_date'])->format('%d') >= DENY_SEND_DATE
             ) {
-                $session->Delete("send_date");
+                $session->delete("send_date");
             }
 
             return;
         } else {
             sendMail(['private.mail@bokkun.jp', $posts['title'], $posts['body'], 'βοκκμη', 'from.mail@bokkun.jp']);
-            $script->Alert("メールを送信しました。");
+            $script->alert("メールを送信しました。");
 
             // 送信日時をセット
-            $session->WriteArray("mail", "send_date", new DateTime());
+            $session->writeArray("mail", "send_date", new DateTime());
         }
     }
 } else {
-    // $session->WriteArray('mail', 'error-message', '送信内容に不備があります。');
+    // $session->writeArray('mail', 'error-message', '送信内容に不備があります。');
 }
 
 /**

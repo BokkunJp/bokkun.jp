@@ -16,8 +16,8 @@ trait SessionTrait
     public function CommonProcessArray(string|int $parentId, string|int $childId, ?callable $callBack): mixed
     {
         $data = null;
-        if ($this->Judge($parentId) && is_callable($callBack)) {
-            $tmp = $this->Read($parentId);
+        if ($this->judge($parentId) && is_callable($callBack)) {
+            $tmp = $this->read($parentId);
             $data = $callBack($tmp);
         }
 

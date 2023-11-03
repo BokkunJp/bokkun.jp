@@ -1,4 +1,4 @@
-function AjaxMain(url, dir, file, data, type) {
+function ajaxMain(url, dir, file, data, type) {
     if (!url) {
         if (!dir) {
             dir = '/subdirectory/';
@@ -11,7 +11,7 @@ function AjaxMain(url, dir, file, data, type) {
         }
         url = location.href + dir;
     }
-    var ajx = Ajax(type, url, data);
+    var ajx = ajax(type, url, data);
     ajx.always(function() {
             alert('Complate!!!');
         })
@@ -26,7 +26,7 @@ function AjaxMain(url, dir, file, data, type) {
 
 }
 
-function Ajax(type, url, data) {
+function ajax(type, url, data) {
     sendData = {
         type: type,
         url: url,

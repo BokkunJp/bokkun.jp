@@ -15,17 +15,17 @@ $smarty->cache_dir    = './subdirectory/cache/';
 
 // jsファイル読み込み
 $jsTitle = createClient('log');
-IncludeJSFiles($jsTitle);
+includeJsFiles($jsTitle);
 
-if ($session->Judge('addition')) {
-    $smarty->assign('session', $session->Read('addition'));
-    $session->Delete('addition');
+if ($session->judge('addition')) {
+    $smarty->assign('session', $session->read('addition'));
+    $session->delete('addition');
 }
 
 $dirPath = rtrim(dirname(__DIR__, 5), "\\") . createClient('log', 'log');
-// print_r(private\Setting::GetServerName());
+// print_r(Private\Important\Setting::getServerName());
 // ディレクトリを除外
-$domain = private\Setting::GetServerName();
+$domain = Private\Important\Setting::getServerName();
 $dir = scandir($dirPath);
 foreach ($dir as $_key => $_val) {
     if (!preg_match("/^{$domain}/", $_val)) {

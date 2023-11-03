@@ -1,4 +1,4 @@
-    <?php $year = $siteConfig['footer']->GetYear(); ?>
+    <?php $year = $siteConfig['footer']->getYear(); ?>
     <footer class='footer'>
       <div class='site-lock' align="left"><a href="#" onclick="window.open('https://www.sitelock.com/verify.php?site=bokkun.jp','SiteLock','width=600,height=600,left=160,top=170');"><img class="img-responsive" alt="SiteLock" title="SiteLock" src="//shield.sitelock.com/shield/bokkun.jp" /></a></div>
       <div align='center'>βοκκμη's Page</div>

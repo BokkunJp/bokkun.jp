@@ -17,7 +17,7 @@ class PathApplication {
         $this->sepalator = $sepalator;
     }
 
-    public function Set(string $key, string|\Path $data = ''): void
+    public function set(string $key, string|\Path $data = ''): void
     {
         $this->key = $key;
         if (empty($data) && !empty($this->tmp)) {
@@ -33,28 +33,23 @@ class PathApplication {
         $this->tmp = $data;
     }
 
-    public function SetAll(array $dataSet)
+    public function setAll(array $dataSet)
     {
         foreach ($dataSet as $key => $data) {
-            $this->Set($key, $data);
+            $this->set($key, $data);
         }
     }
 
-    public function ResetKey(string $key): void
+    public function resetKey(string $key): void
     {
         $this->key = $key;
     }
 
-    public function All(): void
+    public function all(): void
     {
         $this->key = null;
     }
-
-    public function Hoge(int ...$test) {
-        return $test;
-    }
-
-    public function MethodPath(string $methodName, string|array|bool ...$element ): void
+    public function methodPath(string $methodName, string|array|bool ...$element): void
     {
         $count = count($element);
         if (method_exists($this->data[$this->key], $methodName)) {
@@ -72,30 +67,30 @@ class PathApplication {
         }
     }
 
-    public function Get(): string|array
+    public function get(): string|array
     {
         $result = null;
         if (!is_null($this->key)) {
             if (isset($this->data[$this->key])) {
-                $result = $this->data[$this->key]->Get();
+                $result = $this->data[$this->key]->get();
             }
         } else {
             $result = [];
 
             foreach ($this->data as $key => $value) {
-                $result[$key] = $value->Get();
+                $result[$key] = $value->get();
             }
         }
 
         return $result;
     }
 
-    public function GetKey()
+    public function getKey()
     {
         return $this->key;
     }
 
-    public function Require($key = 'all')
+    public function require($key = 'all')
     {
         if ($key === 'all') {
             foreach ($this->data as $column) {

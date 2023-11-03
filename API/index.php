@@ -11,7 +11,7 @@ require_once dirname(__DIR__) . '/public/common/Layout/scratch.php';
 $ary = ["hoge" => 1,"fuga" => 2,3];
 $testArray = new ArrayClass($ary);
 $testObject = new ObjectClass($ary);
-Debug($testArray->findValue("hoge"));
-Debug($testObject->findValue("hoge"));
+debug($testArray->findValue("hoge"));
+debug($testObject->findValue("hoge"));
 ?>
 <canvas class='canvas' width=40 height=40></canvas>

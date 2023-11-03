@@ -1,19 +1,19 @@
 <?php
 
 $mailPath = new \Path(PRIVATE_COMPONENT_DIR);
-$mailPath->SetPathEnd();
-$mailPath->Add('Mail.php');
-require_once $mailPath->Get();
+$mailPath->setPathEnd();
+$mailPath->add('Mail.php');
+require_once $mailPath->get();
 
-$session = new private\Session();
-$post = private\Setting::GetPosts();
+$session = new Private\Important\Session();
+$post = Private\Important\Setting::getPosts();
 $secure = null;
 
-if (isset($session->Read('admin')['secure'])) {
-    $secure = $session->Read('admin')['secure'];
+if (isset($session->read('admin')['secure'])) {
+    $secure = $session->read('admin')['secure'];
 }
-if (isset($session->Read('admin')['page'])) {
-    $secure = $session->Read('admin')['page'];
+if (isset($session->read('admin')['page'])) {
+    $secure = $session->read('admin')['page'];
 }
 
 // $secure = false;
@@ -32,9 +32,9 @@ if ($secure !== true) {
  */
 function AlertAdmin(string $noticeType, $pageTitle):void
 {
-    $domain = private\Setting::GetDomain();
-    $ip = private\Setting::GetHostIp();
-    $host = private\Setting::GetHostName();
+    $domain = Private\Important\Setting::GetDomain();
+    $ip = Private\Important\Setting::GetHostIp();
+    $host = Private\Important\Setting::GetHostName();
 
     if ($noticeType === 'access') {
         $title = "管理画面アクセス通知";

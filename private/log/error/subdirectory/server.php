@@ -5,17 +5,17 @@ header("Content-Type: application/json; charset=UTF-8");
 define("DS", DIRECTORY_SEPARATOR);
 require_once dirname(__DIR__, 3). DS. "common". DS . "ajax-require.php";
 
-$set = new private\Setting();
+$set = new Private\Important\Setting();
 
 // エラーパスをセット
 $errPath = dirname(__DIR__);
 $errPath = createClient('log', $errPath);
 
     //選択したバージョンの指定
-$verPath = $set->GetPost('ver');
+$verPath = $set->getPost('ver');
 $dirPath = rtrim(dirname(__DIR__, 6), "\\") . $errPath. $verPath;
 
-$srcName = $set->GetPost('select_log');
+$srcName = $set->getPost('select_log');
 
 $errCode=null;
 if ($srcName === '') {
@@ -57,9 +57,9 @@ if ($srcName === false) {
 // エラーファイル名選択時
 } else {
     $srcPath = new \Path($dirPath);
-    $srcPath->SetPathEnd();
-    $srcPath->Add($srcName);
-    $srcFile = $srcPath->Get();
+    $srcPath->setPathEnd();
+    $srcPath->add($srcName);
+    $srcFile = $srcPath->get();
     if (!$errCode && !is_file($srcFile)) {
         $errCode = 2;
     }

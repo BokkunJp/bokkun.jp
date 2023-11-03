@@ -1,14 +1,14 @@
 // DOM読み込み
 $(function ()
 {
-    Main(); // JQueryによるメイン処理
+    main(); // JQueryによるメイン処理
 });
 
 /* JQueryによる処理の流れ
  *  引数：
  *  戻り値：
  */
-function Main ()
+function main()
 {
     var num;
 
@@ -20,7 +20,7 @@ function Main ()
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
             'insertdatetime media table paste'
-        ],
+       ],
         toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
     });
     // 選択したディレクトリ名からファイル・サブディレクトリ一覧を出力する
@@ -33,7 +33,7 @@ function Main ()
         };
         num = $(this).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
-        AjaxMain(url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList);
+        ajaxMain(url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList);
     });
 
     // ファイル名またはディレクトリ名からファイルリストを生成する
@@ -47,7 +47,7 @@ function Main ()
         };
         num = $(this).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
-        AjaxMain(url, null, 'server.php', 'POST', selectDirectory, 'json', SetFileList);
+        ajaxMain(url, null, 'server.php', 'POST', selectDirectory, 'json', SetFileList);
     });
 
     // 選択したソースを読み込む
@@ -61,14 +61,13 @@ function Main ()
             "file": $('select[name="select_file"]').val(),
             'edit-src-token': $('input[name="edit-src-token"]').val()
         };
-        AjaxMain(url, null, 'server.php', 'POST', selectObj, 'json', SetFiled);
+        ajaxMain(url, null, 'server.php', 'POST', selectObj, 'json', SetFiled);
     });
 
     // ソースの中身を更新する
     $('button[name="save"]').on('click', function (e)
     {
-        if (confirm('本当に更新しますか？'))
-        {
+        if (confirm('本当に更新しますか？')) {
             console.log(tinyMCE.activeEditor.getContent());
             var unescapeHtml = function(target) {
                 if (typeof target !== 'string') return target;
@@ -101,13 +100,12 @@ function Main ()
                 'edit-src-token': $('input[name="edit-src-token"]').val()
             };
             // console.log();
-            AjaxMain(url, null, 'server.php', 'POST', saveObj, 'json');
+            ajaxMain(url, null, 'server.php', 'POST', saveObj, 'json');
 
             // $('.result-src').val();
             alert('更新しました。');
 
-        } else
-        {
+        } else {
             alert('更新を中止しました。');
         }
     });
@@ -128,8 +126,7 @@ function ReadFileList (ver)
 
     $.each(ver, function (index, value)
     {
-        if (value !== '.' && value !== '..' && value !== '_old')
-        {
+        if (value !== '.' && value !== '..' && value !== '_old') {
             option = $('<option>')
                 .val(value)
                 .text(value)
@@ -145,7 +142,7 @@ function ReadFileList (ver)
  *
  * @param {array} dir
  */
-function SetFileList (dir)
+function SetFileList(dir)
 {
     select = $('select[name="select_file"]');
 
@@ -157,13 +154,11 @@ function SetFileList (dir)
         .prop('selected', 'select');
     select.append(option);
 
-    if ($.isArray(dir))
-    {
+    if ($.isArray(dir)) {
 
         $.each(dir, function (index, value)
-        {
-            if (value !== '.' && value !== '..' && value !== '_old' && value !== 'notAutoInclude')
-            {
+ {
+            if (value !== '.' && value !== '..' && value !== '_old' && value !== 'notAutoInclude') {
                 option = $('<option>')
                     .val(value)
                     .text(value)
@@ -184,7 +179,7 @@ function SetFileList (dir)
  *
  * @param {object} data
  */
-function SetFiled(data)
+function setFiled(data)
 {
     if ($.inArray('src-view', data)) {
         tinyMCE.activeEditor.setContent(data['src-view']);
@@ -197,7 +192,7 @@ function SetFiled(data)
  *
  * @param {object} argObj
  */
-function AutoSetTextArea (argObj)
+function autoSetTextArea(argObj)
 {
     // 一旦テキストエリアを小さくしてスクロールバー（縦の長さを取得）
     argObj.style.height = "10px";
@@ -205,8 +200,7 @@ function AutoSetTextArea (argObj)
     // 1行の長さを取得する
     var wLineH = parseInt(argObj.style.lineHeight.replace(/px/, ''));
     // 最低2行の表示エリアにする
-    if (wSclollHeight < (wLineH * 2))
-    {
+    if (wSclollHeight < (wLineH * 2)) {
         wSclollHeight = (wLineH * 2);
     }
     // テキストエリアの高さを設定する
@@ -219,16 +213,16 @@ function AutoSetTextArea (argObj)
 
  // DOM読み込み
 // $(function() {
-//    Main();     // メイン処理
+//    main();     // メイン処理
 // });
 
 // 全体読み込み (画像まで読み込んでから実行)
 // $(window).on('load', function() {
     // });
-    //    Main();     // メイン処理
+    //    main();     // メイン処理
 
 // JQueryを使わない場合のDOM読み込み
 onload = function() {
-//    Main();     // メイン処理
+//    main();     // メイン処理
 }
  */

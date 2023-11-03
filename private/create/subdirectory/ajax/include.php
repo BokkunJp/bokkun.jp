@@ -10,7 +10,7 @@
  *
  * @return null|string|array
  */
-function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[]): null|string|array
+function includeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[]): null|string|array
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -22,8 +22,8 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
         return spl_autoload_register(function () use ($pwd, $classLoad) {
             while ($name = current($classLoad)) {
                 $path = new Path($pwd);
-                $path->SetPathEnd();
-                require_once $path->Add("{$name}.php", false);
+                $path->setPathEnd();
+                require_once $path->add("{$name}.php", false);
                 next($classLoad);
             }
         });

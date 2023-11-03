@@ -9,9 +9,9 @@
  *
  * @return integer|bool
  */
-function GetPage(): int|bool
+function getPage(): int|bool
 {
-    $page = private\Setting::GetQuery('page');
+    $page = Private\Important\Setting::getQuery('page');
     if ($page === false) {
         $page = 1;
     } elseif (!is_numeric($page)) {
@@ -30,19 +30,19 @@ function GetPage(): int|bool
  *
  * @return integer
  */
-function GetCountPerPage(): int
+function getCountPerPage(): int
 {
-    $session = new private\Session();
-    $post = private\Setting::GetPost('image-value');
+    $session = new Private\Important\Session();
+    $post = Private\Important\Setting::getPost('image-value');
     if (isset($post) && is_numeric($post)) {
         $pager= (int) $post;
         // 上限設定
         if ($pager > (PAGER * MAX_VIEW)) {
             $pager = PAGER * MAX_VIEW;
         }
-        $session->Write('image-view', $pager);
-    } elseif ($session->Judge('image-view')) {
-        $pager = (int)$session->Read('image-view');
+        $session->write('image-view', $pager);
+    } elseif ($session->judge('image-view')) {
+        $pager = (int)$session->read('image-view');
     } else {
         $pager = PAGER;
     }
@@ -60,22 +60,22 @@ function GetCountPerPage(): int
  *
  *  @return void|string
  */
-function ViewPager(int $max, bool $ajaxFlg = false)
+function viewPager(int $max, bool $ajaxFlg = false)
 {
     $htmlVal = '';
-    $nowPage = GetPage();
-    $pager = GetCountPerPage();
+    $nowPage = getPage();
+    $pager = getCountPerPage();
     $minPage = MIN_PAGE_COUNT;
     $maxPage = (int)ceil(bcdiv($max, $pager, COUNT_RECURSIVE));       // 最大ページ(画像数をページ数で割って丸める。精度の問題から除算にはBCMathライブラリのbcdivを使用)
 
-    $pageHtml = new \PrivateTag\CustomTagCreate();
+    $pageHtml = new \Private\Tag\CustomTagCreate();
 
     for ($_index = MIN_PAGE_COUNT, $_vindex = MIN_PAGE_COUNT; $_index <= $max; $_index += $pager, $_vindex++) {
-        $pageValid = ValidateLoop($_vindex, $nowPage, $minPage, $maxPage);
+        $pageValid = validateLoop($_vindex, $nowPage, $minPage, $maxPage);
         if ($pageValid === false) {
-            $pageHtml->SetTag('span', $_vindex . ' ', 'pager', true);
+            $pageHtml->setTag('span', $_vindex . ' ', 'pager', true);
         } elseif ($pageValid === true) {
-            $pageHtml->SetHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
+            $pageHtml->setHref("./?page={$_vindex}", $_vindex, 'pager', false, '_self');
         }
 
         if ($pageValid === true && $_vindex !== $minPage && $_vindex !== $maxPage) {
@@ -89,9 +89,9 @@ function ViewPager(int $max, bool $ajaxFlg = false)
         // Ajaxか画面表示かで出力形式を変える (HTMLに情報をセットしたときのみ出力)
         if (is_bool($pageValid)) {
             if ($ajaxFlg) {
-                $htmlVal .= $pageHtml->ExecTag();
+                $htmlVal .= $pageHtml->execTag();
             } else {
-                $pageHtml->ExecTag(true);
+                $pageHtml->execTag(true);
             }
         }
 
@@ -110,7 +110,7 @@ function ViewPager(int $max, bool $ajaxFlg = false)
         }
     }
     // 任意ページ番号入力フォーム
-    $htmlVal .= SetInputForm($minPage, $maxPage, $ajaxFlg);
+    $htmlVal .= setInputForm($minPage, $maxPage, $ajaxFlg);
 
     if ($ajaxFlg) {
         return $htmlVal;
@@ -128,7 +128,7 @@ function ViewPager(int $max, bool $ajaxFlg = false)
  *
  * @return null|string|bool
  */
-function ValidateLoop(int $currentPage, int $nowPage, $minPage, int $maxPage): null|string|bool
+function validateLoop(int $currentPage, int $nowPage, $minPage, int $maxPage): null|string|bool
 {
     switch ($currentPage) {
         case $minPage:
@@ -166,7 +166,7 @@ function ValidateLoop(int $currentPage, int $nowPage, $minPage, int $maxPage): n
  * @param boolean $ajaxFlg
  * @return string|bool
  */
-function SetInputForm(int $minPage, int $maxPage, bool $ajaxFlg = false): string|bool
+function setInputForm(int $minPage, int $maxPage, bool $ajaxFlg = false): string|bool
 {
     $htmlVal = "<span class='image-page-input'><input type='number' class='update_page' name='update_page' id='update_page' min=$minPage max=$maxPage />ページへ<button name='move'>移動</button></span>";
     if ($ajaxFlg) {

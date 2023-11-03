@@ -53,7 +53,7 @@ function createRandom(int $length, string $type = 'security'): string
  *
  * @return bool
  */
-function FindFileName(string $str, bool $rootOnly = true, bool $existFlg = false): bool
+function findFileName(string $str, bool $rootOnly = true, bool $existFlg = false): bool
 {
     $ret = true;
     if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
@@ -106,17 +106,17 @@ function ValidateData(string $dirPath, ?string $select): bool
 function DeleteData(string $path, string $select): bool
 {
     $delPath = new \Path($path);
-    $delPath->Add($select);
-    if (!is_dir($delPath->Get())) {
+    $delPath->add($select);
+    if (!is_dir($delPath->get())) {
         $delPath = new \Path($path);
-        $delPath->SetPathEnd();
-        $delPath->Add($select);
+        $delPath->setPathEnd();
+        $delPath->add($select);
     }
 
     if (PHP_OS === 'WIN32' || PHP_OS === 'WINNT') {
-        $commandResult = system("rd /s /q {$delPath->Get()}");
+        $commandResult = system("rd /s /q {$delPath->get()}");
     } else {
-        $commandResult = system("rm -rf {$delPath->Get()}");
+        $commandResult = system("rm -rf {$delPath->get()}");
     }
 
     return $commandResult;
@@ -136,38 +136,38 @@ function DeleteData(string $path, string $select): bool
 function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bool
 {
     $dstPath = new \Path(dirname($srcPath));
-    $dstPath->Add($copyName);
+    $dstPath->add($copyName);
 
     if (is_dir($srcPath)) {
         // コピー元にファイルがある場合は、ファイルを走査してコピー
-        if (!is_dir($dstPath->Get())) {
-            mkdir($dstPath->Get());
+        if (!is_dir($dstPath->get())) {
+            mkdir($dstPath->get());
         } elseif ($dpAuthFlg === false) {
             return -1;
         }
 
         foreach (scandir($srcPath) as $_file) {
-            if ((FindFileName($_file))) {
+            if ((findFileName($_file))) {
                 $filePath = new \Path($srcPath);
-                $filePath->SetPathEnd();
-                $filePath->Add($_file);
-                if (is_file($filePath->Get())) {
-                    $dstPath->SetPathEnd();
-                    $dstPath->Add($_file);
-                    copy($filePath->Get(), $dstPath->Get());
-                    $dstPath = new \Path(dirname($dstPath->Get()));
+                $filePath->setPathEnd();
+                $filePath->add($_file);
+                if (is_file($filePath->get())) {
+                    $dstPath->setPathEnd();
+                    $dstPath->add($_file);
+                    copy($filePath->get(), $dstPath->get());
+                    $dstPath = new \Path(dirname($dstPath->get()));
                 } else {
-                    if (is_dir($filePath->Get())) {
-                        if (is_file($dstPath->Get())) {
-                            $dstPath = new \Path(dirname($dstPath->Get()));
+                    if (is_dir($filePath->get())) {
+                        if (is_file($dstPath->get())) {
+                            $dstPath = new \Path(dirname($dstPath->get()));
                         }
-                        $dstPath = new \Path($dstPath->Get());
-                        $dstPath->SetPathEnd();
-                        $dstPath->Add($_file);
-                        if (!is_dir($dstPath->Get())) {
-                            mkdir($dstPath->Get());
+                        $dstPath = new \Path($dstPath->get());
+                        $dstPath->setPathEnd();
+                        $dstPath->add($_file);
+                        if (!is_dir($dstPath->get())) {
+                            mkdir($dstPath->get());
                         }
-                        CopySubData($filePath->Get(), $dstPath->Get());
+                        CopySubData($filePath->get(), $dstPath->get());
                     }
                 }
             }
@@ -199,22 +199,22 @@ function CopySubData(string $srcPath, string $dstPath): bool
 
     foreach (scandir($srcPath) as $_file) {
         $dstFilePath = new \Path($dstPath);
-        $dstFilePath->SetPathEnd();
-        $dstFilePath->Add($_file);
+        $dstFilePath->setPathEnd();
+        $dstFilePath->add($_file);
 
-        if ((FindFileName($_file))) {
+        if ((findFileName($_file))) {
             $filePath = new \Path($srcPath);
-            $filePath->SetPathEnd();
-            $filePath->Add($_file);
-            if (is_file($filePath->Get())) {
-                copy($filePath->Get(), $dstFilePath->Get());
+            $filePath->setPathEnd();
+            $filePath->add($_file);
+            if (is_file($filePath->get())) {
+                copy($filePath->get(), $dstFilePath->get());
             } else {
-                if (is_dir($dstFilePath->Get())) {
-                    if (!is_dir($dstFilePath->Get())) {
-                        mkdir($dstFilePath->Get());
+                if (is_dir($dstFilePath->get())) {
+                    if (!is_dir($dstFilePath->get())) {
+                        mkdir($dstFilePath->get());
                     }
                 }
-                CopySubData($filePath->Get(), $dstFilePath->Get());
+                CopySubData($filePath->get(), $dstFilePath->get());
             }
         }
     }
@@ -246,7 +246,7 @@ function Logout(): void
     echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 
     // セッションの破棄
-    $session = new private\Session();
-    $session->FinaryDestroy();
+    $session = new Private\Important\Session();
+    $session->finaryDestroy();
     unset($session);
 }

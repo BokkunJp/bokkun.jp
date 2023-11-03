@@ -54,6 +54,6 @@ class ArrayClass
 
     public function debug()
     {
-        Debug($this->data);
+        debug($this->data);
     }
 }

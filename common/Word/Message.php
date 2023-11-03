@@ -3,7 +3,7 @@
 // CSRFクラス
 function CSRFErrorMessage()
 {
-    $addr = public\Setting::GetRemoteADDR();
+    $addr = Public\Important\Setting::getRemoteAddr();
     $errMessage = "<p><strong>". gethostbyaddr($addr). "(". $addr. ")". "様のアクセスは禁止されています。</strong></p><p>以下の要因が考えられます。</p>";
     $errList = ["指定回数以上アクセスした。", "直接アクセスした。", "不正アクセスした。"];
     $errMessage .='<ul>';
@@ -55,8 +55,8 @@ define(
 
 // プラグインパス
 $pluginWord = new Path(dirname(DOCUMENT_ROOT, 2));
-$pluginWord->Add('Plugin');
-define("PLUGIN_DIR", $pluginWord->Get());
+$pluginWord->add('Plugin');
+define("PLUGIN_DIR", $pluginWord->get());
 
 // FINISHフラグ
 define("FINISH", 1);

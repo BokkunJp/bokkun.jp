@@ -1,13 +1,13 @@
 <?php
 // セッションセット
-$session = new public\Session();
+$session = new Public\Important\Session();
 // Tokenクラスをセット
-$publicMailToken = new Public\Token('public-mail-token', $session, true);
+$publicMailToken = new Public\Important\Token('public-mail-token', $session, true);
 
 //sendMail(['bokkun.moeanimecharacter.byt@gmail.com', 'テスト送信', 'ウェザサイトからの送信です。', 'From: private.mail@bokkun.jp' . "\r\n"]);
 ?>
 <form enctype="multipart/form-data" action="./" method='POST'>
-    <?php $publicMailToken->Set(); ?>
+    <?php $publicMailToken->set(); ?>
     <input type='textbox' name='title' />
     <br />
     <textarea name='body'></textarea>

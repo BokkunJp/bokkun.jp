@@ -23,9 +23,9 @@ function IncludeFilesForImage($pwd, $extension = 'php', $ret = false, array $cla
         return spl_autoload_register(function () use ($pwd, $classLoad) {
             while ($name = current($classLoad)) {
                 $logoutPath = new \Path($pwd);
-                $logoutPath->SetPathEnd();
-                $logoutPath->Add("{$name}.php");
-                require_once $logoutPath->Get();
+                $logoutPath->setPathEnd();
+                $logoutPath->add("{$name}.php");
+                require_once $logoutPath->get();
                 next($classLoad);
             }
         });

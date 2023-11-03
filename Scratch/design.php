@@ -16,9 +16,9 @@ class Scratch
     }
 }
 $s_elm = new Scratch();
-Debug($s_elm);
+debug($s_elm);
 $s_elm->output('test');
-$s_elm->Debug("aaa");
+$s_elm->debug("aaa");
 var_dump('test');
 if (function_exists('mini')) {
     call_user_func('mini');

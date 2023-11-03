@@ -2,17 +2,17 @@
 <?php
 // セッション開始
 if (!isset($session)) {
-    $session = new public\Session();
+    $session = new Public\Important\Token();
 }
 
 // ページ数取得
-$page = public\Setting::GetQuery('page');
+$page = Public\Important\Setting::getQuery('page');
 
 // 更新用ページに関する処理
-$updatePage = public\Setting::GetPost('update_page');
+$updatePage = Public\Important\Setting::getPost('update_page');
 
 // Tokenクラスをセット
-$publicImageToken = new Public\Token('public-image-token', $session, true);
+$publicImageToken = new Public\Important\Token('public-image-token', $session, true);
 ?>
 <div class='view-image'>
     <form method='POST' action='./<?= $page != null ? "?page={$page}" : "" ?>'>
@@ -25,7 +25,7 @@ $publicImageToken = new Public\Token('public-image-token', $session, true);
             ?>
         </select>
         <span><button value='editView'>表示枚数の変更</button></span>
-        <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
+        <span>現在の表示枚数:<?= getCountPerPage(); ?>枚</span>
         <?php
             if (isset($updatePage) && is_numeric($updatePage)) {
                 echo "<div class='page-moved'>{$updatePage}ページに移動しました。</div>";
@@ -36,9 +36,8 @@ $publicImageToken = new Public\Token('public-image-token', $session, true);
 
     <form class='pageForm' method="POST">
     <?php
-    ReadImage();
-    $publicImageToken->Set();
+    readImage();
+    $publicImageToken->set();
 
     ?>
-    <input type='hidden' name='token' value="<?= $token = MakeToken(); ?>" />
 </form>

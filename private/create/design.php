@@ -13,9 +13,9 @@ $smarty->compile_dir  = './subdirectory/templates_c/';
 $smarty->config_dir   = './subdirectory/configs/';
 $smarty->cache_dir    = './subdirectory/cache/';
 
-if ($session->JudgeArray('admin', 'addition')) {
-    $smarty->assign('admin_addition', $session->ReadArray('admin', 'addition'));
-    $session->DeleteArray('admin', 'addition');
+if ($session->judgeArray('admin', 'addition')) {
+    $smarty->assign('admin_addition', $session->readArray('admin', 'addition'));
+    $session->deleteArray('admin', 'addition');
 } else {
     $smarty->assign('admin_addition', '');
 }
@@ -28,13 +28,13 @@ foreach ($dir as $_key => $_dir) {
     }
 }
 
-$session->OnlyView('notice');
+$session->onlyView('notice');
 
-$createToken = new private\Token('create-token', $session);
-$createToken->Set();
+$createToken = new Private\Token\Token('create-token', $session);
+$createToken->set();
 
-$editToken= new private\Token('edit-token', $session);
-$editToken->Set();
+$editToken= new Private\Token\Token('edit-token', $session);
+$editToken->set();
 
 $smarty->assign('base', 'subdirectory');
 $smarty->assign('createToken', $createToken);

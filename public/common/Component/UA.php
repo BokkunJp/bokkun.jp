@@ -1,6 +1,6 @@
 <?php
 
-namespace Public;
+namespace Public\Important;
 
 define('PC_design', 1);
 define('SP_design', 2);
@@ -36,16 +36,16 @@ class UA
 
     // device = 2 → スマホ
     // device = 1 → PC
-    public function DesignJudge($device=null)
+    public function judgeDevice($device=null)
     {
-        if ($this->Judge('iPhone') || $this->Judge('Android')) {
+        if ($this->judge('iPhone') || $this->judge('Android')) {
             return SP_design;
         } else {
             return PC_design;
         }
     }
 
-    public function Judge($device)
+    public function judge($device)
     {
         $ret = strpos($this->ua, $device);
         return $ret;

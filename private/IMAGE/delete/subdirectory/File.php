@@ -1,6 +1,6 @@
 <?php
 
-use PrivateTag\CustomTagCreate;
+use Private\Important\CustomTagCreate;
 
 require_once('Page.php');
 require_once('View.php');
@@ -14,7 +14,7 @@ require_once('View.php');
  *
  * @return array
  */
-function MoldFile(array $file, String $fileName): array
+function moldFile(array $file, String $fileName): array
 {
     $moldFiles = [];
 
@@ -47,15 +47,15 @@ function GetImagePageName(): string
 {
     // セッション開始
     if (!isset($session)) {
-        $session = new private\Session();
+        $session = new Private\Important\Session();
     }
 
-    // Debug($session->Read());
+    // debug($session->read());
 
-    if (empty($session->Judge('delete-image-view-directory'))) {
+    if (empty($session->judge('delete-image-view-directory'))) {
         $imagePageName = DEFAULT_IMAGE;
     } else {
-        $imagePageName = $session->Read('delete-image-view-directory');
+        $imagePageName = $session->read('delete-image-view-directory');
     }
 
     return $imagePageName;
@@ -67,7 +67,7 @@ function GetImagePageName(): string
  *
  * @return array
  */
-function LoadAllImageFile()
+function loadAllImageFile()
 {
     // 現在選択している画像ページを取得
     $imagePageName = GetImagePageName();
@@ -76,11 +76,11 @@ function LoadAllImageFile()
 
     $imgSrc = [];
     $imgPath = new \Path(PUBLIC_IMAGE_DIR);
-    $imgPath->Add($imagePageName);
-    $imgPath->Add('_oldImage');
+    $imgPath->add($imagePageName);
+    $imgPath->add('_oldImage');
     foreach ($imgArray as $_index) {
-        $imgSrc[mb_strtolower($_index)] = IncludeFiles($imgPath->Get(), mb_strtolower($_index), true);
-        $imgSrc[mb_strtoupper($_index)] = IncludeFiles($imgPath->Get(), mb_strtoupper($_index), true);
+        $imgSrc[mb_strtolower($_index)] = includeFiles($imgPath->get(), mb_strtolower($_index), true);
+        $imgSrc[mb_strtoupper($_index)] = includeFiles($imgPath->get(), mb_strtoupper($_index), true);
     }
 
     $ret = [];
@@ -104,7 +104,7 @@ function LoadAllImageFile()
  *
  * @return void
  */
-function TimeSort(&$data, string $order = 'ASC')
+function sortTime(&$data, string $order = 'ASC')
 {
     if (is_array($data) == false) {
         throw new Exception('データは配列でなければいけません。');
@@ -142,10 +142,10 @@ function TimeSort(&$data, string $order = 'ASC')
  * @param boolean $ajaxFlg
  * @return array
  */
-function ValidParameter(array $data=[], bool $ajaxFlg=false)
+function validateParameter(array $data=[], bool $ajaxFlg=false)
 {
     // 現在のページ番号の取得
-    $page = GetPage();
+    $page = getPage();
 
     // 結果配列
     $result = null;
@@ -154,14 +154,14 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
             output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
             output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
             output("<div class='image-list'>", indentFlg:false);
-            ErrorSet('ページの指定が不正です。');
+            setError('ページの指定が不正です。');
             output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         return ['result' => false, 'view-image-type' => GetImagePageName()];
     } else {
-        $start = ($page - 1) * GetCountPerPage();
+        $start = ($page - 1) * getCountPerPage();
     }
-    $end = $start + GetCountPerPage();
+    $end = $start + getCountPerPage();
     if ($end > count($data)) {
         $end = count($data);
     }
@@ -171,14 +171,14 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
             output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
             output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
             output("<div class='image-list'>", indentFlg:false);
-            ErrorSet('現在の枚数表示では、そのページには画像はありません。');
+            setError('現在の枚数表示では、そのページには画像はありません。');
             output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         $result = ['result' => false, 'view-image-type' => GetImagePageName()];
     }
 
     if (!isset($result)) {
-        $result = ['start' => $start, 'end' => $end, 'max' => count(LoadAllImageFile())];
+        $result = ['start' => $start, 'end' => $end, 'max' => count(loadAllImageFile())];
     }
 
     return $result;
@@ -192,7 +192,7 @@ function ValidParameter(array $data=[], bool $ajaxFlg=false)
  * @param array $data
  * @return array
  */
-function ChoiceImage(array $params, array $data): array
+function choiceImage(array $params, array $data): array
 {
     // 結果用配列
     $cloneImg = [];
@@ -211,40 +211,40 @@ function ChoiceImage(array $params, array $data): array
  *
  * @return void
  */
-function ReadImage($ajaxFlg = false)
+function readImage($ajaxFlg = false)
 {
 
     // 現在選択している画像ページを取得
     $imagePageName = GetImagePageName();
 
     // 削除されている画像データを読み込む
-    $fileList = LoadAllImageFile();
+    $fileList = loadAllImageFile();
 
     // ソート用にデータを調整
     $sortAray = array();
     foreach ($fileList as $index => $_file) {
         $sortAray[$index]['name'] = $_file;
         $imagePath = new \Path(PUBLIC_IMAGE_DIR);
-        $imagePath->AddArray([$imagePageName, '_oldImage', $_file]);
-        $sortAray[$index]['time'] = filemtime($imagePath->Get());
+        $imagePath->addArray([$imagePageName, '_oldImage', $_file]);
+        $sortAray[$index]['time'] = filemtime($imagePath->get());
     }
 
     // 画像投稿日時の昇順にソート
-    TimeSort($sortAray);
+    sortTime($sortAray);
 
     // ページ関連で必要なデータの検証
-    $params = ValidParameter($sortAray, $ajaxFlg);
+    $params = validateParameter($sortAray, $ajaxFlg);
     if (isset($params['result']) && $params['result'] === false) {
         return ['result' => false, 'view-image-type' => $imagePageName];
     }
 
     // 画像データを整理
-    $sortAray = ChoiceImage($params, $sortAray, $ajaxFlg);
+    $sortAray = choiceImage($params, $sortAray, $ajaxFlg);
 
     if ($ajaxFlg === true) {
-        return ShowImage($params, $sortAray, IMAGE_URL, $ajaxFlg);
+        return showImage($params, $sortAray, IMAGE_URL, $ajaxFlg);
     } else {
-        ShowImage($params, $sortAray, IMAGE_URL);
+        showImage($params, $sortAray, IMAGE_URL);
     }
 }
 
@@ -259,7 +259,7 @@ function ReadImage($ajaxFlg = false)
  *
  * @return array|void
  */
-function ShowImage(
+function showImage(
     array $params,
     array $data,
     string $imageUrl,
@@ -274,10 +274,10 @@ function ShowImage(
             $jsData[$i]['name'] = $_data['name'];
             // 画像データの取得
             $imagePath = new \Path(PUBLIC_IMAGE_DIR);
-            $imagePath->Add($imagePageName);
-            $imagePath->SetPathEnd();
-            $imagePath->Add($_data['name']);
-            $imagePath = $imagePath->Get();
+            $imagePath->add($imagePageName);
+            $imagePath->setPathEnd();
+            $imagePath->add($_data['name']);
+            $imagePath = $imagePath->get();
             $jsData[$i]['info'] = calcImageSize($imagePath, (int)GetIni('private', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
             // 画像データが取得できなかった場合は、配列の該当データの削除
@@ -288,10 +288,10 @@ function ShowImage(
 
         $jsData['view-image-type'] = $imagePageName;
         $imageUrl = new \Path($imageUrl, '/');
-        $imageUrl->Add($imagePageName);
-        $jsData['url'] = $imageUrl->Get();
+        $imageUrl->add($imagePageName);
+        $jsData['url'] = $imageUrl->get();
         ;
-        $jsData['pager'] = ViewPager($params['max'], $ajaxFlg);
+        $jsData['pager'] = viewPager($params['max'], $ajaxFlg);
 
         return $jsData;
     } else {
@@ -300,7 +300,7 @@ function ShowImage(
 
         // セッション開始
         if (!isset($session)) {
-            $session = new private\Session();
+            $session = new Private\Important\Session();
         }
 
         // jQueryで書き換えれるように要素を追加
@@ -310,7 +310,7 @@ function ShowImage(
             $_time = $_data['time'];
 
             // コピーチェック用のセッションを使って、チェックの有無を判定
-            if ($session->Judge('checkImage') && isset($session->Read('checkImage')[$_file])) {
+            if ($session->judge('checkImage') && isset($session->read('checkImage')[$_file])) {
                 $checked = 'checked';
             } else {
                 $checked = '';
@@ -328,14 +328,14 @@ function ShowImage(
         }
 
         // コピーチェック用のセッションの削除
-        if ($session->Judge('checkImage')) {
-            $session->Delete('checkImage');
+        if ($session->judge('checkImage')) {
+            $session->delete('checkImage');
         }
 
         output("</div>", indentFlg:false);
 
         output("<div class='image-pager'>", indentFlg:false);
-        ViewPager($params['max']);
+        viewPager($params['max']);
         output("</div>", indentFlg:false);
     }
 
@@ -350,12 +350,12 @@ function ShowImage(
  *
  * @return void
  */
-function ErrorSet(string $errMsg = ERROR_MESSAGE)
+function setError(string $errMsg = ERROR_MESSAGE)
 {
     $prevLink = new CustomTagCreate();
-    $prevLink->SetTag('div', $errMsg, 'warning', true);
-    $prevLink->ExecTag(true);
-    $prevLink->SetHref("./", PRIVATE_PREVIOUS, 'page', true, '_self');
+    $prevLink->setTag('div', $errMsg, 'warning', true);
+    $prevLink->execTag(true);
+    $prevLink->setHref("./", PRIVATE_PREVIOUS, 'page', true, '_self');
 }
 /**
  * ValidateDeleteImage
@@ -399,20 +399,20 @@ function DeleteImages(array $deleteImages): array
     $imagePageName = GetImagePageName();
 
     $baseImageDir = new \Path(PUBLIC_IMAGE_DIR);
-    $baseImageDir->Add($imagePageName);
+    $baseImageDir->add($imagePageName);
 
-    $oldImageDir = new \Path($baseImageDir->Get());
-    $oldImageDir->Add('_oldImage');
+    $oldImageDir = new \Path($baseImageDir->get());
+    $oldImageDir->add('_oldImage');
 
     $ret = [];
     // 指定されたファイルをすべて削除
     foreach ($deleteImages as $_key => $_value) {
         $deleteImagePath = new \Path($oldImageDir);
-        $deleteImagePath->SetPathEnd();
-        $deleteImagePath->Add($_value);
+        $deleteImagePath->setPathEnd();
+        $deleteImagePath->add($_value);
         if ($_value !== false && preg_match('/^img_(.*)$/', $_key)
-        && searchData($_value, scandir($oldImageDir->Get()))
-        && unlink($deleteImagePath->Get()) === true
+        && searchData($_value, scandir($oldImageDir->get()))
+        && unlink($deleteImagePath->get()) === true
         ) {
             $ret['success'][$_key] = true;
         } else {
@@ -436,10 +436,10 @@ function RestoreImages(array $restoreFilesArray): array
     $restoreImageName = GetImagePageName();
 
     $baseImageDir = new \Path(PUBLIC_IMAGE_DIR);
-    $baseImageDir->Add($restoreImageName);
+    $baseImageDir->add($restoreImageName);
 
-    $deleteImageDir = new \Path($baseImageDir->Get());
-    $deleteImageDir->Add('_oldImage');
+    $deleteImageDir = new \Path($baseImageDir->get());
+    $deleteImageDir->add('_oldImage');
 
     // リストア結果
     $result = [];
@@ -465,12 +465,12 @@ function RestoreImages(array $restoreFilesArray): array
 
         // 復元前のディレクトリパス
         $srcDirectoryPath = new \Path(PUBLIC_IMAGE_DIR);
-        $srcDirectoryPath->Add($restoreImageName);
-        $srcDirectoryPath->Add('_oldImage');
-        $srcDirectoryPath->SetPathEnd();
+        $srcDirectoryPath->add($restoreImageName);
+        $srcDirectoryPath->add('_oldImage');
+        $srcDirectoryPath->setPathEnd();
         foreach ($restoreFilesArray as $_key => $_file) {
             $srcImagePath = new \Path($srcDirectoryPath);
-            $fileValid = ValidateData($srcImagePath->Get(), $_file);
+            $fileValid = ValidateData($srcImagePath->get(), $_file);
             if ($fileValid === false) {
                 $result['illegal-value']['count']++;
                 // 不正なファイル名を対象から外す
@@ -481,11 +481,11 @@ function RestoreImages(array $restoreFilesArray): array
 
     // 復元対象のディレクトリパス
     $restoreImagePath = new \Path(PUBLIC_IMAGE_DIR);
-    $restoreImagePath->Add($restoreImageName);
-    $restoreImagePath->SetPathEnd();
+    $restoreImagePath->add($restoreImageName);
+    $restoreImagePath->setPathEnd();
 
     foreach ($restoreFilesArray as $_key => $_upFileName) {
-        if (rename($srcDirectoryPath->Add($_upFileName, false), $restoreImagePath->Add($_upFileName, false))) {
+        if (rename($srcDirectoryPath->add($_upFileName, false), $restoreImagePath->add($_upFileName, false))) {
             $result['success']['count']++;
         } else {
             $result['error']['count']++;

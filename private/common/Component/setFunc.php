@@ -2,7 +2,7 @@
 
 // 関数フォルダ内にあるファイルをインポート
 
-namespace setFunc;
+namespace SetFunc;
 
 require_once('UA.php');
 // 指定したクラスの関数を実行する

@@ -1,22 +1,20 @@
-function PostData ( data )
+function PostData(data)
 {
-    if ( !data )
-    {
-        Response( "<span class='warning'>Ajax:データがありません</span>", 'html' );
+    if (!data) {
+        Response("<span class='warning'>Ajax:データがありません</span>", 'html');
     } else
     {
-        ajaxData = AjaxMain( '', null, 'server.php', 'POST', {post: data}, 'json', Response );
+        ajaxData = ajaxMain('', null, 'server.php', 'POST', {post: data}, 'json', Response);
 
     }
 }
 
-function Response ( jsonData, type )
+function Response(jsonData, type)
 {
-    if ( type === 'html' )
-    {
-        $( '.jsForm' ).html( jsonData );
+    if (type === 'html') {
+        $('.jsForm').html(jsonData);
     } else
     {
-        $( '.jsForm' ).val( jsonData );
+        $('.jsForm').val(jsonData);
     }
 }

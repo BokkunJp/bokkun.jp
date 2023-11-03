@@ -14,15 +14,15 @@ $smarty->compile_dir  = './subdirectory/templates_c/';
 $smarty->config_dir   = './subdirectory/configs/';
 $smarty->cache_dir    = './subdirectory/cache/';
 
-if ($session->Judge('addition')) {
-    $smarty->assign('session', $session->Read('addition'));
-    $session->Delete('addition');
+if ($session->judge('addition')) {
+    $smarty->assign('session', $session->read('addition'));
+    $session->delete('addition');
 }
 
 $dir = ["---" => "---"];
 
-$editSrcToken = new private\Token('edit-src-token', $session);
-$editSrcToken->Set();
+$editSrcToken = new Private\Important\Token('edit-src-token', $session);
+$editSrcToken->set();
 
 
 $dir = array_merge($dir, scandir('../../'));

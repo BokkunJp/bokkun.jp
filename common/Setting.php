@@ -1,5 +1,5 @@
 <?php
-namespace common;
+namespace Common\Important;
 
 require_once 'InitFunction.php';
 require_once 'Session.php';
@@ -7,9 +7,9 @@ require_once 'Session.php';
 $base = new Setting();
 
 $configPath = new \Path(__DIR__);
-$configPath->SetPathEnd();
-$configPath->Add('Config.php');
-require_once $configPath->Get();
+$configPath->setPathEnd();
+$configPath->add('Config.php');
+require_once $configPath->get();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 
 if (isset($_SERVER['HTTPS'])) {
@@ -40,16 +40,16 @@ class Setting
     public function __construct()
     {
         // 基本設定
-        $this->InitSSL($this->url);
-        $this->domain = $this->GetSERVER('SERVER_NAME');
+        $this->initSsl($this->url);
+        $this->domain = $this->getServer('SERVER_NAME');
         $this->url = $this->url . $this->domain;
         $public = new \Path('', '/');
-        $public->Add('public');
-        $this->public = $public->Get();
+        $public->add('public');
+        $this->public = $public->get();
 
-        $client = new \Path($public->Get(), '/');
-        $client->Add('client');
-        $this->client = $client->Get();
+        $client = new \Path($public->get(), '/');
+        $client->add('client');
+        $this->client = $client->get();
     }
 
     /**
@@ -60,9 +60,9 @@ class Setting
      * @param [type] $http
      * @return void
      */
-    private function InitSSL(&$scheme)
+    private function initSsl(&$scheme)
     {
-        $sslFlg = $this->GetSERVER('HTTPS');
+        $sslFlg = $this->getServer('HTTPS');
         if (isset($sslFlg)) {
             $scheme = '//';
         } else {
@@ -78,7 +78,7 @@ class Setting
      * @param mixed $elm
      * @return mixed
      */
-    protected static function GetSERVER($elm): mixed
+    protected static function getServer($elm): mixed
     {
         return sanitize(filter_input_fix(INPUT_SERVER, $elm));
     }
@@ -90,9 +90,9 @@ class Setting
      *
      * @return string
      */
-    public static function GetDocumentRoot(): string
+    public static function getDocumentRoot(): string
     {
-        return self::GetSERVER('DOCUMENT_ROOT');
+        return self::getServer('DOCUMENT_ROOT');
     }
 
     /**
@@ -102,9 +102,9 @@ class Setting
      *
      * @return mixed
      */
-    public static function GetServerName(): mixed
+    public static function getServerName(): mixed
     {
-        return self::GetSERVER('SERVER_NAME');
+        return self::getServer('SERVER_NAME');
     }
 
     /**
@@ -115,9 +115,9 @@ class Setting
      * @param [type] $elm
      * @return mixed|null
      */
-    public static function GetPropaty($elm): ?string
+    public static function getPropaty($elm): ?string
     {
-        if (property_exists('public\Setting', $elm) !== false) {
+        if (property_exists('Public\Important\Setting', $elm) !== false) {
             return $elm;
         } else {
             return null;
@@ -131,14 +131,14 @@ class Setting
      *
      * @return string
      */
-    public static function GetURI(): string
+    public static function getUri(): string
     {
-        return self::GetSERVER('REQUEST_URI');
+        return self::getServer('REQUEST_URI');
     }
 
-    public static function GetScript()
+    public static function getScript()
     {
-        return self::GetSERVER('SCRIPT_NAME');
+        return self::getServer('SCRIPT_NAME');
     }
 
     /**
@@ -148,7 +148,7 @@ class Setting
      *
      * @return array|string|null
      */
-    public static function GetPosts(): mixed
+    public static function getPosts(): mixed
     {
         return sanitize(filter_input_array(INPUT_POST));
     }
@@ -161,13 +161,13 @@ class Setting
      *
      * @return array|string|null
      */
-    public static function GetPostArray($var): ?array
+    public static function getPostArray($var): ?array
     {
-        return self::GetPost($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        return self::getPost($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
     }
 
     // 指定した要素のPost値を取得
-    public static function GetPost($elm = '', $filter = FILTER_DEFAULT, $options = null)
+    public static function getPost($elm = '', $filter = FILTER_DEFAULT, $options = null)
     {
         return sanitize(filter_input_fix(INPUT_POST, $elm, $filter, $options));
     }
@@ -177,9 +177,9 @@ class Setting
      *
      * @return mixed
      */
-    public static function GetRemoteADDR()
+    public static function getRemoteAddr()
     {
-        return self::GetSERVER('REMOTE_ADDR');
+        return self::getServer('REMOTE_ADDR');
     }
 
     /**
@@ -189,7 +189,7 @@ class Setting
      *
      * @return mixed
      */
-    public static function GetRequest()
+    public static function getRequest()
     {
         return sanitize(filter_input_array(INPUT_GET));
     }
@@ -205,7 +205,7 @@ class Setting
      *
      * @return mixed
      */
-    public static function GetQuery($elm = '', $filter = FILTER_DEFAULT, $options = null)
+    public static function getQuery($elm = '', $filter = FILTER_DEFAULT, $options = null)
     {
         return sanitize(filter_input_fix(INPUT_GET, $elm, $filter, $options));
     }
@@ -219,9 +219,9 @@ class Setting
      *
      * @return array
      */
-    public static function GetQueryArray($var): ?array
+    public static function getQueryArray($var): ?array
     {
-        return self::GetQuery($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        return self::getQuery($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
     }
 
     /**
@@ -231,7 +231,7 @@ class Setting
      *
      * @return array
      */
-    public static function GetFiles()
+    public static function getFiles()
     {
         return $_FILES;
     }
@@ -247,7 +247,7 @@ class Setting
      *
      * @return string
      */
-    public function GetUrl($query='', $type='url', $relativePath = false): string
+    public function getUrl($query='', $type='url', $relativePath = false): string
     {
         if ($relativePath === false) {
             $url = $this->url;
@@ -276,8 +276,8 @@ class Setting
         }
 
         $urlPath = new \Path($url, '/');
-        $urlPath->SetPathEnd();
-        $urlPath->Add($query);
-        return rtrim($urlPath->Get(), '/');
+        $urlPath->setPathEnd();
+        $urlPath->add($query);
+        return rtrim($urlPath->get(), '/');
     }
 }

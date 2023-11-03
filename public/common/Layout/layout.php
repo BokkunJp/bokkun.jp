@@ -35,13 +35,13 @@ $img = "crown-vector.jpg";
     <meta name="robots" content="noindex,nofollow">
     <title><?php echo $title; ?></title>
     <link rel="shortcut icon"
-        href="<?= $base->GetUrl('', 'client') ?>/image/IMG_7592.PNG">
+        href="<?= $base->getUrl('', 'client') ?>/image/IMG_7592.PNG">
     <?php if (!isset($contents)) : ?>
         <link rel="stylesheet" type="text/css"
-            href="<?= $base->GetUrl('', 'client') ?>/css<?= createClient('') ?>design.css">
+            href="<?= $base->getUrl('', 'client') ?>/css<?= createClient('') ?>design.css">
         <?php else : ?>
         <link rel="stylesheet" type="text/css"
-            href="<?= $base->GetUrl('', 'client') ?>/css/common/ajax.css">
+            href="<?= $base->getUrl('', 'client') ?>/css/common/ajax.css">
     <?php endif; ?>
 </head>
 

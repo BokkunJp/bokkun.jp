@@ -2,7 +2,7 @@
     if (!isset($siteConfig)) {
         $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
     }
-     $year = $siteConfig['footer']->GetYear();
+     $year = $siteConfig['footer']->getYear();
      ?>
     <footer class='footer'>
         <div align='center'>βοκκμη's Page</div>

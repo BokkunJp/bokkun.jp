@@ -51,7 +51,7 @@ function Input(int $max): array
  *
  * @return void
  */
-function View(array $ary)
+function view(array $ary)
 {
     foreach ($ary as $_ary) {
         output($_ary);

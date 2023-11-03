@@ -3,24 +3,24 @@
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'require.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'init.php';
 
-use PrivateTag\UseClass;
+use Private\Tag\UseClass;
 
 if (empty($session)) {
-    $session = new private\Session();
+    $session = new Private\Important\Session();
 }
 
-if (!$session->Judge('admin')) {
-    $session->Write('admin', []);
+if (!$session->judge('admin')) {
+    $session->write('admin', []);
 }
-if (!isset($adminURL) || empty($adminURL) && $session->Read('admin')['send'] !== true) {
+if (!isset($adminURL) || empty($adminURL) && $session->read('admin')['send'] !== true) {
     $commonPath = new Path(PRIVATE_DIR);
-    $commonPath->SetPathEnd();
-    $commonPath->Add('common.php');
-    require_once $commonPath->Get();
-    $adminURL = explode('/', private\Setting::getURI());
-    $session->WriteArray('admin', 'adminURL', $adminURL);
+    $commonPath->setPathEnd();
+    $commonPath->add('common.php');
+    require_once $commonPath->get();
+    $adminURL = explode('/', Private\Important\Setting::getURI());
+    $session->writeArray('admin', 'adminURL', $adminURL);
 } else {
-    $adminURL = $session->Read('admin')['adminURL'];
+    $adminURL = $session->read('admin')['adminURL'];
 }
 
 // ログイン成功時には自動遷移させる
@@ -30,10 +30,10 @@ $tokenError = false;
 // CSRFチェック
 if (isset($post['private-login-token'])) {
     unset($post['private-login-token']);
-    $privateLoginToken = new private\Token("private-login-token", $session);
-    if (!$privateLoginToken->Check()) {
+    $privateLoginToken = new Private\Important\Token("private-login-token", $session);
+    if (!$privateLoginToken->check()) {
         $tokenError = true;
-        $session->Write('token-Error', '<p>不正な遷移です。もう一度操作してください。</p>');
+        $session->write('token-Error', '<p>不正な遷移です。もう一度操作してください。</p>');
     }
 }
 
@@ -44,7 +44,7 @@ if (!$tokenError && !empty($post) && !empty($post['id']) && !empty($post['pass']
 }
 
 // アクセスしてきたページを保存
-$adminSession = $session->Read("admin");
+$adminSession = $session->read("admin");
 $moveURL = $adminSession['adminURL'];
 
 if ($moveURL[2] === 'secure' || $moveURL[2] === 'logout') {
@@ -53,16 +53,16 @@ if ($moveURL[2] === 'secure' || $moveURL[2] === 'logout') {
 
 $movePage = implode('/', $moveURL);
 
-$session->WriteArray('admin', 'movePage', $url . $movePage);
+$session->writeArray('admin', 'movePage', $url . $movePage);
 
 if (!isset($adminSession['movePage'])) {
-    $adminSession['movePage'] = $session->Read('admin')['movePage'];
+    $adminSession['movePage'] = $session->read('admin')['movePage'];
 }
 
 if ((!($adminAuth))) {
     // 入力値チェック
     if ($tokenError === false && !empty($post)) {
-        $session->Write('password-Error', '<p>IDまたはパスワードが違います。</p>');
+        $session->write('password-Error', '<p>IDまたはパスワードが違います。</p>');
         // ログイン警告メール (ログイン失敗時)
         AlertAdmin('login', $adminSession['movePage']);
     }
@@ -74,25 +74,25 @@ if ((!($adminAuth))) {
     print_r("<script src='{$url}/private/client/js/common/jquery-3.1.1.min.js'></script>
     <script src='{$url}/private/client/js/secure.js'></script>");
 
-    if (!$session->Judge('old_id')) {
-        $session->Write('old_id', $session->Read('id'));
+    if (!$session->judge('old_id')) {
+        $session->write('old_id', $session->read('id'));
     }
 
     // セッション書き込み
-    $session->WriteArray('admin', 'secure', true);
-    $session->Write('old_id', $session->Read('id'));
-    $session->Write('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
+    $session->writeArray('admin', 'secure', true);
+    $session->write('old_id', $session->read('id'));
+    $session->write('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
 
     // 直接遷移
     if ($mode === 'movePage') {
         // ページ遷移
         $script = new UseClass();
-        $script->Alert("認証に成功しました。自動で遷移します。");
-        $script->MovePage($adminSession['movePage']);
+        $script->alert("認証に成功しました。自動で遷移します。");
+        $script->movePage($adminSession['movePage']);
 
     // リンクから遷移
     } else {
-        $session->Write('password-Success', "<p>認証に成功しました。<a href={$adminSession['movePage']}>リンク</a>から移動できます。<br/></p>");
+        $session->write('password-Success', "<p>認証に成功しました。<a href={$adminSession['movePage']}>リンク</a>から移動できます。<br/></p>");
     }
 }
 

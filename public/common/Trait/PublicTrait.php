@@ -1,8 +1,8 @@
 <?php
 
 $traitPath = new \Path(COMMON_DIR);
-$traitPath->Add('Trait');
-IncludeFiles($traitPath->Get());
+$traitPath->add('Trait');
+includeFiles($traitPath->get());
 trait PublicTrait
 {
     use CommonTrait;

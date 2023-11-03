@@ -7,13 +7,13 @@ class BaseVaild
     {
     }
 
-    protected function Init($val)
+    protected function init($val)
     {
         if ($val) {
         }
     }
 
-    protected function Value($val)
+    protected function value($val)
     {
     }
 }

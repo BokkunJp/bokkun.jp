@@ -1,5 +1,5 @@
 <?php
 
-$aHref = new BasicTag\CustomTagCreate();
-$aHref->SetHref("page", "Template-Partyのテンプレートページへ");
-$aHref->ExecTag(true);
+$aHref = new Public\Important\CustomTagCreate();
+$aHref->setHref("page", "Template-Partyのテンプレートページへ");
+$aHref->execTag(true);

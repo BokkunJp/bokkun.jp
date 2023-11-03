@@ -2,8 +2,8 @@
 $imgUrl = $url;
 if (strpos(basename(getcwd()), 'private') === false) {
     $urlPath = new \Path($url);
-    $urlPath->Add('private');
-    $url = $urlPath->Get();
+    $urlPath->add('private');
+    $url = $urlPath->get();
 }
 ?>
 <header class='header'>
@@ -14,7 +14,7 @@ if (strpos(basename(getcwd()), 'private') === false) {
                     src="<?php echo $imgUrl; ?>/private/client/image/<?php echo $img; ?>"
                     width="40" height="40"></a>
             <strong>
-                <em>βοκκμη homepage<?= $siteConfig['header']->GetVersion() ?></em>
+                <em>βοκκμη homepage<?= $siteConfig['header']->getVersion() ?></em>
                 <br />
                 <div align="center"><?php if (isset($title)) {
     echo $title;

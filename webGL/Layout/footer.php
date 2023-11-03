@@ -1,4 +1,4 @@
-<?php $year = $siteConfig['footer']->GetYear(); ?>
+<?php $year = $siteConfig['footer']->getYear(); ?>
 <footer class='footer'>
     <div align='center'>βοκκμη's Page</div>
     <div class="footer_char" align='right'>本ホームページは、<a href="https://www.value-domain.com">バリュードメイン様</a>のレンタルサーバを用いて作成しています。</div>

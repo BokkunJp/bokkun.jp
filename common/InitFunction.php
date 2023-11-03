@@ -8,22 +8,22 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR
 
 // エラーログの設定(初期設定)
 $errorLogPath = new \Path("");
-$errorLogPath->AddArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
+$errorLogPath->addArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
 $errLogArray = [];
-if (!is_dir($errorLogPath->Get())) {
-    mkdir($errorLogPath->Get());
+if (!is_dir($errorLogPath->get())) {
+    mkdir($errorLogPath->get());
     $errorLogOldPath = clone $errorLogPath;
-    $errorLogOldPath->Add("_old");
-    mkdir($errorLogOldPath->Get());
+    $errorLogOldPath->add("_old");
+    mkdir($errorLogOldPath->get());
 }
-$errorLogPath->SetPathEnd();
-$errorLogPath->Add("php_error.log");
-ini_set("error_log", $errorLogPath->Get());
+$errorLogPath->setPathEnd();
+$errorLogPath->add("php_error.log");
+ini_set("error_log", $errorLogPath->get());
 
 $iniPath =new \Path("ini");
-$iniPath->SetPathEnd();
-$iniPath->Add("ini.php");
-require_once $iniPath->Get();
+$iniPath->setPathEnd();
+$iniPath->add("ini.php");
+require_once $iniPath->get();
 
 // エラーハンドラ設定
 set_error_handler(
@@ -47,21 +47,21 @@ set_error_handler(
 //     if (!empty($error)) {
 //         if (php_sapi_name() !== 'cli') {
 //             $cnf = new Header();
-//             $errScript = new BasicTag\ScriptClass();
+//             $errScript = new Public\Important\ScriptClass();
 
-//             $errScript->Alert("エラーが発生しました。");
-//             if (strcmp($cnf->GetVersion(), '-local') === 0 || strcmp($cnf->GetVersion(), '-dev') === 0) {
+//             $errScript->alert("エラーが発生しました。");
+//             if (strcmp($cnf->getVersion(), '-local') === 0 || strcmp($cnf->getVersion(), '-dev') === 0) {
 //                 $errMessage = str_replace('\\', '/', $error['message']);
 //                 $errMessage = str_replace(array("\r\n", "\r", "\n"), '\\n', $errMessage);
 //                 $errMessage = str_replace("'", "\'", $errMessage);
-//                 if (strcmp($cnf->GetVersion(), '-local') === 0) {
+//                 if (strcmp($cnf->getVersion(), '-local') === 0) {
 //                     $errFile = str_replace('\\', '/', $error['file']);
 //                     $errFile = str_replace('\n', '\\n', $errFile);
-//                     $errScript->Alert($errMessage. "\\n\\n".
+//                     $errScript->alert($errMessage. "\\n\\n".
 //                         "file: ". $errFile . "\\n".
 //                         "line: ". $error['line']);
 //                 } else {
-//                     $errScript->Alert($errMessage);
+//                     $errScript->alert($errMessage);
 //                 }
 //             }
 //         }
@@ -126,10 +126,10 @@ function createClient(string $target, string $src = '', string $separator = DIRE
 
     $clientPath = new \Path($clientPath, $separator);
     foreach ($clientAry as $_client) {
-        $clientPath->Add($_client);
+        $clientPath->add($_client);
     }
 
-    return $clientPath->Get();
+    return $clientPath->get();
 }
 /**
  * filter_input_fix
@@ -237,10 +237,10 @@ function output(
         $debugTrace = debug_backtrace();
         $debugValidate = debugValidate($debug, $debugTrace);
         if (!empty($debugValidate)) {
-            $errScript = new BasicTag\ScriptClass();
+            $errScript = new Public\Important\ScriptClass();
             foreach ($debugValidate as $_DEBUG_KEY) {
                 if ($debugMessage[$_DEBUG_KEY]) {
-                    $errScript->Alert($debugMessage[$_DEBUG_KEY]);
+                    $errScript->alert($debugMessage[$_DEBUG_KEY]);
                 }
             }
             return -1;
@@ -272,7 +272,7 @@ function output(
 }
 
 /**
- * DebugValitate
+ * debugValitate
  *
  * デバッグ出力時のバリデーション。
  *
@@ -315,7 +315,7 @@ function debugValidate(array $debug, array $debugTrace): array
      *
      * @return void
      */
-    function Debug(mixed $expression): void
+    function debug(mixed $expression): void
     {
         output($expression, true, true, true);
     }
@@ -333,18 +333,18 @@ function debugValidate(array $debug, array $debugTrace): array
  */
 function setComposerPlugin(string $name) {
     $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-    $allPluginPath->SetAll([
-        'vendorDir' => $allPluginPath->Get(),
-        'requireFile' => $allPluginPath->Get(),
+    $allPluginPath->setAll([
+        'vendorDir' => $allPluginPath->get(),
+        'requireFile' => $allPluginPath->get(),
     ]);
 
-    $allPluginPath->ResetKey('vendorDir');
-    $allPluginPath->MethodPath('Add', $name);
-    $pluginDir = $allPluginPath->Get();
+    $allPluginPath->resetKey('vendorDir');
+    $allPluginPath->methodPath('Add', $name);
+    $pluginDir = $allPluginPath->get();
 
-    $allPluginPath->ResetKey('requireFile');
-    $allPluginPath->MethodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
-    $requireFile = $allPluginPath->Get();
+    $allPluginPath->resetKey('requireFile');
+    $allPluginPath->methodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
+    $requireFile = $allPluginPath->get();
 
     if (is_dir($pluginDir) && is_file($requireFile)) {
         require_once $requireFile;
@@ -363,35 +363,35 @@ function setComposerPlugin(string $name) {
 function setPlugin(string $name): void
 {
     $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-    $allPluginPath->SetAll([
-        'vendorDir' => $allPluginPath->Get(),
-        'composerJson' => $allPluginPath->Get(),
-        'composerLock' => $allPluginPath->Get(),
+    $allPluginPath->setAll([
+        'vendorDir' => $allPluginPath->get(),
+        'composerJson' => $allPluginPath->get(),
+        'composerLock' => $allPluginPath->get(),
     ]);
 
-    $allPluginPath->ResetKey('vendorDir');
-    $allPluginPath->MethodPath('Add', $name);
-    $pluginDir = $allPluginPath->Get();
+    $allPluginPath->resetKey('vendorDir');
+    $allPluginPath->methodPath('Add', $name);
+    $pluginDir = $allPluginPath->get();
 
-    $allPluginPath->ResetKey('vendorDir');
-    $allPluginPath->MethodPath('Add', "vendor");
-    $vendorDir = $allPluginPath->Get();
+    $allPluginPath->resetKey('vendorDir');
+    $allPluginPath->methodPath('Add', "vendor");
+    $vendorDir = $allPluginPath->get();
 
-    $allPluginPath->ResetKey('composerJson');
-    $allPluginPath->MethodPath('SetPathEnd');
-    $allPluginPath->MethodPath('Add', "composer.json");
-    $composerJson = $allPluginPath->Get();
+    $allPluginPath->resetKey('composerJson');
+    $allPluginPath->methodPath('SetPathEnd');
+    $allPluginPath->methodPath('Add', "composer.json");
+    $composerJson = $allPluginPath->get();
 
-    $allPluginPath->ResetKey('composerLock');
-    $allPluginPath->MethodPath('SetPathEnd');
-    $allPluginPath->MethodPath('Add', "composer.lock");
-    $composerLock = $allPluginPath->Get();
+    $allPluginPath->resetKey('composerLock');
+    $allPluginPath->methodPath('SetPathEnd');
+    $allPluginPath->methodPath('Add', "composer.lock");
+    $composerLock = $allPluginPath->get();
 
     // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
     if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
         setComposerPlugin($name);
     } elseif (is_dir($pluginDir)) {
-        IncludeDirectories($pluginDir);
+        includeDirectories($pluginDir);
     }
 }
 
@@ -439,7 +439,7 @@ function searchData($target, array $arrayData): bool
 }
 
 /**
- * MoldImageConfig
+ * moldImageConfig
  *
  * getImageSize関数で取得した配列を整形する。
  *
@@ -447,7 +447,7 @@ function searchData($target, array $arrayData): bool
  *
  * @return array
  */
-function MoldImageConfig($imageConfig): array
+function moldImageConfig($imageConfig): array
 {
     $ret = [];
     if (is_array($imageConfig)) {
@@ -490,7 +490,7 @@ function calcImageSize(string $imageName, string|int $imageSizeViewValue): array
         }
     }
     $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
-    $ret = array_merge(MoldImageConfig($imageConfig), $ret);
+    $ret = array_merge(moldImageConfig($imageConfig), $ret);
 
     return $ret;
 }

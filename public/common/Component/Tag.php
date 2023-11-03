@@ -1,29 +1,29 @@
 <?php
 
-namespace PublicTag;
+namespace Public\Important;
 
 $commonPath = new \Path(DOCUMENT_ROOT);
-$commonPath->AddArray(["common", "Component", "Tag.php"]);
-require_once $commonPath->Get();
-class Base extends \BasicTag\Base
+$commonPath->addArray(["common", "Component", "Tag.php"]);
+require_once $commonPath->get();
+class Tag extends \Basic\Important\Tag
 {
 }
 
-class HTMLClass extends \BasicTag\HTMLClass
+class HTMLClass extends \Basic\Important\HTMLClass
 {
 }
-class CustomTagCreate extends \BasicTag\CustomTagCreate
+class CustomTagCreate extends \Basic\Important\CustomTagCreate
 {
 }
 
-class ScriptClass extends \BasicTag\ScriptClass
+class ScriptClass extends \Basic\Important\ScriptClass
 {
 }
-class UseClass extends \BasicTag\UseClass
+class UseClass extends \Basic\Important\UseClass
 {
     // メインページへ遷移
     public function BackPage($query = null)
     {
-        $this->MovePage('/public/' . $query);
+        $this->movePage('/public/' . $query);
     }
 }

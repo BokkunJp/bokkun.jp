@@ -68,8 +68,8 @@ trait CommonTrait
 
         foreach ($clientAry as $_client) {
             $client = new Path($clientPath);
-            $client->Add($_client);
-            $clientPath = $client->Get();
+            $client->add($_client);
+            $clientPath = $client->get();
         }
 
         return $clientPath;
@@ -182,10 +182,10 @@ trait CommonTrait
             $debugTrace = debug_backtrace();
             $debugValidate = $this->debugValidate($debug, $debugTrace);
             if (!empty($debugValidate)) {
-                $errScript = new BasicTag\ScriptClass();
+                $errScript = new Public\Important\ScriptClass();
                 foreach ($debugValidate as $_DEBUG_KEY) {
                     if ($debugMessage[$_DEBUG_KEY]) {
-                        $errScript->Alert($debugMessage[$_DEBUG_KEY]);
+                        $errScript->alert($debugMessage[$_DEBUG_KEY]);
                     }
                 }
                 return -1;
@@ -298,7 +298,7 @@ trait CommonTrait
      *
      * @return void
      */
-    function Debug(mixed $expression): void
+    function debug(mixed $expression): void
     {
         output($expression, true, true, true);
     }
@@ -315,18 +315,18 @@ trait CommonTrait
      */
     protected function setComposerPlugin($name) {
         $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-        $allPluginPath->SetAll([
-            'vendorDir' => $allPluginPath->Get(),
-            'requireFile' => $allPluginPath->Get(),
+        $allPluginPath->setAll([
+            'vendorDir' => $allPluginPath->get(),
+            'requireFile' => $allPluginPath->get(),
         ]);
 
-        $allPluginPath->ResetKey('vendorDir');
-        $allPluginPath->MethodPath('Add', $name);
-        $pluginDir = $allPluginPath->Get();
+        $allPluginPath->resetKey('vendorDir');
+        $allPluginPath->methodPath('Add', $name);
+        $pluginDir = $allPluginPath->get();
 
-        $allPluginPath->ResetKey('requireFile');
-        $allPluginPath->MethodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
-        $requireFile = $allPluginPath->Get();
+        $allPluginPath->resetKey('requireFile');
+        $allPluginPath->methodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
+        $requireFile = $allPluginPath->get();
 
         if (is_dir($pluginDir) && is_file($requireFile)) {
             require_once $requireFile;
@@ -345,35 +345,35 @@ trait CommonTrait
     public function setPlugin(string $name): void
     {
         $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-        $allPluginPath->SetAll([
-            'vendorDir' => $allPluginPath->Get(),
-            'composerJson' => $allPluginPath->Get(),
-            'composerLock' => $allPluginPath->Get(),
+        $allPluginPath->setAll([
+            'vendorDir' => $allPluginPath->get(),
+            'composerJson' => $allPluginPath->get(),
+            'composerLock' => $allPluginPath->get(),
         ]);
 
-        $allPluginPath->ResetKey('vendorDir');
-        $allPluginPath->MethodPath('Add', $name);
-        $pluginDir = $allPluginPath->Get();
+        $allPluginPath->resetKey('vendorDir');
+        $allPluginPath->methodPath('Add', $name);
+        $pluginDir = $allPluginPath->get();
 
-        $allPluginPath->ResetKey('vendorDir');
-        $allPluginPath->MethodPath('Add', "vendor");
-        $vendorDir = $allPluginPath->Get();
+        $allPluginPath->resetKey('vendorDir');
+        $allPluginPath->methodPath('Add', "vendor");
+        $vendorDir = $allPluginPath->get();
 
-        $allPluginPath->ResetKey('composerJson');
-        $allPluginPath->MethodPath('SetPathEnd');
-        $allPluginPath->MethodPath('Add', "composer.json");
-        $composerJson = $allPluginPath->Get();
+        $allPluginPath->resetKey('composerJson');
+        $allPluginPath->methodPath('SetPathEnd');
+        $allPluginPath->methodPath('Add', "composer.json");
+        $composerJson = $allPluginPath->get();
 
-        $allPluginPath->ResetKey('composerLock');
-        $allPluginPath->MethodPath('SetPathEnd');
-        $allPluginPath->MethodPath('Add', "composer.lock");
-        $composerLock = $allPluginPath->Get();
+        $allPluginPath->resetKey('composerLock');
+        $allPluginPath->methodPath('SetPathEnd');
+        $allPluginPath->methodPath('Add', "composer.lock");
+        $composerLock = $allPluginPath->get();
 
         // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
         if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
             setComposerPlugin($name);
         } elseif (is_dir($pluginDir)) {
-            IncludeDirectories($pluginDir);
+            includeDirectories($pluginDir);
         }
     }
 
@@ -459,7 +459,7 @@ trait CommonTrait
      *
      * @return array
      */
-    public function MoldImageConfig($imageConfig): array
+    public function moldImageConfig($imageConfig): array
     {
         $ret = [];
         if (is_array($imageConfig)) {
@@ -504,7 +504,7 @@ trait CommonTrait
             }
         }
         $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
-        $ret = array_merge(MoldImageConfig($imageConfig), $ret);
+        $ret = array_merge(moldImageConfig($imageConfig), $ret);
 
         return $ret;
     }

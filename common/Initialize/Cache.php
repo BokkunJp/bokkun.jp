@@ -11,30 +11,30 @@ class Cache {
 
     function __construct(private string $id)
     {
-        $this->SessionConnect();
+        $this->connect();
         $this->cache = [];
     }
 
-    private function SessionConnect(): void
+    private function connect(): void
     {
         $this->session = new Session();
 
-        if ($this->session->Read('cache')) {
-            $this->session->Write('cache', []);
+        if ($this->session->read('cache')) {
+            $this->session->write('cache', []);
         }
     }
 
-    public function SetKey(string $key): void
+    public function setKey(string $key): void
     {
         $this->key = $key;
     }
 
-    public function Set($value): void
+    public function set($value): void
     {
         $this->cache[$this->key] = $value;
     }
 
-    public function Get(string $key = null): mixed
+    public function get(string $key = null): mixed
     {
         if (!$key) {
             $key = $this->key;
@@ -42,14 +42,14 @@ class Cache {
         return $this->cache[$key];
     }
 
-    public function Save(): void
+    public function save(): void
     {
-        $this->session->WriteArray('cache', $this->id, $this->cache);
+        $this->session->writeArray('cache', $this->id, $this->cache);
     }
 
-    public function Load(): mixed
+    public function load(): mixed
     {
-        $tmp = $this->session->Read('cache');
+        $tmp = $this->session->read('cache');
 
         if (!is_null($tmp)) {
             $this->cache = $tmp;

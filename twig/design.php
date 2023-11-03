@@ -7,7 +7,7 @@ setPlugin('twig');
 $loader = new FilesystemLoader('/');
 $autoLoadFlg = false;
 
-if (public\Setting::GetServerName() !== 'bokkun.jp') {
+if (Public\Important\Setting::getServerName() !== 'bokkun.jp') {
     $autoLoadFlg = true;
 }
 $twig = new Environment($loader, [

@@ -89,8 +89,8 @@ class DB
         } catch (Exception $e) {
             // SQLの実行に失敗した場合はエラー
             print_r('ERRORの内容: ' . $e->getMessage());
-            $session = new public\Session();
-            $session->Write("db-system-error", "ERROR!! SQLの実行に失敗しました。");
+            $session = new Public\Important\Session();
+            $session->write("db-system-error", "ERROR!! SQLの実行に失敗しました。");
             $this->stmt->rollback();
             error_reporting(E_STRICT);
             return false;
@@ -208,7 +208,7 @@ class DB
         return $ret['count'];
     }
 
-    public function Delete(array $cols, array $vals)
+    public function delete(array $cols, array $vals)
     {
 
         // where句生成

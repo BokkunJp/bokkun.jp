@@ -343,7 +343,7 @@ var Encoding = {
           (b >= 0x27 /*'*/ && b <= 0x2A /***/) ||
           b === 0x2D /*-*/ || b === 0x2E /*.*/ ||
           b === 0x5F /*_*/ || b === 0x7E /*~*/
-      ) {
+    ) {
         results[results.length] = b;
       } else {
         results[results.length] = 0x25; /*%*/
@@ -1187,12 +1187,10 @@ function isUTF16(data) {
   } else {
     b1 = data[0];
     b2 = data[1];
-    if (b1 === 0xFF && // BOM (little-endian)
-        b2 === 0xFE) {
+    if (b1 === 0xFF && // BOM (little-endian)        b2 === 0xFE) {
       return true;
     }
-    if (b1 === 0xFE && // BOM (big-endian)
-        b2 === 0xFF) {
+    if (b1 === 0xFE && // BOM (big-endian)        b2 === 0xFF) {
       return true;
     }
 
@@ -1347,13 +1345,11 @@ function isUTF32(data) {
     b2 = data[1];
     b3 = data[2];
     b4 = data[3];
-    if (b1 === 0x00 && b2 === 0x00 && // BOM (big-endian)
-        b3 === 0xFE && b4 === 0xFF) {
+    if (b1 === 0x00 && b2 === 0x00 && // BOM (big-endian)        b3 === 0xFE && b4 === 0xFF) {
       return true;
     }
 
-    if (b1 === 0xFF && b2 === 0xFE && // BOM (little-endian)
-        b3 === 0x00 && b4 === 0x00) {
+    if (b1 === 0xFF && b2 === 0xFE && // BOM (little-endian)        b3 === 0x00 && b4 === 0x00) {
       return true;
     }
 
@@ -1553,7 +1549,7 @@ function SJISToJIS(data) {
     0x1B, 0x28, 0x42,
     0x1B, 0x24, 0x42,
     0x1B, 0x28, 0x49
-  ];
+ ];
 
   for (; i < len; i++) {
     b1 = data[i];
@@ -1685,7 +1681,7 @@ function EUCJPToJIS(data) {
     0x1B, 0x24, 0x42,
     0x1B, 0x28, 0x49,
     0x1B, 0x24, 0x28, 0x44
-  ];
+ ];
 
   for (; i < len; i++) {
     b = data[i];
@@ -2154,7 +2150,7 @@ function UTF8ToJIS(data) {
     0x1B, 0x24, 0x42,
     0x1B, 0x28, 0x49,
     0x1B, 0x24, 0x28, 0x44
-  ];
+ ];
 
   for (; i < len; i++) {
     b = data[i];
@@ -2464,7 +2460,7 @@ function UTF16BEToUNICODE(data) {
   if (len >= 2 &&
       ((data[0] === 0xFE && data[1] === 0xFF) ||
        (data[0] === 0xFF && data[1] === 0xFE))
-  ) {
+) {
     i = 2;
   }
 
@@ -2499,7 +2495,7 @@ function UTF16LEToUNICODE(data) {
   if (len >= 2 &&
       ((data[0] === 0xFE && data[1] === 0xFF) ||
        (data[0] === 0xFF && data[1] === 0xFE))
-  ) {
+) {
     i = 2;
   }
 
@@ -2646,7 +2642,7 @@ function UTF16BEToUTF16(data, options) {
   if (len >= 2 &&
       ((data[0] === 0xFE && data[1] === 0xFF) ||
        (data[0] === 0xFF && data[1] === 0xFE))
-  ) {
+) {
     i = 2;
   }
 
@@ -2749,7 +2745,7 @@ function UTF16LEToUTF16(data, options) {
   if (len >= 2 &&
       ((data[0] === 0xFE && data[1] === 0xFF) ||
        (data[0] === 0xFF && data[1] === 0xFE))
-  ) {
+) {
     i = 2;
   }
 
@@ -2790,7 +2786,7 @@ function UTF16BEToUTF16LE(data) {
   if (len >= 2 &&
       ((data[0] === 0xFE && data[1] === 0xFF) ||
        (data[0] === 0xFF && data[1] === 0xFE))
-  ) {
+) {
     i = 2;
   }
 

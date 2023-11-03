@@ -9,7 +9,7 @@ require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
 $privatepathList = new PathApplication('word', dirname(__DIR__, 2));
 
 // それぞれの変数セット
-$privatepathList->SetAll(
+$privatepathList->setAll(
     [
         'setting' => '',
         'include' => '',
@@ -20,53 +20,53 @@ $privatepathList->SetAll(
 
 // パスの追加
 // 定数・固定文言など
-$privatepathList->ResetKey('word');
-$privatepathList->MethodPath('AddArray', ['common', 'Word', 'Message.php']);
+$privatepathList->resetKey('word');
+$privatepathList->methodPath('AddArray', ['common', 'Word', 'Message.php']);
 
 // 設定
-$privatepathList->ResetKey('setting');
-$privatepathList->MethodPath('AddArray', ['common', 'Setting.php']);
+$privatepathList->resetKey('setting');
+$privatepathList->methodPath('AddArray', ['common', 'Setting.php']);
 
 // セッション
-$privatepathList->ResetKey('session');
-$privatepathList->MethodPath('AddArray', ['common', 'Session.php']);
+$privatepathList->resetKey('session');
+$privatepathList->methodPath('AddArray', ['common', 'Session.php']);
 
 // トークン
-$privatepathList->ResetKey('token');
-$privatepathList->MethodPath('AddArray', ['common', 'Token.php']);
+$privatepathList->resetKey('token');
+$privatepathList->methodPath('AddArray', ['common', 'Token.php']);
 
 // ファイル読み込み
-$privatepathList->ResetKey('include');
-$privatepathList->MethodPath('AddArray', ['common', 'Include.php']);
+$privatepathList->resetKey('include');
+$privatepathList->methodPath('AddArray', ['common', 'Include.php']);
 
 // パスの出力
-$privatepathList->All();
-foreach ($privatepathList->Get() as $path) {
+$privatepathList->all();
+foreach ($privatepathList->get() as $path) {
     require_once $path;
 }
 
-$session =  new \private\Session();
+$session =  new \Private\Important\Session();
 $adminError = new AdminError();
-$use = new \PrivateTag\UseClass();
+$use = new \Private\Tag\UseClass();
 
 // tokenチェック
-$editToken = new \private\Token("edit-token", $session);
+$editToken = new \Private\Token\Token("edit-token", $session);
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
-if ($editToken->Check() === false) {
-    $sessClass =  new private\Session();
-    $sessClass->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
-    $url = new private\Setting();
+if ($editToken->check() === false) {
+    $sessClass =  new Private\Important\Session();
+    $sessClass->write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
+    $url = new Private\Important\Setting();
     $backUrl = createClient('private', dirname(__DIR__));
     $backUrl = ltrim($backUrl, DS);
-    header('Location:' . $url->GetUrl($backUrl));
+    header('Location:' . $url->getUrl($backUrl));
     exit;
 }
 
 $adminPath = dirname(__DIR__);
 $basePath = dirname(__DIR__, 3);
 
-$post = (array)private\Setting::GetPosts();
+$post = (array)Private\Important\Setting::getPosts();
 $judge = array();
 foreach ($post as $post_key => $post_value) {
     $$post_key = $post_value;
@@ -74,20 +74,20 @@ foreach ($post as $post_key => $post_value) {
 }
 
 // 内容をセッションに保存し、不要なデータを破棄
-if (!$session->JudgeArray('admin', 'addition')) {
-    $session->WriteArray('admin', 'addition', $post);
+if (!$session->judgeArray('admin', 'addition')) {
+    $session->writeArray('admin', 'addition', $post);
 }
 unset($session);
 unset($post);
 
 $pathList = ['php'];
 $clientPath = new \Path($basePath);
-$clientPath->Add('public');
-$clientPath->Add('client');
-$clientPath = $clientPath->Get();
+$clientPath->add('public');
+$clientPath->add('client');
+$clientPath = $clientPath->get();
 $subPathList = scandir($clientPath);
 foreach ($subPathList as $_key => $_val) {
-    if (!FindFileName($_val)) {
+    if (!findFileName($_val)) {
         unset($subPathList[$_key]);
     }
 }
@@ -166,8 +166,8 @@ foreach ($pathList as $_pathList) {
         } elseif (isset($copy)) {
             // 複製モード
             $copyPath = new \Path($basePath);
-            $copyPath->Add($select);
-            CopyData($copyPath->Get(), $copy_title);
+            $copyPath->add($select);
+            CopyData($copyPath->get(), $copy_title);
         } elseif (isset($edit)) {
             // 編集モード
         } else {
@@ -176,7 +176,7 @@ foreach ($pathList as $_pathList) {
         }
     } else {
         $cwd = new \Path('');
-        $cwd->Add($select);
+        $cwd->add($select);
         if (!strpos(getcwd(), 'client')) {
             $client = "public/client/";
             $adminPath = dirname($adminPath). '/Sample/' . $client;
@@ -187,12 +187,12 @@ foreach ($pathList as $_pathList) {
         if (isset($delete)) {
             // 削除モード
             if (!isset($notDelflg)) {
-                DeleteData(getcwd(), $cwd->Get());
+                DeleteData(getcwd(), $cwd->get());
             }
         } elseif (isset($copy)) {
             // 複製モード
-            if (!empty($select) && is_dir($cwd->Get())) {
-                CopyData($cwd->Get(), $copy_title);
+            if (!empty($select) && is_dir($cwd->get())) {
+                CopyData($cwd->get(), $copy_title);
             }
         } elseif (isset($edit)) {
             // 編集モード
@@ -200,31 +200,31 @@ foreach ($pathList as $_pathList) {
             // どちらでもない
             $adminError->UserError("不正な遷移です。");
         }
-        $cwd = new \Path(dirname($cwd->Get()));
+        $cwd = new \Path(dirname($cwd->get()));
     }
 }
 
 if (isset($edit)) {
-    $use->Alert("{$select}ページを編集しました。");
+    $use->alert("{$select}ページを編集しました。");
 } elseif (isset($copy)) {
-    $use->Alert("{$select}ページを複製しました。");
+    $use->alert("{$select}ページを複製しました。");
 } elseif (isset($delete)) {
     if (!isset($notDelflg)) {
-        $use->Alert("{$select}ページを削除しました。");
+        $use->alert("{$select}ページを削除しました。");
     } else {
-        $use->Alert("{$select}ページは削除できません。");
+        $use->alert("{$select}ページは削除できません。");
     }
 }
 
 class AdminError
 {
     protected $use;
-    public function __construct(?\PrivateTag\UseClass $use = null)
+    public function __construct(?\Private\Tag\UseClass $use = null)
     {
         if (!is_null($use)) {
             $this->use = $use;
         } else {
-            $this->use = new \PrivateTag\UseClass();
+            $this->use = new \Private\Tag\UseClass();
         }
     }
 
@@ -240,7 +240,7 @@ class AdminError
      */
     public function UserError(string $message, bool $exit_flg = true)
     {
-        $this->use->Alert($message);
+        $this->use->alert($message);
         $this->use->BackAdmin('create');
         if ($exit_flg === true) {
             exit;
@@ -256,9 +256,9 @@ class AdminError
      *
      * @return void
      */
-    public function Alert(string $message)
+    public function alert(string $message)
     {
-        $this->use->Alert($message);
+        $this->use->alert($message);
     }
 
     /**
@@ -270,9 +270,9 @@ class AdminError
      *
      * @return void
      */
-    public function Confirm(string $message)
+    public function confirm(string $message)
     {
-        $this->use->Confirm($message);
+        $this->use->confirm($message);
     }
 
     /**

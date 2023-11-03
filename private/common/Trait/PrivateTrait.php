@@ -1,8 +1,8 @@
 <?php
 
 $traitPath = new \Path(COMMON_DIR);
-$traitPath->Add('Trait');
-IncludeFiles($traitPath->Get());
+$traitPath->add('Trait');
+includeFiles($traitPath->get());
 
 trait PrivateTrait
 {
@@ -16,7 +16,7 @@ trait PrivateTrait
      *
      * @return bool
      */
-    private function FindFileName(string $str): bool
+    private function findFileName(string $str): bool
     {
         if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
             return false;
@@ -54,8 +54,8 @@ trait PrivateTrait
     private function DeleteData(string $select): bool
     {
         $dirPath = new Path(getcwd());
-        $dirPath->SetPathEnd();
-        $dirPath = $this->Add(getcwd(), $select, false);
+        $dirPath->setPathEnd();
+        $dirPath = $this->add(getcwd(), $select, false);
         return system("rm -rf $dirPath");
     }
 
@@ -73,7 +73,7 @@ trait PrivateTrait
     private function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bool
     {
         $dirPath = new Path(getcwd());
-        $dstPath = $dirPath->Add(dirname($srcPath), $copyName, false);
+        $dstPath = $dirPath->add(dirname($srcPath), $copyName, false);
 
         if (is_dir($srcPath)) {
             // コピー元にファイルがある場合は、ファイルを走査してコピー
@@ -86,14 +86,14 @@ trait PrivateTrait
             }
 
             foreach (scandir($srcPath) as $_file) {
-                if ((FindFileName($_file))) {
+                if ((findFileName($_file))) {
                     $srcFilePath = new \Path($srcPath);
-                    $srcFilePath->SetPathEnd();
+                    $srcFilePath->setPathEnd();
                     $dstFilePath = new \Path($dstPath);
-                    $dstFilePath->SetPathEnd();
+                    $dstFilePath->setPathEnd();
 
-                    $srcFilePath = $srcFilePath->Add($_file, false);
-                    $dstFilePath = $dstFilePath->Add($_file, false);
+                    $srcFilePath = $srcFilePath->add($_file, false);
+                    $dstFilePath = $dstFilePath->add($_file, false);
                     if (is_readable($srcFilePath)) {
                         copy($srcFilePath, $dstFilePath);
                     } else {
@@ -132,14 +132,14 @@ trait PrivateTrait
         }
 
         foreach (scandir($srcPath) as $_file) {
-            if ((FindFileName($_file))) {
+            if ((findFileName($_file))) {
                     $srcFilePath = new \Path($srcPath);
-                    $srcFilePath->SetPathEnd();
+                    $srcFilePath->setPathEnd();
                     $dstFilePath = new \Path($dstPath);
-                    $dstFilePath->SetPathEnd();
+                    $dstFilePath->setPathEnd();
 
-                    $srcFilePath = $srcFilePath->Add($_file, false);
-                    $dstFilePath = $dstFilePath->Add($_file, false);
+                    $srcFilePath = $srcFilePath->add($_file, false);
+                    $dstFilePath = $dstFilePath->add($_file, false);
                 if (is_readable($srcFilePath)) {
                     copy($srcFilePath, $dstFilePath);
                 } else {
@@ -180,7 +180,7 @@ trait PrivateTrait
         echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 
         // セッションの破棄
-        $session = new private\Session();
-        $session->FinaryDestroy();
+        $session = new Private\Important\Session();
+        $session->finaryDestroy();
     }
 }
