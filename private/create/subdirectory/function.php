@@ -11,9 +11,9 @@ class Admin
     public function __construct()
     {
         require_once dirname(dirname(__DIR__, 2)). '/private/common/Function/Tag.php';
-        $this->Initialize();
+        $this->initialize();
     }
-    public function Initialize()
+    public function initialize()
     {
         $this->adminError = new AdminError();
         $this->use = new UseClass();
@@ -41,7 +41,7 @@ class Admin
                 mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
             }
         }
-        $use->Alert('ページを作成しました。');
+        $use->alert('ページを作成しました。');
         session_destroy();
     }
 }
@@ -51,12 +51,12 @@ class AdminError
     protected $use;
     public function __construct()
     {
-        $this->use = new PrivateTag\UseClass();
+        $this->use = new Private\Important\UseClass();
     }
 
     public function UserError($message)
     {
-        $this->use->Alert($message);
+        $this->use->alert($message);
         $this->use->BackAdmin('create');
         exit;
     }

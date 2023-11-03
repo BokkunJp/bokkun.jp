@@ -1,7 +1,7 @@
 <?php
 $dbPath = new \Path(PUBLIC_COMPONENT_DIR);
-$dbPath->Add("DB");
-IncludeFiles($dbPath->Get());
+$dbPath->add("DB");
+includeFiles($dbPath->get());
 
 
 /**
@@ -9,7 +9,7 @@ IncludeFiles($dbPath->Get());
  *
  * @return mixed
  */
-function LoadDb($dbName='bokkun_test', $dbPass='bX3Ht6Gk', $tableName='test_db')
+function loadDb($dbName='bokkun_test', $dbPass='bX3Ht6Gk', $tableName='test_db')
 {
     $dbTest = new DB($dbName, $dbPass);
     $dbTest->SetTable($tableName);
@@ -23,7 +23,7 @@ function LoadDb($dbName='bokkun_test', $dbPass='bX3Ht6Gk', $tableName='test_db')
  * @param  array $val
  * @return mixed|boolean
  */
-function InputData($val)
+function inputData($val)
 {
 
     // $dbBokkun = new myPg('bokkun', 'bX3Ht6Gk', 'test_db');
@@ -35,8 +35,8 @@ function InputData($val)
     // $dbBokkunCG = new myPg('bokkun_cg', 'Pp47dNUZ', 'position_zaxis');
     // $dbBokkunCG = new myPg('bokkun_cg', 'Pp47dNUZ', 'timestamp');
 
-    // $dbTest = LoadDb();
-    $dbTest = LoadDb(dbPass:'bokkun_test');
+    // $dbTest = loadDb();
+    $dbTest = loadDb(dbPass:'bokkun_test');
 
     $column = ['id', 'contents'];
 
@@ -53,17 +53,17 @@ function InputData($val)
  * @param  mixed $cond
  * @return void
  */
-function SelectTable($cond)
+function selectTable($cond)
 {
-    // $dbTest = LoadDb();
-    $dbTest = LoadDb(dbPass:'bokkun_test');
+    // $dbTest = loadDb();
+    $dbTest = loadDb(dbPass:'bokkun_test');
 }
 
-function InitializeTable()
+function initializeTable()
 {
-    // $dbTest = LoadDb();
+    // $dbTest = loadDb();
 
-    $dbTest = LoadDb(dbPass:'bokkun_test');
+    $dbTest = loadDb(dbPass:'bokkun_test');
 
 
     $dbTest->SetSequence();
@@ -77,13 +77,13 @@ function InitializeTable()
  * @param  int $id
  * @return mixed
  */
-function DeleteTable($id)
+function deleteTable($id)
 {
-    // $dbTest = LoadDb();
-    $dbTest = LoadDb(dbPass:'bokkun_test');
+    // $dbTest = loadDb();
+    $dbTest = loadDb(dbPass:'bokkun_test');
 
     $column = ['id'];
     $data = [$id];
 
-    $dbTest->Delete($column, $data);
+    $dbTest->delete($column, $data);
 }

@@ -8,29 +8,29 @@ require_once dirname(__DIR__) . DS . "common" . DS . "InitFunction.php";
 require_once dirname(__DIR__) . DS . "common" . DS . "Word" . DS . "Message.php";
 // 設定
 $ajaxPath = new \PathApplication("setting", PUBLIC_COMMON_DIR);
-$ajaxPath->SetAll([
+$ajaxPath->setAll([
     'session' => '',
     'tag' => PUBLIC_COMPONENT_DIR
 ]);
-$ajaxPath->ResetKey("setting");
-$ajaxPath->MethodPath("SetPathEnd");
-$ajaxPath->MethodPath("Add", "Setting.php");
+$ajaxPath->resetKey("setting");
+$ajaxPath->methodPath("SetPathEnd");
+$ajaxPath->methodPath("Add", "Setting.php");
 
-$ajaxPath->ResetKey("session");
-$ajaxPath->MethodPath("SetPathEnd");
-$ajaxPath->MethodPath("Add", "Session.php");
+$ajaxPath->resetKey("session");
+$ajaxPath->methodPath("SetPathEnd");
+$ajaxPath->methodPath("Add", "Session.php");
 
-$ajaxPath->ResetKey("tag");
-$ajaxPath->MethodPath("SetPathEnd");
-$ajaxPath->MethodPath("Add", "Tag.php");
+$ajaxPath->resetKey("tag");
+$ajaxPath->methodPath("SetPathEnd");
+$ajaxPath->methodPath("Add", "Tag.php");
 
-$ajaxPath->All();
-foreach ($ajaxPath->Get() as $path) {
+$ajaxPath->all();
+foreach ($ajaxPath->get() as $path) {
     require_once $path;
 }
 
 //直接のページ遷移を阻止
-$request = public\Setting::JudgeAjax();
+$request = Public\Important\Setting::JudgeAjax();
 if (is_null($request)) {
     http_response_code(403);
     $homepageTitle = 'Forbidden';

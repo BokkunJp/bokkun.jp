@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-SetPlugin('smarty');
+setPlugin('smarty');
 $smarty = new Smarty();
 
 $smarty->template_dir = './subdirectory/templates/';
@@ -14,18 +14,18 @@ $smarty->config_dir   = './subdirectory/configs/';
 $smarty->cache_dir    = './subdirectory/cache/';
 
 // jsファイル読み込み
-$jsTitle = CreateClient('log');
-IncludeJSFiles($jsTitle);
+$jsTitle = createClient('log');
+includeJsFiles($jsTitle);
 
-if ($session->Judge('addition')) {
-    $smarty->assign('session', $session->Read('addition'));
-    $session->Delete('addition');
+if ($session->judge('addition')) {
+    $smarty->assign('session', $session->read('addition'));
+    $session->delete('addition');
 }
 
-$dirPath = rtrim(dirname(__DIR__, 5), "\\") . CreateClient('log', 'log');
-// print_r(private\Setting::GetServerName());
+$dirPath = rtrim(dirname(__DIR__, 5), "\\") . createClient('log', 'log');
+// print_r(Private\Important\Setting::getServerName());
 // ディレクトリを除外
-$domain = private\Setting::GetServerName();
+$domain = Private\Important\Setting::getServerName();
 $dir = scandir($dirPath);
 foreach ($dir as $_key => $_val) {
     if (!preg_match("/^{$domain}/", $_val)) {

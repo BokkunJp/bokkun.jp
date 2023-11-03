@@ -1,7 +1,7 @@
 <?php
 $basePath = new \Path(__DIR__);
-$basePath->Add("Base");
-IncludeFiles($basePath->Get(), 'php', false, ['BaseValid']);
+$basePath->add("Base");
+includeFiles($basePath->get(), 'php', false, ['BaseValid']);
 class Valid extends BaseVaild
 {
 }

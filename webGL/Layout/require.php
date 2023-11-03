@@ -8,7 +8,7 @@ require_once dirname(__DIR__, 2) . DS . 'public' . DS .'common' . DS . 'InitFunc
 $publicPathList = new PathApplication('word', dirname(__DIR__, 2));
 
 // それぞれの変数セット
-$publicPathList->SetAll([
+$publicPathList->setAll([
     'setting' => '',
     'tag' => '',
     'config' => '',
@@ -20,43 +20,43 @@ $publicPathList->SetAll([
 
 // パスの追加
 // ヘッダー・フッター
-$publicPathList->ResetKey('config');
-$publicPathList->MethodPath('AddArray', ['common', 'Config.php']);
+$publicPathList->resetKey('config');
+$publicPathList->methodPath('AddArray', ['common', 'Config.php']);
 
 // 定数・固定文言など
-$publicPathList->ResetKey('word');
-$publicPathList->MethodPath('AddArray', ['public', 'common', 'Word', 'Message.php']);
+$publicPathList->resetKey('word');
+$publicPathList->methodPath('AddArray', ['public', 'common', 'Word', 'Message.php']);
 
 // 設定
-$publicPathList->ResetKey('setting');
-$publicPathList->MethodPath('AddArray', ['public', 'common', 'Setting.php']);
+$publicPathList->resetKey('setting');
+$publicPathList->methodPath('AddArray', ['public', 'common', 'Setting.php']);
 
 // タグ
-$publicPathList->ResetKey('tag');
-$publicPathList->MethodPath('AddArray', ['public', 'common', 'Component', 'Tag.php']);
+$publicPathList->resetKey('tag');
+$publicPathList->methodPath('AddArray', ['public', 'common', 'Component', 'Tag.php']);
 
 // セッション
-$publicPathList->ResetKey('session');
-$publicPathList->MethodPath('AddArray', ['public', 'common', 'Session.php']);
+$publicPathList->resetKey('session');
+$publicPathList->methodPath('AddArray', ['public', 'common', 'Session.php']);
 
 // トークン
-$publicPathList->ResetKey('token');
-$publicPathList->MethodPath('AddArray', ['public', 'common', 'Token.php']);
+$publicPathList->resetKey('token');
+$publicPathList->methodPath('AddArray', ['public', 'common', 'Token.php']);
 
 // ファイル読み込み
-$publicPathList->ResetKey('include');
-$publicPathList->MethodPath('AddArray', ['public', 'common', 'Include.php']);
+$publicPathList->resetKey('include');
+$publicPathList->methodPath('AddArray', ['public', 'common', 'Include.php']);
 
 // UA
-$publicPathList->ResetKey('ua');
-$publicPathList->MethodPath('AddArray', ['public', 'common', 'Component', 'UA.php']);
+$publicPathList->resetKey('ua');
+$publicPathList->methodPath('AddArray', ['public', 'common', 'Component', 'UA.php']);
 
 // パスの出力
-$publicPathList->All();
-foreach ($publicPathList->Get() as $key => $path) {
+$publicPathList->all();
+foreach ($publicPathList->get() as $key => $path) {
     require_once $path;
     if ($key === 'ua') {
-    $ua = new Public\UA();
+    $ua = new Public\Important\UA();
     }
 }
 
@@ -67,10 +67,10 @@ foreach ($publicPathList->Get() as $key => $path) {
 // }
 
 // 共通処理に必要なグローバル変数
-$base = new public\Setting();
+$base = new Public\Important\Setting();
 
 // UA設定
-$ua = new Public\UA();
+$ua = new Public\Important\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 $homepageTitle = basename(getcwd());
 $title = htmlspecialchars($homepageTitle);

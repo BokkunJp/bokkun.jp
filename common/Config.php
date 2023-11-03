@@ -15,7 +15,7 @@ class Header extends Config
      *
      * @return string
      */
-    private function SetVersion(): string
+    private function setVersion(): string
     {
         switch ($_SERVER['SERVER_NAME']) {
             case 'bokkun.xyz':
@@ -33,9 +33,9 @@ class Header extends Config
         }
         return $ret;
     }
-    public function GetVersion()
+    public function getVersion()
     {
-        return $this->SetVersion();
+        return $this->setVersion();
     }
 }
 
@@ -50,7 +50,7 @@ class Footer extends Config
      * @param string $arg
      * @return string|array
      */
-    private function SetYear(string $arg): string|array
+    private function setYear(string $arg): string|array
     {
         $time = new DateTime();
         $this->end = $time->format('Y');
@@ -75,8 +75,8 @@ class Footer extends Config
      * @param string $arg
      * @return string
      */
-    public function GetYear(string $arg='')
+    public function getYear(string $arg='')
     {
-        return $this->SetYear($arg);
+        return $this->setYear($arg);
     }
 }

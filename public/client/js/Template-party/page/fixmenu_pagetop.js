@@ -30,13 +30,13 @@ function fm_addEvent(elm,listener,fn){
 	}
 }
 fm_addEvent(window, 'load', function() {
-   var offsettop;
-   offsettop = 350;
-   fm_addEvent(window, 'scroll', function() {
-   if (offsettop < Math.max(document.body.scrollTop,document.documentElement.scrollTop)) {
-       fm_addClass(document.body, 'is-fixed-pagetop');
-   } if ((offsettop - 50) > Math.max(document.body.scrollTop,document.documentElement.scrollTop)) {
-       fm_removeClass(document.body, 'is-fixed-pagetop');
-   }
- });
+    var offsettop;
+    offsettop = 350;
+    fm_addEvent(window, 'scroll', function() {
+        if (offsettop < Math.max(document.body.scrollTop,document.documentElement.scrollTop)) {
+            fm_addClass(document.body, 'is-fixed-pagetop');
+        } if ((offsettop - 50) > Math.max(document.body.scrollTop,document.documentElement.scrollTop)) {
+            fm_removeClass(document.body, 'is-fixed-pagetop');
+        }
+    });
 });

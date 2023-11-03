@@ -1,21 +1,22 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
 // $pathClass = new \Path('aaa');
-// $pathClass->Add('test');
+// $pathClass->add('test');
 
 // $cache = new \Cache('test');
 
-use Public\Session;
-use Public\Token;
+use Public\Important\Session;
+use Public\Important\Token;
 
 $name = "cache-csrf";
 $session = new Session($name);
 $csrf = new Token($name, $session);
-if (!$csrf->Check()) {
+
+if (!$csrf->check()) {
     echo "<div class='warning'>不正な遷移です。</div>";
 }
 ?>
 <form action='./' method='POST'>
       <button>ボタンを押してね！</button>
-      <?=$csrf->GetTag()?>
+      <?=$csrf->getTag()?>
 </form>

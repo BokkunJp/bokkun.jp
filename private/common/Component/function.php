@@ -7,10 +7,10 @@ class Setting
 
     public function __construct()
     {
-        $this->Initialize();
+        $this->initialize();
     }
 
-    protected function Initialize()
+    protected function initialize()
     {
         unset($this->authorities);
         $this->authorities = array();
@@ -26,31 +26,31 @@ class Setting
         }
     }
 
-    protected function DenyAuthority($authority)
+    protected function denyAuthority($authority)
     {
         $this->DenyAuthoritys([$authority]);
     }
 
-    protected function AllowAuthoritys($authority)
+    protected function allowAuthoritys($authority)
     {
         $key = array_keys($this->authorities, $authority);
         $this->authorities = array_splice($this->authorities, $key, 1);
     }
 
-    protected function AllowAuthority($authority)
+    protected function allowAuthority($authority)
     {
         $key = array_keys($this->authorities, $authority);
         $this->authorities = array_splice($this->authorities, $key, 1);
     }
 
-    public function SetDefault($authority)
+    public function setDefault($authority)
     {
-        $this->Initialize();
+        $this->initialize();
         $this->DenyAuthoritys($authority);
     }
 
 
-    public function ViewAuthority($authorityName=null)
+    public function viewAuthority($authorityName=null)
     {
         if (!isset($authorityName)) {
             foreach ($this->authorities as $value) {
@@ -62,7 +62,7 @@ class Setting
     }
 
     // タグ名リスト生成
-    public function CreateAuthorityList($notuseList)
+    public function createAuthorityList($notuseList)
     {
         $select = '<select>';
         $authorityList = $this->authorities;

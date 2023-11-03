@@ -20,10 +20,12 @@ BufferObject.prototype.create = function (context, data, type) {
 
 BufferObject.prototype.make = function (context, type)
 {
-    if (type == 'VBO')
+    if (type == 'VBO') {
+
         this.type = context.ARRAY_BUFFER;
-    else if (type == 'IBO')
+    } else if (type == 'IBO') {
         this.type = context.ELEMENT_ARRAYBUFFER;
+    }
     context.bindBuffer(this.type, this.buffer);
     if (type == 'VBO') {
         context.enableVertexAttribArray(attLocation);

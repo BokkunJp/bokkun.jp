@@ -51,7 +51,7 @@ class myPg
             }
 
             // カラムからプレースホルダを生成
-            $placeholder = MoldData($col);
+            $placeholder = moldData($col);
 
 
             $this->sql = $sql;
@@ -74,10 +74,10 @@ class myPg
     public function Insert($cols, $vals)
     {
         // カラムからプレースホルダを生成
-        $placeholder = MoldData($this->SetPlaceholder($cols));
+        $placeholder = moldData($this->SetPlaceholder($cols));
 
         // カラムを成型
-        $cols = MoldData($cols);
+        $cols = moldData($cols);
 
         $sql  = "Insert into {$this->tableName}({$cols}) values({$placeholder})";
 

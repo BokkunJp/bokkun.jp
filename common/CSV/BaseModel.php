@@ -1,35 +1,36 @@
 <?php
 
-$csvPath = new \Path(PUBLIC_CSV_DIR, '/');
-$cwdPath = new \Path(getcwd(), '/');
-define('CSV_PATH', $csvPath->Get() . $cwdPath->Get());
+$csvPath = new \Path(PUBLIC_CSV_DIR);
+$cwdPath = new \Path(getcwd());
+$csvPath->add(basename($cwdPath->get()));
+define('CSV_PATH', $csvPath->get());
 define("EXTENSION_NONE_TRUE", 2);
 class CSV1_Base
 {
     private $data;
     private $tmp;
 
-    protected function MakeData()
+    protected function makeData()
     {
         $this->data = [];
     }
 
-    protected function AddHeader($header)
+    protected function addHeader($header)
     {
         $this->data[0] = $header;
     }
 
-    protected function GetHeader()
+    protected function getHeader()
     {
         return $this->data[0];
     }
 
-    protected function AddData($inData)
+    protected function addData($inData)
     {
         $this->data[] = $inData;
     }
 
-    protected function EditData($col, $inData)
+    protected function editData($col, $inData)
     {
         if (is_numeric($col) && $col >= 1) {
             $this->data[$col] = $inData;
@@ -38,7 +39,7 @@ class CSV1_Base
         }
     }
 
-    protected function InputCommonValidate()
+    protected function inputCommonValidate()
     {
         $ret = true;
         if (!isset($this->tmp) || is_null($this->tmp)) {
@@ -51,21 +52,21 @@ class CSV1_Base
         return $ret;
     }
 
-    protected function SetCommons($data)
+    protected function setCommons($data)
     {
         $this->tmp = $data;
-        $validate = $this->InputCommonValidate();
+        $validate = $this->inputCommonValidate();
         $this->tmp = null;
 
         return $validate;
     }
 
-    protected function CountValidate($data)
+    protected function countValidate($data)
     {
-        return count($this->GetHeader()) === count($data) ? true : false;
+        return count($this->getHeader()) === count($data) ? true : false;
     }
 
-    public function ViewData($type = '')
+    public function viewData($type = '')
     {
         if ($type === 'all') {
             print_r($this->data);
@@ -85,17 +86,17 @@ class CSV1_Base
      * @param [String] $filePath
      * @return void
      */
-    protected function ReadFile($fileName, $filePath = CSV_PATH)
+    protected function readFile($fileName, $filePath = CSV_PATH)
     {
         // ファイルパスにCSVファイルが存在しない場合は終了
         $filePath = new \Path($filePath, '/');
-        $filePath->Add($fileName);
-        if (!file_exists($filePath->Get())) {
+        $filePath->add($fileName);
+        if (!file_exists($filePath->get())) {
             return false;
         }
 
         $this->data = null; // データリセット
-        $fileHandler = fopen($filePath->Get(), "r");
+        $fileHandler = fopen($filePath->get(), "r");
         if ($fileHandler) {
             while ($_data = fgetcsv($fileHandler)) {
                 if ($_data === false) {
@@ -114,12 +115,12 @@ class CSV1_Base
      *
      * @return boolean|array
      */
-    protected function MoldCsv($option)
+    protected function moldCsv($option)
     {
         if (!isset($this->data) || !is_array($this->data)) {
             return false;
         }
-        $header = $this->GetHeader();
+        $header = $this->getHeader();
         $row = $this->data;
         unset($row[0]);
         $ret = null;
@@ -150,7 +151,7 @@ class CSV1_Base
      * @param string $extensiton
      * @return void
      */
-    protected function ValidateName($haystack, $extensiton = 'csv')
+    protected function validateName($haystack, $extensiton = 'csv')
     {
         $ret = true;
 
@@ -194,7 +195,7 @@ class CSV1_Base
      * @param string $filePath
      * @return void
      */
-    protected function MakeFile($fileName, $filePath = CSV_PATH)
+    protected function makeFile($fileName, $filePath = CSV_PATH)
     {
 
         // CSV保管用のディレクトリがない場合は作成
@@ -203,8 +204,8 @@ class CSV1_Base
         }
 
         $filePath = new \Path($filePath, '/');
-        $filePath->Add($fileName);
-        $fileHandler = @fopen($filePath->Get(), "w");
+        $filePath->add($fileName);
+        $fileHandler = @fopen($filePath->get(), "w");
 
         // ファイルの読み込みに失敗した場合は中断
         if ($fileHandler === false) {
@@ -230,13 +231,13 @@ class CSV1_Base
      * @param [type] $data
      * @return array|boolean
      */
-    protected function ValidateNumber($data)
+    protected function validateNumber($data)
     {
         if (is_array($data)) {
             $ret = [];
 
             foreach ($data as $_key => $_val) {
-                $ret[$_key] = $this->ValidateNumber($_val);
+                $ret[$_key] = $this->validateNumber($_val);
             }
         } else {
             $ret = true;

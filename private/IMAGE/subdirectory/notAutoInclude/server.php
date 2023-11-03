@@ -2,34 +2,34 @@
 
 require_once __DIR__ . '/component/require.php';
 require_once dirname(__DIR__) . '/File.php';
-$files = private\Setting::GetFiles();
+$files = Private\Important\Setting::getFiles();
 
 // ページ数取得
-$page = private\Setting::GetQuery('page');
+$page = Private\Important\Setting::getQuery('page');
 $str = 'private/IMAGE';
 $str .= !empty($page) ? "?page={$page}" : "";
 
 // セッション開始
-$session = new private\Session();
+$session = new Private\Important\Session();
 
-$mode = private\Setting::GetQuery('mode');
+$mode = Private\Important\Setting::getQuery('mode');
 
 if (!empty($mode) && $mode === 'edit') {
     // view-tokenチェック
-    $viewToken = new private\Token('view-token', $session);
-    if ($viewToken->Check() === false) {
-        $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
-        $url = new private\Setting();
-        header('Location:' . $url->GetUrl($str));
+    $viewToken = new Private\Important\Token('view-token', $session);
+    if ($viewToken->check() === false) {
+        $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $url = new Private\Important\Setting();
+        header('Location:' . $url->getUrl($str));
         exit;
     }
 
-    $posts = private\Setting::getPosts();
+    $posts = Private\Important\Setting::getPosts();
 
     if (isset($posts['delete'])) {
         // 削除の場合
         $deleteImages = $imageNameArray = [];
-        $allImage = LoadAllImageFile();
+        $allImage = loadAllImageFile();
 
         $judge = ValidateDeleteImage($posts);
         if ($judge === true) {
@@ -57,7 +57,7 @@ if (!empty($mode) && $mode === 'edit') {
                     $noticeWord .= "・". $imageNameArray[$_key]. SUCCESS_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
-                $session->Write('success', $noticeWord, 'Delete');
+                $session->write('success', $noticeWord, 'Delete');
             }
 
             // 削除失敗した画像について
@@ -69,11 +69,11 @@ if (!empty($mode) && $mode === 'edit') {
                     $noticeWord .= "・". $imageNameArray[$_key]. FAIL_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
-                $session->Write('notice', $noticeWord, 'Delete');
+                $session->write('notice', $noticeWord, 'Delete');
             }
         } else {
             // 削除対象が選択されていない場合
-            $session->Write('notice', NOT_FOUND_DLETE_IMAGE, 'Delete');
+            $session->write('notice', NOT_FOUND_DLETE_IMAGE, 'Delete');
         }
     } elseif (isset($posts['copy'])) {
         // コピーの場合
@@ -116,29 +116,29 @@ if (!empty($mode) && $mode === 'edit') {
                     $noticeWord .= "・". $result['error']['count']. FAIL_COPYING_IMAGE;
                 }
             }
-            $session->Write('notice', $noticeWord);
+            $session->write('notice', $noticeWord);
             // チェックがある場合は、その状態をセッションへ保持
             if (!empty($copyImgList)) {
-                $session->Write('checkImage', array_flip($copyImgList));
+                $session->write('checkImage', array_flip($copyImgList));
             }
         }
         if (!empty($result['success']['count'])) {
-            $session->Write('success', $result['success']['count']. NUMBER_OF_FILE . SUCCESS_COPY_IMAGE);
+            $session->write('success', $result['success']['count']. NUMBER_OF_FILE . SUCCESS_COPY_IMAGE);
         }
     } else {
         // 削除・複製以外の場合(不正値)
-        $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
-        $url = new private\Setting();
-        header('Location:' . $url->GetUrl($str));
+        $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $url = new Private\Important\Setting();
+        header('Location:' . $url->getUrl($str));
         exit;
     }
 } else {
     // upload-tokenチェック
-    $uploadToken = new private\Token('upload-token', $session);
-    if ($uploadToken->Check() === false) {
-        $session->Write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
-        $url = new private\Setting();
-        header('Location:' . $url->GetUrl($str));
+    $uploadToken = new Private\Important\Token('upload-token', $session);
+    if ($uploadToken->check() === false) {
+        $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $url = new Private\Important\Setting();
+        header('Location:' . $url->getUrl($str));
         exit;
     }
 
@@ -147,9 +147,9 @@ if (!empty($mode) && $mode === 'edit') {
     // ファイルがアップロードされなかった場合
     if (empty($result['success'])) {
         if (empty($result)) {
-            $session->Write('notice', NOT_SELECT_IMAGE);
+            $session->write('notice', NOT_SELECT_IMAGE);
         } elseif ($result == IMAGE_COUNT_OVER) {
-            $session->Write('notice', IMAGE_COUNT_OVER_ERROR);
+            $session->write('notice', IMAGE_COUNT_OVER_ERROR);
         } else {
             // 1枚以上アップロードに成功したファイルがあった場合
             // 一度も発生しなかった結果パターンを除外
@@ -188,15 +188,15 @@ if (!empty($mode) && $mode === 'edit') {
                 $noticeWord .= "・". $result['illegal']['count'] . NUMBER_OF_FILE. ILLEGAL_UPLOAD_IMAGE;
             }
 
-            $session->Write('notice', $noticeWord);
+            $session->write('notice', $noticeWord);
         }
         if (!empty($result['success']['count'])) {
-            $session->Write('success', $result['success']['count']. NUMBER_OF_FILE . SUCCESS_UPLOAD_IMAGE);
+            $session->write('success', $result['success']['count']. NUMBER_OF_FILE . SUCCESS_UPLOAD_IMAGE);
         }
     }
 }
 @session_regenerate_id();
-$session->Write('token', sha1(session_id()));
-// $session->FinaryDestroy();
-$url = new private\Setting();
-header('Location:' . $url->GetUrl($str));
+$session->write('token', sha1(session_id()));
+// $session->finaryDestroy();
+$url = new Private\Important\Setting();
+header('Location:' . $url->getUrl($str));

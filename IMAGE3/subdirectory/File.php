@@ -1,12 +1,12 @@
 <?php
 
-use PublicTag\CustomTagCreate;
+use Public\Important\CustomTagCreate;
 
 require_once('Page.php');
 require_once('View.php');
 
 /**
- * ImportImage
+ * moldFile
  * ファイルデータを成型する
  *
  * @param  array $file
@@ -14,7 +14,7 @@ require_once('View.php');
  *
  * @return array
  */
-function MoldFile(array $file, String $fileName): array
+function moldFile(array $file, String $fileName): array
 {
     $moldFiles = [];
 
@@ -28,12 +28,12 @@ function MoldFile(array $file, String $fileName): array
 }
 
 /**
- * LoadAllImageFile
+ * loadAllImageFile
  * 画像ファイル名を配列で一括取得する
  *
  * @return array
  */
-function LoadAllImageFile()
+function loadAllImageFile()
 {
 
     // 現在アクセスしているページ名を取得
@@ -44,10 +44,10 @@ function LoadAllImageFile()
 
     $imgSrc = [];
     $imagePageNamePath = new \Path(PUBLIC_IMAGE_DIR);
-    $imagePageNamePath->Add($imagePageName);
+    $imagePageNamePath->add($imagePageName);
     foreach ($imgArray as $_index) {
-        $imgSrc[mb_strtolower($_index)] = IncludeFiles($imagePageNamePath->Get(), mb_strtolower($_index), true);
-        $imgSrc[mb_strtoupper($_index)] = IncludeFiles($imagePageNamePath->Get(), mb_strtoupper($_index), true);
+        $imgSrc[mb_strtolower($_index)] = includeFiles($imagePageNamePath->get(), mb_strtolower($_index), true);
+        $imgSrc[mb_strtoupper($_index)] = includeFiles($imagePageNamePath->get(), mb_strtoupper($_index), true);
     }
 
     $ret = [];
@@ -63,7 +63,7 @@ function LoadAllImageFile()
 }
 
 /**
- * TimeSort
+ * sortTime
  * 配列を日時でソートする
  *
  * @param  mixed $data
@@ -71,7 +71,7 @@ function LoadAllImageFile()
  *
  * @return void
  */
-function TimeSort(&$data, string $order = 'ASC')
+function sortTime(&$data, string $order = 'ASC')
 {
     if (is_array($data) == false) {
         echo 'データは配列でなければいけません。';
@@ -102,62 +102,62 @@ function TimeSort(&$data, string $order = 'ASC')
 }
 
 /**
- * ValidParameter
+ * validateParameter
  * ページ関係の内容の検証
  *
  * @param array $data
  * @param boolean $ajaxFlg
  * @return array
  */
-function ValidParameter(array $data=[], bool $ajaxFlg=false)
+function validateParameter(array $data=[], bool $ajaxFlg=false)
 {
     // 現在のページ番号の取得
-    $page = GetPage();
+    $page = getPage();
 
     // 結果配列
     $result = null;
     if ($page <= 0 || $page === false) {
         if ($ajaxFlg === false) {
-            Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-            Output("<div class='image-box'>", indentFlg:false);
-            ErrorSet('ページの指定が不正です。');
-            Output("</div><div class='image-pager'></div>", indentFlg:false);
+            output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+            output("<div class='image-box'>", indentFlg:false);
+            setError('ページの指定が不正です。');
+            output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         return ['result' => false, 'view-image-type' => basename(getcwd())];
     } else {
-        $start = ($page - 1) * GetCountPerPage();
+        $start = ($page - 1) * getCountPerPage();
     }
-    $end = $start + GetCountPerPage();
+    $end = $start + getCountPerPage();
     if ($end > count($data)) {
         $end = count($data);
     }
 
     if ($start >= $end) {
         if ($ajaxFlg === false) {
-            Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-            Output("<div class='image-box'>", indentFlg:false);
-            ErrorSet('現在の枚数表示では、そのページには画像はありません。');
-            Output("</div><div class='image-pager'></div>", indentFlg:false);
+            output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+            output("<div class='image-box'>", indentFlg:false);
+            setError('現在の枚数表示では、そのページには画像はありません。');
+            output("</div><div class='image-pager'></div>", indentFlg:false);
         }
         $result = ['result' => false, 'view-image-type' => basename(getcwd())];
     }
 
     if (!isset($result)) {
-        $result = ['start' => $start, 'end' => $end, 'max' => count(LoadAllImageFile())];
+        $result = ['start' => $start, 'end' => $end, 'max' => count(loadAllImageFile())];
     }
 
     return $result;
 }
 
 /**
- * ChoiceImage
+ * choiceImage
  * 全画像データのうち、表示に必要なデータのみを抽出する
  *
  * @param array $params
  * @param array $data
  * @return array
  */
-function ChoiceImage(array $params, array $data): array
+function choiceImage(array $params, array $data): array
 {
     // 結果用配列
     $cloneImg = [];
@@ -176,14 +176,14 @@ function ChoiceImage(array $params, array $data): array
  *
  * @return void
  */
-function ReadImage($ajaxFlg = false)
+function readImage($ajaxFlg = false)
 {
 
     // 現在のページを取得
     $imagePageName = basename(getcwd());
 
     // アップロードされている画像データを読み込む
-    $fileList = LoadAllImageFile();
+    $fileList = loadAllImageFile();
 
     // ソート用にデータを調整
     $sortAray = array();
@@ -191,31 +191,31 @@ function ReadImage($ajaxFlg = false)
         $sortAray[$index]['name'] = $_file;
 
         $imagePath = new \Path(PUBLIC_IMAGE_DIR);
-        $imagePath->AddArray([$imagePageName, $_file]);
-        $sortAray[$index]['time'] = filemtime($imagePath->Get());
+        $imagePath->addArray([$imagePageName, $_file]);
+        $sortAray[$index]['time'] = filemtime($imagePath->get());
     }
 
     // 画像投稿日時の昇順にソート
-    TimeSort($sortAray);
+    sortTime($sortAray);
 
     // ページ関連で必要なデータの検証
-    $params = ValidParameter($sortAray, $ajaxFlg);
+    $params = validateParameter($sortAray, $ajaxFlg);
     if (isset($params['result']) && $params['result'] === false) {
         return ['result' => false, 'view-image-type' => $imagePageName];
     }
 
     // 画像データを整理
-    $sortAray = ChoiceImage($params, $sortAray, $ajaxFlg);
+    $sortAray = choiceImage($params, $sortAray, $ajaxFlg);
 
     if ($ajaxFlg === true) {
-        return ShowImage($params, $sortAray, IMAGE_URL, $ajaxFlg);
+        return showImage($params, $sortAray, IMAGE_URL, $ajaxFlg);
     } else {
-        ShowImage($params, $sortAray, IMAGE_URL);
+        showImage($params, $sortAray, IMAGE_URL);
     }
 }
 
 /**
- * ShowImage
+ * showImage
  * 画像一覧を公開する
  *
  * @param array $params
@@ -225,7 +225,7 @@ function ReadImage($ajaxFlg = false)
  *
  * @return array|void
  */
-function ShowImage(
+function showImage(
     array $params,
     array $data,
     string $imageUrl,
@@ -241,9 +241,9 @@ function ShowImage(
             $jsData[$i]['name'] = $_data['name'];
             // 画像データの取得
             $imagePath = new \Path(PUBLIC_IMAGE_DIR);
-            $imagePath->AddArray([$imagePageName, $_data['name']]);
+            $imagePath->addArray([$imagePageName, $_data['name']]);
 
-            $jsData[$i]['info'] = CalcImageSize($imagePath->Get(), (int)GetIni('Public', 'ImageMaxSize'));
+            $jsData[$i]['info'] = calcImageSize($imagePath->get(), (int)GetIni('Public', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
             // 画像データが取得できなかった場合は、配列の該当データの削除
             if ($jsData[$i]['info'] === false) {
@@ -253,18 +253,18 @@ function ShowImage(
 
         $jsData['view-image-type'] = $imagePageName;
         $jsUrl = new \Path($imageUrl, '/');
-        $jsUrl->Add($imagePageName);
-        $jsData['url'] = $jsUrl->Get();
+        $jsUrl->add($imagePageName);
+        $jsData['url'] = $jsUrl->get();
         ;
-        $jsData['pager'] = ViewPager($params['max'], $ajaxFlg);
+        $jsData['pager'] = viewPager($params['max'], $ajaxFlg);
 
         return $jsData;
     } else {
         // jQueryで書き換えれるように要素を追加
-        Output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-        Output("<div class='image-box'  ontouchstart=''>", indentFlg:false);
+        output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+        output("<div class='image-box'  ontouchstart=''>", indentFlg:false);
 
-        Output("<ul>", indentFlg:false);
+        output("<ul>", indentFlg:false);
         foreach ($data as $i => $_data) {
             $_file = $_data['name'];
             $_time = $_data['time'];
@@ -280,29 +280,29 @@ function ShowImage(
             }
         }
 
-        Output("</ul>", indentFlg:false);
-        Output("</div>", indentFlg:false);
+        output("</ul>", indentFlg:false);
+        output("</div>", indentFlg:false);
 
-        Output("<div class='image-pager'>", indentFlg:false);
-        ViewPager($params['max']);
-        Output("</div>", indentFlg:false);
+        output("<div class='image-pager'>", indentFlg:false);
+        viewPager($params['max']);
+        output("</div>", indentFlg:false);
     }
 
     return null;
 }
 
 /**
- * ErrorSet
+ * setError
  * エラー文を定義する
  *
  * @param  string $errMsg
  *
  * @return void
  */
-function ErrorSet(string $errMsg = ERROR_MESSAGE)
+function setError(string $errMsg = ERROR_MESSAGE)
 {
     $prevLink = new CustomTagCreate();
-    $prevLink->SetTag('div', $errMsg, 'warning', true);
-    $prevLink->ExecTag(true);
-    $prevLink->SetHref("./", PUBLIC_PREVIOUS, 'page', true, '_self');
+    $prevLink->setTag('div', $errMsg, 'warning', true);
+    $prevLink->execTag(true);
+    $prevLink->setHref("./", PUBLIC_PREVIOUS, 'page', true, '_self');
 }

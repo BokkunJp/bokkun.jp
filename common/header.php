@@ -1,17 +1,17 @@
 <?php
 $img = "0113.png";
 
-$imagePath = new \Path($base->GetUrl('image', 'client', false), '/');
-$imagePath->SetPathEnd();
-$imagePath->Add($img);
+$imagePath = new \Path($base->getUrl('image', 'client', false), '/');
+$imagePath->setPathEnd();
+$imagePath->add($img);
 
 ?>
 <header class='header'>
     <div align="left">
         <div>
-            <a href="<?= $base->GetUrl('') ?>"><img class='top-image' src="<?= $imagePath->Get() ?>"></a>
+            <a href="<?= $base->getUrl('') ?>"><img class='top-image' src="<?= $imagePath->get() ?>"></a>
             <strong>
-                <em>βοκκμη homepage<?= $siteConfig['header']->GetVersion() ?></em> <br />
+                <em>βοκκμη homepage<?= $siteConfig['header']->getVersion() ?></em> <br />
                 <div class="top" align="center"><?php if (isset($title)) {
     echo $title;
 } else {

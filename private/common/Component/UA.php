@@ -1,6 +1,6 @@
 <?php
 
-namespace private;
+namespace Private\Important;
 
 class UA
 {
@@ -45,7 +45,7 @@ class UA
      *
      * @return integer
      */
-    public function DesignJudge(): int
+    public function judgeDevice(): int
     {
         if ($this->judge('iPhone')|| $this->judge('Android')) {
             return 2;

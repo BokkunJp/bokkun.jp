@@ -1,6 +1,6 @@
 <?php
 
-SetPlugin('qr-code');
+setPlugin('qr-code');
 
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
@@ -11,7 +11,7 @@ trait CommonTrait
 {
     private const FINISH = 1;
     /**
-     * Sanitize
+     * sanitize
      *
      * ヌルバイト対策 (POST, GET)
      *
@@ -19,20 +19,20 @@ trait CommonTrait
      *
      * @return mixed
      */
-    protected function Sanitize(mixed $arr): mixed
+    protected function sanitize(mixed $arr): mixed
     {
         if (!is_string($arr)) {
             return $arr;
         }
 
         if (is_array($arr)) {
-            return array_map('Sanitize', $arr);
+            return array_map('sanitize', $arr);
         }
         return str_replace("\0", "", $arr);     //ヌルバイトの除去
     }
 
     /**
-     * CreateClient
+     * createClient
      *
      * 所定のディレクトリまでのディレクトリ群を走査し、パスを生成する。
      *
@@ -41,7 +41,7 @@ trait CommonTrait
      *
      * @return string
      */
-    public function CreateClient($target, $src = ''): string
+    public function createClient($target, $src = ''): string
     {
         if (empty($src)) {
             $srcPath = getcwd();
@@ -68,8 +68,8 @@ trait CommonTrait
 
         foreach ($clientAry as $_client) {
             $client = new Path($clientPath);
-            $client->Add($_client);
-            $clientPath = $client->Get();
+            $client->add($_client);
+            $clientPath = $client->get();
         }
 
         return $clientPath;
@@ -102,7 +102,7 @@ trait CommonTrait
             $options = FILTER_NULL_ON_FAILURE;
         }
 
-        if (SearchData($type, $checkTypes) || filter_has_var($type, $variable_name)) {
+        if (searchData($type, $checkTypes) || filter_has_var($type, $variable_name)) {
             $ret = filter_input($type, $variable_name, $filter, $options);
         } elseif ($type == INPUT_SERVER && isset($_SERVER[$variable_name])) {
             $ret = filter_var($_SERVER[$variable_name], $filter, $options);
@@ -116,7 +116,7 @@ trait CommonTrait
     }
 
     /**
-     * MoldData
+     * moldData
      *
      * データ調整。
      * (配列⇔特定のセパレータで区切られた文字列の相互変換)
@@ -126,7 +126,7 @@ trait CommonTrait
      *
      * @return mixed
      */
-    public function MoldData(mixed $data, string $parameter = ','): mixed
+    public function moldData(mixed $data, string $parameter = ','): mixed
     {
         $ret = false;
         if (is_null($data)) {
@@ -143,7 +143,7 @@ trait CommonTrait
     }
 
     /**
-     * Output
+     * output
      *
      * 出力用のメソッド。
      *
@@ -155,7 +155,7 @@ trait CommonTrait
      *
      * @return void
      */
-    public function Output(
+    public function output(
         mixed $expression,
         bool $formatFlg = false,
         bool $indentFlg = true,
@@ -180,12 +180,12 @@ trait CommonTrait
         if (!empty($debug)) {
             $debugMessage = DEBUG_MESSAGE_SOURCE;
             $debugTrace = debug_backtrace();
-            $debugValidate = $this->DebugValidate($debug, $debugTrace);
+            $debugValidate = $this->debugValidate($debug, $debugTrace);
             if (!empty($debugValidate)) {
-                $errScript = new BasicTag\ScriptClass();
+                $errScript = new Public\Important\ScriptClass();
                 foreach ($debugValidate as $_DEBUG_KEY) {
                     if ($debugMessage[$_DEBUG_KEY]) {
-                        $errScript->Alert($debugMessage[$_DEBUG_KEY]);
+                        $errScript->alert($debugMessage[$_DEBUG_KEY]);
                     }
                 }
                 return -1;
@@ -226,7 +226,7 @@ trait CommonTrait
      *
      * @return array
      */
-    private function DebugValidate(array $debug, array $debugTrace): array
+    private function debugValidate(array $debug, array $debugTrace): array
     {
         $validate = [];
 
@@ -251,7 +251,7 @@ trait CommonTrait
     }
 
     /**
-     * CreateRandom
+     * createRandom
      *
      * 指定した桁数x2の乱数の生成。
      *
@@ -260,20 +260,20 @@ trait CommonTrait
      *
      * @return string
      */
-    public function CreateRandom(int $length, string $type = 'security'): string
+    public function createRandom(int $length, string $type = 'security'): string
     {
         switch ($type) {
             case 'security':
                 $bytes = bin2hex(openssl_random_pseudo_bytes($length));
                 break;
             case 'sha1':
-                $bytes = sha1($this->CreateRandom($length, 'mt_rand'));
+                $bytes = sha1($this->createRandom($length, 'mt_rand'));
                 break;
             case 'md5':
-                $bytes = md5($this->CreateRandom($length, 'mt_rand'));
+                $bytes = md5($this->createRandom($length, 'mt_rand'));
                 break;
             case 'uniq':
-                $bytes = (string)uniqid($this->CreateRandom($length, 'mt_rand'));
+                $bytes = (string)uniqid($this->createRandom($length, 'mt_rand'));
                 break;
             case 'mt_rand':
                 $bytes = (string)mt_rand(0, $length);
@@ -282,30 +282,30 @@ trait CommonTrait
                 $bytes = bin2hex(random_bytes($length));
                 break;
             default:
-                $bytes = $this->CreateRandom($length);
+                $bytes = $this->createRandom($length);
                 break;
         }
         return $bytes;
     }
 
     /**
-     * Output
+     * output
      *
      * デバッグ用のメソッド。
-     * (Outputのデバッグ設定用のラッパー)
+     * (outputのデバッグ設定用のラッパー)
      *
      * @param mixed $expression
      *
      * @return void
      */
-    function Debug(mixed $expression): void
+    function debug(mixed $expression): void
     {
-        Output($expression, true, true, true);
+        output($expression, true, true, true);
     }
 
 
     /**
-     * SetComposerPlugin
+     * setComposerPlugin
      *
      * Composerを使ったプラグインを読み込む。
      * (通常のプラグインと違い、全ディレクトリではなく/vendor/autoLoader.phpを読み込む)
@@ -313,20 +313,20 @@ trait CommonTrait
      * @param string $name
      * @return void
      */
-    protected function SetComposerPlugin($name) {
+    protected function setComposerPlugin($name) {
         $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-        $allPluginPath->SetAll([
-            'vendorDir' => $allPluginPath->Get(),
-            'requireFile' => $allPluginPath->Get(),
+        $allPluginPath->setAll([
+            'vendorDir' => $allPluginPath->get(),
+            'requireFile' => $allPluginPath->get(),
         ]);
 
-        $allPluginPath->ResetKey('vendorDir');
-        $allPluginPath->MethodPath('Add', $name);
-        $pluginDir = $allPluginPath->Get();
+        $allPluginPath->resetKey('vendorDir');
+        $allPluginPath->methodPath('Add', $name);
+        $pluginDir = $allPluginPath->get();
 
-        $allPluginPath->ResetKey('requireFile');
-        $allPluginPath->MethodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
-        $requireFile = $allPluginPath->Get();
+        $allPluginPath->resetKey('requireFile');
+        $allPluginPath->methodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
+        $requireFile = $allPluginPath->get();
 
         if (is_dir($pluginDir) && is_file($requireFile)) {
             require_once $requireFile;
@@ -334,7 +334,7 @@ trait CommonTrait
     }
 
     /**
-     * SetPlugin
+     * setPlugin
      *
      * 指定したプラグインを読み込む。
      *
@@ -342,62 +342,62 @@ trait CommonTrait
      *
      * @return void
      */
-    public function SetPlugin(string $name): void
+    public function setPlugin(string $name): void
     {
         $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-        $allPluginPath->SetAll([
-            'vendorDir' => $allPluginPath->Get(),
-            'composerJson' => $allPluginPath->Get(),
-            'composerLock' => $allPluginPath->Get(),
+        $allPluginPath->setAll([
+            'vendorDir' => $allPluginPath->get(),
+            'composerJson' => $allPluginPath->get(),
+            'composerLock' => $allPluginPath->get(),
         ]);
 
-        $allPluginPath->ResetKey('vendorDir');
-        $allPluginPath->MethodPath('Add', $name);
-        $pluginDir = $allPluginPath->Get();
+        $allPluginPath->resetKey('vendorDir');
+        $allPluginPath->methodPath('Add', $name);
+        $pluginDir = $allPluginPath->get();
 
-        $allPluginPath->ResetKey('vendorDir');
-        $allPluginPath->MethodPath('Add', "vendor");
-        $vendorDir = $allPluginPath->Get();
+        $allPluginPath->resetKey('vendorDir');
+        $allPluginPath->methodPath('Add', "vendor");
+        $vendorDir = $allPluginPath->get();
 
-        $allPluginPath->ResetKey('composerJson');
-        $allPluginPath->MethodPath('SetPathEnd');
-        $allPluginPath->MethodPath('Add', "composer.json");
-        $composerJson = $allPluginPath->Get();
+        $allPluginPath->resetKey('composerJson');
+        $allPluginPath->methodPath('SetPathEnd');
+        $allPluginPath->methodPath('Add', "composer.json");
+        $composerJson = $allPluginPath->get();
 
-        $allPluginPath->ResetKey('composerLock');
-        $allPluginPath->MethodPath('SetPathEnd');
-        $allPluginPath->MethodPath('Add', "composer.lock");
-        $composerLock = $allPluginPath->Get();
+        $allPluginPath->resetKey('composerLock');
+        $allPluginPath->methodPath('SetPathEnd');
+        $allPluginPath->methodPath('Add', "composer.lock");
+        $composerLock = $allPluginPath->get();
 
         // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
         if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
-            SetComposerPlugin($name);
+            setComposerPlugin($name);
         } elseif (is_dir($pluginDir)) {
-            IncludeDirectories($pluginDir);
+            includeDirectories($pluginDir);
         }
     }
 
     /**
-     * SetAllPlugin
+     * setAllPlugin
      *
      * プラグインを一括で読み込む
      *
      * @return void
      */
-    public function SetAllPlugin(): void
+    public function setAllPlugin(): void
     {
         $addDir = scandir(PLUGIN_DIR);
 
 
         foreach ($addDir as $_key => $_dir) {
             if (!(strpos($_dir, '.') || strpos($_dir, '..'))) {
-                $this->SetPlugin($_dir);
+                $this->setPlugin($_dir);
             }
         }
     }
 
     /**
-     * MakeQrCode
+     * makeQrCode
      *
      * QRコードを生成する。
      *
@@ -407,7 +407,7 @@ trait CommonTrait
      *
      * @return void
      */
-    public function MakeQrCode(int $size, string $contents, bool $outputFlg = false)
+    public function makeQrCode(int $size, string $contents, bool $outputFlg = false)
     {
         $qrCode = new QrCode('qr-sample');
         $qrCode->setEncoding(new Encoding('UTF-8'));
@@ -419,7 +419,7 @@ trait CommonTrait
         $qrWriter = $writer->write($qrCode);
 
         if ($outputFlg === true) {
-            $this->Output("<img src=\"". $qrWriter->getDataUri(). "\"></img>");
+            $this->output("<img src=\"". $qrWriter->getDataUri(). "\"></img>");
             return null;
         } else {
             return $qrWriter->getDataUri();
@@ -427,7 +427,7 @@ trait CommonTrait
     }
 
     /**
-     * SearchData
+     * searchData
      * in_arrayの代替処理。
      * (in_arrayは速度的に問題があるため、issetで対応する)
      *
@@ -436,7 +436,7 @@ trait CommonTrait
      *
      * @return bool
      */
-    public function SearchData($target, array $arrayData): bool
+    public function searchData($target, array $arrayData): bool
     {
         $filipData = array_flip($arrayData);
 
@@ -459,7 +459,7 @@ trait CommonTrait
      *
      * @return array
      */
-    public function MoldImageConfig($imageConfig): array
+    public function moldImageConfig($imageConfig): array
     {
         $ret = [];
         if (is_array($imageConfig)) {
@@ -476,7 +476,7 @@ trait CommonTrait
     }
 
     /**
-     * CalcImageSize
+     * calcImageSize
      *
      *画像のサイズを計算する。
     *
@@ -485,8 +485,9 @@ trait CommonTrait
     *
     * @return array|false
     */
-    public function CalcImageSize(string $imageName, string|int $imageSizeViewValue): array|false
+    public function calcImageSize(string $imageName, string|int $imageSizeViewValue): array|false
     {
+        // 画像が存在しない場合はfalseを返す
         if (!file_exists($imageName) || !exif_imagetype($imageName)) {
             return false;
         }
@@ -503,53 +504,19 @@ trait CommonTrait
             }
         }
         $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
-        $ret = array_merge(MoldImageConfig($imageConfig), $ret);
+        $ret = array_merge(moldImageConfig($imageConfig), $ret);
 
         return $ret;
     }
 
     /**
-     * CalcAllImageSize
-     *
-     * 全ての画像のサイズを計算する
-    *
-    * @param string $imageName 画像名(画像パス含む)
-    *
-    * @return array|false
-    */
-    public function CalcAllImageSize(string $imageName): array|false
-    {
-        if (!is_string($imageName)) {
-            $ret = false;
-        } else {
-            $imageConfig = getimagesize($imageName);
-            $imageSize = filesize($imageName);
-            $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
-
-            $imageSizeUnit = '';
-            foreach ($imageSizeUnitArray as $_imageSizeUnit) {
-                if ($imageSize >= IMAGE_MAX_VALUE) {
-                    $imageSize = $imageSize / IMAGE_MAX_VALUE;
-                    $imageSizeUnit = $_imageSizeUnit;
-                }
-            }
-
-            $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
-
-            $ret = array_merge(MoldImageConfig($imageConfig), $ret);
-        }
-
-        return $ret;
-    }
-
-    /**
-     * EmptyValidate
+     * emptyValidate
      *
      * @param mixed $validate
      * @param string|null $word
      * @return boolean|null
      */
-    public function EmptyValidate(mixed $validate, ?string $word = null): ?bool
+    public function emptyValidate(mixed $validate, ?string $word = null): ?bool
     {
         $v = null;
 
@@ -574,13 +541,13 @@ trait CommonTrait
     }
 
     /**
-     * CheckMemory
+     * checkMemory
      *
      * メモリを可視化する
      *
      * @return void
      */
-    public function CheckMemory(): void
+    public function checkMemory(): void
     {
         static $initialMemoryUse = null;
 
@@ -588,6 +555,22 @@ trait CommonTrait
             $initialMemoryUse = memory_get_usage();
         }
 
-        Output(number_format(memory_get_usage() - $initialMemoryUse), formatFlg:true);
+        output(number_format(memory_get_usage() - $initialMemoryUse), formatFlg:true);
+    }
+
+    protected function validMethod(string $methodName): bool
+    {
+        return method_exists($this, $methodName);
+    }
+
+    public function execMethod($methodName, ...$parameter)
+    {
+        if ($this->validMethod($methodName)) {
+            $return = call_user_func_array([$this, $methodName], $parameter);
+        } else {
+            $return = false;
+        }
+
+        return $return;
     }
 }

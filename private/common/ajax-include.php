@@ -11,7 +11,7 @@
  *
  * @return null|string|array
  */
-function IncludeDirectories($pwd = '', $extension = 'php', $ret = false, array $classLoad=[])
+function includeDirectories($pwd = '', $extension = 'php', $ret = false, array $classLoad=[])
 {
     // パスの指定がない場合は、カレントディレクトリ一覧を取得
     if (empty($pwd)) {
@@ -26,8 +26,8 @@ function IncludeDirectories($pwd = '', $extension = 'php', $ret = false, array $
     foreach ($dirList as $_dirList) {
         if (is_dir($_dirList) && !is_numeric(strpos($_dirList, '.'))) {
             $includeDir = new \Path($pwd);
-            $includeDir->Add($_dirList);
-            IncludeFiles($includeDir->Get(), $extension, $ret, $classLoad);
+            $includeDir->add($_dirList);
+            includeFiles($includeDir->get(), $extension, $ret, $classLoad);
         }
     }
     if (isset($localPath)) {
@@ -51,7 +51,7 @@ function IncludeDirectories($pwd = '', $extension = 'php', $ret = false, array $
  *
  * @return null|array
  */
-function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[])
+function includeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[])
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -63,9 +63,9 @@ function IncludeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
         return spl_autoload_register(function () use ($pwd, $classLoad) {
             while ($name = current($classLoad)) {
                 $classLoader = new \Path($pwd);
-                $classLoader->SetPathEnd();
-                $classLoader->Add("{$name}.php");
-                require_once $classLoader->Get();
+                $classLoader->setPathEnd();
+                $classLoader->add("{$name}.php");
+                require_once $classLoader->get();
                 next($classLoad);
             }
         });

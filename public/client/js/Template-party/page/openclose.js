@@ -1,6 +1,6 @@
 /*
- * ƒuƒƒbƒ
- * 2015/12/21 ƒ{ƒ^ƒ“‰æ‘œ‚Ì”ñ•
+ * ï¿½uï¿½ï¿½ï¿½bï¿½
+ * 2015/12/21 ï¿½{ï¿½^ï¿½ï¿½ï¿½æ‘œï¿½Ì”ï¿½
 
 /*
  * Return the classList p
@@ -25,7 +25,7 @@ function CSSClassList(e) { this.e = e; }
 CSSClassList.prototype.contains = function(c) {
     // Check that c is a valid class name
     if (c.length === 0 || c.indexOf(" ") != -1)
-        throw new Error("Invalid class name: '" + c + "'");
+	     throw new Error("Invalid class name: '" + c + "'");
     // Check common cases first
     var classes = this.e.className;
     if (!classes) return false;       // e has no classes at all
@@ -40,16 +40,14 @@ CSSClassList.prototype.contains = function(c) {
 CSSClassList.prototype.add = function(c) {
     if (this.contains(c)) return;            // Do nothing if already present
     var classes = this.e.className;
-    if (classes && classes[classes.length-1] != " ")
-        c = " " + c;                         // Add a space if we need one
+    if (classes && classes[classes.length-1] != " ")        c = " " + c;                         // Add a space if we need one
     this.e.className += c;                   // Add c to the className
 };
 
 // Remove all occurrences of c from e.className
 CSSClassList.prototype.remove = function(c) {
     // Make sure c is a valid class name
-    if (c.length === 0 || c.indexOf(" ") != -1)
-        throw new Error("Invalid class name: '" + c + "'");
+    if (c.length === 0 || c.indexOf(" ") != -1)        throw new Error("Invalid class name: '" + c + "'");
     // Remove all occurances of c as a word, plus any trailing space
     var pattern = new RegExp("\\b" + c + "\\b\\s*", "g");
     this.e.className = this.e.className.replace(pattern, "");

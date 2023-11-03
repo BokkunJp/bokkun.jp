@@ -6,6 +6,6 @@ class Qr
 }
 
 $qrTest = new Qr();
-$qrTest->MakeQrCode(100, 'test', true);
-$qrTest->MakeQrCode(100, 'bokkun', true);
-$qrTest->MakeQrCode(100, 'https://bokkun.jp', true);
+$qrTest->makeQrCode(100, 'test', true);
+$qrTest->makeQrCode(100, 'bokkun', true);
+$qrTest->makeQrCode(100, 'https://bokkun.jp', true);

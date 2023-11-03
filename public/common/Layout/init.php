@@ -1,12 +1,12 @@
 <?php
 // セッションの設定
-$session = new public\Session();
+$session = new Public\Important\Session();
 
 // UA判定処理
 if (isset($ua)) {
     define('Phone', 2);
     define('PC', 1);
-    switch ($ua->DesignJudge()) {
+    switch ($ua->judgeDevice()) {
         case PC:
             $agentCode = 'PC';
             break;
@@ -21,7 +21,7 @@ if (isset($ua)) {
 
 // パンくずリストの生成 (完成・検証後にSetting.phpに移動)
 $dir = scandir(__DIR__);
-$currentDir = $base->GetURI();
+$currentDir = $base->getUri();
 $count = 0;
 while (1) {
     // タイトル：ディレクトリ名、パス：URL
@@ -41,22 +41,22 @@ while (1) {
 }
 
 // HTML出力用に調整
-use PublicTag\CustomTagCreate as OriginTag;
+use Public\Important\CustomTagCreate as OriginTag;
 
 $create = new OriginTag();
 $breadCrumbList = array();
 foreach ($breadCrumbList as $bread) {
-    $breadCrumbList[] = $create->SetHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
+    $breadCrumbList[] = $create->setHref($http.$bread['path'], $bread['title'], 'breadCrumbList');
 }
 $breadCrumbList = array_reverse($breadCrumbList);
 $breadCrumbList = $breadCrumbList;
 
-$arrow = new \PublicTag\HTMLClass(true);
-$arrow->SetTag('span', '->', 'arrow');
-$arrow = $arrow->ExecTag();
+$arrow = new \Public\Important\HTMLClass(true);
+$arrow->setTag('span', '->', 'arrow');
+$arrow = $arrow->execTag();
 
 // 配列を順に出力する (パンくず出力用)
-function ViewArray($ary, $arow="\t")
+function viewArray($ary, $arow="\t")
 {
     foreach ($ary as $_elm => $_ary) {
         // 配列の末尾では間の文字(矢印)は消す

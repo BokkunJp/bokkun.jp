@@ -17,7 +17,7 @@
     $notList = AddList($notList, $dirList, '_', 1);
 
     foreach ($dirList as $index => $_dir) {
-        if (!SearchData($_dir, $notList) && !preg_match("/\.php$|\.html$/", $_dir)) {
+        if (!searchData($_dir, $notList) && !preg_match("/\.php$|\.html$/", $_dir)) {
             echo "<li><a href=\"./$_dir/\" target=\"_new\">$_dir</a></li>";
         }
     }
@@ -35,7 +35,7 @@
             $dirList = scandir(dirname(__DIR__) . '/cake.bokkun.jp/templates');
             $notList = AddList($notList, $dirList, '_', 1);
             foreach ($dirList as $index => $_dir) {
-                if (!SearchData($_dir, $notList)) {
+                if (!searchData($_dir, $notList)) {
                     echo "<li><a href=\"https://cake.{$domain}/{$_dir}/\" target=\"_blank\">$_dir</a></li>";
                 }
             }

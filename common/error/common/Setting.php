@@ -2,7 +2,7 @@
 
 // サーバの設定
 
-namespace ErrorSetting;
+namespace Error\Important;
 
 $http_flg = filter_input_fix(INPUT_SERVER, 'HTTPS');
 if (isset($http_flg)) {
@@ -16,16 +16,16 @@ $agent = filter_input_fix(INPUT_SERVER, 'HTTP_USER_AGENT');
 $referer = filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
 
 $configPath = new \Path(COMMON_DIR);
-$configPath->SetPathEnd();
-$configPath->Add('Config.php');
-require_once $configPath->Get();
+$configPath->setPathEnd();
+$configPath->add('Config.php');
+require_once $configPath->get();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 
 // 設定関係のクラス
-class Setting extends \common\Setting
+class Setting extends \Common\Important\Setting
 {
     // 公開パスなどのURLを取得
-    public function GetUrl($query='', $type = 'url', $relativePath = false): string
+    public function getUrl($query='', $type = 'url', $relativePath = false): string
     {
         if ($relativePath === false) {
             $url = $this->url;
@@ -70,11 +70,11 @@ class Permmision
 
     public function __construct()
     {
-        $this->Initialize();
+        $this->initialize();
     }
 
     // パーミッション変数の初期化
-    private function Initialize($filePathInit=true, $modeInit=true)
+    private function initialize($filePathInit=true, $modeInit=true)
     {
         if ($filePathInit === true) {
             $this->filePath = '';
@@ -86,22 +86,22 @@ class Permmision
     }
 
     // パーミッション変更
-    private function Convert($fileNamePath, $mode)
+    private function convert($fileNamePath, $mode)
     {
         @chmod($fileNamePath, $mode);
     }
 
     // パーミッション許可
-    public function Allow($filePath, $orderName, $mode)
+    public function allow($filePath, $orderName, $mode)
     {
         if ($orderName) {
         }
         // $this->WhoCheck();
-        $this->Convert($filePath, $mode);
+        $this->convert($filePath, $mode);
     }
 
     // パーミッション拒否
-    public function Deny($filePath, $orderName, $mode)
+    public function deny($filePath, $orderName, $mode)
     {
     }
 }
@@ -112,22 +112,22 @@ class Session
     private $session;
     public function __construct()
     {
-        $this->Read();
+        $this->read();
         $this->init = $this->session;
     }
 
-    private function Write()
+    private function write()
     {
         $_SESSION = $this->session;
     }
 
-    public function Add($sessionElm, $sessionVal)
+    public function add($sessionElm, $sessionVal)
     {
         $this->session[$sessionElm] = $sessionVal;
-        $this->Write();
+        $this->write();
     }
 
-    public function Read($sessionElm=null)
+    public function read($sessionElm=null)
     {
         if (isset($_SESSION)) {
             $this->session = $_SESSION;
@@ -142,7 +142,7 @@ class Session
         }
     }
 
-    public function Delete($sessionElm=null)
+    public function delete($sessionElm=null)
     {
         if (!isset($_SESSION)) {
             trigger_error('Session is already deleted.', E_USER_ERROR);
@@ -150,7 +150,7 @@ class Session
         }
         if (isset($sessionElm)) {
             unset($this->session[$sessionElm]);
-            $this->Write();
+            $this->write();
         } else {
             unset($this->session);
             $this->session = $this->init;
@@ -158,7 +158,7 @@ class Session
     }
 
     // セッション閲覧用
-    public function View($id=null)
+    public function view($id=null)
     {
         if (isset($id)) {
             if (isset($this->session[$id])) {
@@ -172,8 +172,8 @@ class Session
         return true;
     }
 
-    // セッションの完全な破棄
-    public function Destroy()
+    // セッションの完全な破棄s
+    public function destroy()
     {
         session_unset();
 
@@ -191,6 +191,6 @@ class Session
 // インスタンスの定義
 $base = new Setting();
 $includePath = new \Path(__DIR__);
-$includePath->SetPathEnd();
-$includePath->Add('Include.php');
-require_once $includePath->Get();
+$includePath->setPathEnd();
+$includePath->add('Include.php');
+require_once $includePath->get();

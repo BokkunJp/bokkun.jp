@@ -1,9 +1,9 @@
 /*
-	Ajaxを用いて、ローカルファイルにアクセスする
+	ajaxを用いて、ローカルファイルにアクセスする
 */
-function Ajax(TYPE = null, URL = null, DATA = null, CallBack = Loop) {
+function ajax(TYPE = null, URL = null, DATA = null, CallBack = Loop) {
 
-    this.Load(TYPE, URL, DATA); // XHR起動
+    this.load(TYPE, URL, DATA); // XHR起動
     var xhr = this; // Ajax処理の引継ぎ
     this.xhr.onload = function() { // ロード完了
 
@@ -20,7 +20,8 @@ function Ajax(TYPE = null, URL = null, DATA = null, CallBack = Loop) {
 Ajax.prototype.Load = function(TYPE, URL, DATA = null) {
     // Ajaxが対応していないタイプは除外
     if (!(TYPE === 'GET' || TYPE === 'POST' ||
-            TYPE === 'PUT' || TYPE === 'DELETE')) {
+          TYPE === 'PUT' || TYPE === 'DELETE')
+    ) {
         throw new Error('サポートされていないタイプです。');
     } else {
         console.log('TYPE: ' + TYPE);

@@ -18,14 +18,14 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false): void
     $imagePageName = GetImagePageName();
 
     // iniの内容を取得してセッションに保存
-    $session = new private\Session();
-    if (empty($session->Read('imageMaxSize-ini'))) {
-        $session->Write("imageMaxSize-ini", (int)GetIni('private', 'ImageMaxSize'));
+    $session = new Private\Important\Session();
+    if (empty($session->read('imageMaxSize-ini'))) {
+        $session->write("imageMaxSize-ini", (int)GetIni('private', 'ImageMaxSize'));
     }
 
     $imagePath = new \Path(PUBLIC_IMAGE_DIR);
-    $imagePath->AddArray([$imagePageName, $imageName]);
-    $imageData = CalcImageSize($imagePath->Get(), $session->Read('imageMaxSize-ini'));
+    $imagePath->addArray([$imagePageName, $imageName]);
+    $imageData = calcImageSize($imagePath->get(), $session->read('imageMaxSize-ini'));
 
     // 画像データが存在する場合は出力
     if ($imageData) {

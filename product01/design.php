@@ -1,29 +1,29 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-use BasicTag\ScriptClass;
-use public\Setting as Setting;
+use Public\Important\ScriptClass;
+use Public\Important\Setting as Setting;
 
-if (!class_exists('Public\Token')) {
+if (!class_exists('Public\Important\Token')) {
     $tokenPath = new \Path(PUBLIC_COMMON_DIR);
-    $tokenPath->SetPathEnd();
-    $tokenPath->Add('Token.php');
-    require_once $tokenPath->Get();
+    $tokenPath->setPathEnd();
+    $tokenPath->add('Token.php');
+    require_once $tokenPath->get();
 }
 
-$posts = public\Setting::GetPosts();
-$product01CsvToken = new Public\Token('product01-csv-token', $session, true);
+$posts = Public\Important\Setting::getPosts();
+$product01CsvToken = new Public\Important\Token('product01-csv-token', $session, true);
 
 if (isset($posts['csv']) && $posts['csv'] === 'make') {
     $alert = new ScriptClass();
 
     if (isset($posts['send'])) {
-        $alert->Alert('CSVを作成します。');
+        $alert->alert('CSVを作成します。');
         $inputFlg = true;
     } elseif (isset($posts['view'])) {
         $inputFlg = false;
     }
 
-    Main($inputFlg);
+    main($inputFlg);
 }
 ?>
 <form method='POST'>
@@ -66,12 +66,12 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
         </tbody>
     </table>
     <input type='hidden' name='csv' value="make" />
-    <?php $product01CsvToken->Set(); ?>
+    <?php $product01CsvToken->set(); ?>
     <button type='submit' name='send' value='true'>データを送信</button>
     <button type='submit' name='view' value='true'>データを表示</button>
 </form>
 <?php
-$csvData = $session->Read('csv');
+$csvData = $session->read('csv');
 if (empty($csvData)) {
     $csvData['header'] = null;
     $csvData['row'] = null;
@@ -85,29 +85,30 @@ if (empty($csvData)) {
 
 <?php
 $filePath = new \Path(PUBLIC_CSV_DIR);
-$filePath->Add(basename(__DIR__));
-$filePath = $filePath->Get();
+$filePath->add(basename(__DIR__));
+$filePath = $filePath->get();
 // ディレクトリが存在しない場合は作成
 if (!is_dir($filePath)) {
     mkdir($filePath, 0775, true);
 }
 
-$fileArray = IncludeFiles($filePath, 'csv', true);
+$fileArray = includeFiles($filePath, 'csv', true);
 $base = new Setting();
 
 // 次期改修
 //$downloadHtml = new CustomTagCreate();
-//$downloadHtml->SetHref('test', 'download', 'csv', false, "download");
-//$downloadHtml->ExecTag(true);
+//$downloadHtml->setHref('test', 'download', 'csv', false, "download");
+//$downloadHtml->execTag(true);
 echo "<p>";
 foreach ($fileArray as $_value) {
-    $filePath = new \Path($base->GetUrl(basename(__DIR__), 'csv'));
-    $filePath->Add($_value);
-    echo "<a href=\"{$filePath->Get()}\" download>{$_value}ダウンロード</a> <br/>";
+    $filePath = new \Path($base->getUrl(basename(__DIR__), 'csv'));
+    $filePath->setPathEnd();
+    $filePath->add($_value);
+    echo "<a href=\"{$filePath->get()}\" download>{$_value}ダウンロード</a> <br/>";
 }
 echo "</p>";
 
-$session->Delete('csv');
+$session->delete('csv');
 ?>
     <base href='../' />
     <div class='product-webgl'>

@@ -1,13 +1,13 @@
 <?php
 
 $mailPath = new \Path(PRIVATE_COMPONENT_DIR);
-$mailPath->SetPathEnd();
-$mailPath->Add('Tag.php');
-require_once $mailPath->Get();
+$mailPath->setPathEnd();
+$mailPath->add('Tag.php');
+require_once $mailPath->get();
 
-use PrivateTag\ScriptClass;
+use Private\Important\ScriptClass;
 
-function SendMail($header, $response=false)
+function sendMail($header, $response=false)
 {
     if (!isset($header)) {
         return false;
@@ -45,7 +45,7 @@ function SendMail($header, $response=false)
     } else {
         $ret = false;
         $script = new ScriptClass();
-        $script->Alert('メールの送信に失敗しました。');
+        $script->alert('メールの送信に失敗しました。');
     }
 
     if ($response === true) {

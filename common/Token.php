@@ -1,9 +1,9 @@
 <?php
-namespace common;
+namespace Common\Important;
 
 $tokenPath = new \Path(COMMON_DIR);
-$tokenPath->AddArray(['Trait', 'CommonTrait.php']);
-require_once $tokenPath->Get();
+$tokenPath->addArray(['Trait', 'CommonTrait.php']);
+require_once $tokenPath->get();
 
 use common\Setting;
 
@@ -15,7 +15,7 @@ class Token {
 
     private string $tokenName, $tokenValue, $tokenPost;
     private bool $checkSetting;
-    private ?\common\Session $session;
+    private ?\Common\Important\Session $session;
     private ?array $posts;
 
     use \CommonTrait;
@@ -24,15 +24,15 @@ class Token {
      * Token関連のセッション操作を行う
      *
      * @param string $tokenName               トークン名
-     * @param \common\Session $session        操作対象のセッション
+     * @param \common\Important\Session $session        操作対象のセッション
      * @param boolean $checkSetting           トークンを設置するかどうか
      */
-    function __construct(string $tokenName, \common\Session $session, bool $checkSetting = false)
+    function __construct(string $tokenName, \Common\Important\Session $session, bool $checkSetting = false)
     {
         $this->tokenName = $tokenName;
         $this->session = $session;
-        $this->tokenValue = (string)$session->Read($tokenName);
-        $this->tokenPost = Setting::GetPost($this->tokenName);
+        $this->tokenValue = (string)$session->read($tokenName);
+        $this->tokenPost = \Common\Important\Setting::getPost($this->tokenName);
         $this->checkSetting = $checkSetting;
     }
     /**
@@ -41,16 +41,16 @@ class Token {
      *
      * @return string
      */
-    public function Set(): void
+    public function set(): void
     {
         // トークンを設定(上書き)
-        $this->tokenValue = $this->CreateRandom(SECURITY_LENG) . '-' . $this->CreateRandom(SECURITY_LENG, "random_bytes");
+        $this->tokenValue = $this->createRandom(SECURITY_LENG) . '-' . $this->createRandom(SECURITY_LENG, "random_bytes");
 
         if ($this->checkSetting) {
-            $this->GetTag();
+            $this->getTag();
         }
 
-        $this->session->Write($this->tokenName, $this->tokenValue);
+        $this->session->write($this->tokenName, $this->tokenValue);
     }
 
     /**
@@ -62,13 +62,13 @@ class Token {
      *
      * @return bool
      */
-    public function Check(): bool
+    public function check(): bool
     {
         if (!isset($this->tokenPost)
             || is_null($this->tokenPost)
             || $this->tokenPost === false
-            || is_null($this->session->Read($this->tokenName))
-            || !hash_equals($this->session->Read($this->tokenName), $this->tokenPost)
+            || is_null($this->session->read($this->tokenName))
+            || !hash_equals($this->session->read($this->tokenName), $this->tokenPost)
         ) {
             return false;
         }
@@ -84,7 +84,7 @@ class Token {
      *
      * @return null|string
      */
-    public function GetTag(bool $getFlg = false): ?string
+    public function getTag(bool $getFlg = false): ?string
     {
         if ($getFlg === false) {
         echo "<input type='hidden' name={$this->tokenName} value='{$this->tokenValue}' />";
@@ -97,14 +97,14 @@ class Token {
     }
 
     /**
-     * DebugToken
+     * debug
      * デバッグ用
      *
      * @return void
      */
-    public function DebugToken(): void
+    public function debug(): void
     {
             echo 'post: ' . $this->tokenPost . '<br/>';
-            echo 'session: ' . $this->session->Read($this->tokenName) . '<br/><br/>';
+            echo 'session: ' . $this->session->read($this->tokenName) . '<br/><br/>';
     }
 }
