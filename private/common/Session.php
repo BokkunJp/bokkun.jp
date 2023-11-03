@@ -1,9 +1,9 @@
 <?php
 
-namespace private;
+namespace Private\Important;
 
 // セッションクラス (管理側)
-class Session extends \common\Session
+class Session extends \Common\Important\Session
 {
     use \SessionTrait;
 
@@ -13,7 +13,7 @@ class Session extends \common\Session
     }
 
     /**
-     * JudgeArray
+     * judgeArray
      *
      * セッション2次元配列判定
      *
@@ -22,7 +22,7 @@ class Session extends \common\Session
      *
      * @return bool
      */
-    public function JudgeArray(string|int $parentId, string|int $childId): bool
+    public function judgeArray(string|int $parentId, string|int $childId): bool
     {
         $ret = false;
         $judgeProccess = function ($childData) use ($childId) {
@@ -39,7 +39,7 @@ class Session extends \common\Session
     }
 
     /**
-     * ReadArray
+     * readArray
      *
      * セッション2次元配列読み込み
      *
@@ -48,7 +48,7 @@ class Session extends \common\Session
      *
      * @return mixed
      */
-    public function ReadArray(string|int $parentId, string|int $childId): mixed
+    public function readArray(string|int $parentId, string|int $childId): mixed
     {
         $ret = null;
 
@@ -62,7 +62,7 @@ class Session extends \common\Session
     }
 
     /**
-     * DeleteArray
+     * deleteArray
      *
      * セッション2次元配列の特定の要素の削除
      *
@@ -71,11 +71,11 @@ class Session extends \common\Session
      *
      * @return mixed
      */
-    public function DeleteArray(string|int $parentId, string|int $childId): mixed
+    public function deleteArray(string|int $parentId, string|int $childId): mixed
     {
         $deleteProccess = function ($childData) use ($parentId, $childId) {
             unset($childData[$childId]);
-            $this->Write($parentId, $childData);
+            $this->write($parentId, $childData);
         };
 
         $ret = $this->CommonProcessArray($parentId, $childId, $deleteProccess);

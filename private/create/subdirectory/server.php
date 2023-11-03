@@ -15,7 +15,7 @@ require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
 $privatepathList = new PathApplication('word', dirname(__DIR__, 2));
 
 // それぞれの変数セット
-$privatepathList->SetAll(
+$privatepathList->setAll(
     [
         'setting' => '',
         'include' => '',
@@ -29,48 +29,48 @@ $privatepathList->SetAll(
 
 // パスの追加
 // ヘッダー・フッター
-$privatepathList->ResetKey('config');
-$privatepathList->MethodPath('AddArray', ['common', 'Config.php']);
+$privatepathList->resetKey('config');
+$privatepathList->methodPath('AddArray', ['common', 'Config.php']);
 
 // 定数・固定文言など
-$privatepathList->ResetKey('word');
-$privatepathList->MethodPath('AddArray', ['common', 'Word', 'Message.php']);
+$privatepathList->resetKey('word');
+$privatepathList->methodPath('AddArray', ['common', 'Word', 'Message.php']);
 
 // 管理側共通(ログイン認証など)
-$privatepathList->ResetKey('common');
-$privatepathList->MethodPath('AddArray', ['common.php']);
+$privatepathList->resetKey('common');
+$privatepathList->methodPath('AddArray', ['common.php']);
 
 // 設定
-$privatepathList->ResetKey('setting');
-$privatepathList->MethodPath('AddArray', ['common', 'Setting.php']);
+$privatepathList->resetKey('setting');
+$privatepathList->methodPath('AddArray', ['common', 'Setting.php']);
 
 // セッション
-$privatepathList->ResetKey('session');
-$privatepathList->MethodPath('AddArray', ['common', 'Session.php']);
+$privatepathList->resetKey('session');
+$privatepathList->methodPath('AddArray', ['common', 'Session.php']);
 
 // トークン
-$privatepathList->ResetKey('token');
-$privatepathList->MethodPath('AddArray', ['common', 'Token.php']);
+$privatepathList->resetKey('token');
+$privatepathList->methodPath('AddArray', ['common', 'Token.php']);
 
 // ファイル読み込み
-$privatepathList->ResetKey('include');
-$privatepathList->MethodPath('AddArray', ['common', 'Include.php']);
+$privatepathList->resetKey('include');
+$privatepathList->methodPath('AddArray', ['common', 'Include.php']);
 
 // UA
-$privatepathList->ResetKey('ua');
-$privatepathList->MethodPath('AddArray', ['common', 'Component', 'UA.php']);
+$privatepathList->resetKey('ua');
+$privatepathList->methodPath('AddArray', ['common', 'Component', 'UA.php']);
 
 // パスの出力
-$privatepathList->All();
-foreach ($privatepathList->Get() as $path) {
+$privatepathList->all();
+foreach ($privatepathList->get() as $path) {
     require_once $path;
 }
 
 // UA判定処理
-$ua = new private\UA();
+$ua = new Private\Important\UA();
 define('Phone', 2);
 define('PC', 1);
-switch ($ua->DesignJudge()) {
+switch ($ua->judgeDevice()) {
     case PC:
         $agentCode = 'PC';
         break;
@@ -81,28 +81,28 @@ switch ($ua->DesignJudge()) {
         break;
 }
 
-$session =  new private\Session();
+$session =  new Private\Important\Session();
 $adminError = new AdminError();
-$use = new PrivateTag\UseClass();
+$use = new Private\Important\UseClass();
 
 $adminPath = dirname(__DIR__);
 $samplePath = new \Path(dirname($adminPath));
-$samplePath->Add('Sample');
-$samplePath = $samplePath->Get();
+$samplePath->add('Sample');
+$samplePath = $samplePath->get();
 $basePath = DOCUMENT_ROOT;
 
 // tokenチェック
-$createToken = new private\Token('create-token', $session);
-if ($createToken->Check() === false) {
-    $session->Write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
-    $url = new private\Setting();
-    $backUrl = CreateClient('private', dirname(__DIR__));
+$createToken = new Private\Important\Token('create-token', $session);
+if ($createToken->check() === false) {
+    $session->write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
+    $url = new Private\Important\Setting();
+    $backUrl = createClient('private', dirname(__DIR__));
     $backUrl = ltrim($backUrl, DS);
-    header('Location:' . $url->GetUrl($backUrl));
+    header('Location:' . $url->getUrl($backUrl));
     exit;
 }
 
-$post = private\Setting::GetPosts();
+$post = Private\Important\Setting::getPosts();
 $judge = array();
 foreach ($post as $post_key => $post_value) {
     $$post_key = $post_value;
@@ -110,8 +110,8 @@ foreach ($post as $post_key => $post_value) {
 }
 
 // 内容をセッションに保存し、不要なデータを破棄
-if (!$session->JudgeArray('admin', 'addition')) {
-    $session->WriteArray('admin', 'addition', $post);
+if (!$session->judgeArray('admin', 'addition')) {
+    $session->writeArray('admin', 'addition', $post);
 }
 unset($session);
 unset($post);
@@ -121,7 +121,7 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
     $adminError->UserError('未記入の項目があります。');
 } else {
     // 文字チェック
-    if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $title) === 0 ||!FindFileName($title) === 0) {
+    if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $title) === 0 ||!findFileName($title) === 0) {
         $adminError->UserError('タイトルに無効な文字が入力されています。');
     } elseif (strlen($title) > MAX_LENGTH) {
         $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
@@ -152,7 +152,7 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
 
         // 存在する場合は上書き
         if ($result) {
-            $use->Alert("指定されたページには{$_path}ファイルが存在します。既存の内容は上書きされます。");
+            $use->alert("指定されたページには{$_path}ファイルが存在します。既存の内容は上書きされます。");
         }
     }
 }
@@ -214,14 +214,14 @@ if ($type === "scratch") {
 
     $bufferSamplePath = new \Path($samplePath);
     $samplePathClass = new \Path($samplePath);
-    $samplePathClass->Add("Layout");
-    $samplePathClass = $samplePathClass->Get();
+    $samplePathClass->add("Layout");
+    $samplePathClass = $samplePathClass->get();
     foreach (scandir($samplePathClass) as $_file) {
         if (!is_dir($_file)) {
             copy("$baseFileName/Layout/{$_file}", "$title/Layout/{$_file}");
         }
     }
-    $samplePath = $bufferSamplePath->Get();
+    $samplePath = $bufferSamplePath->get();
 }
 
 // テンプレートを指定した場合は、テンプレートエンジン用のindexファイル作成
@@ -268,7 +268,7 @@ if (!empty($templateExtenion)) {
     copy("$baseFileName/design" . "_$templateExtenion" . ".php", "$basePath/$title/design.php");            // design.phpファイル上書き
 }
 
-$use->Alert('ページを作成しました。');
+$use->alert('ページを作成しました。');
 // session_destroy();
 
 class AdminError
@@ -276,12 +276,12 @@ class AdminError
     protected $use;
     public function __construct()
     {
-        $this->use = new PrivateTag\UseClass();
+        $this->use = new Private\Important\UseClass();
     }
 
     public function UserError($message)
     {
-        $this->use->Alert($message);
+        $this->use->alert($message);
         $this->use->BackAdmin('create');
         exit;
     }
@@ -309,6 +309,5 @@ class AdminError
 </script>
 
 <body>
-    <input type="hidden" name="title"
-        value="<?php echo $title; ?>" />
+    <input type="hidden" name="title" value="<?php echo $title; ?>" />
 </body>

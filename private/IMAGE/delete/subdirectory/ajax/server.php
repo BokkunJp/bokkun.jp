@@ -5,18 +5,18 @@ define("DS", DIRECTORY_SEPARATOR);
 
 require_once dirname(__DIR__, 3) . DS . "common" . DS . "ajax-require.php";
 require_once getcwd() . DS . 'include.php';
-IncludeFiles(dirname(__DIR__));
+includeFiles(dirname(__DIR__));
 
 // Postセット
-$post = private\Setting::GetPosts();
+$post = Private\Important\Setting::getPosts();
 
 // セッションセット
-$session = new private\Session();
+$session = new Private\Important\Session();
 
 // tokenチェック
-$selectToken = new private\Token('select-token', $session, true);
+$selectToken = new Private\Important\Token('select-token', $session, true);
 // 不正tokenの場合は、エラーを出力して処理を中断。
-if ($selectToken->Check() === false) {
+if ($selectToken->check() === false) {
     $data = ['error' => true, 'error-view' => '不正な遷移です。リロードしてください。'];
     $json = json_encode($data);
     echo $json;
@@ -32,9 +32,9 @@ if (!isset($post['type'])) {
 
 // 不正なPostが入った場合は、セッションに保存した情報かデフォルトページを参照する
 if ($postValid === false) {
-    if ($session->Judge('image-view-directory')) {
+    if ($session->judge('image-view-directory')) {
         // セッションに情報が保存されている場合はその情報を参照する
-        $post['type'] = $session->Read('image-view-directory');
+        $post['type'] = $session->read('image-view-directory');
     } else {
         // セッションに情報がない場合はデフォルトページを参照する
         $post['type'] = DEFAULT_IMAGE;
@@ -42,10 +42,10 @@ if ($postValid === false) {
 }
 
 // セッションの内容を更新
-$session->Write('image-view-directory', $post['type']);
+$session->write('image-view-directory', $post['type']);
 
 // 画像群を取得して、フロント処理側に返却
-$img = ReadImage(ajaxFlg:true);
+$img = readImage(ajaxFlg:true);
 
 // 不正postの場合はエラー表示用のフラグを立てる
 if (!$postValid) {

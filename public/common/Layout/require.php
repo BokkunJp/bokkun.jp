@@ -11,9 +11,9 @@ require_once dirname(__DIR__) . '/Session.php';
 // 定数・固定文言など
 $wordPath = new \Path(dirname(__DIR__));
 $configPath = new \Path(dirname(__DIR__, 3));
-$configPath->SetPathEnd();
-$configPath->AddArray(["common", "Config.php"]);
-$wordPath->AddArray(["Word", "Message.php"]);
+$configPath->setPathEnd();
+$configPath->addArray(["common", "Config.php"]);
+$wordPath->addArray(["Word", "Message.php"]);
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 if (!isset($title)) {
     $title = basename(getcwd());
@@ -21,12 +21,12 @@ if (!isset($title)) {
 if (!isset($homepageTitle)) {
     $homepageTitle = htmlspecialchars($title);
 }
-require_once $wordPath->Get();
+require_once $wordPath->get();
 // ヘッダーフッター
-require_once $configPath->Get();
+require_once $configPath->get();
 // UA
 require_once PUBLIC_COMPONENT_DIR . 'UA.php';
-$ua = new Public\UA();
+$ua = new Public\Important\UA();
 
 // ファイル読み込み処理
 require_once PUBLIC_COMMON_DIR . "/Include.php";
@@ -40,4 +40,4 @@ require_once PUBLIC_COMMON_DIR . "/Token.php";
 // }
 
 // 共通処理に必要なグローバル変数
-$base = new public\Setting();
+$base = new Public\Important\Setting();

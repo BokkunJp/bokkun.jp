@@ -1,10 +1,10 @@
 <?php
-namespace Public;
+namespace Public\Important;
 
 $commonTokenPath = new \Path(COMMON_DIR);
-$commonTokenPath->SetPathEnd();
-$commonTokenPath->Add(basename(__FILE__));
-require_once $commonTokenPath->Get();
-class Token extends \common\Token {
+$commonTokenPath->setPathEnd();
+$commonTokenPath->add(basename(__FILE__));
+require_once $commonTokenPath->get();
+class Token extends \Common\Important\Token {
 
 }

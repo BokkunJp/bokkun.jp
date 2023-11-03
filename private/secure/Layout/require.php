@@ -30,12 +30,12 @@ require_once dirname(__DIR__, 2) . "/common/Setting.php";
 require_once dirname(__DIR__, 2) . "/common.php";
 // 定数・固定文言など
 $commonWordPath = new \Path(dirname(__DIR__, 2));
-$commonWordPath->AddArray(["common", "Word", "Message.php"]);
-require_once $commonWordPath->Get();
+$commonWordPath->addArray(["common", "Word", "Message.php"]);
+require_once $commonWordPath->get();
 // ヘッダー・フッター
 $configPath = new \Path('');
-$configPath->AddArray([COMMON_DIR, "Config.php"], true);
-require_once $configPath->Get();
+$configPath->addArray([COMMON_DIR, "Config.php"], true);
+require_once $configPath->get();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 // UA
 require_once PRIVATE_COMPONENT_DIR . '/UA.php';
@@ -44,10 +44,10 @@ require_once PRIVATE_COMMON_DIR . "/Token.php";
 require_once PRIVATE_COMMON_DIR . "/Token.php";
 
 // UA判定処理
-$ua = new private\UA();
+$ua = new Private\Important\UA();
 define('Phone', 2);
 define('PC', 1);
-switch ($ua->DesignJudge()) {
+switch ($ua->judgeDevice()) {
     case PC:
         $agentCode = 'PC';
         break;

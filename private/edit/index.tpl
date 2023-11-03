@@ -20,5 +20,5 @@
     <p><span class='result-src-view'></span></p>
     <button type='button' name="save">ソースを保存する</button>
   </div>
-{$editSrcToken->GetTag()}
+{$editSrcToken->getTag()}
 </form>

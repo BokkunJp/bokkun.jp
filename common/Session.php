@@ -1,10 +1,10 @@
 <?php
-namespace Common;
+namespace Common\Important;
 
 // Trait読み込み
 $sessionTraitPath = new \Path(__DIR__);
-$sessionTraitPath->AddArray(['Trait', 'SessionTrait.php']);
-require_once $sessionTraitPath->Get();
+$sessionTraitPath->addArray(['Trait', 'SessionTrait.php']);
+require_once $sessionTraitPath->get();
 
 // セッションクラス (新)
 class Session
@@ -16,11 +16,11 @@ class Session
 
     public function __construct()
     {
-        $this->Read();
+        $this->read();
         $this->init = $this->session;
     }
 
-    private function SessionStart()
+    private function sessionStart()
     {
         if (!isset($_SESSION) || session_status() === PHP_SESSION_DISABLED) {
     if (PHP_OS === 'WINNT') {
@@ -52,7 +52,7 @@ class Session
      * @param [mixed] $sessionVal
      * @return void
      */
-    private function Add(string|int $sessionElm, mixed $sessionVal): void
+    private function add(string|int $sessionElm, mixed $sessionVal): void
     {
         $this->session[$sessionElm] = $sessionVal;
         $_SESSION[$sessionElm] = $this->session[$sessionElm];
@@ -67,12 +67,12 @@ class Session
      *
      * @return void
      */
-    public function Write(string|int $tag, mixed $message, ?string $handle = null): void
+    public function write(string|int $tag, mixed $message, ?string $handle = null): void
     {
         if (!empty($handle)) {
             $this->$handle();
         }
-        $this->Add($tag, $message);
+        $this->add($tag, $message);
     }
 
     /**
@@ -86,7 +86,7 @@ class Session
      *
      * @return void
      */
-    public function WriteArray(string|int $parentId, string|int $childId, mixed $data): void
+    public function writeArray(string|int $parentId, string|int $childId, mixed $data): void
     {
         $ret = null;
 
@@ -103,7 +103,7 @@ class Session
         }
 
         $ret[$childId] = $data;
-        $this->Write($parentId, $ret);
+        $this->write($parentId, $ret);
     }
 
     /**
@@ -115,10 +115,10 @@ class Session
      *
      * @return mixed
      */
-    public function Read(string|int $sessionElm = null): mixed
+    public function read(string|int $sessionElm = null): mixed
     {
         if (!isset($_SESSION)) {
-            $this->SessionStart();
+            $this->sessionStart();
         }
 
         $this->session = $_SESSION;
@@ -142,7 +142,7 @@ class Session
      *
      * @return void
      */
-    public function Delete(string|int $sessionElm = null)
+    public function delete(string|int $sessionElm = null)
     {
         if (!isset($_SESSION)) {
             trigger_error('Session is already deleted.', E_USER_ERROR);
@@ -166,7 +166,7 @@ class Session
      *
      * @return mixed
      */
-    public function Judge(string|int $id = null): mixed
+    public function judge(string|int $id = null): mixed
     {
         $ret = true;
         if (!isset($id)) {
@@ -189,9 +189,9 @@ class Session
      *
      * @return void
      */
-    public function View(mixed $id = null)
+    public function view(mixed $id = null)
     {
-        $judge = $this->Judge($id);
+        $judge = $this->judge($id);
         if ($judge === null) {
             var_dump($this->session);
         } elseif ($judge === true) {
@@ -207,11 +207,11 @@ class Session
      * @param string|int $tag
      * @return void
      */
-    public function OnlyView(string|int $tag)
+    public function onlyView(string|int $tag)
     {
-        if ($this->Judge($tag) === true) {
-            $this->View($tag);
-            $this->Delete($tag);
+        if ($this->judge($tag) === true) {
+            $this->view($tag);
+            $this->delete($tag);
         }
     }
 
@@ -222,7 +222,7 @@ class Session
      *
      * @return void
      */
-    public function FinaryDestroy()
+    public function finaryDestroy()
     {
 
         // Note: セッション情報だけでなくセッションを破壊する。

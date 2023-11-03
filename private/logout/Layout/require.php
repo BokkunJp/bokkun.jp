@@ -24,7 +24,7 @@ require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SE
 $privatepathList = new PathApplication('word', dirname(__DIR__, 2));
 
 // それぞれの変数セット
-$privatepathList->SetAll(
+$privatepathList->setAll(
     [
         'setting' => '',
         'include' => '',
@@ -38,48 +38,48 @@ $privatepathList->SetAll(
 
 // パスの追加
 // ヘッダー・フッター
-$privatepathList->ResetKey('config');
-$privatepathList->MethodPath('AddArray', [dirname(__DIR__, 3), 'common', 'Config.php'], true);
+$privatepathList->resetKey('config');
+$privatepathList->methodPath('AddArray', [dirname(__DIR__, 3), 'common', 'Config.php'], true);
 
 // 定数・固定文言など
-$privatepathList->ResetKey('word');
-$privatepathList->MethodPath('AddArray', ['common', 'Word', 'Message.php']);
+$privatepathList->resetKey('word');
+$privatepathList->methodPath('AddArray', ['common', 'Word', 'Message.php']);
 
 // // 管理側共通(ログイン認証など)
-$privatepathList->ResetKey('common');
-$privatepathList->MethodPath('AddArray', ['common.php']);
+$privatepathList->resetKey('common');
+$privatepathList->methodPath('AddArray', ['common.php']);
 
 // 設定
-$privatepathList->ResetKey('setting');
-$privatepathList->MethodPath('AddArray', ['common', 'Setting.php']);
+$privatepathList->resetKey('setting');
+$privatepathList->methodPath('AddArray', ['common', 'Setting.php']);
 
 // セッション
-$privatepathList->ResetKey('session');
-$privatepathList->MethodPath('AddArray', ['common', 'Session.php']);
+$privatepathList->resetKey('session');
+$privatepathList->methodPath('AddArray', ['common', 'Session.php']);
 
 // トークン
-$privatepathList->ResetKey('token');
-$privatepathList->MethodPath('AddArray', ['common', 'Token.php']);
+$privatepathList->resetKey('token');
+$privatepathList->methodPath('AddArray', ['common', 'Token.php']);
 
 // ファイル読み込み
-$privatepathList->ResetKey('include');
-$privatepathList->MethodPath('AddArray', ['common', 'Include.php']);
+$privatepathList->resetKey('include');
+$privatepathList->methodPath('AddArray', ['common', 'Include.php']);
 
 // UA
-$privatepathList->ResetKey('ua');
-$privatepathList->MethodPath('AddArray', ['common', 'Component', 'UA.php']);
+$privatepathList->resetKey('ua');
+$privatepathList->methodPath('AddArray', ['common', 'Component', 'UA.php']);
 
 // パスの出力
-$privatepathList->All();
-foreach ($privatepathList->Get() as $path) {
+$privatepathList->all();
+foreach ($privatepathList->get() as $path) {
     require_once $path;
 }
 
 // UA判定処理
-$ua = new private\UA();
+$ua = new Private\Important\UA();
 define('Phone', 2);
 define('PC', 1);
-switch ($ua->DesignJudge()) {
+switch ($ua->judgeDevice()) {
     case PC:
         $agentCode = 'PC';
         break;

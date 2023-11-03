@@ -4,7 +4,7 @@ ini_set('error_reporting', E_ALL | ~E_STRICT);
 require_once dirname(__DIR__, 2) . '/common/Setting.php';
 require_once PRIVATE_COMMON_DIR . "/Include.php";
 
-switch ($ua->DesignJudge()) {
+switch ($ua->judgeDevice()) {
     case PC:
         $agentCode = 'PC';
         break;
@@ -16,7 +16,7 @@ switch ($ua->DesignJudge()) {
 }
 
 // 文字列からディレクトリ部分の文字列を切り取る関数
-function StrExtraction($str, $target)
+function strExtraction($str, $target)
 {
     $count = strpos($str, $target);
     return mb_strcut($str, $count);
@@ -24,7 +24,7 @@ function StrExtraction($str, $target)
 
 // パンくずリストの生成 (完成・検証後にSetting.phpに移動)
 $dir = scandir(__DIR__);
-$currentDir = $base->GetURI();
+$currentDir = $base->getUri();
 $count = 0;
 while (1) {
     // タイトル：ディレクトリ名、パス：URL
@@ -44,21 +44,21 @@ while (1) {
 }
 
 // HTML出力用に調整
-$create = new \PrivateTag\CustomTagCreate();
+$create = new \Private\Important\CustomTagCreate();
 $breadCrumbList_ = array();
 foreach ($breadCrumbList as $bread) {
-    $breadCrumbList_[] = $create->SetHref($http . $bread['path'], $bread['title'], 'breadCrumbList');
+    $breadCrumbList_[] = $create->setHref($http . $bread['path'], $bread['title'], 'breadCrumbList');
 }
 $breadCrumbList_ = array_reverse($breadCrumbList_);
 $breadCrumbList = $breadCrumbList_;
 unset($breadCrumbList_);
 
-$arrow = new \PrivateTag\HTMLClass(true);
-$arrow->SetTag('span', '->', 'arrow', true);
-$arrow = $arrow->ExecTag();
+$arrow = new \Private\Important\HTMLClass(true);
+$arrow->setTag('span', '->', 'arrow', true);
+$arrow = $arrow->execTag();
 
 // 配列を順に出力する (パンくず出力用)
-function ViewArray($ary, $arow = "\t")
+function viewArray($ary, $arow = "\t")
 {
     foreach ($ary as $_elm => $_ary) {
         // 配列の末尾では間の文字(矢印)は消す

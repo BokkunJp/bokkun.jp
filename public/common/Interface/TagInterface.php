@@ -1,13 +1,13 @@
 <?php
 
-namespace Tag;
+namespace Interface\Important;
 
 interface BaseInterface
 {
-    protected function Initialize($init);
-    protected function AllowAuthoritys($authority);
-    protected function DenyAuthority($authority);
-    public function SetDefault();
-    public function ViewAuthority($authorityName);
-    public function CreateAuthorityList($notuseList);
+    protected function initialize($init);
+    protected function allowAuthoritys($authority);
+    protected function denyAuthority($authority);
+    public function setDefault();
+    public function viewAuthority($authorityName);
+    public function createAuthorityList($notuseList);
 }

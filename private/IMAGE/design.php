@@ -1,28 +1,28 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
 // セッション開始
-$session = new private\Session();
+$session = new Private\Important\Session();
 
 // ページ数取得
-$page = private\Setting::GetQuery('page');
+$page = Private\Important\Setting::getQuery('page');
 
 // 更新用ページに関する処理
-$updatePage = private\Setting::GetPost('update_page');
+$updatePage = Private\Important\Setting::getPost('update_page');
 
 // imageディレクトリ内のディレクトリリストを取得
 $imgDirList = ['---'];
 foreach (scandir(PUBLIC_IMAGE_DIR) as $_list) {
     $imagDirPath = new \Path(PUBLIC_IMAGE_DIR);
-    $imagDirPath->Add($_list);
-    if (is_dir($imagDirPath->Get()) && FindFileName($_list)) {
+    $imagDirPath->add($_list);
+    if (is_dir($imagDirPath->get()) && findFileName($_list)) {
         $imgDirList[] = $_list;
     }
 }
 
 // tokenクラスをセット
-$selectToken = new private\Token('select-token', $session, true);
-$uploadToken = new private\Token('upload-token', $session, true);
-$viewToken = new private\Token('view-token', $session, true);
+$selectToken = new Private\Important\Token('select-token', $session, true);
+$uploadToken = new Private\Important\Token('upload-token', $session, true);
+$viewToken = new Private\Important\Token('view-token', $session, true);
 
 ?>
 <form method='POST' action='./'>
@@ -36,7 +36,7 @@ $viewToken = new private\Token('view-token', $session, true);
     ?>
     </select>
     ： <span class='view-image-type'><?=GetImagePageName()?></span>
-    <?php $selectToken->Set(); ?>
+    <?php $selectToken->set(); ?>
 </form>
 <div class='select-notice'></div>
 <div class='view-image'>
@@ -51,21 +51,21 @@ $viewToken = new private\Token('view-token', $session, true);
         ?>
         </select>
         <span><button value='editView'>表示枚数の変更</button></span>
-        <span>現在の表示枚数:<?= GetCountPerPage(); ?>枚</span>
+        <span>現在の表示枚数:<?= getCountPerPage(); ?>枚</span>
     </form>
 </div>
 <form enctype="multipart/form-data"
     action="./subdirectory/notAutoInclude/server.php<?= $page != null ? "?page={$page}" : "" ?>"
     method='POST'>
-    <?php $uploadToken->Set(); ?>
+    <?php $uploadToken->set(); ?>
     <input type='file' name='all-files[]' multiple /> <button type='submit' class='fileButton'>送信</button>
     <span>
         <div class='footer_char'>※同じ名前のファイルは複数保存されず、上書きされます。</div>
-        <div class='notice'><?= $session->OnlyView('notice'); ?>
+        <div class='notice'><?= $session->onlyView('notice'); ?>
         </div>
-        <div class='warning'><?= $session->OnlyView('warning'); ?>
+        <div class='warning'><?= $session->onlyView('warning'); ?>
         </div>
-        <div class='success'><?= $session->OnlyView('success'); ?>
+        <div class='success'><?= $session->onlyView('success'); ?>
         </div>
         <?php
             if (isset($updatePage) && is_numeric($updatePage)) {
@@ -80,9 +80,9 @@ $viewToken = new private\Token('view-token', $session, true);
     action="./subdirectory/notAutoInclude/server.php?mode=edit<?= $page !== null ? "&page={$page}" : "" ?>"
     method='POST'>
     <?php
-        ReadImage();
+        readImage();
     ?>
-    <?php $viewToken->Set(); ?>
+    <?php $viewToken->set(); ?>
     <p>
         <button type='submit' name='delete'>チェックした画像を削除する</button>
         <button type='submit' name='copy'>チェックした画像をコピーする</button>

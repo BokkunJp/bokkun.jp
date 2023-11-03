@@ -1,5 +1,5 @@
 <?php
-$session = new public\Session();
+$session = new Public\Important\Session();
 ?>
 <form action='./subdirectory/server.py' method='POST'>
     <h1>Pythonフォーム</h1>
@@ -10,5 +10,5 @@ $session = new public\Session();
 <form method='POST'>
     <h1>PHPフォーム</h1>
     <p><input type='textbox' name='data' class='php-input' /> <button class='php-button'>送信する</button></p>
-    <output  class='php-output'><?= $session->OnlyView('output') ?></output>
+    <output  class='php-output'><?= $session->onlyView('output') ?></output>
 </form>

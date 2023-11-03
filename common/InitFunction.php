@@ -8,22 +8,22 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR
 
 // エラーログの設定(初期設定)
 $errorLogPath = new \Path("");
-$errorLogPath->AddArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
+$errorLogPath->addArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
 $errLogArray = [];
-if (!is_dir($errorLogPath->Get())) {
-    mkdir($errorLogPath->Get());
+if (!is_dir($errorLogPath->get())) {
+    mkdir($errorLogPath->get());
     $errorLogOldPath = clone $errorLogPath;
-    $errorLogOldPath->Add("_old");
-    mkdir($errorLogOldPath->Get());
+    $errorLogOldPath->add("_old");
+    mkdir($errorLogOldPath->get());
 }
-$errorLogPath->SetPathEnd();
-$errorLogPath->Add("php_error.log");
-ini_set("error_log", $errorLogPath->Get());
+$errorLogPath->setPathEnd();
+$errorLogPath->add("php_error.log");
+ini_set("error_log", $errorLogPath->get());
 
 $iniPath =new \Path("ini");
-$iniPath->SetPathEnd();
-$iniPath->Add("ini.php");
-require_once $iniPath->Get();
+$iniPath->setPathEnd();
+$iniPath->add("ini.php");
+require_once $iniPath->get();
 
 // エラーハンドラ設定
 set_error_handler(
@@ -47,21 +47,21 @@ set_error_handler(
 //     if (!empty($error)) {
 //         if (php_sapi_name() !== 'cli') {
 //             $cnf = new Header();
-//             $errScript = new BasicTag\ScriptClass();
+//             $errScript = new Public\Important\ScriptClass();
 
-//             $errScript->Alert("エラーが発生しました。");
-//             if (strcmp($cnf->GetVersion(), '-local') === 0 || strcmp($cnf->GetVersion(), '-dev') === 0) {
+//             $errScript->alert("エラーが発生しました。");
+//             if (strcmp($cnf->getVersion(), '-local') === 0 || strcmp($cnf->getVersion(), '-dev') === 0) {
 //                 $errMessage = str_replace('\\', '/', $error['message']);
 //                 $errMessage = str_replace(array("\r\n", "\r", "\n"), '\\n', $errMessage);
 //                 $errMessage = str_replace("'", "\'", $errMessage);
-//                 if (strcmp($cnf->GetVersion(), '-local') === 0) {
+//                 if (strcmp($cnf->getVersion(), '-local') === 0) {
 //                     $errFile = str_replace('\\', '/', $error['file']);
 //                     $errFile = str_replace('\n', '\\n', $errFile);
-//                     $errScript->Alert($errMessage. "\\n\\n".
+//                     $errScript->alert($errMessage. "\\n\\n".
 //                         "file: ". $errFile . "\\n".
 //                         "line: ". $error['line']);
 //                 } else {
-//                     $errScript->Alert($errMessage);
+//                     $errScript->alert($errMessage);
 //                 }
 //             }
 //         }
@@ -69,7 +69,7 @@ set_error_handler(
 // });
 
 /**
- * Sanitize
+ * sanitize
  *
  * ヌルバイト対策 (POST, GET)
  *
@@ -77,20 +77,20 @@ set_error_handler(
  *
  * @return mixed
  */
-function Sanitize(mixed $arr = ''): mixed
+function sanitize(mixed $arr = ''): mixed
 {
     if (!is_string($arr)) {
         return $arr;
     }
 
     if (is_array($arr)) {
-        return array_map('Sanitize', $arr);
+        return array_map('sanitize', $arr);
     }
     return str_replace("\0", "", $arr);     //ヌルバイトの除去
 }
 
 /**
- * CreateClient
+ * createClient
  * 所定のディレクトリまでのディレクトリ群を走査し、パスを生成する。
  *
  * @param string $target
@@ -99,7 +99,7 @@ function Sanitize(mixed $arr = ''): mixed
  *
  * @return bool
  */
-function CreateClient(string $target, string $src = '', string $separator = DIRECTORY_SEPARATOR): string
+function createClient(string $target, string $src = '', string $separator = DIRECTORY_SEPARATOR): string
 {
     if (empty($src)) {
         $srcPath = getcwd();
@@ -126,10 +126,10 @@ function CreateClient(string $target, string $src = '', string $separator = DIRE
 
     $clientPath = new \Path($clientPath, $separator);
     foreach ($clientAry as $_client) {
-        $clientPath->Add($_client);
+        $clientPath->add($_client);
     }
 
-    return $clientPath->Get();
+    return $clientPath->get();
 }
 /**
  * filter_input_fix
@@ -157,7 +157,7 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
         $options = FILTER_NULL_ON_FAILURE;
     }
 
-    if (SearchData($type, $checkTypes) || filter_has_var($type, $variable_name)) {
+    if (searchData($type, $checkTypes) || filter_has_var($type, $variable_name)) {
         $ret = filter_input($type, $variable_name, $filter, $options);
     } elseif ($type == INPUT_SERVER && isset($_SERVER[$variable_name])) {
         $ret = filter_var($_SERVER[$variable_name], $filter, $options);
@@ -171,7 +171,7 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
 }
 
 /**
- * MoldData
+ * moldData
  *
  * データ調整。
  * (配列⇔特定のセパレータで区切られた文字列の相互変換)
@@ -181,7 +181,7 @@ function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $opti
  *
  * @return mixed
  */
-function MoldData(mixed $data, string $parameter = ','): mixed
+function moldData(mixed $data, string $parameter = ','): mixed
 {
     $ret = false;
     if (is_null($data)) {
@@ -198,7 +198,7 @@ function MoldData(mixed $data, string $parameter = ','): mixed
 }
 
 /**
- * Output
+ * output
  *
  * 出力用の関数。
  *
@@ -210,7 +210,7 @@ function MoldData(mixed $data, string $parameter = ','): mixed
  *
  * @return void
  */
-function Output(
+function output(
     mixed $expression,
     bool $formatFlg = false,
     bool $indentFlg = true,
@@ -235,12 +235,12 @@ function Output(
     if (!empty($debug)) {
         $debugMessage = DEBUG_MESSAGE_SOURCE;
         $debugTrace = debug_backtrace();
-        $debugValidate = DebugValidate($debug, $debugTrace);
+        $debugValidate = debugValidate($debug, $debugTrace);
         if (!empty($debugValidate)) {
-            $errScript = new BasicTag\ScriptClass();
+            $errScript = new Public\Important\ScriptClass();
             foreach ($debugValidate as $_DEBUG_KEY) {
                 if ($debugMessage[$_DEBUG_KEY]) {
-                    $errScript->Alert($debugMessage[$_DEBUG_KEY]);
+                    $errScript->alert($debugMessage[$_DEBUG_KEY]);
                 }
             }
             return -1;
@@ -272,7 +272,7 @@ function Output(
 }
 
 /**
- * DebugValitate
+ * debugValitate
  *
  * デバッグ出力時のバリデーション。
  *
@@ -281,7 +281,7 @@ function Output(
  *
  * @return array
  */
-function DebugValidate(array $debug, array $debugTrace): array
+function debugValidate(array $debug, array $debugTrace): array
 {
     $validate = [];
 
@@ -306,24 +306,24 @@ function DebugValidate(array $debug, array $debugTrace): array
 }
 
     /**
-     * Output
+     * output
      *
      * デバッグ用のメソッド。
-     * (Outputのデバッグ設定用のラッパー)
+     * (outputのデバッグ設定用のラッパー)
      *
      * @param mixed $expression
      *
      * @return void
      */
-    function Debug(mixed $expression): void
+    function debug(mixed $expression): void
     {
-        Output($expression, true, true, true);
+        output($expression, true, true, true);
     }
 
 
 
 /**
- * SetComposerPlugin
+ * setComposerPlugin
  *
  * Composerを使ったプラグインを読み込む。
  * (通常のプラグインと違い、全ディレクトリではなく/vendor/autoLoader.phpを読み込む)
@@ -331,20 +331,20 @@ function DebugValidate(array $debug, array $debugTrace): array
  * @param string $name
  * @return void
  */
-function SetComposerPlugin(string $name) {
+function setComposerPlugin(string $name) {
     $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-    $allPluginPath->SetAll([
-        'vendorDir' => $allPluginPath->Get(),
-        'requireFile' => $allPluginPath->Get(),
+    $allPluginPath->setAll([
+        'vendorDir' => $allPluginPath->get(),
+        'requireFile' => $allPluginPath->get(),
     ]);
 
-    $allPluginPath->ResetKey('vendorDir');
-    $allPluginPath->MethodPath('Add', $name);
-    $pluginDir = $allPluginPath->Get();
+    $allPluginPath->resetKey('vendorDir');
+    $allPluginPath->methodPath('Add', $name);
+    $pluginDir = $allPluginPath->get();
 
-    $allPluginPath->ResetKey('requireFile');
-    $allPluginPath->MethodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
-    $requireFile = $allPluginPath->Get();
+    $allPluginPath->resetKey('requireFile');
+    $allPluginPath->methodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
+    $requireFile = $allPluginPath->get();
 
     if (is_dir($pluginDir) && is_file($requireFile)) {
         require_once $requireFile;
@@ -352,7 +352,7 @@ function SetComposerPlugin(string $name) {
 }
 
 /**
- * SetPlugin
+ * setPlugin
  *
  * 指定したプラグインを読み込む。
  *
@@ -360,61 +360,61 @@ function SetComposerPlugin(string $name) {
  *
  * @return void
  */
-function SetPlugin(string $name): void
+function setPlugin(string $name): void
 {
     $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-    $allPluginPath->SetAll([
-        'vendorDir' => $allPluginPath->Get(),
-        'composerJson' => $allPluginPath->Get(),
-        'composerLock' => $allPluginPath->Get(),
+    $allPluginPath->setAll([
+        'vendorDir' => $allPluginPath->get(),
+        'composerJson' => $allPluginPath->get(),
+        'composerLock' => $allPluginPath->get(),
     ]);
 
-    $allPluginPath->ResetKey('vendorDir');
-    $allPluginPath->MethodPath('Add', $name);
-    $pluginDir = $allPluginPath->Get();
+    $allPluginPath->resetKey('vendorDir');
+    $allPluginPath->methodPath('Add', $name);
+    $pluginDir = $allPluginPath->get();
 
-    $allPluginPath->ResetKey('vendorDir');
-    $allPluginPath->MethodPath('Add', "vendor");
-    $vendorDir = $allPluginPath->Get();
+    $allPluginPath->resetKey('vendorDir');
+    $allPluginPath->methodPath('Add', "vendor");
+    $vendorDir = $allPluginPath->get();
 
-    $allPluginPath->ResetKey('composerJson');
-    $allPluginPath->MethodPath('SetPathEnd');
-    $allPluginPath->MethodPath('Add', "composer.json");
-    $composerJson = $allPluginPath->Get();
+    $allPluginPath->resetKey('composerJson');
+    $allPluginPath->methodPath('SetPathEnd');
+    $allPluginPath->methodPath('Add', "composer.json");
+    $composerJson = $allPluginPath->get();
 
-    $allPluginPath->ResetKey('composerLock');
-    $allPluginPath->MethodPath('SetPathEnd');
-    $allPluginPath->MethodPath('Add', "composer.lock");
-    $composerLock = $allPluginPath->Get();
+    $allPluginPath->resetKey('composerLock');
+    $allPluginPath->methodPath('SetPathEnd');
+    $allPluginPath->methodPath('Add', "composer.lock");
+    $composerLock = $allPluginPath->get();
 
     // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
     if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
-        SetComposerPlugin($name);
+        setComposerPlugin($name);
     } elseif (is_dir($pluginDir)) {
-        IncludeDirectories($pluginDir);
+        includeDirectories($pluginDir);
     }
 }
 
 /**
- * SetAllPlugin
+ * setAllPlugin
  *
  * プラグインを一括で読み込む。
  *
  * @return void
  */
-function SetAllPlugin(): void
+function setAllPlugin(): void
 {
     $addDir = scandir(PLUGIN_DIR);
 
     foreach ($addDir as $_key => $_dir) {
         if (!(strpos($_dir, '.') || strpos($_dir, '..'))) {
-            SetPlugin($_dir);
+            setPlugin($_dir);
         }
     }
 }
 
 /**
- * SearchData
+ * searchData
  *
  * in_arrayの代替処理。
  * (in_arrayは速度的に問題があるため、issetで対応する)
@@ -424,7 +424,7 @@ function SetAllPlugin(): void
  *
  * @return bool
  */
-function SearchData($target, array $arrayData): bool
+function searchData($target, array $arrayData): bool
 {
     $filipData = array_flip($arrayData);
 
@@ -439,7 +439,7 @@ function SearchData($target, array $arrayData): bool
 }
 
 /**
- * MoldImageConfig
+ * moldImageConfig
  *
  * getImageSize関数で取得した配列を整形する。
  *
@@ -447,7 +447,7 @@ function SearchData($target, array $arrayData): bool
  *
  * @return array
  */
-function MoldImageConfig($imageConfig): array
+function moldImageConfig($imageConfig): array
 {
     $ret = [];
     if (is_array($imageConfig)) {
@@ -464,7 +464,7 @@ function MoldImageConfig($imageConfig): array
 }
 
 /**
- * CalcImageSize
+ * calcImageSize
  *画像のサイズを計算する
  *
  * @param string $imageName 画像名(画像パス含む)
@@ -472,7 +472,7 @@ function MoldImageConfig($imageConfig): array
  *
  * @return array|false
  */
-function CalcImageSize(string $imageName, string|int $imageSizeViewValue): array|false
+function calcImageSize(string $imageName, string|int $imageSizeViewValue): array|false
 {
     if (!file_exists($imageName) || !exif_imagetype($imageName)) {
         return false;
@@ -490,52 +490,19 @@ function CalcImageSize(string $imageName, string|int $imageSizeViewValue): array
         }
     }
     $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
-    $ret = array_merge(MoldImageConfig($imageConfig), $ret);
+    $ret = array_merge(moldImageConfig($imageConfig), $ret);
 
     return $ret;
 }
 
 /**
- * CalcAllImageSize
- * 全ての画像のサイズを計算する
- *
- * @param string $imageName 画像名(画像パス含む)
- *
- * @return array|false
- */
-function CalcAllImageSize(string $imageName): array|false
-{
-    if (!is_string($imageName)) {
-        $ret = false;
-    } else {
-        $imageConfig = getimagesize($imageName);
-        $imageSize = filesize($imageName);
-        $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
-
-        $imageSizeUnit = '';
-        foreach ($imageSizeUnitArray as $_imageSizeUnit) {
-            if ($imageSize >= IMAGE_MAX_VALUE) {
-                $imageSize = $imageSize / IMAGE_MAX_VALUE;
-                $imageSizeUnit = $_imageSizeUnit;
-            }
-        }
-
-        $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
-
-        $ret = array_merge(MoldImageConfig($imageConfig), $ret);
-    }
-
-    return $ret;
-}
-
-/**
- * EmptyValidate
+ * emptyValidate
  *
  * @param mixed $validate
  * @param string|null $word
  * @return boolean|null
  */
-function EmptyValidate(mixed $validate, ?string $word = null): ?bool
+function emptyValidate(mixed $validate, ?string $word = null): ?bool
 {
     $v = null;
 
@@ -560,13 +527,13 @@ function EmptyValidate(mixed $validate, ?string $word = null): ?bool
 }
 
 /**
- * CheckMemory
+ * checkMemory
  *
  * メモリを可視化する
  *
  * @return void
  */
-function CheckMemory(): void
+function checkMemory(): void
 {
     static $initialMemoryUse = null;
 
@@ -574,5 +541,5 @@ function CheckMemory(): void
         $initialMemoryUse = memory_get_usage();
     }
 
-    Output(number_format(memory_get_usage() - $initialMemoryUse), formatFlg:true);
+    output(number_format(memory_get_usage() - $initialMemoryUse), formatFlg:true);
 }

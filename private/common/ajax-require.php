@@ -7,26 +7,26 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'InitFunction.php';
 require_once __DIR__. "/Setting.php";
 // セッション
 $sessionPath = new \Path(__DIR__);
-$sessionPath->SetPathEnd();
-$sessionPath->Add('Session.php');
-require_once $sessionPath->Get();
+$sessionPath->setPathEnd();
+$sessionPath->add('Session.php');
+require_once $sessionPath->get();
 // 設定変数を管理側用に上書き
-$base = new private\Setting();
+$base = new Private\Important\Setting();
 // 定数・固定文言など
 $commonWordPath = new \Path(dirname(__DIR__, 2));
-$commonWordPath->AddArray(["common", "Word", "Message.php"]);
+$commonWordPath->addArray(["common", "Word", "Message.php"]);
 $privateCommonWordPath = new \Path(__DIR__);
-$privateCommonWordPath->AddArray(["Word", "Message.php"]);
-require_once $privateCommonWordPath->Get();
+$privateCommonWordPath->addArray(["Word", "Message.php"]);
+require_once $privateCommonWordPath->get();
 
 // タグ
 $tagPath = new \Path(PRIVATE_COMPONENT_DIR);
-$tagPath->SetPathEnd();
-$tagPath->Add("Tag.php");
-require_once $tagPath->Get();
+$tagPath->setPathEnd();
+$tagPath->add("Tag.php");
+require_once $tagPath->get();
 
 //直接のページ遷移を阻止
-$request = private\Setting::JudgeAjax();
+$request = Private\Important\Setting::JudgeAjax();
 
 if (is_null($request)) {
     header("Content-Type: text/html; charset=UTF-8");
@@ -44,7 +44,7 @@ if (is_null($request)) {
     $ua = new UA\UA();
     define('Phone', 2);
     define('PC', 1);
-    switch ($ua->DesignJudge()) {
+    switch ($ua->judgeDevice()) {
     case PC:
         $agentCode = 'PC';
         break;
@@ -63,9 +63,9 @@ if (is_null($request)) {
 
 // タグ
 $tagPath = new \Path(PRIVATE_COMMON_DIR);
-$tagPath->SetPathEnd();
-$tagPath->Add("ajax-include.php");
-require_once $tagPath->Get();
+$tagPath->setPathEnd();
+$tagPath->add("ajax-include.php");
+require_once $tagPath->get();
 
 // CSRF
 require_once PRIVATE_COMMON_DIR . "/Token.php";

@@ -9,8 +9,8 @@ AlertAdmin('access', $title);
 $reset = explode(basename(__FILE__), '.')[0];
 
 $logoutPath = new \Path(__DIR__);
-$logoutPath->Add("layout");
-$logoutPath->SetPathEnd();
-$logoutPath->Add("layout.php");
-require_once$logoutPath->Get();
+$logoutPath->add("layout");
+$logoutPath->setPathEnd();
+$logoutPath->add("layout.php");
+require_once$logoutPath->get();
 

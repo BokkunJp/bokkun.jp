@@ -3,29 +3,29 @@
 // 値渡しと参照渡しの実装、速度比較
 $x = 1;
 $y = 1;
-Output("before x = ". $x);
+output("before x = ". $x);
 Foo($x);
-Output("not return x = ". $x);
+output("not return x = ". $x);
 $x = Foo($x);
-Output("after x = ". $x);
-Output("before y = ". $y);
+output("after x = ". $x);
+output("before y = ". $y);
 Bar($y);
-Output("after y = ". $y);
+output("after y = ". $y);
 
 // 20000個の整数配列x100のインクリメントをしたときのテスト
 $fooTime = CheckSpeed('Foo', Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000));
 $barTime = CheckSpeed('Bar', Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000));
 
-Output(bcdiv($fooTime, pow(10, 9), 7));      // Fooの実測時間
-Output(bcdiv($barTime, pow(10, 9), 7));      // Barの実測時間
+output(bcdiv($fooTime, pow(10, 9), 7));      // Fooの実測時間
+output(bcdiv($barTime, pow(10, 9), 7));      // Barの実測時間
 
 // 速度比較
 if ($fooTime > $barTime) {
-    Output("barの方が". bcdiv($fooTime - $barTime, pow(10, 9), 7). "秒早い");
+    output("barの方が". bcdiv($fooTime - $barTime, pow(10, 9), 7). "秒早い");
 } elseif ($barTime > $fooTime) {
-    Output("fooの方が". bcdiv($barTime - $fooTime, pow(10, 9), 7). "秒早い");
+    output("fooの方が". bcdiv($barTime - $fooTime, pow(10, 9), 7). "秒早い");
 } else {
-    Output("同じ時間帯");
+    output("同じ時間帯");
 }
 
 /**
@@ -51,10 +51,10 @@ function Input(int $max): array
  *
  * @return void
  */
-function View(array $ary)
+function view(array $ary)
 {
     foreach ($ary as $_ary) {
-        Output($_ary);
+        output($_ary);
     }
 }
 

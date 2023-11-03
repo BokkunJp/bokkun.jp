@@ -1,6 +1,6 @@
 <?php
 
-namespace UA;
+namespace Error\Important;
 
 define('PC_design', 1);
 define('SP_design', 2);
@@ -26,7 +26,7 @@ class UA
 
     // device = 2 → スマホ
     // device = 1 → PC
-    public function DesignJudge($device=null)
+    public function judgeDevice($device=null)
     {
         if ($this->judge('iPhone')|| $this->judge('Android')) {
             return 2;

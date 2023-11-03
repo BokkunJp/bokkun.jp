@@ -10,7 +10,7 @@
  *
  * @return integer
  */
-function Convert(int $decData, int $n): int
+function convert(int $decData, int $n): int
 {
     if (!isset($n)) {
         return null;

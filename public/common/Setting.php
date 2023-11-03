@@ -1,16 +1,17 @@
 <?php
 
 // サーバの設定
-
-namespace public;
+namespace Public\Important;
 
 $commonSettingPath = new \Path(dirname(__DIR__, 2));
-$commonSettingPath->AddArray(['common', 'Setting.php']);
-$commonPath = $commonSettingPath->Get();
+$commonSettingPath->addArray(['common', 'Setting.php']);
+$commonPath = $commonSettingPath->get();
 require_once $commonPath;
 
+$test = new \Common\Important\Setting();
+
 // 設定関係のクラス (共通クラスを親クラスとする)
-class Setting extends \common\Setting
+class Setting extends \Common\Important\Setting
 {
     public function __construct()
     {
@@ -19,25 +20,25 @@ class Setting extends \common\Setting
 
         // 公開パス関係
         $client = new \PathApplication("css", $this->client);
-        $client->SetAll([
+        $client->setAll([
             'js' => '',
             'image' => '',
             'csv' => ''
         ]);
 
-        $client->MethodPath("ResetKey", "/");
-        $client->ResetKey('css');
-        $client->MethodPath("Add", "css");
-        $this->css = $client->Get();
-        $client->ResetKey('js');
-        $client->MethodPath("Add", "js");
-        $this->js = $client->Get();
-        $client->ResetKey('image');
-        $client->MethodPath("Add", "image");
-        $this->image = $client->Get();
-        $client->ResetKey('csv');
-        $client->MethodPath("Add", "csv");
-        $this->csv = $client->Get();
+        $client->methodPath("ResetKey", "/");
+        $client->resetKey('css');
+        $client->methodPath("Add", "css");
+        $this->css = $client->get();
+        $client->resetKey('js');
+        $client->methodPath("Add", "js");
+        $this->js = $client->get();
+        $client->resetKey('image');
+        $client->methodPath("Add", "image");
+        $this->image = $client->get();
+        $client->resetKey('csv');
+        $client->methodPath("Add", "csv");
+        $this->csv = $client->get();
     }
 
     /**
@@ -49,7 +50,7 @@ class Setting extends \common\Setting
      */
     public static function JudgeAjax(): ?string
     {
-        return self::GetSERVER('HTTP_X_REQUESTED_WITH');
+        return self::getServer('HTTP_X_REQUESTED_WITH');
     }
 }
 
@@ -65,11 +66,11 @@ class Permmision
 
     public function __construct()
     {
-        $this->Initialize();
+        $this->initialize();
     }
 
     // パーミッション変数の初期化
-    private function Initialize($filePathInit = true, $modeInit = true)
+    private function initialize($filePathInit = true, $modeInit = true)
     {
         if ($filePathInit === true) {
             $this->filePath = '';
@@ -81,28 +82,28 @@ class Permmision
     }
 
     // パーミッション変更
-    private function Convert($fileNamePath, $mode)
+    private function convert($fileNamePath, $mode)
     {
         @chmod($fileNamePath, $mode);
     }
 
     // パーミッション許可
-    public function Allow($filePath, $orderName, $mode)
+    public function allow($filePath, $orderName, $mode)
     {
         if ($orderName) {
         }
         // $this->WhoCheck();
-        $this->Convert($filePath, $mode);
+        $this->convert($filePath, $mode);
     }
 
     // パーミッション拒否
-    public function Deny($filePath, $orderName, $mode)
+    public function deny($filePath, $orderName, $mode)
     {
     }
 }
 
 // 設定のベースとなる変数
-$domain = Setting::GetServerName();
+$domain = Setting::getServerName();
 $url = $http . $domain;
 $public = $url . '/public/';
 

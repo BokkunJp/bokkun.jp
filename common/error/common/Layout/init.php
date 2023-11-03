@@ -15,34 +15,34 @@ if (empty($title)) {
 }
 
 $initPathList = new \PathApplication('word', dirname(__DIR__));
-$initPathList->SetAll([
+$initPathList->setAll([
     'setting' => dirname(__DIR__, 3),
     'error_setting' => dirname(__DIR__),
     'error_include' => ''
 ]);
-$initPathList->ResetKey('word');
-$initPathList->MethodPath('SetPathEnd');
-$initPathList->MethodPath('Add', 'word.php');
-$initPathList->ResetKey('setting');
-$initPathList->MethodPath('SetPathEnd');
-$initPathList->MethodPath('Add', 'Setting.php');
-$initPathList->ResetKey('error_setting');
-$initPathList->MethodPath('SetPathEnd');
-$initPathList->MethodPath('Add', 'Setting.php');
-$initPathList->ResetKey('error_include');
-$initPathList->MethodPath('SetPathEnd');
-$initPathList->MethodPath('Add', 'Include.php');
+$initPathList->resetKey('word');
+$initPathList->methodPath('SetPathEnd');
+$initPathList->methodPath('Add', 'word.php');
+$initPathList->resetKey('setting');
+$initPathList->methodPath('SetPathEnd');
+$initPathList->methodPath('Add', 'Setting.php');
+$initPathList->resetKey('error_setting');
+$initPathList->methodPath('SetPathEnd');
+$initPathList->methodPath('Add', 'Setting.php');
+$initPathList->resetKey('error_include');
+$initPathList->methodPath('SetPathEnd');
+$initPathList->methodPath('Add', 'Include.php');
 
-$initPathList->All();
+$initPathList->all();
 
-foreach ($initPathList->Get() as $path) {
+foreach ($initPathList->get() as $path) {
     require_once $path;
 }
 // UA判定処理 (内容はベースと同様)
-$agent = new UA\UA();
+$agent = new Error\Important\UA();
 define('Phone', 2);
 define('PC', 1);
-switch ($agent->DesignJudge()) {
+switch ($agent->judgeDevice()) {
     case PC:
         $agentCode = 'PC';
         break;

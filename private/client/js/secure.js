@@ -1,6 +1,6 @@
 // DOM読み込み
-$( window ).on( 'load', function () {
-        Main(); // JQueryによるメイン処理
+$(window).on('load', function () {
+        main(); // JQueryによるメイン処理
     }
 );
 
@@ -8,9 +8,9 @@ $( window ).on( 'load', function () {
  *  引数：
  *  戻り値：
  */
-function Main ()
+function main()
 {
-    $( '.id' ).prop( 'disabled', true );
-    $( '.pass' ).prop( 'disabled', true );
-    $( '.send' ).prop( 'disabled', true );
+    $('.id').prop('disabled', true);
+    $('.pass').prop('disabled', true);
+    $('.send').prop('disabled', true);
 }

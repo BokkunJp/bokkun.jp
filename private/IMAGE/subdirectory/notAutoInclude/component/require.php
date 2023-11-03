@@ -12,7 +12,7 @@ require_once dirname(__DIR__, 4) . DS . 'common' . DS.'InitFunction.php';
 $privatepathList = new PathApplication('word', dirname(__DIR__, 4));
 
 // それぞれの変数セット
-$privatepathList->SetAll([
+$privatepathList->setAll([
     'setting' => '',
     'include' => '',
     'session' => '',
@@ -25,52 +25,52 @@ $privatepathList->SetAll([
 
 // パスの追加
 // ヘッダー・フッター
-$privatepathList->ResetKey('config');
-$privatepathList->MethodPath('AddArray', ['common', 'Config.php']);
+$privatepathList->resetKey('config');
+$privatepathList->methodPath('AddArray', ['common', 'Config.php']);
 
 // 定数・固定文言など
-$privatepathList->ResetKey('word');
-$privatepathList->MethodPath('AddArray', ['common', 'Word', 'Message.php']);
+$privatepathList->resetKey('word');
+$privatepathList->methodPath('AddArray', ['common', 'Word', 'Message.php']);
 
 // 管理側共通(ログイン認証など)
-$privatepathList->ResetKey('common');
-$privatepathList->MethodPath('AddArray', ['common.php']);
+$privatepathList->resetKey('common');
+$privatepathList->methodPath('AddArray', ['common.php']);
 
 // 設定
-$privatepathList->ResetKey('setting');
-$privatepathList->MethodPath('AddArray', ['common', 'Setting.php']);
+$privatepathList->resetKey('setting');
+$privatepathList->methodPath('AddArray', ['common', 'Setting.php']);
 
 // タグ
-$privatepathList->ResetKey('tag');
-$privatepathList->MethodPath('AddArray', ['common', 'Component', 'Tag.php']);
+$privatepathList->resetKey('tag');
+$privatepathList->methodPath('AddArray', ['common', 'Component', 'Tag.php']);
 
 // セッション
-$privatepathList->ResetKey('session');
-$privatepathList->MethodPath('AddArray', ['common', 'Session.php']);
+$privatepathList->resetKey('session');
+$privatepathList->methodPath('AddArray', ['common', 'Session.php']);
 
 // トークン
-$privatepathList->ResetKey('token');
-$privatepathList->MethodPath('AddArray', ['common', 'Token.php']);
+$privatepathList->resetKey('token');
+$privatepathList->methodPath('AddArray', ['common', 'Token.php']);
 
 // ファイル読み込み
-$privatepathList->ResetKey('include');
-$privatepathList->MethodPath('Reset');
-$privatepathList->MethodPath('AddArray', [__DIR__, 'include.php'], true);
+$privatepathList->resetKey('include');
+$privatepathList->methodPath('Reset');
+$privatepathList->methodPath('AddArray', [__DIR__, 'include.php'], true);
 
 // UA
-$privatepathList->ResetKey('ua');
-$privatepathList->MethodPath('Reset');
-$privatepathList->MethodPath('AddArray', ['common', 'Component', 'UA.php']);
+$privatepathList->resetKey('ua');
+$privatepathList->methodPath('Reset');
+$privatepathList->methodPath('AddArray', ['common', 'Component', 'UA.php']);
 
 // パスの出力
-$privatepathList->All();
+$privatepathList->all();
 
-foreach ($privatepathList->Get() as $path) {
-    Debug($path);
+foreach ($privatepathList->get() as $path) {
+    debug($path);
     require_once $path;
 }
 
 // 共通処理に必要なグローバル変数
-$base = new private\Setting();
-$ua = new private\UA();
+$base = new Private\Important\Setting();
+$ua = new Private\Important\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];

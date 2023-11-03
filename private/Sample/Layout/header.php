@@ -4,7 +4,7 @@
         <div>
         <a href="<?php echo $url; ?>"><img src="<?php echo $public; ?>client/image/<?php echo $img; ?>" width="40" height="40"></a>
         <strong>
-            <em>βοκκμη homepage<?= $siteConfig['header']->GetVersion() ?></em> <br/>
+            <em>βοκκμη homepage<?= $siteConfig['header']->getVersion() ?></em> <br/>
             <div class="top" align="center"><?php echo $title; ?></div>
         </strong>
         </div>

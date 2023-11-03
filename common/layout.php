@@ -2,11 +2,11 @@
 ini_set('error_reporting', E_ALL | ~E_STRICT);
 require_once(__DIR__. '/Setting.php');
 require_once(__DIR__. '/Component/UA.php');
-$agent = new UA\UA();
+$agent = new \Common\Important\UA();
 
 define('Phone', 2);
 define('PC', 1);
-$statusCode = $agent->DesignJudge();
+$statusCode = $agent->judgeDevice();
 switch ($statusCode) {
     case PC:
         $agentCode = 'PC';
@@ -18,15 +18,15 @@ switch ($statusCode) {
         break;
 }
 
-$css = new \Path($base->GetUrl('', 'client', false), '/');
-$design = new \Path($css->Get(), '/');
-$css->AddArray(['css', 'common', "{$agentCode}.css"]);
-$design->AddArray(['css', "design.css"]);
+$css = new \Path($base->getUrl('', 'client', false), '/');
+$design = new \Path($css->get(), '/');
+$css->addArray(['css', 'common', "{$agentCode}.css"]);
+$design->addArray(['css', "design.css"]);
 ?>
 <link rel="stylesheet" type="text/css"
-    href="<?=$css->Get() ?>">
+    href="<?=$css->get() ?>">
 <link rel="stylesheet" type="text/css"
-    href="<?=$design->Get()?>">
+    href="<?=$design->get()?>">
 <div class="container">
     <?php require_once('header.php'); ?>
     <main class="contents">

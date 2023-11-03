@@ -1,6 +1,6 @@
 <?php
 
-use private\Session;
+use Private\Important\Session;
 /**
  * ViewImage
  * 画像を表示する
@@ -21,13 +21,13 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
 
     // iniの内容を取得してセッションに保存
     $session = new Session();
-    if (empty($session->Read('deleteImageMaxSize-ini'))) {
-        $session->Write("deleteImageMaxSize-ini", (int)GetIni('private', 'ImageMaxSize'));
+    if (empty($session->read('deleteImageMaxSize-ini'))) {
+        $session->write("deleteImageMaxSize-ini", (int)GetIni('private', 'ImageMaxSize'));
     }
 
     $imagePath = new \Path(PUBLIC_IMAGE_DIR);
-    $imagePath->AddArray([$imagePageName, '_oldImage', $imageName]);
-    $imageData = CalcImageSize($imagePath->Get(), $session->Read('deleteImageMaxSize-ini'));
+    $imagePath->addArray([$imagePageName, '_oldImage', $imageName]);
+    $imageData = calcImageSize($imagePath->get(), $session->read('deleteImageMaxSize-ini'));
     // 画像データが存在する場合は出力
 
     if ($imageData) {

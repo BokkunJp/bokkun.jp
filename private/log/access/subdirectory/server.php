@@ -5,17 +5,17 @@ header("Content-Type: application/json; charset=UTF-8");
 define("DS", DIRECTORY_SEPARATOR);
 require_once dirname(__DIR__, 3). DS. "common". DS . "ajax-require.php";
 
-$set = new private\Setting();
+$set = new Private\Important\Setting();
 
 
 // ログパスをセット
 $dirPath = rtrim(dirname(__DIR__, 6), "\\");
 $dirPath = new \Path($dirPath);
-$dirPath->SetPathEnd();
-$dirPath->Add('log');
-$dirPath = $dirPath->Get();
+$dirPath->setPathEnd();
+$dirPath->add('log');
+$dirPath = $dirPath->get();
 
-$srcName = $set->GetPost('select_log');
+$srcName = $set->getPost('select_log');
 
 $errCode=null;
 
@@ -30,9 +30,9 @@ $result = ValidateData($dirPath, $srcName);
 
 if (!$errCode) {
     $srcPath = new \Path($dirPath);
-    $srcPath->SetPathEnd();
-    $srcPath->Add($srcName);
-    $srcFile = $srcPath->Get();
+    $srcPath->setPathEnd();
+    $srcPath->add($srcName);
+    $srcFile = $srcPath->get();
     if (file_exists($srcFile)) {
         $contents = file_get_contents($srcFile, FILE_USE_INCLUDE_PATH);
     } else {

@@ -1,8 +1,8 @@
 <?php
 
-use BasicTag\ScriptClass;
+use Public\Important\ScriptClass;
 
-function SendMail($header, $response=false)
+function sendMail($header, $response=false)
 {
     if (!isset($header)) {
         return false;
@@ -39,6 +39,6 @@ function SendMail($header, $response=false)
         $message = 'メールを送信しました。';
     } else {
         $script = new ScriptClass();
-        $script->Alert('メールの送信に失敗しました。');
+        $script->alert('メールの送信に失敗しました。');
     }
 }

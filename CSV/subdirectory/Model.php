@@ -1,6 +1,6 @@
 <?php
 
-use public\Setting as Setting;
+use Public\Important\Setting as Setting;
 
 define("FALSE_MESSAGE", "の値が不正です。");
 define("NULL_MESSAGE", "の値を入力してください。");
@@ -19,13 +19,13 @@ class CSV1 extends CSV1_Base
      * @param [type] $header
      * @return void
      */
-    public function SetHeader($header)
+    public function setHeader($header)
     {
-        $validate = $this->SetCommons($header);
+        $validate = $this->setCommons($header);
         if ($validate === false) {
-            $this->MakeData();
+            $this->makeData();
         }
-        $this->AddHeader($header);
+        $this->addHeader($header);
     }
 
     /**
@@ -35,13 +35,13 @@ class CSV1 extends CSV1_Base
      *
      * @return bool
      */
-    public function InputName()
+    public function inputName()
     {
         // postの取得
-        $fileName = Setting::GetPost('file-name');
+        $fileName = Setting::getPost('file-name');
 
         // ファイル名のバリデート
-        $nameValid = $this->ValidateName($fileName);
+        $nameValid = $this->validateName($fileName);
 
         if ($nameValid === false) {
             return $nameValid;
@@ -64,14 +64,14 @@ class CSV1 extends CSV1_Base
      *
      * @return void
      */
-    public function ReadData()
+    public function readData()
     {
         // postの取得
         $key = 'col-number';
-        $post = Setting::GetPost($key);
+        $post = Setting::getPost($key);
         $data = [$key => $post];
 
-        $valid = $this->ValidateNumber($data);
+        $valid = $this->validateNumber($data);
 
         $this->editFlg = $valid[$key];
 
@@ -79,7 +79,7 @@ class CSV1 extends CSV1_Base
             return $this->editFlg;
         }
 
-        $this->ReadFile($this->fileName, CSV_PATH);
+        $this->readFile($this->fileName, CSV_PATH);
     }
 
     /**
@@ -89,10 +89,10 @@ class CSV1 extends CSV1_Base
      *
      * @return void
      */
-    public function InputData()
+    public function inputData()
     {
         // postの取得
-        $post = Setting::GetPosts();
+        $post = Setting::getPosts();
 
         // 入力値のバリデート
         $data = [
@@ -100,28 +100,28 @@ class CSV1 extends CSV1_Base
             'y-value' => $post['y-value'],
             'z-value' => $post['z-value']
         ];
-        $valid = $this->ValidateNumber($data);
+        $valid = $this->validateNumber($data);
 
         $exitFlg = false;
         foreach ($valid as $_key => $_val) {
             if ($_val === false) {
                 $exitFlg = true;
-                $this->SetErrorMessage($_key, $_key. FALSE_MESSAGE);
+                $this->setErrorMessage($_key, $_key. FALSE_MESSAGE);
             } elseif ($_val === null) {
                 $exitFlg = true;
-                $this->SetErrorMessage($_key, $_key . NULL_MESSAGE);
+                $this->setErrorMessage($_key, $_key . NULL_MESSAGE);
             }
         }
         // 不正値が1つでもあればデータはセットしない
         if (!$exitFlg) {
             // データセット
-            $this->SetData($data);
+            $this->setData($data);
         } else {
             return false;
         }
     }
 
-    private function SetErrorMessage($key, $message = '')
+    private function setErrorMessage($key, $message = '')
     {
         $elm = ["<div class='warning'>", "</div>"];
 
@@ -140,18 +140,18 @@ class CSV1 extends CSV1_Base
      * @param [type] $data
      * @return void
      */
-    private function SetData($data)
+    private function setData($data)
     {
-        $validate = $this->SetCommons($data);
+        $validate = $this->setCommons($data);
         if ($validate === false) {
             return -1;
         } else {
-            $validate = $this->CountValidate($data);
+            $validate = $this->countValidate($data);
             if ($this->editFlg === true) {
-                $col = Setting::GetPost('col-number');
-                $this->EditData($col, $data);
+                $col = Setting::getPost('col-number');
+                $this->editData($col, $data);
             } elseif ($this->editFlg === null && $validate === true) {
-                $this->AddData($data);
+                $this->addData($data);
             }
         }
     }
@@ -164,11 +164,11 @@ class CSV1 extends CSV1_Base
      *
      * @return void
      */
-    public function SetCSV()
+    public function setCsv()
     {
         // データをCSVファイルに書き込み
         // 存在しない場合は、CSVファイルを作成
-        $this->MakeFile($this->fileName, CSV_PATH);
+        $this->makeFile($this->fileName, CSV_PATH);
     }
 
     /**
@@ -180,13 +180,13 @@ class CSV1 extends CSV1_Base
      * @return array
      */
 
-    public function OutData($option = null)
+    public function outData($option = null)
     {
-        if (!is_file(CSV_PATH. $this->fileName) || $this->ValidateName($this->fileName) === false) {
+        if (!is_file(CSV_PATH. $this->fileName) || $this->validateName($this->fileName) === false) {
             $ret = false;
         } else {
-            $this->ReadFile($this->fileName);
-            $ret = $this->MoldCsv($option);
+            $this->readFile($this->fileName);
+            $ret = $this->moldCsv($option);
         }
         return $ret;
     }

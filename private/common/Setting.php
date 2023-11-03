@@ -1,15 +1,14 @@
 <?php
 
-namespace private;
+namespace Private\Important;
 
-if (!class_exists("Path")) {
-    require_once dirname(__DIR__, 2). "/common/Initialize/Path.php";
-}
+require_once dirname(__DIR__, 2). "/common/Initialize/Path.php";
 
 $sesttingPath = new \Path(dirname(__DIR__, 2));
-$sesttingPath->AddArray(['common', 'Setting.php']);
-require_once $sesttingPath->Get();
-class Setting extends \common\Setting
+$sesttingPath->addArray(['common', 'Setting.php']);
+require_once $sesttingPath->get();
+
+class Setting extends \Common\Important\Setting
 {
     protected \Path|string $private;
     protected string $domain;
@@ -29,41 +28,41 @@ class Setting extends \common\Setting
 
         // 基本設定
         $this->private = new \Path('', '/');
-        $this->private->Add('private');
-        $this->client = new \Path($this->private->Get(), '/');
-        $this->private = $this->private->Get();
-        $this->client->Add('client');
-        $this->client = $this->client->Get();
+        $this->private->add('private');
+        $this->client = new \Path($this->private->get(), '/');
+        $this->private = $this->private->get();
+        $this->client->add('client');
+        $this->client = $this->client->get();
 
         // 公開パス関係
         $publicPath = new \PathApplication('css', $this->client, '/');
-        $publicPath->SetAll([
+        $publicPath->setAll([
             'js' => '',
             'image' => '',
             'csv' => '',
             'filepageImage' => $this->public
         ]);
-        $publicPath->ResetKey('css');
-        $publicPath->MethodPath('Add', 'css');
-        $this->css = $publicPath->Get();
+        $publicPath->resetKey('css');
+        $publicPath->methodPath('Add', 'css');
+        $this->css = $publicPath->get();
 
 
-        $publicPath->ResetKey('js');
-        $publicPath->MethodPath('Add', 'js');
-        $this->js = $publicPath->Get();
+        $publicPath->resetKey('js');
+        $publicPath->methodPath('Add', 'js');
+        $this->js = $publicPath->get();
 
 
-        $publicPath->ResetKey('image');
-        $publicPath->MethodPath('Add', 'image');
-        $this->image = $publicPath->Get();
+        $publicPath->resetKey('image');
+        $publicPath->methodPath('Add', 'image');
+        $this->image = $publicPath->get();
 
-        $publicPath->ResetKey('csv');
-        $publicPath->MethodPath('Add', 'csv');
-        $this->csv = $publicPath->Get();
+        $publicPath->resetKey('csv');
+        $publicPath->methodPath('Add', 'csv');
+        $this->csv = $publicPath->get();
 
-        $publicPath->ResetKey('filepageImage');
-        $publicPath->MethodPath('Add', 'image');
-        $this->image = $publicPath->Get();
+        $publicPath->resetKey('filepageImage');
+        $publicPath->methodPath('Add', 'image');
+        $this->image = $publicPath->get();
     }
 
     /**
@@ -75,7 +74,7 @@ class Setting extends \common\Setting
      */
     public static function GetDomain(): string
     {
-        return parent::GetSERVER('HTTP_HOST');
+        return parent::getServer('HTTP_HOST');
     }
 
 
@@ -89,7 +88,7 @@ class Setting extends \common\Setting
     public static function GetHostIp($hostName = null): string
     {
         if (is_null($hostName)) {
-            $ret = parent::GetSERVER('REMOTE_ADDR');
+            $ret = parent::getServer('REMOTE_ADDR');
         } else {
             $ret = gethostbyname($hostName);
         }
@@ -121,7 +120,7 @@ class Setting extends \common\Setting
      */
     public static function GetSelf(): mixed
     {
-        return parent::GetSERVER('PHP_SELF');
+        return parent::getServer('PHP_SELF');
     }
 
     /**
@@ -133,7 +132,7 @@ class Setting extends \common\Setting
      */
     public static function GetPrevPage(): mixed
     {
-        return parent::GetSERVER('HTTP_REFERER');
+        return parent::getServer('HTTP_REFERER');
     }
 
 
@@ -144,9 +143,9 @@ class Setting extends \common\Setting
      *
      * @return string
      */
-    public static function GetURI(): string
+    public static function getUri(): string
     {
-        return self::GetSERVER('REQUEST_URI');
+        return self::getServer('REQUEST_URI');
     }
 
     /**
@@ -158,20 +157,20 @@ class Setting extends \common\Setting
      */
     public static function JudgeAjax(): string|null
     {
-        return self::GetSERVER('HTTP_X_REQUESTED_WITH');
+        return self::getServer('HTTP_X_REQUESTED_WITH');
     }
 }
 
 $commonPath = new \Path(dirname(__DIR__, 2));
-$commonPath->Add('common');
-$settingPath = new \Path($commonPath->Get());
-$settingPath->SetPathEnd();
-$settingPath->Add('Setting.php');
-require_once $settingPath->Get();
+$commonPath->add('common');
+$settingPath = new \Path($commonPath->get());
+$settingPath->setPathEnd();
+$settingPath->add('Setting.php');
+require_once $settingPath->get();
 
-$traitPath = new \Path($commonPath->Get());
-$traitPath->AddArray(['Trait', 'SessionTrait.php']);
-require_once $traitPath->Get();
+$traitPath = new \Path($commonPath->get());
+$traitPath->addArray(['Trait', 'SessionTrait.php']);
+require_once $traitPath->get();
 
 $domain = filter_input_fix(INPUT_SERVER, 'SERVER_NAME');
 

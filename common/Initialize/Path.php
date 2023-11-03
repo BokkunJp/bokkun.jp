@@ -19,7 +19,7 @@ class Path {
     ) {
 
         if ($path instanceof \Path) {
-            $path = $path->Get();
+            $path = $path->get();
         }
 
         $next = '';
@@ -27,11 +27,11 @@ class Path {
             $next = $this->separator;
         }
 
-        $this->Set($path. $next);
-        $this->SetType("directory");
+        $this->set($path. $next);
+        $this->setType("directory");
         $this->cache = null;
 
-        $this->Separate();
+        $this->separate();
     }
 
     /**
@@ -43,7 +43,7 @@ class Path {
      *
      * @return void
      */
-    private function SetType(?string $type = null): void
+    private function setType(?string $type = null): void
     {
         // タイプ指定あり
         if (!is_null($type)) {
@@ -68,13 +68,13 @@ class Path {
      *
      * @return void
      */
-    public function SetPathEnd(): void
+    public function setPathEnd(): void
     {
-        $this->SetType('file');
+        $this->setType('file');
     }
 
     /**
-     * EditSeparator
+     * editSeparator
      *
      * セパレータを入れ替える
      *
@@ -82,14 +82,14 @@ class Path {
      *
      * @return void
      */
-    public function EditSepartor(string $separatior): void
+    public function editSeparator(string $separatior): void
     {
-        $this->Set(str_replace($this->separator, $separatior, $this->path));
+        $this->set(str_replace($this->separator, $separatior, $this->path));
         $this->separator = $separatior;
     }
 
     /**
-     * Set
+     * set
      *
      * パスをセットする
      *
@@ -97,7 +97,7 @@ class Path {
      *
      * @return void
      */
-    private function Set(string $path = ""): void
+    private function set(string $path = ""): void
     {
         $this->path = $path;
     }
@@ -109,25 +109,25 @@ class Path {
      *
      * @return string
      */
-    public function Get(): string
+    public function get(): string
     {
         return $this->path;
     }
 
     /**
-     * GetInit
+     * getInitial
      *
      * 加工前のパスを取得する。
      *
      * @return string
      */
-    public function GetInit(): string
+    public function getInitial(): string
     {
         return $this->prev->path;
     }
 
     /**
-     * Add
+     * add
      *
      * パスを追記する。
      *
@@ -135,7 +135,7 @@ class Path {
      *
      * @return ?string
      */
-    public function Add(
+    public function add(
         string $addPath,
         bool $saveFlg = true,
     ): ?string
@@ -149,8 +149,8 @@ class Path {
         $path = htmlspecialchars($this->path. $addPath. $last);    // パスの結合＋XSS対策
 
         if ($saveFlg) {
-            $this->Set($path);
-            $this->Separate();
+            $this->set($path);
+            $this->separate();
 
             return null;
         } else {
@@ -159,7 +159,7 @@ class Path {
     }
 
     /**
-     * AddArray
+     * addArray
      *
      * 配列に登録したパスをまとめてセットする。
      *
@@ -168,27 +168,27 @@ class Path {
      *
      * @return void
      */
-    public function AddArray(array $pathList, bool $initialFlg = false): void
+    public function addArray(array $pathList, bool $initialFlg = false): void
     {
         $oldSeparator = $this->lastSeparator;
-        $this->SetType("dicrectory");
+        $this->setType("dicrectory");
         // 初期化フラグがオンの場合はパスを空文字で初期化
         if ($initialFlg) {
-            $this->Set("");
+            $this->set("");
         }
 
         foreach ($pathList as $path) {
             if ($path === end($pathList)) {
-                $this->SetPathEnd();
+                $this->setPathEnd();
             }
-            $this->Add($path);
+            $this->add($path);
         }
-        $this->SetType($oldSeparator);
+        $this->setType($oldSeparator);
 
-        $this->Separate();
+        $this->separate();
     }
 
-    public function Replace(int $str)
+    public function replace(int $str)
     {
 
     }
@@ -202,7 +202,7 @@ class Path {
      * @param integer $depth 階層
      * @return void
      */
-    public function Back(int $depth = 1)
+    public function back(int $depth = 1)
     {
         $this->path = dirname($this->path, $depth);
     }
@@ -210,11 +210,11 @@ class Path {
     public function ExistFile()
     {
         if (is_file($this->path)) {
-            $this->Back();
+            $this->back();
         }
     }
 
-    private function Separate()
+    private function separate()
     {
         if (is_file($this->path)) {
             $this->last['file'] = $this->path;
@@ -225,7 +225,7 @@ class Path {
         }
     }
 
-    public function Export(string $type)
+    public function export(string $type)
     {
         switch ($type) {
             case 'directory':
@@ -238,15 +238,15 @@ class Path {
     }
 
     /**
-     * Reset
+     * reset
      *
      * クラスをリセットする。
      *
      * @return void
      */
-    public function Reset(): void
+    public function reset(): void
     {
-        $this->BeforeMarshal();
+        $this->beforeMarshal();
         $this->separator = $this->prev->separator;
         $this->lastSeparator = $this->prev->lastSeparator;
         $this->path = $this->prev->path;
@@ -254,19 +254,19 @@ class Path {
     }
 
     /**
-     * Save
+     * save
      *
      * 実行前処理
      * (パス変更前のクラスを保存する)
      *
      * @return void
      */
-    private function BeforeMarshal()
+    private function beforeMarshal()
     {
         $this->prev = $this;
     }
 
-    public function AfterMarshal(?Callable  $callBack = null): void
+    public function afterMarshal(?Callable  $callBack = null): void
     {
         // 処理
         if (!is_null($callBack)) {
@@ -277,11 +277,11 @@ class Path {
 
         if (isset($this->prev)) {
             var_dump("階層移動");
-            $this->prev->AfterMarshal($callBack);
+            $this->prev->afterMarshal($callBack);
         }
     }
 
-    public function OutArray(): array
+    public function outArray(): array
     {
         return explode($this->separator, $this->path);
     }

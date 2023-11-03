@@ -1,7 +1,7 @@
 <?php
-namespace public;
+namespace Public\Important;
 
 // セッションクラス (公開側)
-class Session extends \common\Session
+class Session extends \Common\Important\Session
 {
 }

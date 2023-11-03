@@ -7,7 +7,7 @@ require_once PUBLIC_COMMON_DIR. "/Include.php";
 // UA判定処理 (内容はベースと同様)
 define('Phone', 2);
 define('PC', 1);
-switch ($ua->DesignJudge()) {
+switch ($ua->judgeDevice()) {
     case PC:
         $agentCode = 'PC';
         break;

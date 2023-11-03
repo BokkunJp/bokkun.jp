@@ -15,18 +15,18 @@ class API
         $this->data = [];   // データを空でセット
     }
 
-    public function SetUrl(string $type, string $url): void
+    public function setUrl(string $type, string $url): void
     {
         $this->type = $type;
         $this->url = $url;
     }
 
-    public function SetData(string $key, mixed $value)
+    public function setData(string $key, mixed $value)
     {
         $this->data[$key] = $value;
     }
 
-    public function UnsetData($key = null)
+    public function unsetData($key = null)
     {
         if (isset($this->data[$key])) {
             unset($this->data[$key]);
@@ -37,14 +37,14 @@ class API
         }
     }
 
-    public function SendData()
+    public function sendData()
     {
         $handle = curl_init('hogfe');
-        Output($handle);
+        output($handle);
     }
 }
 
-function ModelTest()
+function modelTest()
 {
     return new API('hoge', 'hogehoge');
 }

@@ -1,18 +1,18 @@
 // DOM読み込み
 onload = function ()
 {
-    Main();     // メイン処理
+    main();     // メイン処理
 }
 
 /* JQueryによる処理の流れ
  *  引数：
  *  戻り値：
  */
-function Main()
+function main()
 {
 
     var vue = new VueClass();
-    vue.SetData('#test', 'Default');
+    vue.setData('#test', 'Default');
     vue.Exec();
 
 
@@ -26,16 +26,15 @@ function Main()
 class VueClass
 {
     constructor() {
-        // console.log('construct');
-        this.MakeData();
+        this.makeData();
     }
-    MakeData()
+    makeData()
     {
 
         this.el = null;
         this.data = null;
     }
-    SetData(el, data)
+    setData(el, data)
     {
         this.SetElement(el);
         this.SetMessage(data);
@@ -68,15 +67,12 @@ class VueClass
 
     Exec()
     {
-        if (!this.obj)
-        {
+        if (!this.obj) {
             this.SetObject();
         }
-        if (document.domain == 'bokkun.jp.project')
-        {
+        if (document.domain == 'bokkun.jp.project') {
             Vue.config.devtools = true;
-        } else
-        {
+        } else {
             console.log('real server');
         }
         return new Vue(this.obj);
@@ -90,16 +86,16 @@ class VueClass
 
  // DOM読み込み
 // $(function() {
-//    Main();     // メイン処理
+//    main();     // メイン処理
 // });
 
 // 全体読み込み (画像まで読み込んでから実行)
 // $(window).on('load', function() {
     // });
-    //    Main();     // メイン処理
+    //    main();     // メイン処理
 
 // JQueryを使わない場合のDOM読み込み
 onload = function() {
-//    Main();     // メイン処理
+//    main();     // メイン処理
 }
  */

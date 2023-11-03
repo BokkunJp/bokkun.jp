@@ -1,15 +1,15 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-Output("======================================================");
+output("======================================================");
 $pathTest = new Path(new Path('test'));
-Output("======================================================");
-Output($pathTest->Add('test2', false));
-$pathTest->Add('test2');
-$pathTest->Add('test2');
-$pathTest->AfterMarshal();
-// $pathTest->Add('test3');
-$pathTest->AfterMarshal();
-Output("======================================================");
+output("======================================================");
+output($pathTest->add('test2', false));
+$pathTest->add('test2');
+$pathTest->add('test2');
+$pathTest->afterMarshal();
+// $pathTest->add('test3');
+$pathTest->afterMarshal();
+output("======================================================");
 
 $test1 = 'aaa';
 $test2 = null;
@@ -20,7 +20,7 @@ if ($test2 === $test1) {
     echo '2';
 }
 echo "<br/>";
-function FindFileName(string $str, bool $existFlg = false)
+function findFileName(string $str, bool $existFlg = false)
 {
     $result = false;
     if (preg_match("/(.*)\.(.*)/", $str)) {
@@ -36,18 +36,18 @@ function FindFileName(string $str, bool $existFlg = false)
     return $result;
 }
 
-function Comp(
+function comp(
     int|string $data,
 ): void {
     if (gettype($data) === 'integer') {
-        Output($data * $data);
+        output($data * $data);
     } else {
-        Output($data);
+        output($data);
     }
 }
 
 
-Comp(1111);
+comp(1111);
 // 11 * 11 = 121
 // 111 * 111 = 12321
 // 1111 * 1111 = 1234321
@@ -57,4 +57,4 @@ Comp(1111);
 // (10^n+10^(n-1)+10^(n-2)+...10^0) * (10^n+10^(n-1)+10^(n-2)+...10^0)
 // = {nΣk=0(10^(n-k))}^2
 // =
-Comp('a');
+comp('a');

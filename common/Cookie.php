@@ -5,7 +5,7 @@ class Cookie
     private $cookie;
     public function __construct()
     {
-        $this->Init();
+        $this->init();
     }
 
     /**
@@ -15,7 +15,7 @@ class Cookie
      *
      * @return void
      */
-    private function Init()
+    private function init()
     {
         foreach ($_COOKIE as $_key => $_val) {
             setcookie($_key, "", time() - 100);
@@ -29,7 +29,7 @@ class Cookie
      *
      * @return void
      */
-    public function GetCookie()
+    public function getCookie()
     {
         $this->cookie = $_COOKIE;
     }
@@ -43,7 +43,7 @@ class Cookie
      * @param [type] $val
      * @return void
      */
-    public function SetCookie($name, $val = null)
+    public function setCookie($name, $val = null)
     {
         setCookie($val, $name);
     }
@@ -55,7 +55,7 @@ class Cookie
      *
      * @return void
      */
-    public function ViewCookie()
+    public function viewCookie()
     {
         print_r($this->cookie);
     }

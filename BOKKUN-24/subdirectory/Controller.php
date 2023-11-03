@@ -1,13 +1,13 @@
 <?php
 
-use BasicTag\ScriptClass as ScriptClass;
+use Public\Important\ScriptClass as ScriptClass;
 
 $modelPath = new \Path(__DIR__);
-$modelPath->SetPathEnd();
-$modelPath->Add('Model.php');
-require_once $modelPath->Get();
+$modelPath->setPathEnd();
+$modelPath->add('Model.php');
+require_once $modelPath->get();
 
-$posts = \public\Setting::GetPosts();
+$posts = \Public\Important\Setting::getPosts();
 
 if (isset($posts['db-input-token'])) {
     $tokenName = 'db-input-token';
@@ -15,25 +15,25 @@ if (isset($posts['db-input-token'])) {
     $tokenName = 'db-search-token';
 }
 
-if (!class_exists('Public\Token')) {
+if (!class_exists('Public\Important\Token')) {
     $tokenPath = new \Path(PUBLIC_COMMON_DIR);
-    $tokenPath->SetPathEnd();
-    $tokenPath->Add('Token.php');
-    require_once $tokenPath->Get();
+    $tokenPath->setPathEnd();
+    $tokenPath->add('Token.php');
+    require_once $tokenPath->get();
 }
 
 if (!empty($posts)) {
-    Main($posts, $tokenName);
+    main($posts, $tokenName);
 }
 
-function Main($postData, $tokenName)
+function main($postData, $tokenName)
 {
     $script = new ScriptClass();
-    $session = new public\Session();
-    $token = new \Public\Token($tokenName, $session, true);
-    $token->Check();
-    if ($token->Check()) {
-        // $script->Alert("不正な操作を検知しました。");
+    $session = new Public\Important\Session();
+    $token = new \Public\Important\Token($tokenName, $session, true);
+    $token->check();
+    if ($token->check()) {
+        // $script->alert("不正な操作を検知しました。");
         return false;
     }
 
@@ -41,22 +41,22 @@ function Main($postData, $tokenName)
 
     if ($tokenName === 'token') {
         if (!isset($postData['delete-num']) && !isset($postData['delete-all'])) {
-            $ret = InputData($postData['edit-contents']);
+            $ret = inputData($postData['edit-contents']);
             if ($ret) {
-                $session->Write('db-exec', 'コンテンツを保存しました。');
+                $session->write('db-exec', 'コンテンツを保存しました。');
             } else {
-                $session->Write('db-error', 'コンテンツの保存に失敗しました。');
+                $session->write('db-error', 'コンテンツの保存に失敗しました。');
             }
         } elseif (isset($postData['delete-all'])) {
-            InitializeTable();
-            $script->Alert("すべてのデータを削除しました。");
+            initializeTable();
+            $script->alert("すべてのデータを削除しました。");
         } else {
             if (is_numeric($postData['edit-id'])) {
                 $edit_id = $postData['edit-id'];
-                DeleteTable($edit_id);
-                $script->Alert("{$edit_id}のデータを削除しました。");
+                deleteTable($edit_id);
+                $script->alert("{$edit_id}のデータを削除しました。");
             } else {
-                $session->Write('db-error', '番号の指定が不正です。');
+                $session->write('db-error', '番号の指定が不正です。');
             }
         }
     } elseif ($tokenName === 'searchToken') {

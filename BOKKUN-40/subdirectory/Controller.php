@@ -1,13 +1,13 @@
 <?php
-$posts = public\Setting::GetPosts();
-$session = new public\Session();
-$token = new \Public\Token('xml-token', $session, true);
-$token->Check();
-if ($token->Check()) {
-    // $script->Alert("不正な操作を検知しました。");
+$posts = Public\Important\Setting::getPosts();
+$session = new Public\Important\Session();
+$token = new \Public\Important\Token('xml-token', $session, true);
+$token->check();
+if ($token->check()) {
+    // $script->alert("不正な操作を検知しました。");
     return false;
 }
-$file = public\Setting::GetFiles();
+$file = Public\Important\Setting::getFiles();
 if (!isset($file['xml']) || $file['xml']['error'] || $file['xml']['type'] !== "application/octet-stream") {
     return -1;
 }

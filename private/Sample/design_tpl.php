@@ -1,6 +1,6 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-SetPlugin('smarty');
+setPlugin('smarty');
 
 $smarty = new Smarty();
 $smarty->template_dir = './subdirectory/templates/';

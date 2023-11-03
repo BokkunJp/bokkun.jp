@@ -4,30 +4,30 @@ require_once __DIR__ . '/component/require.php';
 require_once dirname(__DIR__) . '/File.php';
 
 // ページ数取得
-$page = private\Setting::GetQuery('page');
+$page = Private\Important\Setting::getQuery('page');
 $str = 'private/IMAGE/delete/';
 $str .= !empty($page) ? "?page={$page}" : "";
 
 // セッション開始
-$session = new private\Session();
-$mode = private\Setting::GetQuery('mode');
+$session = new Private\Important\Session();
+$mode = Private\Important\Setting::getQuery('mode');
 
 if (!empty($mode) && $mode === 'edit') {
     // view-tokenチェック
-    $viewToken = new private\Token('delete-view-token', $session);
-    if ($viewToken->Check() === false) {
-        $session->Write('delete-page-notice', '不正な遷移です。もう一度操作してください。', 'Delete');
-        $url = new private\Setting();
-        header('Location:' . $url->GetUrl($str));
+    $viewToken = new Private\Important\Token('delete-view-token', $session);
+    if ($viewToken->check() === false) {
+        $session->write('delete-page-notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $url = new Private\Important\Setting();
+        header('Location:' . $url->getUrl($str));
         exit;
     }
 
-    $posts = private\Setting::getPosts();
+    $posts = Private\Important\Setting::getPosts();
 
     if (isset($posts['delete'])) {
         // 削除の場合
         $deleteImages = $imageNameArray = [];
-        $allImage = LoadAllImageFile();
+        $allImage = loadAllImageFile();
 
         $judge = ValidateDeleteImage($posts);
         if ($judge === true) {
@@ -55,7 +55,7 @@ if (!empty($mode) && $mode === 'edit') {
                     $noticeWord .= "・". $imageNameArray[$_key]. SUCCESS_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
-                $session->Write('delete-page-success', $noticeWord, 'Delete');
+                $session->write('delete-page-success', $noticeWord, 'Delete');
             }
 
             // 削除失敗した画像について
@@ -67,11 +67,11 @@ if (!empty($mode) && $mode === 'edit') {
                     $noticeWord .= "・". $imageNameArray[$_key]. FAIL_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
-                $session->Write('delete-page-notice', $noticeWord, 'Delete');
+                $session->write('delete-page-notice', $noticeWord, 'Delete');
             }
         } else {
             // 削除対象が選択されていない場合
-            $session->Write('delete-page-notice', NOT_FOUND_PERMANENT_DLETE_OR_RESTORE_IMAGE, 'Delete');
+            $session->write('delete-page-notice', NOT_FOUND_PERMANENT_DLETE_OR_RESTORE_IMAGE, 'Delete');
         }
     } elseif (isset($posts['restore'])) {
         // 復元の場合
@@ -114,26 +114,26 @@ if (!empty($mode) && $mode === 'edit') {
                     $noticeWord .= "・". $result['error']['count']. NUMBER_OF_FILE .FAIL_RESTORE_IMAGE;
                 }
             }
-            $session->Write('delete-page-notice', $noticeWord);
+            $session->write('delete-page-notice', $noticeWord);
             // チェックがある場合は、その状態をセッションへ保持
             if (!empty($restoreImgList)) {
-                $session->Write('delete-checkImage', array_flip($restoreImgList));
+                $session->write('delete-checkImage', array_flip($restoreImgList));
             }
         }
         if (!empty($result['success']['count'])) {
-            $session->Write('delete-page-success', $result['success']['count']. NUMBER_OF_FILE . SUCCESS_RESTORE_IMAGE);
+            $session->write('delete-page-success', $result['success']['count']. NUMBER_OF_FILE . SUCCESS_RESTORE_IMAGE);
         }
 
      } else {
         // 削除以外の場合(不正値)
-        $session->Write('delete-page-notice', '不正な遷移です。もう一度操作してください。', 'Delete');
-        $url = new private\Setting();
-        header('Location:' . $url->GetUrl($str));
+        $session->write('delete-page-notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $url = new Private\Important\Setting();
+        header('Location:' . $url->getUrl($str));
         exit;
     }
 }
 @session_regenerate_id();
-$session->Write('delete-token', sha1(session_id()));
-// $session->FinaryDestroy();
-$url = new private\Setting();
-header('Location:' . $url->GetUrl($str));
+$session->write('delete-token', sha1(session_id()));
+// $session->finaryDestroy();
+$url = new Private\Important\Setting();
+header('Location:' . $url->getUrl($str));
