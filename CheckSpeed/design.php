@@ -4,17 +4,17 @@
 $x = 1;
 $y = 1;
 output("before x = ". $x);
-Foo($x);
+foo($x);
 output("not return x = ". $x);
-$x = Foo($x);
+$x = foo($x);
 output("after x = ". $x);
 output("before y = ". $y);
-Bar($y);
+bar($y);
 output("after y = ". $y);
 
 // 20000個の整数配列x100のインクリメントをしたときのテスト
-$fooTime = CheckSpeed('Foo', Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000));
-$barTime = CheckSpeed('Bar', Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000), Input(20000));
+$fooTime = checkSpeed('Foo', input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000));
+$barTime = checkSpeed('Bar', input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000));
 
 output(bcdiv($fooTime, pow(10, 9), 7));      // Fooの実測時間
 output(bcdiv($barTime, pow(10, 9), 7));      // Barの実測時間
@@ -29,13 +29,13 @@ if ($fooTime > $barTime) {
 }
 
 /**
- * Input
+ * input
  *
  * @param integer $max
 
  * @return array
  */
-function Input(int $max): array
+function input(int $max): array
 {
     $ary = [];
     for ($i = 0; $i < $max; $i++) {
@@ -45,7 +45,7 @@ function Input(int $max): array
 }
 
 /**
- * View
+ * view
  *
  * @param array $ary
  *
@@ -59,13 +59,13 @@ function view(array $ary)
 }
 
 /**
- * Foo
+ * foo
  *
  * @param array $x
 
  * @return array
  */
-function Foo(array|int $x)
+function foo(array|int $x)
 {
     if (is_array($x)) {
         foreach ($x as $_var) {
@@ -85,13 +85,13 @@ function Foo(array|int $x)
 }
 
 /**
- * Bar
+ * bar
  *
  * @param array &$x
 
  * @return void
  */
-function Bar(array|int &$x)
+function bar(array|int &$x)
 {
     if (is_array($x)) {
         foreach ($x as $_var) {

@@ -12,13 +12,13 @@ includeFiles($dbPath->get());
 function loadDb($dbName='bokkun_test', $dbPass='bX3Ht6Gk', $tableName='test_db')
 {
     $dbTest = new DB($dbName, $dbPass);
-    $dbTest->SetTable($tableName);
+    $dbTest->setTable($tableName);
 
     return $dbTest;
 }
 
 /**
- * InputData
+ * inputData
  *
  * @param  array $val
  * @return mixed|boolean
@@ -40,15 +40,15 @@ function inputData($val)
 
     $column = ['id', 'contents'];
 
-    $id = $dbTest->SelectDataCount();
+    $id = $dbTest->selectDataCount();
     $data = [$id + 1, $val];
-    $dbTest->SetSequence($id+1);
+    $dbTest->setSequence($id+1);
 
-    return $dbTest->Insert($column, $data);
+    return $dbTest->insert($column, $data);
 }
 
 /**
- * SelectTable
+ * selectTable
  *
  * @param  mixed $cond
  * @return void
@@ -66,7 +66,7 @@ function initializeTable()
     $dbTest = loadDb(dbPass:'bokkun_test');
 
 
-    $dbTest->SetSequence();
+    $dbTest->setSequence();
 
     $dbTest->DeleteAll();
 }

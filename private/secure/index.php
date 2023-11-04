@@ -64,11 +64,11 @@ if ((!($adminAuth))) {
     if ($tokenError === false && !empty($post)) {
         $session->write('password-Error', '<p>IDまたはパスワードが違います。</p>');
         // ログイン警告メール (ログイン失敗時)
-        AlertAdmin('login', $adminSession['movePage']);
+        alertAdmin('login', $adminSession['movePage']);
     }
 } else {
     // ログイン警告メール (ログイン成功時)
-    AlertAdmin('login_success', '');
+    alertAdmin('login_success', '');
 
     // script読み込み
     print_r("<script src='{$url}/private/client/js/common/jquery-3.1.1.min.js'></script>

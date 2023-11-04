@@ -77,7 +77,7 @@ class productCSV_Base
     }
 
     /**
-     * ReadFile
+     * readFile
      * ファイル読み込み
      *
      * @param [String] $fileName
@@ -109,7 +109,7 @@ class productCSV_Base
     }
 
     /**
-     * MoldCsv
+     * moldCsv
      * CSVデータを配列用に成形
      *
      * @return boolean|array
@@ -140,7 +140,7 @@ class productCSV_Base
 
 
     /**
-     * ValidateName
+     * validateName
      * 名称チェック
      *
      * @param string $haystack
@@ -184,7 +184,7 @@ class productCSV_Base
     }
 
     /**
-     * MakeFile
+     * makeFile
      * ファイル作成
      *
      * @param string $fileName
@@ -222,7 +222,7 @@ class productCSV_Base
     }
 
     /**
-     * ValidateNumber
+     * validateNumber
      * 入力値が数字かどうかチェックする。
      * (配列が入力された場合は各要素について同様にチェックする)
      *

@@ -4,7 +4,7 @@ use Public\Important\Setting as Setting;
 
 define("FALSE_MESSAGE", "の値が不正です。");
 define("NULL_MESSAGE", "の値を入力してください。");
-// IncludeDirctories();
+// includeDirctories();
 
 class CSV1 extends CSV1_Base
 {
@@ -29,7 +29,7 @@ class CSV1 extends CSV1_Base
     }
 
     /**
-     * InputName
+     * inputName
      *
      * ファイル名をセット。
      *
@@ -58,7 +58,7 @@ class CSV1 extends CSV1_Base
     }
 
     /**
-     * ReadData
+     * readData
      *
      * ファイルを読み込み、データをセット。
      *
@@ -83,7 +83,7 @@ class CSV1 extends CSV1_Base
     }
 
     /**
-     * InputData
+     * inputData
      *
      * CSVファイルに記述するデータのセット。
      *
@@ -133,7 +133,7 @@ class CSV1 extends CSV1_Base
     }
 
     /**
-     * SetData
+     * setData
      *
      * データをセット
      *
@@ -157,7 +157,7 @@ class CSV1 extends CSV1_Base
     }
 
     /**
-     * SetCSV
+     * setCsv
      *
      *
      * 指定したCSVファイルに、設定済みのデータを書き込む。
@@ -172,7 +172,7 @@ class CSV1 extends CSV1_Base
     }
 
     /**
-     * OutData
+     * outData
      *
      *
      * 指定したCSVファイルを読み込み、配列用データに成形して返す。

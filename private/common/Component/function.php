@@ -16,7 +16,7 @@ class Setting
         $this->authorities = array();
     }
 
-    protected function DenyAuthoritys($authorities)
+    protected function denyAuthoritys($authorities)
     {
         if (!is_array($authorities)) {
             trigger_error("引数が不正です。", E_USER_ERROR);
@@ -28,7 +28,7 @@ class Setting
 
     protected function denyAuthority($authority)
     {
-        $this->DenyAuthoritys([$authority]);
+        $this->denyAuthoritys([$authority]);
     }
 
     protected function allowAuthoritys($authority)
@@ -46,7 +46,7 @@ class Setting
     public function setDefault($authority)
     {
         $this->initialize();
-        $this->DenyAuthoritys($authority);
+        $this->denyAuthoritys($authority);
     }
 
 

@@ -5,7 +5,7 @@ require_once __DIR__ . '/Layout/init.php';
 
 $title = 'ログアウト';
 // アクセス警告メール
-AlertAdmin('access', $title);
+alertAdmin('access', $title);
 $reset = explode(basename(__FILE__), '.')[0];
 
 $logoutPath = new \Path(__DIR__);

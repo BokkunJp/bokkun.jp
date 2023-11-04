@@ -2,7 +2,7 @@
 
 use Private\Important\Session;
 /**
- * ViewImage
+ * viewImage
  * 画像を表示する
  *
  * @param  string $imageName
@@ -11,18 +11,18 @@ use Private\Important\Session;
  *
  * @return void
  */
-function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
+function viewImage($imageName, $imageUrl, $fileTime, $checked = false)
 {
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
 
     // 現在選択している画像タイプを取得
-    $imagePageName = GetImagePageName();
+    $imagePageName = getImagePageName();
 
     // iniの内容を取得してセッションに保存
     $session = new Session();
     if (empty($session->read('deleteImageMaxSize-ini'))) {
-        $session->write("deleteImageMaxSize-ini", (int)GetIni('private', 'ImageMaxSize'));
+        $session->write("deleteImageMaxSize-ini", (int)getIni('private', 'ImageMaxSize'));
     }
 
     $imagePath = new \Path(PUBLIC_IMAGE_DIR);
@@ -40,7 +40,7 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
 }
 
 /**
- * ViewList
+ * viewList
  * 画像をリスト表示する
  *
  * @param  mixed $imageName
@@ -48,10 +48,10 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false)
  *
  * @return void
  */
-function ViewList($imageName, $imageUrl, $checked = false)
+function viewList($imageName, $imageUrl, $checked = false)
 {
     // 現在選択している画像タイプを取得
-    $imagePageName = GetImagePageName();
+    $imagePageName = getImagePageName();
 
     echo "<div><a href='$imageUrl/$imagePageName/_oldImage/$imageName' target='new'>{$imageName}</a>";
     echo "<label><input type='checkbox' class='image-check' name='img_{$imageName}' value='$imageName' $checked /><span>完全に削除または復元</span></label></div>";

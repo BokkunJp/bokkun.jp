@@ -31,7 +31,7 @@ function main() {
     });
 }
 
-function Result(data) {
+function result(data) {
     if (data)    {
         // 削除不可のページの場合は削除ボタンを非活性に
         $('button[name="delete"]').prop('disabled', true);

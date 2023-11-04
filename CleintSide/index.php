@@ -5,4 +5,4 @@ require_once dirname(__DIR__) . '/public/common/Layout/scratch.php';
 $designPath = new \Path(__DIR__);
 $designPath->setPathEnd();
 $designPath->add("design.php");
-require_once$designPath->get();
+require_once $designPath->get();

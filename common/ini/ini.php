@@ -1,7 +1,7 @@
 <?php
 
 /**
- * GetIni
+ * getIni
  *
  * allを指定した場合はすべての値を一次配列で返し、それ以外の場合はパラメータで指定した要素を切り出した配列または値を返す。
  * (正しくない値の場合はfalseを返す。未入力の場合は全データを返す。)
@@ -9,7 +9,7 @@
  * @param ...$parameter
  * @return mixed
  */
-function GetIni(...$parameter): mixed
+function getIni(...$parameter): mixed
 {
     $iniFiles = scandir(__DIR__);
     $ini = $iniAll =  [];

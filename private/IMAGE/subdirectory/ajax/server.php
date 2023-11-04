@@ -8,8 +8,8 @@ $includePath = new \Path(getcwd());
 $includePath->setPathEnd();
 $includePath->add('include.php');
 require_once $includePath->get();
-IncludeFilesForImage(__DIR__. '/');
-IncludeFilesForImage(dirname(__DIR__). '/');
+includeFilesForImage(__DIR__. '/');
+includeFilesForImage(dirname(__DIR__). '/');
 
 // Postセット
 $post = Private\Important\Setting::getPosts();
@@ -31,7 +31,7 @@ if ($selectToken->check() === false) {
 if (!isset($post['type'])) {
     $postValid = false;
 } else {
-    $postValid = ValidateData(PUBLIC_IMAGE_DIR, $post['type']);
+    $postValid = validateData(PUBLIC_IMAGE_DIR, $post['type']);
 }
 
 // 不正なPostが入った場合は、セッションに保存した情報かデフォルトページを参照する

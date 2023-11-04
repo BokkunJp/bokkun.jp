@@ -44,7 +44,7 @@ class Session
     }
 
     /**
-     * Add
+     * add
      *
      * セッションの追加
      *
@@ -76,7 +76,7 @@ class Session
     }
 
     /**
-     * WriteArray
+     * writeArray
      *
      * セッション配列の更新
      *
@@ -96,7 +96,7 @@ class Session
             }
         };
 
-        $ret = $this->CommonProcessArray($parentId, $childId, $writeProccess);
+        $ret = $this->commonProcessArray($parentId, $childId, $writeProccess);
 
         if (empty($ret)) {
             $ret = [];
@@ -107,7 +107,7 @@ class Session
     }
 
     /**
-     * Read
+     * read
      *
      * セッションの読み込み
      *
@@ -134,7 +134,7 @@ class Session
     }
 
     /**
-     * Delete
+     * delete
      *
      * セッションの削除
      *
@@ -158,7 +158,7 @@ class Session
     }
 
     /**
-     * Judge
+     * judge
      *
      * セッション判定用
      *
@@ -181,7 +181,7 @@ class Session
     }
 
     /**
-     * View
+     * view
      *
      * セッション閲覧用
      *
@@ -200,7 +200,7 @@ class Session
     }
 
     /**
-     * OnlyView
+     * onlyView
      *
      * セッション参照後、該当のセッションを削除する
      *
@@ -216,7 +216,7 @@ class Session
     }
 
     /**
-     * FinaryDestroy
+     * finaryDestroy
      *
      * セッションの完全な破棄
      *

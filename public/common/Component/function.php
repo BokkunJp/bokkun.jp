@@ -29,7 +29,7 @@ function convert(int $decData, int $n): int
 }
 
 /**
- * CheckSpeed
+ * checkSpeed
  *
  * スピードテスト用の関数
  *
@@ -38,7 +38,7 @@ function convert(int $decData, int $n): int
  *
  * @return mixed
  */
-function CheckSpeed(string $func, mixed ...$parameter): mixed
+function checkSpeed(string $func, mixed ...$parameter): mixed
 {
     $sTime = hrtime(true);
     if (isset($parameter)) {

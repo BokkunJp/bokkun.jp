@@ -9,30 +9,30 @@ class simplexml_parse
     }
 
     /**
-     * GetChildren
+     * getAll
      * @abstract すべてのノードおよび子ノードのデータを取得する。
      *
      * @param [simpleXMLElement] void
      * @return array
      */
-    public function GetAll()
+    public function getAll()
     {
         $retArray = [];
         foreach ($this->xmlData->children() as $_key => $_val) {
-            $retArray += $this->GetChildren($_key);
+            $retArray += $this->getChildren($_key);
         }
         return $retArray;
     }
 
     /**
-     * GetChildren
+     * getChildren
      * @abstract 指定したノードのすべての子ノードのデータを取得する。
      *
      * @param [simpleXMLElement] $xmlData
      * @param [string] $elmName
      * @return array|boolean
      */
-    public function GetChildren($elmName)
+    public function getChildren($elmName)
     {
         if (!is_string($elmName)) {
             return false;
@@ -42,11 +42,11 @@ class simplexml_parse
         $retArray[$elmName] = [];
         if (isset($this->xmlData->$elmName)) {
             if (empty($this->xmlData->$elmName->children())) {
-                $retArray[$elmName] = $this->GetElement($this->xmlData, $elmName);
+                $retArray[$elmName] = $this->getElement($this->xmlData, $elmName);
             } else {
                 foreach ($this->xmlData->$elmName->children() as $_key => $_val) {
                     $childData = $this->xmlData->$elmName->children();
-                    $retArray[$elmName] += $this->GetChild($childData, $_key);
+                    $retArray[$elmName] += $this->getChild($childData, $_key);
                 }
             }
         } else {
@@ -56,7 +56,7 @@ class simplexml_parse
         return $retArray;
     }
 
-    private function GetChild($xmlData, $elmName)
+    private function getChild($xmlData, $elmName)
     {
         if (!is_string($elmName)) {
             return false;
@@ -66,10 +66,10 @@ class simplexml_parse
 
         if (isset($xmlData->$elmName)) {
             if (empty($xmlData->$elmName->children())) {
-                $retArray[$elmName] = $this->GetElement($xmlData, $elmName);
+                $retArray[$elmName] = $this->getElement($xmlData, $elmName);
             } else {
                 $childData = $xmlData->$elmName->children();
-                $retArray[$elmName] = $this->GetChild($childData, $childData->getName());
+                $retArray[$elmName] = $this->getChild($childData, $childData->getName());
             }
         } else {
             return false;
@@ -78,7 +78,7 @@ class simplexml_parse
         return $retArray;
     }
 
-    private function GetElement($xmlData, $elmName)
+    private function getElement($xmlData, $elmName)
     {
         if (!is_string($elmName)) {
             return false;

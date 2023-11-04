@@ -12,7 +12,7 @@
  *
  */
 /**
- * @method wrap_arrayc_combine
+ * @method wrapArrayCombine
  *
  * @abstract array_combineのWrapper関数。
  * @param array $keys
@@ -20,7 +20,7 @@
  * @param boolean $fill
  * @return array
  */
-function wrap_array_combine(array $keys = [], array $values = [], $fill = false)
+function wrapArrayCombine(array $keys = [], array $values = [], $fill = false)
 {
     var_dump($keys);
     var_dump($values);

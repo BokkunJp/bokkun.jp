@@ -23,12 +23,12 @@ class myPg
         }
     }
 
-    public function SetTable($tableName)
+    public function setTable($tableName)
     {
         $this->tableName = $tableName;
     }
 
-    private function SetPlaceholder(array $colArray)
+    private function setSequence(array $colArray)
     {
         $newArray = [];
 
@@ -39,7 +39,7 @@ class myPg
         return $newArray;
     }
 
-    private function SQLExec($col, $val, $sql)
+    private function execQuery($col, $val, $sql)
     {
         try {
             pg_query($this->pg_con, 'BEGIN;');                             // トランザクション開始
@@ -71,17 +71,17 @@ class myPg
         }
     }
 
-    public function Insert($cols, $vals)
+    public function insert($cols, $vals)
     {
         // カラムからプレースホルダを生成
-        $placeholder = moldData($this->SetPlaceholder($cols));
+        $placeholder = moldData($this->setSequence($cols));
 
         // カラムを成型
         $cols = moldData($cols);
 
-        $sql  = "Insert into {$this->tableName}({$cols}) values({$placeholder})";
+        $sql  = "insert into {$this->tableName}({$cols}) values({$placeholder})";
 
-        $this->SQLExec($cols, $vals, $sql);
+        $this->execQuery($cols, $vals, $sql);
     }
 
     public function __destruct()

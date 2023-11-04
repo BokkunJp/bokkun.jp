@@ -26,7 +26,7 @@ class Ua
     }
 
     /**
-     * GetAgent
+     * getAgent
      *
      * エージェント情報を取得する。
      *
@@ -38,7 +38,7 @@ class Ua
     }
 
     /**
-     * DesignJudge
+     * judgeDevice
      *
      * デバイスを判定する。
      * (1→iPhone, 2→Android)

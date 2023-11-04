@@ -47,11 +47,11 @@
 
         $('.page-value').html($(this).val());
 
-        ajaxMain(url, 'subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', ViewImage);
+        ajaxMain(url, 'subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', viewImage);
     });
  }
 
-function ViewImage(data)
+function viewImage(data)
 {
     $('.view-image-type').html(data['view-image-type']);
     if (data['select-notice']) {

@@ -26,7 +26,7 @@ $tagPath->add("Tag.php");
 require_once $tagPath->get();
 
 //直接のページ遷移を阻止
-$request = Private\Important\Setting::JudgeAjax();
+$request = Private\Important\Setting::judgeAjax();
 
 if (is_null($request)) {
     header("Content-Type: text/html; charset=UTF-8");

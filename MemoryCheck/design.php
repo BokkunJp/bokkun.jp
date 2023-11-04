@@ -4,27 +4,27 @@ $t = [1, 1, 1];
 
 output($t[0]);
 
-Pointer($t[0]);
+pointer($t[0]);
 
 output($t[1]);
 
-Incriment($t[1]);
+incriment($t[1]);
 
-$t[3] = ReturnArray(2, ReturnArray(1));
+$t[3] = returnArray(2, returnArray(1));
 
 output($t[3]);
 
-function Incriment(int $test)
+function incriment(int $test)
 {
     return $test++;
 }
 
-function Pointer(int &$test)
+function pointer(int &$test)
 {
     $test++;
 }
 
-function ReturnArray(int $data, array $arr = [])
+function returnArray(int $data, array $arr = [])
 {
     $arr[] = $data;
 

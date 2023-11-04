@@ -5,7 +5,7 @@ require_once dirname(dirname(dirname(__DIR__, 2))). '/common/Setting.php';
 require_once PUBLIC_COMMON_DIR. "/Include.php";
 
 // 文字列からディレクトリ部分の文字列を切り取る関数
-function strExtraction($str, $target)
+function extractionString($str, $target)
 {
     $count = strpos($str, $target);
     return mb_strcut($str, $count);

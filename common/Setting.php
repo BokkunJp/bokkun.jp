@@ -53,7 +53,7 @@ class Setting
     }
 
     /**
-     * InitSSL
+     * initSSL
      *
      * HTTPSの有無を判定してセットする。
      *
@@ -71,7 +71,7 @@ class Setting
     }
 
     /**
-     * GetSERVER
+     * getSERVER
      *
      * $_SERVERの内容を安全に取得する。
      *
@@ -80,11 +80,11 @@ class Setting
      */
     protected static function getServer($elm): mixed
     {
-        return sanitize(filter_input_fix(INPUT_SERVER, $elm));
+        return sanitize(filterInputFix(INPUT_SERVER, $elm));
     }
 
     /**
-     * GetDocumentRoot
+     * getDocumentRoot
      *
      * ドキュメントルートを取得する。
      *
@@ -96,7 +96,7 @@ class Setting
     }
 
     /**
-     * GetServerName
+     * getServerName
      *
      * ドメイン名を取得する。
      *
@@ -108,7 +108,7 @@ class Setting
     }
 
     /**
-     * GetPropaty
+     * getPropaty
      *
      * プロパティ名を取得する。
      *
@@ -125,7 +125,7 @@ class Setting
     }
 
     /**
-     * GetURI
+     * getURI
      *
      * URIを取得。
      *
@@ -142,7 +142,7 @@ class Setting
     }
 
     /**
-     * GetPosts
+     * getPosts
      *
      * 全Post値を取得。
      *
@@ -155,7 +155,7 @@ class Setting
 
 
     /**
-     * GetPostArray
+     * getPostArray
      *
      * 配列形式のPost値を取得。
      *
@@ -169,7 +169,7 @@ class Setting
     // 指定した要素のPost値を取得
     public static function getPost($elm = '', $filter = FILTER_DEFAULT, $options = null)
     {
-        return sanitize(filter_input_fix(INPUT_POST, $elm, $filter, $options));
+        return sanitize(filterInputFix(INPUT_POST, $elm, $filter, $options));
     }
 
     /**
@@ -183,7 +183,7 @@ class Setting
     }
 
     /**
-     * GetRequest
+     * getRequest
      *
      * すべてのGet値を取得
      *
@@ -195,7 +195,7 @@ class Setting
     }
 
     /**
-     * GetQuery
+     * getQuery
      *
      * 指定した要素のGet値を取得
      *
@@ -207,11 +207,11 @@ class Setting
      */
     public static function getQuery($elm = '', $filter = FILTER_DEFAULT, $options = null)
     {
-        return sanitize(filter_input_fix(INPUT_GET, $elm, $filter, $options));
+        return sanitize(filterInputFix(INPUT_GET, $elm, $filter, $options));
     }
 
     /**
-     * GetQueryArray
+     * getQueryArray
      *
      * 配列形式のGet値を取得
      *
@@ -225,7 +225,7 @@ class Setting
     }
 
     /**
-     * GetFiles
+     * getFiles
      *
      * FILEを取得
      *
@@ -237,7 +237,7 @@ class Setting
     }
 
     /**
-     * GetUrl
+     * getUrl
      *
      * 公開パスなどのURLを取得
      *

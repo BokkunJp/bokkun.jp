@@ -8,7 +8,7 @@ trait PrivateTrait
 {
     use CommonTrait;
     /**
-     * FindFileName
+     * findFileName
      *
      * 親ディレクトリ・カレントディレクトリ以外のファイルを検索する
      *
@@ -26,7 +26,7 @@ trait PrivateTrait
     }
 
     /**
-     * DeleteData
+     * validateData
      *
      * 対象のパスのディレクトリに、指定したファイルが存在するか調べる
      *
@@ -35,7 +35,7 @@ trait PrivateTrait
      *
      * @return bool
      */
-    public function ValidateData(string $dirPath, string $select): bool
+    public function validateData(string $dirPath, string $select): bool
     {
         $dirArray = scandir($dirPath);
 
@@ -43,7 +43,7 @@ trait PrivateTrait
     }
 
     /**
-     * DeleteData
+     * deleteData
      *
      * 対象のパスのディレクトリとファイルを削除する
      *
@@ -51,7 +51,7 @@ trait PrivateTrait
      *
      * @return bool
      */
-    private function DeleteData(string $select): bool
+    private function deleteData(string $select): bool
     {
         $dirPath = new Path(getcwd());
         $dirPath->setPathEnd();
@@ -60,7 +60,7 @@ trait PrivateTrait
     }
 
     /**
-     * CopyData
+     * copyData
      *
      * 対象のパスのディレクトリとファイルを複製する
      *
@@ -70,7 +70,7 @@ trait PrivateTrait
      *
      * @return bool
      */
-    private function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bool
+    private function copyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bool
     {
         $dirPath = new Path(getcwd());
         $dstPath = $dirPath->add(dirname($srcPath), $copyName, false);
@@ -101,7 +101,7 @@ trait PrivateTrait
                             if (!is_dir($dstFilePath)) {
                                 mkdir($dstFilePath);
                             }
-                            CopySubData($srcFilePath, $dstFilePath);
+                            copySubData($srcFilePath, $dstFilePath);
                         }
                     }
                 }
@@ -115,7 +115,7 @@ trait PrivateTrait
     }
 
     /**
-     * CopySubData
+     * copySubData
      *
      * 対象のパスの子階層のディレクトリとファイルを複製する
      *
@@ -124,7 +124,7 @@ trait PrivateTrait
      *
      * @return bool
      */
-    private function CopySubData(string $srcPath, string $dstPath): bool
+    private function copySubData(string $srcPath, string $dstPath): bool
     {
         // 主階層のディレクトリがコピー先にない場合は作成
         if (!is_dir($dstPath)) {
@@ -148,7 +148,7 @@ trait PrivateTrait
                             mkdir($dstFilePath);
                         }
                     }
-                    CopySubData($srcFilePath, $dstFilePath);
+                    copySubData($srcFilePath, $dstFilePath);
                 }
             }
         }
@@ -157,25 +157,25 @@ trait PrivateTrait
     }
 
     /**
-     * GetNotDelFileList
+     * getNotDelFileList
      *
      * 削除不可ディレクトリリストを配列で取得する。
      *
      * @return array
      */
-    private function GetNotDelFileList(): array
+    private function getNotDelFileList(): array
     {
         return NOT_DELETE_FILE_LIST;
     }
 
     /**
-     * CountReset
+     * logout
      *
      * ログアウト画面を表示して、セッションを切断する。
      *
      * @return void
      */
-    public function Logout(): void
+    public function logout(): void
     {
         echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 
