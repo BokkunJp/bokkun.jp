@@ -34,8 +34,8 @@ Time.prototype.update = function() {
 }
 
 // 年月日を表示用に変換
-function year(date) {
-    year = date.getFullyear() + '/' +
+function convertYear(date) {
+    year = date.getFullYear() + '/' +
         ("0" + (date.getMonth() + 1)).slice(-2) + '/' +
         ("0" + date.getDate()).slice(-2);
 
@@ -48,7 +48,7 @@ function Time(data) {
     this.sourceTime = new Date();
 
     // 年月日を設定
-    this.year = year(this.sourceTime);
+    this.year = convertYear(this.sourceTime);
 
     // 時刻を設定
     this.hour = ("0" + this.sourceTime.getHours()).slice(-2);
