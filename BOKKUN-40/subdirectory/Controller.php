@@ -1,8 +1,9 @@
 <?php
+require_once PUBLIC_COMMON_DIR . "/Token.php";
+
 $posts = Public\Important\Setting::getPosts();
 $session = new Public\Important\Session();
-$token = new \Public\Important\Token('xml-token', $session, true);
-$token->check();
+$token = new Public\Important\Token('xml-token', $session, true);
 if ($token->check()) {
     // $script->alert("不正な操作を検知しました。");
     return false;
