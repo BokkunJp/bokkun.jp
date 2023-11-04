@@ -36,7 +36,7 @@ if (isset($posts) && !empty($posts) && $nulFlg === false) {
 
             // 日付が変わるかメールを送信してから1日経ったら、再送信可能とする
             $sendDateInterval = $mailSession['send_date']->diff(new DateTime());
-            if (DateDiff($mailSession['send_date'], new DateTime())->format('%d') >= DENY_SEND_DATE
+            if (diffDate($mailSession['send_date'], new DateTime())->format('%d') >= DENY_SEND_DATE
                 || (new DateTime())->diff($mailSession['send_date'])->format('%d') >= DENY_SEND_DATE
             ) {
                 $session->delete("send_date");
@@ -56,14 +56,14 @@ if (isset($posts) && !empty($posts) && $nulFlg === false) {
 }
 
 /**
- * DateDiff
+ * diffDate
  * 時間帯を無視して、日付単位で差分を取得する
  *
  * @param \DateTime $dateTime1 対象の日時(前)
  * @param \DateTime $dateTime2 対象の時間帯(後)
  * @return DateInterval|false
  */
-function DateDiff(\DateTime $dateTime1, \DateTime $dateTime2): DateInterval|false
+function diffDate(\DateTime $dateTime1, \DateTime $dateTime2): DateInterval|false
 {
     $date1 = new DateTime($dateTime1->format('Y-m-d'));
     $date2 = new DateTime($dateTime2->format('Y-m-d'));

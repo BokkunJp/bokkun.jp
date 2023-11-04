@@ -9,10 +9,10 @@
          */
 $(window).on('load', function() {
     var time = new Time();
-    time.Update();
+    time.update();
 
 });
-Time.prototype.Draw = function(elm) {
+Time.prototype.draw = function(elm) {
     elm[0]['date'].html(elm[1].time.year);
     elm[0]['time'].html(elm[1].time.nowTime);
 
@@ -22,7 +22,7 @@ Time.prototype.Draw = function(elm) {
     // アニメーション処理実行時にデータを失ってしまわないよう、
     // コールバック関数を二重呼出し
     anime.viewAnimation(function() {
-        time.Update();
+        time.update();
     });
 }
 
@@ -30,12 +30,12 @@ Time.prototype.Draw = function(elm) {
 Time.prototype.Update = function() {
     this.time = new Time();
     var elm = { 'date': $('.date'), 'time': $('.time') };
-    this.Draw([elm, this]);
+    this.draw([elm, this]);
 }
 
 // 年月日を表示用に変換
-function Year(date) {
-    year = date.getFullYear() + '/' +
+function year(date) {
+    year = date.getFullyear() + '/' +
         ("0" + (date.getMonth() + 1)).slice(-2) + '/' +
         ("0" + date.getDate()).slice(-2);
 
@@ -48,7 +48,7 @@ function Time(data) {
     this.sourceTime = new Date();
 
     // 年月日を設定
-    this.year = Year(this.sourceTime);
+    this.year = year(this.sourceTime);
 
     // 時刻を設定
     this.hour = ("0" + this.sourceTime.getHours()).slice(-2);

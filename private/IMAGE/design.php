@@ -35,7 +35,7 @@ $viewToken = new Private\Important\Token('view-token', $session, true);
 
     ?>
     </select>
-    ： <span class='view-image-type'><?=GetImagePageName()?></span>
+    ： <span class='view-image-type'><?=getImagePageName()?></span>
     <?php $selectToken->set(); ?>
 </form>
 <div class='select-notice'></div>

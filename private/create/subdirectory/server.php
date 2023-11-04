@@ -118,13 +118,13 @@ unset($post);
 
 
 if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
-    $adminError->UserError('未記入の項目があります。');
+    $adminError->alertError('未記入の項目があります。');
 } else {
     // 文字チェック
     if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $title) === 0 ||!findFileName($title) === 0) {
-        $adminError->UserError('タイトルに無効な文字が入力されています。');
+        $adminError->alertError('タイトルに無効な文字が入力されています。');
     } elseif (strlen($title) > MAX_LENGTH) {
-        $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
+        $adminError->alertError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
 
     $pathList = ['php', 'js', 'css', 'image'];
@@ -139,15 +139,15 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
         }
 
         // 大文字・小文字関係なく、同一ページが存在するかチェック
-        $result = ValidateData($client, strtolower($title));
+        $result = validateData($client, strtolower($title));
 
         if (!$result) {
-            $result = ValidateData($client, strtoupper($title));
+            $result = validateData($client, strtoupper($title));
         }
 
         // common・publicの名称は作成不可
         if ($title === 'common' || $title === 'public') {
-            $adminError->UserError('その名称のページは作成できません。');
+            $adminError->alertError('その名称のページは作成できません。');
         }
 
         // 存在する場合は上書き
@@ -179,7 +179,7 @@ if (!is_dir($title)) {
 }
 
 if (file_exists("$title") === false) {         // ディレクトリ作成
-    $$adminError->UserError('ページの作成に失敗しました。');
+    $$adminError->alertError('ページの作成に失敗しました。');
 }
 
 // PHP部分で必要なファイルを作成
@@ -203,7 +203,7 @@ copy("$baseFileName/$srcfileName.{$pathList[0]}", "$title/$fileName.{$pathList[0
 if ($type === "scratch") {
     $fp = fopen("$title/$fileName.{$pathList[0]}", "a");
     if (fwrite($fp, ADD_DESIGN) === false) {
-        $adminError->UserError('indexファイルのスクラッチ用の追記に失敗しました。');
+        $adminError->alertError('indexファイルのスクラッチ用の追記に失敗しました。');
     }
     fclose($fp);
 } elseif ($type === "custom") {
@@ -279,16 +279,16 @@ class AdminError
         $this->use = new Private\Important\UseClass();
     }
 
-    public function UserError($message)
+    public function alertError($message)
     {
         $this->use->alert($message);
         $this->use->BackAdmin('create');
         exit;
     }
 
-    public function Maintenance()
+    public function maintenance()
     {
-        $this->UserError('当機能はメンテナンス中です。しばらくお待ちください。');
+        $this->alertError('当機能はメンテナンス中です。しばらくお待ちください。');
     }
 }
 ?>

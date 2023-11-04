@@ -15,7 +15,7 @@ $viewToken = new Private\Important\Token('delete-view-token', $session, true);
 
 ?>
 <form method='POST' action='./'>
-    対象のページ:<span class='view-image-type'><?=GetImagePageName()?></span>
+    対象のページ:<span class='view-image-type'><?=getImagePageName()?></span>
     <?php $selectToken->set(); ?>
 </form>
 <div class='select-notice'></div>

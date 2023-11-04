@@ -8,7 +8,7 @@ $commonWordPath->addArray(["common", "Word", "Message.php"]);
 require_once $commonWordPath->get();
 
 // CSRFクラス
-function PrivateCSRFErrorMessage()
+function setPrivateCsrfErrorMessage()
 {
     $addr = Public\Important\Setting::getRemoteAddr();
     $errMessage = "<p><strong>". gethostbyaddr($addr). "(". $addr. ")". "様のアクセスは禁止されています。</strong></p><p>以下の要因が考えられます。</p>";

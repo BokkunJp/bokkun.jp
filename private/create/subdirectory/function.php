@@ -29,7 +29,7 @@ class Admin
             $judge[$$post_key] = $post_value;
         }
     }
-    public function DirCopy($pathName='', $fileName='', $modifer='')
+    public function copyDir($pathName='', $fileName='', $modifer='')
     {
         copy("$baseFileName/$fileName.$_pathList", "$title/$fileName.$_pathList");            // フォルダ内のindex.php作成
         if ($_pathList === 'php') {
@@ -54,15 +54,15 @@ class AdminError
         $this->use = new Private\Important\UseClass();
     }
 
-    public function UserError($message)
+    public function alertError($message)
     {
         $this->use->alert($message);
         $this->use->BackAdmin('create');
         exit;
     }
 
-    public function Maintenance()
+    public function maintenance()
     {
-        $this->UserError('メンテナンス中です。しばらくお待ちください。');
+        $this->alertError('メンテナンス中です。しばらくお待ちください。');
     }
 }

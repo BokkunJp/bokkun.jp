@@ -48,7 +48,7 @@ class Setting extends \Common\Important\Setting
      *
      * @return ?string
      */
-    public static function JudgeAjax(): ?string
+    public static function judgeAjax(): ?string
     {
         return self::getServer('HTTP_X_REQUESTED_WITH');
     }

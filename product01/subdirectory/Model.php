@@ -29,7 +29,7 @@ class productCSV extends productCSV_Base
     }
 
     /**
-     * InputName
+     * inputName
      *
      * ファイル名をセット。
      *
@@ -58,7 +58,7 @@ class productCSV extends productCSV_Base
     }
 
     /**
-     * ReadData
+     * readData
      *
      * ファイルを読み込み、データをセット。
      *
@@ -83,7 +83,7 @@ class productCSV extends productCSV_Base
     }
 
     /**
-     * InputData
+     * inputData
      *
      * CSVファイルに記述するデータのセット。
      *
@@ -135,7 +135,7 @@ class productCSV extends productCSV_Base
     }
 
     /**
-     * SetData
+     * setData
      *
      * データをセット
      *
@@ -159,7 +159,7 @@ class productCSV extends productCSV_Base
     }
 
     /**
-     * SetCSV
+     * setCsv
      *
      *
      * 指定したCSVファイルに、設定済みのデータを書き込む。

@@ -6,7 +6,7 @@ namespace SetFunc;
 
 require_once('UA.php');
 // 指定したクラスの関数を実行する
-function Addition($class_name, $instance_name)
+function addition($class_name, $instance_name)
 {
     $newData = new $class_name();
 
@@ -19,9 +19,9 @@ function Addition($class_name, $instance_name)
 }
 
 // 関数からデータを取得する
-function GetData($class_name, $data)
+function getData($class_name, $data)
 {
-    Addition($class_name, $data);
+    addition($class_name, $data);
 }
 
 // 関数にデータをセットする
@@ -29,7 +29,7 @@ function setData($func_name, $data)
 {
 }
 
-function is_true($param)
+function isTrue($param)
 {
     if ($param === true) {
         return true;

@@ -6,7 +6,7 @@ require_once('Page.php');
 require_once('View.php');
 
 /**
- * ImportImage
+ * importImage
  * ファイルデータを成型する
  *
  * @param  array $file
@@ -28,7 +28,7 @@ function moldFile(array $file, String $fileName): array
 }
 
 /**
- * LoadAllImageFile
+ * loadAllImageFile
  * 画像ファイル名を配列で一括取得する
  *
  * @return array
@@ -63,7 +63,7 @@ function loadAllImageFile()
 }
 
 /**
- * TimeSort
+ * sortTime
  * 配列を日時でソートする
  *
  * @param  mixed $data
@@ -102,7 +102,7 @@ function sortTime(&$data, string $order = 'ASC')
 }
 
 /**
- * ValidParameter
+ * validateParameter
  * ページ関係の内容の検証
  *
  * @param array $data
@@ -150,7 +150,7 @@ function validateParameter(array $data=[], bool $ajaxFlg=false)
 }
 
 /**
- * ChoiceImage
+ * choiceImage
  * 全画像データのうち、表示に必要なデータのみを抽出する
  *
  * @param array $params
@@ -169,7 +169,7 @@ function choiceImage(array $params, array $data): array
 }
 
 /**
- * ReadImage
+ * readImage
  * 画像を読み込み、公開する
  *
  * @param  mixed $read_flg
@@ -215,7 +215,7 @@ function readImage($ajaxFlg = false)
 }
 
 /**
- * ShowImage
+ * showImage
  * 画像一覧を公開する
  *
  * @param array $params
@@ -242,7 +242,7 @@ function showImage(
             $imagePath = new \Path(PUBLIC_IMAGE_DIR);
             $imagePath->addArray([$imagePageName, $_data['name']]);
 
-            $jsData[$i]['info'] = calcImageSize($imagePath->get(), (int)GetIni('Public', 'ImageMaxSize'));
+            $jsData[$i]['info'] = calcImageSize($imagePath->get(), (int)getIni('Public', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
             // 画像データが取得できなかった場合は、配列の該当データの削除
             if ($jsData[$i]['info'] === false) {
@@ -269,8 +269,8 @@ function showImage(
             $_time = $_data['time'];
 
             // 画像を表示
-            ViewImage($_file, $imageUrl, $_time);
-            // ViewList($_file, $imageUrl);
+            viewImage($_file, $imageUrl, $_time);
+            // viewList($_file, $imageUrl);
 
             // バッファ出力
             if (ob_get_level() > 0) {
@@ -291,7 +291,7 @@ function showImage(
 }
 
 /**
- * ErrorSet
+ * setError
  * エラー文を定義する
  *
  * @param  string $errMsg

@@ -30,7 +30,7 @@ foreach ($ajaxPath->get() as $path) {
 }
 
 //直接のページ遷移を阻止
-$request = Public\Important\Setting::JudgeAjax();
+$request = Public\Important\Setting::judgeAjax();
 if (is_null($request)) {
     http_response_code(403);
     $homepageTitle = 'Forbidden';

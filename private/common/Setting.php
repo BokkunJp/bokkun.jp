@@ -155,7 +155,7 @@ class Setting extends \Common\Important\Setting
      *
      * @return string|null
      */
-    public static function JudgeAjax(): string|null
+    public static function judgeAjax(): string|null
     {
         return self::getServer('HTTP_X_REQUESTED_WITH');
     }
@@ -172,14 +172,14 @@ $traitPath = new \Path($commonPath->get());
 $traitPath->addArray(['Trait', 'SessionTrait.php']);
 require_once $traitPath->get();
 
-$domain = filter_input_fix(INPUT_SERVER, 'SERVER_NAME');
+$domain = filterInputFix(INPUT_SERVER, 'SERVER_NAME');
 
 $url = $http.$domain;
 $private = $url. '/private/';
 
 // 定数などの定義
-$agent = filter_input_fix(INPUT_SERVER, 'HTTP_USER_AGENT');
-$referer = filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
+$agent = filterInputFix(INPUT_SERVER, 'HTTP_USER_AGENT');
+$referer = filterInputFix(INPUT_SERVER, 'HTTP_REFERER');
 
 $public = $url . '/public/';
 

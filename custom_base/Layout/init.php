@@ -19,7 +19,7 @@ switch ($ua->judgeDevice()) {
 }
 
 // 文字列からディレクトリ部分の文字列を切り取る関数
-function strExtraction($str, $target)
+function extractionString($str, $target)
 {
     $count = strpos($str, $target);
     return mb_strcut($str, $count);

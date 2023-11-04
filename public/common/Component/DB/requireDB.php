@@ -33,21 +33,21 @@ class DB
         }
     }
 
-    public function SetTable($tableName)
+    public function setTable($tableName)
     {
         $this->tableName = $tableName;
     }
 
-    public function SetSequence($seq_id = 1, $id_name = 'test_db_id_seq')
+    public function setSequence($seq_id = 1, $id_name = 'test_db_id_seq')
     {
         $this->sql = "select setval ('{$id_name}', :{$id_name}, false);";
-        $sth = $this->SQLExec($id_name, [$seq_id]);
+        $sth = $this->execQuery($id_name, [$seq_id]);
         $exec = $sth->fetchAll();
 
         return $exec;
     }
 
-    private function SetPlaceholder(array $colArray, $colFlg = false)
+    private function setPlaceholder(array $colArray, $colFlg = false)
     {
         $newArray = [];
 
@@ -62,7 +62,7 @@ class DB
         return $newArray;
     }
 
-    private function SQLExec(string $colString = null, array $valArray = null)
+    private function execQuery(string $colString = null, array $valArray = null)
     {
         try {
             $this->stmt->beginTransaction();                             // トランザクション開始
@@ -97,27 +97,27 @@ class DB
         }
     }
 
-    public function Insert(array $cols, array $vals)
+    public function insert(array $cols, array $vals)
     {
 
         // カラム群からそれぞれのカラムのプレースホルダを生成し、それを文字列に成型
-        $placeholder = moldData($this->SetPlaceholder($cols));
+        $placeholder = moldData($this->setSequence($cols));
 
         // カラムを文字列に成型
         $cols = moldData($cols);
 
         // 実行するSQL
-        $this->sql  = "Insert into {$this->tableName}({$cols}) values({$placeholder})";
+        $this->sql  = "insert into {$this->tableName}({$cols}) values({$placeholder})";
 
         // SQL文実行
-        return $this->SQLExec($cols, $vals);
+        return $this->execQuery($cols, $vals);
     }
 
     public function Update($cols, $vals)
     {
 
         // カラムからプレースホルダを生成
-        $placeholder = moldData($this->SetPlaceholder($cols));
+        $placeholder = moldData($this->setSequence($cols));
 
         // カラムを成型
         $cols = moldData($cols);
@@ -126,12 +126,12 @@ class DB
         $this->sql  = "Update {$this->tableName} set {$cols}=:col, updatetime=NOW(), updateday=NOW() where id= :id";
 
         // SQL文実行
-        return $this->SQLExec($cols, $vals);
+        return $this->execQuery($cols, $vals);
     }
 
-    public function Select($id)
+    public function select($id)
     {
-        $this->sql = "Select * from {$this->tableName} where id= :id";
+        $this->sql = "select * from {$this->tableName} where id= :id";
         $sth = $this->stmt->prepare($this->sql);
         $sth->execute(array(':id' => $id));
 
@@ -140,32 +140,32 @@ class DB
         return $exec;
     }
 
-    public function newSelect(array $cols, array $vals)
+    public function selectNew(array $cols, array $vals)
     {
 
         // カラム群からそれぞれのカラムのプレースホルダを生成し、それを文字列に成型
-        $placeholder = moldData($this->SetPlaceholder($cols));
+        $placeholder = moldData($this->setSequence($cols));
 
         // カラムを文字列に成型
         $cols = moldData($cols);
 
         // 実行するSQL
-        $this->sql  = "Select {$cols}=:col From {$this->tableName}";
+        $this->sql  = "select {$cols}=:col From {$this->tableName}";
 
         // SQL文実行
-        return $this->SQLExec($cols, $vals);
+        return $this->execQuery($cols, $vals);
     }
 
-    public function SelectAll()
+    public function selectAll()
     {
         $this->sql = "select * from {$this->tableName} order by id";
-        $sth = $this->SQLExec();
+        $sth = $this->execQuery();
 
         $ary = $sth->fetchAll();
         return $ary;
     }
 
-    public function SelectIDMin()
+    public function selectMinId()
     {
         $this->sql = "select MIN(ID) from {$this->tableName}";
         $sth = $this->stmt->prepare($this->sql);
@@ -176,10 +176,10 @@ class DB
         return $ret['min'];
     }
 
-    public function SelectIDMax()
+    public function selectMaxId()
     {
         $this->sql = "select MAX(ID) from {$this->tableName}";
-        $sth = $this->SQLExec();
+        $sth = $this->execQuery();
 
         $ret = $sth->fetch();
 
@@ -190,10 +190,10 @@ class DB
         return $ret['max'];
     }
 
-    public function SelectDataCount()
+    public function selectDataCount()
     {
         $this->sql = "select COUNT(*) from {$this->tableName}";
-        $sth = $this->SQLExec();
+        $sth = $this->execQuery();
 
         if ($sth === false) {
             return false;
@@ -212,7 +212,7 @@ class DB
     {
 
         // where句生成
-        $where = moldData($this->SetPlaceholder($cols, true));
+        $where = moldData($this->setSequence($cols, true));
 
         // カラムを成型
         $cols = moldData($cols);
@@ -222,13 +222,13 @@ class DB
         $this->sql  = "Delete from {$this->tableName} where {$where}";
 
         // SQL文実行
-        return $this->SQLExec($cols, $vals);
+        return $this->execQuery($cols, $vals);
     }
 
     public function DeleteAll()
     {
         $this->sql  = "Delete From {$this->tableName}";
 
-        $this->SQLExec();
+        $this->execQuery();
     }
 }

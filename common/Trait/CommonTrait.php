@@ -78,7 +78,7 @@ trait CommonTrait
     }
 
     /**
-     * filter_input_fix
+     * filterInputFix
      *
      * $_SERVER, $_ENVのための、filter_input代替処理。
      *
@@ -90,7 +90,7 @@ trait CommonTrait
      *
      * @return bool
      */
-    protected function filter_input_fix($type, $variable_name, int $filter = FILTER_DEFAULT, $options = null)
+    protected function filterInputFix($type, $variable_name, int $filter = FILTER_DEFAULT, $options = null)
     {
         $checkTypes = [
             INPUT_GET,

@@ -54,7 +54,7 @@ class Token {
     }
 
     /**
-     * Check
+     * check
      *
      * Post値とトークンのチェック
      * @param  string $tokenName
@@ -77,7 +77,7 @@ class Token {
     }
 
     /**
-     * GetTag
+     * getTag
      *
      * トークンのHTML要素の取得または出力
      * @param boolean $getFlg

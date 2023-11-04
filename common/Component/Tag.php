@@ -73,7 +73,7 @@ class Tag
     }
 
     /**
-     * SetDefault
+     * setDefault
      *
      * 権限を再初期化する。
      *
@@ -85,7 +85,7 @@ class Tag
     }
 
     /**
-     * ViewAuthority
+     * viewAuthority
      *
      * 権限を表示する。
      *
@@ -105,7 +105,7 @@ class Tag
     }
 
     /**
-     * CreateAuthorityList
+     * createAuthorityList
      *
      * タグ名リスト生成
      *
@@ -243,7 +243,7 @@ class HTMLClass extends Tag
     }
 
     /**
-     * GetTag
+     * getTag
      *
      * タグを取得する。
      *
@@ -488,7 +488,7 @@ class ScriptClass extends HTMLClass
 class UseClass extends ScriptClass
 {
     /**
-     * MovePage
+     * movePage
      *
      * 指定したURLへ遷移。
      *
@@ -508,7 +508,7 @@ class UseClass extends ScriptClass
 }
 
 /**
- * deb_dump
+ * debugDump
  *
  * オリジナルダンプ。
  *

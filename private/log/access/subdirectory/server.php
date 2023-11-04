@@ -19,14 +19,14 @@ $srcName = $set->getPost('select_log');
 
 $errCode=null;
 
-$result = ValidateData($dirPath, $srcName);
+$result = validateData($dirPath, $srcName);
 
 
- if ($srcName === '---') {
-     $errCode = 1;
- } elseif ($result === false) {
-     $errCode = 2;
- }
+if ($srcName === '---') {
+    $errCode = 1;
+} elseif ($result === false) {
+    $errCode = 2;
+}
 
 if (!$errCode) {
     $srcPath = new \Path($dirPath);

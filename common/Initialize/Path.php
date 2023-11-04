@@ -207,7 +207,7 @@ class Path {
         $this->path = dirname($this->path, $depth);
     }
 
-    public function ExistFile()
+    public function existFile()
     {
         if (is_file($this->path)) {
             $this->back();

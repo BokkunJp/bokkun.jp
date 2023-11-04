@@ -132,7 +132,7 @@ function createClient(string $target, string $src = '', string $separator = DIRE
     return $clientPath->get();
 }
 /**
- * filter_input_fix
+ * filterInputFix
  * $_SERVER, $_ENVのための、filter_input代替処理。
  *
  *
@@ -143,7 +143,7 @@ function createClient(string $target, string $src = '', string $separator = DIRE
  *
  * @return mixed|null
  */
-function filter_input_fix($type, $variable_name, $filter = FILTER_DEFAULT, $options = null): mixed
+function filterInputFix($type, $variable_name, $filter = FILTER_DEFAULT, $options = null): mixed
 {
     $checkTypes =[
         INPUT_GET,

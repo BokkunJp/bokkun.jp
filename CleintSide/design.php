@@ -4,4 +4,4 @@ $APIPath = new \Path(DOCUMENT_ROOT);
 $APIPath->add("API");
 $APIPath->setPathEnd();
 $APIPath->add("server.php");
-require_once$designPath->get();
+require_once $designPath->get();

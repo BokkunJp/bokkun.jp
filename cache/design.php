@@ -17,6 +17,6 @@ if (!$csrf->check()) {
 }
 ?>
 <form action='./' method='POST'>
-      <button>ボタンを押してね！</button>
-      <?=$csrf->getTag()?>
+    <button>ボタンを押してね！</button>
+    <?=$csrf->getTag()?>
 </form>

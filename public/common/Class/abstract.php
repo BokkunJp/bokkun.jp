@@ -3,7 +3,7 @@
 abstract class AbstractBase
 {
     abstract protected function getValue();
-    abstract protected function Layout();
+    abstract protected function layout();
     abstract protected function init();
     public function main()
     {

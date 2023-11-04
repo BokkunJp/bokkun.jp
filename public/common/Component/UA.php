@@ -24,7 +24,7 @@ class UA
         return $this->ua = $_SERVER['HTTP_USER_AGENT'];
     }
 
-    public function GetAgent()
+    public function getAgent()
     {
         return $this->ua;
     }

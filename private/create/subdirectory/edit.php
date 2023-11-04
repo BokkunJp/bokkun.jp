@@ -96,7 +96,7 @@ $pathList = array_merge($pathList, $subPathList);
 if ((isset($edit) || isset($copy)) && empty($delete)) {
     // 編集モード
     if (empty($copy_title)) {
-        $adminError->UserError('未記入の項目があります。');
+        $adminError->alertError('未記入の項目があります。');
     } else {
         // ファイル存在チェック
         foreach ($pathList as $_pathList) {
@@ -111,7 +111,7 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
                 if (mb_strpos($file, '.') !== 0) {
                     if (isset($edit) && !isset($delete)) {
                         if ($file === $copy_title) {
-                            $adminError->UserError("ご指定のタイトルのファイルは既に存在します。ページの編集を中止します。");
+                            $adminError->alertError("ご指定のタイトルのファイルは既に存在します。ページの編集を中止します。");
                         }
                     }
                 }
@@ -119,9 +119,9 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
         }
     }
     if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $copy_title) === 0) {
-        $adminError->UserError('タイトルに無効な文字が入力されています。');
+        $adminError->alertError('タイトルに無効な文字が入力されています。');
     } elseif (strlen($copy_title) > MAX_LENGTH) {
-        $adminError->UserError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
+        $adminError->alertError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
 } elseif (empty($delete)) {
     // その他（不正値）
@@ -131,7 +131,7 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
     }
     unset($session);
     unset($post);
-    $adminError->UserError('不正な値が入力されました。');
+    $adminError->alertError('不正な値が入力されました。');
 }
 
 chdir($basePath);
@@ -140,15 +140,15 @@ chdir($basePath);
 if (!isset($select)) {
     $select = '';
 }
-$validate = ValidateData(getcwd(), $select);
+$validate = validateData(getcwd(), $select);
 if ($validate === null) {
-    $adminError->UserError('ページが選択されていません。');
+    $adminError->alertError('ページが選択されていません。');
 } elseif ($validate === false) {
-    $adminError->UserError('ページの指定が不正です。');
+    $adminError->alertError('ページの指定が不正です。');
 }
 
 // 削除不可判定
-$notList = GetNotDelFileList();
+$notList = getNotDelFileList();
 foreach ($notList as $_nList) {
     if ($_nList === $select) {
         $notDelflg = true;
@@ -161,18 +161,18 @@ foreach ($pathList as $_pathList) {
         if (isset($delete)) {
             // 削除モード
             if (!isset($notDelflg)) {
-                DeleteData($basePath, $select);
+                deleteData($basePath, $select);
             }
         } elseif (isset($copy)) {
             // 複製モード
             $copyPath = new \Path($basePath);
             $copyPath->add($select);
-            CopyData($copyPath->get(), $copy_title);
+            copyData($copyPath->get(), $copy_title);
         } elseif (isset($edit)) {
             // 編集モード
         } else {
             // どちらでもない
-            $adminError->UserError("不正な遷移です。");
+            $adminError->alertError("不正な遷移です。");
         }
     } else {
         $cwd = new \Path('');
@@ -187,18 +187,18 @@ foreach ($pathList as $_pathList) {
         if (isset($delete)) {
             // 削除モード
             if (!isset($notDelflg)) {
-                DeleteData(getcwd(), $cwd->get());
+                deleteData(getcwd(), $cwd->get());
             }
         } elseif (isset($copy)) {
             // 複製モード
             if (!empty($select) && is_dir($cwd->get())) {
-                CopyData($cwd->get(), $copy_title);
+                copyData($cwd->get(), $copy_title);
             }
         } elseif (isset($edit)) {
             // 編集モード
         } else {
             // どちらでもない
-            $adminError->UserError("不正な遷移です。");
+            $adminError->alertError("不正な遷移です。");
         }
         $cwd = new \Path(dirname($cwd->get()));
     }
@@ -229,7 +229,7 @@ class AdminError
     }
 
     /**
-     * UserError
+     * alertError
      *
      * エラー文言を設定
      *
@@ -238,7 +238,7 @@ class AdminError
      *
      * @return void
      */
-    public function UserError(string $message, bool $exit_flg = true)
+    public function alertError(string $message, bool $exit_flg = true)
     {
         $this->use->alert($message);
         $this->use->BackAdmin('create');
@@ -276,15 +276,15 @@ class AdminError
     }
 
     /**
-     * Maintenance
+     * maintenance
      *
      * メンテナンス表示
      *
      * @return void
      */
-    public function Maintenance()
+    public function maintenance()
     {
-        $this->UserError('メンテナンス中です。しばらくお待ちください。');
+        $this->alertError('メンテナンス中です。しばらくお待ちください。');
     }
 }
 ?>
