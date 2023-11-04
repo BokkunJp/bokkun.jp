@@ -7,7 +7,7 @@ function ajax(TYPE = null, URL = null, DATA = null, CallBack = Loop) {
     var xhr = this; // Ajax処理の引継ぎ
     this.xhr.onload = function() { // ロード完了
 
-        var data = xhr.GetData(this); // テキストファイル内のデータを取得
+        var data = xhr.getData(this); // テキストファイル内のデータを取得
         xhr.ShowHTML(document.getElementsByName("xhr")[0], data); // データの出力
 
         console.log(CallBack);
@@ -50,16 +50,16 @@ Ajax.prototype.Load = function(TYPE, URL, DATA = null) {
 };
 
 /* レスポンスデータ(テキスト)を返す */
-Ajax.prototype.GetData = function(xhr) {
+Ajax.prototype.getData = function(xhr) {
     return xhr.responseText;
 };
 
 /* レスポンスデータ(PHPから取得したカンマ区切りのキー名)を配列で返す */
 Ajax.prototype.GetArrayData = function(xhr) {
-    this.response = this.GetData(xhr).split(',');
+    this.response = this.getData(xhr).split(',');
     // 配列でなければ
     if (typeof xhr == Array) {
-        return this.GetData(xhr); // 通常のレスポンスデータを返す
+        return this.getData(xhr); // 通常のレスポンスデータを返す
     } else {
         // 配列なら
         return this.response; // 成形したデータを返す

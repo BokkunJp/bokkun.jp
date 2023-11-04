@@ -29,12 +29,12 @@ if (!empty($mode) && $mode === 'edit') {
         $deleteImages = $imageNameArray = [];
         $allImage = loadAllImageFile();
 
-        $judge = ValidateDeleteImage($posts);
+        $judge = validateDeleteImage($posts);
         if ($judge === true) {
             foreach ($posts as $_key => $_value) {
                 $imageNameArray[$_key] = $_value;
                 if (preg_match('/^img_(.*)$/', $_key)) {
-                    if (ValidateDeleteImage($_value, $allImage) === true) {
+                    if (validateDeleteImage($_value, $allImage) === true) {
                         $deleteImages[$_key] = $_value;
                     } else {
                         $deleteImages[$_key] = false;
@@ -43,7 +43,7 @@ if (!empty($mode) && $mode === 'edit') {
                 }
             }
 
-            $deleteResult = DeleteImages($deleteImages);
+            $deleteResult = deleteImages($deleteImages);
             $noticeWord = '';
 
             // 削除成功した画像について
@@ -83,7 +83,7 @@ if (!empty($mode) && $mode === 'edit') {
             }
         }
 
-        $result = RestoreImages($restoreImgList);
+        $result = restoreImages($restoreImgList);
 
         $failCount = 0;
         foreach ($result as $_key => $_r) {

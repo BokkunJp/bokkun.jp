@@ -44,7 +44,7 @@ function createRandom(int $length, string $type = 'security'): string
 }
 
 /**
- * FindFileName
+ * findFileName
  *
  * ファイル形式かチェックする
  *
@@ -76,7 +76,7 @@ function findFileName(string $str, bool $rootOnly = true, bool $existFlg = false
 }
 
 /**
- * ValidateData
+ * validateData
  *
  * 対象のパスのディレクトリに、指定したファイルが存在するか調べる
  *
@@ -85,7 +85,7 @@ function findFileName(string $str, bool $rootOnly = true, bool $existFlg = false
  *
  * @return bool
  */
-function ValidateData(string $dirPath, ?string $select): bool
+function validateData(string $dirPath, ?string $select): bool
 {
     $dirArray = scandir($dirPath);
 
@@ -93,7 +93,7 @@ function ValidateData(string $dirPath, ?string $select): bool
 }
 
 /**
- * DeleteData
+ * deleteData
  *
  * 対象のパスのディレクトリとファイルを削除する
  * (ディレクトリ内にディレクトリがある場合、そのディレクトリも削除対象となる)
@@ -103,7 +103,7 @@ function ValidateData(string $dirPath, ?string $select): bool
  *
  * @return bool
  */
-function DeleteData(string $path, string $select): bool
+function deleteData(string $path, string $select): bool
 {
     $delPath = new \Path($path);
     $delPath->add($select);
@@ -123,7 +123,7 @@ function DeleteData(string $path, string $select): bool
 }
 
 /**
- * CopyData
+ * copyData
  *
  * 対象のパスのディレクトリとファイルを複製する
  *
@@ -133,7 +133,7 @@ function DeleteData(string $path, string $select): bool
  *
  * @return bool
  */
-function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bool
+function copyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bool
 {
     $dstPath = new \Path(dirname($srcPath));
     $dstPath->add($copyName);
@@ -167,7 +167,7 @@ function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bo
                         if (!is_dir($dstPath->get())) {
                             mkdir($dstPath->get());
                         }
-                        CopySubData($filePath->get(), $dstPath->get());
+                        copySubData($filePath->get(), $dstPath->get());
                     }
                 }
             }
@@ -181,7 +181,7 @@ function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bo
 }
 
 /**
- * CopySubData
+ * copySubData
  *
  * 対象のパスの子階層のディレクトリとファイルを複製する
  *
@@ -190,7 +190,7 @@ function CopyData(string $srcPath, string $copyName, bool $dpAuthFlg = true): bo
  *
  * @return bool
  */
-function CopySubData(string $srcPath, string $dstPath): bool
+function copySubData(string $srcPath, string $dstPath): bool
 {
     // 主階層のディレクトリがコピー先にない場合は作成
     if (!is_dir($dstPath)) {
@@ -214,7 +214,7 @@ function CopySubData(string $srcPath, string $dstPath): bool
                         mkdir($dstFilePath->get());
                     }
                 }
-                CopySubData($filePath->get(), $dstFilePath->get());
+                copySubData($filePath->get(), $dstFilePath->get());
             }
         }
     }
@@ -223,25 +223,25 @@ function CopySubData(string $srcPath, string $dstPath): bool
 }
 
 /**
- * GetNotDelFileList
+ * getNotDelFileList
  *
  * 削除不可ディレクトリリストを配列で取得する。
  *
  * @return array
  */
-function GetNotDelFileList(): array
+function getNotDelFileList(): array
 {
     return NOT_DELETE_FILE_LIST;
 }
 
 /**
- * CountReset
+ * logout
  *
  * ログアウト画面を表示して、セッションを切断する。
  *
  * @return void
  */
-function Logout(): void
+function logout(): void
 {
     echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 

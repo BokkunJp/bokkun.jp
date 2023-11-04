@@ -1,18 +1,18 @@
 /*
-	時刻の取得・更新を行う。
-	時刻を用いた応用的な処理に関しては別ファイルにクラス定義する。
+    時刻の取得・更新を行う。
+    時刻を用いた応用的な処理に関しては別ファイルにクラス定義する。
  */
 
 // 時計を表示
 /*
-			引数：DOMの要素
-         */
+            引数：DOMの要素
+ */
 $(window).on('load', function() {
     var time = new Time();
-    time.Update();
+    time.update();
 
 });
-Time.prototype.Draw = function(elm) {
+Time.prototype.draw = function(elm) {
     elm[0]['date'].html(elm[1].time.year);
     elm[0]['time'].html(elm[1].time.nowTime);
 
@@ -22,20 +22,20 @@ Time.prototype.Draw = function(elm) {
     // アニメーション処理実行時にデータを失ってしまわないよう、
     // コールバック関数を二重呼出し
     anime.viewAnimation(function() {
-        time.Update();
+        time.update();
     });
 }
 
 // 時刻の取得・更新
-Time.prototype.Update = function() {
+Time.prototype.update = function() {
     this.time = new Time();
     var elm = { 'date': $('.date'), 'time': $('.time') };
-    this.Draw([elm, this]);
+    this.draw([elm, this]);
 }
 
 // 年月日を表示用に変換
-function Year(date) {
-    year = date.getFullYear() + '/' +
+function year(date) {
+    year = date.getFullyear() + '/' +
         ("0" + (date.getMonth() + 1)).slice(-2) + '/' +
         ("0" + date.getDate()).slice(-2);
 
@@ -48,7 +48,7 @@ function Time(data) {
     this.sourceTime = new Date();
 
     // 年月日を設定
-    this.year = Year(this.sourceTime);
+    this.year = year(this.sourceTime);
 
     // 時刻を設定
     this.hour = ("0" + this.sourceTime.getHours()).slice(-2);

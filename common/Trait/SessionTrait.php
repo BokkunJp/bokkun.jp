@@ -3,7 +3,7 @@
 trait SessionTrait
 {
     /**
-     * CommonProcessArray
+     * commonProcessArray
      *
      * セッション2次元配列の共通処理の記述
      *
@@ -13,7 +13,7 @@ trait SessionTrait
      *
      * @return mixed
      */
-    public function CommonProcessArray(string|int $parentId, string|int $childId, ?callable $callBack): mixed
+    public function commonProcessArray(string|int $parentId, string|int $childId, ?callable $callBack): mixed
     {
         $data = null;
         if ($this->judge($parentId) && is_callable($callBack)) {

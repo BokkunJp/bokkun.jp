@@ -33,7 +33,7 @@ function main()
         };
         num = $(this).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
-        ajaxMain(url, null, 'server.php', 'POST', selectVersion, 'json', ReadFileList);
+        ajaxMain(url, null, 'server.php', 'POST', selectVersion, 'json', readFileList);
     });
 
     // ファイル名またはディレクトリ名からファイルリストを生成する
@@ -112,7 +112,7 @@ function main()
 
 }
 
-function ReadFileList (ver)
+function readFileList (ver)
 {
     select = $('select[name="select_directory"]');
 

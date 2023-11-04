@@ -1,7 +1,7 @@
 <?php
 
 /**
- * GetPage
+ * getPage
  *
  * ページ番号を取得する。
  *
@@ -21,7 +21,7 @@ function getPage(): int|bool
 }
 
 /**
- * GetCountPerPage
+ * getCountPerPage
  *
  * ページ当たりの画像数を取得する。
  * (post値が確認できない場合はデフォルト値を取得する)
@@ -51,7 +51,7 @@ function getCountPerPage(): int
 }
 
 /**
- * ViewPager
+ * viewPager
  *
  * ページャーを表示する。
  *
@@ -118,7 +118,7 @@ function viewPager(int $max, bool $ajaxFlg = false)
 }
 
 /**
- * ValidateLoop
+ * validateLoop
  *
  * Pagenatorのページ数を表示するかを判定する。
  *
@@ -158,7 +158,7 @@ function validateLoop(int $currentPage, int $nowPage, $minPage, int $maxPage): n
 }
 
 /**
- * SetInputForm
+ * setInputForm
  * ページ移動フォームの生成
 
  * @param integer $minPage

@@ -1,6 +1,6 @@
 <?php
 /**
- * ViewImage
+ * viewImage
  * 画像を表示する
  *
  * @param  string $imageName
@@ -9,7 +9,7 @@
  *
  * @return void
  */
-function ViewImage($imageName, $imageUrl, $fileTime): void
+function viewImage($imageName, $imageUrl, $fileTime): void
 {
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
@@ -25,7 +25,7 @@ function ViewImage($imageName, $imageUrl, $fileTime): void
 }
 
 /**
-     * ViewList
+     * viewList
      * 画像をリスト表示する
      *
      * @param  string $imageName
@@ -33,7 +33,7 @@ function ViewImage($imageName, $imageUrl, $fileTime): void
      *
      * @return void
      */
-function ViewList($imageName, $imageUrl): void
+function viewList($imageName, $imageUrl): void
 {
     $imageDirName = basename(getcwd());
     echo "<div><a href='$imageUrl/{$imageDirName}/$imageName' target='new'>{$imageName}</a>";

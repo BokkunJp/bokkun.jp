@@ -1,6 +1,6 @@
 <?php
 /**
- * ViewImage
+ * viewImage
  * 画像を表示する
  *
  * @param  string $imageName
@@ -9,18 +9,18 @@
  *
  * @return void
  */
-function ViewImage($imageName, $imageUrl, $fileTime, $checked = false): void
+function viewImage($imageName, $imageUrl, $fileTime, $checked = false): void
 {
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
 
     // 現在選択している画像タイプを取得
-    $imagePageName = GetImagePageName();
+    $imagePageName = getImagePageName();
 
     // iniの内容を取得してセッションに保存
     $session = new Private\Important\Session();
     if (empty($session->read('imageMaxSize-ini'))) {
-        $session->write("imageMaxSize-ini", (int)GetIni('private', 'ImageMaxSize'));
+        $session->write("imageMaxSize-ini", (int)getIni('private', 'ImageMaxSize'));
     }
 
     $imagePath = new \Path(PUBLIC_IMAGE_DIR);
@@ -38,7 +38,7 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false): void
 }
 
 /**
- * ViewList
+ * viewList
  * 画像をリスト表示する
  *
  * @param  mixed $imageName
@@ -46,10 +46,10 @@ function ViewImage($imageName, $imageUrl, $fileTime, $checked = false): void
  *
  * @return void
  */
-function ViewList($imageName, $imageUrl, $checked = false): void
+function viewList($imageName, $imageUrl, $checked = false): void
 {
     // 現在選択している画像タイプを取得
-    $imagePageName = GetImagePageName();
+    $imagePageName = getImagePageName();
 
     echo "<div><a href='$imageUrl/$imagePageName/$imageName' target='new'>{$imageName}</a>";
     echo "<label><input type='checkbox' class='image-check' name='img_{$imageName}' value='$imageName' $checked /><span>削除・コピーする</span></label></div>";

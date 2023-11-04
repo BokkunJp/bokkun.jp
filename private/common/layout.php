@@ -35,7 +35,7 @@ if (isset($homepageTitle)) {
 }
 
 // アクセス警告メール
-AlertAdmin('access', $title);
+alertAdmin('access', $title);
 
 $img = "crown-vector.jpg";
 ?>

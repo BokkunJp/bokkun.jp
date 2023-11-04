@@ -22,7 +22,7 @@ if ($secure !== true) {
 }
 
 /**
- * AlertAdmin
+ * alertAdmin
  * 管理側アクセス・ログイン時のメール送信処理
  *
  * @param  string $noticeType
@@ -30,7 +30,7 @@ if ($secure !== true) {
  *
  * @return void
  */
-function AlertAdmin(string $noticeType, $pageTitle):void
+function alertAdmin(string $noticeType, $pageTitle):void
 {
     $domain = Private\Important\Setting::GetDomain();
     $ip = Private\Important\Setting::GetHostIp();

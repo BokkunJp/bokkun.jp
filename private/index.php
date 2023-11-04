@@ -28,7 +28,7 @@ require_once dirname(__DIR__) . '/common/Component/Function.php';
 $title = '管理側コンテンツ一覧';
 
 // アクセス警告メール
-AlertAdmin('access', $title);
+alertAdmin('access', $title);
 ?>
 <!DOCTYPE <html lang="ja">
 
@@ -57,8 +57,8 @@ AlertAdmin('access', $title);
                 $notList = ['.', '..', 'Sample', 'Test', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'secure', 'logout'];
                 $dirList = scandir(__DIR__);
                 $titleList = ['create' => 'ページ調整', 'edit' => 'ソース調整','IMAGE' => '画像投稿', 'log' => 'ログ'];
-                $notList = AddList($notList, $dirList, '.', 1);
-                $notList = AddList($notList, $dirList, '_', 1);
+                $notList = addList($notList, $dirList, '.', 1);
+                $notList = addList($notList, $dirList, '_', 1);
 
                 foreach ($dirList as $index => $_dir) {
                     if (!searchData($_dir, $notList) && isset($titleList[$_dir])) {

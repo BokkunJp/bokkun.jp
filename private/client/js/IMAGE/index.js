@@ -24,14 +24,14 @@ function main() {
             url = url.replace(/\#.*$/, "");
 
             // 選択した画像ページの種類とトークンを渡して、そのページにある画像群(とタイムスタンプから構成される配列)を取得
-            ajaxMain(url, '/subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', ViewImage);
+            ajaxMain(url, '/subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', viewImage);
         }
     });
 
     // 全体チェックのチェックボックスにチェックが入ったら、各画像のチェックボックスにチェックを入れる(または外す)
     $('.all-check-box').on('click', function ()
     {
-        checkFlg = AllCheck($('.image-list').find("input[type='checkbox']"));
+        checkFlg = allCheck($('.image-list').find("input[type='checkbox']"));
         if (!checkFlg) {
             $('.all-check-label').children('span').html('すべてのチェックを外す');
             $('.image-list').find("input[type='checkbox']").prop('checked', true);
@@ -43,7 +43,7 @@ function main() {
         allCehck = $('.all-check-box').prop("checked", false);
     });
 
-    function AllCheck(elm)
+    function allCheck(elm)
     {
         ret = true;
         $.each(elm, function (index, val)
@@ -84,7 +84,7 @@ function main() {
     // 画像横の各チェックボックスが押されたときの処理
     $('.image-check').on('click', function ()
     {
-        checkFlg = AllCheck($('.image-list').find("input[type='checkbox']"));
+        checkFlg = allCheck($('.image-list').find("input[type='checkbox']"));
         if (!checkFlg) {
             $('.all-check-label').children('span').html('すべてチェックする');
         } else {
@@ -137,12 +137,12 @@ function main() {
 
 }
 
-function ViewImage(data)
+function viewImage(data)
 {
     // チェックの保持
     var checkFind = $('.image-list').find("input[type='checkbox']");
     var checkIndexList = [];
-    var page = GetParam('page');
+    var page = getParam('page');
     checkFind.each(function (index, val)
     {
         if (page) {
@@ -230,7 +230,7 @@ function ViewImage(data)
         $('.all-check-label').children('span').html('すべてチェックする');
     }
 
-    function AllCheck(elm)
+    function allCheck(elm)
     {
         ret = true;
         $.each(elm, function (index, val) {
@@ -244,7 +244,7 @@ function ViewImage(data)
 
     // 画像横の各チェックボックスが押されたときの処理
     $('.image-check').on('click', function () {
-        checkFlg = AllCheck($('.image-list').find("input[type='checkbox']"));
+        checkFlg = allCheck($('.image-list').find("input[type='checkbox']"));
         if (!checkFlg) {
             $('.all-check-label').children('span').html('すべてチェックする');
         } else {

@@ -33,7 +33,7 @@ class Session extends \Common\Important\Session
             }
         };
 
-        $ret = $this->CommonProcessArray($parentId, $childId, $judgeProccess);
+        $ret = $this->commonProcessArray($parentId, $childId, $judgeProccess);
 
         return $ret;
     }
@@ -56,7 +56,7 @@ class Session extends \Common\Important\Session
             return $childElm[$childId];
         };
 
-        $ret = $this->CommonProcessArray($parentId, $childId, $readProccess);
+        $ret = $this->commonProcessArray($parentId, $childId, $readProccess);
 
         return $ret;
     }
@@ -78,7 +78,7 @@ class Session extends \Common\Important\Session
             $this->write($parentId, $childData);
         };
 
-        $ret = $this->CommonProcessArray($parentId, $childId, $deleteProccess);
+        $ret = $this->commonProcessArray($parentId, $childId, $deleteProccess);
 
         return $ret;
     }

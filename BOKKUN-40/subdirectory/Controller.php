@@ -15,5 +15,5 @@ if (!isset($file['xml']) || $file['xml']['error'] || $file['xml']['type'] !== "a
 $xml = simplexml_load_file($file['xml']['tmp_name']);
 
 $xmlClass = new simplexml_parse($xml);
-var_dump($xmlClass->GetAll());
-var_dump($xmlClass->GetChildren('library_visual_scenes'));
+var_dump($xmlClass->getAll());
+var_dump($xmlClass->getChildren('library_visual_scenes'));

@@ -4,7 +4,7 @@
 
 namespace Error\Important;
 
-$http_flg = filter_input_fix(INPUT_SERVER, 'HTTPS');
+$http_flg = filterInputFix(INPUT_SERVER, 'HTTPS');
 if (isset($http_flg)) {
     $http = '//';
 } else {
@@ -12,8 +12,8 @@ if (isset($http_flg)) {
 }
 
 // 定数などの定義
-$agent = filter_input_fix(INPUT_SERVER, 'HTTP_USER_AGENT');
-$referer = filter_input_fix(INPUT_SERVER, 'HTTP_REFERER');
+$agent = filterInputFix(INPUT_SERVER, 'HTTP_USER_AGENT');
+$referer = filterInputFix(INPUT_SERVER, 'HTTP_REFERER');
 
 $configPath = new \Path(COMMON_DIR);
 $configPath->setPathEnd();

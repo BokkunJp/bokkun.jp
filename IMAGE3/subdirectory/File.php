@@ -169,7 +169,7 @@ function choiceImage(array $params, array $data): array
 }
 
 /**
- * ReadImage
+ * readImage
  * 画像を読み込み、公開する
  *
  * @param  mixed $read_flg
@@ -243,7 +243,7 @@ function showImage(
             $imagePath = new \Path(PUBLIC_IMAGE_DIR);
             $imagePath->addArray([$imagePageName, $_data['name']]);
 
-            $jsData[$i]['info'] = calcImageSize($imagePath->get(), (int)GetIni('Public', 'ImageMaxSize'));
+            $jsData[$i]['info'] = calcImageSize($imagePath->get(), (int)getIni('Public', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
             // 画像データが取得できなかった場合は、配列の該当データの削除
             if ($jsData[$i]['info'] === false) {
@@ -270,8 +270,8 @@ function showImage(
             $_time = $_data['time'];
 
             // 画像を表示
-            ViewImage($_file, $imageUrl, $_time);
-            // ViewList($_file, $imageUrl);
+            viewImage($_file, $imageUrl, $_time);
+            // viewList($_file, $imageUrl);
 
             // バッファ出力
             if (ob_get_level() > 0) {

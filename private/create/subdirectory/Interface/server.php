@@ -2,8 +2,8 @@
 
 interface Admin
 {
-    public function DirCopy();
-    public function TemplateEngineSet();
-    public function DirRename();
-    public function DirDelete();
+    public function copyDir();
+    public function setTemplateEngine();
+    public function renameDir();
+    public function deleteDir();
 }

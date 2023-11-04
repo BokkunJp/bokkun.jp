@@ -13,8 +13,8 @@
         <?php
     $notList = ['.', '..', '.htaccess', 'client', 'common', 'template', 'template_base', 'custom', 'custom_base', 'public', 'cake', 'private', 'API', 'php.yml'];
     $dirList = scandir(__DIR__ . '/');
-    $notList = AddList($notList, $dirList, '.', 1);
-    $notList = AddList($notList, $dirList, '_', 1);
+    $notList = addList($notList, $dirList, '.', 1);
+    $notList = addList($notList, $dirList, '_', 1);
 
     foreach ($dirList as $index => $_dir) {
         if (!searchData($_dir, $notList) && !preg_match("/\.php$|\.html$/", $_dir)) {
@@ -33,7 +33,7 @@
             'Pages'
             ];
             $dirList = scandir(dirname(__DIR__) . '/cake.bokkun.jp/templates');
-            $notList = AddList($notList, $dirList, '_', 1);
+            $notList = addList($notList, $dirList, '_', 1);
             foreach ($dirList as $index => $_dir) {
                 if (!searchData($_dir, $notList)) {
                     echo "<li><a href=\"https://cake.{$domain}/{$_dir}/\" target=\"_blank\">$_dir</a></li>";

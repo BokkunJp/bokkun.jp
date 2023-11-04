@@ -1,6 +1,6 @@
 <?php
 
-function AddList(array $list1, array $list2 = [], ?string $extension = null, int $headFlg = -1):array|false
+function addList(array $list1, array $list2 = [], ?string $extension = null, int $headFlg = -1):array|false
 {
     if (is_null($extension)) {
         return false;
