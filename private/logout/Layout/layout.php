@@ -10,7 +10,7 @@ $img = "crown-vector.jpg";
     <meta name="robots" content="noindex,nofollow">
     <meta http-equiv="refresh" content="0.5; url=<?=$base->getUrl('private', relativePath:false)?>">
     <title>管理側</title>
-    <link rel="shortcut icon" href="<?= $base->GetURL('', 'client') ?>/image/IMG_7592.PNG">
+    <link rel="shortcut icon" href="<?= $base->getUrl('', 'client') ?>/image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css" href="<?= $base->getUrl('', 'client') ?>/css/design.css">
 </head>
 

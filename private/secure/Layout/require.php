@@ -23,8 +23,6 @@ if (!isset($_SESSION)) {
 <?php
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL | ~E_STRICT);
-// 関数定義 (初期処理用)
-// require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'InitFunction.php';
 // 設定
 require_once dirname(__DIR__, 2) . "/common/Setting.php";
 require_once dirname(__DIR__, 2) . "/common.php";
@@ -41,7 +39,9 @@ $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 require_once PRIVATE_COMPONENT_DIR . '/UA.php';
 // CSRF
 require_once PRIVATE_COMMON_DIR . "/Token.php";
-require_once PRIVATE_COMMON_DIR . "/Token.php";
+
+// 設定ファイルを管理側用に上書き
+$base = new Private\Important\Setting();
 
 // UA判定処理
 $ua = new Private\Important\UA();

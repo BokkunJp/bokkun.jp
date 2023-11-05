@@ -1,5 +1,6 @@
 <?php
 
+// セッションスタート
 if (!isset($_SESSION)) {
     if (PHP_OS === 'WINNT') {
         $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
@@ -74,6 +75,9 @@ $privatepathList->all();
 foreach ($privatepathList->get() as $path) {
     require_once $path;
 }
+
+// 設定ファイルを管理側用に上書き
+$base = new Private\Important\Setting();
 
 // UA判定処理
 $ua = new Private\Important\UA();
