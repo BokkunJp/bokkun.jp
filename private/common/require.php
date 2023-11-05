@@ -60,6 +60,7 @@ foreach ($privatepathList->get() as $path) {
     require_once $path;
 }
 
+// 設定ファイルを管理側用に上書き
 $base = new Private\Important\Setting();
 
 // UA判定処理

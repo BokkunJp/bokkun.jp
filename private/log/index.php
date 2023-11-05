@@ -11,10 +11,10 @@ $title = 'ログ一覧';
     <title>管理画面</title>
 
     <link rel="shortcut icon"
-        href="<?= $base->GetURL('', 'client') ?>/image/IMG_7592.PNG">
+        href="<?= $base->getUrl('', 'client') ?>/image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css" href="../client/css/common.css">
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->GetURL('', 'client') ?>/css<?= createClient('log') ?>/design.css">
+        href="<?= $base->getUrl('', 'client') ?>/css<?= createClient('log') ?>/design.css">
 </head>
 
 <body>
