@@ -37,18 +37,18 @@ $img = "crown-vector.jpg";
     </title>
     <base href="../" />
     <link rel="shortcut icon"
-        href="<?=$base->GetURL('')?>common/error/client/image/IMG_7592.PNG">
+        href="<?=$base->getUrl('')?>common/error/client/image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css"
-        href="<?=$base->GetURL('')?>common/error/client/css/common/<?php echo $agentCode; ?>.css">
+        href="<?=$base->getUrl('')?>common/error/client/css/common/<?php echo $agentCode; ?>.css">
     <link rel="stylesheet" type="text/css"
-        href="<?=$base->GetURL('')?>common/error/client/css/common.css">
+        href="<?=$base->getUrl('')?>common/error/client/css/common.css">
     <link rel="stylesheet" type="text/css"
-        href="<?=$base->GetURL('')?>common/error/client/css/<?php echo $errCode; ?>/design.css">
+        href="<?=$base->getUrl('')?>common/error/client/css/<?php echo $errCode; ?>/design.css">
     <script
-        src="<?=$base->GetURL('')?>common/error/client/js/common/time/realtime.js">
+        src="<?=$base->getUrl('')?>common/error/client/js/common/time/realtime.js">
     </script>
     <script
-        src="<?=$base->GetURL('')?>common/error/client/js/common/time/time.js">
+        src="<?=$base->getUrl('')?>common/error/client/js/common/time/time.js">
     </script>
 </head>
 

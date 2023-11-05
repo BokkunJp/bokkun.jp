@@ -9,8 +9,8 @@ $img = "crown-vector.jpg";
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
     <title><?php echo $title; ?></title>
-    <link rel="shortcut icon" href="<?= $base->GetURL('', 'client') ?>/image/IMG_7592.PNG">
-    <link rel="stylesheet" type="text/css" href="<?= $base->GetURL('', 'client') ?>/css<?= createClient('') ?>design.css">
+    <link rel="shortcut icon" href="<?= $base->getUrl('', 'client') ?>/image/IMG_7592.PNG">
+    <link rel="stylesheet" type="text/css" href="<?= $base->getUrl('', 'client') ?>/css<?= createClient('') ?>design.css">
 </head>
 <body>
     <link rel="stylesheet" type="text/css" href="<?php echo $public; ?>client/css/common/<?php echo $agentCode; ?>.css">
