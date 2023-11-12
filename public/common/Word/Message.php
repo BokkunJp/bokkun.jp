@@ -52,33 +52,28 @@ $publicPath->resetKey("PUBLIC_LAYOUT_DIR");
 $publicPath->methodPath("Add", "layout");
 define('PUBLIC_LAYOUT_DIR', $publicPath->get());
 
-$publicPath = new \PathApplication("PUBLIC_CSS_DIR", PUBLIC_CLIENT_DIR);
-$publicPath->setAll([
-    "PUBLIC_CSS_DIR" => '',
-    "PUBLIC_JS_DIR" => '',
-    "PUBLIC_IMAGE_DIR" => '',
-    "PUBLIC_3D_DIR" => '',
-    "PUBLIC_CSV_DIR" => '',
-]);
-$publicPath->resetKey("PUBLIC_CSS_DIR");
-$publicPath->methodPath("Add", "css");
-define('PUBLIC_CSS_DIR', $publicPath->get());
+$publicPath = new \PathApplication("PUBLIC_CLIENT_DIR", PUBLIC_CLIENT_DIR);
+$publicClientList = [
+    "PUBLIC_CSS_DIR" => 'css',
+    "PUBLIC_JS_DIR" => 'js',
+    "PUBLIC_ZIP_DIR" => 'zip',
+    "PUBLIC_IMAGE_DIR" => 'image',
+    "PUBLIC_3D_DIR" => '3d',
+    "PUBLIC_CSV_DIR" => 'csv',
+];
 
-$publicPath->resetKey("PUBLIC_JS_DIR");
-$publicPath->methodPath("Add", "js");
-define('PUBLIC_JS_DIR', $publicPath->get());
+// パス定数リストをセット
+$publicPath->setAll($publicClientList);
 
-$publicPath->resetKey("PUBLIC_IMAGE_DIR");
-$publicPath->methodPath("Add", "image");
-define('PUBLIC_IMAGE_DIR', $publicPath->get());
+// パス定数をまとめて定義
+$publicPath->resetKey("PUBLIC_CLIENT_DIR");
+$publicClientpath = $publicPath->get();
+foreach ($publicClientList as $_dir => $_value) {
+    $publicPath->resetKey($_dir);
+    define($_dir, $publicClientpath. $publicPath->get());
+}
 
-$publicPath->resetKey("PUBLIC_3D_DIR");
-$publicPath->methodPath("Add", "3d");
-define('PUBLIC_3D_DIR', $publicPath->get());
-
-$publicPath->resetKey("PUBLIC_CSV_DIR");
-$publicPath->methodPath("Add", "csv");
-define('PUBLIC_CSV_DIR', $publicPath->get());
+unset($publicPath);
 
 // 画像閲覧ページ
 define('PUBLIC_PREVIOUS', '画像閲覧ページへ戻る');
