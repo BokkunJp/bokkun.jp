@@ -1,4 +1,3 @@
-.vscode/*
 common/Word/Local.php
 private/create/subdirectory/templates_c/*
 private/edit/subdirectory/templates_c/*
@@ -11,3 +10,4 @@ public/client/image/*
 public/client/zip/*
 public/common/Word/Local.php
 twig/subdirectory/template_cache/*
+.vscode/*
