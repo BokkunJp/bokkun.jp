@@ -1,11 +1,13 @@
 common/Word/Local.php
-public/client/csv/CSV/*
-public/client/csv/product01/*
-public/client/image/*
 private/create/subdirectory/templates_c/*
 private/edit/subdirectory/templates_c/*
 private/log/error/subdirectory/templates_c/*
 private/log/access/subdirectory/templates_c/*
 private/common/Word/Local.php
+public/client/csv/CSV/*
+public/client/csv/product01/*
+public/client/image/*
+public/client/zip/*
 public/common/Word/Local.php
-common/Word/Local.php
+twig/subdirectory/template_cache/*
+.vscode/*
