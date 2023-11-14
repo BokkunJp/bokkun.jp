@@ -27,7 +27,7 @@ function main() {
         url = url.replace(/\#.*$/, "");
 
         // 選択したページ名とトークンを渡して、そのページが削除不可かどうかの判定結果を取得
-        ajaxMain(url, '/subdirectory/ajax/', 'server.php' + query, 'POST', value, 'json', Result);
+        ajaxMain(url, '/subdirectory/ajax/', 'server.php' + query, 'POST', value, 'json', result);
     });
 }
 
