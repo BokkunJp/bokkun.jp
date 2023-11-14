@@ -3,7 +3,7 @@
 $img = "crown-vector.jpg";
 $title = '認証';
 
-// $base = new \Private\Important\Setting();
+$base = new \Private\Important\Setting();
 
 ?>
 <html lang="ja">
@@ -20,7 +20,7 @@ $title = '認証';
 
 <body>
     <link rel="stylesheet" type="text/css"
-        href="<?php echo $public; ?>client/css/common/<?php echo $agentCode; ?>.css">
+        href="<?= $base->getUrl('', 'client') ?>css/common/<?php echo $agentCode; ?>.css">
     <div class="container">
         <?php require_once('header.php'); ?>
         <main class="contents">
