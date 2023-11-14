@@ -28,10 +28,12 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 img {
-  width: 10%;
+    width: 10%;
     /*
     filter: alpha(opacity=50);
     -moz-opacity:0.5;
@@ -40,7 +42,7 @@ img {
 }
 
 .top-image {
-  width: 10%;
+    width: 10%;
 }
 
 .debug,
@@ -101,6 +103,7 @@ header {
 
 .contents,
 .contents>* {
+    position: fixed;
     font-size: 3vh;
     padding-bottom: 3vh !important;
 }
@@ -116,7 +119,6 @@ footer {
     background-size: 10px 150%;
     font-size: 4vw;
     width: 100%;
-    bottom: 0;
 }
 
 .footer_char {
