@@ -8,6 +8,10 @@ use Public\Important\Setting as Setting;
 $post = Public\Important\Setting::getPost('zip');
 $path = PUBLIC_ZIP_DIR. basename(__DIR__). DIRECTORY_SEPARATOR .'test.zip';
 if ($post) {
+    if (!is_dir(PUBLIC_ZIP_DIR. basename(__DIR__))) {
+        mkdir(PUBLIC_ZIP_DIR. basename(__DIR__));
+    }
+
     $zip = new zipArchive;
     $filePath = PUBLIC_IMAGE_DIR .basename(__DIR__);
     if ($zip->open($path, ZipArchive::CREATE) === true) {
