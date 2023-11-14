@@ -102,6 +102,7 @@ header {
 
 .contents,
 .contents>* {
+    position: fixed;
     font-size: 3vh;
 }
 
