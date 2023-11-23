@@ -5,6 +5,7 @@ function PostData(data)
     } else
     {
         ajaxData = ajaxMain('', null, 'server.php', 'POST', {post: data}, 'json', Response);
+        console.log(ajaxData);
 
     }
 }

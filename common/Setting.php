@@ -247,7 +247,7 @@ class Setting
      *
      * @return string
      */
-    public function getUrl($query='', $type='url', $relativePath = false): string
+    public function getUrl($type='url', $query='', $relativePath = false): string
     {
         if ($relativePath === false) {
             $url = $this->url;
@@ -255,29 +255,40 @@ class Setting
             $url = '';
         }
 
+        if ($type !== 'root') {
+            $url .= rtrim($this->client, '/');
+        }
+
+        $urlPath = new \Path($url, '/');
+
         switch ($type) {
-            case 'client':
-                $url .= rtrim($this->client, '/');
-                break;
             case 'css':
-                $url .= $this->css;
+                $query1 = $this->css;
                 break;
             case 'js':
-                $url .= $this->js;
+                $query1 = $this->js;
                 break;
             case 'image':
-                $url .= $this->image;
+                $query1 = $this->image;
                 break;
             case 'csv':
-                $url .= $this->csv;
+                $query1 = $this->csv;
                 break;
             default:
+                $query1 = null;
                 break;
         }
 
-        $urlPath = new \Path($url);
         $urlPath->setPathEnd();
-        $urlPath->add($query);
+        if ($query1) {
+            $urlPath->add($query1);
+        }
+
+        $urlPath->setPathEnd();
+        if ($query) {
+            $urlPath->add($query);
+        }
+
         return rtrim($urlPath->get());
     }
 }

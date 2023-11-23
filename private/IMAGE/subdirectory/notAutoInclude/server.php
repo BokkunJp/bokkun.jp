@@ -6,7 +6,7 @@ $files = Private\Important\Setting::getFiles();
 
 // ページ数取得
 $page = Private\Important\Setting::getQuery('page');
-$str = 'private/IMAGE';
+$str = 'private/image';
 $str .= !empty($page) ? "?page={$page}" : "";
 
 // セッション開始
@@ -20,7 +20,7 @@ if (!empty($mode) && $mode === 'edit') {
     if ($viewToken->check() === false) {
         $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new Private\Important\Setting();
-        header('Location:' . $url->getUrl($str));
+        header('Location:' . $url->getUrl('url', $str));
         exit;
     }
 
@@ -129,7 +129,7 @@ if (!empty($mode) && $mode === 'edit') {
         // 削除・複製以外の場合(不正値)
         $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new Private\Important\Setting();
-        header('Location:' . $url->getUrl($str));
+        header('Location:' . $url->getUrl('url', $str));
         exit;
     }
 } else {
@@ -138,7 +138,7 @@ if (!empty($mode) && $mode === 'edit') {
     if ($uploadToken->check() === false) {
         $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new Private\Important\Setting();
-        header('Location:' . $url->getUrl($str));
+        header('Location:' . $url->getUrl('url', $str));
         exit;
     }
 
@@ -199,4 +199,4 @@ if (!empty($mode) && $mode === 'edit') {
 $session->write('token', sha1(session_id()));
 // $session->finaryDestroy();
 $url = new Private\Important\Setting();
-header('Location:' . $url->getUrl($str));
+header('Location:' . $url->getUrl('root', $str));

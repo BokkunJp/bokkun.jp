@@ -36,12 +36,12 @@ alertAdmin('access', $title);
     <meta charset='utf-8' />
     <title>管理側</title>
     <link rel="shortcut icon"
-        href="<?= $base->getUrl('', 'client') ?>/image/IMG_7592.PNG">
+        href="<?= $base->getUrl('image') ?>IMG_7592.PNG">
     <link rel="stylesheet" type="text/css" href="./client/css/common.css">
     <link rel="stylesheet" type="text/css"
-        href="./client/css/common/<?php echo $agentCode; ?>.css">
+        href="<?= $base->getUrl('css') ?>common/<?php echo $agentCode; ?>.css">
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->getUrl('', 'client') ?>/css/design.css">
+        href="<?= $base->getUrl('css') ?>design.css">
 </head>
 
 <body>
@@ -56,7 +56,7 @@ alertAdmin('access', $title);
                 <?php
                 $notList = ['.', '..', 'Sample', 'Test', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'secure', 'logout'];
                 $dirList = scandir(__DIR__);
-                $titleList = ['create' => 'ページ調整', 'edit' => 'ソース調整','IMAGE' => '画像投稿', 'log' => 'ログ'];
+                $titleList = ['create' => 'ページ調整', 'edit' => 'ソース調整','image' => '画像投稿', 'log' => 'ログ'];
                 $notList = addList($notList, $dirList, '.', 1);
                 $notList = addList($notList, $dirList, '_', 1);
 

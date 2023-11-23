@@ -59,7 +59,7 @@ if ($editToken->check() === false) {
     $url = new Private\Important\Setting();
     $backUrl = createClient('private', dirname(__DIR__));
     $backUrl = ltrim($backUrl, DS);
-    header('Location:' . $url->getUrl($backUrl));
+    header('Location:' . $url->getUrl('url', $backUrl));
     exit;
 }
 
@@ -191,8 +191,8 @@ foreach ($pathList as $_pathList) {
             }
         } elseif (isset($copy)) {
             // 複製モード
-            if (!empty($select) && is_dir($cwd->get())) {
-                copyData($cwd->get(), $copy_title);
+            if (!empty($select) && is_dir($select)) {
+                copyData($select, $copy_title);
             }
         } elseif (isset($edit)) {
             // 編集モード
