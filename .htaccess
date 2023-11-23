@@ -57,7 +57,7 @@ Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; prel
 # #特定のページの404化
 RewriteCond %{REQUEST_URI} ^/private/secure/$ [OR]
 RewriteCond %{REQUEST_URI} ^/private/Sample/$ [OR]
-RewriteCond %{REQUEST_URI} ^/public/client/image/(.*)/_old/(.*)$
+RewriteCond %{REQUEST_URI} ^/public/client/image/(.*)/_oldImage/(.*)$
 RewriteRule ^.*$ - [R=404]
 
 # #(一部のファイル以外のPHPファイルに直接アクセスできなくさせる)
@@ -91,9 +91,9 @@ AddHandler cgi-script .py
 # RewriteCond %{REQUEST_URI} !(^/$)
 # #管理側のadminページのメンテナンスを解除
 # RewriteCond %{REQUEST_URI} !(^/private/admin.php)
-# #公開側のIMAGEページのみメンテナンス解除
+# #公開側のimageページのみメンテナンス解除
 # RewriteCond %{REQUEST_URI} !(^/image/$)
-# #管理側のIMAGEページ以下のメンテナンスを解除
+# #管理側のimageページ以下のメンテナンスを解除
 # RewriteCond %{REQUEST_URI} !(^/private/image)
 #
 # #メンテナンス
