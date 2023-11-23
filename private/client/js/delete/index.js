@@ -119,7 +119,7 @@ function main() {
     // 画像削除ボタンを押したときの処理
     $('button[name="delete"]').on('click', function ()
     {
-        if (!confirm('画像を削除しますか？')) {
+        if (!confirm('画像を完全に削除しますか？\n※この操作は取り消せません。')) {
             return false;
         }
     });
