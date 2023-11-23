@@ -12,5 +12,6 @@ $logoutPath = new \Path(__DIR__);
 $logoutPath->add("Layout");
 $logoutPath->setPathEnd();
 $logoutPath->add("layout.php");
-require_once$logoutPath->get();
+
+require_once $logoutPath->get();
 

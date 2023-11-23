@@ -8,9 +8,9 @@ $img = "crown-vector.jpg";
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
-    <meta http-equiv="refresh" content="0.5; url=<?=$base->getUrl('private', relativePath:false)?>">
+    <!-- <meta http-equiv="refresh" content="0.5; url=<?=$base->getUrl('root', 'private', relativePath:false)?>"> -->
     <title>管理側</title>
-    <link rel="shortcut icon" href="<?= $base->getUrl() ?>/image/IMG_7592.PNG">
+    <link rel="shortcut icon" href="<?= $base->getUrl('image') ?>/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css" href="<?= $base->getUrl() ?>/css/design.css">
 </head>
 
