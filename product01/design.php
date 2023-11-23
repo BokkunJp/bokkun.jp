@@ -73,6 +73,9 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
 <?php
 $csvData = $session->read('csv');
 if (empty($csvData)) {
+    if (!is_array($csvData)) {
+        $csvData = [];
+    }
     $csvData['header'] = null;
     $csvData['row'] = null;
 }
