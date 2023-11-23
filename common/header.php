@@ -1,7 +1,7 @@
 <?php
 $img = "0113.png";
 
-$imagePath = new \Path($base->getUrl('image', 'client', false), '/');
+$imagePath = new \Path($base->getUrl('client', 'image'), '/');
 $imagePath->setPathEnd();
 $imagePath->add($img);
 
@@ -9,7 +9,7 @@ $imagePath->add($img);
 <header class='header'>
     <div align="left">
         <div>
-            <a href="<?= $base->getUrl('') ?>"><img class='top-image' src="<?= $imagePath->get() ?>"></a>
+            <a href="<?= $base->getUrl() ?>"><img class='top-image' src="<?= $imagePath->get() ?>"></a>
             <strong>
                 <em>βοκκμη homepage<?= $siteConfig['header']->getVersion() ?></em> <br />
                 <div class="top" align="center"><?php if (isset($title)) {

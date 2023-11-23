@@ -114,10 +114,12 @@ function deleteData(string $path, string $select): bool
     }
 
     if (PHP_OS === 'WIN32' || PHP_OS === 'WINNT') {
-        $commandResult = system("rd /s /q {$delPath->get()}");
+        $command = "rd /s /q \"{$delPath->get()}\"";
     } else {
-        $commandResult = system("rm -rf {$delPath->get()}");
+        $command = "rm -rf \"{$delPath->get()}\"";
     }
+
+    $commandResult = system($command);
 
     return $commandResult;
 }

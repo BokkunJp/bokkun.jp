@@ -79,10 +79,10 @@ $publicImageWord->addArray(['public', 'client', 'image']);
 define('PUBLIC_IMAGE_DIR', $publicImageWord->get());
 
 // デフォルトの画像ページ
-define('DEFAULT_IMAGE', 'IMAGE');
+define('DEFAULT_IMAGE', 'image');
 
 // 削除不可リスト
-define('NOT_DELETE_FILE_LIST', ['MAIL', 'IMAGE', 'CSV', 'QR', 'liDAR-WebGL', 'webGL']);
+define('NOT_DELETE_FILE_LIST', ['MAIL', 'image', 'CSV', 'QR', 'liDAR-WebGL', 'webGL']);
 
 // ログインパスワード
 define("LOGIN_PASSWORD", "bokkunAdmin777");

@@ -99,7 +99,7 @@ function sanitize(mixed $arr = ''): mixed
  *
  * @return bool
  */
-function createClient(string $target, string $src = '', string $separator = DIRECTORY_SEPARATOR): string
+function createClient(string $target, string $src = '', string $separator = '/'): string
 {
     if (empty($src)) {
         $srcPath = getcwd();

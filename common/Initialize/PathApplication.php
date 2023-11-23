@@ -9,7 +9,7 @@ class PathApplication {
     private array $data;
     private string|\Path $tmp;
     private string $sepalator;
-    function __construct(string $firstKey, string $path, string $sepalator = DIRECTORY_SEPARATOR)
+    function __construct(string $firstKey, string $path, string $sepalator = '/')
     {
         $this->key = $firstKey;
         $this->data[$this->key] = new \Path($path, $sepalator);

@@ -25,7 +25,7 @@ $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 class Setting extends \Common\Important\Setting
 {
     // 公開パスなどのURLを取得
-    public function getUrl($query='', $type = 'url', $relativePath = false): string
+    public function getUrl($type = 'url', $query='', $relativePath = false): string
     {
         if ($relativePath === false) {
             $url = $this->url;

@@ -15,7 +15,7 @@ class Path {
 
     function __construct(
         \Path|string $path,
-        private string $separator = DIRECTORY_SEPARATOR,
+        private string $separator = '/',
     ) {
 
         if ($path instanceof \Path) {
