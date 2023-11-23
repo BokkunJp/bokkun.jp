@@ -57,7 +57,7 @@ $img = "crown-vector.jpg";
 
     <!-- ログファイル以外は最初でループが止まる -->
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->getUrl() ?>/css<?= createClient('log') ?>design.css">
+        href="<?= $base->getUrl('css') ?><?= ltrim(createClient('log'), '/') ?>design.css">
 </head>
 
 <body>

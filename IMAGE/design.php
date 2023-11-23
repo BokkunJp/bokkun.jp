@@ -2,7 +2,7 @@
 <?php
 // 画像表示関係のメソッドを読み込み
 $filePath = new \Path(PUBLIC_COMMON_DIR);
-$filePath->addArray(["IMAGE", "File.php"]);
+$filePath->addArray(["image", "File.php"]);
 require_once $filePath->get();
 
 // セッション開始

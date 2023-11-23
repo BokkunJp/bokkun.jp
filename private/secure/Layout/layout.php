@@ -13,9 +13,9 @@ $base = new \Private\Important\Setting();
     <meta name="robots" content="noindex,nofollow">
     <title>管理側</title>
     <link rel="shortcut icon"
-        href="<?= $base->getUrl() ?>/image/IMG_7592.PNG">
+        href="<?= $base->getUrl('image') ?>IMG_7592.PNG">
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->getUrl() ?>/css/design.css">
+        href="<?= $base->getUrl('css') ?>design.css">
 </head>
 
 <body>
