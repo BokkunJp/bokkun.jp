@@ -22,7 +22,7 @@ includeDirectories(PRIVATE_COMPONENT_DIR);
 require_once PRIVATE_COMMON_DIR . "/Load/include.php";
 
 // subdirectory内のphpファイルの読み込み (指定ディレクトリのみ)
-$subDirectryReadList = ['IMAGE', 'delete'];
+$subDirectryReadList = ['image', 'delete'];
 if (searchData(basename(getcwd()), $subDirectryReadList)) {
     $subdirectoryPath = new \Path(getcwd());
     $subdirectoryPath->add('subdirectory');
@@ -60,7 +60,7 @@ function includeJsFiles($pwd, $className = '', $ret = true, $classLoad = false):
     $privateJsDir->add($pwd);
     $jsFiles = includeFiles($privateJsDir->get(), 'js', $ret);
     if (is_array($jsFiles)) {
-        $jsUrl = new \Path($base->getUrl('', 'js'), '/');
+        $jsUrl = new \Path($base->getUrl('js'), '/');
         $jsUrl->add($pwd);
         foreach ($jsFiles as $_jsFile) {
             $jsFilePath = new \Path($jsUrl->get(), '/');

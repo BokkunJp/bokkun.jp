@@ -19,26 +19,21 @@ class Setting extends \Common\Important\Setting
         parent::__construct();
 
         // 公開パス関係
-        $client = new \PathApplication("css", $this->client);
-        $client->setAll([
-            'js' => '',
-            'image' => '',
-            'csv' => ''
-        ]);
+        $client = new \PathApplication("client", $this->client);
+        $pathList = [
+            'css' => 'css',
+            'js' => 'js',
+            'image' => 'image',
+            'csv' => 'csv'
+        ];
+
+        $client->setAll($pathList);
 
         $client->methodPath("ResetKey", "/");
-        $client->resetKey('css');
-        $client->methodPath("Add", "css");
-        $this->css = $client->get();
-        $client->resetKey('js');
-        $client->methodPath("Add", "js");
-        $this->js = $client->get();
-        $client->resetKey('image');
-        $client->methodPath("Add", "image");
-        $this->image = $client->get();
-        $client->resetKey('csv');
-        $client->methodPath("Add", "csv");
-        $this->csv = $client->get();
+        foreach ($pathList as $_path) {
+            $client->resetKey($_path);
+            $this->$_path = $client->get();
+        }
     }
 
     /**

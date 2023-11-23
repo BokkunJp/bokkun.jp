@@ -35,34 +35,20 @@ class Setting extends \Common\Important\Setting
         $this->client = $this->client->get();
 
         // 公開パス関係
-        $publicPath = new \PathApplication('css', $this->client, '/');
-        $publicPath->setAll([
-            'js' => '',
-            'image' => '',
-            'csv' => '',
-            'filepageImage' => $this->public
-        ]);
-        $publicPath->resetKey('css');
-        $publicPath->methodPath('Add', 'css');
-        $this->css = $publicPath->get();
+        $publicPath = new \PathApplication('private', $this->client, '/');
+        $publicList = [
+            'css' => 'css',
+            'js' => 'js',
+            'image' => 'image',
+            'csv' => 'csv',
+            'filepageImage' => 'filepageImage',
+        ];
+        $publicPath->setAll($publicList);
 
-
-        $publicPath->resetKey('js');
-        $publicPath->methodPath('Add', 'js');
-        $this->js = $publicPath->get();
-
-
-        $publicPath->resetKey('image');
-        $publicPath->methodPath('Add', 'image');
-        $this->image = $publicPath->get();
-
-        $publicPath->resetKey('csv');
-        $publicPath->methodPath('Add', 'csv');
-        $this->csv = $publicPath->get();
-
-        $publicPath->resetKey('filepageImage');
-        $publicPath->methodPath('Add', 'image');
-        $this->image = $publicPath->get();
+        foreach ($publicList as $_public) {
+            $publicPath->resetKey($_public);
+            $this->$_public = $publicPath->get();
+            }
     }
 
     /**

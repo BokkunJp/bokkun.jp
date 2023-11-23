@@ -48,16 +48,16 @@ $img = "crown-vector.jpg";
     <title><?= $title ?>
     </title>
     <link rel="shortcut icon"
-        href="<?= $base->getUrl('', 'client') ?>/image/IMG_7592.PNG">
+        href="<?= $base->getUrl() ?>image/IMG_7592.PNG">
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->getUrl('', 'client') ?>/css/common.css">
+        href="<?= $base->getUrl() ?>css/common.css">
 
     <link rel="stylesheet" type="text/css"
         href="/private/client/css/common/<?php echo $agentCode; ?>.css">
 
-    <!-- ログファイル以外を含めて正常に動作(ログファイル以外は最初でループが止まる) -->
+    <!-- ログファイル以外は最初でループが止まる -->
     <link rel="stylesheet" type="text/css"
-        href="<?= $base->getUrl('', 'client') ?>/css<?= createClient('log') ?>/design.css">
+        href="<?= $base->getUrl('css') ?><?= ltrim(createClient('log'), '/') ?>design.css">
 </head>
 
 <body>

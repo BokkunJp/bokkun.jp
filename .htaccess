@@ -92,9 +92,9 @@ AddHandler cgi-script .py
 # #管理側のadminページのメンテナンスを解除
 # RewriteCond %{REQUEST_URI} !(^/private/admin.php)
 # #公開側のIMAGEページのみメンテナンス解除
-# RewriteCond %{REQUEST_URI} !(^/IMAGE/$)
+# RewriteCond %{REQUEST_URI} !(^/image/$)
 # #管理側のIMAGEページ以下のメンテナンスを解除
-# RewriteCond %{REQUEST_URI} !(^/private/IMAGE)
+# RewriteCond %{REQUEST_URI} !(^/private/image)
 #
 # #メンテナンス
 # RewriteCond %{REQUEST_URI} !(/common/error/503/)

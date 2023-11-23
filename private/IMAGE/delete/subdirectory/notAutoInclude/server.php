@@ -5,7 +5,7 @@ require_once dirname(__DIR__) . '/File.php';
 
 // ページ数取得
 $page = Private\Important\Setting::getQuery('page');
-$str = 'private/IMAGE/delete/';
+$str = 'private/image/delete/';
 $str .= !empty($page) ? "?page={$page}" : "";
 
 // セッション開始
@@ -18,7 +18,7 @@ if (!empty($mode) && $mode === 'edit') {
     if ($viewToken->check() === false) {
         $session->write('delete-page-notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new Private\Important\Setting();
-        header('Location:' . $url->getUrl($str));
+        header('Location:' . $url->getUrl('root', $str));
         exit;
     }
 
@@ -124,11 +124,11 @@ if (!empty($mode) && $mode === 'edit') {
             $session->write('delete-page-success', $result['success']['count']. NUMBER_OF_FILE . SUCCESS_RESTORE_IMAGE);
         }
 
-     } else {
+    } else {
         // 削除以外の場合(不正値)
         $session->write('delete-page-notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new Private\Important\Setting();
-        header('Location:' . $url->getUrl($str));
+        header('Location:' . $url->getUrl('root', $str));
         exit;
     }
 }
@@ -136,4 +136,4 @@ if (!empty($mode) && $mode === 'edit') {
 $session->write('delete-token', sha1(session_id()));
 // $session->finaryDestroy();
 $url = new Private\Important\Setting();
-header('Location:' . $url->getUrl($str));
+header('Location:' . $url->getUrl('root', $str));
