@@ -31,7 +31,7 @@ define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 define('NOW_PAGE', basename(getcwd()));
 define('SECURITY_LENG', 32);
 
-// IMAGEページの文言
+// imageページの文言
 define('VIEW', 1);
 define('NOT_VIEW', -1);
 
