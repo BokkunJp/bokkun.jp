@@ -19,8 +19,8 @@ $s_elm = new Scratch();
 debug($s_elm);
 $s_elm->output('test');
 $s_elm->debug("aaa");
-var_dump('test');
-if (function_exists('mini')) {
+$functionExsitsFlg = function_exists('mini');
+if ($functionExsitsFlg) {
     call_user_func('mini');
 }
 
