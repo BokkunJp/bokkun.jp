@@ -26,7 +26,7 @@ if ($post) {
 }
 
 $base = new Setting();
-$zipPath = $base->getUrl('url'). DIRECTORY_SEPARATOR. basename(PUBLIC_ZIP_DIR). DIRECTORY_SEPARATOR. basename(__DIR__). DIRECTORY_SEPARATOR .'test.zip';
+$zipPath = $base->getUrl(). DIRECTORY_SEPARATOR. basename(PUBLIC_ZIP_DIR). DIRECTORY_SEPARATOR. basename(__DIR__). DIRECTORY_SEPARATOR .'test.zip';
 echo "<p>";
 echo "<a href=\"{$zipPath}\" download>ダウンロード</a> <br/>";
 echo "</p>";

@@ -18,7 +18,7 @@ switch ($statusCode) {
         break;
 }
 
-$css = new \Path($base->getUrl('url'), '/');
+$css = new \Path($base->getUrl(), '/');
 $design = new \Path($css->get(), '/');
 $css->addArray(['css', 'common', "{$agentCode}.css"]);
 $design->addArray(['css', "design.css"]);
