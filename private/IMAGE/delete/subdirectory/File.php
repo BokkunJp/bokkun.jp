@@ -139,10 +139,10 @@ function sortTime(&$data, string $order = 'ASC')
  * ページ関係の内容の検証
  *
  * @param array $data
- * @param boolean $ajaxFlg
+ *
  * @return array
  */
-function validateParameter(array $data=[], bool $ajaxFlg=false)
+function validateParameter(array $data=[])
 {
     // 現在のページ番号の取得
     $page = getPage();
@@ -150,14 +150,11 @@ function validateParameter(array $data=[], bool $ajaxFlg=false)
     // 結果配列
     $result = null;
     if ($page <= 0 || $page === false) {
-        if ($ajaxFlg === false) {
-            output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-            output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
-            output("<div class='image-list'>", indentFlg:false);
-            setError('ページの指定が不正です。');
-            output("</div><div class='image-pager'></div>", indentFlg:false);
-        }
-        return ['result' => false, 'view-image-type' => getImagePageName()];
+        output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+        output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
+        output("<div class='image-list'>", indentFlg:false);
+        setError('ページの指定が不正です。');
+        output("</div><div class='image-pager'></div>", indentFlg:false);        return ['result' => false, 'view-image-type' => getImagePageName()];
     } else {
         $start = ($page - 1) * getCountPerPage();
     }
@@ -167,13 +164,11 @@ function validateParameter(array $data=[], bool $ajaxFlg=false)
     }
 
     if ($start >= $end) {
-        if ($ajaxFlg === false) {
-            output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-            output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
-            output("<div class='image-list'>", indentFlg:false);
-            setError('現在の枚数表示では、そのページには画像はありません。');
-            output("</div><div class='image-pager'></div>", indentFlg:false);
-        }
+        output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+        output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
+        output("<div class='image-list'>", indentFlg:false);
+        setError('現在の枚数表示では、そのページには画像はありません。');
+        output("</div><div class='image-pager'></div>", indentFlg:false);
         $result = ['result' => false, 'view-image-type' => getImagePageName()];
     }
 
@@ -211,7 +206,7 @@ function choiceImage(array $params, array $data): array
  *
  * @return void
  */
-function readImage($ajaxFlg = false)
+function readImage()
 {
 
     // 現在選択している画像ページを取得
@@ -233,19 +228,15 @@ function readImage($ajaxFlg = false)
     sortTime($sortAray);
 
     // ページ関連で必要なデータの検証
-    $params = validateParameter($sortAray, $ajaxFlg);
+    $params = validateParameter($sortAray);
     if (isset($params['result']) && $params['result'] === false) {
         return ['result' => false, 'view-image-type' => $imagePageName];
     }
 
     // 画像データを整理
-    $sortAray = choiceImage($params, $sortAray, $ajaxFlg);
+    $sortAray = choiceImage($params, $sortAray);
 
-    if ($ajaxFlg === true) {
-        return showImage($params, $sortAray, IMAGE_URL, $ajaxFlg);
-    } else {
-        showImage($params, $sortAray, IMAGE_URL);
-    }
+    showImage($params, $sortAray, IMAGE_URL);
 }
 
 /**
@@ -255,89 +246,56 @@ function readImage($ajaxFlg = false)
  * @param array $params
  * @param array $data
  * @param string $imageUrl
- * @param boolean $ajaxFlg
  *
  * @return array|void
  */
 function showImage(
     array $params,
     array $data,
-    string $imageUrl,
-    bool $ajaxFlg = false
+    string $imageUrl
 ): ?array {
-    if ($ajaxFlg === true) {
-        // 現在選択している画像ページを取得
-        $imagePageName = getImagePageName();
-        $jsData = [];
+    output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+    output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
 
-        foreach ($data as $i => $_data) {
-            $jsData[$i]['name'] = $_data['name'];
-            // 画像データの取得
-            $imagePath = new \Path(PUBLIC_IMAGE_DIR);
-            $imagePath->add($imagePageName);
-            $imagePath->setPathEnd();
-            $imagePath->add($_data['name']);
-            $imagePath = $imagePath->get();
-            $jsData[$i]['info'] = calcImageSize($imagePath, (int)getIni('private', 'ImageMaxSize'));
-            $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
-            // 画像データが取得できなかった場合は、配列の該当データの削除
-            if ($jsData[$i]['info'] === false) {
-                unset($jsData[$i]);
-            }
+    // セッション開始
+    if (!isset($session)) {
+        $session = new Private\Important\Session();
+    }
+
+    // jQueryで書き換えれるように要素を追加
+    output("<div class='image-list'>", indentFlg:false);
+    foreach ($data as $i => $_data) {
+        $_file = $_data['name'];
+        $_time = $_data['time'];
+
+        // コピーチェック用のセッションを使って、チェックの有無を判定
+        if ($session->judge('checkImage') && isset($session->read('checkImage')[$_file])) {
+            $checked = 'checked';
+        } else {
+            $checked = '';
         }
-
-        $jsData['view-image-type'] = $imagePageName;
-        $imageUrl = new \Path($imageUrl, '/');
-        $imageUrl->add($imagePageName);
-        $jsData['url'] = $imageUrl->get();
-        ;
-        $jsData['pager'] = viewPager($params['max'], $ajaxFlg);
-
-        return $jsData;
-    } else {
-        output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
-        output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
-
-        // セッション開始
-        if (!isset($session)) {
-            $session = new Private\Important\Session();
-        }
-
-        // jQueryで書き換えれるように要素を追加
-        output("<div class='image-list'>", indentFlg:false);
-        foreach ($data as $i => $_data) {
-            $_file = $_data['name'];
-            $_time = $_data['time'];
-
-            // コピーチェック用のセッションを使って、チェックの有無を判定
-            if ($session->judge('checkImage') && isset($session->read('checkImage')[$_file])) {
-                $checked = 'checked';
-            } else {
-                $checked = '';
-            }
 
             // 画像を表示
             viewImage($_file, $imageUrl, $_time, $checked);
             // viewList($_file, $imageUrl, $checked);
 
-            // バッファ出力
-            if (ob_get_level() > 0) {
-                ob_flush();
-                flush();
-            }
+        // バッファ出力
+        if (ob_get_level() > 0) {
+            ob_flush();
+            flush();
         }
-
-        // コピーチェック用のセッションの削除
-        if ($session->judge('checkImage')) {
-            $session->delete('checkImage');
-        }
-
-        output("</div>", indentFlg:false);
-
-        output("<div class='image-pager'>", indentFlg:false);
-        viewPager($params['max']);
-        output("</div>", indentFlg:false);
     }
+
+    // コピーチェック用のセッションの削除
+    if ($session->judge('checkImage')) {
+        $session->delete('checkImage');
+    }
+
+    output("</div>", indentFlg:false);
+
+    output("<div class='image-pager'>", indentFlg:false);
+    viewPager($params['max']);
+    output("</div>", indentFlg:false);
 
     return null;
 }
