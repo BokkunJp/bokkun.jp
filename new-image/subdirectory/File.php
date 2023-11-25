@@ -74,7 +74,7 @@ function loadAllImageFile()
 function sortTime(&$data, string $order = 'ASC')
 {
     if (is_array($data) == false) {
-        echo 'データは配列でなければいけません。';
+        throw new Exception('データは配列でなければいけません。');
         return -1;
     }
 
@@ -82,7 +82,7 @@ function sortTime(&$data, string $order = 'ASC')
     foreach ($data as $_data) {
         // データ内に必要な要素があるかチェック
         if (array_key_exists('time', $_data) == false) {
-            echo '必要な要素がありません。';
+            throw new Exception('必要な要素がありません。');
             return -1;
         }
         $time[] = $_data['time'];  // 時刻データを生成
@@ -94,7 +94,7 @@ function sortTime(&$data, string $order = 'ASC')
     } elseif ($order === 'DESC') {
         $sort = SORT_DESC;
     } else {
-        echo '順序指定が不正です。';
+        throw new Exception('順序指定が不正です。');
         return -1;
     }
 
