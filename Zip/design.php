@@ -16,6 +16,7 @@ if ($post) {
     $filePath = PUBLIC_IMAGE_DIR .basename(__DIR__);
 
     if ($zip->open($path, ZipArchive::OVERWRITE | ZipArchive::CREATE) === true) {
+        $sTime = hrtime(true);
         foreach (scandir($filePath) as $_file) {
             if ($_file !== '.' && $_file !== '..') {
                 $_filePath = $filePath. DIRECTORY_SEPARATOR. $_file;
@@ -25,13 +26,15 @@ if ($post) {
             }
         }
         $zip->close();
+
+        $time = hrtime(true) - $sTime;
+        $time = bcdiv($time, pow(10, 9), 7);
+        output("<p>実行時間: {$time}秒</p>");
     }
 }
 
 $base = new Setting();
 $zipUrl = $base->getUrl(). DIRECTORY_SEPARATOR. basename(PUBLIC_ZIP_DIR). DIRECTORY_SEPARATOR. basename(__DIR__). DIRECTORY_SEPARATOR . basename(__DIR__). '.zip';
-echo "<p>";
 if (file_exists($path)) {
-    echo "<a href=\"{$zipUrl}\" download>ダウンロード</a> <br/>";
+    echo "<p><a href=\"{$zipUrl}\" download>ダウンロード</a></p>";
 }
-echo "</p>";
