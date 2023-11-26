@@ -3,4 +3,17 @@
 class Math
 {
     use PublicTrait;
+    private float $value;
+
+    public function __construct(?float $data = null)
+    {
+        if (!empty($data)) {
+            $this->setData($data);
+        }
+    }
+
+    public function setData($data)
+    {
+        
+    }
 }
