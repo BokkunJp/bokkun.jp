@@ -29,7 +29,7 @@ if ($post) {
 
         $time = hrtime(true) - $sTime;
         $time = bcdiv($time, pow(10, 9), 7);
-        output("<p>実行時間: {$time}秒</p>");
+        output("<p>実行時間: {$time}秒</p>", false, false);
     }
 }
 
