@@ -13,23 +13,25 @@ if ($post) {
     }
 
     $zip = new zipArchive;
-    $filePath = PUBLIC_IMAGE_DIR .basename(__DIR__);   
+    $filePath = PUBLIC_IMAGE_DIR .basename(__DIR__);
 
-    if ($zip->open($path, ZipArchive::OVERWRITE) === true) {
+    if ($zip->open($path, ZipArchive::OVERWRITE | ZipArchive::CREATE) === true) {
         foreach (scandir($filePath) as $_file) {
             if ($_file !== '.' && $_file !== '..') {
                 $_filePath = $filePath. DIRECTORY_SEPARATOR. $_file;
-                if (!empty($filePath) && is_file($_filePath)) {
-                    $addJudge = $zip->addFile($_filePath, $_file);
+                if (is_file($_filePath)) {
+                    $zip->addFile($_filePath, $_file);
                 }
-            }   
+            }
         }
         $zip->close();
     }
 }
 
 $base = new Setting();
-$zipPath = $base->getUrl(). DIRECTORY_SEPARATOR. basename(PUBLIC_ZIP_DIR). DIRECTORY_SEPARATOR. basename(__DIR__). DIRECTORY_SEPARATOR . basename(__DIR__). '.zip';
+$zipUrl = $base->getUrl(). DIRECTORY_SEPARATOR. basename(PUBLIC_ZIP_DIR). DIRECTORY_SEPARATOR. basename(__DIR__). DIRECTORY_SEPARATOR . basename(__DIR__). '.zip';
 echo "<p>";
-echo "<a href=\"{$zipPath}\" download>ダウンロード</a> <br/>";
+if (file_exists($path)) {
+    echo "<a href=\"{$zipUrl}\" download>ダウンロード</a> <br/>";
+}
 echo "</p>";
