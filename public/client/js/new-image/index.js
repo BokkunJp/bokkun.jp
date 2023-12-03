@@ -29,8 +29,7 @@ function main()
             } else if (query > max) {
                 alert(max + 'ページ以下のページ番号を指定してください。');
                 return false;
-            } else
-     {
+            } else {
                 $('.pageForm').attr('action', sendUrl);
                 $('.pageForm').submit();
             }

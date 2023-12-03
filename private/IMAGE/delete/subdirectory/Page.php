@@ -28,9 +28,9 @@ function getPage(): int|bool
  *
  * @param  void
  *
- * @return integer
+ * @return int|false
  */
-function getCountPerPage(): int
+function getCountPerPage(): int|false
 {
     $session = new Private\Important\Session();
     $post = Private\Important\Setting::getPost('image-value');
@@ -40,8 +40,8 @@ function getCountPerPage(): int
         if ($pager > (PAGER * MAX_VIEW)) {
             $pager = PAGER * MAX_VIEW;
         }
-        $session->write('image-view', $pager);
-    } elseif ($session->judge('image-view')) {
+        $session->write('admin-image-view', $pager);
+    } elseif ($session->judge('admin-image-view')) {
         $pager = (int)$session->read('image-view');
     } else {
         $pager = PAGER;

@@ -1,13 +1,13 @@
  // DOM読み込み
- $(function() {
-     main(); // JQueryによるメイン処理
- });
+$(function() {
+    main(); // JQueryによるメイン処理
+});
 
- /* JQueryによる処理の流れ
+/* JQueryによる処理の流れ
   *  引数：
   *  戻り値：
   */
- function main() {
+function main() {
     // 選択したページ数を判別し、問題なければページ遷移する。
     // ページ数に問題がある場合はエラーを出力し、送信を中止する。
     $('.update_page').on('keypress', function (e)
@@ -49,7 +49,31 @@
 
         ajaxMain(url, 'subdirectory/ajax/', 'server.php' + query, 'POST', selectValue, 'json', viewImage);
     });
- }
+
+    // 移動ボタンを押したときの処理
+    $("button[name='move']").on('click', function ()
+    {
+        var url = $(location).attr('pathname');
+        var query = parseInt($('.update_page').val());
+        var min = parseInt($('.update_page').attr('min'));
+        var max = parseInt($('.update_page').attr('max'));
+        var sendUrl = url + "?page=" + query;
+        if (!$.isNumeric(query)) {
+            alert('ページの指定が不正です。');
+            return false;
+        } else if (query < min) {
+            alert(min + 'ページ以上のページ番号を指定してください。');
+            return false;
+        } else if (query > max) {
+            alert(max + 'ページ以下のページ番号を指定してください。');
+            return false;
+        } else {
+            $('.pageForm').attr('action', sendUrl);
+            $('.pageForm').submit();
+        }
+    });
+
+}
 
 function viewImage(data)
 {
@@ -76,7 +100,7 @@ function viewImage(data)
     } else {
         htmlVal = '<ul>';
         $.each(data, function (index, val)
- {
+        {
             if (index == 'url' || index == 'view-image-type' || index == 'pager') {
                 return false;
             }
@@ -95,30 +119,6 @@ function viewImage(data)
         $('.image-pager').html(data['pager']);
 
     }
-
-    // 移動ボタンを押したときの処理
-    $('button[name="move"]').on('click', function ()
-    {
-        var url = $(location).attr('pathname');
-        var query = parseInt($('.update_page').val());
-        var min = parseInt($('.update_page').attr('min'));
-        var max = parseInt($('.update_page').attr('max'));
-        var sendUrl = url + "?page=" + query;
-        if (!$.isNumeric(query)) {
-            alert('ページの指定が不正です。');
-            return false;
-        } else if (query < min) {
-            alert(min + 'ページ以上のページ番号を指定してください。');
-            return false;
-        } else if (query > max) {
-            alert(max + 'ページ以下のページ番号を指定してください。');
-            return false;
-        } else {
-            $('.pageForm').attr('action', sendUrl);
-            $('.pageForm').submit();
-        }
-    });
-
 }
 
  /*
@@ -135,7 +135,7 @@ function viewImage(data)
      //    main();     // メイン処理
 
  // JQueryを使わない場合のDOM読み込み
- onload = function() {
- //    main();     // メイン処理
- }
+onload = function() {
+//    main();     // メイン処理
+}
   */
