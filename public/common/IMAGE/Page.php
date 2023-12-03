@@ -28,9 +28,9 @@ function getPage(): int|false
  *
  * @param  void
  *
- * @return integer
+ * @return int|false
  */
-function getCountPerPage()
+function getCountPerPage(): int|false
 {
     $session = new Public\Important\Session();
     $post = Public\Important\Setting::getPost('image-value');
