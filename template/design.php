@@ -1,7 +1,6 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
 // ini_set('error_reporting', 'E_ALL & ~E_NOTICE & ~E_DEPRECATED');
-setVendor();
 
 $smarty = new Smarty();
 
