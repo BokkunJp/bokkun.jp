@@ -16,20 +16,3 @@ class Scratch
     }
 }
 $s_elm = new Scratch();
-// debug($s_elm);
-// $s_elm->output('test');
-// $s_elm->debug("aaa");
-$functionExsitsFlg = function_exists('mini');
-$test = 1;
-
-$test++;
-
-phpinfo();
-if ($functionExsitsFlg) {
-    call_user_func('mini');
-}
-
-function mini()
-{
-    echo "buy.<br/>";
-}
