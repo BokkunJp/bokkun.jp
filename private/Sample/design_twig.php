@@ -3,7 +3,7 @@
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-setPlugin('twig');
+setVendor();
 $loader = new FilesystemLoader('/');
 $twig = new Environment($loader, [
     'cache' => './subdirectory/template_cache',

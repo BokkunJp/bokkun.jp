@@ -320,96 +320,26 @@ function debugValidate(array $debug, array $debugTrace): array
         output($expression, true, true, true);
     }
 
-
-
 /**
- * setComposerPlugin
+ * setVendor
  *
- * Composerを使ったプラグインを読み込む。
- * (通常のプラグインと違い、全ディレクトリではなく/vendor/autoLoader.phpを読み込む)
- *
- * @param string $name
+ * プラグインのautoloaderを読み込む。
+ * *
  * @return void
  */
-function setComposerPlugin(string $name) {
-    $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-    $allPluginPath->setAll([
-        'vendorDir' => $allPluginPath->get(),
-        'requireFile' => $allPluginPath->get(),
+function setVendor(): void
+{
+    $allVendorPath = new \PathApplication('plubinDir', VENDOR_DIR);
+    $allVendorPath->setAll([
+        'requireFile' => $allVendorPath->get(),
     ]);
 
-    $allPluginPath->resetKey('vendorDir');
-    $allPluginPath->methodPath('Add', $name);
-    $pluginDir = $allPluginPath->get();
+    $allVendorPath->resetKey('requireFile');
+    $allVendorPath->methodPath('AddArray', ["vendor", "autoLoad.php"]);
+    $requireFile = $allVendorPath->get();
 
-    $allPluginPath->resetKey('requireFile');
-    $allPluginPath->methodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
-    $requireFile = $allPluginPath->get();
-
-    if (is_dir($pluginDir) && is_file($requireFile)) {
+    if (is_file($requireFile)) {
         require_once $requireFile;
-    }
-}
-
-/**
- * setPlugin
- *
- * 指定したプラグインを読み込む。
- *
- * @param string $name
- *
- * @return void
- */
-function setPlugin(string $name): void
-{
-    $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-    $allPluginPath->setAll([
-        'vendorDir' => $allPluginPath->get(),
-        'composerJson' => $allPluginPath->get(),
-        'composerLock' => $allPluginPath->get(),
-    ]);
-
-    $allPluginPath->resetKey('vendorDir');
-    $allPluginPath->methodPath('Add', $name);
-    $pluginDir = $allPluginPath->get();
-
-    $allPluginPath->resetKey('vendorDir');
-    $allPluginPath->methodPath('Add', "vendor");
-    $vendorDir = $allPluginPath->get();
-
-    $allPluginPath->resetKey('composerJson');
-    $allPluginPath->methodPath('SetPathEnd');
-    $allPluginPath->methodPath('Add', "composer.json");
-    $composerJson = $allPluginPath->get();
-
-    $allPluginPath->resetKey('composerLock');
-    $allPluginPath->methodPath('SetPathEnd');
-    $allPluginPath->methodPath('Add', "composer.lock");
-    $composerLock = $allPluginPath->get();
-
-    // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
-    if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
-        setComposerPlugin($name);
-    } elseif (is_dir($pluginDir)) {
-        includeDirectories($pluginDir);
-    }
-}
-
-/**
- * setAllPlugin
- *
- * プラグインを一括で読み込む。
- *
- * @return void
- */
-function setAllPlugin(): void
-{
-    $addDir = scandir(PLUGIN_DIR);
-
-    foreach ($addDir as $_key => $_dir) {
-        if (!(strpos($_dir, '.') || strpos($_dir, '..'))) {
-            setPlugin($_dir);
-        }
     }
 }
 
