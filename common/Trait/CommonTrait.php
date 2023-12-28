@@ -1,8 +1,4 @@
 <?php
-// Ajax通信のときはプラグインセットは行わない。(QRをAjax通信で取得することはない前提で、かつ現状はその状況はないため。)
-if(!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
-    setVendor();
-}
 
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
