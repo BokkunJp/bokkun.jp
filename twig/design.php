@@ -3,7 +3,6 @@
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-setVendor();
 $loader = new FilesystemLoader('/');
 $autoLoadFlg = false;
 

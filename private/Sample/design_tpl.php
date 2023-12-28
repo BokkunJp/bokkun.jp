@@ -1,6 +1,5 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-setVendor();
 
 $smarty = new Smarty();
 $smarty->template_dir = './subdirectory/templates/';
