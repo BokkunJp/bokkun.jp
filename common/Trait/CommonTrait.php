@@ -1,7 +1,7 @@
 <?php
 // Ajax通信のときはプラグインセットは行わない。(QRをAjax通信で取得することはない前提で、かつ現状はその状況はないため。)
 if(!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
-    setPlugin('qr-code');
+    setVendor();
 }
 
 use Endroid\QrCode\Encoding\Encoding;
@@ -307,7 +307,7 @@ trait CommonTrait
 
 
     /**
-     * setComposerPlugin
+     * setComposerVendor
      *
      * Composerを使ったプラグインを読み込む。
      * (通常のプラグインと違い、全ディレクトリではなく/vendor/autoLoader.phpを読み込む)
@@ -315,28 +315,28 @@ trait CommonTrait
      * @param string $name
      * @return void
      */
-    protected function setComposerPlugin($name) {
-        $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-        $allPluginPath->setAll([
-            'vendorDir' => $allPluginPath->get(),
-            'requireFile' => $allPluginPath->get(),
+    protected function setComposerVendor($name) {
+        $allVendorPath = new \PathApplication('plubinDir', VENDOR_DIR);
+        $allVendorPath->setAll([
+            'vendorDir' => $allVendorPath->get(),
+            'requireFile' => $allVendorPath->get(),
         ]);
 
-        $allPluginPath->resetKey('vendorDir');
-        $allPluginPath->methodPath('Add', $name);
-        $pluginDir = $allPluginPath->get();
+        $allVendorPath->resetKey('vendorDir');
+        $allVendorPath->methodPath('Add', $name);
+        $vendorDir = $allVendorPath->get();
 
-        $allPluginPath->resetKey('requireFile');
-        $allPluginPath->methodPath('AddArray', [$pluginDir, "vendor", "autoLoad.php"]);
-        $requireFile = $allPluginPath->get();
+        $allVendorPath->resetKey('requireFile');
+        $allVendorPath->methodPath('AddArray', [$vendorDir, "vendor", "autoLoad.php"]);
+        $requireFile = $allVendorPath->get();
 
-        if (is_dir($pluginDir) && is_file($requireFile)) {
+        if (is_dir($vendorDir) && is_file($requireFile)) {
             require_once $requireFile;
         }
     }
 
     /**
-     * setPlugin
+     * setVendor
      *
      * 指定したプラグインを読み込む。
      *
@@ -344,60 +344,40 @@ trait CommonTrait
      *
      * @return void
      */
-    public function setPlugin(string $name): void
+    public function setVendor(string $name): void
     {
-        $allPluginPath = new \PathApplication('plubinDir', PLUGIN_DIR);
-        $allPluginPath->setAll([
-            'vendorDir' => $allPluginPath->get(),
-            'composerJson' => $allPluginPath->get(),
-            'composerLock' => $allPluginPath->get(),
+        $allVendorPath = new \PathApplication('plubinDir', VENDOR_DIR);
+        $allVendorPath->setAll([
+            'vendorDir' => $allVendorPath->get(),
+            'composerJson' => $allVendorPath->get(),
+            'composerLock' => $allVendorPath->get(),
         ]);
 
-        $allPluginPath->resetKey('vendorDir');
-        $allPluginPath->methodPath('Add', $name);
-        $pluginDir = $allPluginPath->get();
+        $allVendorPath->resetKey('vendorDir');
+        $allVendorPath->methodPath('Add', $name);
+        $vendorDir = $allVendorPath->get();
 
-        $allPluginPath->resetKey('vendorDir');
-        $allPluginPath->methodPath('Add', "vendor");
-        $vendorDir = $allPluginPath->get();
+        $allVendorPath->resetKey('vendorDir');
+        $allVendorPath->methodPath('Add', "vendor");
+        $vendorDir = $allVendorPath->get();
 
-        $allPluginPath->resetKey('composerJson');
-        $allPluginPath->methodPath('SetPathEnd');
-        $allPluginPath->methodPath('Add', "composer.json");
-        $composerJson = $allPluginPath->get();
+        $allVendorPath->resetKey('composerJson');
+        $allVendorPath->methodPath('SetPathEnd');
+        $allVendorPath->methodPath('Add', "composer.json");
+        $composerJson = $allVendorPath->get();
 
-        $allPluginPath->resetKey('composerLock');
-        $allPluginPath->methodPath('SetPathEnd');
-        $allPluginPath->methodPath('Add', "composer.lock");
-        $composerLock = $allPluginPath->get();
+        $allVendorPath->resetKey('composerLock');
+        $allVendorPath->methodPath('SetPathEnd');
+        $allVendorPath->methodPath('Add', "composer.lock");
+        $composerLock = $allVendorPath->get();
 
         // composer用のプラグインに必要なファイル・ディレクトリが揃っていれば、composer用の関数を呼び出す
         if (is_dir($vendorDir) && is_file($composerJson) && is_file($composerLock)) {
-            setComposerPlugin($name);
-        } elseif (is_dir($pluginDir)) {
-            includeDirectories($pluginDir);
+            setComposerVendor($name);
+        } elseif (is_dir($vendorDir)) {
+            includeDirectories($vendorDir);
         }
     }
-
-    /**
-     * setAllPlugin
-     *
-     * プラグインを一括で読み込む
-     *
-     * @return void
-     */
-    public function setAllPlugin(): void
-    {
-        $addDir = scandir(PLUGIN_DIR);
-
-
-        foreach ($addDir as $_key => $_dir) {
-            if (!(strpos($_dir, '.') || strpos($_dir, '..'))) {
-                $this->setPlugin($_dir);
-            }
-        }
-    }
-
     /**
      * makeQrCode
      *
