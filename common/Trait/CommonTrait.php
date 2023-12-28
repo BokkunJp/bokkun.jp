@@ -1,7 +1,7 @@
 <?php
 
 use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
@@ -314,11 +314,7 @@ trait CommonTrait
      */
     public function makeQrCode(int $size, string $contents, bool $outputFlg = false)
     {
-        $qrCode = new QrCode('qr-sample');
-        $qrCode->setEncoding(new Encoding('UTF-8'));
-        $qrCode->setErrorCorrectionLevel(new ErrorCorrectionLevelHigh());
-        $qrCode->setSize($size);
-        $qrCode->setData($contents);
+        $qrCode = new QrCode($contents, new Encoding('UTF-8'), ErrorCorrectionLevel::High, $size);
 
         $writer = new PngWriter();
         $qrWriter = $writer->write($qrCode);
