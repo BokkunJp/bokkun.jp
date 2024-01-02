@@ -1,6 +1,6 @@
 <?php
 
-$mailPath = new \Path(PRIVATE_DIR_LIST['component']);
+$mailPath = new \Path(PRIVATE_DIR_LIST['Component']);
 $mailPath->setPathEnd();
 $mailPath->add('Tag.php');
 require_once $mailPath->get();

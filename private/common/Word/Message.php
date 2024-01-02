@@ -44,8 +44,8 @@ $privateDirPathList = [
     'css' => PRIVATE_CLIENT_DIR,
     'js' => '',
     'image' => '',
-    'component' => PRIVATE_COMMON_DIR,
-    'layout' => '',
+    'Component' => PRIVATE_COMMON_DIR,
+    'Layout' => '',
 ];
 $privateMessage->setAll($privateDirPathList);
 
