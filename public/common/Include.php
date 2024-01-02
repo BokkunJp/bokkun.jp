@@ -49,7 +49,7 @@ function includeJsFiles($pwd, $className = '', $ret = true, $classLoad = false):
 {
     $src = new OriginTag();
     $base = new \Public\Important\Setting();
-    $jsPath = PUBLIC_JS_DIR. $pwd;
+    $jsPath = PUBLIC_DIR_LIST['js']. $pwd;
 
     $jsFiles = includeFiles($jsPath, 'js', $ret);
     if (is_array($jsFiles)) {

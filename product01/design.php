@@ -87,7 +87,7 @@ if (empty($csvData)) {
 </div>
 
 <?php
-$filePath = new \Path(PUBLIC_CSV_DIR);
+$filePath = new \Path(PUBLIC_DIR_LIST['csv']);
 $filePath->add(basename(__DIR__));
 $filePath = $filePath->get();
 // ディレクトリが存在しない場合は作成

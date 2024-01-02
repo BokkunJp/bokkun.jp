@@ -4,16 +4,15 @@
 </form>
 <?php
 use Public\Important\Setting as Setting;
-
 $post = Public\Important\Setting::getPost('zip');
-$path = PUBLIC_ZIP_DIR. basename(__DIR__). DIRECTORY_SEPARATOR . basename(__DIR__). '.zip';
+$path = PUBLIC_DIR_LIST['zip']. basename(__DIR__). DIRECTORY_SEPARATOR . basename(__DIR__). '.zip';
 if ($post) {
-    if (!is_dir(PUBLIC_ZIP_DIR. basename(__DIR__))) {
-        mkdir(PUBLIC_ZIP_DIR. basename(__DIR__));
+    if (!is_dir(PUBLIC_DIR_LIST['zip']. basename(__DIR__))) {
+        mkdir(PUBLIC_DIR_LIST['zip']. basename(__DIR__));
     }
 
     $zip = new zipArchive;
-    $filePath = PUBLIC_IMAGE_DIR .basename(__DIR__);
+    $filePath = PUBLIC_DIR_LIST['image'] .basename(__DIR__);
 
     if ($zip->open($path, ZipArchive::OVERWRITE | ZipArchive::CREATE) === true) {
         $sTime = hrtime(true);
@@ -34,7 +33,7 @@ if ($post) {
 }
 
 $base = new Setting();
-$zipUrl = $base->getUrl(). DIRECTORY_SEPARATOR. basename(PUBLIC_ZIP_DIR). DIRECTORY_SEPARATOR. basename(__DIR__). DIRECTORY_SEPARATOR . basename(__DIR__). '.zip';
+$zipUrl = $base->getUrl(). DIRECTORY_SEPARATOR. basename(PUBLIC_DIR_LIST['zip']). DIRECTORY_SEPARATOR. basename(__DIR__). DIRECTORY_SEPARATOR . basename(__DIR__). '.zip';
 if (file_exists($path)) {
     echo "<p><a href=\"{$zipUrl}\" download>ダウンロード</a></p>";
 }

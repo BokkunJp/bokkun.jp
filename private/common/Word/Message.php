@@ -1,11 +1,14 @@
 <?php
-// $privateDirPath = new \Path(dirname(__DIR__));
 
-$commonPath = new \Path(dirname(__DIR__, 3));
-
-$commonWordPath = new \Path($commonPath->get());
+// 公開側・管理側共通の文言をセット
+$commonWordPath = new \Path(dirname(__DIR__, 3));
 $commonWordPath->addArray(["common", "Word", "Message.php"]);
 require_once $commonWordPath->get();
+
+// 公開側の文言をセット
+$publicCommonWordPath = new \Path(dirname(__DIR__, 3));
+$publicCommonWordPath->addArray(["public", "common", "Word", "Message.php"]);
+require_once $publicCommonWordPath->get();
 
 // CSRFクラス
 function setPrivateCsrfErrorMessage()
@@ -35,48 +38,35 @@ $privateCleintDirWord = new Path(PRIVATE_DIR);
 $privateCleintDirWord->add('client');
 define('PRIVATE_CLIENT_DIR', $privateCleintDirWord->get());
 
+// 各ディレクトリパスの定義
 $privateMessage = new PathApplication('private_dir', dirname(DOCUMENT_ROOT));
-$privateMessage->setAll(
-    [
-        'private_css_dir' => PRIVATE_CLIENT_DIR,
-        'private_js_dir' => '',
-        'private_image_dir' => '',
-        'priavate_component_dir' => PRIVATE_COMMON_DIR,
-        'priavate_layout_dir' => '',
-    ],
-);
+$privateDirPathList = [
+    'css' => PRIVATE_CLIENT_DIR,
+    'js' => '',
+    'image' => '',
+    'component' => PRIVATE_COMMON_DIR,
+    'layout' => '',
+];
+$privateMessage->setAll($privateDirPathList);
 
-// 追加
-$privateMessage->resetKey('private_css_dir');
-$privateMessage->methodPath('AddArray', ['css']);
-define('PRIVATE_CSS_DIR', $privateMessage->get());
+$privateDirList = [];
 
-$privateMessage->resetKey('private_js_dir');
-$privateMessage->methodPath('AddArray', ['js']);
-define('PRIVATE_JS_DIR', $privateMessage->get());
+foreach ($privateDirPathList as $_key => $_value) {
+    $privateMessage->resetKey($_key);
+    $privateMessage->methodPath('AddArray', [$_key]);
+    $privateDirList[$_key] = $privateMessage->get();
+    
+}
 
-$privateMessage->resetKey('private_image_dir');
-$privateMessage->methodPath('AddArray', ['image']);
-define('PRIVATE_IMAGE_DIR', $privateMessage->get());
+// まとめて配列で定義
+define("PRIVATE_DIR_LIST", $privateDirList);
 
-$privateMessage->resetKey('priavate_component_dir');
-$privateMessage->methodPath('AddArray', ['Component']);
-define('PRIVATE_COMPONENT_DIR', $privateMessage->get());
-
-
-$privateMessage->resetKey('priavate_layout_dir');
-$privateMessage->methodPath('AddArray', ['layout']);
-define('PRIVATE_LAYOUT_DIR', $privateMessage->get());
-
+// ここから文言の定義
+// 画像投稿ページのバックのリンク
 define('PRIVATE_PREVIOUS', '画像管理ページへ戻る');
 
 // 管理側の追加ソース
 define('ADD_DESIGN', 'require_once __DIR__ . DIRECTORY_SEPARATOR . "design.php";');
-
-// 公開側画像パス
-$publicImageWord = new Path(DOCUMENT_ROOT);
-$publicImageWord->addArray(['public', 'client', 'image']);
-define('PUBLIC_IMAGE_DIR', $publicImageWord->get());
 
 // デフォルトの画像ページ
 define('DEFAULT_IMAGE', 'image');

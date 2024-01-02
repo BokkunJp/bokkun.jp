@@ -43,7 +43,7 @@ function loadAllImageFile()
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'mp4'];
 
     $imgSrc = [];
-    $imagePageNamePath = new \Path(PUBLIC_IMAGE_DIR);
+    $imagePageNamePath = new \Path(PUBLIC_DIR_LIST['image']);
     $imagePageNamePath->add($imagePageName);
     foreach ($imgArray as $_index) {
         $imgSrc[mb_strtolower($_index)] = includeFiles($imagePageNamePath->get(), mb_strtolower($_index), true);
@@ -190,7 +190,7 @@ function readImage($ajaxFlg = false)
     foreach ($fileList as $index => $_file) {
         $sortAray[$index]['name'] = $_file;
 
-        $imagePath = new \Path(PUBLIC_IMAGE_DIR);
+        $imagePath = new \Path(PUBLIC_DIR_LIST['image']);
         $imagePath->addArray([$imagePageName, $_file]);
         $sortAray[$index]['time'] = filemtime($imagePath->get());
     }
@@ -240,7 +240,7 @@ function showImage(
         foreach ($data as $i => $_data) {
             $jsData[$i]['name'] = $_data['name'];
             // 画像データの取得
-            $imagePath = new \Path(PUBLIC_IMAGE_DIR);
+            $imagePath = new \Path(PUBLIC_DIR_LIST['image']);
             $imagePath->addArray([$imagePageName, $_data['name']]);
 
             $jsData[$i]['info'] = calcImageSize($imagePath->get(), (int)getIni('Public', 'ImageMaxSize'));

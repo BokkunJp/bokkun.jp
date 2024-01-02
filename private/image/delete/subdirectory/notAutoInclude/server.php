@@ -139,7 +139,7 @@ if (!empty($mode)) {
         $imageFile = $mode = Private\Important\Setting::getQuery('image');
 
         // 画像ファイルのパスを取得（GETパラメータから）
-        $imgPath = new \Path(PUBLIC_IMAGE_DIR);
+        $imgPath = new \Path(PUBLIC_DIR_LIST['image']);
         $imgPath->add($imagePageName);
         $imgPath->add('_oldImage');
         $imgPath->setPathEnd();

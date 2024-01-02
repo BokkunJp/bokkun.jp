@@ -11,8 +11,8 @@ $updatePage = Private\Important\Setting::getPost('update_page');
 
 // imageディレクトリ内のディレクトリリストを取得
 $imgDirList = ['---'];
-foreach (scandir(PUBLIC_IMAGE_DIR) as $_list) {
-    $imagDirPath = new \Path(PUBLIC_IMAGE_DIR);
+foreach (scandir(PUBLIC_DIR_LIST['image']) as $_list) {
+    $imagDirPath = new \Path(PUBLIC_DIR_LIST['image']);
     $imagDirPath->add($_list);
     if (is_dir($imagDirPath->get()) && findFileName($_list)) {
         $imgDirList[] = $_list;

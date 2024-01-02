@@ -10,13 +10,13 @@ require_once COMMON_DIR . DIRECTORY_SEPARATOR . "Include.php";
 
 $base = new \Common\Important\Setting();
 // 必要なファイルの一括読み込み
-$pwd = PRIVATE_COMPONENT_DIR . '/';
+$pwd = PRIVATE_DIR_LIST['component'] . '/';
 includeFiles($pwd);
 
 use Private\Important\CustomTagCreate as OriginTag;
 
 //JSファイル
-includeDirectories(PRIVATE_COMPONENT_DIR);
+includeDirectories(PRIVATE_DIR_LIST['component']);
 
 //JQuery
 require_once PRIVATE_COMMON_DIR . "/Load/include.php";
@@ -56,7 +56,7 @@ function includeJsFiles($pwd, $className = '', $ret = true, $classLoad = false):
 {
     $src = new OriginTag();
     $base = new Private\Important\Setting();
-    $privateJsDir = new \Path(PRIVATE_JS_DIR);
+    $privateJsDir = new \Path(PRIVATE_DIR_LIST['js']);
     $privateJsDir->add($pwd);
     $jsFiles = includeFiles($privateJsDir->get(), 'js', $ret);
     if (is_array($jsFiles)) {

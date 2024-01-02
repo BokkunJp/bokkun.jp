@@ -31,7 +31,7 @@ if ($selectToken->check() === false) {
 if (!isset($post['type'])) {
     $postValid = false;
 } else {
-    $postValid = validateData(PUBLIC_IMAGE_DIR, $post['type']);
+    $postValid = validateData(PUBLIC_DIR_LIST['image'], $post['type']);
 }
 
 // 不正なPostが入った場合は、セッションに保存した情報かデフォルトページを参照する

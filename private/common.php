@@ -1,6 +1,6 @@
 <?php
 
-$mailPath = new \Path(PRIVATE_COMPONENT_DIR);
+$mailPath = new \Path(PRIVATE_DIR_LIST['component']);
 $mailPath->setPathEnd();
 $mailPath->add('Mail.php');
 require_once $mailPath->get();

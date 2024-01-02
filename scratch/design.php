@@ -7,12 +7,21 @@ class Scratch
 
     function __construct(string $init_name = '')
     {
-        $this->name = $init_name;
+        if (!empty($init_name)) {
+            $this->setFuncName($init_name);
+        }
     }
 
-    public function getFuncName()
+    public function setFuncName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getFuncName(): string
     {
         return $this->name;
     }
 }
+
 $s_elm = new Scratch();
+$s_elm->output('test');
