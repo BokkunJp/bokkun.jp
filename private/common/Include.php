@@ -10,13 +10,13 @@ require_once COMMON_DIR . DIRECTORY_SEPARATOR . "Include.php";
 
 $base = new \Common\Important\Setting();
 // 必要なファイルの一括読み込み
-$pwd = PRIVATE_DIR_LIST['component'] . '/';
+$pwd = PRIVATE_DIR_LIST['Component'] . '/';
 includeFiles($pwd);
 
 use Private\Important\CustomTagCreate as OriginTag;
 
 //JSファイル
-includeDirectories(PRIVATE_DIR_LIST['component']);
+includeDirectories(PRIVATE_DIR_LIST['Component']);
 
 //JQuery
 require_once PRIVATE_COMMON_DIR . "/Load/include.php";

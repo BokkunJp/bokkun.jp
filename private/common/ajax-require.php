@@ -20,7 +20,7 @@ $privateCommonWordPath->addArray(["Word", "Message.php"]);
 require_once $privateCommonWordPath->get();
 
 // タグ
-$tagPath = new \Path(PRIVATE_DIR_LIST['component']);
+$tagPath = new \Path(PRIVATE_DIR_LIST['Component']);
 $tagPath->setPathEnd();
 $tagPath->add("Tag.php");
 require_once $tagPath->get();
@@ -36,7 +36,7 @@ if (is_null($request)) {
     $ajaxFlg = true;
 
     // UA
-    require_once PRIVATE_DIR_LIST['component'] . '/UA.php';
+    require_once PRIVATE_DIR_LIST['Component'] . '/UA.php';
     // CSRF
     require_once PRIVATE_COMMON_DIR . "/Token.php";
 
