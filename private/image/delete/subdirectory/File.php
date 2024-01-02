@@ -75,7 +75,7 @@ function loadAllImageFile()
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'mp4'];
 
     $imgSrc = [];
-    $imgPath = new \Path(PUBLIC_IMAGE_DIR);
+    $imgPath = new \Path(PUBLIC_DIR_LIST['image']);
     $imgPath->add($imagePageName);
     $imgPath->add('_oldImage');
     foreach ($imgArray as $_index) {
@@ -219,7 +219,7 @@ function readImage()
     $sortAray = array();
     foreach ($fileList as $index => $_file) {
         $sortAray[$index]['name'] = $_file;
-        $imagePath = new \Path(PUBLIC_IMAGE_DIR);
+        $imagePath = new \Path(PUBLIC_DIR_LIST['image']);
         $imagePath->addArray([$imagePageName, '_oldImage', $_file]);
         $sortAray[$index]['time'] = filemtime($imagePath->get());
     }
@@ -356,7 +356,7 @@ function deleteImages(array $deleteImages): array
 {
     $imagePageName = getImagePageName();
 
-    $baseImageDir = new \Path(PUBLIC_IMAGE_DIR);
+    $baseImageDir = new \Path(PUBLIC_DIR_LIST['image']);
     $baseImageDir->add($imagePageName);
 
     $oldImageDir = new \Path($baseImageDir->get());
@@ -393,7 +393,7 @@ function restoreImages(array $restoreFilesArray): array
 {
     $restoreImageName = getImagePageName();
 
-    $baseImageDir = new \Path(PUBLIC_IMAGE_DIR);
+    $baseImageDir = new \Path(PUBLIC_DIR_LIST['image']);
     $baseImageDir->add($restoreImageName);
 
     $deleteImageDir = new \Path($baseImageDir->get());
@@ -422,7 +422,7 @@ function restoreImages(array $restoreFilesArray): array
         $result['illegal-value']['count'] = 0;
 
         // 復元前のディレクトリパス
-        $srcDirectoryPath = new \Path(PUBLIC_IMAGE_DIR);
+        $srcDirectoryPath = new \Path(PUBLIC_DIR_LIST['image']);
         $srcDirectoryPath->add($restoreImageName);
         $srcDirectoryPath->add('_oldImage');
         $srcDirectoryPath->setPathEnd();
@@ -438,7 +438,7 @@ function restoreImages(array $restoreFilesArray): array
     }
 
     // 復元対象のディレクトリパス
-    $restoreImagePath = new \Path(PUBLIC_IMAGE_DIR);
+    $restoreImagePath = new \Path(PUBLIC_DIR_LIST['image']);
     $restoreImagePath->add($restoreImageName);
     $restoreImagePath->setPathEnd();
 

@@ -121,7 +121,7 @@ function importImage(array $upFiles): ?array
 
         if (is_numeric($imgType)) {
             // 画像保管用のディレクトリがない場合は作成
-            $imageDir = new \Path(PUBLIC_IMAGE_DIR);
+            $imageDir = new \Path(PUBLIC_DIR_LIST['image']);
             $imageDir->add($imagePageName);
             $imageDir = $imageDir->get();
             if (!file_exists($imageDir)) {
@@ -183,7 +183,7 @@ function loadAllImageFile()
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'mp4'];
 
     $imgSrc = [];
-    $imgPath = new \Path(PUBLIC_IMAGE_DIR);
+    $imgPath = new \Path(PUBLIC_DIR_LIST['image']);
     $imgPath->add($imagePageName);
     foreach ($imgArray as $_index) {
         $imgSrc[mb_strtolower($_index)] = includeFiles($imgPath->get(), mb_strtolower($_index), true);
@@ -329,7 +329,7 @@ function readImage($ajaxFlg = false)
 
     // ソート用にデータを調整
     $sortAray = array();
-    $imgPath = new \Path(PUBLIC_IMAGE_DIR);
+    $imgPath = new \Path(PUBLIC_DIR_LIST['image']);
     $imgPath->add($imagePageName);
     foreach ($fileList as $index => $_file) {
         $sortAray[$index]['name'] = $_file;
@@ -383,7 +383,7 @@ function showImage(
         foreach ($data as $i => $_data) {
             $jsData[$i]['name'] = $_data['name'];
             // 画像データの取得
-            $imagePath = new \Path(PUBLIC_IMAGE_DIR);
+            $imagePath = new \Path(PUBLIC_DIR_LIST['image']);
             $imagePath->add($imagePageName);
             $imagePath->setPathEnd();
             $imagePath->add($_data['name']);
@@ -406,6 +406,7 @@ function showImage(
         return $jsData;
     } else {
         output('<p><a href="#update_page">一番下へ</a></p>', indentFlg:false);
+        output('<span><a href="">Zipファイル生成</a></span>');
         output("<label class='all-check-label'><input type='checkbox' class='all-check-box' /><span class='check-word'>すべてチェックする</span></label>", indentFlg:false);
 
         // セッション開始
@@ -508,7 +509,7 @@ function deleteImages(array $deleteImages): array
 {
     $imagePageName = getImagePageName();
 
-    $baseImageDir = new \Path(PUBLIC_IMAGE_DIR);
+    $baseImageDir = new \Path(PUBLIC_DIR_LIST['image']);
     $baseImageDir->add($imagePageName);
 
     $oldImageDir = new \Path($baseImageDir->get());
@@ -557,7 +558,7 @@ function CopyImage(array $upFilesArray): array
     $result = [];
 
 
-    $directoryValid = validateData(PUBLIC_IMAGE_DIR, $copyImageName);
+    $directoryValid = validateData(PUBLIC_DIR_LIST['image'], $copyImageName);
     if ($directoryValid === false) {
         // // 指定した画像ページがないパターン
         $result['not-page']['count'] = FAIL_COPY_IMAGE_COUNT;
@@ -586,7 +587,7 @@ function CopyImage(array $upFilesArray): array
         // 不正なファイル名が混入しているパターン
         $result['illegal-value']['count'] = 0;
         foreach ($upFilesArray as $_key => $_file) {
-            $srcImagePath = new \Path(PUBLIC_IMAGE_DIR);
+            $srcImagePath = new \Path(PUBLIC_DIR_LIST['image']);
             $srcImagePath->add($srcImageName);
             $fileValid = validateData($srcImagePath->get(), $_file);
             if ($fileValid === false) {
@@ -608,10 +609,10 @@ function CopyImage(array $upFilesArray): array
         $copyFilesArray = $upFilesArray;
     }
     // 各ファイル名にディレクトリパスを付与
-    $srcImagePath = new \Path(PUBLIC_IMAGE_DIR);
+    $srcImagePath = new \Path(PUBLIC_DIR_LIST['image']);
     $srcImagePath->add($srcImageName);
     $srcImageName = $srcImagePath->get();
-    $srcImagePath = new \Path(PUBLIC_IMAGE_DIR);
+    $srcImagePath = new \Path(PUBLIC_DIR_LIST['image']);
     $srcImagePath->add($copyImageName);
     $copyImageName = $srcImagePath->get();
 

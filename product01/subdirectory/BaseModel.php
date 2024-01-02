@@ -1,5 +1,5 @@
 <?php
-$csvPath = new \Path(PUBLIC_CSV_DIR);
+$csvPath = new \Path(PUBLIC_DIR_LIST['csv']);
 $cwdPath = new \Path(getcwd());
 $csvPath->add(basename($cwdPath->get()));
 define('CSV_PATH', $csvPath->get());

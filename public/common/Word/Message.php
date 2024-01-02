@@ -3,31 +3,17 @@
 $commonWordPath = new \Path(dirname(__DIR__, 3));
 $commonWordPath->addArray(["common", "Word", "Message.php"]);
 require_once $commonWordPath->get();
-// CSRFクラス
-function setPublicCsrfErrorMessage()
-{
-    $addr = Public\Important\Setting::getRemoteAddr();
-    $errMessage = "<p><strong>". gethostbyaddr($addr). "(". $addr. ")". "様のアクセスは禁止されています。</strong></p><p>以下の要因が考えられます。</p>";
-    $errList = ["指定回数以上アクセスした。", "直接アクセスした。", "不正アクセスした。"];
-    $errMessage .='<ul>';
-    $errLists = '';
-    foreach ($errList as $_errList) {
-        $errLists .= "<li>{$_errList}</li>";
-    }
-    $errMessage .= $errLists;
-    $errMessage .='</ul>';
-
-    return $errMessage;
-}
 
 // 共通部分
+// ドキュメントルートをセットして定数を定義
 $publicPath = new \Path(DOCUMENT_ROOT, '/');
 $publicPath->setPathEnd();
 $publicPath->add('public');
 define('PUBLIC_DIR', $publicPath->get());
 
+// 公開領域のパスを定義
 $publicPath = new \PathApplication("PUBLIC_COMMON_DIR", PUBLIC_DIR);
-$publicPath->methodPath("EditSepartor", "/");
+$publicPath->methodPath("editSeparator", "/");
 $publicPath->setAll([
     "PUBLIC_CLIENT_DIR" => '',
 ]);
@@ -35,31 +21,35 @@ $publicPath->resetKey("PUBLIC_CLIENT_DIR");
 $publicPath->methodPath("Add", "client");
 define('PUBLIC_CLIENT_DIR', $publicPath->get());
 
+// 共通パス(公開側非公開領域)の定数を定義
 $publicPath->resetKey("PUBLIC_COMMON_DIR");
-$publicPath->methodPath("SetEndPath");
+$publicPath->methodPath("setPathEnd");
 $publicPath->methodPath("Add", "common");
 define('PUBLIC_COMMON_DIR', $publicPath->get());
 
+// 非公開領域パスの定数を定義
 $publicPath = new \PathApplication("PUBLIC_COMPONENT_DIR", PUBLIC_COMMON_DIR);
 $publicPath->setAll([
     "PUBLIC_LAYOUT_DIR" => COMMON_DIR,
 ]);
 $publicPath->resetKey("PUBLIC_COMPONENT_DIR");
-$publicPath->methodPath("Add", "Component");
+$publicPath->methodPath("add", "Component");
 define('PUBLIC_COMPONENT_DIR', $publicPath->get());
 
+// レイアウトパス(公開領域)の定数を定義
 $publicPath->resetKey("PUBLIC_LAYOUT_DIR");
 $publicPath->methodPath("Add", "layout");
 define('PUBLIC_LAYOUT_DIR', $publicPath->get());
 
+// クライアント内のパスをまとめて定義
 $publicPath = new \PathApplication("PUBLIC_CLIENT_DIR", PUBLIC_CLIENT_DIR);
 $publicClientList = [
     "PUBLIC_CSS_DIR" => 'css',
     "PUBLIC_JS_DIR" => 'js',
-    "PUBLIC_ZIP_DIR" => 'zip',
     "PUBLIC_IMAGE_DIR" => 'image',
     "PUBLIC_3D_DIR" => '3d',
     "PUBLIC_CSV_DIR" => 'csv',
+    "PUBLIC_ZIP_DIR" => 'zip',
 ];
 
 // パス定数リストをセット
@@ -68,12 +58,16 @@ $publicPath->setAll($publicClientList);
 // パス定数をまとめて定義
 $publicPath->resetKey("PUBLIC_CLIENT_DIR");
 $publicClientpath = $publicPath->get();
+$publicDirList = [];
 foreach ($publicClientList as $_dir => $_value) {
     $publicPath->resetKey($_dir);
-    define($_dir, $publicClientpath. $publicPath->get());
+    $publicDirList[$_value] = $publicClientpath. $publicPath->get();
 }
 
+define("PUBLIC_DIR_LIST", $publicDirList);
+
 unset($publicPath);
+unset($publicDirList);
 
 // 画像閲覧ページ
 define('PUBLIC_PREVIOUS', '画像閲覧ページへ戻る');

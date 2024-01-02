@@ -26,7 +26,7 @@ function viewImage($imageName, $imageUrl, $fileTime, $checked = false)
         $session->write("deleteImageMaxSize-ini", (int)getIni('private', 'ImageMaxSize'));
     }
 
-    $imagePath = new \Path(PUBLIC_IMAGE_DIR);
+    $imagePath = new \Path(PUBLIC_DIR_LIST['image']);
     $imagePath->addArray([$imagePageName, '_oldImage', $imageName]);
     $imageData = calcImageSize($imagePath->get(), $session->read('deleteImageMaxSize-ini'));
 
