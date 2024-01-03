@@ -1,4 +1,4 @@
-		<fieldset>
+		<fieldset class='history'>
 			<legend><em>更新履歴</em></legend>
 			<ul>
 				<li>2016/07/04 ホームページを開設しました。</li>

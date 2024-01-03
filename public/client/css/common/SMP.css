@@ -100,9 +100,12 @@ header {
     margin-top: 20vh;
 }
 
+fieldset.history {
+    margin-bottom: 5vh;
+}
+
 .contents,
 .contents>* {
-    position: fixed;
     font-size: 3vh;
 }
 
