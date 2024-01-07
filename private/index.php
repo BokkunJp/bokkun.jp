@@ -66,10 +66,16 @@ alertAdmin('access', $title);
                     }
                 }
                 ?>
-            </form>
-            <form method="POST" action="./logout">
-                <button type='submit'>ログアウト</button>
-            </form>
+            <div class='logout'>
+                <form method="POST" action="./logout">
+                    <button type='submit'>ログアウト</button>
+                </form>
+            </div>
+            <div class='logout-with-session-reset'>
+                <form method="POST" action="./logout-with-session-reset">
+                    <button type='submit'>ログアウト(全セッション削除)</button>
+                </form>
+            </div>
         </div>
         <!-- conent end -->
         <?php require_once './common/footer.php'; ?>

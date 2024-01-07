@@ -47,7 +47,7 @@ if (!$tokenError && !empty($post) && !empty($post['id']) && !empty($post['pass']
 $adminSession = $session->read("admin");
 $moveURL = $adminSession['adminURL'];
 
-if ($moveURL[2] === 'secure' || $moveURL[2] === 'logout') {
+if ($moveURL[2] === 'secure' || $moveURL[2] === 'logout' || $moveURL[2] === 'logout-with-session-reset') {
     unset($moveURL[2]);
 }
 

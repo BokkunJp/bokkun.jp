@@ -26,3 +26,11 @@ body {
     font-size: small;
     color: red;
 }
+
+.logout {
+    margin-top: 10vh;
+}
+
+.logout-with-session-reset {
+    margin-top: 10px;
+}

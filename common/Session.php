@@ -142,10 +142,10 @@ class Session
      *
      * @return void
      */
-    public function delete(string|int $sessionElm = null)
+    public function delete(string|int $sessionElm = null): void
     {
         if (!isset($_SESSION)) {
-            trigger_error('Session is already deleted.', E_USER_ERROR);
+            user_error('Session is already deleted.');
             exit;
         }
         if (isset($sessionElm)) {
