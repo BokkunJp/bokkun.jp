@@ -239,13 +239,29 @@ function getNotDelFileList(): array
 /**
  * logout
  *
- * ログアウト画面を表示して、セッションを切断する。
+ * ログアウト画面を表示して、ログインに関するセッション値を削除する。
  *
  * @return void
  */
 function logout(): void
 {
     echo "<div align='center'><strong>ログアウトしました。</strong></div>";
+
+    // 管理側のログインセッションの削除
+    $session = new Private\Important\Session();
+    $session->deleteArray('admin', 'secure');
+}
+
+/**
+ * logout
+ *
+ * ログアウト画面を表示して、セッションを切断する。
+ *
+ * @return void
+ */
+function logoutWithSessionReset(): void
+{
+    echo "<div align='center'><strong>ログアウトしました。(セッションも全削除済)</strong></div>";
 
     // セッションの破棄
     $session = new Private\Important\Session();
