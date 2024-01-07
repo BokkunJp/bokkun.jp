@@ -8,6 +8,8 @@ require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'InitFunction.php';
 require_once dirname(__DIR__) . '/Setting.php';
 // セッション
 require_once dirname(__DIR__) . '/Session.php';
+// キャッシュ
+require_once dirname(__DIR__) . "/Cache.php";
 // 定数・固定文言など
 $wordPath = new \Path(dirname(__DIR__));
 $configPath = new \Path(dirname(__DIR__, 3));

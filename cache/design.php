@@ -1,16 +1,15 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-// $pathClass = new \Path('aaa');
-// $pathClass->add('test');
 
-// $cache = new \Cache('test');
-
-use Public\Important\Setting;
+use Public\Important\Cache;
 use Public\Important\Session;
+use Public\Important\Setting;
 use Public\Important\Token;
 
 $name = "cache-csrf";
 $session = new Session($name);
+$c = new Cache('test', $session);
+
 $csrf = new Token($name, $session, true);
 
 if (!is_null(Setting::getPosts())) {
