@@ -66,6 +66,7 @@ alertAdmin('access', $title);
                     }
                 }
                 ?>
+            </form>
             <div class='logout'>
                 <form method="POST" action="./logout">
                     <button type='submit'>ログアウト</button>
