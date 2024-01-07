@@ -4,13 +4,11 @@
  *
  * Pathを設定・追加するためのクラス。
  */
-require_once __DIR__. DIRECTORY_SEPARATOR. "Cache.php";
 
 class Path {
     public ?\Path $prev = null;
     private string $path;
     private ?bool $lastSeparator;
-    private ?\Cache $cache;
     private array $last;
 
     function __construct(
@@ -29,7 +27,6 @@ class Path {
 
         $this->set($path. $next);
         $this->setType("directory");
-        $this->cache = null;
 
         $this->separate();
     }

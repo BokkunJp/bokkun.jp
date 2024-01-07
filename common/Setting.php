@@ -3,6 +3,8 @@ namespace Common\Important;
 
 require_once 'InitFunction.php';
 require_once 'Session.php';
+require_once 'Cookie.php';
+require_once 'Cache.php';
 
 $base = new Setting();
 

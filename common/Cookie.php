@@ -1,4 +1,5 @@
 <?php
+namespace Common\Important;
 // Cookieクラス
 class Cookie
 {
