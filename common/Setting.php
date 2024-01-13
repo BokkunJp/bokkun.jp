@@ -288,6 +288,9 @@ class Setting
 
         $urlPath->setPathEnd();
         if ($query) {
+            if (substr($query, 0, 1) === '/') {
+                $query = rtrim($query, '/');
+            }
             $urlPath->add($query);
         }
 

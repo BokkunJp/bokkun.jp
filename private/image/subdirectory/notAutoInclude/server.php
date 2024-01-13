@@ -19,8 +19,8 @@ if (!empty($mode) && $mode === 'edit') {
     $viewToken = new Private\Important\Token('view-token', $session);
     if ($viewToken->check() === false) {
         $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
-        $url = new Private\Important\Setting();
-        header('Location:' . $url->getUrl('url', $str));
+        $setting = new Private\Important\Setting();
+        header('Location:' . $setting->getUrl('root', $str));
         exit;
     }
 
@@ -129,7 +129,7 @@ if (!empty($mode) && $mode === 'edit') {
         // 削除・複製以外の場合(不正値)
         $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new Private\Important\Setting();
-        header('Location:' . $url->getUrl('url', $str));
+        header('Location:' . $url->getUrl('root', $str));
         exit;
     }
 } else {
@@ -138,7 +138,7 @@ if (!empty($mode) && $mode === 'edit') {
     if ($uploadToken->check() === false) {
         $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
         $url = new Private\Important\Setting();
-        header('Location:' . $url->getUrl('url', $str));
+        header('Location:' . $url->getUrl('root', $str));
         exit;
     }
 
