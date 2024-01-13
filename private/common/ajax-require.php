@@ -41,7 +41,7 @@ if (is_null($request)) {
     require_once PRIVATE_COMMON_DIR . "/Token.php";
 
     // UA判定処理
-    $ua = new UA\UA();
+    $ua = new Private\Important\UA();
     define('Phone', 2);
     define('PC', 1);
     switch ($ua->judgeDevice()) {
