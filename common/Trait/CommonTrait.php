@@ -356,20 +356,18 @@ trait CommonTrait
      *
      * getImageSize関数で取得した配列を整形する。
      *
-     * @param  array|string $imageName 画像名(画像パス含む)
+     * @param  array $imageName getImageSize関数で取得した配列
      *
      * @return array
      */
-    public function moldImageConfig($imageConfig): array
+    public function moldImageConfig(array $imageConfig): array
     {
         $ret = [];
-        if (is_array($imageConfig)) {
             $params = ['width', 'height', 'type', 'html'];
 
-            foreach ($imageConfig as $_key => $_imageConfig) {
-                if (!empty($params[$_key]) && isset($params[$_key])) {
-                    $ret[$params[$_key]] = $_imageConfig;
-                }
+        foreach ($imageConfig as $_key => $_imageConfig) {
+            if (isset($params[$_key])) {
+                $ret[$params[$_key]] = $_imageConfig;
             }
         }
 

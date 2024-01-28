@@ -373,20 +373,18 @@ function searchData($target, array $arrayData): bool
  *
  * getImageSize関数で取得した配列を整形する。
  *
- * @param  array|string $imageConfig 画像名(画像パス含む)
+ * @param  array $imageConfig getImageSize関数で取得した配列
  *
  * @return array
  */
-function moldImageConfig($imageConfig): array
+function moldImageConfig(array $imageConfig): array
 {
     $ret = [];
-    if (is_array($imageConfig)) {
-        $params = ['width', 'height', 'type', 'html'];
+    $params = ['width', 'height', 'type', 'html'];
 
-        foreach ($imageConfig as $_key => $_imageConfig) {
-            if (!empty($params[$_key]) && isset($params[$_key])) {
-                $ret[$params[$_key]] = $_imageConfig;
-            }
+    foreach ($imageConfig as $_key => $_imageConfig) {
+        if (isset($params[$_key])) {
+            $ret[$params[$_key]] = $_imageConfig;
         }
     }
 
