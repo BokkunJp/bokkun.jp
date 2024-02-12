@@ -18,7 +18,7 @@ class Header extends Config
     private function setVersion(): string
     {
         switch ($_SERVER['SERVER_NAME']) {
-            case 'bokkun.xyz':
+            case 'bokkun.org':
             $ret = '-dev';
             break;
             case 'bokkun.jp':
