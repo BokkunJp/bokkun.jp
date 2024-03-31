@@ -11,10 +11,10 @@ $errorLogPath = new \Path("");
 $errorLogPath->addArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
 $errLogArray = [];
 if (!is_dir($errorLogPath->get())) {
-    mkdir($errorLogPath->get());
+    mkdir($errorLogPath->get(), recursive:true);
     $errorLogOldPath = clone $errorLogPath;
     $errorLogOldPath->add("_old");
-    mkdir($errorLogOldPath->get());
+    mkdir($errorLogOldPath->get(), recursive:true);
 }
 $errorLogPath->setPathEnd();
 $errorLogPath->add("php_error.log");
