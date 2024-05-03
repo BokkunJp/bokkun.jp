@@ -71,7 +71,7 @@ if ((!($adminAuth))) {
     alertAdmin('login_success', '');
 
     // script読み込み
-    print_r("<script src='//code.jquery.com/jquery-3.6.0.min.js'></script>
+    print_r("<script src='//code.jquery.com/jquery-3.7.1.min.js'></script>
     <script src='{$url}/private/client/js/secure.js'></script>");
 
     if (!$session->judge('old_id')) {
