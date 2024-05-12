@@ -10,7 +10,7 @@ if (Public\Important\Setting::getServerName() !== 'bokkun.jp') {
     $autoLoadFlg = true;
 }
 $twig = new Environment($loader, [
-    'cache' => './subdirectory/template_cache',
+    'cache' => './subdirectory/twig/template_cache',
     'auto_reload' => $autoLoadFlg,
 ]);
 
