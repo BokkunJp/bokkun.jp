@@ -1,4 +1,5 @@
 common/Word/Local.php
+custom/subdirectory/smarty/*
 private/create/subdirectory/smarty/*
 private/edit/subdirectory/smarty/*
 private/log/error/subdirectory/smarty/*
@@ -9,6 +10,7 @@ public/client/csv/product01/*
 public/client/image/*
 public/client/zip/*
 public/common/Word/Local.php
+smarty/subdirectory/smarty/*
 template/subdirectory/smarty/*
 twig/subdirectory/twig/*
 .vscode/*

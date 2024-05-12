@@ -3,12 +3,14 @@
 
 // ini_set('error_reporting', 'E_ALL & ~E_NOTICE & ~E_DEPRECATED');
 /**@var App\smarty\smarty */
+use \Smarty\Smarty;
+
 $smarty = new Smarty();
 
-$smarty->template_dir = './subdirectory/templates/';
-$smarty->compile_dir  = './subdirectory/templates_c/';
-$smarty->config_dir   = './subdirectory/configs/';
-$smarty->cache_dir    = './subdirectory/cache/';
+$smarty->setTemplateDir('./subdirectory/smarty/templates/');
+$smarty->setCompileDir('./subdirectory/smarty/templates_c/');
+$smarty->setConfigDir('./subdirectory/smarty/configs/');
+$smarty->setCacheDir('./subdirectory/smarty/cache/');
 
 $smarty->assign('name', 'guest');
 $smarty->display('index.tpl');
