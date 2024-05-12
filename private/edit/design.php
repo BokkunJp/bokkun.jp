@@ -26,8 +26,13 @@ $editSrcToken->set();
 
 $dir = array_merge($dir, scandir('../../'));
 
+// dirファイルを調整
 foreach ($dir as $_key => $_dir) {
-    if (preg_match("/public$|private$|common$|custom.*$|template.*$|\..*$/", $_dir)) {
+    if (
+            preg_match("/public$|private$|common$|custom.*$|template.*$|\..*$/", $_dir)
+            || preg_match("/^.$/", $_dir)
+            || preg_match("/^..$/", $_dir)
+        ) {
         unset($dir[$_key]);
     }
 }
