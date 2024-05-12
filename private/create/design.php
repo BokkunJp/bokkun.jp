@@ -5,12 +5,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+use \Smarty\Smarty;
+
 $smarty = new Smarty();
 
-$smarty->template_dir = './subdirectory/templates/';
-$smarty->compile_dir  = './subdirectory/templates_c/';
-$smarty->config_dir   = './subdirectory/configs/';
-$smarty->cache_dir    = './subdirectory/cache/';
+$smarty->setTemplateDir('./subdirectory/smarty/templates/');
+$smarty->setCompileDir('./subdirectory/smarty/templates_c/');
+$smarty->setCacheDir('./subdirectory/smarty/cache/');
+$smarty->setCacheDir('./subdirectory/smarty/cache/');
 
 if ($session->judgeArray('admin', 'addition')) {
     $smarty->assign('admin_addition', $session->readArray('admin', 'addition'));
