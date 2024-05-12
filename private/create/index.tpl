@@ -19,8 +19,6 @@
         <h2>削除・複製</h2></div>
     {* <div><span><input type='checkbox'' name='all-copy' value='true' />すべてコピーする</span></div> *}
     <select name='select'>
-      {$count=0}
-      {$max=count($dir)}
       {foreach from=$dir item=item_name}
               <option value='{$item_name}' >{$item_name}</option>
       {/foreach}
