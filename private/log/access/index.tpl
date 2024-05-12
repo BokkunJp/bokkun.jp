@@ -1,12 +1,8 @@
 <form action='./{$base}/server.php' method='POST'>
     <div><p2><h3>アクセスログ選択</h3></p2></div>
     <select class='set_log' id='access' name='access_log'>
-      {$count=0}
-      {$max=count($dir)}
       {foreach from=$dir item=item_name}
-        {if mb_strpos($item_name, '.')!==0 && mb_strpos($item_name, '..')!==0}
-              <option value='{$item_name}' >{$item_name}</option>
-          {/if}
+          <option value='{$item_name}' >{$item_name}</option>
       {/foreach}
     </select>
 

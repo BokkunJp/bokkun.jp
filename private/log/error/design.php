@@ -26,6 +26,16 @@ $dirPath = rtrim(dirname(__DIR__, 5), "\\") . createClient('log');
 $dir = ["---" => "---"];
 $dir = array_merge($dir, scandir($dirPath));
 
+// dirファイルを調整
+foreach ($dir as $_key => $_dir) {
+    if (
+            preg_match("/^.$/", $_dir)
+            || preg_match("/^..$/", $_dir)
+        ) {
+        unset($dir[$_key]);
+    }
+}
+
 $smarty->assign('base', basename(__DIR__) . '/subdirectory');
 $smarty->assign('dir_path', $dirPath);
 $smarty->assign('dir', $dir);
