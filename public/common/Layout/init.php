@@ -1,7 +1,6 @@
 <?php
 // セッションの設定
 $session = new Public\Important\Session();
-
 // UA判定処理
 if (isset($ua)) {
     define('Phone', 2);

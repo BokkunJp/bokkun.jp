@@ -53,7 +53,7 @@ $privateDirList = [];
 
 foreach ($privateDirPathList as $_key => $_value) {
     $privateMessage->resetKey($_key);
-    $privateMessage->methodPath('AddArray', [$_key]);
+    $privateMessage->methodPath('addArray', [$_key]);
     $privateDirList[$_key] = $privateMessage->get();
     
 }

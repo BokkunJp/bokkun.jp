@@ -9,6 +9,7 @@ class Session extends \Common\Important\Session
 
     public function __construct()
     {
+        $this->start();
         parent::__construct();
     }
 

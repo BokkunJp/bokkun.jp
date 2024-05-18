@@ -28,35 +28,35 @@ $publicPathList->setAll([
 // パスの追加
 // ヘッダー・フッター
 $publicPathList->resetKey('config');
-$publicPathList->methodPath('AddArray', ['common', 'Config.php']);
+$publicPathList->methodPath('addArray', ['common', 'Config.php']);
 
 // 定数・固定文言など
 $publicPathList->resetKey('word');
-$publicPathList->methodPath('AddArray', ['public', 'common', 'Word', 'Message.php']);
+$publicPathList->methodPath('addArray', ['public', 'common', 'Word', 'Message.php']);
 
 // 設定
 $publicPathList->resetKey('setting');
-$publicPathList->methodPath('AddArray', ['public', 'common', 'Setting.php']);
+$publicPathList->methodPath('addArray', ['public', 'common', 'Setting.php']);
 
 // タグ
 $publicPathList->resetKey('tag');
-$publicPathList->methodPath('AddArray', ['public', 'common', 'Component', 'Tag.php']);
+$publicPathList->methodPath('addArray', ['public', 'common', 'Component', 'Tag.php']);
 
 // セッション
 $publicPathList->resetKey('session');
-$publicPathList->methodPath('AddArray', ['public', 'common', 'Session.php']);
+$publicPathList->methodPath('addArray', ['public', 'common', 'Session.php']);
 
 // トークン
 $publicPathList->resetKey('token');
-$publicPathList->methodPath('AddArray', ['public', 'common', 'Token.php']);
+$publicPathList->methodPath('addArray', ['public', 'common', 'Token.php']);
 
 // ファイル読み込み
 $publicPathList->resetKey('include');
-$publicPathList->methodPath('AddArray', ['public', 'common', 'Include.php']);
+$publicPathList->methodPath('addArray', ['public', 'common', 'Include.php']);
 
 // UA
 $publicPathList->resetKey('ua');
-$publicPathList->methodPath('AddArray', ['public', 'common', 'Component', 'UA.php']);
+$publicPathList->methodPath('addArray', ['public', 'common', 'Component', 'UA.php']);
 
 // パスの出力
 $publicPathList->all();

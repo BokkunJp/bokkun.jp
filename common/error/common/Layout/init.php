@@ -18,6 +18,7 @@ $initPathList = new \PathApplication('word', dirname(__DIR__));
 $initPathList->setAll([
     'setting' => dirname(__DIR__, 3),
     'error_setting' => dirname(__DIR__),
+    'error_session' => dirname(__DIR__),
     'error_include' => ''
 ]);
 $initPathList->resetKey('word');
@@ -29,6 +30,9 @@ $initPathList->methodPath('Add', 'Setting.php');
 $initPathList->resetKey('error_setting');
 $initPathList->methodPath('SetPathEnd');
 $initPathList->methodPath('Add', 'Setting.php');
+$initPathList->resetKey('error_session');
+$initPathList->methodPath('SetPathEnd');
+$initPathList->methodPath('Add', 'Session.php');
 $initPathList->resetKey('error_include');
 $initPathList->methodPath('SetPathEnd');
 $initPathList->methodPath('Add', 'Include.php');

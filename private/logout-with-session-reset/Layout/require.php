@@ -1,25 +1,9 @@
 <?php
-
-// セッションスタート
-if (!isset($_SESSION)) {
-    if (PHP_OS === 'WINNT') {
-        $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
-        if (!is_dir($sessionDir)) {
-            mkdir($sessionDir, 0755);
-        }
-        session_save_path($sessionDir);
-    }
-    session_start();
-}
-
-?>
-
-<!DOCTYPE html>
-<?php
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL | ~E_STRICT);
+define('DS', DIRECTORY_SEPARATOR);
 // 関数定義 (初期処理用)
-require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'InitFunction.php';
+require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
 
 // パスの初期セット
 $privatepathList = new PathApplication('word', dirname(__DIR__, 2));
@@ -31,44 +15,45 @@ $privatepathList->setAll(
         'include' => '',
         'session' => '',
         'token' => '',
+        'cache' => '',
         'common' => '',
         'ua' => '',
-        'config' => dirname(__DIR__, 2),
+        'config' => dirname(__DIR__, 3),
     ]
 );
 
 // パスの追加
-// ヘッダー・フッター
-$privatepathList->resetKey('config');
-$privatepathList->methodPath('AddArray', [dirname(__DIR__, 3), 'common', 'Config.php'], true);
+// 管理側共通(ログイン認証など)
+$privatepathList->resetKey('common');
+$privatepathList->methodPath('addArray', ['common.php']);
 
 // 定数・固定文言など
 $privatepathList->resetKey('word');
-$privatepathList->methodPath('AddArray', ['common', 'Word', 'Message.php']);
-
-// // 管理側共通(ログイン認証など)
-$privatepathList->resetKey('common');
-$privatepathList->methodPath('AddArray', ['common.php']);
-
-// 設定
-$privatepathList->resetKey('setting');
-$privatepathList->methodPath('AddArray', ['common', 'Setting.php']);
-
-// セッション
-$privatepathList->resetKey('session');
-$privatepathList->methodPath('AddArray', ['common', 'Session.php']);
-
-// トークン
-$privatepathList->resetKey('token');
-$privatepathList->methodPath('AddArray', ['common', 'Token.php']);
-
-// ファイル読み込み
-$privatepathList->resetKey('include');
-$privatepathList->methodPath('AddArray', ['common', 'Include.php']);
+$privatepathList->methodPath('addArray', ['common', 'Word', 'Message.php']);
 
 // UA
 $privatepathList->resetKey('ua');
-$privatepathList->methodPath('AddArray', ['common', 'Component', 'UA.php']);
+$privatepathList->methodPath('addArray', ['common', 'Component', 'UA.php']);
+
+$privateList = [
+    'config' => 'Config.php',
+    'setting' => 'Setting.php',
+    'session' => 'Session.php',
+    'token' => 'Token.php',
+    'cache' => 'Cache.php',
+    'include' => 'Include.php',
+];
+
+// ヘッダー・フッター
+// 設定
+// セッション
+// トークン
+// キャッシュ
+// ファイル読み込み
+foreach ($privateList as $key => $file) {
+    $privatepathList->resetKey($key);
+    $privatepathList->methodPath('addArray', ['common', $file]);
+}
 
 // パスの出力
 $privatepathList->all();
