@@ -20,22 +20,22 @@ class Session
         $this->init = $this->session;
     }
 
-    private function sessionStart()
+    protected function start()
     {
         if (!isset($_SESSION) || session_status() === PHP_SESSION_DISABLED) {
-    if (PHP_OS === 'WINNT') {
-        $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/";
-        if (!is_dir($sessionDir)) {
-            mkdir($sessionDir, 0755);
-            $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
-            if (!is_dir($sessionDir)) {
-                mkdir($sessionDir, 0755);
-            } else {
-                $sessionDir .= '/session/';
+            if (PHP_OS === 'WINNT') {
+                $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/";
+                if (!is_dir($sessionDir)) {
+                    mkdir($sessionDir, 0755);
+                    $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
+                    if (!is_dir($sessionDir)) {
+                        mkdir($sessionDir, 0755);
+                    } else {
+                        $sessionDir .= '/session/';
+                    }
+                }
+                session_save_path($sessionDir);
             }
-        }
-        session_save_path($sessionDir);
-    }
             session_start();
         } else {
             // セッションが定義されている場合は更新
@@ -118,7 +118,7 @@ class Session
     public function read(string|int $sessionElm = null): mixed
     {
         if (!isset($_SESSION)) {
-            $this->sessionStart();
+            $this->start();
         }
 
         $this->session = $_SESSION;

@@ -1,9 +1,16 @@
 <?php
+
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL | ~E_STRICT);
-define("DS", DIRECTORY_SEPARATOR);
+define('DS', DIRECTORY_SEPARATOR);
 // 関数定義 (初期処理用)
-require_once dirname(__DIR__, 2) . DS . 'public' . DS .'common' . DS . 'InitFunction.php';
+require_once dirname(__DIR__, 2) . DS . 'public' . DS. 'common' . DS. 'InitFunction.php';
+// 設定
+require_once dirname(__DIR__, 2) . DS . 'public' . DS. 'common' . DS. 'Setting.php';
+
+$homepageTitle = basename(getcwd());
+$title = htmlspecialchars($homepageTitle);
+
 // パスの定義
 $publicPathList = new PathApplication('word', dirname(__DIR__, 2));
 
@@ -60,20 +67,9 @@ foreach ($publicPathList->get() as $key => $path) {
     }
 }
 
-// カスタムファイル
-
-// if (fileExists()) {
-
-// }
-
 // 共通処理に必要なグローバル変数
 $base = new Public\Important\Setting();
-
-// UA設定
-$ua = new Public\Important\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
-$homepageTitle = basename(getcwd());
-$title = htmlspecialchars($homepageTitle);
 
 // ファイル読み込み処理
 require_once PUBLIC_COMMON_DIR . "/Include.php";
