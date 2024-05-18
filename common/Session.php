@@ -37,8 +37,6 @@ class Session
                 session_save_path($sessionDir);
             }
             session_start();
-        } else {
-            // セッションが定義されている場合は更新
             session_regenerate_id();
         }
     }
