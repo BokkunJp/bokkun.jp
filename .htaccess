@@ -2,7 +2,7 @@
 RewriteEngine On
 RewriteBase /
 
-# #階層単位のベーシック認証(普段はコメントアウト)
+## 階層単位のベーシック認証(普段はコメントアウト)
 # <If "%{REQUEST_URI} =~ /\x2Fadmin\x2F.*/">
     # <RequireAny>
         # AuthType Basic
@@ -12,7 +12,7 @@ RewriteBase /
     # </RequireAny>
 # </If>
 
-# #エラー関連
+## エラー関連
 # 400系
 ErrorDocument 400 /common/error/400/
 ErrorDocument 401 /common/error/401/
@@ -39,41 +39,41 @@ ErrorDocument 503 /common/error/503/
     ErrorDocument 511 /common/error/511/
 </If>
 
-# #セキュリティ対策
-# #XSS
+## セキュリティ対策
+## XSS
 Header always set X-XSS-Protection "1; mode=block"
-# #Content Type (ダウンロード)
+## Content Type (ダウンロード)
 Header always set X-Content-Type-Options "nosniff"
-# #クリックジャッキング
+## クリックジャッキング
 Header always append X-Frame-Options SAMEORIGIN
 
-# #HSTS
+## HSTS
 RewriteCond %{HTTPS} !=on [NC]
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-# #HSTSプリロード
+## HSTSプリロード
 Header always unset Strict-Transport-Security
 Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; preload"
 
-# #特定のページの404化
+## 特定のページの404化
 RewriteCond %{REQUEST_URI} ^/private/secure/$ [OR]
 RewriteCond %{REQUEST_URI} ^/private/Sample/$ [OR]
 RewriteCond %{REQUEST_URI} ^/public/client/image/(.*)/_oldImage/(.*)$
 RewriteRule ^.*$ - [R=404]
 
-# #(一部のファイル以外のPHPファイルに直接アクセスできなくさせる)
-# #共通
+## (一部のファイル以外のPHPファイルに直接アクセスできなくさせる)
+## 共通
 RewriteCond %{REQUEST_URI} !(/common/error/)
 RewriteCond %{REQUEST_URI} !(/index.php$)
 RewriteCond %{REQUEST_URI} !(/subdirectory.*/index.php$)
 RewriteCond %{REQUEST_URI} !(/subdirectory.*/design.php$)
 RewriteCond %{REQUEST_URI} !(/subdirectory.*/server.php$)
 RewriteCond %{REQUEST_URI} !(/phpPgAdmin/)
-# #管理側
+## 管理側
 RewriteCond %{REQUEST_URI} !(^/private/admin.php$)
 RewriteCond %{REQUEST_URI} !(^/private/secure.php$)
 RewriteCond %{REQUEST_URI} !(^/private/reset.php$)
 RewriteCond %{REQUEST_URI} !(^/private.+/edit.php$)
-# #公開側
+## 公開側
 RewriteRule \.php - [F]
 # RewriteRule ^(.*)/private/index$ /private/$1/admin.php
 # RewriteRule ^(.*)\/private\/(.*)$ \/private\/$1\/$2
@@ -85,18 +85,18 @@ RewriteRule ^public/(.*) $1 [R]
 # Pythonファイル(.py)をCGIとして動作するようにする。
 AddHandler cgi-script .py
 
-# #メンテナンス対象外ページを指定してメンテナンスをかけるときに使用
+## メンテナンス対象外ページを指定してメンテナンスをかけるときに使用
 # RewriteCond %{REQUEST_FILENAME} !-f
-# #トップページのみメンテナンス解除
+## トップページのみメンテナンス解除
 # RewriteCond %{REQUEST_URI} !(^/$)
-# #管理側のadminページのメンテナンスを解除
+## 管理側のadminページのメンテナンスを解除
 # RewriteCond %{REQUEST_URI} !(^/private/admin.php)
-# #公開側のimageページのみメンテナンス解除
+## 公開側のimageページのみメンテナンス解除
 # RewriteCond %{REQUEST_URI} !(^/image/$)
-# #管理側のimageページ以下のメンテナンスを解除
+## 管理側のimageページ以下のメンテナンスを解除
 # RewriteCond %{REQUEST_URI} !(^/private/image)
 #
-# #メンテナンス
+## メンテナンス
 # RewriteCond %{REQUEST_URI} !(/common/error/503/)
 # RewriteCond %{REQUEST_URI} !(/common/error/client/)
 # RewriteRule ^.*$ - [R=503,L]
