@@ -1,8 +1,12 @@
 <?php
 namespace Security;
 
+use PathApplication;
+
 // Trait読み込み
-require(COMMON_DIR. "\Trait\IoTrait.php");
+$ioTraitPath = new PathApplication("ioTrait", COMMON_DIR);
+$ioTraitPath->methodPath("addArray",[ "Trait", "IOTrait.php"]);
+require($ioTraitPath->get());
 
 class Security {
     private const DEFAULT_algorithm  = "aes-256-cbc", KEY_BYTES = 16;
