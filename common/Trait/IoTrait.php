@@ -12,18 +12,24 @@ trait IoTrait {
 
     /**
      * setProperty
-     * 
-     * 対象のプロパティ名を設定
+     *
+     * 対象のプロパティ名を設定し、プロパティに値が存在する場合は値を更新。
      *
      * @param string|null $ioName 設定するプロパティ名
      * @return void
      */
-    protected function setProperty(?string $ioName = self::DEFAULT_NAME): void
+    protected function setProperty(string $ioName = self::DEFAULT_NAME): void
     {
+        // プロパティ名をセット
         if (property_exists($this,$ioName)) {
             $this->ioName = $ioName;
         } else {
             $this->ioName = self::DEFAULT_NAME;
+        }
+
+        // プロパティの値をセット
+        if (isset($this->{$this->ioName})) {
+            $this->ioData = $this->{$this->ioName};
         }
     }
 
