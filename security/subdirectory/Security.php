@@ -5,7 +5,7 @@ use PathApplication;
 
 // Trait読み込み
 $ioTraitPath = new PathApplication("ioTrait", COMMON_DIR);
-$ioTraitPath->methodPath("addArray",[ "Trait", "IOTrait.php"]);
+$ioTraitPath->methodPath("addArray",[ "Trait", "IoTrait.php"]);
 require($ioTraitPath->get());
 
 class Security {
