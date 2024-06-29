@@ -208,7 +208,7 @@ function moldData(mixed $data, string $parameter = ','): mixed
  * @param boolean $dumpFlg
  * @param array $debug
  *
- * @return void
+ * @return bool
  */
 function output(
     mixed $expression,
@@ -216,7 +216,7 @@ function output(
     bool $indentFlg = true,
     bool $dumpFlg = false,
     array $debug = []
-): int {
+): bool {
     if ($formatFlg === true) {
         print_r("<pre>");
         if ($dumpFlg === true) {
@@ -243,7 +243,7 @@ function output(
                     $errScript->alert($debugMessage[$_DEBUG_KEY]);
                 }
             }
-            return -1;
+            return false;
         }
 
         $layer = $debug['layer'] - 1;
@@ -426,11 +426,11 @@ function calcImageSize(string $imageName, string|int $imageSizeViewValue): array
 /**
  * emptyValidate
  *
- * @param mixed $validate
- * @param string|null $word
+ * @param mixed $validate 検証対象の変数
+ * @param string|null $word 検証方法を指定するキーワード ('isset', 'empty', 'is_null', 'not')
  * @return boolean|null
  */
-function emptyValidate(mixed $validate, ?string $word = null): ?bool
+function emptyValidate($validate, ?string $word = null): ?bool
 {
     $v = null;
 
