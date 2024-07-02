@@ -36,10 +36,6 @@ class Security {
             $this->set($input);
         }
 
-        if (is_null($this->get())) {
-            $this->set('');
-        }
-
         // 暗号化・復号化に関する設定
         $this->setalgorithm();
         $this->setOptions();
