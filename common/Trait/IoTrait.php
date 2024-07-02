@@ -6,30 +6,30 @@
  * setPropertyでプロパティを設定している場合は、入力時に設定元のプロパティも更新する。
  */
 trait IoTrait {
-    private const DEFAULT_NAME = 'ioData';
-    private string $ioName;
-    private $ioData;
+    private const DEFAULT_NAME = 'data';
+    private string $property;
+    private $data;
 
     /**
      * setProperty
      *
      * 対象のプロパティ名を設定し、プロパティに値が存在する場合は値を更新。
      *
-     * @param string|null $ioName 設定するプロパティ名
+     * @param string|null $property 設定するプロパティ名
      * @return void
      */
-    protected function setProperty(string $ioName = self::DEFAULT_NAME): void
+    protected function setProperty(string $property = self::DEFAULT_NAME): void
     {
         // プロパティ名をセット
-        if (property_exists($this,$ioName)) {
-            $this->ioName = $ioName;
+        if (property_exists($this,$property)) {
+            $this->property = $property;
         } else {
-            $this->ioName = self::DEFAULT_NAME;
+            $this->property = self::DEFAULT_NAME;
         }
 
         // プロパティの値をセット
-        if (isset($this->{$this->ioName})) {
-            $this->ioData = $this->{$this->ioName};
+        if (isset($this->{$this->property})) {
+            $this->data = $this->{$this->property};
         }
     }
 
@@ -43,11 +43,11 @@ trait IoTrait {
      */
     protected function set($input): void
     {
-        $this->ioData = $input;
+        $this->data = $input;
 
         // プロパティが正しくセットされている場合は、元のデータも一緒に更新
-        if (isset($this->ioName) && $this->ioName !== self::DEFAULT_NAME) {
-            $this->{$this->ioName} = $input;
+        if (isset($this->property) && $this->property !== self::DEFAULT_NAME) {
+            $this->{$this->property} = $input;
         }
     }
 
@@ -60,7 +60,12 @@ trait IoTrait {
      */
     protected function getProperty(): mixed
     {
-        return $this->ioName;
+        if (isset($this->property)) {
+            $property = $this->property;
+        } else {
+            $property = false;
+        }
+        return $property;
     }
 
     /**
@@ -72,7 +77,7 @@ trait IoTrait {
      */
     private function getType(): mixed
     {
-        return gettype($this->ioData);
+        return gettype($this->data);
     }
 
     /**
@@ -84,6 +89,6 @@ trait IoTrait {
      */
     protected function get(): mixed
     {
-        return $this->ioData;
+        return $this->data;
     }
 }
