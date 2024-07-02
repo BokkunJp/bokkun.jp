@@ -14,7 +14,7 @@ use common\Setting;
 class Token {
 
     private string $tokenName, $tokenValue, $tokenPost;
-    private bool $checkSetting;
+    private bool $checkSetting, $tokenFlg;
     private ?\Common\Important\Session $session;
     private ?array $posts;
 
@@ -72,6 +72,8 @@ class Token {
         ) {
             return false;
         }
+
+        $this->tokenFlg = true;
 
         return true;
     }
