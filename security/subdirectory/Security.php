@@ -101,11 +101,9 @@ class Security {
      * 
      * @return string|false
      */
-    public function encrypt(?string $input = null, bool $rowFlg = false): string|false
+    public function encrypt(string $input = "", bool $rowFlg = false): string|false
     {
-        if (!is_null($input)) {
-            $this->set($input);
-        }
+        $this->set($input);
 
         if ($rowFlg) {
             $options = OPENSSL_RAW_DATA;
