@@ -42,7 +42,7 @@ trait IoTrait {
      * @param [type] $input
      * @return void
      */
-    protected function set($input): void
+    public function set($input): void
     {
         $this->data = $input;
 
@@ -116,7 +116,7 @@ trait IoTrait {
      *
      * @return mixed
      */
-    protected function get(): mixed
+    public function get(): mixed
     {
         return $this->data;
     }
