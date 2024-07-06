@@ -8,6 +8,7 @@
 trait IoTrait {
     private const DEFAULT_NAME = 'data';
     private string $property;
+    private bool $autoSaveFlg = true;
     private $data;
 
     /**
@@ -45,9 +46,37 @@ trait IoTrait {
     {
         $this->data = $input;
 
-        // プロパティが正しくセットされている場合は、元のデータも一緒に更新
-        if (isset($this->property) && $this->property !== self::DEFAULT_NAME) {
-            $this->{$this->property} = $input;
+        // 自動更新かつプロパティが正しくセットされている場合は、元のデータも一緒に更新
+        $this->save();
+    }
+
+    /**
+     * convertAutoSave
+     * 
+     * 自動更新の切り替え(デフォルトはオン)
+     *
+     * @return void
+     */
+    protected function convertAutoSave(): void
+    {
+        $this->autoSaveFlg = !$this->autoSaveFlg;
+    }
+
+    /**
+     * save
+     * 
+     * プロパティの値を更新
+     *
+     * @return void
+     */
+    protected function save()
+    {
+        if (
+            $this->autoSaveFlg
+            && isset($this->property)
+            && $this->property !== self::DEFAULT_NAME
+        ) {
+            $this->{$this->property} = $this->data;
         }
     }
 
