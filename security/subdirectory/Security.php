@@ -9,8 +9,8 @@ $ioTraitPath->methodPath("addArray",[ "Trait", "IoTrait.php"]);
 require($ioTraitPath->get());
 
 class Security {
-    private const DEFAULT_algorithm  = "aes-256-cbc", KEY_BYTES = 16;
-    // private const DEFAULT_algorithm  = "aes-256-cbc-hmac-sha256";
+    private const DEFAULT_ALGORITHM  = "aes-256-cbc", KEY_BYTES = 16;
+    // private const DEFAULT_ALGORITHM  = "aes-256-cbc-hmac-sha256";
     private string $algorithm, $iv, $key, $encrypt;
     private bool $resetFlg = false;
     private $data;
@@ -50,15 +50,15 @@ class Security {
      * 
      * @return void
      */
-    public function setalgorithm(string $algorithm = self::DEFAULT_algorithm): void
+    public function setalgorithm(string $algorithm = self::DEFAULT_ALGORITHM): void
     {
         if (
-            $algorithm != self::DEFAULT_algorithm
+            $algorithm != self::DEFAULT_ALGORITHM
             && !searchData(
             $algorithm, openssl_get_cipher_methods()
             )
         ) {
-            $algorithm = self::DEFAULT_algorithm;
+            $algorithm = self::DEFAULT_ALGORITHM;
         }
 
         $this->algorithm = $algorithm;
