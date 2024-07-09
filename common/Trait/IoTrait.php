@@ -42,7 +42,7 @@ trait IoTrait {
      * @param [type] $input
      * @return void
      */
-    public function set($input): void
+    protected function set($input): void
     {
         $this->data = $input;
 
@@ -69,7 +69,7 @@ trait IoTrait {
      *
      * @return void
      */
-    protected function save()
+    protected function save(): void
     {
         if (
             $this->autoSaveFlg
@@ -85,9 +85,9 @@ trait IoTrait {
      * 
      * 現在設定中のプロパティ名を取得
      *
-     * @return mixed
+     * @return string|false
      */
-    protected function getProperty(): mixed
+    protected function getProperty(): string|false
     {
         if (isset($this->property)) {
             $property = $this->property;
@@ -116,7 +116,7 @@ trait IoTrait {
      *
      * @return mixed
      */
-    public function get(): mixed
+    protected function get(): mixed
     {
         return $this->data;
     }
