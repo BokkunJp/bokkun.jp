@@ -22,7 +22,7 @@ trait IoTrait {
     protected function setProperty(string $property = self::DEFAULT_NAME): void
     {
         // プロパティ名をセット
-        if (property_exists($this,$property)) {
+        if (property_exists($this, $property)) {
             $this->property = $property;
         } else {
             $this->property = self::DEFAULT_NAME;
