@@ -33,7 +33,7 @@ $privatepathList->methodPath('addArray', ['common', 'Word', 'Message.php']);
 
 // UA
 $privatepathList->resetKey('ua');
-$privatepathList->methodPath('addArray', ['common', 'Component', 'UA.php']);
+$privatepathList->methodPath('addArray', ['common', 'Component', 'Ua.php']);
 
 $privateList = [
     'config' => 'Config.php',

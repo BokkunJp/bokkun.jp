@@ -3,7 +3,7 @@
  * 必要なPHPファイルを一括で読み込む。
  */
 // 必要なファイルの読み込み
-require_once(__DIR__ . "/Function/UA.php");
+require_once(__DIR__ . "/Function/Ua.php");
 
 // jQuery, Vue.js
 echo "<script src='https://code.jquery.com/jquery-3.7.1.min.js' ></script>";

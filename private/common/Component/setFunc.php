@@ -4,7 +4,7 @@
 
 namespace SetFunc;
 
-require_once('UA.php');
+require_once('Ua.php');
 // 指定したクラスの関数を実行する
 function addition($class_name, $instance_name)
 {

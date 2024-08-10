@@ -27,7 +27,7 @@ require_once $wordPath->get();
 // ヘッダーフッター
 require_once $configPath->get();
 // UA
-require_once PUBLIC_COMPONENT_DIR . 'UA.php';
+require_once PUBLIC_COMPONENT_DIR . 'Ua.php';
 $ua = new Public\Important\UA();
 
 // ファイル読み込み処理
