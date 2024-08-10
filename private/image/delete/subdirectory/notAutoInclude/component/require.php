@@ -18,7 +18,7 @@ $configPath->addArray([COMMON_DIR, "Config.php"], true);
 require_once $configPath->get();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 // UA
-require_once PRIVATE_DIR_LIST['Component'] . '/UA.php';
+require_once PRIVATE_DIR_LIST['Component'] . '/Ua.php';
 // CSRF
 require_once PRIVATE_COMMON_DIR . "/Session.php";
 require_once COMMON_DIR . DIRECTORY_SEPARATOR . "Include.php";

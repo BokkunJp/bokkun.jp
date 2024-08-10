@@ -56,7 +56,7 @@ $publicPathList->methodPath('addArray', ['public', 'common', 'Include.php']);
 
 // UA
 $publicPathList->resetKey('ua');
-$publicPathList->methodPath('addArray', ['public', 'common', 'Component', 'UA.php']);
+$publicPathList->methodPath('addArray', ['public', 'common', 'Component', 'Ua.php']);
 
 // パスの出力
 $publicPathList->all();
