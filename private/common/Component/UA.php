@@ -2,61 +2,15 @@
 
 namespace Private\Important;
 
-class UA
+$commonPath = new \Path(COMMON_DIR);
+$commonPath->add('Component');
+$commonPath->setPathEnd();
+require_once $commonPath->add('Ua.php', false);
+
+/**
+ * Ua.phpの内容を継承
+ * (個別で必要な機能があれば追加予定)
+ */
+class UA extends \Common\Important\Ua
 {
-    protected $ua;
-
-    public function __construct()
-    {
-        $this->setAgent();
-    }
-
-    /**
-     * setAgent
-     *
-     * エージェント情報をセットする。
-     *
-     * @return void
-     */
-    public function setAgent(): void
-    {
-        if (!isset($this->ua) && isset($_SERVER['HTTP_USER_AGENT'])) {
-            $this->ua = $_SERVER['HTTP_USER_AGENT'];
-        }
-    }
-
-    /**
-     * getAgent
-     *
-     * エージェント情報を取得する。
-     *
-     * @return string
-     */
-    public function getAgent(): string
-    {
-        return $this->ua;
-    }
-
-    /**
-     * judgeDevice
-     *
-     * デバイスを判定する。
-     * (1→iPhone, 2→Android)
-     *
-     * @return integer
-     */
-    public function judgeDevice(): int
-    {
-        if ($this->judge('iPhone')|| $this->judge('Android')) {
-            return 2;
-        } else {
-            return 1;
-        }
-    }
-
-    public function judge($device)
-    {
-        $ret = strpos($this->ua, $device);
-        return $ret;
-    }
 }
