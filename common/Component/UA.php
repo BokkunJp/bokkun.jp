@@ -4,7 +4,7 @@ namespace Common\Important;
 
 class Ua
 {
-    protected $ua;
+    protected string $ua;
 
     public function __construct()
     {
@@ -22,6 +22,8 @@ class Ua
     {
         if (!isset($this->ua) && isset($_SERVER['HTTP_USER_AGENT'])) {
             $this->ua = $_SERVER['HTTP_USER_AGENT'];
+        } else {
+            $this->ua = 'undfeined';
         }
     }
 
