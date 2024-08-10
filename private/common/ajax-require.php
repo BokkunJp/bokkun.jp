@@ -36,7 +36,7 @@ if (is_null($request)) {
     $ajaxFlg = true;
 
     // UA
-    require_once PRIVATE_DIR_LIST['Component'] . '/UA.php';
+    require_once PRIVATE_DIR_LIST['Component'] . '/Ua.php';
     // CSRF
     require_once PRIVATE_COMMON_DIR . "/Token.php";
 

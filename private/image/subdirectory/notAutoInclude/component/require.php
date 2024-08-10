@@ -60,7 +60,7 @@ $privatepathList->methodPath('addArray', [__DIR__, 'include.php'], true);
 // UA
 $privatepathList->resetKey('ua');
 $privatepathList->methodPath('Reset');
-$privatepathList->methodPath('addArray', ['common', 'Component', 'UA.php']);
+$privatepathList->methodPath('addArray', ['common', 'Component', 'Ua.php']);
 
 // パスの出力
 $privatepathList->all();
