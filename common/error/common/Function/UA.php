@@ -5,42 +5,16 @@ namespace Error\Important;
 define('PC_design', 1);
 define('SP_design', 2);
 
-class UA
+// Ua.phpの読み込み
+$commonPath = new \Path(COMMON_DIR);
+$commonPath->add('Component');
+$commonPath->setPathEnd();
+require_once $commonPath->add('Ua.php', false);
+
+/**
+ * Ua.phpの内容を継承
+ * (固有で必要な機能があれば追加予定)
+ */
+class UA extends \Common\Important\Ua
 {
-    protected $ua;
-    public function __construct()
-    {
-        $this->setAgent();
-    }
-    public function setAgent()
-    {
-        if (!isset($this->ua) && isset($_SERVER['HTTP_USER_AGENT'])) {
-            $this->ua = $_SERVER['HTTP_USER_AGENT'];
-        }
-    }
-
-    public function getAgent()
-    {
-        return $this->ua;
-    }
-
-    // device = 2 → スマホ
-    // device = 1 → PC
-    public function judgeDevice($device=null)
-    {
-        if ($this->judge('iPhone')|| $this->judge('Android')) {
-            return 2;
-        } else {
-            return 1;
-        }
-        if (isset($device)) {
-            return $device;
-        }
-    }
-
-    public function judge($device)
-    {
-        $ret = strpos($this->ua, $device);
-        return $ret;
-    }
 }
