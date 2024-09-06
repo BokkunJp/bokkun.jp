@@ -62,7 +62,8 @@ function includeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
     }
 
     $dirList = scandir($pwd);           // ファイルリスト取得
-    $extension = '.' . $extension;       // 検索用
+    ksort($dirList);                      // 検索順位を昇順に変更
+    $extension = '.' . $extension;                // 検索用
 
     $retList = [];
     foreach ($dirList as $_dirList) {
