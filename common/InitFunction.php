@@ -79,13 +79,14 @@ set_error_handler(
  */
 function sanitize(mixed $arr = ''): mixed
 {
+    if (is_array($arr)) {
+        return array_map('sanitize', $arr);
+    }
+
     if (!is_string($arr)) {
         return $arr;
     }
 
-    if (is_array($arr)) {
-        return array_map('sanitize', $arr);
-    }
     return str_replace("\0", "", $arr);     //ヌルバイトの除去
 }
 
