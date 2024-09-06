@@ -18,7 +18,7 @@ $img = "crown-vector.jpg";
             href="<?= $base->getUrl('css') ?><?= ltrim(createClient(''), '/') ?>design.css">
         <?php else : ?>
         <link rel="stylesheet" type="text/css"
-            href="<?= $base->getUrl('css') ?>common/ajax.css">
+            href="<?= $base->getUrl('css') ?>common/default.css">
     <?php endif; ?>
 </head>
 
