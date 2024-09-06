@@ -29,18 +29,14 @@ $img = "crown-vector.jpg";
         <?php require_once('header.php'); ?>
         <main class="contents">
             <?php
-                if (!isset($contents)) {
-                    if (file_exists(getcwd(). '/design.php')) {
-                        // トップページ以外
-                        $contentsPath = getcwd();
-                    }else {
-                        $contentsPath = dirname(getcwd());
-                    }
-                    require_once($contentsPath . '/design.php');
-                } elseif ($contents) {
-                    // トップページ
+                if (isset($contents)) {
+                    // コンテンツが指定されている
                     output($contents);
                 }
+
+                // index.phpと同階層にあるファイルを読み込む
+                $contentsPath = getcwd(). DIRECTORY_SEPARATOR;
+                IncludeFiles($contentsPath);
             ?>
         </main>
         <?php require_once('footer.php'); ?>

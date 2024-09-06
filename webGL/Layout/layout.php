@@ -26,7 +26,16 @@ $img = "crown-vector.jpg";
     <div class="container">
         <?php require_once('header.php'); ?>
         <main class="contents">
-            <?php require_once(getcwd() . '/design.php'); ?>
+            <?php
+                if (isset($contents)) {
+                    // コンテンツが指定されている
+                    output($contents);
+                }
+
+                // index.phpと同階層にあるファイルを読み込む
+                $contentsPath = getcwd(). DIRECTORY_SEPARATOR;
+                IncludeFiles($contentsPath);
+            ?>
         </main>
         <?php require_once('footer.php'); ?>
     </div>

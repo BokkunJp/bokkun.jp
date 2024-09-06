@@ -62,7 +62,7 @@ function includeFiles($pwd, $extension = 'php', $ret = false, array $classLoad=[
     }
 
     $dirList = scandir($pwd);           // ファイルリスト取得
-    $extension = '.' . $extension;       // 検索用
+    $extension = '.' . $extension;                // 検索用
 
     $retList = [];
     foreach ($dirList as $_dirList) {
