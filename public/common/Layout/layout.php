@@ -31,12 +31,14 @@ $img = "crown-vector.jpg";
             <?php
                 if (!isset($contents)) {
                     if (file_exists(getcwd(). '/design.php')) {
+                        // トップページ以外
                         $contentsPath = getcwd();
                     }else {
                         $contentsPath = dirname(getcwd());
                     }
                     require_once($contentsPath . '/design.php');
                 } elseif ($contents) {
+                    // トップページ
                     output($contents);
                 }
             ?>
