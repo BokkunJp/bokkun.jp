@@ -39,7 +39,7 @@ trait PrivateTrait
     {
         $dirArray = scandir($dirPath);
 
-        return searchData($select, $dirArray);
+        return $this->searchData($select, $dirArray);
     }
 
     /**

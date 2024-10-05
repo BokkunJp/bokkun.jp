@@ -69,28 +69,6 @@ set_error_handler(
 // });
 
 /**
- * sanitize
- *
- * ヌルバイト対策 (POST, GET)
- *
- * @param mixed  $arr
- *
- * @return mixed
- */
-function sanitize(mixed $arr = ''): mixed
-{
-    if (is_array($arr)) {
-        return array_map('sanitize', $arr);
-    }
-
-    if (!is_string($arr)) {
-        return $arr;
-    }
-
-    return str_replace("\0", "", $arr);     //ヌルバイトの除去
-}
-
-/**
  * createClient
  * 所定のディレクトリまでのディレクトリ群を走査し、パスを生成する。
  *
@@ -166,33 +144,6 @@ function filterInputFix($type, $variable_name, $filter = FILTER_DEFAULT, $option
         $ret = filter_var($_ENV[$variable_name], $filter, $options);
     } else {
         $ret = null;
-    }
-
-    return $ret;
-}
-
-/**
- * moldData
- *
- * データ調整。
- * (配列⇔特定のセパレータで区切られた文字列の相互変換)
- *
- * @param mixed $data
- * @param string $parameter
- *
- * @return mixed
- */
-function moldData(mixed $data, string $parameter = ','): mixed
-{
-    $ret = false;
-    if (is_null($data)) {
-        return false;
-    }
-
-    if (is_array($data)) {
-        $ret = implode($parameter, $data);
-    } elseif (is_string($data)) {
-        $ret = explode($parameter, $data);
     }
 
     return $ret;
@@ -350,7 +301,7 @@ function setVendor(): void
  * searchData
  *
  * in_arrayの代替処理。
- * (in_arrayは速度的に問題があるため、issetで対応する)
+ * (in_arrayは速度的に問題があるため、array_keysで対応する)
  *
  * @param  mixed $target
  * @param array $arrayData
@@ -359,16 +310,11 @@ function setVendor(): void
  */
 function searchData($target, array $arrayData): bool
 {
-    $filipData = array_flip($arrayData);
+    // 配列から
+    $keyData = array_keys($arrayData, $target);
 
-    $ret = false;
-
-    // 指定した名称のディレクトリが存在するかどうか
-    if (isset($filipData[$target])) {
-        $ret = true;
-    }
-
-    return $ret;
+    // 指定した名称の要素が存在するかどうか
+    return !empty($keyData);
 }
 
 /**
@@ -424,53 +370,4 @@ function calcImageSize(string $imageName, string|int $imageSizeViewValue): array
     $ret = array_merge(moldImageConfig($imageConfig), $ret);
 
     return $ret;
-}
-
-/**
- * emptyValidate
- *
- * @param mixed $validate 検証対象の変数
- * @param string|null $word 検証方法を指定するキーワード ('isset', 'empty', 'is_null', 'not')
- * @return boolean|null
- */
-function emptyValidate($validate, ?string $word = null): ?bool
-{
-    $v = null;
-
-    switch ($word) {
-        case 'isset':
-            $v = isset($validate);
-            break;
-        case 'empty':
-            $v = empty($validate);
-            break;
-        case 'is_null':
-            $v = is_null($validate);
-            break;
-        case 'not':
-            $v = !$validate;
-            break;
-        default:
-            break;
-    }
-
-    return $v;
-}
-
-/**
- * checkMemory
- *
- * メモリを可視化する
- *
- * @return void
- */
-function checkMemory(): void
-{
-    static $initialMemoryUse = null;
-
-    if ($initialMemoryUse === null) {
-        $initialMemoryUse = memory_get_usage();
-    }
-
-    output(number_format(memory_get_usage() - $initialMemoryUse), formatFlg:true);
 }

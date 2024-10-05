@@ -17,6 +17,8 @@ class DB
     protected $stmt;
     protected $query;
 
+    use CommonTrait;
+
     public function __construct($dbName = 'bokkun', $dbPass = null, $dbHost = 'localhost', $dbPort = 5432)
     {
         try {
@@ -68,7 +70,7 @@ class DB
             $this->stmt->beginTransaction();                             // トランザクション開始
 
             // カラム文字列からカラム配列を生成
-            $colArray = moldData($colString);
+            $colArray = $this->moldData($colString);
 
             // SQL文をプリペア
             $sth = $this->stmt->prepare($this->sql);
@@ -101,10 +103,10 @@ class DB
     {
 
         // カラム群からそれぞれのカラムのプレースホルダを生成し、それを文字列に成型
-        $placeholder = moldData($this->setSequence($cols));
+        $placeholder = $this->moldData($this->setSequence($cols));
 
         // カラムを文字列に成型
-        $cols = moldData($cols);
+        $cols = $this->moldData($cols);
 
         // 実行するSQL
         $this->sql  = "insert into {$this->tableName}({$cols}) values({$placeholder})";
@@ -117,10 +119,10 @@ class DB
     {
 
         // カラムからプレースホルダを生成
-        $placeholder = moldData($this->setSequence($cols));
+        $placeholder = $this->moldData($this->setSequence($cols));
 
         // カラムを成型
-        $cols = moldData($cols);
+        $cols = $this->moldData($cols);
 
         // 実行するSQL
         $this->sql  = "Update {$this->tableName} set {$cols}=:col, updatetime=NOW(), updateday=NOW() where id= :id";
@@ -144,10 +146,10 @@ class DB
     {
 
         // カラム群からそれぞれのカラムのプレースホルダを生成し、それを文字列に成型
-        $placeholder = moldData($this->setSequence($cols));
+        $placeholder = $this->moldData($this->setSequence($cols));
 
         // カラムを文字列に成型
-        $cols = moldData($cols);
+        $cols = $this->moldData($cols);
 
         // 実行するSQL
         $this->sql  = "select {$cols}=:col From {$this->tableName}";
@@ -212,10 +214,10 @@ class DB
     {
 
         // where句生成
-        $where = moldData($this->setSequence($cols, true));
+        $where = $this->moldData($this->setSequence($cols, true));
 
         // カラムを成型
-        $cols = moldData($cols);
+        $cols = $this->moldData($cols);
 
 
         // 実行するSQL
