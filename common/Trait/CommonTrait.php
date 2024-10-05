@@ -20,7 +20,7 @@ trait CommonTrait
     protected static function sanitize(mixed $arr): mixed
     {
         if (is_array($arr)) {
-            return array_map('sanitize', $arr);
+            return array_map([self::class, 'sanitize'], $arr);
         }
 
         if (!is_string($arr)) {
