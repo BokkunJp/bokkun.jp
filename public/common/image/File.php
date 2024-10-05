@@ -174,7 +174,7 @@ function choiceImage(array $params, array $data): array
  *
  * @param  mixed $read_flg
  *
- * @return void
+ * @return mixed
  */
 function readImage($ajaxFlg = false)
 {

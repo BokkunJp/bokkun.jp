@@ -6,44 +6,6 @@ $commonInitFunctionPath = $commonInitFunctionPath. DIRECTORY_SEPARATOR. 'InitFun
 require_once $commonInitFunctionPath;
 
 /**
- * createRandom
- *
- * 指定した長さ x2の乱数を生成
- *
- * @param  int $length
- * @param  string $type
- *
- * @return string
- */
-function createRandom(int $length, string $type = 'security'): string
-{
-    switch ($type) {
-        case 'security':
-            $bytes = bin2hex(openssl_random_pseudo_bytes($length));
-            break;
-        case 'sha1':
-            $bytes = sha1(createRandom($length, 'mt_rand'));
-            break;
-        case 'md5':
-            $bytes = md5(createRandom($length, 'mt_rand'));
-            break;
-        case 'uniq':
-            $bytes = uniqid(createRandom($length, 'mt_rand'));
-            break;
-        case 'mt_rand':
-            $bytes = (string)mt_rand(0, $length);
-            break;
-        case 'random_bytes':
-            $bytes = bin2hex(random_bytes($length));
-            break;
-        default:
-            $bytes = createRandom($length);
-            break;
-    }
-    return $bytes;
-}
-
-/**
  * findFileName
  *
  * ファイル形式かチェックする
