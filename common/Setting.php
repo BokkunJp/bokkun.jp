@@ -6,29 +6,19 @@ require_once 'Session.php';
 require_once 'Cookie.php';
 require_once 'Cache.php';
 
-$base = new Setting();
-
-$configPath = new \Path(__DIR__);
-$configPath->setPathEnd();
-$configPath->add('Config.php');
-require_once $configPath->get();
-$siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
-
-if (isset($_SERVER['HTTPS'])) {
-    $http = '//';
-} else {
-    $http = 'http://';
-}
-$domain = $_SERVER['SERVER_NAME'];
-$url = $http . $domain;
-
 // 定数などの定義
-$COMMON_DIR = __DIR__;
-$FUNCTION_DIR = $COMMON_DIR . '/Function';
+const COMMON_DIR = __DIR__;
+const FUNCTION_DIR = COMMON_DIR . '/Function';
+const TRAIT_DIR = COMMON_DIR. '/Trait';
+
+// traitの読み込み
+require_once TRAIT_DIR. '/CommonTrait.php';
 
 // 設定関係のクラス
 class Setting
 {
+    use \CommonTrait;
+
     protected string $css;
     protected string $csv;
     protected \Path|string $client;
@@ -82,7 +72,7 @@ class Setting
      */
     protected static function getServer($elm): mixed
     {
-        return sanitize(filterInputFix(INPUT_SERVER, $elm));
+        return self::sanitize(filterInputFix(INPUT_SERVER, $elm));
     }
 
     /**
@@ -152,7 +142,7 @@ class Setting
      */
     public static function getPosts(): mixed
     {
-        return sanitize(filter_input_array(INPUT_POST));
+        return self::sanitize(filter_input_array(INPUT_POST));
     }
 
 
@@ -171,7 +161,7 @@ class Setting
     // 指定した要素のPost値を取得
     public static function getPost($elm = '', $filter = FILTER_DEFAULT, $options = null)
     {
-        return sanitize(filterInputFix(INPUT_POST, $elm, $filter, $options));
+        return self::sanitize(filterInputFix(INPUT_POST, $elm, $filter, $options));
     }
 
     /**
@@ -193,7 +183,7 @@ class Setting
      */
     public static function getRequest()
     {
-        return sanitize(filter_input_array(INPUT_GET));
+        return self::sanitize(filter_input_array(INPUT_GET));
     }
 
     /**
@@ -209,7 +199,7 @@ class Setting
      */
     public static function getQuery($elm = '', $filter = FILTER_DEFAULT, $options = null)
     {
-        return sanitize(filterInputFix(INPUT_GET, $elm, $filter, $options));
+        return self::sanitize(filterInputFix(INPUT_GET, $elm, $filter, $options));
     }
 
     /**
@@ -297,3 +287,19 @@ class Setting
         return rtrim($urlPath->get());
     }
 }
+
+$base = new Setting();
+
+$configPath = new \Path(__DIR__);
+$configPath->setPathEnd();
+$configPath->add('Config.php');
+require_once $configPath->get();
+$siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
+
+if (isset($_SERVER['HTTPS'])) {
+    $http = '//';
+} else {
+    $http = 'http://';
+}
+$domain = $_SERVER['SERVER_NAME'];
+$url = $http . $domain;

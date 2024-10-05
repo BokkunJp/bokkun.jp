@@ -9,6 +9,8 @@ class productCSV_Base
     private $data;
     private $tmp;
 
+    use CommonTrait;
+
     protected function makeData()
     {
         $this->data = [];

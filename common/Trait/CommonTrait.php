@@ -17,7 +17,7 @@ trait CommonTrait
      *
      * @return mixed
      */
-    protected function sanitize(mixed $arr): mixed
+    protected static function sanitize(mixed $arr): mixed
     {
         if (is_array($arr)) {
             return array_map('sanitize', $arr);
@@ -42,36 +42,7 @@ trait CommonTrait
      */
     public function createClient($target, $src = ''): string
     {
-        if (empty($src)) {
-            $srcPath = getcwd();
-        } else {
-            $srcPath = $src;
-        }
-
-        $clientPath = "";
-        $clientAry = [];
-
-        if ($srcPath !== dirname($srcPath)) {
-            while (1) {
-                $clientAry[] = basename($srcPath);
-                $srcPath = dirname($srcPath);
-                if (strcmp(basename($srcPath), $target)) {
-                    break;
-                }
-            }
-        } else {
-            $clientAry[] = $target;
-        }
-
-        $clientAry = array_reverse($clientAry);
-
-        foreach ($clientAry as $_client) {
-            $client = new Path($clientPath);
-            $client->add($_client);
-            $clientPath = $client->get();
-        }
-
-        return $clientPath;
+        return createClient($target, $src);
     }
 
     /**
@@ -161,92 +132,7 @@ trait CommonTrait
         bool $dumpFlg = false,
         array $debug = []
     ): int {
-        if ($formatFlg === true) {
-            print_r("<pre>");
-            if ($dumpFlg === true) {
-                var_dump($expression);
-            } else {
-                print_r($expression);
-            }
-            print_r("</pre>");
-        } else {
-            print_r($expression);
-            if ($indentFlg === true) {
-                print_r(nl2br("\n"));
-            }
-        }
-
-        if (!empty($debug)) {
-            $debugMessage = DEBUG_MESSAGE_SOURCE;
-            $debugTrace = debug_backtrace();
-            $debugValidate = $this->debugValidate($debug, $debugTrace);
-            if (!empty($debugValidate)) {
-                $errScript = new Public\Important\ScriptClass();
-                foreach ($debugValidate as $_DEBUG_KEY) {
-                    if ($debugMessage[$_DEBUG_KEY]) {
-                        $errScript->alert($debugMessage[$_DEBUG_KEY]);
-                    }
-                }
-                return -1;
-            }
-
-            $layer = $debug['layer'] - 1;
-
-            if (isset($debug['mode'])) {
-                switch ($debug['mode']) {
-                    case 'source':
-                        echo "<pre>source: " . $debugTrace[$layer]['file'] . "</pre>";
-                        break;
-                    case 'line':
-                        echo "<pre>line: " . $debugTrace[$layer]['line'] . "</pre>";
-                        break;
-                    case 'function':
-                        echo "<pre>function: " . $debugTrace[$layer]['function'] . "</pre>";
-                        break;
-                    default:
-                        echo "<pre>source: " . $debugTrace[$layer]['file'] . "</pre>";
-                        echo "<pre>line: " . $debugTrace[$layer]['line'] . "</pre>";
-                        echo "<pre>function: " . $debugTrace[$layer]['function'] . "</pre>";
-                        break;
-                }
-            }
-        }
-
-        return self::FINISH;
-    }
-
-    /**
-     * DebugValitate
-     *
-     * デバッグ出力時のバリデーション。
-     *
-     * @param array $debug
-     * @param array $debugTrace
-     *
-     * @return array
-     */
-    private function debugValidate(array $debug, array $debugTrace): array
-    {
-        $validate = [];
-
-        if (!isset($debug['layer']) || !isset($debug['mode'])) {
-            $validate[] = "ERR_DEBUG_COND";
-            return $validate;
-        }
-
-        if (!is_string($debug['mode'])) {
-            $validate[] = "SETTING_DEBUG_TRACE";
-        }
-
-        if ($debug['layer'] - 1 < 0) {
-            $validate[] = "ERR_DEBUG_FEW_TRACE_LAYER";
-        }
-
-        if ($debug['layer'] - 1 > count($debugTrace)) {
-            $validate[] = "ERR_DEBUG_TOO_TRACE_LAYER";
-        }
-
-        return $validate;
+        return output($expression, $formatFlg, $indentFlg, $dumpFlg, $debug);
     }
 
     /**
@@ -299,7 +185,7 @@ trait CommonTrait
      */
     function debug(mixed $expression): void
     {
-        output($expression, true, true, true);
+        debug($expression);
     }
 
     /**
@@ -340,16 +226,7 @@ trait CommonTrait
      */
     public function searchData($target, array $arrayData): bool
     {
-        $filipData = array_flip($arrayData);
-
-        $ret = false;
-
-        // 指定した名称のディレクトリが存在するかどうか
-        if (isset($filipData[$target])) {
-            $ret = true;
-        }
-
-        return $ret;
+        return searchData($target, $arrayData);
     }
 
     /**
@@ -363,16 +240,7 @@ trait CommonTrait
      */
     public function moldImageConfig(array $imageConfig): array
     {
-        $ret = [];
-            $params = ['width', 'height', 'type', 'html'];
-
-        foreach ($imageConfig as $_key => $_imageConfig) {
-            if (isset($params[$_key])) {
-                $ret[$params[$_key]] = $_imageConfig;
-            }
-        }
-
-        return $ret;
+        return moldImageConfig($imageConfig);
     }
 
     /**
@@ -387,26 +255,7 @@ trait CommonTrait
     */
     public function calcImageSize(string $imageName, string|int $imageSizeViewValue): array|false
     {
-        // 画像が存在しない場合はfalseを返す
-        if (!file_exists($imageName) || !exif_imagetype($imageName)) {
-            return false;
-        }
-        $imageConfig = getimagesize($imageName);
-        $imageSize = filesize($imageName);
-        $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
-        $imageSizeUnit = '';
-        foreach ($imageSizeUnitArray as $_imageSizeUnit) {
-            if ($imageSize >= IMAGE_MAX_VALUE) {
-                $imageSize = bcdiv($imageSize, IMAGE_MAX_VALUE, $imageSizeViewValue);
-                $imageSizeUnit = $_imageSizeUnit;
-            } else {
-                break;
-            }
-        }
-        $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
-        $ret = array_merge(moldImageConfig($imageConfig), $ret);
-
-        return $ret;
+        return calcImageSize($imageName, $imageSizeViewValue);
     }
 
     /**
@@ -443,7 +292,7 @@ trait CommonTrait
     /**
      * checkMemory
      *
-     * メモリを可視化する
+     * chckMemory関数を呼び出してから次に同じ関数を呼び出したタイミングまでの、メモリの差分を出力する
      *
      * @return void
      */

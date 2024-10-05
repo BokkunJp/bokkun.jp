@@ -8,6 +8,9 @@ class myPg
     private $dbUser;
     private $pg_dsn;
     private $pg_con;
+
+    use CommonTrait;
+
     public function __construct($dbName='bokkun', $dbPass = null, $tableName=null, $dbHost = 'localhost', $dbPort=5432)
     {
         try {
@@ -51,7 +54,7 @@ class myPg
             }
 
             // カラムからプレースホルダを生成
-            $placeholder = moldData($col);
+            $placeholder = $this->moldData($col);
 
 
             $this->sql = $sql;
@@ -74,10 +77,10 @@ class myPg
     public function insert($cols, $vals)
     {
         // カラムからプレースホルダを生成
-        $placeholder = moldData($this->setSequence($cols));
+        $placeholder = $this->moldData($this->setSequence($cols));
 
         // カラムを成型
-        $cols = moldData($cols);
+        $cols = $this->moldData($cols);
 
         $sql  = "insert into {$this->tableName}({$cols}) values({$placeholder})";
 

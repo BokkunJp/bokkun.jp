@@ -58,10 +58,10 @@ function main($inputFlg=false)
             return false;
         }
 
-        $header = moldData($header);
+        $header = $csv->moldData($header);
         $body = "";
         foreach ($row as $_r) {
-            $body .= moldData($_r). nl2br("\n");
+            $body .= $csv->moldData($_r). nl2br("\n");
         }
         $session = new Public\Important\Session();
         $session->writeArray('csv', 'header', $header);
