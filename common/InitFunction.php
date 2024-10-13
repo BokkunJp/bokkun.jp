@@ -33,7 +33,12 @@ set_error_handler(
         $error_file,
         $error_line
     ) {
-        if (error_reporting() === 0) {
+        global $noError;
+
+        if (!isset($noError)) {
+            $debugMode = false;
+        }
+        if (error_reporting() === 0 || $debugMode) {
             return;
         }
         throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
