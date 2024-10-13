@@ -27,7 +27,7 @@ class Security {
      *
      * @param string|null $input
      */
-    function __construct(?string $input = '')
+    function __construct(?string $input)
     {
         // 入出力設定
         // $this->setProperty('data');
@@ -65,6 +65,17 @@ class Security {
     }
 
     /**
+     * 入力値を更新する
+     * 
+     * @param string $input 入力値
+     * @return void
+     */
+    public function reGenarate(string $input)
+    {
+        $this->set($input);
+    }
+
+    /**
      * resetOneTimeKey
      * 
      * キーをセットしなおす。
@@ -97,14 +108,12 @@ class Security {
      * 
      * 暗号化
      *
-     * @param string|null $input
+     * @param bool rowFlg
      * 
      * @return string|false
      */
-    public function encrypt(string $input = "", bool $rowFlg = false): string|false
+    public function encrypt(bool $rowFlg = false): string|false
     {
-        $this->set($input);
-
         if ($rowFlg) {
             $options = OPENSSL_RAW_DATA;
         } else {
@@ -113,11 +122,11 @@ class Security {
 
         $this->set(
             openssl_encrypt(
-            $this->get(),
-            $this->algorithm,
-            $this->key,
-            $options, 
-            $this->iv
+                $this->get(),
+                $this->algorithm,
+                $this->key,
+                $options, 
+                $this->iv
             )
         );
 
