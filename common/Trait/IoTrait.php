@@ -47,7 +47,7 @@ trait IoTrait {
         $this->data = $input;
 
         // 自動更新かつプロパティが正しくセットされている場合は、元のデータも一緒に更新
-        $this->save();
+        $this->saveIo();
     }
 
     /**
@@ -69,7 +69,7 @@ trait IoTrait {
      *
      * @return void
      */
-    protected function save(): void
+    protected function saveIo(): void
     {
         if (
             $this->autoSaveFlg
