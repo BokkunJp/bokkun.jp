@@ -11,7 +11,7 @@ class Session
 {
     use \SessionTrait;
 
-    private ?array $session;
+    private array $session;
     private ?string $sessionName, $type = null;
 
     /**
@@ -111,7 +111,7 @@ class Session
      * @param string|null $elm
      * @return mixed
      */
-    private function load(?string $elm = null): mixed
+    private function load(?string $elm = null): array
     {
         $ret = null;
         $type = $this->getType();
@@ -126,6 +126,11 @@ class Session
             $ret = $session[$elm];
         } elseif (is_null($elm)) {
             $ret = $session;
+        }
+
+        // 配列以外の不正なデータが入った場合はnullに
+        if (!is_array($ret)) {
+            $ret = [];
         }
 
         return $ret;
