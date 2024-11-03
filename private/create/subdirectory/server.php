@@ -82,7 +82,7 @@ switch ($ua->judgeDevice()) {
         break;
 }
 
-$session =  new Private\Important\Session();
+$session =  new Private\Important\Session('create-page');
 $adminError = new AdminError();
 $use = new Private\Important\UseClass();
 
@@ -97,7 +97,7 @@ $createToken = new Private\Important\Token('create-token', $session);
 if ($createToken->check() === false) {
     $session->write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $setting = new Private\Important\Setting();
-    $backUrl = createClient('private', dirname(__DIR__));
+    $backUrl = createClient('private', dirname(__dir__));
     $backUrl = ltrim($backUrl, DS);
     header('Location:' . $setting->getUrl('root', $backUrl));
     exit;
@@ -105,18 +105,18 @@ if ($createToken->check() === false) {
 
 $post = Private\Important\Setting::getPosts();
 $judge = array();
-foreach ($post as $post_key => $post_value) {
-    $$post_key = $post_value;
-    $judge[$$post_key] = $post_value;
+
+if (!is_null($post)) {
+    foreach ($post as $post_key => $post_value) {
+        $$post_key = $post_value;
+        $judge[$$post_key] = $post_value;
+    }
 }
 
 // 内容をセッションに保存し、不要なデータを破棄
-if (!$session->judgeArray('admin', 'addition')) {
-    $session->writeArray('admin', 'addition', $post);
+if (!$session->judge('addition')) {
+    $session->write('addition', $post);
 }
-unset($session);
-unset($post);
-
 
 if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
     $adminError->alertError('未記入の項目があります。');

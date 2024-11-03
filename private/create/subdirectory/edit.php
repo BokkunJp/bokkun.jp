@@ -61,7 +61,7 @@ foreach ($privatepathList->get() as $path) {
     require_once $path;
 }
 
-$session =  new \Private\Important\Session();
+$session =  new \Private\Important\Session('create-page');
 $adminError = new AdminError();
 $use = new \Private\Important\UseClass();
 
@@ -69,9 +69,8 @@ $use = new \Private\Important\UseClass();
 $editToken = new \Private\Important\Token("edit-token", $session);
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
-if ($editToken->check() === false) {
-    $sessClass =  new Private\Important\Session();
-    $sessClass->write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
+if ($editToken->check() === false) {;
+    $session->write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
     $url = new Private\Important\Setting();
     $backUrl = createClient('private', dirname(__DIR__));
     $backUrl = ltrim($backUrl, DS);
@@ -90,8 +89,8 @@ foreach ($post as $post_key => $post_value) {
 }
 
 // 内容をセッションに保存し、不要なデータを破棄
-if (!$session->judgeArray('admin', 'addition')) {
-    $session->writeArray('admin', 'addition', $post);
+if (!$session->judge('addition')) {
+    $session->write('addition', $post);
 }
 unset($session);
 unset($post);

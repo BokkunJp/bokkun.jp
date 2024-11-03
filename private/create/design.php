@@ -8,17 +8,17 @@
 use \Smarty\Smarty;
 
 $smarty = new Smarty();
+$session = new \Private\Important\Session('create-page');
 
 $smarty->setTemplateDir('./subdirectory/smarty/templates/');
 $smarty->setCompileDir('./subdirectory/smarty/templates_c/');
 $smarty->setCacheDir('./subdirectory/smarty/cache/');
 $smarty->setCacheDir('./subdirectory/smarty/cache/');
-
-if ($session->judgeArray('admin', 'addition')) {
-    $smarty->assign('admin_addition', $session->readArray('admin', 'addition'));
-    $session->deleteArray('admin', 'addition');
+if ($session->judge('addition')) {
+    $smarty->assign('addition', [$session->read('addition'), $session->read('addition')]);
+    $session->delete('addition');
 } else {
-    $smarty->assign('admin_addition', '');
+    $smarty->assign('addition', '');
 }
 
 $dir = scandir('../../');
@@ -36,7 +36,6 @@ $createToken->set();
 
 $editToken= new Private\Important\Token('edit-token', $session);
 $editToken->set();
-
 $smarty->assign('base', 'subdirectory');
 $smarty->assign('createToken', $createToken);
 $smarty->assign('editToken', $editToken);

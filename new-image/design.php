@@ -2,7 +2,7 @@
 <?php
 // セッション開始
 if (!isset($session)) {
-    $session = new Public\Important\Token();
+    $session = new Public\Important\Session('image');
 }
 
 // ページ数取得
