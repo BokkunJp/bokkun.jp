@@ -61,7 +61,7 @@ class Cache {
         $session->writeArray('cache', $this->id, $this->cache);
     }
 
-    public function load($session): mixed
+    public function load($session): void
     {
         $tmp = $session->read('cache');
 
