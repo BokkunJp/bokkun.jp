@@ -68,8 +68,7 @@ class Token {
             || is_null($this->tokenPost)
             || $this->tokenPost === false
             || $this->session->read($this->tokenName) === false
-            || !hash_equals($this->session->read($this->tokenName), $this->tokenPost
-        )
+            || !hash_equals($this->session->read($this->tokenName), $this->tokenPost)
         ) {
             return false;
         }
