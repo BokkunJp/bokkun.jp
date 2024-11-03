@@ -5,22 +5,17 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'r
 
 use Private\Important\UseClass;
 
-if (empty($session)) {
-    $session = new Private\Important\Session();
-}
+$session = new Private\Important\Session('login');
 
-if (!$session->judge('admin')) {
-    $session->write('admin', []);
-}
-if (!isset($adminURL) || empty($adminURL) && $session->read('admin')['send'] !== true) {
+if (!isset($adminUrl) || empty($adminUrl) && $session->read('send') !== true) {
     $commonPath = new Path(PRIVATE_DIR);
     $commonPath->setPathEnd();
     $commonPath->add('common.php');
     require_once $commonPath->get();
-    $adminURL = explode('/', Private\Important\Setting::getURI());
-    $session->writeArray('admin', 'adminURL', $adminURL);
+    $adminUrl = explode('/', Private\Important\Setting::getUri());
+    $session->write('url', $adminUrl);
 } else {
-    $adminURL = $session->read('admin')['adminURL'];
+    $adminUrl = $session->read('url');
 }
 
 // ログイン成功時には自動遷移させる
@@ -44,27 +39,27 @@ if (!$tokenError && !empty($post) && !empty($post['id']) && !empty($post['pass']
 }
 
 // アクセスしてきたページを保存
-$adminSession = $session->read("admin");
-$moveURL = $adminSession['adminURL'];
+$movePage = $session->read("url");
 
-if ($moveURL[2] === 'secure' || $moveURL[2] === 'logout' || $moveURL[2] === 'logout-with-session-reset') {
-    unset($moveURL[2]);
+if (is_array($movePage)) {
+    if ($movePage[2] === 'secure' || $movePage[2] === 'logout' || $movePage[2] === 'logout-with-session-reset') {
+        unset($movePage[2]);
+    }
+    
+    $movePage = implode('/', $movePage);
+} else {
+    $movePage = '';
 }
+$urlData = $url . $movePage;
 
-$movePage = implode('/', $moveURL);
-
-$session->writeArray('admin', 'movePage', $url . $movePage);
-
-if (!isset($adminSession['movePage'])) {
-    $adminSession['movePage'] = $session->read('admin')['movePage'];
-}
+$session->write('url', $urlData);
 
 if ((!($adminAuth))) {
     // 入力値チェック
     if ($tokenError === false && !empty($post)) {
         $session->write('password-Error', '<p>IDまたはパスワードが違います。</p>');
         // ログイン警告メール (ログイン失敗時)
-        alertAdmin('login', $adminSession['movePage']);
+        alertAdmin('login', $session->read('movePage'));
     }
 } else {
     // ログイン警告メール (ログイン成功時)
@@ -74,21 +69,15 @@ if ((!($adminAuth))) {
     print_r("<script src='//code.jquery.com/jquery-3.7.1.min.js'></script>
     <script src='{$url}/private/client/js/secure.js'></script>");
 
-    if (!$session->judge('old_id')) {
-        $session->write('old_id', $session->read('id'));
-    }
-
     // セッション書き込み
-    $session->writeArray('admin', 'secure', true);
-    $session->write('old_id', $session->read('id'));
-    $session->write('id', str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'));
+    $session->write('secure', true);
 
     // 直接遷移
     if ($mode === 'movePage') {
         // ページ遷移
         $script = new UseClass();
         $script->alert("認証に成功しました。自動で遷移します。");
-        $script->movePage($adminSession['movePage']);
+        $script->movePage($urlData);
 
     // リンクから遷移
     } else {

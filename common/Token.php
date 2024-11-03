@@ -15,7 +15,7 @@ class Token {
 
     private string $tokenName, $tokenValue, $tokenPost;
     private bool $checkSetting, $tokenFlg;
-    private ?\Common\Important\Session $session;
+    private $session;
     private ?array $posts;
 
     use \CommonTrait;
@@ -24,10 +24,10 @@ class Token {
      * Token関連のセッション操作を行う
      *
      * @param string $tokenName               トークン名
-     * @param \common\Important\Session $session        操作対象のセッション
+     * @param $session        操作対象のセッション
      * @param boolean $checkSetting           トークンを設置するかどうか
      */
-    function __construct(string $tokenName, \Common\Important\Session $session, bool $checkSetting = false)
+    function __construct(string $tokenName, $session, bool $checkSetting = false)
     {
         $this->tokenName = $tokenName;
         $this->session = $session;
@@ -67,8 +67,9 @@ class Token {
         if (!isset($this->tokenPost)
             || is_null($this->tokenPost)
             || $this->tokenPost === false
-            || is_null($this->session->read($this->tokenName))
-            || !hash_equals($this->session->read($this->tokenName), $this->tokenPost)
+            || $this->session->read($this->tokenName) === false
+            || !hash_equals($this->session->read($this->tokenName), $this->tokenPost
+        )
         ) {
             return false;
         }
