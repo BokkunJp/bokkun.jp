@@ -1,7 +1,7 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
 // セッション開始
-$session = new Private\Important\Session();
+$session = new Private\Important\Session('private-image');
 
 // ページ数取得
 $page = Private\Important\Setting::getQuery('page');

@@ -6,18 +6,10 @@ $mailPath->add('Mail.php');
 require_once $mailPath->get();
 
 $session = new Private\Important\Session();
+$loginSession = new Private\Important\Session('login');
 $post = Private\Important\Setting::getPosts();
-$secure = null;
 
-if (isset($session->read('admin')['secure'])) {
-    $secure = $session->read('admin')['secure'];
-}
-if (isset($session->read('admin')['page'])) {
-    $secure = $session->read('admin')['page'];
-}
-
-// $secure = false;
-if ($secure !== true) {
+if (!$session->readArray('login', 'secure')) {
     require_once __DIR__. '/secure/index.php';
 }
 

@@ -6,25 +6,43 @@ $sessionTraitPath = new \Path(__DIR__);
 $sessionTraitPath->addArray(['Trait', 'SessionTrait.php']);
 require_once $sessionTraitPath->get();
 
-// セッションクラス (新)
+// セッションクラス
 class Session
 {
     use \SessionTrait;
 
-    private $init;
-    private $session;
+    private ?array $session;
+    private ?string $sessionName, $type = null;
 
-    public function __construct()
+    /**
+     * construct
+     * 
+     * セッション名が指定されている場合はそのセッションを取得、指定されていない場合は全体のセッションを取得
+     *
+     * @param string|null $sessionName
+     */
+    public function __construct(?string $sessionName = null)
     {
-        $this->read();
-        $this->init = $this->session;
+        if (!is_null($sessionName)) {
+            $this->sessionName = $sessionName;
+            $this->read($this->sessionName);
+        } else {
+            $this->read();
+        }
     }
 
-    protected function start()
+    /**
+     * start
+     * 
+     * セッション開始
+     *
+     * @return void
+     */
+    protected function start(): void
     {
         if (!isset($_SESSION) || session_status() === PHP_SESSION_DISABLED) {
             if (PHP_OS === 'WINNT') {
-                $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/";
+                $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'), 2). "/var/";
                 if (!is_dir($sessionDir)) {
                     mkdir($sessionDir, 0755);
                     $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
@@ -42,6 +60,102 @@ class Session
     }
 
     /**
+     * setType
+     * 
+     * タイプをセット
+     *
+     * @param string $type
+     * 
+     * @return void
+     */
+    protected function setType(string $type): void
+    {
+        if ($type === 'private' || $type === 'public') {
+            $this->type = $type;
+        }
+    }
+
+    /**
+     * getType
+     * 
+     * タイプを取得
+     *
+     * @return ?string
+     */
+    protected function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * setSessionName
+     * 
+     * セッション名をセット
+     *
+     * @param string|null $sessionName
+     * @param string|null $type
+     * 
+     * @return void
+     */
+    protected function setSessionName(?string $sessionName): void
+    {
+
+        $this->sessionName = $sessionName;
+    }
+
+    /**
+     * load
+     * 
+     * 既存のセッションを取得する
+     *
+     * @param string|null $elm
+     * @return mixed
+     */
+    private function load(?string $elm = null): mixed
+    {
+        $ret = null;
+        $type = $this->getType();
+
+        if ($type && isset($_SESSION[$type])) {
+            $session = $_SESSION[$type];
+        } else {
+            $session = $_SESSION;
+        }
+
+        if ($elm && isset($session[$elm])) {
+            $ret = $session[$elm];
+        } elseif (is_null($elm)) {
+            $ret = $session;
+        }
+
+        return $ret;
+    }
+
+    /**
+     * save
+     * 
+     * セッションの保存
+     *
+     * @return void
+     */
+    private function save(): void
+    {
+        $type = $this->getType();
+
+        if ($type) {
+            // タイプごとのセッション管理
+            if ($this->sessionName) {
+                $_SESSION[$type][$this->sessionName] = $this->session;
+            } else {
+                $_SESSION[$type] = array_merge($_SESSION[$type] ?? [], $this->session);
+            }
+        } else {
+            // タイプがない場合、全体のセッションにマージ
+            $_SESSION = array_merge($_SESSION, $this->session);
+        }
+    }
+
+    /**
      * add
      *
      * セッションの追加
@@ -53,7 +167,6 @@ class Session
     private function add(string|int $sessionElm, mixed $sessionVal): void
     {
         $this->session[$sessionElm] = $sessionVal;
-        $_SESSION[$sessionElm] = $this->session[$sessionElm];
     }
 
     /**
@@ -67,10 +180,12 @@ class Session
      */
     public function write(string|int $tag, mixed $message, ?string $handle = null): void
     {
-        if (!empty($handle)) {
+        if (!empty($handle) && method_exists($this, $handle)) {
             $this->$handle();
         }
         $this->add($tag, $message);
+
+        $this->save();
     }
 
     /**
@@ -86,22 +201,29 @@ class Session
      */
     public function writeArray(string|int $parentId, string|int $childId, mixed $data): void
     {
-        $ret = null;
+        $writeProcess = fn($childData) => $childData ?? [$childId => $data];;
 
-        $writeProccess = function ($childData) {
-            if ($childData) {
-                return $childData;
+        $childSessionData = $this->commonProcessArray($parentId, $childId, $writeProcess);
+
+        // 親データの構造を準備
+        $parentResultData = [$parentId => [$childId => $data]];
+
+        $type = $this->getType();
+        if (!is_null($type)) {
+            // タイプがある場合、既存のセッションデータを取得
+            $existingData = $this->load($type) ?? [];
+
+            // 既存の親データと比較し、異なる場合のみ更新
+            if (($existingData[$parentId] ?? []) !== [$childId => $childSessionData]) {
+                $_SESSION[$type] = array_merge($existingData, $parentResultData);
             }
-        };
-
-        $ret = $this->commonProcessArray($parentId, $childId, $writeProccess);
-
-        if (empty($ret)) {
-            $ret = [];
+        } else {
+            // タイプがない場合、トップレベルのセッションに保存
+            $existingData = $this->load($parentId) ?? [];
+            if ($existingData !== [$childId => $childSessionData]) {
+                $this->write($parentId, [$childId => $data]);
+            }
         }
-
-        $ret[$childId] = $data;
-        $this->write($parentId, $ret);
     }
 
     /**
@@ -115,20 +237,33 @@ class Session
      */
     public function read(string|int $sessionElm = null): mixed
     {
+        // セッション開始していない場合はセッション開始
         if (!isset($_SESSION)) {
             $this->start();
         }
 
-        $this->session = $_SESSION;
+        // 要素名が指定されている場合は要素名のデータを取得
+        $returnData = null;
+
+        if (isset($this->sessionName)) {
+            $this->session = $this->load($this->sessionName);
+        } else {
+            $this->session = $this->load();
+        }
 
         if (isset($sessionElm)) {
-            if (!isset($this->session[$sessionElm])) {
-                return null;
+            if (isset($this->session[$sessionElm])) {
+                $returnData = $this->session[$sessionElm];
             }
-            return $this->session[$sessionElm];
         } else {
-            return $this->session;
+            $returnData = $this->session;
         }
+
+        if (empty($returnData)) {
+            $returnData = false;
+        }
+
+        return $returnData;
     }
 
     /**
@@ -146,36 +281,42 @@ class Session
             user_error('Session is already deleted.');
             exit;
         }
-        if (isset($sessionElm)) {
+
+        $type = $this->getType();
+
+        if (!is_null($type)) {
+            if ($this->sessionName) {
+                unset($_SESSION[$type][$this->sessionName][$sessionElm]);
+            } else {
+                unset($_SESSION[$type][$sessionElm]);
+            }
             unset($this->session[$sessionElm]);
-            $_SESSION = $this->session;
-        } else {
+        } elseif (is_null($sessionElm)) {
+            unset($_SESSION[$type]);
             unset($this->session);
-            $this->session = $this->init;
         }
     }
 
     /**
      * judge
      *
-     * セッション判定用
+     * セッション内のデータの有無を判定
      *
-     * @param string|int $id
+     * @param string|int $id 判定対象のセッションID
      *
-     * @return mixed
+     * @return bool
      */
-    public function judge(string|int $id = null): mixed
+    public function judge(string|int $id): bool
     {
-        $ret = true;
-        if (!isset($id)) {
-            $ret = null;
+        // セッションをセット
+        if (isset($this->sessionName) || !is_null($this->sessionName)) {
+            $nowSession = $this->load($this->sessionName);
+        } else {
+            $nowSession = $this->session;
         }
 
-        if (!isset($this->session[$id])) {
-            $ret = false;
-        }
-
-        return $ret;
+        // セッションデータの判定
+        return isset($nowSession[$id]);
     }
 
     /**
@@ -187,10 +328,10 @@ class Session
      *
      * @return void
      */
-    public function view(mixed $id = null)
+    public function view(mixed $id = null): void
     {
         $judge = $this->judge($id);
-        if ($judge === null) {
+        if ($judge === null || !is_array($this->session)) {
             var_dump($this->session);
         } elseif ($judge === true) {
             print_r($this->session[$id]);
@@ -205,7 +346,7 @@ class Session
      * @param string|int $tag
      * @return void
      */
-    public function onlyView(string|int $tag)
+    public function onlyView(string|int $tag): void
     {
         if ($this->judge($tag) === true) {
             $this->view($tag);
@@ -220,7 +361,7 @@ class Session
      *
      * @return void
      */
-    public function finaryDestroy()
+    public function finaryDestroy(): void
     {
 
         // Note: セッション情報だけでなくセッションを破壊する。

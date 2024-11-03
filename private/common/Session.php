@@ -7,10 +7,14 @@ class Session extends \Common\Important\Session
 {
     use \SessionTrait;
 
-    public function __construct()
+    public function __construct(?string $sessionName = null)
     {
         $this->start();
-        parent::__construct();
+
+        $this->setType('private');
+        $this->setSessionName($sessionName);
+
+        parent::__construct($sessionName);
     }
 
     /**
@@ -54,7 +58,11 @@ class Session extends \Common\Important\Session
         $ret = null;
 
         $readProccess = function ($childElm) use ($childId) {
-            return $childElm[$childId];
+            $returnData = false;
+            if (isset($childElm[$childId])) {
+                $returnData = $childElm[$childId];
+            }
+            return $returnData;
         };
 
         $ret = $this->commonProcessArray($parentId, $childId, $readProccess);
@@ -82,5 +90,26 @@ class Session extends \Common\Important\Session
         $ret = $this->commonProcessArray($parentId, $childId, $deleteProccess);
 
         return $ret;
+    }
+
+    /**
+     * switchChild
+     * 
+     * 子要素のデータを取得
+     *
+     * @param string $childName
+     * @return void
+     */
+    public function switchChild(string $childName)
+    {
+        $childData = $this->read($childName);
+
+        if (!$childData) {
+            return false;
+        }
+
+        $this->delete();
+        $this->write($childName, $childData);
+        $this->setSessionName($childName);
     }
 }

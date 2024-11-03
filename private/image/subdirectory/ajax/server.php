@@ -15,7 +15,7 @@ includeFilesForImage(dirname(__DIR__). '/');
 $post = Private\Important\Setting::getPosts();
 
 // セッションセット
-$session = new Private\Important\Session();
+$session = new Private\Important\Session('private-image');
 
 // tokenチェック
 $selectToken = new Private\Important\Token('select-token', $session, true);
