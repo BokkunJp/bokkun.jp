@@ -45,14 +45,15 @@ class Setting
     }
 
     /**
-     * initSSL
+     * initSsl
      *
      * HTTPSの有無を判定してセットする。
      *
-     * @param [type] $http
+     * @param ?string &$scheme
+     * 
      * @return void
      */
-    private function initSsl(&$scheme)
+    private function initSsl(?string &$scheme)
     {
         $sslFlg = $this->getServer('HTTPS');
         if (isset($sslFlg)) {
@@ -100,14 +101,15 @@ class Setting
     }
 
     /**
-     * getPropaty
+     * getPropety
      *
      * プロパティ名を取得する。
      *
-     * @param [type] $elm
+     * @param string $elm
+     * 
      * @return mixed|null
      */
-    public static function getPropaty($elm): ?string
+    public static function getPropety(string $elm): ?string
     {
         if (property_exists('Public\Important\Setting', $elm) !== false) {
             return $elm;
@@ -145,6 +147,17 @@ class Setting
         return self::sanitize(filter_input_array(INPUT_POST));
     }
 
+    /**
+     * getRequestMethod
+     *
+     * リクエストメソッドを取得。
+     *
+     * @return mixed
+     */
+    public static function getRequestMethod(): mixed
+    {
+        return self::getServer('REQUEST_METHOD');
+    }
 
     /**
      * getPostArray
@@ -192,12 +205,12 @@ class Setting
      * 指定した要素のGet値を取得
      *
      * @param string $elm
-     * @param [type] $filter
-     * @param [type] $options
+     * @param int $filter
+     * @param mixed $options
      *
      * @return mixed
      */
-    public static function getQuery($elm = '', $filter = FILTER_DEFAULT, $options = null)
+    public static function getQuery(string $elm, $filter = FILTER_DEFAULT, $options = null)
     {
         return self::sanitize(filterInputFix(INPUT_GET, $elm, $filter, $options));
     }
@@ -207,7 +220,7 @@ class Setting
      *
      * 配列形式のGet値を取得
      *
-     * @param [type] $var
+     * @param string $var
      *
      * @return array
      */
@@ -235,7 +248,7 @@ class Setting
      *
      * @param string $query
      * @param string $type
-     * @param boolean $relativePath
+     * @param bool $relativePath
      *
      * @return string
      */
@@ -301,5 +314,7 @@ if (isset($_SERVER['HTTPS'])) {
 } else {
     $http = 'http://';
 }
-$domain = $_SERVER['SERVER_NAME'];
+
+$domain = $base->getServerName();
+var_dump($domain);
 $url = $http . $domain;
