@@ -115,6 +115,7 @@ function createClient(string $target, string $src = '', string $separator = '/')
 
     return $clientPath->get();
 }
+
 /**
  * filterInputFix
  * $_SERVER, $_ENVのための、filter_input代替処理。
