@@ -316,5 +316,4 @@ if (isset($_SERVER['HTTPS'])) {
 }
 
 $domain = $base->getServerName();
-var_dump($domain);
 $url = $http . $domain;
