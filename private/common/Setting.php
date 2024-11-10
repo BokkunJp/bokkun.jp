@@ -46,7 +46,7 @@ class Setting extends \Common\Important\Setting
         $publicPath->setAll($publicList);
 
         foreach ($publicList as $_public) {
-            $publicPath->resetKey($_public);
+            $publicPath->setKey($_public);
             $this->$_public = $publicPath->get();
             }
     }

@@ -27,39 +27,39 @@ $publicPathList->setAll([
 
 // パスの追加
 // ヘッダー・フッター
-$publicPathList->resetKey('config');
+$publicPathList->setKey('config');
 $publicPathList->methodPath('addArray', ['common', 'Config.php']);
 
 // 定数・固定文言など
-$publicPathList->resetKey('word');
+$publicPathList->setKey('word');
 $publicPathList->methodPath('addArray', ['public', 'common', 'Word', 'Message.php']);
 
 // 設定
-$publicPathList->resetKey('setting');
+$publicPathList->setKey('setting');
 $publicPathList->methodPath('addArray', ['public', 'common', 'Setting.php']);
 
 // タグ
-$publicPathList->resetKey('tag');
+$publicPathList->setKey('tag');
 $publicPathList->methodPath('addArray', ['public', 'common', 'Component', 'Tag.php']);
 
 // セッション
-$publicPathList->resetKey('session');
+$publicPathList->setKey('session');
 $publicPathList->methodPath('addArray', ['public', 'common', 'Session.php']);
 
 // トークン
-$publicPathList->resetKey('token');
+$publicPathList->setKey('token');
 $publicPathList->methodPath('addArray', ['public', 'common', 'Token.php']);
 
 // ファイル読み込み
-$publicPathList->resetKey('include');
+$publicPathList->setKey('include');
 $publicPathList->methodPath('addArray', ['public', 'common', 'Include.php']);
 
 // UA
-$publicPathList->resetKey('ua');
+$publicPathList->setKey('ua');
 $publicPathList->methodPath('addArray', ['public', 'common', 'Component', 'Ua.php']);
 
 // パスの出力
-$publicPathList->all();
+$publicPathList->resetKey();
 foreach ($publicPathList->get() as $key => $path) {
     require_once $path;
     if ($key === 'ua') {

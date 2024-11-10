@@ -21,23 +21,23 @@ $initPathList->setAll([
     'error_session' => dirname(__DIR__),
     'error_include' => ''
 ]);
-$initPathList->resetKey('word');
+$initPathList->setKey('word');
 $initPathList->methodPath('SetPathEnd');
 $initPathList->methodPath('Add', 'word.php');
-$initPathList->resetKey('setting');
+$initPathList->setKey('setting');
 $initPathList->methodPath('SetPathEnd');
 $initPathList->methodPath('Add', 'Setting.php');
-$initPathList->resetKey('error_setting');
+$initPathList->setKey('error_setting');
 $initPathList->methodPath('SetPathEnd');
 $initPathList->methodPath('Add', 'Setting.php');
-$initPathList->resetKey('error_session');
+$initPathList->setKey('error_session');
 $initPathList->methodPath('SetPathEnd');
 $initPathList->methodPath('Add', 'Session.php');
-$initPathList->resetKey('error_include');
+$initPathList->setKey('error_include');
 $initPathList->methodPath('SetPathEnd');
 $initPathList->methodPath('Add', 'Include.php');
 
-$initPathList->all();
+$initPathList->resetKey();
 
 foreach ($initPathList->get() as $path) {
     require_once $path;

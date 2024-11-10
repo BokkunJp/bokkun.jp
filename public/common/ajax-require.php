@@ -12,19 +12,19 @@ $ajaxPath->setAll([
     'session' => '',
     'tag' => PUBLIC_COMPONENT_DIR
 ]);
-$ajaxPath->resetKey("setting");
+$ajaxPath->setKey("setting");
 $ajaxPath->methodPath("SetPathEnd");
 $ajaxPath->methodPath("Add", "Setting.php");
 
-$ajaxPath->resetKey("session");
+$ajaxPath->setKey("session");
 $ajaxPath->methodPath("SetPathEnd");
 $ajaxPath->methodPath("Add", "Session.php");
 
-$ajaxPath->resetKey("tag");
+$ajaxPath->setKey("tag");
 $ajaxPath->methodPath("SetPathEnd");
 $ajaxPath->methodPath("Add", "Tag.php");
 
-$ajaxPath->all();
+$ajaxPath->resetKey();
 foreach ($ajaxPath->get() as $path) {
     require_once $path;
 }
