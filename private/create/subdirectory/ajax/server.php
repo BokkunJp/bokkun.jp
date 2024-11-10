@@ -7,7 +7,7 @@ require_once dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . "common" . DIRECTORY_SE
 // Post値取得
 $post = \Private\Important\Setting::getPosts();
 // tokenチェック
-$session = new \Private\Important\Session();
+$session = new \Private\Important\Session('create-page');
 $createToken = new \Private\Important\Token('edit-token', $session);
 if ($createToken->check() === false) {
     $data = ['src' => true];
