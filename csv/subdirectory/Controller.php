@@ -4,7 +4,7 @@
 
 function main($inputFlg=false)
 {
-    $session = new \Public\Important\Session();
+    $session = new \Public\Important\Session('csv-token');
     $csvToken = new \Public\Important\Token('csv-token', $session);
 
     if ($csvToken->check() === false) {
