@@ -335,10 +335,9 @@ class Session
      */
     public function view(mixed $id = null): void
     {
-        $judge = $this->judge($id);
-        if ($judge === null || !is_array($this->session)) {
+        if ($id === null  || !is_array($this->session)) {
             var_dump($this->session);
-        } elseif ($judge === true) {
+        } elseif ($this->judge($id) === true) {
             print_r($this->session[$id]);
         }
     }
