@@ -16,19 +16,16 @@ function ajaxMain(url, dir, file, type = 'POST', data, datatype = "text", CallBa
         url += dir;
         var ajx = ajax(type, url, datatype, data);
 
-        ajx.always(function (xmlhttp)
- {
+        ajx.always(function (xmlhttp) {
             // console.log(xmlhttp.responseText); // JSONデータ(デバッグ用)
         })
-            .done(function (response)
-     {
+            .done(function (response) {
                 var jsonData = JSON.stringify(response);  // レスポンスデータをエンコード
                 jsonData = JSON.parse(jsonData); // エンコードしたJSONデータをデコード
 
                 // コールバック関数が定義されていない場合は、取得・成形したデータを出力するのみ
                 if (CallBack === null)         {
-                    for (var _key in jsonData)
-             {
+                    for (var _key in jsonData) {
                         $('.result-' + _key).html(jsonData[_key]);
 
                     }
@@ -37,8 +34,7 @@ function ajaxMain(url, dir, file, type = 'POST', data, datatype = "text", CallBa
                     CallBack(jsonData);
                 }
             })
-            .fail(function (xhr, textStatus, errorThrown)
-     {
+            .fail(function (xhr, textStatus, errorThrown) {
                 // console.log("NG");
                 // console.log("textStatus: " + textStatus);
                 // console.log("errorThrown    : " + errorThrown.message);
