@@ -9,6 +9,7 @@ class PathApplication {
     private array $data;
     private string|\Path $tmp;
     private string $sepalator;
+
     function __construct(string $firstKey, string $path, string $sepalator = '/')
     {
         $this->key = $firstKey;
@@ -40,15 +41,16 @@ class PathApplication {
         }
     }
 
-    public function resetKey(string $key): void
+    public function setKey(string $key): void
     {
         $this->key = $key;
     }
 
-    public function all(): void
+    public function resetKey(): void
     {
         $this->key = null;
     }
+
     public function methodPath(string $methodName, string|array|bool ...$element): void
     {
         $count = count($element);

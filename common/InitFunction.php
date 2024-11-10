@@ -294,7 +294,7 @@ function setVendor(): void
         ]
     );
 
-    $allVendorPath->resetKey('requireFile');
+    $allVendorPath->setKey('requireFile');
     $allVendorPath->methodPath('addArray', ["vendor", "autoload.php"]);
     $requireFile = $allVendorPath->get();
 

@@ -52,7 +52,7 @@ $privateMessage->setAll($privateDirPathList);
 $privateDirList = [];
 
 foreach ($privateDirPathList as $_key => $_value) {
-    $privateMessage->resetKey($_key);
+    $privateMessage->setKey($_key);
     $privateMessage->methodPath('addArray', [$_key]);
     $privateDirList[$_key] = $privateMessage->get();
     
