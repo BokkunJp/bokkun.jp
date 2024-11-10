@@ -17,12 +17,12 @@ $publicPath->methodPath("editSeparator", "/");
 $publicPath->setAll([
     "PUBLIC_CLIENT_DIR" => '',
 ]);
-$publicPath->resetKey("PUBLIC_CLIENT_DIR");
+$publicPath->setKey("PUBLIC_CLIENT_DIR");
 $publicPath->methodPath("Add", "client");
 define('PUBLIC_CLIENT_DIR', $publicPath->get());
 
 // 共通パス(公開側非公開領域)の定数を定義
-$publicPath->resetKey("PUBLIC_COMMON_DIR");
+$publicPath->setKey("PUBLIC_COMMON_DIR");
 $publicPath->methodPath("setPathEnd");
 $publicPath->methodPath("Add", "common");
 define('PUBLIC_COMMON_DIR', $publicPath->get());
@@ -32,12 +32,12 @@ $publicPath = new \PathApplication("PUBLIC_COMPONENT_DIR", PUBLIC_COMMON_DIR);
 $publicPath->setAll([
     "PUBLIC_LAYOUT_DIR" => COMMON_DIR,
 ]);
-$publicPath->resetKey("PUBLIC_COMPONENT_DIR");
+$publicPath->setKey("PUBLIC_COMPONENT_DIR");
 $publicPath->methodPath("add", "Component");
 define('PUBLIC_COMPONENT_DIR', $publicPath->get());
 
 // レイアウトパス(公開領域)の定数を定義
-$publicPath->resetKey("PUBLIC_LAYOUT_DIR");
+$publicPath->setKey("PUBLIC_LAYOUT_DIR");
 $publicPath->methodPath("Add", "layout");
 define('PUBLIC_LAYOUT_DIR', $publicPath->get());
 
@@ -56,11 +56,11 @@ $publicClientList = [
 $publicPath->setAll($publicClientList);
 
 // パス定数をまとめて定義
-$publicPath->resetKey("PUBLIC_CLIENT_DIR");
+$publicPath->setKey("PUBLIC_CLIENT_DIR");
 $publicClientpath = $publicPath->get();
 $publicDirList = [];
 foreach ($publicClientList as $_dir => $_value) {
-    $publicPath->resetKey($_dir);
+    $publicPath->setKey($_dir);
     $publicDirList[$_value] = $publicClientpath. $publicPath->get();
 }
 

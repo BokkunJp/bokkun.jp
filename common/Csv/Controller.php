@@ -4,7 +4,7 @@
 
 function main($inputFlg=false)
 {
-    $session = new \Public\Important\Session();
+    $session = new \Public\Important\Session('csv-token');
     $csvToken = new \Public\Important\Token('csv-token', $session);
 
     if ($csvToken->check() === false) {
@@ -53,10 +53,10 @@ function main($inputFlg=false)
             return $result;
         }
 
-        $header = moldData($header);
+        $header = $csv->moldData($header);
         $body = "";
         foreach ($row as $_r) {
-            $body .= moldData($_r). nl2br("\n");
+            $body .= $csv->moldData($_r). nl2br("\n");
         }
         $session = new Public\Important\Session();
         $session->writeArray('csv', 'header', $header);

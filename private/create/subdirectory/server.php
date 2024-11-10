@@ -30,15 +30,15 @@ $privatepathList->setAll(
 
 // パスの追加
 // 管理側共通(ログイン認証など)
-$privatepathList->resetKey('common');
+$privatepathList->setKey('common');
 $privatepathList->methodPath('addArray', ['common.php']);
 
 // 定数・固定文言など
-$privatepathList->resetKey('word');
+$privatepathList->setKey('word');
 $privatepathList->methodPath('addArray', ['common', 'Word', 'Message.php']);
 
 // UA
-$privatepathList->resetKey('ua');
+$privatepathList->setKey('ua');
 $privatepathList->methodPath('addArray', ['common', 'Component', 'Ua.php']);
 
 $privateList = [
@@ -57,12 +57,12 @@ $privateList = [
 // キャッシュ
 // ファイル読み込み
 foreach ($privateList as $key => $file) {
-    $privatepathList->resetKey($key);
+    $privatepathList->setKey($key);
     $privatepathList->methodPath('addArray', ['common', $file]);
 }
 
 // パスの出力
-$privatepathList->all();
+$privatepathList->resetKey();
 foreach ($privatepathList->get() as $path) {
     require_once $path;
 }

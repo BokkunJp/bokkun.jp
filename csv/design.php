@@ -11,6 +11,7 @@ if (!class_exists('Public\Important\Token')) {
 }
 
 $posts = Public\Important\Setting::getPosts();
+$session = new Public\Important\Session('csv-token');
 $csvToken = new Public\Important\Token('csv-token', $session, true);
 
 if (isset($posts['csv']) && $posts['csv'] === 'make') {

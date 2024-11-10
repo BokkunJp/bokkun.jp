@@ -29,9 +29,9 @@ class Setting extends \Common\Important\Setting
 
         $client->setAll($pathList);
 
-        $client->methodPath("ResetKey", "/");
+        $client->methodPath("setKey", "/");
         foreach ($pathList as $_path) {
-            $client->resetKey($_path);
+            $client->setKey($_path);
             $this->$_path = $client->get();
         }
     }
