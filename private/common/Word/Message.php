@@ -55,7 +55,6 @@ foreach ($privateDirPathList as $_key => $_value) {
     $privateMessage->setKey($_key);
     $privateMessage->methodPath('addArray', [$_key]);
     $privateDirList[$_key] = $privateMessage->get();
-    
 }
 
 // まとめて配列で定義

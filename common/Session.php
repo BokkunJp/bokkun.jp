@@ -5,14 +5,19 @@ namespace Common\Important;
 $sessionTraitPath = new \Path(__DIR__);
 $sessionTraitPath->addArray(['Trait', 'SessionTrait.php']);
 require_once $sessionTraitPath->get();
+$sessionTraitPath = new \Path(__DIR__);
+$sessionTraitPath->addArray(['Trait', 'CommonTrait.php']);
+require_once $sessionTraitPath->get();
 
 // セッションクラス
 class Session
 {
+    use \CommonTrait;
     use \SessionTrait;
 
     private array $session;
-    private ?string $sessionName, $type = null;
+    private ?string $sessionName = null, $type = null;
+    private const ACCESSIBLE_TYPE = ['private', 'public'];
 
     /**
      * construct
@@ -70,7 +75,7 @@ class Session
      */
     protected function setType(string $type): void
     {
-        if ($type === 'private' || $type === 'public') {
+        if ($this->searchData($type, self::ACCESSIBLE_TYPE)) {
             $this->type = $type;
         }
     }
@@ -116,7 +121,7 @@ class Session
         $ret = null;
         $type = $this->getType();
 
-        if ($type && isset($_SESSION[$type])) {
+        if (!is_null($type) && isset($_SESSION[$type])) {
             $session = $_SESSION[$type];
         } else {
             $session = $_SESSION;
@@ -276,7 +281,7 @@ class Session
      *
      * セッションの削除
      *
-     * @param string|int $sessionElm
+     * @param string|int $sessionElm 削除する要素名
      *
      * @return void
      */
@@ -287,18 +292,26 @@ class Session
             exit;
         }
 
-        $type = $this->getType();
-
-        if (!is_null($type)) {
-            if ($this->sessionName) {
-                unset($_SESSION[$type][$this->sessionName][$sessionElm]);
-            } else {
-                unset($_SESSION[$type][$sessionElm]);
-            }
+        // セッションプロパティを削除
+        if (is_null($this->type) && is_null($this->sessionName) && is_null($sessionElm)) {
+            $this->finaryDestroy();
+        } elseif (!is_null($sessionElm)) {
             unset($this->session[$sessionElm]);
-        } elseif (is_null($sessionElm)) {
-            unset($_SESSION[$type]);
+        } else {
             unset($this->session);
+            $this->session = [];
+        }
+
+        // セッション配列のデータを反映
+        if (!is_null($this->type) && !is_null($this->sessionName)) {
+            unset($_SESSION[$this->type][$this->sessionName]);
+            $_SESSION[$this->type][$this->sessionName] = $this->session;
+        } else if (!is_null($this->type)) {
+            unset($_SESSION[$this->type]);
+            $_SESSION[$this->type] = $this->session;
+        } else {
+            unset($_SESSION[$this->sessionName]);
+            $_SESSION[$this->sessionName] = $this->session;
         }
     }
 
@@ -365,7 +378,7 @@ class Session
      *
      * @return void
      */
-    public function finaryDestroy(): void
+    protected function finaryDestroy(): void
     {
 
         // Note: セッション情報だけでなくセッションを破壊する。
