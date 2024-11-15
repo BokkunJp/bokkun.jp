@@ -164,7 +164,7 @@ if (!empty($mode)) {
 if(isset($posts['delete'])) {
     @session_regenerate_id();
     $session->write('delete-token', sha1(session_id()));
-    // $session->finaryDestroy();
+    // $session->delete();
 }
 
 if ($mode === 'edit') {

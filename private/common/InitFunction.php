@@ -227,6 +227,6 @@ function logoutWithSessionReset(): void
 
     // セッションの破棄
     $session = new Private\Important\Session();
-    $session->finaryDestroy();
+    $session->delete();
     unset($session);
 }

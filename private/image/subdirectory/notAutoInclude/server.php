@@ -197,6 +197,6 @@ if (!empty($mode) && $mode === 'edit') {
 }
 @session_regenerate_id();
 $session->write('token', sha1(session_id()));
-// $session->finaryDestroy();
+// $session->delete();
 $url = new Private\Important\Setting();
 header('Location:' . $url->getUrl('root', $str));
