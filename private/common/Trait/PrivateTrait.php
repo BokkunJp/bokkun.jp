@@ -181,6 +181,6 @@ trait PrivateTrait
 
         // セッションの破棄
         $session = new Private\Important\Session();
-        $session->finaryDestroy();
+        $session->delete();
     }
 }
