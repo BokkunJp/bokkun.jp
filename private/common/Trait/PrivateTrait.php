@@ -180,7 +180,7 @@ trait PrivateTrait
         echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 
         // セッションの破棄
-        $session = new Private\Important\Session();
+        $session = new Private\Important\Session('login');
         $session->delete();
     }
 }

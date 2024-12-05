@@ -9,22 +9,20 @@ use Public\Important\Token;
 const POST_FLG_ON = true;
 const POST_FLG_OFF = false;
 
-$name = "security-token";
-$session = new Session($name);
-$csrf = new Token($name, $session, true);
+$session = new Session('security');
+$csrf = new Token('security-token', $session, true);
 $posts = Setting::getPosts();
 
 $checkCsrfFlg = checkCsrf();
 
-if (!is_nulL($posts) && !$checkCsrfFlg) {
+if (!is_null($posts) && !$checkCsrfFlg) {
     echo "<div class='warning'>不正な遷移です。</div>";
 }
 
 function checkCsrf()
 {
-    $name = "security-token";
-    $session = new Session($name);
-    $csrf = new Token($name, $session, true);
+    $session = new Session('security');
+    $csrf = new Token('security-token', $session, true);
 
     return $csrf->check();
 }

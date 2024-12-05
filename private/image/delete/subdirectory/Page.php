@@ -32,7 +32,7 @@ function getPage(): int|bool
  */
 function getCountPerPage(): int|false
 {
-    $session = new Private\Important\Session();
+    $session = new Private\Important\Session('image');
     $post = Private\Important\Setting::getPost('image-value');
     if (isset($post) && is_numeric($post)) {
         $pager= (int) $post;

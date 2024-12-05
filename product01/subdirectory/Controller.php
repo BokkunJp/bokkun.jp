@@ -63,7 +63,7 @@ function main($inputFlg=false)
         foreach ($row as $_r) {
             $body .= $csv->moldData($_r). nl2br("\n");
         }
-        $session = new Public\Important\Session();
+        $session = new Public\Important\Session('csv');
         $session->writeArray('csv', 'header', $header);
         $session->writeArray('csv', 'row', $body);
     }

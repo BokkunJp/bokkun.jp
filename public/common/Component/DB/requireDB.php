@@ -91,7 +91,7 @@ class DB
         } catch (Exception $e) {
             // SQLの実行に失敗した場合はエラー
             print_r('ERRORの内容: ' . $e->getMessage());
-            $session = new Public\Important\Session();
+            $session = new Public\Important\Session('db');
             $session->write("db-system-error", "ERROR!! SQLの実行に失敗しました。");
             $this->stmt->rollback();
             error_reporting(E_STRICT);

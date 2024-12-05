@@ -20,7 +20,7 @@ if ($request === 'xmlhttprequest') {
 } else {
     $data = "PHP: ";
     $posts = Public\Important\Setting::getPosts();
-    $session = new Public\Important\Session();
+    $session = new Public\Important\Session('post');
     if (empty($posts)) {
         return -1;
     } elseif (empty($posts['data'])) {
