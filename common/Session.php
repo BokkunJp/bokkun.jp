@@ -60,8 +60,8 @@ class Session
                 session_save_path($sessionDir);
             }
             session_start();
-            session_regenerate_id();
         }
+        session_regenerate_id();
     }
 
     /**
@@ -111,7 +111,7 @@ class Session
     /**
      * load
      * 
-     * 既存のセッションを取得する
+     * スーパーグローバル変数のセッション配列から既存のセッションデータを取得する
      *
      * @param string|null $elm
      * @return mixed
@@ -123,8 +123,10 @@ class Session
 
         if (!is_null($type) && isset($_SESSION[$type])) {
             $session = $_SESSION[$type];
-        } else {
+        } elseif (is_null($type)) {
             $session = $_SESSION;
+        } else {
+            $session = null;
         }
 
         if ($elm && isset($session[$elm])) {
@@ -144,7 +146,7 @@ class Session
     /**
      * save
      * 
-     * セッションの保存
+     * スーパーグローバル変数のセッション配列へデータを保存
      *
      * @return void
      */
@@ -247,30 +249,22 @@ class Session
      */
     public function read(string|int $sessionElm = null): mixed
     {
-        // セッション開始していない場合はセッション開始
-        if (!isset($_SESSION)) {
-            $this->start();
-        }
+        $this->start();
 
-        // 要素名が指定されている場合は要素名のデータを取得
-        $returnData = null;
+        $returnData = false;
 
+        // 要素名が指定されている場合はセッション内の要素名のデータを、指定されていない場合はセッションそのものを取得
         if (isset($this->sessionName)) {
             $this->session = $this->load($this->sessionName);
         } else {
             $this->session = $this->load();
         }
 
-        if (isset($sessionElm)) {
-            if (isset($this->session[$sessionElm])) {
-                $returnData = $this->session[$sessionElm];
-            }
-        } else {
+        // データ取得
+        if (isset($sessionElm) && isset($this->session[$sessionElm])) {
+            $returnData = $this->session[$sessionElm];
+        } elseif (is_null($sessionElm)) {
             $returnData = $this->session;
-        }
-
-        if (empty($returnData)) {
-            $returnData = false;
         }
 
         return $returnData;

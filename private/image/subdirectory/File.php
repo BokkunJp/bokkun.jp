@@ -157,7 +157,7 @@ function getImagePageName(): string
 {
     // セッション開始
     if (!isset($session)) {
-        $session = new Private\Important\Session();
+        $session = new Private\Important\Session('image');
     }
 
     if (empty($session->judge('image-view-directory'))) {
@@ -411,7 +411,7 @@ function showImage(
 
         // セッション開始
         if (!isset($session)) {
-            $session = new Private\Important\Session();
+            $session = new Private\Important\Session('image');
         }
 
         // jQueryで書き換えれるように要素を追加
@@ -603,7 +603,7 @@ function CopyImage(array $upFilesArray): array
         $copyFilesArray = $upFilesArray;
         foreach ($copyFilesArray as $_key => $_file) {
             $tmpFileName = explode('.', $_file);
-            $copyFilesArray[$_key] = $tmpFileName[0]. '_'. createRandom(IMAGE_NAME_CHAR_SIZE). '.'. $tmpFileName[1];
+            $copyFilesArray[$_key] = $tmpFileName[0]. '_'. bin2hex(openssl_random_pseudo_bytes(IMAGE_NAME_CHAR_SIZE)) . '.'. $tmpFileName[1];
         }
     } else {
         $copyFilesArray = $upFilesArray;

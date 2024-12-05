@@ -1,6 +1,6 @@
 <?php
 // セッションセット
-$session = new Public\Important\Session();
+$session = new Public\Important\Session('mail');
 // Tokenクラスをセット
 $publicMailToken = new Public\Important\Token('public-mail-token', $session, true);
 

@@ -47,7 +47,7 @@ function getImagePageName(): string
 {
     // セッション開始
     if (!isset($session)) {
-        $session = new Private\Important\Session();
+        $session = new Private\Important\Session('image');
     }
 
     // debug($session->read());
@@ -259,7 +259,7 @@ function showImage(
 
     // セッション開始
     if (!isset($session)) {
-        $session = new Private\Important\Session();
+        $session = new Private\Important\Session('image');
     }
 
     // jQueryで書き換えれるように要素を追加

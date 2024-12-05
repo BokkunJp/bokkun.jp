@@ -1,5 +1,5 @@
 <?php
-$session = new Public\Important\Session();
+$session = new Public\Important\Session('python');
 ?>
 <form action='./subdirectory/server.py' method='POST'>
     <h1>Pythonフォーム</h1>

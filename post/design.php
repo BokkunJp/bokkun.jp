@@ -1,5 +1,5 @@
 <?php
-$session = new Public\Important\Session();
+$session = new Public\Important\Session('post');
 
 class Post {
     use PublicTrait;

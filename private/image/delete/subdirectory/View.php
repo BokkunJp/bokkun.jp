@@ -21,7 +21,7 @@ function viewImage($imageName, $imageUrl, $fileTime, $checked = false)
     $imagePageName = getImagePageName();
 
     // iniの内容を取得してセッションに保存
-    $session = new Session();
+    $session = new Session('ini');
     if (empty($session->read('deleteImageMaxSize-ini'))) {
         $session->write("deleteImageMaxSize-ini", (int)getIni('private', 'ImageMaxSize'));
     }

@@ -8,7 +8,7 @@ $script = new ScriptClass();
 $posts = Public\Important\Setting::getPosts();
 
 // セッションセット
-$session = new Public\Important\Session();
+$session = new Public\Important\Session('mail');
 
 $postData = $posts;
 $nulFlg = false;
