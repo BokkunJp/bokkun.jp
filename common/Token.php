@@ -14,7 +14,7 @@ use common\Setting;
 class Token {
 
     private string $tokenName, $tokenValue, $tokenPost;
-    private bool $checkSetting, $tokenFlg;
+    private bool $isTokenSet;
     private $session;
     private ?array $posts;
 
@@ -23,18 +23,19 @@ class Token {
     /**
      * Token関連のセッション操作を行う
      *
-     * @param string $tokenName               トークン名
-     * @param $session        操作対象のセッション
-     * @param boolean $checkSetting           トークンを設置するかどうか
+     * @param string $tokenName              トークン名
+     * @param $session                       操作対象のセッション
+     * @param boolean $isTokenSet           トークンを設置するかどうか
      */
-    function __construct(string $tokenName, $session, bool $checkSetting = false)
+    function __construct(string $tokenName, $session, bool $isTokenSet = false)
     {
         $this->tokenName = $tokenName;
         $this->session = $session;
         $this->tokenValue = (string)$session->read($tokenName);
         $this->tokenPost = \Common\Important\Setting::getPost($this->tokenName);
-        $this->checkSetting = $checkSetting;
+        $this->isTokenSet = $isTokenSet;
     }
+
     /**
      * Set
      * トークンの生成・上書き
@@ -46,7 +47,7 @@ class Token {
         // トークンを設定(上書き)
         $this->tokenValue = $this->createRandom(SECURITY_LENG) . '-' . $this->createRandom(SECURITY_LENG, "random_bytes");
 
-        if ($this->checkSetting) {
+        if ($this->isTokenSet) {
             $this->getTag();
         }
 
@@ -64,18 +65,18 @@ class Token {
      */
     public function check(): bool
     {
-        if (!isset($this->tokenPost)
-            || is_null($this->tokenPost)
-            || $this->tokenPost === false
-            || $this->session->read($this->tokenName) === false
-            || !hash_equals($this->session->read($this->tokenName), $this->tokenPost)
+        $sessionData = $this->session->read($this->tokenName);
+        $csrfChkFlg = true;
+
+        if (
+            !is_string($sessionData)
+            || !is_string($this->tokenPost)
+            || !hash_equals($sessionData, $this->tokenPost)
         ) {
-            return false;
+            $csrfChkFlg = false;
         }
 
-        $this->tokenFlg = true;
-
-        return true;
+        return $csrfChkFlg;
     }
 
     /**
@@ -104,7 +105,7 @@ class Token {
      *
      * @return void
      */
-    public function debug(): void
+    private function debug(): void
     {
             echo 'post: ' . $this->tokenPost . '<br/>';
             echo 'session: ' . $this->session->read($this->tokenName) . '<br/><br/>';

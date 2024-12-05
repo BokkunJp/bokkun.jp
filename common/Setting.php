@@ -164,15 +164,23 @@ class Setting
      *
      * 配列形式のPost値を取得。
      *
-     * @return array|string|null
+     * @return ?array
      */
     public static function getPostArray($var): ?array
     {
         return self::getPost($var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
     }
 
-    // 指定した要素のPost値を取得
-    public static function getPost($elm = '', $filter = FILTER_DEFAULT, $options = null)
+    /**
+     * getPost
+     *
+     * @param mixed $elm
+     * @param int $filter
+     * @param mixed $options
+     * 
+     * @return mixed
+     */
+    public static function getPost($elm = '', $filter = FILTER_DEFAULT, $options = null): mixed
     {
         return self::sanitize(filterInputFix(INPUT_POST, $elm, $filter, $options));
     }
