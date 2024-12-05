@@ -210,8 +210,8 @@ function logout(): void
     echo "<div align='center'><strong>ログアウトしました。</strong></div>";
 
     // 管理側のログインセッションの削除
-    $session = new Private\Important\Session();
-    $session->delete('login');
+    $session = new Private\Important\Session('login');
+    $session->delete();
 }
 
 /**
@@ -225,8 +225,8 @@ function logoutWithSessionReset(): void
 {
     echo "<div align='center'><strong>ログアウトしました。(セッションも全削除済)</strong></div>";
 
-    // セッションの破棄
-    $session = new Private\Important\Session();
+    // 全セッションの破棄
+    $session = new Common\Important\Session();
     $session->delete();
     unset($session);
 }

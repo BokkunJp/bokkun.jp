@@ -7,7 +7,7 @@ require_once $filePath->get();
 
 // セッション開始
 if (!isset($session)) {
-    $session = new Public\Important\Session();
+    $session = new Public\Important\Session('image');
 }
 
 // ページ数取得

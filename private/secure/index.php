@@ -32,10 +32,40 @@ if (isset($post['private-login-token'])) {
     }
 }
 
+$errCount = $session->read('login-error');
+if ($errCount === false) {
+    $errCount = 0;
+}
+
 if (!$tokenError && !empty($post) && !empty($post['id']) && !empty($post['pass'])) {
     $adminAuth = ($post['id'] === 'admin' && password_verify($post['pass'], password_hash(LOGIN_PASSWORD, PASSWORD_DEFAULT)));
+    if (!$adminAuth) {
+        $errCount++;
+    }
 } else {
     $adminAuth = null;
+}
+
+// 5回ログインミスでロック設定してエラー内容の初期化
+if ($errCount >= LOGIN_LOCK_COUNT) {
+    $session->write('login-lock-timestamp', new DateTime());
+    unset($errCount);
+    $session->delete('login-error');
+} else {
+    $nowDate = new DateTime();
+    $lockDate = $session->read('login-lock-timestamp');
+    if ($lockDate instanceof DateTime) {
+        $diffLockTime = ($nowDate->getTimestamp() - $lockDate->getTimestamp()) / HOUR_TO_MINUTE;
+        if ($diffLockTime > LOGIN_UNLOCK_TIME) {
+            // ロック後に規定時間経過したらロック解除
+            $session->delete('login-lock-timestamp');
+        } else {
+            // ロック解除前は認証成功しても遷移させない
+            $adminAuth = null;
+        }
+    }
+
+    $session->write('login-error', $errCount);
 }
 
 // アクセスしてきたページを保存
@@ -54,10 +84,12 @@ $urlData = $url . $movePage;
 
 $session->write('url', $urlData);
 
-if ((!($adminAuth))) {
+if (!($adminAuth)) {
     // 入力値チェック
-    if ($tokenError === false && !empty($post)) {
-        $session->write('password-Error', '<p>IDまたはパスワードが違います。</p>');
+    if ($session->read('login-lock-timestamp') !== false) {
+        $session->write('password-Error', LOGIN_LOCK);
+    } elseif ($tokenError === false && !empty($post)) {
+        $session->write('password-Error', LOGIN_FAILURED);
         // ログイン警告メール (ログイン失敗時)
         alertAdmin('login', $session->read('movePage'));
     }

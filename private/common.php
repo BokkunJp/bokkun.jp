@@ -5,11 +5,10 @@ $mailPath->setPathEnd();
 $mailPath->add('Mail.php');
 require_once $mailPath->get();
 
-$session = new Private\Important\Session();
 $loginSession = new Private\Important\Session('login');
 $post = Private\Important\Setting::getPosts();
 
-if (!$session->readArray('login', 'secure')) {
+if (!$loginSession->read('secure')) {
     require_once __DIR__. '/secure/index.php';
 }
 
