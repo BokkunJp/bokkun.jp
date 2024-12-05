@@ -76,6 +76,18 @@ define('NOT_DELETE_FILE_LIST', ['MAIL', 'image', 'CSV', 'QR', 'liDAR-WebGL', 'we
 // ログインパスワード
 define("LOGIN_PASSWORD", "bokkunAdmin777");
 
+// パスワードミス
+define("LOGIN_FAILURED", "<p>IDまたはパスワードが違います。</p>");
+
+// アカウントロックまでの回数
+define("LOGIN_LOCK_COUNT", 5);
+// ロック解除までの時間
+define("LOGIN_UNLOCK_TIME", 30);
+// 1時間
+define("HOUR_TO_MINUTE", 60);
+// アカウントロックの文言
+define("LOGIN_LOCK", "<p>アカウントがロックされています。しばらく経ってからやり直してください。</p>");
+
 // 画像アップロード・削除・コピー共通
 define('NUMBER_OF_FILE', '枚のファイル');
 // 画像アップロード用の文言 (ファイル数の部分は処理時に定義)
