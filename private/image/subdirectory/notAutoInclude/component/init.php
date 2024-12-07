@@ -1,6 +1,6 @@
 <?php
 
-ini_set('error_reporting', E_ALL | ~E_STRICT);
+ini_set('error_reporting', E_ALL);
 require_once dirname(dirname(dirname(__DIR__, 2))). '/common/Setting.php';
 require_once PUBLIC_COMMON_DIR. "/Include.php";
 

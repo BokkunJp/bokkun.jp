@@ -1,6 +1,6 @@
 <?php
 /* 定義・呼び出し処理 */
-ini_set('error_reporting', E_ALL | ~E_STRICT);
+ini_set('error_reporting', E_ALL);
 
 define("DS", DIRECTORY_SEPARATOR);
 

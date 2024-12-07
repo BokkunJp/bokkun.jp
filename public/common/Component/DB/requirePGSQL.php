@@ -64,7 +64,7 @@ class myPg
                 foreach ($placeholder as $_key => $_value) {
                     // $sth->bindValue($placeholder[$_key], $val[$_key]);
                 }
-                $sth->execute();
+                // $sth->execute();
             }
             pg_query($this->pg_con, 'COMMIT;');                                      // コミット
         } catch (Exception $e) {

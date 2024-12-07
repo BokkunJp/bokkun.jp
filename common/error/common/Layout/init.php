@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 
-ini_set('error_reporting', E_ALL | ~E_STRICT);
+ini_set('error_reporting', E_ALL);
 
 
 require_once dirname(__DIR__, 3). DIRECTORY_SEPARATOR. 'InitFunction.php';

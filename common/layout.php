@@ -1,5 +1,5 @@
 <?php
-ini_set('error_reporting', E_ALL | ~E_STRICT);
+ini_set('error_reporting', E_ALL);
 require_once(__DIR__. '/Setting.php');
 require_once(__DIR__. '/Component/Ua.php');
 $agent = new \Common\Important\UA();
