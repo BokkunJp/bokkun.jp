@@ -19,7 +19,7 @@ class Setting
     protected function denyAuthoritys($authorities)
     {
         if (!is_array($authorities)) {
-            throw new Error("引数が不正です。", E_USER_ERROR);
+            throw new Error("引数が不正です。");
         }
         foreach ($authorities as $value) {
             $this->authorities[] = $value;
