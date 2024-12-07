@@ -1,7 +1,7 @@
 <?php
 
 /* 定義・呼び出し処理 */
-ini_set('error_reporting', E_ALL | ~E_STRICT);
+ini_set('error_reporting', E_ALL);
 define('DS', DIRECTORY_SEPARATOR);
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__, 2) . DS . 'public' . DS. 'common' . DS. 'InitFunction.php';

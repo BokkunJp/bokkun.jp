@@ -19,7 +19,7 @@ class Setting
     protected function denyAuthoritys($authorities)
     {
         if (!is_array($authorities)) {
-            trigger_error("引数が不正です。", E_USER_ERROR);
+            throw new Error("引数が不正です。");
         }
         foreach ($authorities as $value) {
             $this->authorities[] = $value;
@@ -34,13 +34,16 @@ class Setting
     protected function allowAuthoritys($authority)
     {
         $key = array_keys($this->authorities, $authority);
-        $this->authorities = array_splice($this->authorities, $key, 1);
+        foreach ($key as $_key) {
+            if (is_string($_key) || is_numeric($_key)) {
+                $this->authorities = array_splice($this->authorities, $_key, 1);
+            }
+        }
     }
 
     protected function allowAuthority($authority)
     {
-        $key = array_keys($this->authorities, $authority);
-        $this->authorities = array_splice($this->authorities, $key, 1);
+        $this->allowAuthoritys([$authority]);
     }
 
     public function setDefault($authority)

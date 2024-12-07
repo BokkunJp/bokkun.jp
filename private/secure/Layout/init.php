@@ -1,6 +1,6 @@
 <?php
 
-ini_set('error_reporting', E_ALL | ~E_STRICT);
+ini_set('error_reporting', E_ALL);
 
 // 文字列からディレクトリ部分の文字列を切り取る関数
 function extractionString($str, $target)
