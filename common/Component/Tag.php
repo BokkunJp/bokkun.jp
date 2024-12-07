@@ -225,7 +225,7 @@ class HTMLClass extends Tag
         }
 
         if (array_search($tagAuth, $this->authorities) === false) {
-            trigger_error("タグ名が不正です。", E_USER_ERROR);
+            throw new Error("引数が不正です。");
         }
 
         if (!empty($this->className)) {

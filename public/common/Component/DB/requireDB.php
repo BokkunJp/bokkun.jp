@@ -64,7 +64,7 @@ class DB
         return $newArray;
     }
 
-    private function execQuery(string $colString = null, array $valArray = null)
+    private function execQuery(?string $colString = null, ?array $valArray = null)
     {
         try {
             $this->stmt->beginTransaction();                             // トランザクション開始
