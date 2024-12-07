@@ -30,8 +30,7 @@ class Session
         if (isset($_SESSION)) {
             $this->session = $_SESSION;
         } else {
-            trigger_error('Session is not found.', E_USER_ERROR);
-            exit;
+            throw new Error('Session is not found.');
         }
         if (isset($sessionElm)) {
             return $this->session[$sessionElm];
@@ -43,7 +42,7 @@ class Session
     public function delete($sessionElm=null)
     {
         if (!isset($_SESSION)) {
-            trigger_error('Session is already deleted.', E_USER_ERROR);
+            throw new Error('Session is already deleted.');
             exit;
         }
         if (isset($sessionElm)) {

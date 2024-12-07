@@ -39,7 +39,7 @@ class Cache {
         return $result;
     }
 
-    public function get(string $key = null): mixed
+    public function get(?string $key = null): mixed
     {
         if (!$key) {
             $key = $this->key;
