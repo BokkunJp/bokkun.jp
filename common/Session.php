@@ -60,8 +60,8 @@ class Session
                 session_save_path($sessionDir);
             }
             session_start();
+            session_regenerate_id();
         }
-        session_regenerate_id();
     }
 
     /**
