@@ -60,8 +60,8 @@ class Session
                 session_save_path($sessionDir);
             }
             session_start();
-            session_regenerate_id();
         }
+        session_regenerate_id();
     }
 
     /**
@@ -247,7 +247,7 @@ class Session
      *
      * @return mixed
      */
-    public function read(string|int|Null $sessionElm = null): mixed
+    public function read(string|int $sessionElm = null): mixed
     {
         $this->start();
 
@@ -279,7 +279,7 @@ class Session
      *
      * @return void
      */
-    public function delete(string|int|Null $sessionElm = null): void
+    public function delete(string|int $sessionElm = null): void
     {
         if (!isset($_SESSION)) {
             user_error('Session is already deleted.');

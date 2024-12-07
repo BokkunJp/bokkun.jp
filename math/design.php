@@ -1,8 +1,19 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-$ary = array(
-    1, 1, 1,
-    0, 0, 0,
-    0, 0, 1,
-);
-debug($ary);
+class Math
+{
+    use PublicTrait;
+    private float $value;
+
+    public function __construct(?float $data = null)
+    {
+        if (!empty($data)) {
+            $this->setData($data);
+        }
+    }
+
+    public function setData($data)
+    {
+        
+    }
+}
