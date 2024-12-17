@@ -9,6 +9,7 @@
 use \Smarty\Smarty;
 
 $smarty = new Smarty();
+$session = new Private\Important\Session('private-edit-page');
 
 $smarty->setTemplateDir('./subdirectory/smarty/templates/');
 $smarty->setCompileDir('./subdirectory/smarty/templates_c/');
