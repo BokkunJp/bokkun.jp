@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <?php
-
 require_once __DIR__ . '/common/Component/Function.php';
 ?>
 <html lang='ja'>
