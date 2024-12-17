@@ -6,6 +6,8 @@ date_default_timezone_set('Asia/Tokyo');
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "Path.php";
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "PathApplication.php";
 
+define('LIMIT_SEARCH_SIZE', 1000000);
+
 // エラーログの設定(初期設定)
 $errorLogPath = new \Path("");
 $errorLogPath->addArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
@@ -306,8 +308,7 @@ function setVendor(): void
 /**
  * searchData
  *
- * in_arrayの代替処理。
- * (in_arrayは速度的に問題があるため、array_keysで対応する)
+ * 指定した内容が、配列の要素名または値に含まれるかチェック。
  *
  * @param  mixed $target
  * @param array $arrayData
@@ -316,11 +317,36 @@ function setVendor(): void
  */
 function searchData($target, array $arrayData): bool
 {
-    // 配列から
-    $keyData = array_keys($arrayData, $target);
 
-    // 指定した名称の要素が存在するかどうか
-    return !empty($keyData);
+        // // 配列から
+        // $keyData = array_keys($arrayData, $target);
+
+        // // 指定した名称の要素が存在するかどうか
+        // return !empty($keyData);
+    
+
+    if (is_object($target) || is_array($target)) {
+        return false;
+    }
+
+    // 配列から要素名を取得
+    if (count($arrayData) > LIMIT_SEARCH_SIZE) {
+        $keyData = array_flip($arrayData);
+        $keyResult = isset($keyData[$target]);
+    } else {
+        $keyData = array_keys($arrayData, $target);
+        $keyResult = !empty($keyData);
+    }
+
+    // 不要になった要素配列の削除
+    unset($keyData);
+
+    // 値の判定
+    $valueResult = isset($arrayData[$target]);
+    unset($arrayData);
+
+    // 各判定を用いて、指定した名称データの存在判定
+    return $keyResult || $valueResult;
 }
 
 /**
