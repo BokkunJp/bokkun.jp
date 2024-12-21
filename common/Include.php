@@ -101,3 +101,33 @@ function includeFiles($pwd, $extension = 'php', $ret = false, array $classLoad =
 
     return $retList;
 }
+
+/**
+ * 対象ディレクトリ内のJSファイルを一括で読み込む
+ *
+ * @param string $pwd                   ディレクトリまでのパス(JSファイルが所定の場所に置いてあることを前提とする)
+ * @param string $extension             拡張子
+ * @param boolean $resultJudge          結果格納用
+ * @param array $classLoad              クラス読み込み用配列
+ *
+ * @return void
+ */
+function includeJsFiles($pwd, $extension = 'js', $resultJudge = true, $classLoad = false): void
+{
+    $src = new OriginTag();
+    $base = new Private\Important\Setting();
+    $privateJsDir = new \Path(PRIVATE_DIR_LIST['js']);
+    $privateJsDir->add($pwd);
+    $jsFiles = includeFiles($privateJsDir->get(), $extension, $resultJudge, $classLoad);
+    if (is_array($jsFiles)) {
+        $jsUrl = new \Path($base->getUrl('js'), '/');
+        $jsUrl->add($pwd);
+        foreach ($jsFiles as $_jsFile) {
+            $jsFilePath = new \Path($jsUrl->get(), '/');
+            $jsFilePath->setPathEnd();
+            $jsFilePath->add($_jsFile);
+            $src->readJs($jsFilePath->get());
+            $src->execTag(true);
+        }
+    }
+}
