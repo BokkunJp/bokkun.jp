@@ -10,7 +10,8 @@ require_once dirname(__DIR__) . DS . "common" . DS . "Word" . DS . "Message.php"
 $ajaxPath = new \PathApplication("setting", PUBLIC_COMMON_DIR);
 $ajaxPath->setAll([
     'session' => '',
-    'tag' => PUBLIC_COMPONENT_DIR
+    'include' => '',
+    'tag' => PUBLIC_COMPONENT_DIR,
 ]);
 $ajaxPath->setKey("setting");
 $ajaxPath->methodPath("SetPathEnd");
@@ -19,6 +20,10 @@ $ajaxPath->methodPath("Add", "Setting.php");
 $ajaxPath->setKey("session");
 $ajaxPath->methodPath("SetPathEnd");
 $ajaxPath->methodPath("Add", "Session.php");
+
+$ajaxPath->setKey("include");
+$ajaxPath->methodPath("SetPathEnd");
+$ajaxPath->methodPath("Add", "include.php");
 
 $ajaxPath->setKey("tag");
 $ajaxPath->methodPath("SetPathEnd");

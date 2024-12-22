@@ -64,7 +64,7 @@ if (is_null($request)) {
 // タグ
 $tagPath = new \Path(PRIVATE_COMMON_DIR);
 $tagPath->setPathEnd();
-$tagPath->add("ajax-include.php");
+$tagPath->add("include.php");
 require_once $tagPath->get();
 
 // CSRF

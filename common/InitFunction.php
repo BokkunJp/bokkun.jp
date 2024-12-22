@@ -3,49 +3,53 @@
 // タイムゾーンの設定
 date_default_timezone_set('Asia/Tokyo');
 
+require_once "CustomMethod.php";
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "Path.php";
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "PathApplication.php";
 
 define('LIMIT_SEARCH_SIZE', 1000000);
 
 // エラーログの設定(初期設定)
-$errorLogPath = new \Path("");
-$errorLogPath->addArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
-$errLogArray = [];
-if (!is_dir($errorLogPath->get())) {
-    mkdir($errorLogPath->get(), recursive:true);
-    $errorLogOldPath = clone $errorLogPath;
-    $errorLogOldPath->add("_old");
-    mkdir($errorLogOldPath->get(), recursive:true);
-}
-$errorLogPath->setPathEnd();
-$errorLogPath->add("php_error.log");
-ini_set("error_log", $errorLogPath->get());
-
-$iniPath =new \Path("ini");
-$iniPath->setPathEnd();
-$iniPath->add("ini.php");
-require_once $iniPath->get();
-
-// エラーハンドラ設定
-set_error_handler(
-    function (
-        $error_no,
-        $error_msg,
-        $error_file,
-        $error_line
-    ) {
-        global $noError;
-
-        if (!isset($noError)) {
-            $debugMode = false;
-        }
-        if (error_reporting() === 0 || $debugMode) {
-            return;
-        }
-        throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
+if (!isset($consoleFlg)) {
+    $errorLogPath = new \Path("");
+    $errorLogPath->addArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
+    $errLogArray = [];
+    if (!is_dir($errorLogPath->get())) {
+        mkdir($errorLogPath->get(), recursive:true);
+        $errorLogOldPath = clone $errorLogPath;
+        $errorLogOldPath->add("_old");
+        mkdir($errorLogOldPath->get(), recursive:true);
     }
-);
+    $errorLogPath->setPathEnd();
+    $errorLogPath->add("php_error.log");
+    ini_set("error_log", $errorLogPath->get());
+    
+    $iniPath =new \Path("ini");
+    $iniPath->setPathEnd();
+    $iniPath->add("ini.php");
+    require_once $iniPath->get();
+    
+    // エラーハンドラ設定
+    set_error_handler(
+        function (
+            $error_no,
+            $error_msg,
+            $error_file,
+            $error_line
+        ) {
+            global $noError;
+    
+            if (!isset($noError)) {
+                $debugMode = false;
+            }
+            if (error_reporting() === 0 || $debugMode) {
+                return;
+            }
+            throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
+        }
+    );
+    
+}
 
 // register_shutdown_function(function () {
 //     $error = error_get_last();
@@ -352,9 +356,9 @@ function searchData($target, array $arrayData): bool
 /**
  * moldImageConfig
  *
- * getImageSize関数で取得した配列を整形する。
+ * getimagesize関数で取得した配列を整形する。
  *
- * @param  array $imageConfig getImageSize関数で取得した配列
+ * @param  array $imageConfig getimagesize関数で取得した配列
  *
  * @return array
  */

@@ -242,7 +242,7 @@ function showImage(
             $imagePath = new \Path(PUBLIC_DIR_LIST['image']);
             $imagePath->addArray([$imagePageName, $_data['name']]);
 
-            $jsData[$i]['info'] = calcImageSize($imagePath->get(), (int)getIni('Public', 'ImageMaxSize'));
+            $jsData[$i]['info'] = calcImageSize($imagePath->get(), (int)getIni('public', 'ImageMaxSize'));
             $jsData[$i]['time'] = date('Y/m/d H:i:s', $_data['time']);
             // 画像データが取得できなかった場合は、配列の該当データの削除
             if ($jsData[$i]['info'] === false) {

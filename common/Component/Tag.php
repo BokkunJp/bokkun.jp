@@ -1,6 +1,6 @@
 <?php
 
-namespace Basic\Important;
+namespace Common\Important;
 
 // クラス化
 class Tag

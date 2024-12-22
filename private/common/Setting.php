@@ -11,14 +11,7 @@ require_once $sesttingPath->get();
 class Setting extends \Common\Important\Setting
 {
     protected \Path|string $private;
-    protected string $domain;
-    protected ?string $url;
     protected string $public;
-    protected \Path|string $client;
-    protected string $css;
-    protected string $js;
-    protected string $image;
-    protected string $csv;
     protected string $filepageImage;
 
     public function __construct()

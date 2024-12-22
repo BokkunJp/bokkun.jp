@@ -6,7 +6,7 @@
  * (正しくない値の場合はfalseを返す。未入力の場合は全データを返す。)
  *
  * @param ...$parameter
- * @resulturn mixed
+ * @return mixed
  */
 function getIni(...$parameter): mixed
 {
@@ -15,7 +15,7 @@ function getIni(...$parameter): mixed
     } else {
         $dir = new Path(__DIR__);
     }
-    
+
     if (searchData('addDirectory', $parameter)) {
         $dir->add($parameter['addDirectory']);
     }

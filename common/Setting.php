@@ -22,7 +22,7 @@ class Setting
     protected string $css;
     protected string $csv;
     protected \Path|string $client;
-    protected string $domain;
+    protected ?string $domain;
     protected string $error;
     protected string $image;
     protected string $js;
