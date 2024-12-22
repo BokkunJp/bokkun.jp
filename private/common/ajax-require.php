@@ -64,7 +64,7 @@ if (is_null($request)) {
 // タグ
 $tagPath = new \Path(PRIVATE_COMMON_DIR);
 $tagPath->setPathEnd();
-$tagPath->add("include.php");
+$tagPath->add("Include.php");
 require_once $tagPath->get();
 
 // CSRF

@@ -23,7 +23,7 @@ $ajaxPath->methodPath("Add", "Session.php");
 
 $ajaxPath->setKey("include");
 $ajaxPath->methodPath("SetPathEnd");
-$ajaxPath->methodPath("Add", "include.php");
+$ajaxPath->methodPath("Add", "Include.php");
 
 $ajaxPath->setKey("tag");
 $ajaxPath->methodPath("SetPathEnd");
