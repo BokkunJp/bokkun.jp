@@ -9,7 +9,7 @@ $str = 'private/image/delete/';
 $str .= !empty($page) ? "?page={$page}" : "";
 
 // セッション開始
-$session = new Private\Important\Session();
+$session = new Private\Important\Session('private-image');
 $mode = Private\Important\Setting::getQuery('mode');
 
 if (!empty($mode)) {
