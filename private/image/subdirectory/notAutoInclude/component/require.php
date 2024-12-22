@@ -54,8 +54,7 @@ $privatepathList->methodPath('addArray', ['common', 'Token.php']);
 
 // ファイル読み込み
 $privatepathList->setKey('include');
-$privatepathList->methodPath('Reset');
-$privatepathList->methodPath('addArray', [__DIR__, 'include.php'], true);
+$privatepathList->methodPath('addArray', ['common', 'include.php']);
 
 // UA
 $privatepathList->setKey('ua');

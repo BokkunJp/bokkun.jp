@@ -13,8 +13,6 @@ $base = new \Common\Important\Setting();
 $pwd = PRIVATE_DIR_LIST['Component'] . '/';
 includeFiles($pwd);
 
-use Private\Important\CustomTagCreate as OriginTag;
-
 //JSファイル
 includeDirectories(PRIVATE_DIR_LIST['Component']);
 
@@ -29,45 +27,15 @@ if (searchData(basename(getcwd()), $subDirectryReadList)) {
     includeFiles($subdirectoryPath->get());
 }
 // 必要なjsファイルの読み込み
-includeJsFiles('common');
+includeClientFiles('common', 'private', 'js');
 
 $timePath = new \Path('common', '/');
 $timePath->add('time');
-includeJsFiles(rtrim($timePath->get(), '/'));
+includeClientFiles(rtrim($timePath->get(), '/'), 'private', 'js');
 $jsTitle = createClient('private');
-includeJsFiles(basename($jsTitle));
+includeClientFiles(basename($jsTitle), 'private', 'js');
 
 // traitファイルの読み込み
 $traitPath = new \Path(PRIVATE_COMMON_DIR);
 $traitPath->add('Trait');
 includeFiles($traitPath->get());
-
-/**
- * 対象ディレクトリ内のJSファイルを一括で読み込む
- *
- * @param string $pwd                   ディレクトリまでのパス(JSファイルが所定の場所に置いてあることを前提とする)
- * @param string $extension             拡張子
- * @param boolean $ret                  結果格納用
- * @param array $classLoad              クラス読み込み用配列
- *
- * @return void
- */
-function includeJsFiles($pwd, $className = '', $ret = true, $classLoad = false): void
-{
-    $src = new OriginTag();
-    $base = new Private\Important\Setting();
-    $privateJsDir = new \Path(PRIVATE_DIR_LIST['js']);
-    $privateJsDir->add($pwd);
-    $jsFiles = includeFiles($privateJsDir->get(), 'js', $ret);
-    if (is_array($jsFiles)) {
-        $jsUrl = new \Path($base->getUrl('js'), '/');
-        $jsUrl->add($pwd);
-        foreach ($jsFiles as $_jsFile) {
-            $jsFilePath = new \Path($jsUrl->get(), '/');
-            $jsFilePath->setPathEnd();
-            $jsFilePath->add($_jsFile);
-            $src->readJs($jsFilePath->get());
-            $src->execTag(true);
-        }
-    }
-}
