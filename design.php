@@ -32,7 +32,7 @@
             '.', '..', 'cell', 'element', 'email', 'Error', 'layout',
             'Pages'
             ];
-            $dirList = scandir(dirname(__DIR__) . '/cake.bokkun.jp/templates');
+            $dirList = scandir(dirname(__DIR__) . '/bokkun.org/templates');
             $notList = addList($notList, $dirList, '_', 1);
             foreach ($dirList as $index => $_dir) {
                 if (!searchData($_dir, $notList)) {
