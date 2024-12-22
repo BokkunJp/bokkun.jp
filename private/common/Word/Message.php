@@ -10,23 +10,6 @@ $publicCommonWordPath = new \Path(dirname(__DIR__, 3));
 $publicCommonWordPath->addArray(["public", "common", "Word", "Message.php"]);
 require_once $publicCommonWordPath->get();
 
-// CSRFクラス
-function setPrivateCsrfErrorMessage()
-{
-    $addr = Public\Important\Setting::getRemoteAddr();
-    $errMessage = "<p><strong>". gethostbyaddr($addr). "(". $addr. ")". "様のアクセスは禁止されています。</strong></p><p>以下の要因が考えられます。</p>";
-    $errList = ["指定回数以上アクセスした。", "直接アクセスした。", "不正アクセスした。"];
-    $errMessage .='<ul>';
-    $errLists = '';
-    foreach ($errList as $_errList) {
-        $errLists .= "<li>{$_errList}</li>";
-    }
-    $errMessage .= $errLists;
-    $errMessage .='</ul>';
-
-    return $errMessage;
-}
-
 // 共通部分
 // define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
 define('PRIVATE_DIR', dirname(__DIR__, 2));
