@@ -14,7 +14,7 @@ setVendor();
  *
  * @return null|string|array
  */
-function includeDirectories($pwd = '', $extension = 'php', $ret = false, array $classLoad=[])
+function includeDirectories($pwd = '', $extension = 'php', $resultJudge = false, array $classLoad=[])
 {
     // パスの指定がない場合は、カレントディレクトリ一覧を取得
     if (empty($pwd)) {
@@ -31,7 +31,7 @@ function includeDirectories($pwd = '', $extension = 'php', $ret = false, array $
             if (is_dir($_dirList) && !is_numeric(strpos($_dirList, '.'))) {
                 $includeDir = new \Path($pwd);
                 $includeDir->add($_dirList);
-                includeFiles($includeDir->get(), $extension, $ret, $classLoad);
+                includeFiles($includeDir->get(), $extension, $resultJudge, $classLoad);
             }
         }
         if (isset($localPath)) {
@@ -39,7 +39,7 @@ function includeDirectories($pwd = '', $extension = 'php', $ret = false, array $
         }
 
         // 出力ありの場合は、ディレクトリリストを出力して終了
-        if ($ret === true) {
+        if ($resultJudge === true) {
             return $dirList;
         }
     }
@@ -57,7 +57,7 @@ function includeDirectories($pwd = '', $extension = 'php', $ret = false, array $
  *
  * @return null|bool|array
  */
-function includeFiles($pwd, $extension = 'php', $ret = false, array $classLoad = []): null|bool|array
+function includeFiles($pwd, $extension = 'php', $resultJudge = false, array $classLoad = []): null|bool|array
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -66,7 +66,6 @@ function includeFiles($pwd, $extension = 'php', $ret = false, array $classLoad =
 
     // クラスを読み込む場合は、spl_auto_registerを使う
     if (!empty($classLoad)) {
-        // print_r("<script>alert('クラスをロードしました。');</script>");
         return spl_autoload_register(function () use ($pwd, $classLoad) {
             while (($name = current($classLoad)) !== false) {
                 $pwdPath = new \Path($pwd);
@@ -89,8 +88,8 @@ function includeFiles($pwd, $extension = 'php', $ret = false, array $classLoad =
     $retList = [];
     foreach ($dirList as $_dirList) {
         // 指定した拡張子のファイルのみ許可
-        if (strpos($_dirList, $extension) != false) {
-            if ($ret === true) {
+        if (strpos($_dirList, $extension) !== false) {
+            if ($resultJudge === true) {
             // 出力ありの場合は、ファイルリストを配列に追加
                 $retList[] = $_dirList;
             } else {
@@ -106,21 +105,27 @@ function includeFiles($pwd, $extension = 'php', $ret = false, array $classLoad =
  * 対象ディレクトリ内のJSファイルを一括で読み込む
  *
  * @param string $pwd                   ディレクトリまでのパス(JSファイルが所定の場所に置いてあることを前提とする)
+ * @param string $type             管理側か公開側か
  * @param string $extension             拡張子
- * @param boolean $resultJudge          結果格納用
- * @param array $classLoad              クラス読み込み用配列
  *
  * @return void
  */
-function includeJsFiles($pwd, $extension = 'js', $resultJudge = true, $classLoad = false): void
+function includeClientFiles($pwd, string $type, string $extension): void
 {
-    $src = new OriginTag();
-    $base = new Private\Important\Setting();
-    $privateJsDir = new \Path(PRIVATE_DIR_LIST['js']);
-    $privateJsDir->add($pwd);
-    $jsFiles = includeFiles($privateJsDir->get(), $extension, $resultJudge, $classLoad);
+    if ($type === 'private') {
+        $base = new Private\Important\Setting();
+        $jsDir = new \Path(PRIVATE_DIR_LIST[$extension]);
+        $src = new Private\Important\CustomTagCreate();
+    } elseif ($type === 'public') {
+        $base = new Public\Important\Setting();
+        $jsDir = new \Path(PUBLIC_DIR_LIST[$extension]);
+        $src = new Public\Important\CustomTagCreate();
+    }
+
+    $jsDir->add($pwd);
+    $jsFiles = includeFiles($jsDir->get(), $extension, true);
     if (is_array($jsFiles)) {
-        $jsUrl = new \Path($base->getUrl('js'), '/');
+        $jsUrl = new \Path($base->getUrl($extension), '/');
         $jsUrl->add($pwd);
         foreach ($jsFiles as $_jsFile) {
             $jsFilePath = new \Path($jsUrl->get(), '/');

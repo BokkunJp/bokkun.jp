@@ -8,8 +8,8 @@ $includePath = new \Path(getcwd());
 $includePath->setPathEnd();
 $includePath->add('include.php');
 require_once $includePath->get();
-includeFilesForImage(__DIR__. '/');
-includeFilesForImage(dirname(__DIR__). '/');
+includeFiles(__DIR__. '/');
+includeFiles(dirname(__DIR__). '/');
 
 // Postセット
 $post = Private\Important\Setting::getPosts();

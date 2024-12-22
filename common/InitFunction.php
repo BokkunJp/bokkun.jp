@@ -10,7 +10,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR
 define('LIMIT_SEARCH_SIZE', 1000000);
 
 // エラーログの設定(初期設定)
-if (isset($consoleFlg)) {
+if (!isset($consoleFlg)) {
     $errorLogPath = new \Path("");
     $errorLogPath->addArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
     $errLogArray = [];
