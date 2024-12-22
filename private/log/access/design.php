@@ -17,10 +17,10 @@ $smarty->setCacheDir('./subdirectory/smarty/cache/');
 
 // jsファイル読み込み
 $jsTitle = createClient('log');
-includeJsFiles($jsTitle);
+includeClientFiles($jsTitle, 'private', 'js');
 
 if ($session->judge('addition')) {
-    $smarty->assign('session', $session->read('addition'));
+    $smarty->assign('session', $session->read('addition'), 'js');
     $session->delete('addition');
 }
 
