@@ -1,6 +1,7 @@
 <?php
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL);
+$ajaxFlg = true;
 // 関数定義 (初期処理用)
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'InitFunction.php';
 // 設定
@@ -64,7 +65,7 @@ if (is_null($request)) {
 // タグ
 $tagPath = new \Path(PRIVATE_COMMON_DIR);
 $tagPath->setPathEnd();
-$tagPath->add("include.php");
+$tagPath->add("Include.php");
 require_once $tagPath->get();
 
 // CSRF

@@ -2,6 +2,7 @@
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL);
 define("DS", DIRECTORY_SEPARATOR);
+$ajaxFlg = true;
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__) . DS . "common" . DS . "InitFunction.php";
 // 定数・固定文言など
@@ -23,7 +24,7 @@ $ajaxPath->methodPath("Add", "Session.php");
 
 $ajaxPath->setKey("include");
 $ajaxPath->methodPath("SetPathEnd");
-$ajaxPath->methodPath("Add", "include.php");
+$ajaxPath->methodPath("Add", "Include.php");
 
 $ajaxPath->setKey("tag");
 $ajaxPath->methodPath("SetPathEnd");

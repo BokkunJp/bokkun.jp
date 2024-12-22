@@ -26,14 +26,16 @@ if (searchData(basename(getcwd()), $subDirectryReadList)) {
     $subdirectoryPath->add('subdirectory');
     includeFiles($subdirectoryPath->get());
 }
-// 必要なjsファイルの読み込み
-includeClientFiles('common', 'private', 'js');
+// 必要なjsファイルの読み込み(ajaxの処理の時は読み込まない)
+if (!isset($ajaxFlg)) {
+    includeClientFiles('common', 'private', 'js');
 
-$timePath = new \Path('common', '/');
-$timePath->add('time');
-includeClientFiles(rtrim($timePath->get(), '/'), 'private', 'js');
-$jsTitle = createClient('private');
-includeClientFiles(basename($jsTitle), 'private', 'js');
+    $timePath = new \Path('common', '/');
+    $timePath->add('time');
+    includeClientFiles(rtrim($timePath->get(), '/'), 'private', 'js');
+    $jsTitle = createClient('private');
+    includeClientFiles(basename($jsTitle), 'private', 'js');
+}
 
 // traitファイルの読み込み
 $traitPath = new \Path(PRIVATE_COMMON_DIR);
