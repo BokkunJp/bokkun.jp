@@ -1,11 +1,5 @@
 <?php
 
-/*
- * Subdirectoryディレクトリ以下のPHPファイルを一括で読み込む。
- */
-
-use Private\Important;
-
 require_once COMMON_DIR . DIRECTORY_SEPARATOR . "Include.php";
 
 $base = new \Common\Important\Setting();
@@ -17,7 +11,7 @@ includeFiles($pwd);
 includeDirectories(PRIVATE_DIR_LIST['Component']);
 
 //JQuery
-require_once PRIVATE_COMMON_DIR . "/Load/include.php";
+require_once PRIVATE_COMMON_DIR . "/Load/Include.php";
 
 // subdirectory内のphpファイルの読み込み (指定ディレクトリのみ)
 $subDirectryReadList = ['image', 'delete'];
