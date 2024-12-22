@@ -47,7 +47,7 @@ class Session
     {
         if (!isset($_SESSION) || session_status() === PHP_SESSION_DISABLED) {
             if (PHP_OS === 'WINNT') {
-                $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'), 2). "/var/";
+                $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'), 2). "/var/session/";
                 if (!is_dir($sessionDir)) {
                     mkdir($sessionDir, 0755);
                     $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
