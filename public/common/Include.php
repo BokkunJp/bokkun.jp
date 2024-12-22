@@ -17,13 +17,15 @@ includeFiles($directoryPath->get());
 // Componentディレクトリ内のファイルを一括読み込み
 includeDirectories(PUBLIC_COMPONENT_DIR);
 
-// 必要なjsファイルの読み込み
-includeClientFiles('common', 'public', 'js');
-$timePath = new \Path('common');
-$timePath->add('time');
-includeClientFiles($timePath->get(), 'public', 'js');
-$jsTitle = basename(getcwd());
-includeClientFiles($jsTitle, 'public', 'js');
+// 必要なjsファイルの読み込み(ajaxの処理の時は読み込まない)
+if (!isset($ajaxFlg)) {
+    includeClientFiles('common', 'public', 'js');
+    $timePath = new \Path('common');
+    $timePath->add('time');
+    includeClientFiles($timePath->get(), 'public', 'js');
+    $jsTitle = basename(getcwd());
+    includeClientFiles($jsTitle, 'public', 'js');
+}
 
 // traitファイルの読み込み
 $traitPath = new \Path(PUBLIC_COMMON_DIR);
