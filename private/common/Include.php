@@ -13,8 +13,6 @@ $base = new \Common\Important\Setting();
 $pwd = PRIVATE_DIR_LIST['Component'] . '/';
 includeFiles($pwd);
 
-use Private\Important\CustomTagCreate as OriginTag;
-
 //JSファイル
 includeDirectories(PRIVATE_DIR_LIST['Component']);
 
@@ -29,13 +27,13 @@ if (searchData(basename(getcwd()), $subDirectryReadList)) {
     includeFiles($subdirectoryPath->get());
 }
 // 必要なjsファイルの読み込み
-includeJsFiles('common');
+includeClientFiles('common', 'private', 'js');
 
 $timePath = new \Path('common', '/');
 $timePath->add('time');
-includeJsFiles(rtrim($timePath->get(), '/'));
+includeClientFiles(rtrim($timePath->get(), '/'), 'private', 'js');
 $jsTitle = createClient('private');
-includeJsFiles(basename($jsTitle));
+includeClientFiles(basename($jsTitle), 'private', 'js');
 
 // traitファイルの読み込み
 $traitPath = new \Path(PRIVATE_COMMON_DIR);
