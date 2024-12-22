@@ -3,7 +3,7 @@
 // セッションスタート
 if (!isset($_SESSION)) {
     if (PHP_OS === 'WINNT') {
-        $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
+        $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'), 2). "/var/session/";
         if (!is_dir($sessionDir)) {
             mkdir($sessionDir, 0755);
         }
