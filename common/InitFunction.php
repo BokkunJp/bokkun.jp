@@ -4,51 +4,57 @@
 date_default_timezone_set('Asia/Tokyo');
 
 require_once "CustomMethod.php";
+require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "ErrorConfig.php";
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "Path.php";
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "PathApplication.php";
 
 define('LIMIT_SEARCH_SIZE', 1000000);
 
 // エラーログの設定(初期設定)
+$errorLogPath = new \Path("");
+$errorLogPath->addArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
+$errLogArray = [];
+if (!is_dir($errorLogPath->get())) {
+    mkdir($errorLogPath->get(), recursive:true);
+    $errorLogOldPath = clone $errorLogPath;
+    $errorLogOldPath->add("_old");
+    mkdir($errorLogOldPath->get(), recursive:true);
+}
+$errorLogPath->setPathEnd();
+$errorLogPath->add("php_error.log");
+ini_set("error_log", $errorLogPath->get());
+
+$iniPath =new \Path("ini");
+$iniPath->setPathEnd();
+$iniPath->add("ini.php");
+require_once $iniPath->get();
+
 if (!isset($consoleFlg)) {
-    $errorLogPath = new \Path("");
-    $errorLogPath->addArray([dirname(__DIR__, 3), "log", "error", phpversion(), ''], true);
-    $errLogArray = [];
-    if (!is_dir($errorLogPath->get())) {
-        mkdir($errorLogPath->get(), recursive:true);
-        $errorLogOldPath = clone $errorLogPath;
-        $errorLogOldPath->add("_old");
-        mkdir($errorLogOldPath->get(), recursive:true);
-    }
-    $errorLogPath->setPathEnd();
-    $errorLogPath->add("php_error.log");
-    ini_set("error_log", $errorLogPath->get());
-    
-    $iniPath =new \Path("ini");
-    $iniPath->setPathEnd();
-    $iniPath->add("ini.php");
-    require_once $iniPath->get();
-    
     // エラーハンドラ設定
     set_error_handler(
-        function (
-            $error_no,
-            $error_msg,
-            $error_file,
-            $error_line
-        ) {
-            global $noError;
-    
-            if (!isset($noError)) {
-                $debugMode = false;
-            }
-            if (error_reporting() === 0 || $debugMode) {
+    function (
+        $error_no,
+        $error_msg,
+        $error_file,
+        $error_line
+    ) {
+        $mode = ErrorConfig::getMode();
+
+        switch ($mode) {
+            case 'secure':
+                error_reporting(E_ALL);
+                throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
+                break;
+            case 'no-error':
+                error_reporting(0);
                 return;
-            }
-            throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
+                break;
+            default:
+                break;
+        }
+        return false;
         }
     );
-    
 }
 
 // register_shutdown_function(function () {
