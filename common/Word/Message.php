@@ -18,11 +18,7 @@ function setCsrfErrorMessage()
 }
 
 // 共通部分
-$root = filterInputFix(INPUT_SERVER, 'DOCUMENT_ROOT');
-if (!preg_match('/^(.*)\.(.*)/', basename(dirname(__DIR__, 2)))) {
-    $root .= '/'. basename(dirname(__DIR__, 2));
-}
-define('DOCUMENT_ROOT', $root);
+define('DOCUMENT_ROOT', filterInputFix(INPUT_SERVER, 'DOCUMENT_ROOT'));
 
 define('COMMON_DIR', dirname(__DIR__));
 define('COMPONENT_DIR', dirname(__DIR__). DIRECTORY_SEPARATOR. "Component");
