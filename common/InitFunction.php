@@ -328,13 +328,6 @@ function setVendor(): void
 function searchData($target, array $arrayData): bool
 {
 
-        // // 配列から
-        // $keyData = array_keys($arrayData, $target);
-
-        // // 指定した名称の要素が存在するかどうか
-        // return !empty($keyData);
-    
-
     if (is_object($target) || is_array($target)) {
         return false;
     }
