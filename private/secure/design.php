@@ -7,8 +7,8 @@ $token = new Private\Important\Token('private-login-token', $session, true);
 
 <form method='POST' action='<?=$base->getUri()?>'>
     <div class='notice'><?= $session->onlyView('token-Error'); ?></div>
-    <p>ID <input type='text' name='id' class='id' maxLength='20' /></p>
-    <p>PASS <input type='password' name='pass' class='pass' maxLength='20' /></p>
+    <p class='admin-login-id'>ID <input type='text' name='login-id' class='id' maxLength='20' /></p>
+    <p class='admin-password'>PASSWORD <input type='password' name='password' class='pass' maxLength='20' /></p>
     <button type='submit' class='send'>送信</button>
     <div class='notice'><?= $session->onlyView('password-Error'); ?></div>
     <div class='warning'><?= $session->onlyView('password-Success'); ?></div>

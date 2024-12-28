@@ -56,14 +56,14 @@ define('DEFAULT_IMAGE', 'image');
 // 削除不可リスト
 define('NOT_DELETE_FILE_LIST', ['MAIL', 'image', 'CSV', 'QR', 'liDAR-WebGL', 'webGL']);
 
-// ログインパスワード
-define("LOGIN_PASSWORD", "bokkunAdmin777");
+// ログイン情報
+define("LOGIN_INFORMATION", ["admin" => "bokkunAdmin777", "admin2" => "bokkunAdmin1234"]);
 
 // パスワードミス
 define("LOGIN_FAILURED", "<p>IDまたはパスワードが違います。</p>");
 
 // アカウントロックまでの回数
-define("LOGIN_LOCK_COUNT", 5);
+define("LOGIN_LOCK_COUNT", 2);
 // ロック解除までの時間
 define("LOGIN_UNLOCK_TIME", 30);
 // 1時間
