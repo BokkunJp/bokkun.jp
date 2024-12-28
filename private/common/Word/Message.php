@@ -63,7 +63,7 @@ define("LOGIN_INFORMATION", ["admin" => "bokkunAdmin777", "admin2" => "bokkunAdm
 define("LOGIN_FAILURED", "<p>IDまたはパスワードが違います。</p>");
 
 // アカウントロックまでの回数
-define("LOGIN_LOCK_COUNT", 2);
+define("LOGIN_LOCK_COUNT", 5);
 // ロック解除までの時間
 define("LOGIN_UNLOCK_TIME", 30);
 // 1時間
