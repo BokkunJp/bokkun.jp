@@ -109,6 +109,19 @@ class Session
     }
 
     /**
+     * setSessionName
+     * 
+     * セッション名をセット
+     *
+     * @return string
+     */
+    protected function getSessionName(): string
+    {
+
+        return $this->sessionName;
+    }
+
+    /**
      * load
      * 
      * スーパーグローバル変数のセッション配列から既存のセッションデータを取得する
@@ -213,25 +226,32 @@ class Session
      */
     public function writeArray(string|int $parentId, string|int $childId, mixed $data): void
     {
-        $writeProcess = fn($childData) => $childData ?? [$childId => $data];;
+        $writeProcess = fn($childData) => $childData ?? [$childId => $data];
 
         $childSessionData = $this->commonProcessArray($parentId, $childId, $writeProcess);
 
+        $sessionName = $this->getSessionName();
+
         // 親データの構造を準備
-        $parentResultData = [$parentId => [$childId => $data]];
+        $parentResultData = [
+            $childId => $data,
+        ];
 
         $type = $this->getType();
         if (!is_null($type)) {
             // タイプがある場合、既存のセッションデータを取得
-            $existingData = $this->load($type) ?? [];
+            $existingData = $this->load($sessionName);
 
             // 既存の親データと比較し、異なる場合のみ更新
-            if (($existingData[$parentId] ?? []) !== [$childId => $childSessionData]) {
-                $_SESSION[$type] = array_merge($existingData, $parentResultData);
+            if (isset($existingData[$parentId]) && $existingData[$parentId] !== [$childId => $childSessionData]) {
+                $this->write($parentId, array_merge($existingData[$parentId], $parentResultData));
+            } else {
+                // 元データがない場合は新たに書き込み
+                $this->write($parentId, [$childId => $data]);
             }
         } else {
             // タイプがない場合、トップレベルのセッションに保存
-            $existingData = $this->load($parentId) ?? [];
+            $existingData = $this->load($parentId);
             if ($existingData !== [$childId => $childSessionData]) {
                 $this->write($parentId, [$childId => $data]);
             }

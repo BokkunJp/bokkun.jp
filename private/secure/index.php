@@ -1,11 +1,12 @@
 <?php
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'init.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'require.php';
+-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'require.php';
 
 use Private\Important\UseClass;
+use Private\Important\Session;
 
-$session = new Private\Important\Session('login');
+$session = new Session('login');
 
 if (!isset($adminUrl) || empty($adminUrl) && $session->read('send') !== true) {
     $commonPath = new Path(PRIVATE_DIR);
@@ -32,40 +33,49 @@ if (isset($post['private-login-token'])) {
     }
 }
 
-$errCount = $session->read('login-error');
-if ($errCount === false) {
-    $errCount = 0;
-}
-
-if (!$tokenError && !empty($post) && !empty($post['id']) && !empty($post['pass'])) {
-    $adminAuth = ($post['id'] === 'admin' && password_verify($post['pass'], password_hash(LOGIN_PASSWORD, PASSWORD_DEFAULT)));
-    if (!$adminAuth) {
-        $errCount++;
+if (!$tokenError && !empty($post) && !empty($post['login-id']) && !empty($post['password']) && isset(LOGIN_INFORMATION[$post['login-id']])) {
+    $accounts = $session->read('login-account');
+    if (!$accounts || !is_array($accounts) || !isset($accounts[$post['login-id']])) {
+        $accountData = [
+            'password' => password_hash(LOGIN_INFORMATION[$post['login-id']], PASSWORD_DEFAULT),
+            'login-lock-timestamp' => null,
+            'error-count' => 0,
+            'login-auth' => false,
+        ];
+    } else {
+        $accountData = $accounts[$post['login-id']];
     }
-} else {
-    $adminAuth = null;
-}
 
-// 5回ログインミスでロック設定してエラー内容の初期化
-if ($errCount >= LOGIN_LOCK_COUNT) {
-    $session->write('login-lock-timestamp', new DateTime());
-    unset($errCount);
-    $session->delete('login-error');
-} else {
-    $nowDate = new DateTime();
-    $lockDate = $session->read('login-lock-timestamp');
-    if ($lockDate instanceof DateTime) {
-        $diffLockTime = ($nowDate->getTimestamp() - $lockDate->getTimestamp()) / HOUR_TO_MINUTE;
-        if ($diffLockTime > LOGIN_UNLOCK_TIME) {
-            // ロック後に規定時間経過したらロック解除
-            $session->delete('login-lock-timestamp');
-        } else {
-            // ロック解除前は認証成功しても遷移させない
-            $adminAuth = null;
+    $adminAuth = $accountData['login-auth'] = password_verify($post['password'], password_hash(LOGIN_INFORMATION[$post['login-id']], PASSWORD_DEFAULT));
+    if ($accountData['login-auth'] === false) {
+        $accountData['error-count']++;
+    }
+
+    // 5回ログインミスでロック設定してエラー内容の初期化
+    if ($accountData['error-count'] >= LOGIN_LOCK_COUNT) {
+        $accountData['login-lock-timestamp'] = new DateTime();
+        $accountData['error-count'] = 0;
+    } else {
+        $nowDate = new DateTime();
+        $lockDate = $accountData['login-lock-timestamp'];
+        if ($lockDate instanceof DateTime) {
+            $diffLockTime = ($nowDate->getTimestamp() - $lockDate->getTimestamp()) / HOUR_TO_MINUTE;
+            if ($diffLockTime > LOGIN_UNLOCK_TIME) {
+                // ロック後に規定時間経過したらロック解除
+                $accountData['login-lock-timestamp'] = null;
+            } else {
+                // ロック解除前は認証成功しても遷移させない
+                $adminAuth = false;
+            }
         }
     }
 
-    $session->write('login-error', $errCount);
+    // ログインの履歴をセッションに保存
+    $session->writeArray('login-account', $post['login-id'], $accountData);
+} elseif (isset($post['login-id']) && !isset(LOGIN_INFORMATION[$post['login-id']])) {
+    $adminAuth = false;
+} else {
+    $adminAuth = null;
 }
 
 // アクセスしてきたページを保存
@@ -84,16 +94,20 @@ $urlData = $url . $movePage;
 
 $session->write('url', $urlData);
 
-if (!($adminAuth)) {
+if (!$adminAuth) {
     // 入力値チェック
-    if ($session->read('login-lock-timestamp') !== false) {
+    if (isset($accountData) && !empty($accountData['login-lock-timestamp'])) {
         $session->write('password-Error', LOGIN_LOCK);
-    } elseif ($tokenError === false && !empty($post)) {
+    } elseif ($adminAuth === false && ($tokenError === false && !empty($post))) {
         $session->write('password-Error', LOGIN_FAILURED);
         // ログイン警告メール (ログイン失敗時)
         alertAdmin('login', $session->read('movePage'));
     }
-} else {
+} elseif (isset($adminAuth)) {
+    // アカウントロック情報の初期化
+    $accountData['login-lock-timestamp'] = null;
+    $accountData['error-count'] = 0;
+
     // ログイン警告メール (ログイン成功時)
     alertAdmin('login_success', '');
 
