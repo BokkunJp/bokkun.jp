@@ -309,14 +309,13 @@ class Session
         // セッションプロパティを削除
         if (is_null($this->type) && is_null($this->sessionName) && is_null($sessionElm)) {
             $this->finaryDestroy();
-        } elseif (!is_null($sessionElm)) {
-            unset($this->session[$sessionElm]);
-        } else {
             unset($this->session);
             $this->session = [];
+        } elseif (!is_null($sessionElm) && isset($this->session[$sessionElm])) {
+            unset($this->session[$sessionElm]);
         }
 
-        // セッション配列のデータを反映
+        // セッション配列側を更新
         if (!is_null($this->type) && !is_null($this->sessionName)) {
             unset($_SESSION[$this->type][$this->sessionName]);
             $_SESSION[$this->type][$this->sessionName] = $this->session;
