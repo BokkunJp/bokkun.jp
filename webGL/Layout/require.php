@@ -63,7 +63,7 @@ $publicPathList->resetKey();
 foreach ($publicPathList->get() as $key => $path) {
     require_once $path;
     if ($key === 'ua') {
-    $ua = new Public\Important\UA();
+        $ua = new Public\Important\UA();
     }
 }
 

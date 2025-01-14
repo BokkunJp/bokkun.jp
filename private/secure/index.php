@@ -98,6 +98,7 @@ if (!$adminAuth) {
     // 入力値チェック
     if (isset($accountData) && !empty($accountData['login-lock-timestamp'])) {
         $session->write('password-Error', LOGIN_LOCK);
+        alertAdmin('account_lock', $session->read('movePage'));
     } elseif ($adminAuth === false && ($tokenError === false && !empty($post))) {
         $session->write('password-Error', LOGIN_FAILURED);
         // ログイン警告メール (ログイン失敗時)
@@ -132,4 +133,4 @@ if (!$adminAuth) {
 }
 
 require_once __DIR__ . '/Layout/layout.php';
-die;
+exit;

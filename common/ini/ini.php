@@ -6,6 +6,7 @@
  * (正しくない値の場合はfalseを返す。未入力の場合は全データを返す。)
  *
  * @param ...$parameter
+ * 
  * @return mixed
  */
 function getIni(...$parameter): mixed
@@ -51,6 +52,41 @@ function getIni(...$parameter): mixed
                 $result = false;
             }
         }
+    }
+
+    return $result;
+}
+
+/**
+ * setIni
+ *
+ * 配列データの内容をiniファイルに書き込み。
+ *
+ * @param string $iniName
+ * @param array $contents
+ * @param string|null $initDirPath
+ * 
+ * @return boolean
+ */
+function setIni(string $iniName, array $contents, ?string $initDirPath = null): bool
+{
+    if (!empty($initDirPath)) {
+        $dir = new Path($initDirPath);
+    } else {
+        $dir = new Path(__DIR__);
+    }
+
+    $dir->add($iniName);
+
+    $iniData = '';
+    foreach ($contents as $key => $value) {
+        $iniData = $key. '='. $value;
+    }
+
+    $result = file_put_contents($dir->get(), $iniData);
+
+    if ($result !== false) {
+        $result = true;
     }
 
     return $result;
