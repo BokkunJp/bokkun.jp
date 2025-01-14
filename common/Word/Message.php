@@ -25,18 +25,15 @@ define('COMPONENT_DIR', dirname(__DIR__). DIRECTORY_SEPARATOR. "Component");
 define('NL', nl2br(PHP_EOL));
 define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 define('NOW_PAGE', basename(getcwd()));
-define('SECURITY_LENG', 32);
 
-// imageページの文言
-define('VIEW', 1);
-define('NOT_VIEW', -1);
-
-define('PAGER', 10);
-define('MAX_VIEW', 10);
-define('IMAGE_MAX_VALUE', 1024);
-define('MIN_PAGE_COUNT', 1);
-define('SPACE_ON', 1);
-define('ERROR_MESSAGE', 'エラーが発生しました。');
+// 固定定数群の定義
+$words = getIni('word');
+foreach ($words as $key => $word) {
+    if (is_numeric($word)) {
+        $word = (int)$word;
+    }
+    define($key, $word);
+}
 
 // デバッグ表示エラー
 define(
