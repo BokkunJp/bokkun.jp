@@ -211,7 +211,8 @@ function logout(): void
 
     // 管理側のログインセッションの削除
     $session = new Private\Important\Session('login');
-    $session->delete();
+    $session->delete('secure');
+    $session->delete('login-account');
 }
 
 /**
