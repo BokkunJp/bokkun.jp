@@ -38,7 +38,6 @@ $initPathList->methodPath('SetPathEnd');
 $initPathList->methodPath('Add', 'Include.php');
 
 $initPathList->resetKey();
-
 foreach ($initPathList->get() as $path) {
     require_once $path;
 }
