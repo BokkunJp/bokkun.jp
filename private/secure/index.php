@@ -128,7 +128,7 @@ if (!$adminAuth) {
 
     // リンクから遷移
     } else {
-        $session->write('password-Success', "<p>認証に成功しました。<a href={$adminSession['movePage']}>リンク</a>から移動できます。<br/></p>");
+        $session->write('password-Success', "<p>認証に成功しました。<a href={$urlData}>こちら</a>から移動できます。<br/></p>");
     }
 }
 

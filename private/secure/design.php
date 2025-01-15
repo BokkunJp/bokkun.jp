@@ -11,6 +11,6 @@ $token = new Private\Important\Token('private-login-token', $session, true);
     <p class='admin-password'>PASSWORD <input type='password' name='password' class='pass' maxLength='20' /></p>
     <button type='submit' class='send'>送信</button>
     <div class='notice'><?= $session->onlyView('password-Error'); ?></div>
-    <div class='warning'><?= $session->onlyView('password-Success'); ?></div>
+    <div class='success'><?= $session->onlyView('password-Success'); ?></div>
     <?php $token->set(); ?>
 </form>
