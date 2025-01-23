@@ -1,5 +1,5 @@
 <?php
-$token = new Private\Important\Token('private-login-token', $session, true);
+$token = new Private\Important\Token('login-token', $session, true);
 ?>
 管理ページに進まれる場合はID・パスワードを入力してください。<br />
 詳細はサイト管理人にお問い合わせください。<br/>

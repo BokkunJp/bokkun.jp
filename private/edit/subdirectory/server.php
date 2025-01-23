@@ -6,7 +6,7 @@ define("DS", DIRECTORY_SEPARATOR);
 require_once dirname(__DIR__, 2) . DS . "common" . DS . "ajax-require.php";
 
 // tokenチェック
-$session = new \Private\Important\Session('edit');
+$session = new \Private\Important\Session('edit-page');
 $editSrcToken = new \Private\Important\Token('edit-src-token', $session);
 if ($editSrcToken->check() === false) {
     $data = ['src' => '', 'src-view' => '不正な操作を検知しました。再読み込みしてください。'];
