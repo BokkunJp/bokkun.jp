@@ -10,7 +10,7 @@ $str = 'private/image';
 $str .= !empty($page) ? "?page={$page}" : "";
 
 // セッション開始
-$session = new Private\Important\Session('private-image');
+$session = new Private\Important\Session('image');
 
 $mode = Private\Important\Setting::getQuery('mode');
 
