@@ -9,6 +9,8 @@ use Private\Important\ScriptClass;
 
 function sendMail($header, $response=false)
 {
+    ErrorConfig::noErrorMode();         // メール失敗時にはエラーを出さないようにする
+
     if (!isset($header)) {
         return false;
     }
@@ -39,16 +41,15 @@ function sendMail($header, $response=false)
         $addtional_parameter = '';
     }
 
-
-    if (mb_send_mail($to, $title, $body, $addtional_headers, $addtional_parameter)) {
-        $ret = true;
-    } else {
-        $ret = false;
+    $sendResult = @mb_send_mail($to, $title, $body, $addtional_headers, $addtional_parameter);
+    if (!$sendResult) {
         $script = new ScriptClass();
         $script->alert('メールの送信に失敗しました。');
     }
 
+    ErrorConfig::secureMode();
+
     if ($response === true) {
-        return $ret;
+        return $sendResult;
     }
 }

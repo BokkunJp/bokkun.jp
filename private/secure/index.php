@@ -24,9 +24,9 @@ $mode = 'movePage';
 
 $tokenError = false;
 // CSRFチェック
-if (isset($post['private-login-token'])) {
-    unset($post['private-login-token']);
-    $privateLoginToken = new Private\Important\Token("private-login-token", $session);
+if (isset($post['login-token'])) {
+    unset($post['login-token']);
+    $privateLoginToken = new Private\Important\Token("login-token", $session);
     if (!$privateLoginToken->check()) {
         $tokenError = true;
         $session->write('token-Error', '<p>不正な遷移です。もう一度操作してください。</p>');
