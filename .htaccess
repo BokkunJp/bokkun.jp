@@ -1,4 +1,4 @@
-# .htaccessでRewriteを有効化する
+## .htaccessでRewriteを有効化する
 RewriteEngine On
 RewriteBase /
 
@@ -22,82 +22,77 @@ ErrorDocument 405 /common/error/405/
 ErrorDocument 406 /common/error/406/
 ErrorDocument 408 /common/error/408/
 ErrorDocument 410 /common/error/410/
+#ErrorDocument 418 /common/error/418/ (今は使えない模様。将来使えるようになった時に備えて、ソースは残しておく。)
 ErrorDocument 421 /common/error/421/
 ErrorDocument 423 /common/error/423/
 # 500系
 ErrorDocument 500 /common/error/500/
 ErrorDocument 502 /common/error/502/
 ErrorDocument 503 /common/error/503/
-<If "%{HTTP_HOST} != 'bokkun.jp'">
-    ErrorDocument 501 /common/error/501/
-    ErrorDocument 504 /common/error/504/
-    ErrorDocument 505 /common/error/505/
-    ErrorDocument 506 /common/error/506/
-    ErrorDocument 507 /common/error/507/
-    ErrorDocument 508 /common/error/508/
-    ErrorDocument 510 /common/error/510/
-    ErrorDocument 511 /common/error/511/
-</If>
+ErrorDocument 501 /common/error/501/
+ErrorDocument 504 /common/error/504/
+ErrorDocument 505 /common/error/505/
+ErrorDocument 506 /common/error/506/
+ErrorDocument 507 /common/error/507/
+ErrorDocument 508 /common/error/508/
+ErrorDocument 510 /common/error/510/
+ErrorDocument 511 /common/error/511/
 
 ## セキュリティ対策
-## XSS
+# XSS
 Header always set X-XSS-Protection "1; mode=block"
-## Content Type (ダウンロード)
+# Content Type (ダウンロード)
 Header always set X-Content-Type-Options "nosniff"
-## クリックジャッキング
+# クリックジャッキング
 Header always append X-Frame-Options SAMEORIGIN
-
-## HSTS
+# HSTS
 RewriteCond %{HTTPS} !=on [NC]
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-## HSTSプリロード
+# HSTSプリロード
 Header always unset Strict-Transport-Security
 Header set Strict-Transport-Security "max-age=315360000; includeSubDomains; preload"
 
 ## 特定のページの404化
+# 管理側
 RewriteCond %{REQUEST_URI} ^/private/secure/$ [OR]
 RewriteCond %{REQUEST_URI} ^/private/Sample/$ [OR]
+# 公開側
 RewriteCond %{REQUEST_URI} ^/public/client/image/(.*)/_oldImage/(.*)$
 RewriteRule ^.*$ - [R=404]
 
 ## (一部のファイル以外のPHPファイルに直接アクセスできなくさせる)
-## 共通
+# 共通
 RewriteCond %{REQUEST_URI} !(/common/error/)
 RewriteCond %{REQUEST_URI} !(/index.php$)
-RewriteCond %{REQUEST_URI} !(/subdirectory.*/index.php$)
-RewriteCond %{REQUEST_URI} !(/subdirectory.*/design.php$)
 RewriteCond %{REQUEST_URI} !(/subdirectory.*/server.php$)
 RewriteCond %{REQUEST_URI} !(/wordPress/)
 RewriteCond %{REQUEST_URI} !(/phpPgAdmin/)
-## 管理側
-RewriteCond %{REQUEST_URI} !(^/private/admin.php$)
-RewriteCond %{REQUEST_URI} !(^/private/secure.php$)
-RewriteCond %{REQUEST_URI} !(^/private/reset.php$)
+# 管理側
 RewriteCond %{REQUEST_URI} !(^/private.+/edit.php$)
-## 公開側
+# 公開側(なし)
 RewriteRule \.php - [F]
-# RewriteRule ^(.*)/private/index$ /private/$1/admin.php
+# RewriteRule ^(.*)/private/index$ /private/$1/
 # RewriteRule ^(.*)\/private\/(.*)$ \/private\/$1\/$2
-
 RewriteCond %{REQUEST_URI} !(^/public/common)
 RewriteCond %{REQUEST_URI} !(^/public/client)
 RewriteRule ^public/(.*) $1 [R]
 
+## その他
 # Pythonファイル(.py)をCGIとして動作するようにする。
 AddHandler cgi-script .py
 
+## メンテナンス関連
 ## メンテナンス対象外ページを指定してメンテナンスをかけるときに使用
-# RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-f
 ## トップページのみメンテナンス解除
-# RewriteCond %{REQUEST_URI} !(^/$)
-## 管理側のadminページのメンテナンスを解除
-# RewriteCond %{REQUEST_URI} !(^/private/admin.php)
+##RewriteCond %{REQUEST_URI} !(^/$)
+## 管理側のトップページのメンテナンスを解除
+#RewriteCond %{REQUEST_URI} !(^/private/$)
 ## 公開側のimageページのみメンテナンス解除
-# RewriteCond %{REQUEST_URI} !(^/image/$)
+#RewriteCond %{REQUEST_URI} !(^/image/$)
 ## 管理側のimageページ以下のメンテナンスを解除
-# RewriteCond %{REQUEST_URI} !(^/private/image)
-#
+#RewriteCond %{REQUEST_URI} !(^/private/image)
 ## メンテナンス
-# RewriteCond %{REQUEST_URI} !(/common/error/503/)
-# RewriteCond %{REQUEST_URI} !(/common/error/client/)
-# RewriteRule ^.*$ - [R=503,L]
+#RewriteCond %{REQUEST_URI} !(/common/error/503/)
+#RewriteCond %{REQUEST_URI} !(/common/error/client/)
+#RewriteRule ^.*$ - [R=503,L]
