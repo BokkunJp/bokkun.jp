@@ -3,6 +3,12 @@
 use Public\Important\ScriptClass;
 use Public\Important\Setting as Setting;
 
+// CSV関係の処理の呼び出し
+$csvMakePath = new \Path(COMMON_DIR);
+$csvMakePath->add('CSV');
+includeFiles($csvMakePath->get());
+
+// トークン関連の処理の呼び出し
 if (!class_exists('Public\Important\Token')) {
     $tokenPath = new \Path(PUBLIC_COMMON_DIR);
     $tokenPath->setPathEnd();
