@@ -1,6 +1,6 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-class Math
+class MathApp
 {
     use PublicTrait;
     private float $value;
@@ -17,3 +17,5 @@ class Math
         
     }
 }
+
+$mathApp = new MathApp();

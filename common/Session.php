@@ -49,10 +49,10 @@ class Session
             if (PHP_OS === 'WINNT') {
                 $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'), 2). "/var/session/";
                 if (!is_dir($sessionDir)) {
-                    mkdir($sessionDir, 0755);
+                    mkdir($sessionDir, 0755, true);
                     $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT')). "/var/session/";
                     if (!is_dir($sessionDir)) {
-                        mkdir($sessionDir, 0755);
+                        mkdir($sessionDir, 0755, true);
                     } else {
                         $sessionDir .= '/session/';
                     }
@@ -307,12 +307,12 @@ class Session
         }
 
         // セッションプロパティを削除
-        if (is_null($this->type) && is_null($this->sessionName) && is_null($sessionElm)) {
+        if (!is_null($sessionElm) && isset($this->session[$sessionElm])) {
+            unset($this->session[$sessionElm]);
+        } else {
             $this->finaryDestroy();
             unset($this->session);
             $this->session = [];
-        } elseif (!is_null($sessionElm) && isset($this->session[$sessionElm])) {
-            unset($this->session[$sessionElm]);
         }
 
         // セッション配列側を更新

@@ -1,42 +1,68 @@
 <?php
 
-    require_once 'wordDefine.php';                            // 選択肢文言ファイルをインクルード
-
     class Option
     {
-        private $op1;
-        private $op2;
-        private $op3;
+        private string $parentClass, $childClass;
 
-        public function __construct()
+        public function __construct(private array $option = [])
         {
-            $this->op1 = "選択肢1";
-            $this->op2 = "選択肢2";
-            $this->op3 = "選択肢3";
-        }
-
-        public function getArray()
-        {
-            $ary = array();
-            foreach ($this as $key => $value) {
-                $ary[$key] = $value;
+            if (empty($option)) {
             }
-            return $ary;
-        }
-    }
-
-    class ChildOption extends Option
-    {
-        private $op1_1;
-        private $op1_2;
-        public function __construct()
-        {
-            parent::__construct();
-            $this->op1_1 = "子選択肢1";
-            $this->op1_2 = "子選択肢2";
         }
 
-        public function getValue($elm, $parent_flg=null)
+        public function setType(string $type): void
         {
+            switch ($type) {
+                case 'list':
+                    $this->parentClass = 'ul';
+                case 'numberList':
+                $this->parentClass = 'ol';
+                $this->childClass = 'li';
+                    break;
+                case 'select':
+                    $this->parentClass = 'select';
+                    $this->childClass = 'option';
+            }
         }
+
+        public function getOption(string $key)
+        {
+            $result = null;
+            if (searchData($key, $this->option)) {
+                $result = $this->option[$key];
+            }
+            return $result;
+        }
+
+        public function addOption(string $val)
+        {
+            $this->option[] = $val;
+        }
+
+        public function deleteOption(string $val)
+        {
+            if (searchData($val, $this->option)) {
+            }
+        }
+
+        public function outputChildOption(bool $outputFlg = false)
+        {
+            $resultValue = "";
+            $childOption = new HTMLClass();
+            foreach ($this->option as $value) {
+                $childOption->setTag($this->childClass, $value);
+                $resultValue .= $childOption->execTag($outputFlg);
+            }
+
+            return $resultValue;
+        }
+
+        public function outputOption(bool $outputFlg = false)
+        {
+
+            $option = new HTMLClass();
+            $option->setTag($this->parentClass, $this->outputChildOption());
+            $option->execTag($outputFlg);
+        }
+
     }

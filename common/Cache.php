@@ -16,7 +16,8 @@ class Cache {
 
     private function connect(Session $session): void
     {
-        if ($session->read('cache')) {
+        $sessionCache = $session->read('cache');
+        if (!$sessionCache) {
             $session->write('cache', []);
         }
     }
