@@ -2,10 +2,10 @@
 
 // includeDirctories();
 
-function main($inputFlg=false)
+function main(bool $inputFlg = false, string $tokenName = 'csv-token')
 {
-    $session = new \Public\Important\Session('csv-token');
-    $csvToken = new \Public\Important\Token('csv-token', $session);
+    $session = new \Public\Important\Session($tokenName);
+    $csvToken = new \Public\Important\Token($tokenName, $session);
 
     if ($csvToken->check() === false) {
         echo "<div class='warning'>不正な遷移です。</div>";
