@@ -3,6 +3,7 @@
 use Public\Important\ScriptClass;
 use Public\Important\Setting as Setting;
 
+// トークン関連の処理の呼び出し
 if (!class_exists('Public\Important\Token')) {
     $tokenPath = new \Path(PUBLIC_COMMON_DIR);
     $tokenPath->setPathEnd();
@@ -11,8 +12,14 @@ if (!class_exists('Public\Important\Token')) {
 }
 
 $posts = Public\Important\Setting::getPosts();
-$session = new Public\Important\Session('product01-csv-token');
-$product01CsvToken = new Public\Important\Token('product01-csv-token', $session, true);
+$tokenName = 'product01-csv-token';
+$session = new Public\Important\Session($tokenName);
+$product01CsvToken = new Public\Important\Token($tokenName, $session, true);
+
+// CSV関係の処理の呼び出し
+$csvMakePath = new \Path(COMMON_DIR);
+$csvMakePath->add('CSV');
+includeFiles($csvMakePath->get());
 
 if (isset($posts['csv']) && $posts['csv'] === 'make') {
     $alert = new ScriptClass();
@@ -24,7 +31,7 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
         $inputFlg = false;
     }
 
-    main($inputFlg);
+    main($inputFlg, $tokenName);
 }
 ?>
 <form method='POST'>

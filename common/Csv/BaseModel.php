@@ -206,6 +206,7 @@ class CSV1_Base
         }
 
         $filePath = new \Path($filePath, '/');
+        $filePath->setPathEnd();
         $filePath->add($fileName);
         $fileHandler = @fopen($filePath->get(), "w");
 
