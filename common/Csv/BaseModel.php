@@ -100,7 +100,7 @@ class CSV1_Base
         $this->data = null; // データリセット
         $fileHandler = fopen($filePath->get(), "r");
         if ($fileHandler) {
-            while ($_data = fgetcsv($fileHandler)) {
+            while ($_data = fgetcsv($fileHandler, escape:'\\')) {
                 if ($_data === false) {
                     user_error("読み込みに失敗しました。", E_RECOVERABLE_ERROR);
                 } else {
@@ -216,7 +216,7 @@ class CSV1_Base
         }
         if ($fileHandler) {
             foreach ($this->data as $_data) {
-                if (fputcsv($fileHandler, $_data) === false) {
+                if (fputcsv($fileHandler, $_data, escape:'\\') === false) {
                     user_error("ファイルの書き込みに失敗しました。", E_USER_ERROR);
                     exit;
                 }

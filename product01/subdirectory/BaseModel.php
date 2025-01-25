@@ -99,7 +99,7 @@ class productCSV_Base
         $this->data = null; // データリセット
         $fileHandler = fopen($path, "r");
         if ($fileHandler) {
-            while ($_data = fgetcsv($fileHandler)) {
+            while ($_data = fgetcsv($fileHandler, escape:'\\')) {
                 if ($_data === false) {
                     user_error("読み込みに失敗しました。", E_RECOVERABLE_ERROR);
                 } else {
