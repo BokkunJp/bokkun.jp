@@ -3,11 +3,6 @@
 use Public\Important\ScriptClass;
 use Public\Important\Setting as Setting;
 
-// CSV関係の処理の呼び出し
-$csvMakePath = new \Path(COMMON_DIR);
-$csvMakePath->add('CSV');
-includeFiles($csvMakePath->get());
-
 // トークン関連の処理の呼び出し
 if (!class_exists('Public\Important\Token')) {
     $tokenPath = new \Path(PUBLIC_COMMON_DIR);
@@ -19,6 +14,11 @@ if (!class_exists('Public\Important\Token')) {
 $posts = Public\Important\Setting::getPosts();
 $session = new Public\Important\Session('csv-token');
 $csvToken = new Public\Important\Token('csv-token', $session, true);
+
+// CSV関係の処理の呼び出し
+$csvMakePath = new \Path(COMMON_DIR);
+$csvMakePath->add('CSV');
+includeFiles($csvMakePath->get());
 
 if (isset($posts['csv']) && $posts['csv'] === 'make') {
     $alert = new ScriptClass();
