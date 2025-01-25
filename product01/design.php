@@ -18,7 +18,7 @@ $product01CsvToken = new Public\Important\Token($tokenName, $session, true);
 
 // CSV関係の処理の呼び出し
 $csvMakePath = new \Path(COMMON_DIR);
-$csvMakePath->add('CSV');
+$csvMakePath->add('Csv');
 includeFiles($csvMakePath->get());
 
 if (isset($posts['csv']) && $posts['csv'] === 'make') {

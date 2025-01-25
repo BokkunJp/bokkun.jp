@@ -15,8 +15,12 @@ $smarty->setCompileDir('./subdirectory/smarty/templates_c/');
 $smarty->setCacheDir('./subdirectory/smarty/cache/');
 $smarty->setCacheDir('./subdirectory/smarty/cache/');
 if ($session->judge('addition')) {
-    $smarty->assign('addition', [$session->read('addition'), $session->read('addition')]);
-    $session->delete('addition');
+    $addition = $session->read('addition');
+    if (isset($addition['title'])) {
+        unset($addition['title']);
+    }
+    $smarty->assign('addition', $addition);
+    $session->write('addition', $addition);
 } else {
     $smarty->assign('addition', '');
 }
