@@ -214,7 +214,7 @@ class productCSV_Base
         }
         if ($fileHandler) {
             foreach ($this->data as $_data) {
-                if (fputcsv($fileHandler, $_data) === false) {
+                if (fputcsv($fileHandler, $_data, escape:'\\') === false) {
                     user_error("ファイルの書き込みに失敗しました。", E_USER_ERROR);
                     exit;
                 }

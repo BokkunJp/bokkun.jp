@@ -111,5 +111,3 @@ foreach ($fileArray as $_value) {
     echo "<a href=\"{$filePath->get()}\" download>{$_value}ダウンロード</a> <br/>";
 }
 echo "</p>";
-
-$session->delete('csv');
