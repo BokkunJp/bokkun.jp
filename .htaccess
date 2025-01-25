@@ -16,20 +16,22 @@ RewriteBase /
 # 400系
 ErrorDocument 400 /common/error/400/
 ErrorDocument 401 /common/error/401/
+ErrorDocument 402 /common/error/402/
 ErrorDocument 403 /common/error/403/
 ErrorDocument 404 /common/error/404/
 ErrorDocument 405 /common/error/405/
 ErrorDocument 406 /common/error/406/
 ErrorDocument 408 /common/error/408/
+ErrorDocument 409 /common/error/409/
 ErrorDocument 410 /common/error/410/
 #ErrorDocument 418 /common/error/418/ (今は使えない模様。将来使えるようになった時に備えて、ソースは残しておく。)
 ErrorDocument 421 /common/error/421/
 ErrorDocument 423 /common/error/423/
 # 500系
 ErrorDocument 500 /common/error/500/
+ErrorDocument 501 /common/error/501/
 ErrorDocument 502 /common/error/502/
 ErrorDocument 503 /common/error/503/
-ErrorDocument 501 /common/error/501/
 ErrorDocument 504 /common/error/504/
 ErrorDocument 505 /common/error/505/
 ErrorDocument 506 /common/error/506/
