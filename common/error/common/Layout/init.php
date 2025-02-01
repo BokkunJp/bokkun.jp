@@ -8,7 +8,7 @@ require_once dirname(__DIR__, 3). DIRECTORY_SEPARATOR. 'InitFunction.php';
 
 // タイトルの初期設定
 $errCode = http_response_code();    // ステータスコードを出力
-if (empty($title)) {
+if (!isset($title) && empty($title)) {
     $title = 'Page Error -';            // タイトル用に調整
     $title .= $errCode;
     $title .= '-';
