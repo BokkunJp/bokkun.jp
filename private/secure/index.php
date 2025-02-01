@@ -8,16 +8,12 @@ use Private\Important\Session;
 
 $session = new Session('login');
 
-if (!isset($adminUrl) || empty($adminUrl) && $session->read('send') !== true) {
-    $commonPath = new Path(PRIVATE_DIR);
-    $commonPath->setPathEnd();
-    $commonPath->add('common.php');
-    require_once $commonPath->get();
-    $adminUrl = explode('/', Private\Important\Setting::getUri());
-    $session->write('url', $adminUrl);
-} else {
-    $adminUrl = $session->read('url');
-}
+$commonPath = new Path(PRIVATE_DIR);
+$commonPath->setPathEnd();
+$commonPath->add('common.php');
+require_once $commonPath->get();
+$adminUrl = explode('/', Private\Important\Setting::getUri());
+$session->write('url', $adminUrl);
 
 // ログイン成功時には自動遷移させる
 $mode = 'movePage';
@@ -85,7 +81,6 @@ if (is_array($movePage)) {
     if ($movePage[2] === 'secure' || $movePage[2] === 'logout' || $movePage[2] === 'logout-with-session-reset') {
         unset($movePage[2]);
     }
-    
     $movePage = implode('/', $movePage);
 } else {
     $movePage = '';
