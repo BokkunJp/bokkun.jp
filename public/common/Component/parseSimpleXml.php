@@ -1,6 +1,6 @@
 
 <?php
-class simplexml_parse
+class ParseSimpleXml
 {
     private $xmlData;
     public function __construct($xmlData)
