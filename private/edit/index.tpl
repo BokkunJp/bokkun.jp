@@ -13,7 +13,7 @@
   <div class='result'>
     <textarea class='result-src'></textarea>
     <p><h3>現在のソース：</h3></p>
-    <p><span class='result-src-view'></span></p>
+    <p><code class='result-src-view'></code></p>
     <button type='button' name="save">ソースを保存する</button>
   </div>
 {$editSrcToken->getTag()}
