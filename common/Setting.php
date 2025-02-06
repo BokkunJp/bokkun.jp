@@ -32,39 +32,68 @@ class Setting
     public function __construct()
     {
         // 基本設定
-        $this->initSsl($this->url);
-        $this->domain = $this->getServer('SERVER_NAME');
-        $this->url = $this->url . $this->domain;
-        $public = new \Path('');
-        $public->add('public');
-        $this->public = $public->get();
-
-        $client = new \Path($public->get());
-        $client->add('client');
-        $this->client = $client->get();
+        $this->setSslUrl();
+        $this->setUrl();
+        $this->setPublic();
+        $this->setClient($this->public);
     }
 
     /**
-     * initSsl
+     * setSslUrl
      *
-     * HTTPSの有無を判定してセットする。
+     * HTTPSの有無を判定してセットする。(強制でHTTPSとする)
      *
-     * @param ?string &$scheme
-     * 
      * @return void
      */
-    private function initSsl(?string &$scheme)
+    private function setSslUrl(bool $shrortFlg = true)
     {
-        $sslFlg = $this->getServer('HTTPS');
-        if (isset($sslFlg)) {
-            $scheme = '//';
+        if ($shrortFlg) {
+            $this->url = '//';
         } else {
-            $scheme = 'http://';
+            $this->url = 'https://';
         }
     }
 
     /**
-     * getSERVER
+     * setUrl
+     *
+     * URLプロパティの調整。
+     *
+     * @return void
+     */
+    private function setUrl()
+    {
+        $this->domain = $this->getServer('SERVER_NAME');
+        if (is_string($this->url)) {
+            $this->url = $this->url . $this->domain;
+        } else {
+            $this->url = $this->domain;
+        }
+    }
+
+    /**
+     * setPublic
+     *
+     * @return void
+     */
+    private function setPublic(): void
+    {
+        $this->public = $this->setInPath('public');
+    }
+
+    /**
+     * setClient
+     *
+     * @param string $publicPath
+     * @return string
+     */
+    private function setClient(string $publicPath): void
+    {
+        $this->client = $this->setInPath('client', $publicPath);
+    }
+
+    /**
+     * getServer
      *
      * $_SERVERの内容を安全に取得する。
      *
