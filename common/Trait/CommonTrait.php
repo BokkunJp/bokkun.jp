@@ -31,6 +31,23 @@ trait CommonTrait
     }
 
     /**
+     * Pathクラスを経由して文字列をセット
+     *
+     * @param string $propertyName
+     * @param string $pathUrl
+     * 
+     * @return string
+     */
+    private function setInPath(string $propertyName, string $pathUrl = ''): string
+    {
+        $setData = new \Path($pathUrl);
+
+        $setData->add($propertyName);
+
+        return $setData->get();
+    }
+
+    /**
      * createClient
      *
      * 所定のディレクトリまでのディレクトリ群を走査し、パスを生成する。
