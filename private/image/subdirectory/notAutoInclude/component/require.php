@@ -65,7 +65,6 @@ $privatepathList->methodPath('addArray', ['common', 'Component', 'Ua.php']);
 $privatepathList->resetKey();
 
 foreach ($privatepathList->get() as $path) {
-    debug($path);
     require_once $path;
 }
 
