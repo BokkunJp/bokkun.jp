@@ -4,7 +4,7 @@ function Shader(id) {
 /* シェーダの作成 */
 Shader.prototype.create = function (id) {
 
-    var scriptElm = document.getElementById(id);
+    const scriptElm = document.getElementById(id);
 
     // エラー処理
     if (!scriptElm) {

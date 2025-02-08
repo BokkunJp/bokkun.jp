@@ -11,12 +11,12 @@ onload = function ()
 function main()
 {
 
-    var vue = new VueClass();
+    const vue = new VueClass();
     vue.setData('#test', 'Default');
     vue.Exec();
 
 
-    // var vue = new Vue(
+    // const vue = new Vue(
     // {
     //     el: '#app-1',
     //     data: { message: 'Test' }

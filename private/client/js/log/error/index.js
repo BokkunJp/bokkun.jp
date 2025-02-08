@@ -10,12 +10,12 @@ $(function ()
  */
 function main()
 {
-    var num;
+    const num;
     // 選択したバージョンからログ一覧を出力する
     $('select[name="error_log"]').on('change', function (e)
     {
-        var url = location.href;
-        var selectVersion = { "ver": $(this).val() };
+        const url = location.href;
+        const selectVersion = { "ver": $(this).val() };
         num = $(this).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
         ajaxMain(url, null, 'server.php', 'POST', selectVersion, 'json', readFileList);
@@ -24,8 +24,8 @@ function main()
     // 選択したログを読み込む
     $('button[name="edit"]').on('click', function (e)
     {
-        var url = location.href;
-        var selectObj = { "ver": num, "select_log": $('select[name="select_log"]').val() };
+        const url = location.href;
+        const selectObj = { "ver": num, "select_log": $('select[name="select_log"]').val() };
         ajaxMain(url, null, 'server.php', 'POST', selectObj, 'json');
     });
 

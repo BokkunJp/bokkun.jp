@@ -6,10 +6,10 @@ function Texture(width, height) {
 }
 
 function createTexture(source) {
-    var img = new Image();
+    const img = new Image();
 
     img.onload = function () {
-        var tex = context.createTexture();
+        const tex = context.createTexture();
         context.bindTexture(context.TEXTURE_2D, tex);
         context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, img);
         context.generateMipmap(context.TEXTURE_2D);

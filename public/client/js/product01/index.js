@@ -1,4 +1,4 @@
-var canvas, context;
+const canvas, context;
 $(function() {
 
     try {
@@ -12,7 +12,7 @@ $(function() {
 
 function main() {
     // 入力情報(RGB)を取得
-    var rgb = $('*[name=color]');
+    const rgb = $('*[name=color]');
 
     // 枠の初期化(width, height)
     init(300, 300);
@@ -29,10 +29,10 @@ function main() {
 
 
     // プログラムオブジェクトの作成
-    var prg = new ProgramObject(new Shader('vshader').shader, new Shader('fshader').shader);
+    const prg = new ProgramObject(new Shader('vshader').shader, new Shader('fshader').shader);
 
 
-    var att = [
+    const att = [
         [
             context.getAttribLocation(prg.programObject, 'position'),
             3 // xyz
@@ -45,31 +45,31 @@ function main() {
 
     // 頂点の座標情報を格納する配列
     // Ajaxでサーバからデータを取ってくる (3x3のデータがあることが前提)
-    var vertexPosition = [
+    const vertexPosition = [
         1.0, 0.0, 0.0,
         0.5, 1.0, 1.0,
         0.0, 0.0, 1.0
     ];
 
     // 頂点の色情報を格納する配列
-    var vertexColor = [
+    const vertexColor = [
         parseFloat(rgb[0].value) / 256, parseFloat(rgb[1].value) / 256, parseFloat(rgb[2].value) / 256, parseFloat(rgb[3].value),
         parseFloat(rgb[0].value) / 256, parseFloat(rgb[1].value) / 256, parseFloat(rgb[2].value) / 256, parseFloat(rgb[3].value),
         parseFloat(rgb[0].value) / 256, parseFloat(rgb[1].value) / 256, parseFloat(rgb[2].value) / 256, parseFloat(rgb[3].value)
     ];
 
-    var vbo = new VBO(vertexPosition).make(att[0][0], att[0][1]);
-    var cbo = new VBO(vertexColor).make(att[1][0], att[1][1]);
+    const vbo = new VBO(vertexPosition).make(att[0][0], att[0][1]);
+    const cbo = new VBO(vertexColor).make(att[1][0], att[1][1]);
 
     // minMatrix.js を用いた行列関連処理
     // matIVオブジェクトを生成
-    var m = new matIV();
+    const m = new matIV();
 
     // 各種行列の生成と初期化
-    var mMatrix = m.identity(m.create());
-    var vMatrix = m.identity(m.create());
-    var pMatrix = m.identity(m.create());
-    var mvpMatrix = m.identity(m.create());
+    const mMatrix = m.identity(m.create());
+    const vMatrix = m.identity(m.create());
+    const pMatrix = m.identity(m.create());
+    const mvpMatrix = m.identity(m.create());
 
     // ビュー座標変換行列
     m.lookAt([0.0, 1.0, 3.0], [0, 0, 0], [0, 1, 0], vMatrix);
@@ -82,7 +82,7 @@ function main() {
     m.multiply(mvpMatrix, mMatrix, mvpMatrix);
 
     // uniformLocationの取得
-    var uniLocation = context.getUniformLocation(prg.programObject, 'mvpMatrix');
+    const uniLocation = context.getUniformLocation(prg.programObject, 'mvpMatrix');
 
     // uniformLocationへ座標変換行列を登録
     context.uniformMatrix4fv(uniLocation, false, mvpMatrix);
@@ -97,8 +97,8 @@ function main() {
 // 初期設定
 function init(width, height) {
     canvas = document.getElementById('canvas');
-    var w = canvas.width;
-    var h = canvas.height;
+    const w = canvas.width;
+    const h = canvas.height;
 
     // canvas要素から値を取得する場合
     // canvas要素の値が0の時の処理
