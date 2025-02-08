@@ -195,7 +195,11 @@ if (!empty($mode) && $mode === 'edit') {
         }
     }
 }
-@session_regenerate_id();
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+session_regenerate_id();
 $session->write('token', sha1(session_id()));
 // $session->delete();
 $url = new Private\Important\Setting();

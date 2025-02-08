@@ -162,7 +162,10 @@ if (!empty($mode)) {
 }
 
 if(isset($posts['delete'])) {
-    @session_regenerate_id();
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    session_regenerate_id();
     $session->write('delete-token', sha1(session_id()));
     // $session->delete();
 }
