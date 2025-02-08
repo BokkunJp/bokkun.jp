@@ -5,10 +5,10 @@
 
 // 時計を表示
 /*
-			引数：DOMの要素
-         */
+        引数：DOMの要素
+ */
 $(window).on('load', function() {
-    var time = new Time();
+    const time = new Time();
     time.update();
 
 });
@@ -16,9 +16,8 @@ Time.prototype.draw = function(elm) {
     elm[0]['date'].html(elm[1].time.year);
     elm[0]['time'].html(elm[1].time.nowTime);
 
-    var time = this;
-    var anime = new realTime();
-    var data = this.data;
+    const time = this;
+    const anime = new realTime();
     // アニメーション処理実行時にデータを失ってしまわないよう、
     // コールバック関数を二重呼出し
     anime.viewAnimation(function() {
@@ -29,7 +28,7 @@ Time.prototype.draw = function(elm) {
 // 時刻の取得・更新
 Time.prototype.update = function() {
     this.time = new Time();
-    var elm = { 'date': $('.date'), 'time': $('.time') };
+    const elm = { 'date': $('.date'), 'time': $('.time') };
     this.draw([elm, this]);
 }
 

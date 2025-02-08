@@ -8,10 +8,6 @@
   *  戻り値：
   */
  function main() {
-    const canvas = $('.canvas');
-
-    const context = canvas[0].getContext('webgl2');
-
      //  alert('jQuery動作確認');
  }
 

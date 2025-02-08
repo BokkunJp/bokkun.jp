@@ -13,14 +13,14 @@ function main() {
     $('.image-type').on('change', function ()
     {
         if ($(this).val() != '---') {
-            var url = location.href;
-            var query = location.search;
-            var selectValue = {
+            const url = location.href;
+            const query = location.search;
+            const selectValue = {
                 "type": $(this).val(),
                 'select-token': $('input[name="select-token"]').val(),
             };
 
-            var url = url.replace(/\?.*$/, "");
+            url = url.replace(/\?.*$/, "");
             url = url.replace(/\#.*$/, "");
 
             // 選択した画像ページの種類とトークンを渡して、そのページにある画像群(とタイムスタンプから構成される配列)を取得
@@ -60,11 +60,11 @@ function main() {
     $('.update_page').on('keypress', function (e)
     {
         if(e.key == 'Enter') {
-            var url = $(location).attr('pathname');
-            var query = parseInt($('.update_page').val());
-            var min = parseInt($('.update_page').attr('min'));
-            var max = parseInt($('.update_page').attr('max'));
-            var sendUrl = url + "?page=" + query;
+            const url = $(location).attr('pathname');
+            const query = parseInt($('.update_page').val());
+            const min = parseInt($('.update_page').attr('min'));
+            const max = parseInt($('.update_page').attr('max'));
+            const sendUrl = url + "?page=" + query;
             if (!$.isNumeric(query)) {
                 alert('ページの指定が不正です。');
                 return false;
@@ -96,11 +96,11 @@ function main() {
     // 移動ボタンを押したときの処理
     $('button[name="move"]').on('click', function ()
     {
-        var url = $(location).attr('pathname');
-        var query = parseInt($('.update_page').val());
-        var min = parseInt($('.update_page').attr('min'));
-        var max = parseInt($('.update_page').attr('max'));
-        var sendUrl = url + "?page=" + query;
+        const url = $(location).attr('pathname');
+        const query = parseInt($('.update_page').val());
+        const min = parseInt($('.update_page').attr('min'));
+        const max = parseInt($('.update_page').attr('max'));
+        const sendUrl = url + "?page=" + query;
         if (!$.isNumeric(query)) {
             alert('ページの指定が不正です。');
             return false;
@@ -127,7 +127,7 @@ function main() {
     // 画像コピーボタンを押したときの処理
     $('button[name="copy"]').on('click', function ()
     {
-        var copy = prompt('画像コピー先のページ名を入力してください。');
+        const copy = prompt('画像コピー先のページ名を入力してください。');
         while (!copy)
  {
             alert('ページ名が入力されていません。');
@@ -141,9 +141,9 @@ function main() {
 function viewImage(data)
 {
     // チェックの保持
-    var checkFind = $('.image-list').find("input[type='checkbox']");
-    var checkIndexList = [];
-    var page = getParam('page');
+    const checkFind = $('.image-list').find("input[type='checkbox']");
+    const checkIndexList = [];
+    const page = getParam('page');
     checkFind.each(function (index, val)
     {
         if (page) {
@@ -193,11 +193,11 @@ function viewImage(data)
     // 移動ボタンを押したときの処理
     $('button[name="move"]').on('click', function ()
     {
-        var url = $(location).attr('pathname');
-        var query = parseInt($('.update_page').val());
-        var min = parseInt($('.update_page').attr('min'));
-        var max = parseInt($('.update_page').attr('max'));
-        var sendUrl = url + "?page=" + query;
+        const url = $(location).attr('pathname');
+        const query = parseInt($('.update_page').val());
+        const min = parseInt($('.update_page').attr('min'));
+        const max = parseInt($('.update_page').attr('max'));
+        const sendUrl = url + "?page=" + query;
         if (!$.isNumeric(query)) {
             alert('ページの指定が不正です。');
             return false;
@@ -217,7 +217,7 @@ function viewImage(data)
     // 改めて全チェック・全チェック解除の判定を行う
     $('.all-check-label').children('span').html('すべてのチェックを外す');
 
-    var loop = false;
+    const loop = false;
     $.each(checkIndexList, function (index, val)
     {
         if (loop === false) {
