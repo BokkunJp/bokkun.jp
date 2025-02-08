@@ -1,6 +1,10 @@
 onload = function() {
 
-    main();
+    try {
+        main();
+    } catch (e) {
+        $('.warning').html("WebGLError");
+    }
 
 };
 
