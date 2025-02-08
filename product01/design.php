@@ -151,7 +151,7 @@ echo "</p>";
         }
     </script>
 
-        <canvas id="canvas" width=30 height=30>
+        <canvas id="canvas" class="canvas" width=30 height=30>
             このブラウザは、webGLに対応していません。
         </canvas>
 

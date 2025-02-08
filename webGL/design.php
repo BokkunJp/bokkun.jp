@@ -29,6 +29,7 @@
     <canvas id="canvas" width=30 height=30>
         このブラウザは、webGLに対応していません。
     </canvas>
+    <span class='warning'></span>
 
     <form>
         R <input type="range" name="color" min="0" max="255" value="0" />

@@ -3,8 +3,7 @@ $(function() {
     try {
         main();
     } catch (e) {
-        //alert('プログラムにエラーが発生しました。');
-        document.write('エラー内容: ' + canvas);
+        $('.warning').html("WebGLError");
     }
 
 });
@@ -28,7 +27,7 @@ function main() {
 
 
     // プログラムオブジェクトの作成
-    const prg = new ProgramObject(new Shader('vshader', context).shader, new Shader('fshader', context).shader);
+    const prg = new ProgramObject(new Shader('vshader', context).shader, new Shader('fshader', context).shader, context);
 
 
     const att = [
