@@ -1,4 +1,3 @@
-const canvas, context;
 $(function() {
 
     try {
@@ -15,13 +14,13 @@ function main() {
     const rgb = $('*[name=color]');
 
     // 枠の初期化(width, height)
-    init(300, 300);
+    const canvas = init(300, 300);
 
     // webGLのコンテキストの読み込み
-    context = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const context = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
     // 色や深度値の初期化
-    clear();
+    clear(context);
 
     if (!context) {
         alert('要素が存在しません。');
@@ -29,7 +28,7 @@ function main() {
 
 
     // プログラムオブジェクトの作成
-    const prg = new ProgramObject(new Shader('vshader').shader, new Shader('fshader').shader);
+    const prg = new ProgramObject(new Shader('vshader', context).shader, new Shader('fshader', context).shader);
 
 
     const att = [
@@ -58,8 +57,8 @@ function main() {
         parseFloat(rgb[0].value) / 256, parseFloat(rgb[1].value) / 256, parseFloat(rgb[2].value) / 256, parseFloat(rgb[3].value)
     ];
 
-    const vbo = new VBO(vertexPosition).make(att[0][0], att[0][1]);
-    const cbo = new VBO(vertexColor).make(att[1][0], att[1][1]);
+    const vbo = new VBO(vertexPosition, context).make(att[0][0], att[0][1], context);
+    const cbo = new VBO(vertexColor, context).make(att[1][0], att[1][1], context);
 
     // minMatrix.js を用いた行列関連処理
     // matIVオブジェクトを生成
@@ -96,7 +95,7 @@ function main() {
 
 // 初期設定
 function init(width, height) {
-    canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('canvas');
     const w = canvas.width;
     const h = canvas.height;
 
@@ -124,9 +123,11 @@ function init(width, height) {
         canvas.height = height;
     }
 
+    return canvas;
+
 }
 
-function clear() {
+function clear(context) {
     context.clearColor(0 / 255, 190 / 255, 255 / 255, 255 / 255);
     context.clearDepth(1.0);
     context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
