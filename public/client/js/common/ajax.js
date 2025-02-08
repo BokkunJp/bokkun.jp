@@ -21,7 +21,7 @@ function ajaxMain(url, dir, file, type = 'POST', data, datatype = "text", CallBa
             // console.log(xmlhttp.responseText); // JSONデータ(デバッグ用)
         })
             .done(function (response) {
-                const jsonData = JSON.stringify(response);  // レスポンスデータをエンコード
+                let jsonData = JSON.stringify(response);  // レスポンスデータをエンコード
                 jsonData = JSON.parse(jsonData); // エンコードしたJSONデータをデコード
 
                 // コールバック関数が定義されていない場合は、取得・成形したデータを出力するのみ
