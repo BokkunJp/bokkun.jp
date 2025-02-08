@@ -1,8 +1,8 @@
 /* プログラムオブジェクトの生成 */
-function ProgramObject(vs, fs) {
-    this.create_program(vs, fs);
+function ProgramObject(vs, fs, context) {
+    this.create_program(vs, fs, context);
 }
-ProgramObject.prototype.create_program = function (vShader, fShader) {
+ProgramObject.prototype.create_program = function (vShader, fShader, context) {
 
     this.programObject = context.createProgram();			// プログラムオブジェクトの生成
 

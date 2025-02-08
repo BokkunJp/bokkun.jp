@@ -1,8 +1,8 @@
-function Shader(id) {
-    this.create(id);
+function Shader(id, context) {
+    this.create(id, context);
 }
 /* シェーダの作成 */
-Shader.prototype.create = function (id) {
+Shader.prototype.create = function (id, context) {
 
     const scriptElm = document.getElementById(id);
 
