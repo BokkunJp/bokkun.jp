@@ -13,7 +13,7 @@ function main() {
     $('.image-type').on('change', function ()
     {
         if ($(this).val() != '---') {
-            const url = location.href;
+            let url = location.href;
             const query = location.search;
             const selectValue = {
                 "type": $(this).val(),
