@@ -217,7 +217,7 @@ function viewImage(data)
     // 改めて全チェック・全チェック解除の判定を行う
     $('.all-check-label').children('span').html('すべてのチェックを外す');
 
-    const loop = false;
+    let loop = false;
     $.each(checkIndexList, function (index, val)
     {
         if (loop === false) {
