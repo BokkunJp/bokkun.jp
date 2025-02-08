@@ -16,14 +16,14 @@ function main() {
     });
 
     $('select[name="select"]').on('change', function () {
-        var url = location.href;
-        var query = location.search;
-        var value = {
+        const url = location.href;
+        const query = location.search;
+        const value = {
             "page": $(this).val(),
             'edit-token': $('input[name="edit-token"]').val()
         };
 
-        var url = url.replace(/\?.*$/, "");
+        url = url.replace(/\?.*$/, "");
         url = url.replace(/\#.*$/, "");
 
         // 選択したページ名とトークンを渡して、そのページが削除不可かどうかの判定結果を取得

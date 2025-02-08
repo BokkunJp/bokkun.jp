@@ -10,7 +10,7 @@ $(function ()
  */
 function main()
 {
-    var num;
+    const num;
 
     tinyMCE.init({
         selector: 'textarea',
@@ -26,8 +26,8 @@ function main()
     // 選択したディレクトリ名からファイル・サブディレクトリ一覧を出力する
     $('select[name="select"]').on('change', function (e)
     {
-        var url = location.href;
-        var selectVersion = {
+        const url = location.href;
+        const selectVersion = {
             "dir_name": $(this).val(),
             'edit-src-token': $('input[name="edit-src-token"]').val()
         };
@@ -39,8 +39,8 @@ function main()
     // ファイル名またはディレクトリ名からファイルリストを生成する
     $('select[name="select_directory"]').on('change', function (e)
     {
-        var url = location.href;
-        var selectDirectory = {
+        const url = location.href;
+        const selectDirectory = {
             "select_directory": $(this).val(),
             "dir_name": $('select[name="select"]').val(),
             'edit-src-token': $('input[name="edit-src-token"]').val()
@@ -53,8 +53,8 @@ function main()
     // 選択したソースを読み込む
     $('button[name="edit"]').on('click', function (e)
     {
-        var url = location.href;
-        var selectObj = {
+        const url = location.href;
+        const selectObj = {
             "edit": $('.edit').val(),
             "directory": $('select[name="select"]').val(),
             "subdirectory": $('select[name="select_directory"]').val(),
@@ -69,10 +69,10 @@ function main()
     {
         if (confirm('本当に更新しますか？')) {
             console.log(tinyMCE.activeEditor.getContent());
-            var unescapeHtml = function(target) {
+            const unescapeHtml = function(target) {
                 if (typeof target !== 'string') return target;
 
-                var patterns = {
+                const patterns = {
                     '<br />'   : '\n',
                     '&lt;'   : '<',
                     '&gt;'   : '>',
@@ -86,11 +86,11 @@ function main()
                     return patterns[match];
                 });
             };
-            var output = unescapeHtml(tinyMCE.activeEditor.getContent());
+            const output = unescapeHtml(tinyMCE.activeEditor.getContent());
             console.log(output);
 
-            var url = location.href;
-            var saveObj = {
+            const url = location.href;
+            const saveObj = {
                 "edit": $('.edit').val(),
                 "directory": $('select[name="select"]').val(),
                 "subdirectory": $('select[name="select_directory"]').val(),
@@ -196,9 +196,9 @@ function autoSetTextArea(argObj)
 {
     // 一旦テキストエリアを小さくしてスクロールバー（縦の長さを取得）
     argObj.style.height = "10px";
-    var wSclollHeight = parseInt(argObj.scrollHeight);
+    const wSclollHeight = parseInt(argObj.scrollHeight);
     // 1行の長さを取得する
-    var wLineH = parseInt(argObj.style.lineHeight.replace(/px/, ''));
+    const wLineH = parseInt(argObj.style.lineHeight.replace(/px/, ''));
     // 最低2行の表示エリアにする
     if (wSclollHeight < (wLineH * 2))    {
         wSclollHeight = (wLineH * 2);

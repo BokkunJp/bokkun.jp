@@ -13,8 +13,8 @@ function main()
     // 選択したファイル名のログを読み込む
     $('button[name="edit"]').on('click', function (e)
     {
-        var url = location.href;
-        var selectObj = { "select_log": $('select[name="access_log"]').val() };
+        const url = location.href;
+        const selectObj = { "select_log": $('select[name="access_log"]').val() };
 
         ajaxMain(url, null, 'server.php', 'POST', selectObj, 'json');
     });

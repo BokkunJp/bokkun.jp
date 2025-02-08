@@ -15,11 +15,11 @@ function main()
     $('.update_page').on('keypress', function (e)
     {
         if (e.key == 'Enter') {
-            var url = $(location).attr('pathname');
-            var query = parseInt($('.update_page').val());
-            var min = parseInt($('.update_page').attr('min'));
-            var max = parseInt($('.update_page').attr('max'));
-            var sendUrl = url + "?page=" + query;
+            const url = $(location).attr('pathname');
+            const query = parseInt($('.update_page').val());
+            const min = parseInt($('.update_page').attr('min'));
+            const max = parseInt($('.update_page').attr('max'));
+            const sendUrl = url + "?page=" + query;
             if (!$.isNumeric(query)) {
                 alert('ページの指定が不正です。');
                 return false;
