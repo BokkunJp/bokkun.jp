@@ -10,8 +10,9 @@ require_once $commonInitFunctionPath;
  *
  * ファイル形式かチェックする
  *
- * @param  string $str
- * @param bool $existFlg
+ * @param  string $str          対象の文字列
+ * @param  bool $rootOnly       ルートのみ(パスを考慮しない)かどうか
+ * @param bool $existFlg        ファイルの存在チェック(パスを考慮する場合のみ)
  *
  * @return bool
  */
