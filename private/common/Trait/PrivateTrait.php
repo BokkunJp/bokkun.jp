@@ -10,19 +10,15 @@ trait PrivateTrait
     /**
      * findFileName
      *
-     * 親ディレクトリ・カレントディレクトリ以外のファイルを検索する
+      * ファイル形式かチェックする
      *
      * @param  string $str
      *
      * @return bool
      */
-    private function findFileName(string $str): bool
+    private function findFileName(string $str, bool $rootOnly = true, bool $existFlg = false): bool
     {
-        if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
-            return false;
-        } else {
-            return true;
-        }
+        return findFileName($str, $rootOnly, $existFlg);
     }
 
     /**
