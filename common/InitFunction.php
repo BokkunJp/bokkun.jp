@@ -41,11 +41,11 @@ if (!isset($consoleFlg)) {
         $mode = ErrorConfig::getMode();
 
         switch ($mode) {
-            case 'secure':
+            case ErrorConfig::SECURE_MODE:
                 error_reporting(E_ALL);
                 throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
                 break;
-            case 'no-error':
+            case ErrorConfig::NO_ERROR_MODE:
                 error_reporting(0);
                 return;
                 break;
