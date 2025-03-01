@@ -20,6 +20,10 @@ function setCsrfErrorMessage()
 // 共通部分
 define('DOCUMENT_ROOT', filterInputFix(INPUT_SERVER, 'DOCUMENT_ROOT'));
 
+$pageRootPath = new \Path(DOCUMENT_ROOT, '/');
+$pageRootPath->add(basename(getcwd()));
+define('PAGE_ROOT', $pageRootPath->get());
+
 define('COMMON_DIR', dirname(__DIR__));
 define('COMPONENT_DIR', dirname(__DIR__). DIRECTORY_SEPARATOR. "Component");
 define('NL', nl2br(PHP_EOL));
