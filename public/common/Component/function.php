@@ -8,12 +8,12 @@
  * @param integer $decData
  * @param integer $n
  *
- * @return integer
+ * @return integer|false
  */
-function convert(int $decData, int $n): int
+function convert(int $decData, int $n): int|false
 {
     if (!isset($n)) {
-        return null;
+        return false;
     }
     $octData = 0;
     while (1) {
