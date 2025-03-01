@@ -8,20 +8,6 @@ trait PrivateTrait
 {
     use CommonTrait;
     /**
-     * findFileName
-     *
-      * ファイル形式かチェックする
-     *
-     * @param  string $str
-     *
-     * @return bool
-     */
-    private function findFileName(string $str, bool $rootOnly = true, bool $existFlg = false): bool
-    {
-        return findFileName($str, $rootOnly, $existFlg);
-    }
-
-    /**
      * validateData
      *
      * 対象のパスのディレクトリに、指定したファイルが存在するか調べる

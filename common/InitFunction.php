@@ -316,6 +316,44 @@ function setVendor(): void
 }
 
 /**
+ * findFileName
+ *
+ * ファイル形式かチェックする
+ *
+ * @param  string $str          対象の文字列
+ * @param  bool $rootOnly       ルートのみ(パスを考慮しない)かどうか
+ * @param bool $existFlg        ファイルの存在チェック(パスを考慮する場合のみ)
+ *
+ * @return bool
+ */
+function findFileName(string $str, bool $rootOnly = true, bool $existFlg = false): bool
+{
+    $ret = true;
+
+    if ($rootOnly && $existFlg) {
+        throw new Exception("関数の引数が不正です。");
+    }
+
+    if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
+        return false;
+    }
+
+    if (!$rootOnly) {
+        if (!preg_match("/(.*)\.(.*)/", $str)) {
+            $ret = false;
+        }
+
+        if ($ret && $existFlg) {
+            if (!is_file($str)) {
+                $ret = false;
+            }
+        }
+    }
+
+    return $ret;
+}
+
+/**
  * searchData
  *
  * 指定した内容が、配列の要素名または値に含まれるかチェック。
