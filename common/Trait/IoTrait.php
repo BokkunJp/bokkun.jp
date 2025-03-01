@@ -6,34 +6,34 @@
  * setPropertyでプロパティを設定している場合は、入力時に設定元のプロパティも更新する。
  */
 trait IoTrait {
-    private string $property;
-    private $data;
-    private bool $autoSaveFlg = self::ON;
+    private string $ioProperty;
+    private $ioData;
+    private bool $ioAutoSaveFlg = self::ON;
     protected const ON = true;
     protected const OFF = false;
     private const DEFAULT_NAME = 'data';
-    private const DEFAULT_PROPERTY_NAMES = ['property', 'autoSaveFlg', 'data'];
+    private const DEFAULT_PROPERTY_NAMES = ['property', 'ioAutoSaveFlg', 'data'];
 
     /**
      * setProperty
      *
      * 対象のプロパティ名を設定し、プロパティに値が存在する場合は値を更新。
      *
-     * @param string|null $property 設定するプロパティ名
+     * @param string|null $ioProperty 設定するプロパティ名
      * @return void
      */
-    protected function setProperty(string $property = self::DEFAULT_NAME): void
+    protected function setProperty(string $ioProperty = self::DEFAULT_NAME): void
     {
         // プロパティ名をセット
-        if (property_exists($this, $property)) {
-            $this->property = $property;
+        if (property_exists($this, $ioProperty)) {
+            $this->ioProperty = $ioProperty;
         } else {
-            $this->property = self::DEFAULT_NAME;
+            $this->ioProperty = self::DEFAULT_NAME;
         }
 
         // プロパティの値をセット
-        if (isset($this->{$this->property})) {
-            $this->data = $this->{$this->property};
+        if (isset($this->{$this->ioProperty})) {
+            $this->ioData = $this->{$this->ioProperty};
         }
     }
 
@@ -47,7 +47,7 @@ trait IoTrait {
      */
     protected function setValue($input): void
     {
-        $this->data = $input;
+        $this->ioData = $input;
 
         // 自動更新かつプロパティが正しくセットされている場合は、元のデータも一緒に更新
         $this->saveIo();
@@ -63,9 +63,9 @@ trait IoTrait {
     protected function autoSave(?bool $switching = null): void
     {
         if (is_null($switching)) {
-            $this->autoSaveFlg = !$this->autoSaveFlg;
+            $this->ioAutoSaveFlg = !$this->ioAutoSaveFlg;
         } else {
-            $this->autoSaveFlg = $switching;
+            $this->ioAutoSaveFlg = $switching;
         }
     }
 
@@ -79,11 +79,11 @@ trait IoTrait {
     protected function saveIo(): void
     {
         if (
-            $this->autoSaveFlg
-            && isset($this->property)
-            && $this->property !== self::DEFAULT_NAME
+            $this->ioAutoSaveFlg
+            && isset($this->ioProperty)
+            && $this->ioProperty !== self::DEFAULT_NAME
         ) {
-            $this->{$this->property} = $this->data;
+            $this->{$this->ioProperty} = $this->ioData;
         }
     }
 
@@ -96,12 +96,12 @@ trait IoTrait {
      */
     protected function getProperty(): string|false
     {
-        if (isset($this->property)) {
-            $property = $this->property;
+        if (isset($this->ioProperty)) {
+            $ioProperty = $this->ioProperty;
         } else {
-            $property = false;
+            $ioProperty = false;
         }
-        return $property;
+        return $ioProperty;
     }
 
     /**
@@ -134,7 +134,7 @@ trait IoTrait {
      */
     private function getType(): mixed
     {
-        return gettype($this->data);
+        return gettype($this->ioData);
     }
 
     /**
@@ -146,6 +146,6 @@ trait IoTrait {
      */
     protected function getValue(): mixed
     {
-        return $this->data;
+        return $this->ioData;
     }
 }
