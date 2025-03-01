@@ -6,10 +6,13 @@
  * setPropertyでプロパティを設定している場合は、入力時に設定元のプロパティも更新する。
  */
 trait IoTrait {
-    private const DEFAULT_NAME = 'data';
     private string $property;
-    private bool $autoSaveFlg = true;
     private $data;
+    private bool $autoSaveFlg = self::ON;
+    protected const ON = true;
+    protected const OFF = false;
+    private const DEFAULT_NAME = 'data';
+    private const DEFAULT_PROPERTY_NAMES = ['property', 'autoSaveFlg', 'data'];
 
     /**
      * setProperty
@@ -42,7 +45,7 @@ trait IoTrait {
      * @param [type] $input
      * @return void
      */
-    protected function set($input): void
+    protected function setValue($input): void
     {
         $this->data = $input;
 
@@ -51,15 +54,19 @@ trait IoTrait {
     }
 
     /**
-     * convertAutoSave
+     * autoSave
      * 
      * 自動更新の切り替え(デフォルトはオン)
      *
      * @return void
      */
-    protected function convertAutoSave(): void
+    protected function autoSave(?bool $switching = null): void
     {
-        $this->autoSaveFlg = !$this->autoSaveFlg;
+        if (is_null($switching)) {
+            $this->autoSaveFlg = !$this->autoSaveFlg;
+        } else {
+            $this->autoSaveFlg = $switching;
+        }
     }
 
     /**
@@ -98,6 +105,27 @@ trait IoTrait {
     }
 
     /**
+     * getAllProperty
+     * 
+     * 現在設定中のすべてのプロパティ名を取得
+     * 
+     * @return array
+     */
+    protected function getAllProperty(): array
+    {
+        $properties = get_object_vars($this);
+
+        // IoTrait内のプロパティは除外
+        foreach (self::DEFAULT_PROPERTY_NAMES as $deleteKey) {
+            if (isset($properties[$deleteKey])) {
+                unset($properties[$deleteKey]);
+            }
+        }
+
+        return $properties;
+    }
+
+    /**
      * getType
      * 
      * 設定中のプロパティのタイプを取得
@@ -110,13 +138,13 @@ trait IoTrait {
     }
 
     /**
-     * get
-     * 
-     * データを取得
+     * getValue
+     *
+     * 設定中のプロパティの値を取得
      *
      * @return mixed
      */
-    protected function get(): mixed
+    protected function getValue(): mixed
     {
         return $this->data;
     }
