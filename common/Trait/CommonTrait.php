@@ -232,6 +232,21 @@ trait CommonTrait
     }
 
     /**
+     * findFileName
+     *
+      * ファイル形式かチェックする
+     *
+     * @param  string $str
+     *
+     * @return bool
+     */
+    protected function findFileName(string $str, bool $rootOnly = true, bool $existFlg = false): bool
+    {
+        return findFileName($str, $rootOnly, $existFlg);
+    }
+
+
+    /**
      * searchData
      * in_arrayの代替処理。
      * (in_arrayは速度的に問題があるため、issetで対応する)

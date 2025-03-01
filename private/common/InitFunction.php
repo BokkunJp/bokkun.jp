@@ -6,39 +6,6 @@ $commonInitFunctionPath = $commonInitFunctionPath. DIRECTORY_SEPARATOR. 'InitFun
 require_once $commonInitFunctionPath;
 
 /**
- * findFileName
- *
- * ファイル形式かチェックする
- *
- * @param  string $str          対象の文字列
- * @param  bool $rootOnly       ルートのみ(パスを考慮しない)かどうか
- * @param bool $existFlg        ファイルの存在チェック(パスを考慮する場合のみ)
- *
- * @return bool
- */
-function findFileName(string $str, bool $rootOnly = true, bool $existFlg = false): bool
-{
-    $ret = true;
-    if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
-        $ret = false;
-    }
-
-    if (!$rootOnly) {
-        if (!preg_match("/(.*)\.(.*)/", $str)) {
-            $ret = false;
-        }
-
-        if ($existFlg) {
-            if (!is_file($str)) {
-                $ret = false;
-            }
-        }
-    }
-
-    return $ret;
-}
-
-/**
  * validateData
  *
  * 対象のパスのディレクトリに、指定したファイルが存在するか調べる
