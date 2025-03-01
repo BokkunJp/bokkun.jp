@@ -11,8 +11,8 @@ trait IoTrait {
     private bool $ioAutoSaveFlg = self::ON;
     protected const ON = true;
     protected const OFF = false;
-    private const DEFAULT_NAME = 'data';
-    private const DEFAULT_PROPERTY_NAMES = ['property', 'ioAutoSaveFlg', 'data'];
+    private const DEFAULT_NAME = 'ioData';
+    private const DEFAULT_PROPERTY_NAMES = ['ioProperty', 'ioAutoSaveFlg', 'ioData'];
 
     /**
      * setProperty
