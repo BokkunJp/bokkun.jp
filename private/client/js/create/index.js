@@ -16,7 +16,7 @@ function main() {
     });
 
     $('select[name="select"]').on('change', function () {
-        const url = location.href;
+        let url = location.href;
         const query = location.search;
         const value = {
             "page": $(this).val(),

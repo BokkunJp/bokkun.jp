@@ -35,7 +35,7 @@ function main() {
     });
 
     $('.image-range').on('change', function(event) {
-        const url = location.href;
+        let url = location.href;
         const query = location.search;
         const selectValue = {
             'delete-select-token': $('input[name="token"]').val(),
