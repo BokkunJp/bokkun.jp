@@ -94,13 +94,18 @@ trait IoTrait {
      *
      * @return string|false
      */
-    protected function getProperty(): string|false
+    protected function getProperty(bool $traitUseFlg = false): string|false
     {
         if (isset($this->ioProperty)) {
             $ioProperty = $this->ioProperty;
         } else {
             $ioProperty = false;
         }
+
+        if (!$traitUseFlg && searchData($this->ioProperty, self::DEFAULT_PROPERTY_NAMES)) {
+            $ioProperty = false;
+        }
+
         return $ioProperty;
     }
 
@@ -140,7 +145,7 @@ trait IoTrait {
     /**
      * getValue
      *
-     * 設定中のプロパティの値を取得
+     * 設定中のプロパティに入っている値を取得
      *
      * @return mixed
      */
