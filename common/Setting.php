@@ -45,9 +45,9 @@ class Setting
      *
      * @return void
      */
-    private function setSslUrl(bool $shrortFlg = true)
+    private function setSslUrl(bool $shortFlg = true)
     {
-        if ($shrortFlg) {
+        if ($shortFlg) {
             $this->url = '//';
         } else {
             $this->url = 'https://';
