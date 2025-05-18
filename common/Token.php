@@ -37,6 +37,17 @@ class Token {
     }
 
     /**
+     * create
+     *
+     * @param string $message 平文
+     * @return string
+     */
+    protected function create(string $message): string
+    {
+        return $this->tokenValue = hash_hmac("sha3-512", $message, 'csrf-key');
+    }
+
+    /**
      * Set
      * トークンの生成・上書き
      *
@@ -45,7 +56,7 @@ class Token {
     public function set(): void
     {
         // トークンを設定(上書き)
-        $this->tokenValue = $this->createRandom(SECURITY_LENG) . '-' . $this->createRandom(SECURITY_LENG, "random_bytes");
+        $this->tokenValue = $this->create($this->createRandom(SECURITY_LENG)). '-'. $this->create($this->createRandom(SECURITY_LENG));
 
         if ($this->isTokenSet) {
             $this->getTag();
@@ -60,7 +71,6 @@ class Token {
      * Post値とトークンのチェック
      * @param  string $tokenName
      * @param  boolean $chkFlg
-     *
      * @return bool
      */
     public function check(): bool
@@ -83,8 +93,8 @@ class Token {
      * getTag
      *
      * トークンのHTML要素の取得または出力
+     * 
      * @param boolean $getFlg
-     *
      * @return null|string
      */
     public function getTag(bool $getFlg = false): ?string
