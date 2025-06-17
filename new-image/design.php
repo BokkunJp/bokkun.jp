@@ -6,7 +6,7 @@ if (!isset($session)) {
 }
 
 // ページ数取得
-$page = Public\Important\Setting::getQuery('page');
+$page = htmlspecialchars(Public\Important\Setting::getQuery('page'));
 
 // 更新用ページに関する処理
 $updatePage = Public\Important\Setting::getPost('update_page');
