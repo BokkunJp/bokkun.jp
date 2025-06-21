@@ -4,7 +4,7 @@
 $session = new Private\Important\Session('image');
 
 // ページ数取得
-$page = Private\Important\Setting::getQuery('page');
+$page = htmlspecialchars(Private\Important\Setting::getQuery('page'));
 
 // 更新用ページに関する処理
 $updatePage = Private\Important\Setting::getPost('update_page');
