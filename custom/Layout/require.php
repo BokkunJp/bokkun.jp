@@ -8,7 +8,7 @@ require_once dirname(__DIR__, 2) . DS . 'public' . DS. 'common' . DS. 'InitFunct
 // 設定
 require_once dirname(__DIR__, 2) . DS . 'public' . DS. 'common' . DS. 'Setting.php';
 
-$homepageTitle = basename(getcwd());
+$homepageTitle = NOW_PAGE;
 $title = htmlspecialchars($homepageTitle);
 
 // パスの定義

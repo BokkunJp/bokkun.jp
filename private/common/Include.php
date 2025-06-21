@@ -15,7 +15,7 @@ require_once PRIVATE_COMMON_DIR . "/Load/Include.php";
 
 // subdirectory内のphpファイルの読み込み (指定ディレクトリのみ)
 $subDirectryReadList = ['image', 'delete'];
-if (searchData(basename(getcwd()), $subDirectryReadList)) {
+if (searchData(NOW_PAGE, $subDirectryReadList)) {
     $subdirectoryPath = new \Path(getcwd());
     $subdirectoryPath->add('subdirectory');
     includeFiles($subdirectoryPath->get());

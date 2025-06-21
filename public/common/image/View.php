@@ -13,7 +13,7 @@ function viewImage($imageName, $imageUrl, $fileTime): void
 {
 //    $imageHtml = new CustomTagCreate();
 //    $imageHtml->setImage('');
-    $imageDirName = basename(getcwd());
+    $imageDirName = NOW_PAGE;
 
     echo "<li>";
     echo "<a href='$imageUrl/{$imageDirName}/$imageName' target='new'><img src='$imageUrl/{$imageDirName}/$imageName' title='$imageName' width=400px height=400px /></a>";
@@ -35,6 +35,6 @@ function viewImage($imageName, $imageUrl, $fileTime): void
      */
 function viewList($imageName, $imageUrl): void
 {
-    $imageDirName = basename(getcwd());
+    $imageDirName = NOW_PAGE;
     echo "<div><a href='$imageUrl/{$imageDirName}/$imageName' target='new'>{$imageName}</a>";
 }
