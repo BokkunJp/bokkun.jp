@@ -95,7 +95,8 @@ $basePath = DOCUMENT_ROOT;
 // tokenチェック
 $createToken = new Private\Important\Token('create-token', $session);
 if ($createToken->check() === false) {
-    $session->write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>', 'Delete');
+    $session->write('secure', true);
+    $session->write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>');
     $setting = new Private\Important\Setting();
     $backUrl = createClient('private', dirname(__dir__));
     $backUrl = ltrim($backUrl, DS);

@@ -42,12 +42,12 @@ if (!$tokenError && !empty($post) && !empty($post['login-id']) && !empty($post['
         $accountData = $accounts[$post['login-id']];
     }
 
-    $adminAuth = $accountData['login-auth'] = password_verify($post['password'], password_hash(LOGIN_INFORMATION[$post['login-id']], PASSWORD_DEFAULT));
+    $accountData['login-auth'] = password_verify($post['password'], password_hash(LOGIN_INFORMATION[$post['login-id']], PASSWORD_DEFAULT));
     if ($accountData['login-auth'] === false) {
         $accountData['error-count']++;
     }
 
-    // 5回ログインミスでロック設定してエラー内容の初期化
+    // 規定回数のログインミスでロック設定してエラー内容の初期化
     if ($accountData['error-count'] >= LOGIN_LOCK_COUNT) {
         $accountData['login-lock-timestamp'] = new DateTime();
         $accountData['error-count'] = 0;
@@ -63,6 +63,8 @@ if (!$tokenError && !empty($post) && !empty($post['login-id']) && !empty($post['
                 // ロック解除前は認証成功しても遷移させない
                 $adminAuth = false;
             }
+        } else {
+            $adminAuth = $accountData['login-auth'];
         }
     }
 

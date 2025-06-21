@@ -299,7 +299,7 @@ function debugValidate(array $debug, array $debugTrace): array
  */
 function setVendor(): void
 {
-    $allVendorPath = new \PathApplication('plubinDir', VENDOR_DIR);
+    $allVendorPath = new \PathApplication('plubinDir', PLUGIN_DIR);
     $allVendorPath->setAll(
         [
             'requireFile' => $allVendorPath->get(),

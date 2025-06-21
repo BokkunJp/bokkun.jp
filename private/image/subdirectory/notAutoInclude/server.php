@@ -5,7 +5,7 @@ require_once dirname(__DIR__) . '/File.php';
 $files = Private\Important\Setting::getFiles();
 
 // ページ数取得
-$page = Private\Important\Setting::getQuery('page');
+$page = htmlspecialchars(Private\Important\Setting::getQuery('page'));
 $str = 'private/image';
 $str .= !empty($page) ? "?page={$page}" : "";
 

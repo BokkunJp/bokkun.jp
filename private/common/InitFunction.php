@@ -181,6 +181,7 @@ function logout(): void
     $session = new Private\Important\Session('login');
     $session->delete('secure');
     $session->delete('login-account');
+    $session->delete('login-token');
 }
 
 /**
