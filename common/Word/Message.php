@@ -51,9 +51,9 @@ define(
 );
 
 // プラグインパス
-$vendorWord = new Path(dirname(DOCUMENT_ROOT, 2));
-$vendorWord->add('vendor');
-define("VENDOR_DIR", $vendorWord->get());
+$pluginWord = new Path(dirname(DOCUMENT_ROOT, 2));
+$pluginWord->add('plugin');
+define("PLUGIN_DIR", $pluginWord->get());
 
 // FINISHフラグ
 define("FINISH", 1);
