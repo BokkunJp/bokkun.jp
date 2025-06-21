@@ -180,6 +180,7 @@ function readImage($ajaxFlg = false)
 {
 
     // 現在のページを取得
+    $test = basename(getcwd());
     $imagePageName = NOW_PAGE;
 
     // アップロードされている画像データを読み込む
