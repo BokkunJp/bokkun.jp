@@ -221,7 +221,7 @@ trait CommonTrait
     ): void
     {
         // ファイル名が指定されている場合、拡張子を取得
-        if (is_string($fileName)) {
+        if (!is_null($fileName)) {
             $imageExtension = explode('.', $fileName)[1];
         } else {
             $imageExtension = 'png';
