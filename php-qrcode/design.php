@@ -7,6 +7,5 @@ class Qr
     use PublicTrait;
 }
 $qr = new Qr();
-// $qr->cmakecQrCode('test',['eccLevel' => 'H'],  true);
-$qr->makeQrCode('test',['hoge' => 'H'], 'test.png');
-// $qr->cmakecQrCode('test','H', 1,  true);
+$qr->makeQrCode('test',['hoge' => 'H']);
+// $qr->makeQrCode('test',['hoge' => 'H'], 'test.png');
