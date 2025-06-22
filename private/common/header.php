@@ -1,6 +1,6 @@
 <?php
 $imgUrl = $url;
-if (strpos(basename(getcwd()), 'private') === false) {
+if (strpos(NOW_PAGE, 'private') === false) {
     $urlPath = new \Path($url);
     $urlPath->add('private');
     $url = $urlPath->get();

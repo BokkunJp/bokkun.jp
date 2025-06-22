@@ -17,13 +17,15 @@ $configPath->setPathEnd();
 $configPath->addArray(["common", "Config.php"]);
 $wordPath->addArray(["Word", "Message.php"]);
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
+require_once $wordPath->get();
+
 if (!isset($title)) {
-    $title = basename(getcwd());
+    $title = NOW_PAGE;
 }
 if (!isset($homepageTitle)) {
     $homepageTitle = htmlspecialchars($title);
 }
-require_once $wordPath->get();
+
 // ヘッダーフッター
 require_once $configPath->get();
 // UA

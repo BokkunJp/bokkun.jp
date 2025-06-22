@@ -20,7 +20,7 @@ if (!isset($_SESSION)) {
 
 require_once __DIR__ . '/require.php';
 
-$title = basename(getcwd());
+$title = NOW_PAGE;
 $img = "0113.png";
 ?>
 <html lang="ja">

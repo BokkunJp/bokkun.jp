@@ -1,9 +1,7 @@
 <?php
 
-use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\PngWriter;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 
 trait CommonTrait
 {
@@ -206,28 +204,102 @@ trait CommonTrait
     }
 
     /**
-     * makeQrCode
+     * makeQRCode
      *
      * QRコードを生成する。
      *
-     * @param integer $size
-     * @param string $contents
-     * @param boolean $outputFlg
+     * @param string $contents QRコードに含める内容
+     * @param array $qrOptions QRコードのオプション (eccLevel, version)
+     * @param string $eccLevel エラー訂正レベル (L, M, Q, H)
+     * @param integer $version QRコードのバージョン (1-40)
+     * @param boolean $outputFlg 出力フラグ (trueならHTMLのimgタグで出力、falseならデータURIを返すのみ)
      *
      * @return void
      */
-    public function makeQrCode(int $size, string $contents, bool $outputFlg = false)
+    public function makeQRCode(
+        string $contents,
+        array $qrOptions = [],
+        ?string $fileName = null,
+    ): void
     {
-        $qrCode = new QrCode($contents, new Encoding('UTF-8'), ErrorCorrectionLevel::High, $size);
-
-        $writer = new PngWriter();
-        $qrWriter = $writer->write($qrCode);
-
-        if ($outputFlg === true) {
-            $this->output("<img src=\"". $qrWriter->getDataUri(). "\"></img>");
-            return null;
+        // ファイル名が指定されている場合、拡張子を取得
+        if (is_string($fileName)) {
+            $imageExtension = explode('.', $fileName)[1];
         } else {
-            return $qrWriter->getDataUri();
+            $imageExtension = 'png';
+        }
+
+        // 拡張子から出力形式を設定
+            switch ($imageExtension) {
+                case 'gif':
+                    $outputType = QRCode::OUTPUT_IMAGE_GIF;
+                    break;
+                case 'jpg':
+                    $outputType = QRCode::OUTPUT_IMAGE_JPG;
+                    break;
+                case 'png':
+                    $outputType = QRCode::OUTPUT_IMAGE_PNG;
+                    break;
+                default:
+                    $outputType = QRCode::OUTPUT_IMAGE_PNG;
+                    break;
+        }
+
+        // デフォルトのQRコードオプションを設定
+        $defaultQrOptions = [
+            'eccLevel' => 'H', // エラー訂正レベル (L, M, Q, H)
+            'version' => QRCode::VERSION_AUTO,    // QRコードのバージョン (1-40)
+            'outputType' => $outputType, // 出力形式
+        ];
+        
+        if (empty($qrOptions)) {
+            $qrOptions = $defaultQrOptions; // オプションが空の場合はデフォルトを使用
+        } else {
+            $noOptions = array_diff_key($defaultQrOptions, $qrOptions);
+            foreach (array_flip($noOptions) as $optionKey) {
+                $qrOptions[$optionKey] = $defaultQrOptions[$optionKey]; // デフォルト値を設定
+            }
+        }
+
+        // 不要となったデフォルト配列の削除
+        unset($defaultQrOptions);
+
+        // エラー訂正レベルの設定
+        switch ($qrOptions['eccLevel']) {
+            case 'L':
+                $eccLevel = QRCode::ECC_L;
+                break;
+            case 'M':
+                $eccLevel = QRCode::ECC_M;
+                break;
+            case 'Q':
+                $eccLevel = QRCode::ECC_Q;
+                break;
+            case 'H':
+                $eccLevel = QRCode::ECC_H;
+                break;
+            default:
+                $eccLevel = QRCode::ECC_H; // オプション未指定の場合はデフォルトでHを設定
+        }
+        $qrOptions['eccLevel'] = $eccLevel;
+
+        // QRコードのオプション
+        $options = new QROptions($qrOptions);
+
+        // QRコード生成
+        $qrcode = (new QRCode($options))->render($contents, $fileName);
+
+        if (is_null($fileName)) {
+            $this->output("<img src=\"". $qrcode. "\"></img>");
+        } else {
+            // 出力先の変更
+        // 画像ファイルのパスを取得（GETパラメータから）
+        $imgPath = new \Path(PUBLIC_DIR_LIST['image']);
+        $imgPath->add(NOW_PAGE);
+        $imgPath->setPathEnd();
+        $imgPath->add($fileName);
+
+        rename($fileName, $imgPath->get());
         }
     }
 

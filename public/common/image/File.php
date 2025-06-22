@@ -37,7 +37,7 @@ function loadAllImageFile()
 {
 
     // 現在アクセスしているページ名を取得
-    $imagePageName = basename(getcwd());
+    $imagePageName = NOW_PAGE;
 
 
     $imgArray = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'mp4'];
@@ -123,7 +123,7 @@ function validateParameter(array $data=[], bool $ajaxFlg=false)
             setError('ページの指定が不正です。');
             output("</div><div class='image-pager'></div>", indentFlg:false);
         }
-        return ['result' => false, 'view-image-type' => basename(getcwd())];
+        return ['result' => false, 'view-image-type' => NOW_PAGE];
     } else {
         $start = ($page - 1) * getCountPerPage();
     }
@@ -139,7 +139,7 @@ function validateParameter(array $data=[], bool $ajaxFlg=false)
             setError('現在の枚数表示では、そのページには画像はありません。');
             output("</div><div class='image-pager'></div>", indentFlg:false);
         }
-        $result = ['result' => false, 'view-image-type' => basename(getcwd())];
+        $result = ['result' => false, 'view-image-type' => NOW_PAGE];
     }
 
     if (!isset($result)) {
@@ -180,7 +180,8 @@ function readImage($ajaxFlg = false)
 {
 
     // 現在のページを取得
-    $imagePageName = basename(getcwd());
+    $test = basename(getcwd());
+    $imagePageName = NOW_PAGE;
 
     // アップロードされている画像データを読み込む
     $fileList = loadAllImageFile();
@@ -233,7 +234,7 @@ function showImage(
 ): ?array {
     if ($ajaxFlg === true) {
         // 現在選択している画像ページを取得
-        $imagePageName = basename(getcwd());
+        $imagePageName = NOW_PAGE;
         $jsData = [];
 
         foreach ($data as $i => $_data) {
