@@ -210,8 +210,6 @@ trait CommonTrait
      *
      * @param string $contents QRコードに含める内容
      * @param array $qrOptions QRコードのオプション (eccLevel, version)
-     * @param string $eccLevel エラー訂正レベル (L, M, Q, H)
-     * @param integer $version QRコードのバージョン (1-40)
      * @param boolean $outputFlg 出力フラグ (trueならHTMLのimgタグで出力、falseならデータURIを返すのみ)
      *
      * @return void
