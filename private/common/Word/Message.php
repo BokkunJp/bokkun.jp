@@ -54,7 +54,7 @@ define('ADD_DESIGN', 'require_once __DIR__ . DIRECTORY_SEPARATOR . "design.php";
 define('DEFAULT_IMAGE', 'image');
 
 // 削除不可リスト
-define('NOT_DELETE_FILE_LIST', ['MAIL', 'image', 'CSV', 'QR', 'liDAR-WebGL', 'webGL']);
+define('NOT_DELETE_FILE_LIST', ['mail', 'image', 'csv', 'php-qrcode', 'liDAR-WebGL', 'webGL']);
 
 // ログイン情報
 define("LOGIN_INFORMATION", ["admin" => "bokkunAdmin777", "admin2" => "bokkunAdmin1234"]);
