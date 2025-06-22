@@ -2,11 +2,11 @@
 <?php
 ErrorConfig::secureMode();
 
-class cQr
+class Qr
 {
     use PublicTrait;
 }
-$qr = new cQr();
+$qr = new Qr();
 // $qr->cmakecQrCode('test',['eccLevel' => 'H'],  true);
-$qr->cmakecQrCode('test',['hoge' => 'H'], 'test.png');
+$qr->makeQrCode('test',['hoge' => 'H'], 'test.png');
 // $qr->cmakecQrCode('test','H', 1,  true);
