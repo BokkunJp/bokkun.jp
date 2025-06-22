@@ -3,7 +3,7 @@
 
 require_once __DIR__ . '/require.php';
 
-$title = basename(getcwd());
+$title = NOW_PAGE;
 $img = "crown-vector.jpg";
 ?>
 <html lang="ja">

@@ -23,7 +23,7 @@ if (!isset($ajaxFlg)) {
     $timePath = new \Path('common');
     $timePath->add('time');
     includeClientFiles($timePath->get(), 'public', 'js');
-    $jsTitle = basename(getcwd());
+    $jsTitle = NOW_PAGE;
     includeClientFiles($jsTitle, 'public', 'js');
 }
 
