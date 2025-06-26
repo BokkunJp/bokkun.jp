@@ -8,9 +8,6 @@ require_once dirname(__DIR__, 2) . DS . 'public' . DS. 'common' . DS. 'InitFunct
 // 設定
 require_once dirname(__DIR__, 2) . DS . 'public' . DS. 'common' . DS. 'Setting.php';
 
-$homepageTitle = NOW_PAGE;
-$title = htmlspecialchars($homepageTitle);
-
 // パスの定義
 $publicPathList = new PathApplication('word', dirname(__DIR__, 2));
 
@@ -66,6 +63,9 @@ foreach ($publicPathList->get() as $key => $path) {
         $ua = new Public\Important\UA();
     }
 }
+
+$homepageTitle = NOW_PAGE;
+$title = htmlspecialchars($homepageTitle);
 
 // 共通処理に必要なグローバル変数
 $base = new Public\Important\Setting();

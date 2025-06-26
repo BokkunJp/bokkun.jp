@@ -88,7 +88,7 @@ $use = new Private\Important\UseClass();
 
 $adminPath = dirname(__DIR__);
 $samplePath = new \Path(dirname($adminPath));
-$samplePath->add('Sample');
+$samplePath->add('sample');
 $samplePath = $samplePath->get();
 $basePath = DOCUMENT_ROOT;
 
@@ -210,17 +210,17 @@ if ($type === "scratch") {
     fclose($fp);
 } elseif ($type === "custom") {
     // カスタム選択時には追加のディレクトリをコピー
-    if (!file_exists("$title/Layout")) {
-        mkdir("$title/Layout");                               // Layoutディレクトリ作成
+    if (!file_exists("$title/layout")) {
+        mkdir("$title/layout");                               // layoutディレクトリ作成
     }
 
     $bufferSamplePath = new \Path($samplePath);
     $samplePathClass = new \Path($samplePath);
-    $samplePathClass->add("Layout");
+    $samplePathClass->add("layout");
     $samplePathClass = $samplePathClass->get();
     foreach (scandir($samplePathClass) as $_file) {
         if (!is_dir($_file)) {
-            copy("$baseFileName/Layout/{$_file}", "$title/Layout/{$_file}");
+            copy("$baseFileName/layout/{$_file}", "$title/layout/{$_file}");
         }
     }
     $samplePath = $bufferSamplePath->get();
