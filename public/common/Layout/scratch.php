@@ -11,7 +11,7 @@ foreach ($fileLists as $file) {
         $filePath = new \Path($scratchRoot);
         $filePath->setPathEnd();
         $filePath->add($file);
-        if (file_exists($filePath->get())) {
+        if (!is_dir($filePath->get()) && file_exists($filePath->get())) {
             // require_onceのため、index.phpは読み込まれない
             require_once $filePath->get();
         }
