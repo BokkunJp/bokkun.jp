@@ -334,7 +334,7 @@ function findFileName(string $str, bool $rootOnly = true, bool $existFlg = false
         throw new Exception("関数の引数が不正です。");
     }
 
-    if (!preg_match('/^\.$/', $str) || !preg_match('/^\.\.$/', $str)) {
+    if (preg_match('/^\.$/', $str) || preg_match('/^\.\.$/', $str)) {
         return false;
     }
 
