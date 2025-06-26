@@ -8,7 +8,6 @@ $imagePath = new \Path(PUBLIC_COMMON_DIR);
 $imagePath->add('image');
 includeFiles($imagePath->get());
 
-
 $imageResult = readImage(ajaxFlg:true);
 
 echo json_encode($imageResult);
