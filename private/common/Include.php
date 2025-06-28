@@ -2,7 +2,9 @@
 
 require_once COMMON_DIR . DIRECTORY_SEPARATOR . "Include.php";
 
-$base = new \Common\Important\Setting();
+if (!isset($base)) {
+    $base = new \Private\Important\Setting();
+}
 // 必要なファイルの一括読み込み
 $pwd = PRIVATE_DIR_LIST['Component'] . '/';
 includeFiles($pwd);
