@@ -1,5 +1,13 @@
 <?php
 
+if (!isset($_SERVER['HTTP_REFERER'])) {
+    $statusCode = 400;
+    chdir(dirname(__DIR__, 5). "/common/error/{$statusCode}");
+    require_once 'index.php';
+    http_response_code($statusCode);
+    return false;
+}
+
 require_once __DIR__ . '/component/require.php';
 require_once dirname(__DIR__) . '/File.php';
 
@@ -72,7 +80,7 @@ if (!empty($mode)) {
                 }
             } else {
                 // 削除対象が選択されていない場合
-                $session->write('delete-page-notice', NOT_FOUND_PERMANENT_DLETE_OR_RESTORE_IMAGE, 'Delete');
+                $session->write('delete-page-notice', NOT_FOUND_PERMANENT_DLETE_OR_RESTORE_IMAGE);
             }
         } elseif (isset($posts['restore'])) {
             // 復元の場合
@@ -136,7 +144,7 @@ if (!empty($mode)) {
         $imagePageName = getImagePageName();
 
         // 対象の画像名を取得
-        $imageFile = $mode = Private\Important\Setting::getQuery('image');
+        $imageFile = Private\Important\Setting::getQuery('image');
 
         // 画像ファイルのパスを取得（GETパラメータから）
         $imgPath = new \Path(PUBLIC_DIR_LIST['image']);
@@ -161,13 +169,14 @@ if (!empty($mode)) {
     }
 }
 
-if(isset($posts['delete'])) {
+if(isset($posts['restore']) || isset($posts['delete'])) {
+    // セッション更新
     if (session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
     }
     session_regenerate_id();
-    $session->write('delete-token', sha1(session_id()));
-    // $session->delete();
+    $session->write('delete-select-token', sha1(session_id()));
+    $session->write('delete-view-token', sha1(session_id()));
 }
 
 if ($mode === 'edit') {
