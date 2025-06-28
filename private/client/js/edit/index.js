@@ -10,8 +10,6 @@ $(function ()
  */
 function main()
 {
-    const num;
-
     tinyMCE.init({
         selector: 'textarea',
         language: 'ja',
@@ -31,7 +29,6 @@ function main()
             "dir_name": $(this).val(),
             'edit-src-token': $('input[name="edit-src-token"]').val()
         };
-        num = $(this).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
         ajaxMain(url, null, 'server.php', 'POST', selectVersion, 'json', readFileList);
     });
@@ -45,7 +42,6 @@ function main()
             "dir_name": $('select[name="select"]').val(),
             'edit-src-token': $('input[name="edit-src-token"]').val()
         };
-        num = $(this).val();
         // 選択したバージョンを渡して、バージョン内のログ一覧を作成
         ajaxMain(url, null, 'server.php', 'POST', selectDirectory, 'json', SetFileList);
     });
