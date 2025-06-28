@@ -194,7 +194,7 @@ foreach ($pathList as $_pathList) {
         $cwd->add($select);
         if (!strpos(getcwd(), 'client')) {
             $client = "public/client/";
-            $adminPath = dirname($adminPath). '/Sample/' . $client;
+            $adminPath = dirname($adminPath). '/sample/' . $client;
         } else {
             $client = "../";
         }

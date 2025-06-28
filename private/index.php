@@ -32,7 +32,7 @@ alertAdmin('access', $title);
             <h2>管理メニュー</h2>
             <form>
                 <?php
-                $notList = ['.', '..', 'Sample', 'Test', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'secure', 'logout'];
+                $notList = ['.', '..', 'sample', 'test', 'client', 'common', 'admin.php', 'common.php', 'common_css.php', 'secure', 'logout'];
                 $dirList = scandir(__DIR__);
                 $titleList = ['create' => 'ページ調整', 'edit' => 'ソース調整','image' => '画像投稿', 'log' => 'ログ'];
                 $notList = addList($notList, $dirList, '.', 1);

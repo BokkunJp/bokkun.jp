@@ -10,7 +10,7 @@ $(function ()
  */
 function main()
 {
-    const num;
+    let num;
     // 選択したバージョンからログ一覧を出力する
     $('select[name="error_log"]').on('change', function (e)
     {
