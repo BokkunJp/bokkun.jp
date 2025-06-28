@@ -110,6 +110,7 @@ function createClient(string $target, string $src = '', string $separator = '/')
         while (1) {
             $clientAry[] = basename($srcPath);
             $srcPath = dirname($srcPath);
+            // 違う階層になるまでループ
             if (strcmp(basename($srcPath), $target)) {
                 break;
             }
