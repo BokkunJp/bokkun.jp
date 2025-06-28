@@ -18,7 +18,7 @@ if (!empty($mode) && $mode === 'edit') {
     // view-tokenチェック
     $viewToken = new Private\Important\Token('view-token', $session);
     if ($viewToken->check() === false) {
-        $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $session->write('notice', '不正な遷移です。もう一度操作してください。');
         $setting = new Private\Important\Setting();
         header('Location:' . $setting->getUrl('root', $str));
         exit;
@@ -57,7 +57,7 @@ if (!empty($mode) && $mode === 'edit') {
                     $noticeWord .= "・". $imageNameArray[$_key]. SUCCESS_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
-                $session->write('success', $noticeWord, 'Delete');
+                $session->write('success', $noticeWord);
             }
 
             // 削除失敗した画像について
@@ -69,11 +69,11 @@ if (!empty($mode) && $mode === 'edit') {
                     $noticeWord .= "・". $imageNameArray[$_key]. FAIL_DELETE_IMAGE_DETAIL;
                     $noticeWord .= nl2br("\n");
                 }
-                $session->write('notice', $noticeWord, 'Delete');
+                $session->write('notice', $noticeWord);
             }
         } else {
             // 削除対象が選択されていない場合
-            $session->write('notice', NOT_FOUND_DLETE_IMAGE, 'Delete');
+            $session->write('notice', NOT_FOUND_DLETE_IMAGE);
         }
     } elseif (isset($posts['copy'])) {
         // コピーの場合
@@ -127,7 +127,7 @@ if (!empty($mode) && $mode === 'edit') {
         }
     } else {
         // 削除・複製以外の場合(不正値)
-        $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $session->write('notice', '不正な遷移です。もう一度操作してください。');
         $url = new Private\Important\Setting();
         header('Location:' . $url->getUrl('root', $str));
         exit;
@@ -136,7 +136,7 @@ if (!empty($mode) && $mode === 'edit') {
     // upload-tokenチェック
     $uploadToken = new Private\Important\Token('upload-token', $session);
     if ($uploadToken->check() === false) {
-        $session->write('notice', '不正な遷移です。もう一度操作してください。', 'Delete');
+        $session->write('notice', '不正な遷移です。もう一度操作してください。');
         $url = new Private\Important\Setting();
         header('Location:' . $url->getUrl('root', $str));
         exit;
