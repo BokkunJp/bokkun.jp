@@ -1,6 +1,6 @@
 <?php
 
-use Public\Important\CustomTagCreate;
+use Common\Important\CustomTagCreate;
 
 require_once('Page.php');
 require_once('View.php');

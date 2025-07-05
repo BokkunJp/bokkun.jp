@@ -5,7 +5,7 @@ $mailPath->setPathEnd();
 $mailPath->add('Tag.php');
 require_once $mailPath->get();
 
-use Private\Important\ScriptClass;
+use Common\Important\ScriptClass;
 
 function sendMail($header, $response=false)
 {

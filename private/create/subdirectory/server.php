@@ -10,6 +10,7 @@ define('MAX_LENGTH', 32);
 /* 定義・呼び出し処理 */
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
+require_once 'Component'. DS. 'adminClass.php';
 
 // パスの初期セット
 $privatepathList = new PathApplication('word', dirname(__DIR__, 2));
@@ -68,7 +69,7 @@ foreach ($privatepathList->get() as $path) {
 }
 
 // UA判定処理
-$ua = new Private\Important\UA();
+$ua = new Common\Important\UA();
 define('Phone', 2);
 define('PC', 1);
 switch ($ua->judgeDevice()) {
@@ -83,8 +84,7 @@ switch ($ua->judgeDevice()) {
 }
 
 $session =  new Private\Important\Session('create-page');
-$adminError = new AdminError();
-$use = new Private\Important\UseClass();
+$admin = new adminClass();
 
 $adminPath = dirname(__DIR__);
 $samplePath = new \Path(dirname($adminPath));
@@ -93,7 +93,7 @@ $samplePath = $samplePath->get();
 $basePath = DOCUMENT_ROOT;
 
 // tokenチェック
-$createToken = new Private\Important\Token('create-token', $session);
+$createToken = new Common\Important\Token('create-token', $session);
 if ($createToken->check() === false) {
     $session->write('secure', true);
     $session->write('notice', '<span class="warning">不正な遷移です。もう一度操作してください。</span>');
@@ -120,13 +120,13 @@ if (!$session->judge('addition')) {
 }
 
 if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
-    $adminError->alertError('未記入の項目があります。');
+    $admin->alertError('未記入の項目があります。');
 } else {
     // 文字チェック
     if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $title) === 0 ||!findFileName($title) === 0) {
-        $adminError->alertError('タイトルに無効な文字が入力されています。');
+        $admin->alertError('タイトルに無効な文字が入力されています。');
     } elseif (strlen($title) > MAX_LENGTH) {
-        $adminError->alertError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
+        $admin->alertError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
 
     $pathList = ['php', 'js', 'css', 'image'];
@@ -149,12 +149,12 @@ if (!isset($type) || !isset($use_template_engine) ||  empty($title)) {
 
         // common・publicの名称は作成不可
         if ($title === 'common' || $title === 'public') {
-            $adminError->alertError('その名称のページは作成できません。');
+            $admin->alertError('その名称のページは作成できません。');
         }
 
         // 存在する場合は上書き
         if ($result) {
-            $use->alert("指定されたページには{$_path}ファイルが存在します。既存の内容は上書きされます。");
+            $admin->alert("指定されたページには{$_path}ファイルが存在します。既存の内容は上書きされます。");
         }
     }
 }
@@ -181,7 +181,7 @@ if (!is_dir($title)) {
 }
 
 if (file_exists("$title") === false) {         // ディレクトリ作成
-    $$adminError->alertError('ページの作成に失敗しました。');
+    $admin->alertError('ページの作成に失敗しました。');
 }
 
 // PHP部分で必要なファイルを作成
@@ -205,7 +205,7 @@ copy("$baseFileName/$srcfileName.{$pathList[0]}", "$title/$fileName.{$pathList[0
 if ($type === "scratch") {
     $fp = fopen("$title/$fileName.{$pathList[0]}", "a");
     if (fwrite($fp, ADD_DESIGN) === false) {
-        $adminError->alertError('indexファイルのスクラッチ用の追記に失敗しました。');
+        $admin->alertError('indexファイルのスクラッチ用の追記に失敗しました。');
     }
     fclose($fp);
 } elseif ($type === "custom") {
@@ -270,29 +270,9 @@ if (!empty($templateExtenion)) {
     copy("$baseFileName/design" . "_$templateExtenion" . ".php", "$basePath/$title/design.php");            // design.phpファイル上書き
 }
 
-$use->alert('ページを作成しました。');
+$admin->alert('ページを作成しました。');
 // session_destroy();
 
-class AdminError
-{
-    protected $use;
-    public function __construct()
-    {
-        $this->use = new Private\Important\UseClass();
-    }
-
-    public function alertError($message)
-    {
-        $this->use->alert($message);
-        $this->use->BackAdmin('create');
-        exit;
-    }
-
-    public function maintenance()
-    {
-        $this->alertError('当機能はメンテナンス中です。しばらくお待ちください。');
-    }
-}
 ?>
 
 <head>

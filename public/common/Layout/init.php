@@ -40,7 +40,7 @@ while (1) {
 }
 
 // HTML出力用に調整
-use Public\Important\CustomTagCreate as OriginTag;
+use Common\Important\CustomTagCreate as OriginTag;
 
 $create = new OriginTag();
 $breadCrumbList = array();
@@ -50,7 +50,7 @@ foreach ($breadCrumbList as $bread) {
 $breadCrumbList = array_reverse($breadCrumbList);
 $breadCrumbList = $breadCrumbList;
 
-$arrow = new \Public\Important\HTMLClass(true);
+$arrow = new \Common\Important\HtmlClass(true);
 $arrow->setTag('span', '->', 'arrow');
 $arrow = $arrow->execTag();
 

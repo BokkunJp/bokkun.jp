@@ -1,6 +1,6 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-use Public\Important\ScriptClass;
+use Common\Important\ScriptClass;
 use Public\Important\Setting as Setting;
 
 // トークン関連の処理の呼び出し

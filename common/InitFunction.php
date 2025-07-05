@@ -64,7 +64,7 @@ if (!isset($consoleFlg)) {
 //     if (!empty($error)) {
 //         if (php_sapi_name() !== 'cli') {
 //             $cnf = new Header();
-//             $errScript = new Public\Important\ScriptClass();
+//             $errScript = new Common\Important\ScriptClass();
 
 //             $errScript->alert("エラーが発生しました。");
 //             if (strcmp($cnf->getVersion(), '-local') === 0 || strcmp($cnf->getVersion(), '-dev') === 0) {
@@ -208,7 +208,7 @@ function output(
         $debugTrace = debug_backtrace();
         $debugValidate = debugValidate($debug, $debugTrace);
         if (!empty($debugValidate)) {
-            $errScript = new Public\Important\ScriptClass();
+            $errScript = new Common\Important\ScriptClass();
             foreach ($debugValidate as $_DEBUG_KEY) {
                 if ($debugMessage[$_DEBUG_KEY]) {
                     $errScript->alert($debugMessage[$_DEBUG_KEY]);

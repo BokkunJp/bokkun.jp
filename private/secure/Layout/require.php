@@ -23,7 +23,7 @@ require_once PRIVATE_COMMON_DIR . "/Token.php";
 $base = new Private\Important\Setting();
 
 // UA判定処理
-$ua = new Private\Important\UA();
+$ua = new Common\Important\UA();
 define('Phone', 2);
 define('PC', 1);
 switch ($ua->judgeDevice()) {
