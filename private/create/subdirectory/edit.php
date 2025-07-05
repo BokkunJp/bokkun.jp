@@ -62,11 +62,10 @@ foreach ($privatepathList->get() as $path) {
 }
 
 $session =  new \Private\Important\Session('create-page');
-$adminError = new AdminError();
-$use = new \Private\Important\UseClass();
+$admin = new adminClass();
 
 // tokenチェック
-$editToken = new \Private\Important\Token("edit-token", $session);
+$editToken = new \Common\Important\Token("edit-token", $session);
 
 // 不正tokenの場合は、エラーを出力して処理を中断。
 if ($editToken->check() === false) {;
@@ -111,7 +110,7 @@ $pathList = array_merge($pathList, $subPathList);
 if ((isset($edit) || isset($copy)) && empty($delete)) {
     // 編集モード
     if (empty($copy_title)) {
-        $adminError->alertError('未記入の項目があります。');
+        $admin->alertError('未記入の項目があります。');
     } else {
         // ファイル存在チェック
         foreach ($pathList as $_pathList) {
@@ -126,7 +125,7 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
                 if (mb_strpos($file, '.') !== 0) {
                     if (isset($edit) && !isset($delete)) {
                         if ($file === $copy_title) {
-                            $adminError->alertError("ご指定のタイトルのファイルは既に存在します。ページの編集を中止します。");
+                            $admin->alertError("ご指定のタイトルのファイルは既に存在します。ページの編集を中止します。");
                         }
                     }
                 }
@@ -134,9 +133,9 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
         }
     }
     if (preg_match('/^[a-zA-Z][a-zA-Z0-9-_+]*$/', $copy_title) === 0) {
-        $adminError->alertError('タイトルに無効な文字が入力されています。');
+        $admin->alertError('タイトルに無効な文字が入力されています。');
     } elseif (strlen($copy_title) > MAX_LENGTH) {
-        $adminError->alertError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
+        $admin->alertError("タイトルの文字数は、" . MAX_LENGTH . "文字以下にしてください。");
     }
 } elseif (empty($delete)) {
     // その他（不正値）
@@ -146,7 +145,7 @@ if ((isset($edit) || isset($copy)) && empty($delete)) {
     }
     unset($session);
     unset($post);
-    $adminError->alertError('不正な値が入力されました。');
+    $admin->alertError('不正な値が入力されました。');
 }
 
 chdir($basePath);
@@ -157,9 +156,9 @@ if (!isset($select)) {
 }
 $validate = validateData(getcwd(), $select);
 if ($validate === null) {
-    $adminError->alertError('ページが選択されていません。');
+    $admin->alertError('ページが選択されていません。');
 } elseif ($validate === false) {
-    $adminError->alertError('ページの指定が不正です。');
+    $admin->alertError('ページの指定が不正です。');
 }
 
 // 削除不可判定
@@ -187,7 +186,7 @@ foreach ($pathList as $_pathList) {
             // 編集モード
         } else {
             // どちらでもない
-            $adminError->alertError("不正な遷移です。");
+            $admin->alertError("不正な遷移です。");
         }
     } else {
         $cwd = new \Path('');
@@ -213,93 +212,21 @@ foreach ($pathList as $_pathList) {
             // 編集モード
         } else {
             // どちらでもない
-            $adminError->alertError("不正な遷移です。");
+            $admin->alertError("不正な遷移です。");
         }
         $cwd = new \Path(dirname($cwd->get()));
     }
 }
 
 if (isset($edit)) {
-    $use->alert("{$select}ページを編集しました。");
+    $admin->alert("{$select}ページを編集しました。");
 } elseif (isset($copy)) {
-    $use->alert("{$select}ページを複製しました。");
+    $admin->alert("{$select}ページを複製しました。");
 } elseif (isset($delete)) {
     if (!isset($notDelflg)) {
-        $use->alert("{$select}ページを削除しました。");
+        $admin->alert("{$select}ページを削除しました。");
     } else {
-        $use->alert("{$select}ページは削除できません。");
-    }
-}
-
-class AdminError
-{
-    protected $use;
-    public function __construct(?\Private\Important\UseClass $use = null)
-    {
-        if (!is_null($use)) {
-            $this->use = $use;
-        } else {
-            $this->use = new \Private\Important\UseClass();
-        }
-    }
-
-    /**
-     * alertError
-     *
-     * エラー文言を設定
-     *
-     * @param string $message
-     * @param boolean $exit_flg
-     *
-     * @return void
-     */
-    public function alertError(string $message, bool $exit_flg = true)
-    {
-        $this->use->alert($message);
-        $this->use->BackAdmin('create');
-        if ($exit_flg === true) {
-            exit;
-        }
-    }
-
-    /**
-     * Alert
-     *
-     * アラート出力
-     *
-     * @param string $message
-     *
-     * @return void
-     */
-    public function alert(string $message)
-    {
-        $this->use->alert($message);
-    }
-
-    /**
-     * Confirm
-     *
-     * コンフォーム出力
-     *
-     * @param string $message
-     *
-     * @return void
-     */
-    public function confirm(string $message)
-    {
-        $this->use->confirm($message);
-    }
-
-    /**
-     * maintenance
-     *
-     * メンテナンス表示
-     *
-     * @return void
-     */
-    public function maintenance()
-    {
-        $this->alertError('メンテナンス中です。しばらくお待ちください。');
+        $admin->alert("{$select}ページは削除できません。");
     }
 }
 ?>

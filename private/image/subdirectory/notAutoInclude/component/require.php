@@ -70,5 +70,5 @@ foreach ($privatepathList->get() as $path) {
 
 // 共通処理に必要なグローバル変数
 $base = new Private\Important\Setting();
-$ua = new Private\Important\UA();
+$ua = new Common\Important\UA();
 $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];

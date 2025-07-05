@@ -13,7 +13,8 @@ use common\Setting;
  */
 class Token {
 
-    private string $tokenName, $tokenValue, $tokenPost;
+    protected string $tokenName;
+    private string $tokenValue, $tokenPost;
     private bool $isTokenSet;
     private $session;
     private ?array $posts;

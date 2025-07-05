@@ -115,11 +115,11 @@ function includeClientFiles($pwd, string $type, string $extension): void
     if ($type === 'private') {
         $base = new Private\Important\Setting();
         $jsDir = new \Path(PRIVATE_DIR_LIST[$extension]);
-        $src = new Private\Important\CustomTagCreate();
+        $src = new Common\Important\CustomTagCreate();
     } elseif ($type === 'public') {
         $base = new Public\Important\Setting();
         $jsDir = new \Path(PUBLIC_DIR_LIST[$extension]);
-        $src = new Public\Important\CustomTagCreate();
+        $src = new Common\Important\CustomTagCreate();
     }
 
     $jsDir->add($pwd);

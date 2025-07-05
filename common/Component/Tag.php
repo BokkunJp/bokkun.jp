@@ -474,19 +474,6 @@ class ScriptClass extends HTMLClass
         $this->setTag('script', $str);
     }
 
-    // alert関数
-    public function alert(string $str, bool $abort = false): void
-    {
-        $this->script("alert('$str');");
-        $this->execTag(true);
-        if ($abort === true) {
-            exit;
-        }
-    }
-}
-
-class UseClass extends ScriptClass
-{
     /**
      * movePage
      *
@@ -500,6 +487,31 @@ class UseClass extends ScriptClass
     {
         $this->script("location.href='$url';");
         $this->execTag(true);
+    }
+
+}
+
+class UseClass extends ScriptClass
+{
+
+    /**
+     * alert
+     * 
+     * ポップアップのアラートを出力する。
+     * URLが指定されていた場合は、アラート出力後に指定されたページに遷移する。
+     *
+     * @param string $str
+     * @param string|null $url
+     * @return void
+     */
+    public function alert(string $str, ?string $url = null): void
+    {
+        $this->script("alert('$str');");
+        $this->execTag(true);
+        if (!is_null($url)) {
+            $this->movePage($url);
+            exit;
+        }
     }
 
     public function confirm()

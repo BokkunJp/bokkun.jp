@@ -3,7 +3,7 @@
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'init.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'require.php';
 
-use Private\Important\UseClass;
+use Common\Important\UseClass;
 use Private\Important\Session;
 
 $session = new Session('login');
@@ -22,7 +22,7 @@ $tokenError = false;
 // CSRFチェック
 if (isset($post['login-token'])) {
     unset($post['login-token']);
-    $privateLoginToken = new Private\Important\Token("login-token", $session);
+    $privateLoginToken = new Common\Important\Token("login-token", $session);
     if (!$privateLoginToken->check()) {
         $tokenError = true;
         $session->write('token-Error', '<p>不正な遷移です。もう一度操作してください。</p>');

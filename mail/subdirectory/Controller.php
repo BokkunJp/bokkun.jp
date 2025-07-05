@@ -1,5 +1,5 @@
 <?php
-use Public\Important\ScriptClass as ScriptClass;
+use Common\Important\ScriptClass as ScriptClass;
 
 require_once 'Model.php';
 require_once PUBLIC_COMMON_DIR . '/Token.php';
