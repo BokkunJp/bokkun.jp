@@ -1,4 +1,5 @@
 <?php
+namespace Private\Important;
 class adminClass
 {
     protected $use;
@@ -18,10 +19,10 @@ class adminClass
     /**
      * alert
      * 
-     * エラー出力(ページ遷移先は管理側ページ固定)
+     * アラートポップアップ出力(ページ遷移先は管理側ページ固定)
      *
-     * @param string $message エラー文言
-     * @param string|null $pathParameter エラー出力後の遷移先のURL(nullの場合は遷移しない)
+     * @param string $message ポップアップに記載する文言
+     * @param string|null $pathParameter ポップアップ出力後の遷移先のURL(nullの場合は遷移しない)
      * @return void
      */
     public function alert(string $message, ?string $pathParameter = null)

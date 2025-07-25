@@ -10,7 +10,7 @@ define('MAX_LENGTH', 32);
 /* 定義・呼び出し処理 */
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
-require_once 'Component'. DS. 'adminClass.php';
+require_once __DIR__. DS .'Component'. DS. 'adminClass.php';
 
 // パスの初期セット
 $privatepathList = new PathApplication('word', dirname(__DIR__, 2));
@@ -84,7 +84,7 @@ switch ($ua->judgeDevice()) {
 }
 
 $session =  new Private\Important\Session('create-page');
-$admin = new adminClass();
+$admin = new Private\Important\adminClass();
 
 $adminPath = dirname(__DIR__);
 $samplePath = new \Path(dirname($adminPath));

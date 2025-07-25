@@ -28,7 +28,7 @@ $privateDirPathList = [
     'js' => '',
     'image' => '',
     'Component' => PRIVATE_COMMON_DIR,
-    'Layout' => '',
+    'layout' => '',
 ];
 $privateMessage->setAll($privateDirPathList);
 

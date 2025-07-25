@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'init.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'require.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'init.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'require.php';
 
 use Common\Important\UseClass;
 use Private\Important\Session;
@@ -129,5 +129,5 @@ if (!$adminAuth) {
     }
 }
 
-require_once __DIR__ . '/Layout/layout.php';
+require_once __DIR__ . '/layout/layout.php';
 exit;

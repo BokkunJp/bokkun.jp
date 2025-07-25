@@ -4,6 +4,7 @@ define("MAX_LENGTH", 32);
 
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
+require_once __DIR__. DS .'Component'. DS. 'adminClass.php';
 
 // パスの初期セット
 $privatepathList = new PathApplication('word', dirname(__DIR__, 2));
@@ -62,7 +63,7 @@ foreach ($privatepathList->get() as $path) {
 }
 
 $session =  new \Private\Important\Session('create-page');
-$admin = new adminClass();
+$admin = new \Private\Important\adminClass();
 
 // tokenチェック
 $editToken = new \Common\Important\Token("edit-token", $session);

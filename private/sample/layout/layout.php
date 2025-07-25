@@ -32,7 +32,7 @@ $img = "0113.png";
     </title>
     <base href="../" />
     <link rel="shortcut icon" href="/public/client/image/IMG_7592.PNG">
-    <?php require_once dirname(__DIR__, 2) . '/public/common/Layout/init.php'; ?>
+    <?php require_once dirname(__DIR__, 2) . '/public/common/layout/init.php'; ?>
     <link rel="stylesheet" type="text/css"
         href="/public/client/css/<?php echo $homepageTitle; ?>/design.css">
 </head>

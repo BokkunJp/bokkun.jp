@@ -488,12 +488,6 @@ class ScriptClass extends HTMLClass
         $this->script("location.href='$url';");
         $this->execTag(true);
     }
-
-}
-
-class UseClass extends ScriptClass
-{
-
     /**
      * alert
      * 
@@ -513,10 +507,11 @@ class UseClass extends ScriptClass
             exit;
         }
     }
+}
 
-    public function confirm()
-    {
-    }
+class UseClass extends ScriptClass
+{
+
 }
 
 /**

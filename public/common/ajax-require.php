@@ -41,7 +41,7 @@ if (is_null($request)) {
     http_response_code(403);
     $homepageTitle = 'Forbidden';
     $contents = 'アクセスが許可されていません。';
-    require_once 'Layout/layout.php';
+    require_once 'layout/layout.php';
     exit;
 }
 
