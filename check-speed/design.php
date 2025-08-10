@@ -1,109 +1,67 @@
-<!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-// 値渡しと参照渡しの実装、速度比較
-$x = 1;
-$y = 1;
-output("before x = ". $x);
-foo($x);
-output("not return x = ". $x);
-$x = foo($x);
-output("after x = ". $x);
-output("before y = ". $y);
-bar($y);
-output("after y = ". $y);
-
-// 20000個の整数配列x100のインクリメントをしたときのテスト
-$fooTime = checkSpeed('Foo', input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000));
-$barTime = checkSpeed('Bar', input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000), input(20000));
-
-output(bcdiv($fooTime, pow(10, 9), 7));      // Fooの実測時間
-output(bcdiv($barTime, pow(10, 9), 7));      // Barの実測時間
-
-// 速度比較
-if ($fooTime > $barTime) {
-    output("barの方が". bcdiv($fooTime - $barTime, pow(10, 9), 7). "秒早い");
-} elseif ($barTime > $fooTime) {
-    output("fooの方が". bcdiv($barTime - $fooTime, pow(10, 9), 7). "秒早い");
-} else {
-    output("同じ時間帯");
-}
-
 /**
- * input
+ * 指定した要素数・サイズの配列を生成する
  *
- * @param integer $max
-
- * @return array
+ * @param int $count       要素数
+ * @param int $elementSize 1要素の文字列サイズ（バイト単位）
+ * @return array           生成された配列
  */
-function input(int $max): array
-{
-    $ary = [];
-    for ($i = 0; $i < $max; $i++) {
-        $ary[] = rand(0, 1000);
+function generateArray(int $count, int $elementSize): array {
+    $arr = [];
+    $str = str_repeat('A', $elementSize);
+    for ($i = 0; $i < $count; $i++) {
+        $arr[$i] = $str;
     }
-    return $ary;
+    return $arr;
 }
 
 /**
- * view
+ * 値渡しで配列を受け取り、要素を変更する関数
+ * （コピーが発生するため処理が重い）
  *
- * @param array $ary
- *
+ * @param array $data 値渡しで受け取る配列
  * @return void
  */
-function view(array $ary)
-{
-    foreach ($ary as $_ary) {
-        output($_ary);
-    }
+function foo(array $data): void {
+    $data = array_merge([], $data); // 明示的にコピー
+    $data[0] = 'X';
 }
 
 /**
- * foo
+ * 参照渡しで配列を受け取り、要素を変更する関数
+ * （コピーは発生しないため高速）
  *
- * @param array $x
-
- * @return array
- */
-function foo(array|int $x)
-{
-    if (is_array($x)) {
-        foreach ($x as $_var) {
-            if (is_array($_var)) {
-                foreach ($_var as $__v) {
-                    $__v++;
-                }
-            } else {
-                $_var++;
-            }
-        }
-    } else {
-        $x++;
-    }
-
-    return $x;
-}
-
-/**
- * bar
- *
- * @param array &$x
-
+ * @param array &$data 参照渡しで受け取る配列
  * @return void
  */
-function bar(array|int &$x)
-{
-    if (is_array($x)) {
-        foreach ($x as $_var) {
-            if (is_array($_var)) {
-                foreach ($_var as $__v) {
-                    $__v++;
-                }
-            } else {
-                $_var++;
-            }
-        }
-    } else {
-        $x++;
-    }
+function bar(array &$data): void {
+    $data[0] = 'X';
 }
+
+// テスト条件
+$elements = 250000;     // 要素数：25万
+$elementSize = 512;     // 1要素のサイズ：1KB
+$loops = 300;            // 繰り返し回数：300回
+
+// 同一内容の配列を用意
+$arr1 = generateArray($elements, $elementSize);
+$arr2 = $arr1;
+
+// foo の計測
+$start = microtime(true);
+for ($i = 0; $i < $loops; $i++) {
+    foo($arr1);
+}
+$timeFoo = microtime(true) - $start;
+
+// bar の計測
+$start = microtime(true);
+for ($i = 0; $i < $loops; $i++) {
+    bar($arr2);
+}
+$timeBar = microtime(true) - $start;
+
+// 結果出力
+echo "foo: {$timeFoo}秒<br>";
+echo "bar: {$timeBar}秒<br>";
+echo "差: " . ($timeFoo - $timeBar) . "秒<br>";
