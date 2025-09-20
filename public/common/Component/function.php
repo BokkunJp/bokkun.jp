@@ -29,24 +29,18 @@ function convert(int $decData, int $n): int|false
 }
 
 /**
- * checkSpeed
+ * 指定した関数の処理時間を計測する
  *
- * スピードテスト用の関数
- *
- * @param string $func
- * @param mixed ...$parameter
- *
- * @return mixed
+ * @param callable $func   実行する関数
+ * @param array<string> $data 渡す配列データ
+ * @param int $repeat      繰り返し回数
+ * @return float ナノ秒単位の処理時間
  */
-function checkSpeed(string $func, mixed ...$parameter): mixed
+function checkSpeed(callable $func, array $data, int $repeat): float
 {
-    $sTime = hrtime(true);
-    if (isset($parameter)) {
-        $func($parameter);
-    } else {
-        $func();
+    $start = hrtime(true);
+    for ($i = 0; $i < $repeat; $i++) {
+        $func($data);
     }
-    $time = hrtime(true) - $sTime;
-
-    return $time;
+    return hrtime(true) - $start;
 }
