@@ -55,17 +55,7 @@ class PathApplication {
     {
         $count = count($element);
         if (method_exists($this->data[$this->key], $methodName)) {
-            if (is_array($element) && !empty($element)) {
-                if ($count === 3) {
-                    $this->data[$this->key]->$methodName($element[0], $element[1], $element[2]);
-                } else if ($count === 2) {
-                    $this->data[$this->key]->$methodName($element[0], $element[1]);
-                } else if ($count === 1) {
-                    $this->data[$this->key]->$methodName($element[0]);
-                }
-            } else {
-                $this->data[$this->key]->$methodName();
-            }
+            $this->data[$this->key]->$methodName(...$element);
         }
     }
 
