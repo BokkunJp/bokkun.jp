@@ -1,6 +1,6 @@
 <?php
 
-use Public\Important\ScriptClass;
+use Common\Important\ScriptClass;
 
 function sendMail($header, $response=false)
 {

@@ -8,8 +8,6 @@ $commonSettingPath->addArray(['common', 'Setting.php']);
 $commonPath = $commonSettingPath->get();
 require_once $commonPath;
 
-$test = new \Common\Important\Setting();
-
 // 設定関係のクラス (共通クラスを親クラスとする)
 class Setting extends \Common\Important\Setting
 {

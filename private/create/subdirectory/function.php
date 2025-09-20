@@ -2,7 +2,7 @@
 <?php
 class Admin
 {
-    private $adminError;
+    private $admin;
     private $use;
     private $basePath;
     private $session;
@@ -15,8 +15,7 @@ class Admin
     }
     public function initialize()
     {
-        $this->adminError = new AdminError();
-        $this->use = new UseClass();
+        $this->admin = new adminClass();
 
         $this->adminPath = dirname(__DIR__);
         $this->basePath = dirname(dirname(__DIR__, 2));
@@ -41,28 +40,7 @@ class Admin
                 mkdir("$title/subdirectory");                               // smarty未設定時、subdirectoryディレクトリ作成
             }
         }
-        $use->alert('ページを作成しました。');
+        $this->admin->alert('ページを作成しました。');
         session_destroy();
-    }
-}
-
-class AdminError
-{
-    protected $use;
-    public function __construct()
-    {
-        $this->use = new Private\Important\UseClass();
-    }
-
-    public function alertError($message)
-    {
-        $this->use->alert($message);
-        $this->use->BackAdmin('create');
-        exit;
-    }
-
-    public function maintenance()
-    {
-        $this->alertError('メンテナンス中です。しばらくお待ちください。');
     }
 }
