@@ -28,12 +28,7 @@ class Session
      */
     public function __construct(?string $sessionName = null)
     {
-        if (!is_null($sessionName)) {
-            $this->sessionName = $sessionName;
-            $this->read($this->sessionName);
-        } else {
-            $this->read();
-        }
+        $this->session = $this->load($sessionName);
     }
 
     /**
@@ -104,7 +99,6 @@ class Session
      */
     protected function setSessionName(?string $sessionName): void
     {
-
         $this->sessionName = $sessionName;
     }
 
