@@ -103,9 +103,9 @@ class Session
     }
 
     /**
-     * setSessionName
+     * getSessionName
      * 
-     * セッション名をセット
+     * セッション名を取得
      *
      * @return string
      */
@@ -160,7 +160,7 @@ class Session
     {
         $result = false;
         if ((!is_null($element))) {
-            if (isset($session[$element])) {
+            if (isset($this->session[$element])) {
                 $result = true;
             }
         }
@@ -339,7 +339,7 @@ class Session
         if (!is_null($sessionElm) && isset($this->session[$sessionElm])) {
             unset($this->session[$sessionElm]);
         } else {
-            $this->finaryDestroy();
+            $this->finallyDestroy();
             unset($this->session);
             $this->session = [];
         }
@@ -400,20 +400,20 @@ class Session
      */
     public function onlyView(string|int $tag): void
     {
+        $this->view($tag);
         if ($this->judge($tag) === true) {
-            $this->view($tag);
             $this->delete($tag);
         }
     }
 
     /**
-     * finaryDestroy
+     * finallyDestroy
      *
      * セッションの完全な破棄
      *
      * @return void
      */
-    protected function finaryDestroy(): void
+    protected function finallyDestroy(): void
     {
 
         // Note: セッション情報だけでなくセッションを破壊する。
