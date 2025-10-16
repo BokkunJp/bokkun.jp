@@ -4,6 +4,7 @@ define("MAX_LENGTH", 32);
 
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
+require_once 'Component'. DS. 'adminClass.php';
 
 // パスの初期セット
 $privatepathList = new PathApplication('word', dirname(__DIR__, 2));
