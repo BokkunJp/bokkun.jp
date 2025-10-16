@@ -121,7 +121,7 @@ class Session
      * スーパーグローバル変数のセッション配列から既存のセッションデータを取得する
      *
      * @param string|null $elm
-     * @return mixed
+     * @return array
      */
     private function load(?string $elm = null): array
     {
@@ -148,6 +148,49 @@ class Session
         }
 
         return $ret;
+    }
+
+    /**
+     * validateElement
+     *
+     * @param [type] $element
+     * @return boolean
+     */
+    private function validateElement($element): bool
+    {
+        $result = false;
+        if ((!is_null($element))) {
+            if (isset($session[$element])) {
+                $result = true;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * get
+     *
+     * @return array
+     */
+    private function get(): array
+    {
+        if (!empty($this->session)) {
+            $session = $this->session;
+        } else {
+            $session = $this->load($this->sessionName);
+        }
+
+        // セッションをセット
+        if (
+            (!is_null($this->sessionName)) &&
+            isset($session[$this->sessionName]) &&
+            is_array($session[$this->sessionName])
+        ) {
+            $session = $session[$this->sessionName];
+        }
+
+        return $session;
     }
 
     /**
@@ -257,31 +300,23 @@ class Session
      *
      * セッションの読み込み
      *
-     * @param string|int $sessionElm
+     * @param string|int|null $sessionElm
      *
      * @return mixed
      */
-    public function read(string|int|Null $sessionElm = null): mixed
+    public function read(string|int|null $sessionElm = null): mixed
     {
-        $this->start();
-
-        $returnData = false;
-
-        // 要素名が指定されている場合はセッション内の要素名のデータを、指定されていない場合はセッションそのものを取得
-        if (isset($this->sessionName)) {
-            $this->session = $this->load($this->sessionName);
-        } else {
-            $this->session = $this->load();
-        }
-
-        // データ取得
-        if (isset($sessionElm) && isset($this->session[$sessionElm])) {
-            $returnData = $this->session[$sessionElm];
+        // セッションからデータ取得
+        $session = $this->get();
+        if (isset($sessionElm) && isset($session[$sessionElm])) {
+            $result = $session[$sessionElm];
         } elseif (is_null($sessionElm)) {
-            $returnData = $this->session;
+            $result = $session;
+        } else {
+            $result = false;
         }
 
-        return $returnData;
+        return $result;
     }
 
     /**
@@ -333,15 +368,8 @@ class Session
      */
     public function judge(string|int $id): bool
     {
-        // セッションをセット
-        if (isset($this->sessionName) || !is_null($this->sessionName)) {
-            $nowSession = $this->load($this->sessionName);
-        } else {
-            $nowSession = $this->session;
-        }
-
         // セッションデータの判定
-        return isset($nowSession[$id]);
+        return isset($this->session[$id]);
     }
 
     /**

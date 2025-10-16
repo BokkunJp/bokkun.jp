@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'init.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . 'require.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'init.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'require.php';
 
 use Common\Important\UseClass;
 use Private\Important\Session;
@@ -29,6 +29,7 @@ if (isset($post['login-token'])) {
     }
 }
 
+$adminAuth = null;
 if (!$tokenError && !empty($post) && !empty($post['login-id']) && !empty($post['password']) && isset(LOGIN_INFORMATION[$post['login-id']])) {
     $accounts = $session->read('login-account');
     if (!$accounts || !is_array($accounts) || !isset($accounts[$post['login-id']])) {
@@ -72,8 +73,6 @@ if (!$tokenError && !empty($post) && !empty($post['login-id']) && !empty($post['
     $session->writeArray('login-account', $post['login-id'], $accountData);
 } elseif (isset($post['login-id']) && !isset(LOGIN_INFORMATION[$post['login-id']])) {
     $adminAuth = false;
-} else {
-    $adminAuth = null;
 }
 
 // アクセスしてきたページを保存
@@ -129,5 +128,5 @@ if (!$adminAuth) {
     }
 }
 
-require_once __DIR__ . '/Layout/layout.php';
+require_once __DIR__ . '/layout/layout.php';
 exit;
