@@ -43,6 +43,7 @@ if (!isset($consoleFlg)) {
         switch ($mode) {
             case ErrorConfig::SECURE_MODE:
                 error_reporting(E_ALL);
+                error_log($error_msg . " in " . $error_file . " on line " . $error_line);
                 throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
                 break;
             case ErrorConfig::NO_ERROR_MODE:
@@ -208,7 +209,7 @@ function output(
         $debugTrace = debug_backtrace();
         $debugValidate = debugValidate($debug, $debugTrace);
         if (!empty($debugValidate)) {
-            $errScript = new Common\Important\ScriptClass();
+            $errScript = new Common\Important\UseClass();
             foreach ($debugValidate as $_DEBUG_KEY) {
                 if ($debugMessage[$_DEBUG_KEY]) {
                     $errScript->alert($debugMessage[$_DEBUG_KEY]);

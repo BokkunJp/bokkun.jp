@@ -80,7 +80,7 @@ function setIni(string $iniName, array $contents, ?string $initDirPath = null): 
 
     $iniData = '';
     foreach ($contents as $key => $value) {
-        $iniData = $key. '='. $value;
+        $iniData .= $key. '='. $value;
     }
 
     $result = file_put_contents($dir->get(), $iniData);

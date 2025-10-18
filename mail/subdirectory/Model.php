@@ -1,6 +1,6 @@
 <?php
 
-use Common\Important\ScriptClass;
+use Common\Important\UseClass;
 
 function sendMail($header, $response=false)
 {
@@ -38,7 +38,7 @@ function sendMail($header, $response=false)
     if (mb_send_mail($to, $title, $body, $addtional_headers, $addtional_parameter)) {
         $message = 'メールを送信しました。';
     } else {
-        $script = new ScriptClass();
+        $script = new UseClass();
         $script->alert('メールの送信に失敗しました。');
     }
 }

@@ -23,7 +23,7 @@ class Ua
         if (!isset($this->ua) && isset($_SERVER['HTTP_USER_AGENT'])) {
             $this->ua = $_SERVER['HTTP_USER_AGENT'];
         } else {
-            $this->ua = 'undfeined';
+            $this->ua = 'undefined';
         }
     }
 

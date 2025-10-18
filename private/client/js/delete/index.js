@@ -153,11 +153,7 @@ function viewImage(data)
     });
 
     $('.view-image-type').html(data['view-image-type']);
-    if (data['select-notice']) {
-        $('.select-notice').html('不正な内容が選択されました。');
-    } else {
-        $('.select-notice').html('');
-    }
+    $('.select-notice').html(data['select-notice']);
     if (data['error']) {
         htmlVal = '<div class="image-list">\
             <div class="warning">' + data['error-view'] + '</div><a href="./" class="page" target="_self">画像管理ページへ戻る</a></div>';
@@ -170,8 +166,7 @@ function viewImage(data)
         $('.image-pager').html('');
     } else {
         htmlVal = '';
-        $.each(data, function (index, val)
- {
+        $.each(data, function (index, val)　{
             if (index == 'url' || index == 'view-image-type') {
                 htmlVal += '<br/>';
                 return false;

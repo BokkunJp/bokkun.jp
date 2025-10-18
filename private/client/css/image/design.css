@@ -24,18 +24,33 @@ body {
     margin-left: 1vw;
 }
 
-.success {
-    font-size: small;
-    font-style: italic;
-    color: green;
-}
-
+.success,
 .select-notice,
 .notice,
 .warning,
 .fail {
     font-size: small;
-    color: red;
     margin-top: 1%;
     margin-bottom: 1%;
+}
+
+/* 色だけ個別に指定 */
+.success {
+    font-style: italic;
+    color: green;
+}
+.select-notice,
+.notice,
+.warning,
+.fail {
+    color: red;
+}
+
+/* 空のときは非表示（まとめて適用） */
+.success:empty,
+.select-notice:empty,
+.notice:empty,
+.warning:empty,
+.fail:empty {
+    display: none;
 }

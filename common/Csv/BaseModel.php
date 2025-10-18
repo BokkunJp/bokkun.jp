@@ -92,6 +92,7 @@ class CSV1_Base
     {
         // ファイルパスにCSVファイルが存在しない場合は終了
         $filePath = new \Path($filePath, '/');
+        $filePath->setPathEnd();
         $filePath->add($fileName);
         if (!file_exists($filePath->get())) {
             return false;
