@@ -22,15 +22,9 @@ if ($selectToken->check() === false) {
     exit;
 }
 
-// Post値の検証
-if (!isset($post['type'])) {
-    $postValid = false;
-} else {
-    $postValid = validateData(PUBLIC_DIR_LIST['image'], $post['type']);
-}
-
 // 不正なPostが入った場合は、セッションに保存した情報かデフォルトページを参照する
-if ($postValid === false) {
+$postError = false;
+if (!isset($post['type']) || !validateData(PUBLIC_DIR_LIST['image'], $post['type'])) {
     if ($session->judge('image-view-directory')) {
         // セッションに情報が保存されている場合はその情報を参照する
         $post['type'] = $session->read('image-view-directory');
@@ -38,8 +32,8 @@ if ($postValid === false) {
         // セッションに情報がない場合はデフォルトページを参照する
         $post['type'] = DEFAULT_IMAGE;
     }
+    $postError = true;  //フラグをセット
 }
-
 // セッションの内容を更新
 $session->write('image-view-directory', $post['type']);
 $session->write('delete-image-view-directory', $post['type']);
@@ -48,9 +42,9 @@ $session->write('delete-image-view-directory', $post['type']);
 $img = readImage(ajaxFlg:true);
 
 // 不正postの場合はエラー表示用のフラグを立てる
-if (!$postValid) {
-    $img['select-notice'] = true;
+if ($postError) {
+    $img['select-notice'] = SELECT_ERROR_MESSAGE;
 }
 
-$json = json_encode($img);
+$json = json_encode($img, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 echo $json;

@@ -1,6 +1,6 @@
 <!-- デザイン用ファイル (PHPで処理を記述)-->
 <?php
-use Common\Important\ScriptClass;
+use Common\Important\UseClass;
 use Public\Important\Setting as Setting;
 
 // トークン関連の処理の呼び出し
@@ -12,8 +12,9 @@ if (!class_exists('Public\Important\Token')) {
 }
 
 $posts = Public\Important\Setting::getPosts();
-$session = new Public\Important\Session('csv-token');
-$csvToken = new Public\Important\Token('csv-token', $session, true);
+$csvSession = new Public\Important\Session('csv');
+$csvTokenSession = new Public\Important\Session('csv-token');
+$csvToken = new Public\Important\Token('csv-token', $csvTokenSession, true);
 
 // CSV関係の処理の呼び出し
 $csvMakePath = new \Path(COMMON_DIR);
@@ -21,7 +22,7 @@ $csvMakePath->add('Csv');
 includeFiles($csvMakePath->get());
 
 if (isset($posts['csv']) && $posts['csv'] === 'make') {
-    $alert = new ScriptClass();
+    $alert = new UseClass();
 
     if (isset($posts['send'])) {
         $alert->alert('CSVを作成します。');
@@ -78,7 +79,7 @@ if (isset($posts['csv']) && $posts['csv'] === 'make') {
     <button type='submit' name='view' value='true'>データを表示</button>
 </form>
 <?php
-$csvData = $session->read('csv');
+$csvData = $csvSession->read();
 if (empty($csvData)) {
     if (!is_array($csvData)) {
         $csvData = [];

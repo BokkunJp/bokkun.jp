@@ -210,7 +210,7 @@ trait CommonTrait
      *
      * @param string $contents QRコードに含める内容
      * @param array $qrOptions QRコードのオプション (eccLevel, version)
-     * @param boolean $outputFlg 出力フラグ (trueならHTMLのimgタグで出力、falseならデータURIを返すのみ)
+     * @param boolean $fileName ファイル名 (記載されてる場合は画像として保存、nullのままの場合は画面に出力)
      *
      * @return void
      */
@@ -291,13 +291,13 @@ trait CommonTrait
             $this->output("<img src=\"". $qrcode. "\"></img>");
         } else {
             // 出力先の変更
-        // 画像ファイルのパスを取得（GETパラメータから）
-        $imgPath = new \Path(PUBLIC_DIR_LIST['image']);
-        $imgPath->add(NOW_PAGE);
-        $imgPath->setPathEnd();
-        $imgPath->add($fileName);
+            // 画像ファイルのパスを取得（GETパラメータから）
+            $imgPath = new \Path(PUBLIC_DIR_LIST['image']);
+            $imgPath->add(NOW_PAGE);
+            $imgPath->setPathEnd();
+            $imgPath->add($fileName);
 
-        rename($fileName, $imgPath->get());
+            rename($fileName, $imgPath->get());
         }
     }
 
