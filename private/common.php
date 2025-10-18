@@ -23,9 +23,9 @@ if (!$loginSession->read('secure')) {
  */
 function alertAdmin(string $noticeType, $pageTitle):void
 {
-    $domain = Private\Important\Setting::GetDomain();
+    $domain = Private\Important\Setting::getDomain();
     $ip = Private\Important\Setting::GetHostIp();
-    $host = Private\Important\Setting::GetHostName();
+    $host = Private\Important\Setting::getHostName();
 
     if ($noticeType === 'access') {
         $title = "管理画面アクセス通知";
