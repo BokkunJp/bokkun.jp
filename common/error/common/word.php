@@ -9,7 +9,7 @@ $publicPath = new \Path(DOCUMENT_ROOT);
 $publicPath->add('public');
 define('PUBLIC_DIR', $publicPath->get());
 define('FUNCTION_DIR', COMMON_DIR. '/Function');
-define('LAYOUT_DIR', COMMON_DIR. '/Layout');
+define('LAYOUT_DIR', COMMON_DIR. '/layout');
 
 // エラー配列
 $ret = array();
