@@ -45,26 +45,26 @@ class Setting extends \Common\Important\Setting
     }
 
     /**
-     * GetDomain
+     * getDomain
      *
      * URLのドメインを取得
      *
      * @return mixed
      */
-    public static function GetDomain(): string
+    public static function getDomain(): string
     {
         return parent::getServer('HTTP_HOST');
     }
 
 
     /**
-     * GetHostIp
+     * getHostIp
      *
      * IPアドレスを取得
      *
      * @return mixed
      */
-    public static function GetHostIp($hostName = null): string
+    public static function getHostIp($hostName = null): string
     {
         if (is_null($hostName)) {
             $ret = parent::getServer('REMOTE_ADDR');
@@ -75,41 +75,41 @@ class Setting extends \Common\Important\Setting
     }
 
     /**
-     * GetHostName
+     * getHostName
      *
      * IPアドレスからホスト名を取得
      *
      * @return mixed
      */
-    public static function GetHostName($ipName = null): mixed
+    public static function getHostName($ipName = null): mixed
     {
         if (is_null($ipName)) {
-            $ipName = self::GetHostIp();
+            $ipName = self::getHostIp();
         }
 
         return gethostbyaddr($ipName);
     }
 
     /**
-     * GetSelf
+     * getSelf
      *
      * PHP_SELFを取得する。
      *
      * @return mixed
      */
-    public static function GetSelf(): mixed
+    public static function getSelf(): mixed
     {
         return parent::getServer('PHP_SELF');
     }
 
     /**
-     * GetPrevPage
+     * getPrevPage
      *
      * リファラを取得する。
      *
      * @return mixed
      */
-    public static function GetPrevPage(): mixed
+    public static function getPrevPage(): mixed
     {
         return parent::getServer('HTTP_REFERER');
     }
