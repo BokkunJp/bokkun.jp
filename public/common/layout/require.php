@@ -30,7 +30,7 @@ if (!isset($homepageTitle)) {
 require_once $configPath->get();
 // UA
 require_once PUBLIC_COMPONENT_DIR . 'Ua.php';
-$ua = new Public\Important\UA();
+$ua = new Common\Important\Ua();
 
 // ファイル読み込み処理
 require_once PUBLIC_COMMON_DIR . "/Include.php";

@@ -166,6 +166,10 @@ trait CommonTrait
             case 'security':
                 $bytes = bin2hex(openssl_random_pseudo_bytes($length));
                 break;
+            case 'random_bytes':
+                $bytes = bin2hex(random_bytes($length));
+                break;
+            /* 以下は、セキュリティに問題があるので実運用では使用しない。 */
             case 'sha1':
                 $bytes = sha1($this->createRandom($length, 'mt_rand'));
                 break;
@@ -177,9 +181,6 @@ trait CommonTrait
                 break;
             case 'mt_rand':
                 $bytes = (string)mt_rand(0, $length);
-                break;
-            case 'random_bytes':
-                $bytes = bin2hex(random_bytes($length));
                 break;
             default:
                 $bytes = $this->createRandom($length);

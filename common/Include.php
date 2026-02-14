@@ -54,10 +54,11 @@ function includeDirectories($pwd = '', $extension = 'php', $resultJudge = false,
  * @param string  [$extension:拡張子]
  * @param boolean [$ret:出力フラグ]
  * @param string [$classLoad:クラスが定義されたファイル名の配列]
+ * @param string [$sort:マルチソート用ソート指定]
  *
  * @return null|bool|array
  */
-function includeFiles($pwd, $extension = 'php', $resultJudge = false, array $classLoad = []): null|bool|array
+function includeFiles($pwd, $extension = 'php', $resultJudge = false, array $classLoad = [], ?callable $sort = null): null|bool|array
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -82,7 +83,11 @@ function includeFiles($pwd, $extension = 'php', $resultJudge = false, array $cla
 
 
     $dirList = scandir($pwd);           // ファイルリスト取得
-    ksort($dirList);                      // 検索順位を昇順に変更
+    if ($sort) {
+        usort($dirList, $sort);             // 検索順位を直接指定
+    } else {
+        asort($dirList);                      // 検索順位を昇順に変更
+    }
     $extension = '.' . $extension;               // 検索用
 
     $retList = [];

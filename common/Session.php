@@ -125,26 +125,19 @@ class Session
      */
     private function load(?string $elm = null): array
     {
-        $ret = null;
+        $ret = $session = [];
         $type = $this->getType();
 
         if (!is_null($type) && isset($_SESSION[$type])) {
             $session = $_SESSION[$type];
         } elseif (is_null($type)) {
             $session = $_SESSION;
-        } else {
-            $session = null;
         }
 
         if ($elm && isset($session[$elm])) {
             $ret = $session[$elm];
         } elseif (is_null($elm)) {
             $ret = $session;
-        }
-
-        // 配列以外の不正なデータが入った場合はnullに
-        if (!is_array($ret)) {
-            $ret = [];
         }
 
         return $ret;
@@ -222,7 +215,7 @@ class Session
      *
      * セッションの追加
      *
-     * @param [Strging] $sessionElm
+     * @param [String] $sessionElm
      * @param [mixed] $sessionVal
      * @return void
      */

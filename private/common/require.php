@@ -65,16 +65,5 @@ foreach ($privatepathList->get() as $path) {
 $base = new Private\Important\Setting();
 
 // UA判定処理
-$ua = new Common\Important\UA();
-define('Phone', 2);
-define('PC', 1);
-switch ($ua->judgeDevice()) {
-    case PC:
-        $agentCode = 'PC';
-        break;
-    case Phone:
-        $agentCode = 'SMP';
-        break;
-    default:
-        break;
-}
+$ua = new Common\Important\Ua();
+$agentCode = $ua->judgeDevice();

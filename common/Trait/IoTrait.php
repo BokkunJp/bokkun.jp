@@ -6,8 +6,8 @@
  * setPropertyでプロパティを設定している場合は、入力時に設定元のプロパティも更新する。
  */
 trait IoTrait {
-    private string $ioProperty;
-    private $ioData;
+    private ?string $ioProperty = null;
+    private mixed $ioData = null;
     private bool $ioAutoSaveFlg = self::ON;
     protected const ON = true;
     protected const OFF = false;

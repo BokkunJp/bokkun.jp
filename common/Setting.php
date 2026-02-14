@@ -130,7 +130,7 @@ class Setting
     }
 
     /**
-     * getPropety
+     * getProperty
      *
      * プロパティ名を取得する。
      *
@@ -138,7 +138,7 @@ class Setting
      * 
      * @return mixed|null
      */
-    public static function getPropety(string $elm): ?string
+    public static function getProperty(string $elm): ?string
     {
         if (property_exists('Public\Important\Setting', $elm) !== false) {
             return $elm;
