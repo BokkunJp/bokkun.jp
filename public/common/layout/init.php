@@ -3,18 +3,7 @@
 $session = new Public\Important\Session();
 // UA判定処理
 if (isset($ua)) {
-    define('Phone', 2);
-    define('PC', 1);
-    switch ($ua->judgeDevice()) {
-        case PC:
-            $agentCode = 'PC';
-            break;
-        case Phone:
-            $agentCode = 'SMP';
-            break;
-        default:
-            break;
-    }
+    $agentCode = $ua->judgeDevice();
 }
 
 

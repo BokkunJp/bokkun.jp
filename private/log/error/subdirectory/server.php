@@ -64,6 +64,7 @@ if ($srcName === false) {
         $errCode = 2;
     }
 
+    ini_set('memory_limit', '512M');
     switch ($errCode) {
         case 1:
             $contents = 'バージョンまたはファイルを選択してください。';

@@ -100,11 +100,11 @@ class Token {
      */
     public function getTag(bool $getFlg = false): ?string
     {
+        $result = "<input type='hidden' name='{$this->tokenName}' value='{$this->tokenValue}' />";
+
         if ($getFlg === false) {
-        echo "<input type='hidden' name={$this->tokenName} value='{$this->tokenValue}' />";
-        $result = null;
-        } else {
-            $result = "<input type='hidden' name={$this->tokenName} value='{$this->tokenValue}' />";
+            output($result);
+            $result = null;
         }
 
         return $result;

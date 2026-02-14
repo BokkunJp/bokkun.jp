@@ -24,17 +24,6 @@ $base = new Private\Important\Setting();
 
 // UA判定処理
 $ua = new Common\Important\UA();
-define('Phone', 2);
-define('PC', 1);
-switch ($ua->judgeDevice()) {
-    case PC:
-        $agentCode = 'PC';
-        break;
-    case Phone:
-        $agentCode = 'SMP';
-        break;
-    default:
-        break;
-}
+$agentCode = $ua->judgeDevice();
 
 require_once PRIVATE_COMMON_DIR . "/Include.php";

@@ -21,33 +21,39 @@ $initPathList->setAll([
     'error_include' => ''
 ]);
 $initPathList->setKey('word');
-$initPathList->methodPath('SetPathEnd');
+$initPathList->methodPath('setPathEnd');
 $initPathList->methodPath('Add', 'word.php');
 $initPathList->setKey('setting');
-$initPathList->methodPath('SetPathEnd');
+$initPathList->methodPath('setPathEnd');
 $initPathList->methodPath('Add', 'Setting.php');
 $initPathList->setKey('error_setting');
-$initPathList->methodPath('SetPathEnd');
+$initPathList->methodPath('setPathEnd');
 $initPathList->methodPath('Add', 'Setting.php');
 $initPathList->setKey('error_include');
-$initPathList->methodPath('SetPathEnd');
+$initPathList->methodPath('setPathEnd');
 $initPathList->methodPath('Add', 'Include.php');
 
 $initPathList->resetKey();
 foreach ($initPathList->get() as $path) {
     require_once $path;
 }
+
+// 管理側かつ未ログインの場合は、正常遷移扱いにして管理側ログイン画面へ遷移
+if (str_contains(Error\Important\Setting::getUri(), 'private')) {
+    
+    // http_response_code(200);
+    
+}
+
 // UA判定処理 (内容はベースと同様)
 $agent = new Error\Important\UA();
-define('Phone', 2);
+define('PHONE', 2);
 define('PC', 1);
 switch ($agent->judgeDevice()) {
-    case PC:
-        $agentCode = 'PC';
-        break;
-    case Phone:
+    case PHONE:
         $agentCode = 'SMP';
         break;
     default:
+        $agentCode = 'PC';
         break;
 }
