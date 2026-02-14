@@ -216,15 +216,13 @@ class CSV1_Base
             user_error("ファイルの展開に失敗しました。", E_USER_ERROR);
             exit;
         }
-        if ($fileHandler) {
-            foreach ($this->data as $_data) {
-                if (fputcsv($fileHandler, $_data, escape:'\\') === false) {
-                    user_error("ファイルの書き込みに失敗しました。", E_USER_ERROR);
-                    exit;
-                }
+        foreach ($this->data as $_data) {
+            if (fputcsv($fileHandler, $_data, escape:'\\') === false) {
+                user_error("ファイルの書き込みに失敗しました。", E_USER_ERROR);
+                exit;
             }
-            fclose($fileHandler);
         }
+        fclose($fileHandler);
     }
 
     /**

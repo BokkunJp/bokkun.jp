@@ -2,9 +2,10 @@
 
 namespace Public\Important;
 
-$commonPath = new \Path(DOCUMENT_ROOT);
-$commonPath->addArray(["common", "Component", "Tag.php"]);
-require_once $commonPath->get();
+$tagPath = new \Path(COMPONENT_DIR);
+$tagPath->setPathEnd();
+require_once $tagPath->add(basename(__FILE__), false);
+
 
 class UseClass extends \Common\Important\UseClass
 {

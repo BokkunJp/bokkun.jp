@@ -6,18 +6,7 @@ $agent = new \Common\Important\UA();
 
 define('Phone', 2);
 define('PC', 1);
-$statusCode = $agent->judgeDevice();
-switch ($statusCode) {
-    case PC:
-        $agentCode = 'PC';
-        break;
-    case Phone:
-        $agentCode = 'SMP';
-        break;
-    default:
-        break;
-}
-
+$agentCode = $agent->judgeDevice();
 $css = new \Path($base->getUrl(), '/');
 $design = new \Path($css->get(), '/');
 $css->addArray(['css', 'common', "{$agentCode}.css"]);

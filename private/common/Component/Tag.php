@@ -10,5 +10,4 @@ require_once $wordPath->get();
 
 $tagPath = new \Path(COMPONENT_DIR);
 $tagPath->setPathEnd();
-$tagPath->add('Tag.php');
-require_once $tagPath->get();
+require_once $tagPath->add(basename(__FILE__), false);

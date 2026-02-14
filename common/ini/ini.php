@@ -12,9 +12,9 @@
 function getIni(...$parameter): mixed
 {
     if (searchData('initDirectory', $parameter)) {
-        $dir = new Path($parameter['initDirectory']);
+        $dir = new \Path($parameter['initDirectory']);
     } else {
-        $dir = new Path(__DIR__);
+        $dir = new \Path(__DIR__);
     }
 
     if (searchData('addDirectory', $parameter)) {
@@ -71,16 +71,16 @@ function getIni(...$parameter): mixed
 function setIni(string $iniName, array $contents, ?string $initDirPath = null): bool
 {
     if (!empty($initDirPath)) {
-        $dir = new Path($initDirPath);
+        $dir = new \Path($initDirPath);
     } else {
-        $dir = new Path(__DIR__);
+        $dir = new \Path(__DIR__);
     }
 
     $dir->add($iniName);
 
     $iniData = '';
     foreach ($contents as $key => $value) {
-        $iniData .= $key. '='. $value;
+        $iniData .= $key. '='. $value. "\n";
     }
 
     $result = file_put_contents($dir->get(), $iniData);
