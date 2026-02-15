@@ -6,7 +6,7 @@ define('DS', DIRECTORY_SEPARATOR);
 require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
 
 // パスの初期セット
-$privatepathList = new PathApplication('word', dirname(__DIR__, 2));
+$privatepathList = new \PathApplication('word', dirname(__DIR__, 2));
 
 // それぞれの変数セット
 $privatepathList->setAll(
@@ -68,13 +68,4 @@ $base = new Private\Important\Setting();
 $ua = new Common\Important\UA();
 define('Phone', 2);
 define('PC', 1);
-switch ($ua->judgeDevice()) {
-    case PC:
-        $agentCode = 'PC';
-        break;
-    case Phone:
-        $agentCode = 'SMP';
-        break;
-    default:
-        break;
-}
+$agentCode = $ua->judgeDevice();
