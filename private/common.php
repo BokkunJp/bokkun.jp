@@ -54,7 +54,15 @@ IP {$ip} ({$host})の方が、5回以上ログインを試みて失敗しまし�
         $noticeType = 'no_send';
     }
 
-    if ($noticeType === 'no_send') {
-        sendMail(['secure@bokkun.jp', $title, $body, 'サイト管理者', 'notice@bokkun.jp']);
+    if ($noticeType !== 'no_send') {
+        sendMail(
+            [
+                'to' =>'secure@bokkun.jp',
+                'title' => $title,
+                'body' => $body,
+                'from_name' => 'サイト管理者',
+                'from_address' => 'notice@bokkun.jp',
+            ],
+        );
     }
 }

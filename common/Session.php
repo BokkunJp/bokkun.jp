@@ -28,6 +28,7 @@ class Session
      */
     public function __construct(?string $sessionName = null)
     {
+        $this->start();
         $this->session = $this->load($sessionName);
     }
 
@@ -40,7 +41,7 @@ class Session
      */
     protected function start(): void
     {
-        if (!isset($_SESSION) || session_status() === PHP_SESSION_DISABLED) {
+        if (!isset($_SESSION) || session_status() !== PHP_SESSION_ACTIVE) {
             if (PHP_OS === 'WINNT') {
                 $sessionDir = dirname(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'), 2). "/var/session/";
                 if (!is_dir($sessionDir)) {
