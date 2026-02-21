@@ -38,15 +38,14 @@ if (!isset($consoleFlg)) {
         $error_file,
         $error_line
     ) {
-        $mode = ErrorConfig::getMode();
+        $mode = \ErrorConfig::getMode();
 
         switch ($mode) {
-            case ErrorConfig::SECURE_MODE:
+            case \ErrorConfig::SECURE_MODE:
                 error_reporting(E_ALL);
                 error_log($error_msg . " in " . $error_file . " on line " . $error_line);
                 throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
-                break;
-            case ErrorConfig::NO_ERROR_MODE:
+            case \ErrorConfig::NO_ERROR_MODE:
                 error_reporting(0);
                 return;
                 break;

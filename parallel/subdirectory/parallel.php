@@ -2,7 +2,6 @@
 class Parallel
 {
     private $data = null;
-    private $argv;
 
     public function __construct()
     {
@@ -25,43 +24,26 @@ class Parallel
         }
     }
 
-    public function exec(string $execName, ...$argv)
+    public function exectionProcessing(string $execName, ...$argv)
     {
-        $this->adjustmentElement($argv);
-
         // CLI以外の場合はfalse
-        if (
-            !$this->intermediateProcessing()
-        ) {
+        if (!$this->intermediateProcessing()) {
             return false;
         }
 
         // CLIかつ、parallel拡張またはparallelクラスにあるメソッドが指定されたらそれぞれを実行
-        if (
-            method_exists($this, $execName)
-        ) {
-            $this->$execName($argv);
-        } elseif (
-            method_exists($this->data, $execName)
-        ) {
-            $this->data->$execName($argv[0]);
+        $result = false;
+        if (method_exists($this, $execName) ){
+            $result = $this->$execName(...$argv);
+        } elseif (method_exists($this->data, $execName)) {
+            $result = $this->data->$execName($argv[0]);
         }
 
+        return $result;
     }
 
-        protected function run($argv)
-        {
-            $this->data->run($argv[0]);
-        }
-
-        private function adjustmentElement($argv): int
-        {
-            foreach ($argv as $key => $value) {
-                if ($key < 2) {
-                    $this->argv[$key] = $value;
-                }
-            }
-
-            return $key - 1;
-        } 
+    protected function run(callable $task)
+    {
+        return $this->data->run($task);
+    }
 }

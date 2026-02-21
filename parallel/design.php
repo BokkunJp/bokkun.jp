@@ -3,8 +3,8 @@ require_once __DIR__. DIRECTORY_SEPARATOR. 'subdirectory'. DIRECTORY_SEPARATOR. 
 
 // CLIのみで動作するので応急策
 // (そのうちfastCGIで変更予定)
-$test = new Parallel();
-$test->exec('run', function(){
+$test = new \Parallel();
+$futrue = $test->exectionProcessing('run', function() {
     sleep(1);
     echo 'サブ', PHP_EOL;
 });
@@ -22,3 +22,5 @@ $test->exec('run', function(){
 // });
 
 echo 'メイン', PHP_EOL;
+
+$futrue->value();
