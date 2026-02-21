@@ -36,7 +36,7 @@ class Path {
      *
      * タイプ(ファイル,ディレクトリ)のセットを行う
      *
-     * @param ?string $type タイプ(file or dhirectory or null)
+     * @param ?string $type タイプ(file or directory or null)
      *
      * @return void
      */
@@ -128,7 +128,8 @@ class Path {
      *
      * パスを追記する。
      *
-     * @param string $addPath
+     * @param string $addPath 追加するパス
+     * @param bool $saveFlg 保存フラグ。保存しない場合はそのまま出力する。
      *
      * @return ?string
      */
@@ -168,7 +169,7 @@ class Path {
     public function addArray(array $pathList, bool $initialFlg = false): void
     {
         $oldSeparator = $this->lastSeparator;
-        $this->setType("dicrectory");
+        $this->setType("directory");
         // 初期化フラグがオンの場合はパスを空文字で初期化
         if ($initialFlg) {
             $this->set("");

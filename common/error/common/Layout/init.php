@@ -42,6 +42,7 @@ foreach ($initPathList->get() as $path) {
 if (str_contains(Error\Important\Setting::getUri(), 'private')) {
     
     // http_response_code(200);
+    $allSession = new Common\Important\Session();
     
 }
 
@@ -49,11 +50,4 @@ if (str_contains(Error\Important\Setting::getUri(), 'private')) {
 $agent = new Error\Important\UA();
 define('PHONE', 2);
 define('PC', 1);
-switch ($agent->judgeDevice()) {
-    case PHONE:
-        $agentCode = 'SMP';
-        break;
-    default:
-        $agentCode = 'PC';
-        break;
-}
+$agentCode = $agent->judgeDevice();

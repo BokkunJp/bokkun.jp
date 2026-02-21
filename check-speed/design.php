@@ -28,6 +28,17 @@ function foo(array $data): void {
 }
 
 /**
+ * 値渡しで配列を受け取り、要素を変更する関数
+ * （COWでコピーが発生。変数と違って遅い）
+ *
+ * @param array $data 値渡しで受け取る配列
+ * @return void
+ */
+function tmp(array $data): void {
+    $data[0] = 'X';
+}
+
+/**
  * 参照渡しで配列を受け取り、要素を変更する関数
  * （コピーは発生しないため高速）
  *
@@ -44,8 +55,7 @@ $elementSize = 512;     // 1要素のサイズ：1KB
 $loops = 300;            // 繰り返し回数：300回
 
 // 同一内容の配列を用意
-$arr1 = generateArray($elements, $elementSize);
-$arr2 = $arr1;
+$arr1 = $arr2 = $arr3 = generateArray($elements, $elementSize);
 
 // foo の計測
 $start = microtime(true);
@@ -61,7 +71,18 @@ for ($i = 0; $i < $loops; $i++) {
 }
 $timeBar = microtime(true) - $start;
 
+// tmp の計測
+$start = microtime(true);
+for ($i = 0; $i < $loops; $i++) {
+    tmp($arr3);
+}
+$timeTmp = microtime(true) - $start;
+
 // 結果出力
-echo "foo: {$timeFoo}秒<br>";
-echo "bar: {$timeBar}秒<br>";
-echo "差: " . ($timeFoo - $timeBar) . "秒<br>";
+echo "foo: {$timeFoo}秒<br/>";
+echo "bar: {$timeBar}秒<br/>";
+echo "tmp: {$timeTmp}秒<br/>";
+echo "<br/>";
+echo "Foo - Bar: " . ($timeFoo - $timeBar) . "秒<br/>";
+echo "Foo - Tmp: " . ($timeFoo - $timeTmp) . "秒<br/>";
+echo "Bar - Tmp: " . ($timeBar - $timeTmp) . "秒<br/>";
