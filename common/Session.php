@@ -14,10 +14,8 @@ class Session
 {
     use \CommonTrait;
     use \SessionTrait;
-
     private array $session;
-    private ?string $sessionName = null, $type = null;
-    private const ACCESSIBLE_TYPE = ['private', 'public'];
+    private const ACCESSIBLE_TYPE = ['private', 'public', 'other'];
 
     /**
      * construct
@@ -26,9 +24,14 @@ class Session
      *
      * @param string|null $sessionName
      */
-    public function __construct(?string $sessionName = null)
+    public function __construct(private ?string $sessionName = null, private string $type = '')
     {
         $this->start();
+
+        if ($type) {
+            $this->setType($type);
+        }
+
         $this->session = $this->load($sessionName);
     }
 
@@ -69,7 +72,7 @@ class Session
      * 
      * @return void
      */
-    protected function setType(string $type): void
+    protected function setType(?string $type): void
     {
         if ($this->searchData($type, self::ACCESSIBLE_TYPE)) {
             $this->type = $type;

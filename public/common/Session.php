@@ -4,9 +4,8 @@ namespace Public\Important;
 // セッションクラス (公開側)
 class Session extends \Common\Important\Session
 {
-    private readonly string $type;
-
     use \SessionTrait;
+    private const TYPE = 'public';
 
     /**
      * タイプにpublicをセットして初期化
@@ -17,9 +16,6 @@ class Session extends \Common\Important\Session
     {
         $this->start();
 
-        $this->setType('public');
-        $this->setSessionName($sessionName);
-
-        parent::__construct($sessionName);
+        parent::__construct($sessionName, self::TYPE);
     }
 }

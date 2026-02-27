@@ -215,20 +215,28 @@ function output(
      * @return bool
      */
     function debug(
-        mixed $expression, array $debug = [],
+        mixed $expression = null,
+        array $debug = [],
         bool $formatFlg = true,
         bool $indentFlg = true,
         bool $dumpFlg = true
     ): bool {
-        output($expression, $formatFlg, $indentFlg, $dumpFlg);
+        if (!is_null($expression)) {
+            output($expression, $formatFlg, $indentFlg, $dumpFlg);
+        } else {
+            $debug = [
+                'mode' => 'all',
+                'layer' => 1,
+            ];
+        }
 
     if (!empty($debug)) {
-        $debugMessage = DEBUG_MESSAGE_SOURCE;
+        $debugMessage = DEBUG_ERROR_MESSAGE;
         $debugTrace = debug_backtrace();
-        $debugValidate = debugValidate($debug, $debugTrace);
-        if (!empty($debugValidate)) {
+        $debugError = debugValidate($debug, $debugTrace);
+        if (!empty($debugError)) {
             $errScript = new Common\Important\UseClass();
-            foreach ($debugValidate as $_DEBUG_KEY) {
+            foreach ($$debugError as $_DEBUG_KEY) {
                 if ($debugMessage[$_DEBUG_KEY]) {
                     $errScript->alert($debugMessage[$_DEBUG_KEY]);
                 }
@@ -250,9 +258,9 @@ function output(
                     echo "<pre>function: " . $debugTrace[$layer]['function'] . "</pre>";
                     break;
                 default:
-                    echo "<pre>source: " . $debugTrace[$layer]['file'] . "</pre>";
-                    echo "<pre>line: " . $debugTrace[$layer]['line'] . "</pre>";
-                    echo "<pre>function: " . $debugTrace[$layer]['function'] . "</pre>";
+                    echo "<pre>source:" . $debugTrace[$layer]['file'] . ",\n";
+                    echo "line:" . $debugTrace[$layer]['line'] . ",\n";
+                    echo "function:" . $debugTrace[$layer]['function'] . "</pre>";
                     break;
             }
         }
@@ -281,14 +289,12 @@ function debugValidate(array $debug, array $debugTrace): array
     }
 
     if (!is_string($debug['mode'])) {
-        $validate[] = "SETTING_DEBUG_TRACE";
+        $validate[] = "WARN_SETTING_DEBUG_TRACE";
     }
 
     $layer = $debug['layer'] - 1;
 
-    if (is_int($layer)) {
-        $validate[] = "ERR_DEBUG_FEW_TRACE_LAYER";
-    } elseif ($layer < 0) {
+    if (!is_int($layer) || $layer < 0) {
         $validate[] = "ERR_DEBUG_FEW_TRACE_LAYER";
     } elseif ($layer > count($debugTrace)) {
         $validate[] = "ERR_DEBUG_TOO_TRACE_LAYER";
