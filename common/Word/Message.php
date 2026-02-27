@@ -27,8 +27,8 @@ define('PAGE_ROOT', $pageRootPath->get());
 define('COMMON_DIR', dirname(__DIR__));
 define('COMPONENT_DIR', dirname(__DIR__). DIRECTORY_SEPARATOR. "Component");
 define('NL', nl2br(PHP_EOL));
-define('DEBUG_CODE', __FILE__ . ':' . __LINE__);
 define('NOW_PAGE', basename(getcwd()));
+const DEBUG_CODE = __FILE__ . ':' . __LINE__;
 
 // 固定定数群の定義
 $words = getIni('word');
@@ -51,7 +51,7 @@ define(
 );
 
 // プラグインパス
-$pluginWord = new Path(dirname(DOCUMENT_ROOT, 2));
+$pluginWord = new \Path(dirname(DOCUMENT_ROOT, 2));
 $pluginWord->add('plugin');
 define("PLUGIN_DIR", $pluginWord->get());
 

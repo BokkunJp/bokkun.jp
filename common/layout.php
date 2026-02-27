@@ -4,8 +4,8 @@ require_once(__DIR__. '/Setting.php');
 require_once(__DIR__. '/Component/Ua.php');
 $agent = new \Common\Important\UA();
 
-define('Phone', 2);
-define('PC', 1);
+const Phone = 2;
+const PC = 1;
 $agentCode = $agent->judgeDevice();
 $css = new \Path($base->getUrl(), '/');
 $design = new \Path($css->get(), '/');
