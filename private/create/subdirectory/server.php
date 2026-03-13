@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 define("DS", DIRECTORY_SEPARATOR);
-define('MAX_LENGTH', 32);
+const MAX_LENGTH = 32;
 
 /* 定義・呼び出し処理 */
 // 関数定義 (初期処理用)
@@ -13,7 +13,7 @@ require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
 require_once 'Component'. DS. 'adminClass.php';
 
 // パスの初期セット
-$privatepathList = new PathApplication('word', dirname(__DIR__, 2));
+$privatepathList = new \PathApplication('word', dirname(__DIR__, 2));
 
 // それぞれの変数セット
 $privatepathList->setAll(
@@ -70,8 +70,8 @@ foreach ($privatepathList->get() as $path) {
 
 // UA判定処理
 $ua = new Common\Important\UA();
-define('Phone', 2);
-define('PC', 1);
+const Phone = 2;
+const PC = 1;
 switch ($ua->judgeDevice()) {
     case PC:
         $agentCode = 'PC';

@@ -70,6 +70,6 @@ unset($publicPath);
 unset($publicDirList);
 
 // 画像閲覧ページ
-define('PUBLIC_PREVIOUS', '画像閲覧ページへ戻る');
+const PUBLIC_PREVIOUS = '画像閲覧ページへ戻る';
 // メール送信ページ
 define("DENY_SEND_DATE", 1);

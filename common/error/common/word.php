@@ -4,7 +4,7 @@ $commonWordPath->addArray(['common', 'Word', 'Message.php']);
 require_once $commonWordPath->get();
 
 // 定数などの定義
-define('ERROR_COMMON_DIR', __DIR__);
+const ERROR_COMMON_DIR = __DIR__;
 $publicPath = new \Path(DOCUMENT_ROOT);
 $publicPath->add('public');
 define('PUBLIC_DIR', $publicPath->get());

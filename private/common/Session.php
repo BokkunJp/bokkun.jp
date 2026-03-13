@@ -6,15 +6,13 @@ namespace Private\Important;
 class Session extends \Common\Important\Session
 {
     use \SessionTrait;
+    private const TYPE = 'private';
 
     public function __construct(?string $sessionName = null)
     {
         $this->start();
 
-        $this->setType('private');
-        $this->setSessionName($sessionName);
-
-        parent::__construct($sessionName);
+        parent::__construct($sessionName, self::TYPE);
     }
 
     /**

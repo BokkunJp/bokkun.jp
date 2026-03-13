@@ -27,8 +27,8 @@ require_once $privatePath . "/common.php";
 
 // UA判定処理
 $ua = new Common\Important\UA();
-define('Phone', 2);
-define('PC', 1);
+const Phone = 2;
+const PC = 1;
 switch ($ua->judgeDevice()) {
     case PC:
         $agentCode = 'PC';

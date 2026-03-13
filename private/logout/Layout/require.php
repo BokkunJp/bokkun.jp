@@ -1,7 +1,7 @@
 <?php
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL);
-define('DS', DIRECTORY_SEPARATOR);
+const DS = DIRECTORY_SEPARATOR;
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__, 2) . DS . 'common' . DS . 'InitFunction.php';
 
@@ -66,6 +66,6 @@ $base = new Private\Important\Setting();
 
 // UA判定処理
 $ua = new Common\Important\UA();
-define('Phone', 2);
-define('PC', 1);
+const Phone = 2;
+const PC = 1;
 $agentCode = $ua->judgeDevice();
