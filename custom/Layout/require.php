@@ -2,7 +2,7 @@
 
 /* 定義・呼び出し処理 */
 ini_set('error_reporting', E_ALL);
-define('DS', DIRECTORY_SEPARATOR);
+const DS = DIRECTORY_SEPARATOR;
 // 関数定義 (初期処理用)
 require_once dirname(__DIR__, 2) . DS . 'public' . DS. 'common' . DS. 'InitFunction.php';
 // 設定
@@ -12,7 +12,7 @@ $homepageTitle = NOW_PAGE;
 $title = htmlspecialchars($homepageTitle);
 
 // パスの定義
-$publicPathList = new PathApplication('word', dirname(__DIR__, 2));
+$publicPathList = new \PathApplication('word', dirname(__DIR__, 2));
 
 // それぞれの変数セット
 $publicPathList->setAll([

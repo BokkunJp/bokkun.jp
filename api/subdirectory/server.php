@@ -8,11 +8,11 @@ require_once COMMON_DIR. '/include.php';
 // output($api, true, true);
 // $api->sendData();
 
-$path = new Path(__DIR__);
+$path = new \Path(__DIR__);
 $path->setPathEnd();
 
 includeFiles($path->get());
 
 $ary = ["hoge" => 1,"fuga" => 2,3];
-$testArray = new ArrayClass($ary);
-$testObject = new ObjectClass($ary);
+$testArray = new \ArrayClass($ary);
+$testObject = new \ObjectClass($ary);

@@ -10,7 +10,7 @@ class CSV1_Base
     private $data;
     private $tmp;
 
-    use CommonTrait;
+    use \CommonTrait;
 
     protected function makeData()
     {
@@ -43,15 +43,7 @@ class CSV1_Base
 
     protected function inputCommonValidate()
     {
-        $ret = true;
-        if (!isset($this->tmp) || is_null($this->tmp)) {
-            $ret = false;
-        }
-
-        if (!is_array($this->tmp)) {
-            $ret = false;
-        }
-        return $ret;
+        return is_array($this->tmp);
     }
 
     protected function setCommons($data)
@@ -63,9 +55,9 @@ class CSV1_Base
         return $validate;
     }
 
-    protected function countValidate($data)
+    protected function countValidate($data): bool
     {
-        return count($this->getHeader()) === count($data) ? true : false;
+        return count($this->getHeader()) === count($data);
     }
 
     public function viewData($type = '')
@@ -152,9 +144,9 @@ class CSV1_Base
      *
      * @param string $haystack
      * @param string $extensiton
-     * @return void
+     * @return boolean|integer
      */
-    protected function validateName($haystack, $extensiton = 'csv')
+    protected function validateName($haystack, $extensiton = 'csv'): bool|int
     {
         $ret = true;
 
@@ -233,7 +225,7 @@ class CSV1_Base
      * @param [type] $data
      * @return array|boolean
      */
-    protected function validateNumber($data)
+    protected function validateNumber($data):array|bool
     {
         if (is_array($data)) {
             $ret = [];
@@ -250,6 +242,7 @@ class CSV1_Base
                 $ret = false;
             }
         }
+
         return $ret;
     }
 }

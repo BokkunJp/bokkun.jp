@@ -1,4 +1,5 @@
 <?php
+
 // アクセスしたページが既存ページの大文字・小文字の違いであれば、既存ページに遷移
 $pageList = scandir(dirname(__DIR__, 3));
 $topURL = basename($_SERVER['REQUEST_URI']);
@@ -14,9 +15,7 @@ if ($topURL !== 'private' && !preg_match("/^\_.*$/", $topURL)) {
         }
     }
 }
-?>
-<?php
+
 // 初期設定を記述
 $homepageTitle = htmlspecialchars(basename(__DIR__));
-http_response_code(404);
 require_once dirname(__DIR__). '/common/layout/layout.php';

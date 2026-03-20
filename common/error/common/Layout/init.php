@@ -48,6 +48,6 @@ if (str_contains(Error\Important\Setting::getUri(), 'private')) {
 
 // UA判定処理 (内容はベースと同様)
 $agent = new Error\Important\UA();
-define('PHONE', 2);
-define('PC', 1);
+const PHONE = 2;
+const PC = 1;
 $agentCode = $agent->judgeDevice();

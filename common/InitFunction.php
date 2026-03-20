@@ -8,7 +8,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "Path.php";
 require_once __DIR__ . DIRECTORY_SEPARATOR . "Initialize"  . DIRECTORY_SEPARATOR .  "PathApplication.php";
 
-define('LIMIT_SEARCH_SIZE', 1000000);
+const LIMIT_SEARCH_SIZE = 1000000;
 
 // エラーログの設定(初期設定)
 $errorLogPath = new \Path("");
@@ -46,8 +46,7 @@ if (!isset($consoleFlg)) {
                 error_log($error_msg . " in " . $error_file . " on line " . $error_line);
                 throw new ErrorException($error_msg, 0, $error_no, $error_file, $error_line);
             case \ErrorConfig::NO_ERROR_MODE:
-                error_reporting(0);
-                return;
+                return true;
                 break;
             default:
                 break;
@@ -177,7 +176,6 @@ function filterInputFix($type, $variable_name, $filter = FILTER_DEFAULT, $option
  * @param boolean $formatFlg
  * @param boolean $indentFlg
  * @param boolean $dumpFlg
- * @param array $debug
  *
  * @return bool
  */
@@ -185,9 +183,8 @@ function output(
     mixed $expression,
     bool $formatFlg = false,
     bool $indentFlg = true,
-    bool $dumpFlg = false,
-    array $debug = []
-): bool {
+    bool $dumpFlg = false
+): void {
     if ($formatFlg === true) {
         print_r("<pre>");
         if ($dumpFlg === true) {
@@ -202,14 +199,44 @@ function output(
             print_r(nl2br("\n"));
         }
     }
+}
+
+    /**
+     * output
+     *
+     * Xdebug表示用。
+     *
+     * @param mixed $expression
+     * @param array $debug
+     * @param bool $formatFlg = false,
+     * @param bool $indentFlg = true,
+     * @param bool $dumpFlg = false
+     *
+     * @return bool
+     */
+    function debug(
+        mixed $expression = null,
+        array $debug = [],
+        bool $formatFlg = true,
+        bool $indentFlg = true,
+        bool $dumpFlg = true
+    ): bool {
+        if (!is_null($expression)) {
+            output($expression, $formatFlg, $indentFlg, $dumpFlg);
+        } else {
+            $debug = [
+                'mode' => 'all',
+                'layer' => 1,
+            ];
+        }
 
     if (!empty($debug)) {
-        $debugMessage = DEBUG_MESSAGE_SOURCE;
+        $debugMessage = DEBUG_ERROR_MESSAGE;
         $debugTrace = debug_backtrace();
-        $debugValidate = debugValidate($debug, $debugTrace);
-        if (!empty($debugValidate)) {
+        $debugError = debugValidate($debug, $debugTrace);
+        if (!empty($debugError)) {
             $errScript = new Common\Important\UseClass();
-            foreach ($debugValidate as $_DEBUG_KEY) {
+            foreach ($$debugError as $_DEBUG_KEY) {
                 if ($debugMessage[$_DEBUG_KEY]) {
                     $errScript->alert($debugMessage[$_DEBUG_KEY]);
                 }
@@ -231,9 +258,9 @@ function output(
                     echo "<pre>function: " . $debugTrace[$layer]['function'] . "</pre>";
                     break;
                 default:
-                    echo "<pre>source: " . $debugTrace[$layer]['file'] . "</pre>";
-                    echo "<pre>line: " . $debugTrace[$layer]['line'] . "</pre>";
-                    echo "<pre>function: " . $debugTrace[$layer]['function'] . "</pre>";
+                    echo "<pre>source:" . $debugTrace[$layer]['file'] . ",\n";
+                    echo "line:" . $debugTrace[$layer]['line'] . ",\n";
+                    echo "function:" . $debugTrace[$layer]['function'] . "</pre>";
                     break;
             }
         }
@@ -256,40 +283,25 @@ function debugValidate(array $debug, array $debugTrace): array
 {
     $validate = [];
 
-    if (!isset($debug['layer']) || !isset($debug['mode'])) {
+    if (!isset($debug['layer'], $debug['mode'])) {
         $validate[] = "ERR_DEBUG_COND";
         return $validate;
     }
 
     if (!is_string($debug['mode'])) {
-        $validate[] = "SETTING_DEBUG_TRACE";
+        $validate[] = "WARN_SETTING_DEBUG_TRACE";
     }
 
-    if ($debug['layer'] - 1 < 0) {
+    $layer = $debug['layer'] - 1;
+
+    if (!is_int($layer) || $layer < 0) {
         $validate[] = "ERR_DEBUG_FEW_TRACE_LAYER";
-    }
-
-    if ($debug['layer'] - 1 > count($debugTrace)) {
+    } elseif ($layer > count($debugTrace)) {
         $validate[] = "ERR_DEBUG_TOO_TRACE_LAYER";
     }
 
     return $validate;
 }
-
-    /**
-     * output
-     *
-     * デバッグ用のメソッド。
-     * (outputのデバッグ設定用のラッパー)
-     *
-     * @param mixed $expression
-     *
-     * @return void
-     */
-    function debug(mixed $expression): void
-    {
-        output($expression, true, true, true);
-    }
 
 /**
  * setVendor
