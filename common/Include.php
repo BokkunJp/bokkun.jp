@@ -14,7 +14,7 @@ setVendor();
  *
  * @return null|string|array
  */
-function includeDirectories($pwd = '', $extension = 'php', $resultJudge = false, array $classLoad=[])
+function includeDirectories($pwd = '', $extension = 'php', $resultJudge = false)
 {
     // パスの指定がない場合は、カレントディレクトリ一覧を取得
     if (empty($pwd)) {
@@ -31,7 +31,7 @@ function includeDirectories($pwd = '', $extension = 'php', $resultJudge = false,
             if (is_dir($_dirList) && !is_numeric(strpos($_dirList, '.'))) {
                 $includeDir = new \Path($pwd);
                 $includeDir->add($_dirList);
-                includeFiles($includeDir->get(), $extension, $resultJudge, $classLoad);
+                includeFiles($includeDir->get(), $extension, $resultJudge);
             }
         }
         if (isset($localPath)) {
@@ -53,12 +53,11 @@ function includeDirectories($pwd = '', $extension = 'php', $resultJudge = false,
  * @param string  $pwd:ディレクトリまでのパス
  * @param string  [$extension:拡張子]
  * @param boolean [$ret:出力フラグ]
- * @param string [$classLoad:クラスが定義されたファイル名の配列]
  * @param string [$sort:マルチソート用ソート指定]
  *
  * @return null|bool|array
  */
-function includeFiles($pwd, $extension = 'php', $resultJudge = false, array $classLoad = [], ?callable $sort = null): null|bool|array
+function includeFiles($pwd, $extension = 'php', $resultJudge = false, ?callable $sort = null): null|false|array
 {
     // ディレクトリと拡張子の存在チェック
     if (!file_exists($pwd) || is_null($extension)) {
@@ -66,20 +65,14 @@ function includeFiles($pwd, $extension = 'php', $resultJudge = false, array $cla
     }
 
     // クラスを読み込む場合は、spl_auto_registerを使う
-    if (!empty($classLoad)) {
-        return spl_autoload_register(function () use ($pwd, $classLoad) {
-            while (($name = current($classLoad)) !== false) {
-                $pwdPath = new \Path($pwd);
-                $pwdPath->setPathEnd();
-                $pwdPath->add("{$name}.php");
-                if (!is_file($pwdPath->get())) {
-                    user_error("指定されたファイルが存在しません。");
-                }
-                require_once $pwdPath->get();
-                next($classLoad);
-            }
-        });
-    }
+    spl_autoload_register(function ($class) use ($pwd) {
+        $pwdPath = new \Path($pwd);
+        $pwdPath->setPathEnd();
+        $pwdPath->add("{$class}.php");
+        if (is_file($pwdPath->get())) {
+            require_once $pwdPath->get();
+        }
+    });
 
 
     $dirList = scandir($pwd);           // ファイルリスト取得
@@ -93,7 +86,7 @@ function includeFiles($pwd, $extension = 'php', $resultJudge = false, array $cla
     $retList = [];
     foreach ($dirList as $_dirList) {
         // 指定した拡張子のファイルのみ許可
-        if (strpos($_dirList, $extension) !== false) {
+        if (str_ends_with($_dirList, $extension) !== false) {
             if ($resultJudge === true) {
             // 出力ありの場合は、ファイルリストを配列に追加
                 $retList[] = $_dirList;
