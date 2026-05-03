@@ -36,7 +36,7 @@ $img = "crown-vector.jpg";
     <div class="container">
         <?php require_once('header.php'); ?>
         <main class="contents">
-            <?php require_once('design.php'); ?>
+            <?php require_once(__DIR__ . DIRECTORY_SEPARATOR. 'design.php'); ?>
         </main>
         <?php require_once('footer.php'); ?>
     </div>

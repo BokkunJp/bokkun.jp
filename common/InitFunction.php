@@ -56,33 +56,35 @@ if (!isset($consoleFlg)) {
     );
 }
 
-// register_shutdown_function(function () {
-//     $error = error_get_last();
+register_shutdown_function(function () {
+    $error = error_get_last();
 
-//     // エラーが発生した際にはアラートを出す。(開発環境ではエラー内容も表示)
-//     if (!empty($error)) {
-//         if (php_sapi_name() !== 'cli') {
-//             $cnf = new Header();
-//             $errScript = new Common\Important\ScriptClass();
+    // header("Location: /common/error/500/");
 
-//             $errScript->alert("エラーが発生しました。");
-//             if (strcmp($cnf->getVersion(), '-local') === 0 || strcmp($cnf->getVersion(), '-dev') === 0) {
-//                 $errMessage = str_replace('\\', '/', $error['message']);
-//                 $errMessage = str_replace(array("\r\n", "\r", "\n"), '\\n', $errMessage);
-//                 $errMessage = str_replace("'", "\'", $errMessage);
-//                 if (strcmp($cnf->getVersion(), '-local') === 0) {
-//                     $errFile = str_replace('\\', '/', $error['file']);
-//                     $errFile = str_replace('\n', '\\n', $errFile);
-//                     $errScript->alert($errMessage. "\\n\\n".
-//                         "file: ". $errFile . "\\n".
-//                         "line: ". $error['line']);
-//                 } else {
-//                     $errScript->alert($errMessage);
-//                 }
-//             }
-//         }
-//     }
-// });
+    // エラーが発生した際にはアラートを出す。(開発環境ではエラー内容も表示)
+    if (!empty($error)) {
+        if (php_sapi_name() !== 'cli') {
+            $cnf = new Header();
+            $errScript = new Common\Important\UseClass();
+            $errScript->alert("エラーが発生しました。");
+
+            if (strcmp($cnf->getVersion(), '-local') === 0 || strcmp($cnf->getVersion(), '-dev') === 0) {
+                $errMessage = str_replace('\\', '/', $error['message']);
+                $errMessage = str_replace(array("\r\n", "\r", "\n"), '\\n', $errMessage);
+                $errMessage = str_replace("'", "\'", $errMessage);
+                if (strcmp($cnf->getVersion(), '-local') === 0) {
+                    $errFile = str_replace('\\', '/', $error['file']);
+                    $errFile = str_replace('\n', '\\n', $errFile);
+                    $errScript->alert($errMessage. "\\n\\n".
+                        "file: ". $errFile . "\\n".
+                        "line: ". $error['line']);
+                } else {
+                    $errScript->alert($errMessage);
+                }
+            }
+        }
+    }
+});
 
 /**
  * createClient
@@ -221,9 +223,9 @@ function output(
         bool $indentFlg = true,
         bool $dumpFlg = true
     ): bool {
-        if (!is_null($expression)) {
-            output($expression, $formatFlg, $indentFlg, $dumpFlg);
-        } else {
+        output($expression, $formatFlg, $indentFlg, $dumpFlg);
+
+        if (is_null($expression)) {
             $debug = [
                 'mode' => 'all',
                 'layer' => 1,
