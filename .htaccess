@@ -49,6 +49,8 @@ Header always set X-Content-Type-Options "nosniff"
 Header always append X-Frame-Options SAMEORIGIN
 # HSTS
 RewriteCond %{HTTPS} !=on [NC]
+# プロキシの手前でHTTPS済みの場合は除外
+RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 # HSTSプリロード
 Header always unset Strict-Transport-Security
@@ -96,6 +98,6 @@ AddHandler cgi-script .py
 ## 管理側のimageページ以下のメンテナンスを解除
 #RewriteCond %{REQUEST_URI} !(^/private/image)
 ## メンテナンス
-#RewriteCond %{REQUEST_URI} !(/common/error/503/)
+#RewriteCond %{REQUEST_URI} !(/common/error/)
 #RewriteCond %{REQUEST_URI} !(/common/error/client/)
 #RewriteRule ^.*$ - [R=503,L]
