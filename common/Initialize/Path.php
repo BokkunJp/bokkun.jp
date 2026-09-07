@@ -214,7 +214,11 @@ class Path {
 
     private function separate()
     {
-        if (is_file($this->path)) {
+    $isUrl =
+        str_starts_with($this->path, '//') ||
+        preg_match('~^[a-z][a-z0-9+.-]*://~i', $this->path);
+
+    if (!$isUrl && is_file($this->path)) {
             $this->last['file'] = $this->path;
             $this->last['directory'] = basename(dirname($this->path));
         } else {
