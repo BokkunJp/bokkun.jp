@@ -20,6 +20,7 @@ jobs:
           set ftp:ssl-allow no;
           open -p 21 -u '${{ secrets.FTP_USER }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_HOST }}';
           mirror --reverse \
+            --dry-run \
             --verbose \
             --exclude-glob .git/** \
             --exclude-glob .github/** \
