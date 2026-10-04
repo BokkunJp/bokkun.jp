@@ -105,7 +105,6 @@ jobs:
             lftp -p 21 -u "$FTP_USER,$FTP_PASSWORD" "$FTP_HOST" <<EOF
           set ftp:ssl-allow no
           mirror --reverse \
-            --dry-run \
             --verbose \
             deploy/ "$FTP_TARGET"
           bye
