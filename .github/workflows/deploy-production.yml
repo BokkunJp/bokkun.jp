@@ -113,11 +113,27 @@ jobs:
             echo "No files to upload."
           fi
 
-      - name: Show deleted files
+      - name: Delete removed files
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_TARGET: ${{ secrets.FTP_TARGET }}
+        shell: bash
         run: |
-          if [ -s deleted-files.txt ]; then
-            echo "These files would be deleted from production:"
-            cat deleted-files.txt
-          else
+          if [ ! -s deleted-files.txt ]; then
             echo "No files to delete."
+            exit 0
           fi
+
+          while IFS= read -r FILE; do
+            echo "Deleting: $FILE"
+
+            lftp -p 21 -u "$FTP_USER,$FTP_PASSWORD" "$FTP_HOST" <<EOF
+          set ftp:ssl-allow no
+          set cmd:fail-exit yes
+          rm -f "$FTP_TARGET/$FILE"
+          bye
+          EOF
+
+          done < deleted-files.txt
