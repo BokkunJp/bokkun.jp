@@ -1,0 +1,139 @@
+name: Deploy production
+
+on:
+  push:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Prepare changed files
+        shell: bash
+        run: |
+          rm -rf deploy
+          mkdir -p deploy
+          : > deleted-files.txt
+
+          if [ "${{ github.event_name }}" = "push" ]; then
+            BEFORE="${{ github.event.before }}"
+            AFTER="${{ github.sha }}"
+          else
+            BEFORE="$(git rev-parse HEAD^)"
+            AFTER="$(git rev-parse HEAD)"
+          fi
+
+          echo "Diff: $BEFORE -> $AFTER"
+
+          # 念のため、branch作成直後など BEFORE が全0の場合に対応
+          if [[ "$BEFORE" =~ ^0+$ ]]; then
+            BEFORE="$(git rev-list --max-parents=0 "$AFTER")"
+          fi
+
+          is_excluded() {
+            case "$1" in
+              .gitignore|.git/*|.github/*|docs/*)
+                return 0
+                ;;
+              *)
+                return 1
+                ;;
+            esac
+          }
+
+          # 追加・変更ファイル
+          git diff \
+            --no-renames \
+            --name-only \
+            --diff-filter=AMT \
+            -z \
+            "$BEFORE" "$AFTER" > upload-files.bin
+
+          while IFS= read -r -d '' FILE; do
+            if is_excluded "$FILE"; then
+              echo "Excluded: $FILE"
+              continue
+            fi
+
+            if [ -f "$FILE" ]; then
+              mkdir -p "deploy/$(dirname "$FILE")"
+              cp -p -- "$FILE" "deploy/$FILE"
+              echo "Upload: $FILE"
+            fi
+          done < upload-files.bin
+
+          # 削除ファイル
+          # --no-renames にしているので、リネームは
+          # 「旧ファイル削除 + 新ファイル追加」として扱う
+          git diff \
+            --no-renames \
+            --name-only \
+            --diff-filter=D \
+            -z \
+            "$BEFORE" "$AFTER" > deleted-files.bin
+
+          while IFS= read -r -d '' FILE; do
+            if is_excluded "$FILE"; then
+              echo "Excluded deletion: $FILE"
+              continue
+            fi
+
+            printf '%s\n' "$FILE" >> deleted-files.txt
+            echo "Would delete: $FILE"
+          done < deleted-files.bin
+
+      - name: Upload changed files
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_TARGET: ${{ secrets.FTP_TARGET }}
+        run: |
+          if [ -n "$(find deploy -type f -print -quit)" ]; then
+            lftp -p 21 -u "$FTP_USER,$FTP_PASSWORD" "$FTP_HOST" <<EOF
+          set ftp:ssl-allow no
+          mirror --reverse \
+            --verbose \
+            deploy/ "$FTP_TARGET"
+          bye
+          EOF
+          else
+            echo "No files to upload."
+          fi
+
+      - name: Delete removed files
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_TARGET: ${{ secrets.FTP_TARGET }}
+        shell: bash
+        run: |
+          if [ ! -s deleted-files.txt ]; then
+            echo "No files to delete."
+            exit 0
+          fi
+
+          while IFS= read -r FILE; do
+            echo "Deleting: $FILE"
+
+            lftp -p 21 -u "$FTP_USER,$FTP_PASSWORD" "$FTP_HOST" <<EOF
+          set ftp:ssl-allow no
+          set cmd:fail-exit yes
+          rm -f "$FTP_TARGET/$FILE"
+          bye
+          EOF
+
+          done < deleted-files.txt
