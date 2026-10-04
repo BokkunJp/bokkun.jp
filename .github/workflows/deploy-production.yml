@@ -25,5 +25,6 @@ jobs:
             --exclude-glob .git/** \
             --exclude-glob .github/** \
             --exclude-glob docs/** \
+            --exclude-glob .gitignore \
             ./ '${{ secrets.FTP_TARGET }}';
           "
