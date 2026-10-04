@@ -1,0 +1,28 @@
+name: Deploy production
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy by FTP
+        run: |
+          lftp -c "
+          set ftp:ssl-allow no;
+          open -p 21 -u '${{ secrets.FTP_USER }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_HOST }}';
+          mirror --reverse \
+            --verbose \
+            --exclude-glob .git/** \
+            --exclude-glob .github/** \
+            --exclude-glob docs/** \
+            ./ '${{ secrets.FTP_TARGET }}';
+          "
