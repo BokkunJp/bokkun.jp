@@ -94,7 +94,7 @@ register_shutdown_function(function () {
  * @param string $src
  * @@param string $separator
  *
- * @return bool
+ * @return string
  */
 function createClient(string $target, string $src = '', string $separator = '/'): string
 {
@@ -179,7 +179,7 @@ function filterInputFix($type, $variable_name, $filter = FILTER_DEFAULT, $option
  * @param boolean $indentFlg
  * @param boolean $dumpFlg
  *
- * @return bool
+ * @return void
  */
 function output(
     mixed $expression,
@@ -204,7 +204,7 @@ function output(
 }
 
     /**
-     * output
+     * debug
      *
      * Xdebug表示用。
      *
@@ -236,9 +236,10 @@ function output(
         $debugMessage = DEBUG_ERROR_MESSAGE;
         $debugTrace = debug_backtrace();
         $debugError = debugValidate($debug, $debugTrace);
+        // var_dump($debugError);die;
         if (!empty($debugError)) {
             $errScript = new Common\Important\UseClass();
-            foreach ($$debugError as $_DEBUG_KEY) {
+            foreach ($debugError as $_DEBUG_KEY) {
                 if ($debugMessage[$_DEBUG_KEY]) {
                     $errScript->alert($debugMessage[$_DEBUG_KEY]);
                 }
@@ -390,7 +391,7 @@ function searchData($target, array $arrayData): bool
         $keyData = array_flip($arrayData);
         $keyResult = isset($keyData[$target]);
     } else {
-        $keyData = array_keys($arrayData, $target);
+        $keyData = array_keys($arrayData, $target, true);
         $keyResult = !empty($keyData);
     }
 
@@ -439,6 +440,7 @@ function moldImageConfig(array $imageConfig): array
  */
 function calcImageSize(string $imageName, string|int $imageSizeViewValue): array|false
 {
+    // 画像が存在しない場合はfalse
     if (!file_exists($imageName) || !exif_imagetype($imageName)) {
         return false;
     }
@@ -446,6 +448,8 @@ function calcImageSize(string $imageName, string|int $imageSizeViewValue): array
     $imageSize = filesize($imageName);
     $imageSizeUnitArray = ['K', 'M', 'G', 'T', 'P'];
     $imageSizeUnit = '';
+
+    // ファイルサイズから、K/M/G/T/Pで単位を分けて出力
     foreach ($imageSizeUnitArray as $_imageSizeUnit) {
         if ($imageSize >= IMAGE_MAX_VALUE) {
             $imageSize = bcdiv($imageSize, IMAGE_MAX_VALUE, $imageSizeViewValue);
@@ -455,6 +459,8 @@ function calcImageSize(string $imageName, string|int $imageSizeViewValue): array
         }
     }
     $ret = ['size' => $imageSize, 'sizeUnit' => $imageSizeUnit];
+
+    // 画像情報配列に、サイズ情報を結合
     $ret = array_merge(moldImageConfig($imageConfig), $ret);
 
     return $ret;
