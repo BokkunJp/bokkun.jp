@@ -134,13 +134,13 @@ class Session
 
         if (!is_null($type) && isset($_SESSION[$type])) {
             $session = $_SESSION[$type];
-        } elseif (is_null($type)) {
+        } elseif (is_null($type) || $type === '') {
             $session = $_SESSION;
         }
 
         if ($elm && isset($session[$elm])) {
             $ret = $session[$elm];
-        } elseif (is_null($elm)) {
+        } elseif (is_null($elm) || $elm === '') {
             $ret = $session;
         }
 
@@ -219,8 +219,8 @@ class Session
      *
      * セッションの追加
      *
-     * @param [String] $sessionElm
-     * @param [mixed] $sessionVal
+     * @param string|int $sessionElm
+     * @param mixed $sessionVal
      * @return void
      */
     private function add(string|int $sessionElm, mixed $sessionVal): void
@@ -330,6 +330,11 @@ class Session
         if (!isset($_SESSION)) {
             user_error('Session is already deleted.');
             exit;
+        }
+
+        // 誤字などで存在しないセッションを指定した場合は何もしない
+        if ($sessionElm !== null && !isset($this->session[$sessionElm])) {
+            return;
         }
 
         // セッションプロパティを削除
