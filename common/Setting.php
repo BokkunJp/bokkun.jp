@@ -85,7 +85,7 @@ class Setting
      * setClient
      *
      * @param string $publicPath
-     * @return string
+     * @return void
      */
     private function setClient(string $publicPath): void
     {
@@ -349,7 +349,7 @@ $siteConfig = ['header' => new \Header(), 'footer' => new \Footer()];
 if (isset($_SERVER['HTTPS'])) {
     $http = '//';
 } else {
-    $http = 'http://';
+    $http = 'https://';
 }
 
 $domain = $base->getServerName();

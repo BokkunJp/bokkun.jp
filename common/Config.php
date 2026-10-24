@@ -20,20 +20,21 @@ class Header extends Config
         $serverName = $_SERVER['SERVER_NAME'] ?? null;
         switch ($serverName) {
             case 'bokkun.org':
-            $ret = '-dev';
-            break;
+                $ret = '-dev';
+                break;
             case 'bokkun.jp':
-            $ret = '';
-            break;
+                $ret = '';
+                break;
             case 'bokkun.info':
-            $ret = '-v2';
-            break;
+                $ret = '-v2';
+                break;
             default:
-            $ret = '-local';
-            break;
+                $ret = '-local';
+                break;
         }
         return $ret;
     }
+
     public function getVersion()
     {
         return $this->setVersion();
@@ -42,11 +43,13 @@ class Header extends Config
 
 class Footer extends Config
 {
-    private $start;
-    private $end;
+    private CONST START = '2016';
+    private string $end;
 
     /**
      * SetYear
+     * 
+     * 開始年、終了年をセットする
      *
      * @param string $arg
      * @return string|array
@@ -55,16 +58,15 @@ class Footer extends Config
     {
         $time = new DateTime();
         $this->end = $time->format('Y');
-        $this->start = '2016';
         switch ($arg) {
             case 'start':
-                $ret = $this->start;
+                $ret = self::START;
                 break;
             case 'end':
                 $ret = $this->end;
                 break;
             default:
-                $ret = ['start' => $this->start, 'end' => $this->end];
+                $ret = ['start' => self::START, 'end' => $this->end];
                 break;
         }
         return $ret;
@@ -72,6 +74,8 @@ class Footer extends Config
 
     /**
      * GetYear
+     * 
+     * 開始年または終了年(またはその両方)を取得する
      *
      * @param string $arg
      * @return string

@@ -16,7 +16,7 @@ class Token {
     protected string $tokenName;
     private string $tokenValue, $tokenPost;
     private bool $isTokenSet;
-    private $session;
+    private Session $session;
     private ?array $posts;
 
     use \CommonTrait;
@@ -28,7 +28,7 @@ class Token {
      * @param $session                       操作対象のセッション
      * @param boolean $isTokenSet           トークンを設置するかどうか
      */
-    function __construct(string $tokenName, $session, bool $isTokenSet = false)
+    function __construct(string $tokenName, Session $session, bool $isTokenSet = false)
     {
         $this->tokenName = $tokenName;
         $this->session = $session;
@@ -52,7 +52,7 @@ class Token {
      * Set
      * トークンの生成・上書き
      *
-     * @return string
+     * @return void
      */
     public function set(): void
     {
@@ -70,8 +70,6 @@ class Token {
      * check
      *
      * Post値とトークンのチェック
-     * @param  string $tokenName
-     * @param  boolean $chkFlg
      * @return bool
      */
     public function check(): bool
